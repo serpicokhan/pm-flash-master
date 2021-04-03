@@ -1,0 +1,70 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>
+       گزارش دریافت قطعات به انبار<br/>
+       <h4>این گزارش در {{currentdate}} تولید شده است</h4>
+                            از تاریخ: {{stdate}} تا {{enddate}}<br/>
+
+                            </h2>
+
+                           </div>
+
+ <table class="table table-bordered  table-striped">
+   <thead>
+     <tr>
+
+      <th>نام قطعه</th>
+      <th>کد قطعه</th>
+      <th>انبار</th>
+      <th>تامین کننده</th>
+      <th>تاریخ دریافت</th>
+      <th>تعداد</th>
+      <th>قیمت واحد</th>
+      <th>قیمت کل</th>
+     </tr>
+   </thead>
+   <tbody>
+     {% for c in woList %}
+     <tr>
+       <td>{{c.purchasePartId.partName}}</td>
+       <td>
+         {{c.purchasePartId.partCode}}
+       </td>
+       <td>
+         {{c.purchaseStock}}
+       </td>
+
+       <td>
+         {{c.purchasedFrom}}
+       </td>
+
+       <td>
+         {{c.getDateRecieved}}
+       </td>
+       <td>
+         {{c.purchaseQuantityReceived}}
+       </td>
+       <td>
+         {{c.purchasePricePerUnit}}
+       </td>
+       <td>
+         {{c.purchasePriceTotla}}
+       </td>
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="8" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+ {% endblock %}

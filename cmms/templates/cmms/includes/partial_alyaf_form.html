@@ -1,0 +1,61 @@
+{% load widget_tweaks %}
+<div class="row">
+<div class="col-sm-6 b-r">
+  <div class="form-group">
+    <label>{{form.CompanyId.label}}</label>
+  {{form.CompanyId| add_class:"form-control" }}
+   </div>
+
+        <div class="form-group">
+          <label>{{form.Zerafat.label}}</label>
+        {{form.Zerafat| add_class:"form-control" }}
+         </div>
+         <div class="form-group">
+           <label>{{form.Tool.label}}</label>
+         {{form.Tool| add_class:"form-control" }}
+          </div>
+          <div class="form-group">
+            <label>{{form.Derakhshandegi.label}}</label>
+          {{form.Derakhshandegi| add_class:"form-control" }}
+           </div>
+           <div class="form-group">
+             <label>{{form.AlyafType.label}}</label>
+           {{form.AlyafType| add_class:"form-control" }}
+            </div>
+
+
+
+
+
+
+</div>
+<div class="col-sm-6 b-r">
+      <div class="form-group">
+        <label>{{form.Hmabaft.label}}</label>
+      {{form.Hmabaft| add_class:"form-control" }}
+       </div>
+       <div class="form-group">
+         <label>{{form.Color.label}}</label>
+       {{form.Color|attr:"data-mask:9999/99/99"|add_class:"form-control"}}
+        </div>
+        <div class="form-group">
+          <label>{{form.Vaznekham.label}}</label>
+       <!-- <input type="text" name="TarikheEtmam" id='id_TarikheEtmam' class="form-control ltr-input" data-mask="9999/99/99" placeholder="">-->
+       {{form.Vaznekham|attr:"data-mask:9999/99/99"|add_class:"form-control"}}
+         </div>
+
+           <div class="form-group">
+             <label>{{form.Codevije.label}}</label>
+           {{form.Codevije| add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+              <label>{{form.Codetolid.label}}</label>
+            {{form.Codetolid| add_class:"form-control" }}
+             </div>
+
+
+
+
+</div>
+
+</div>

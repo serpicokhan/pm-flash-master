@@ -1,0 +1,54 @@
+
+{% for c in taskGroup %}
+
+<tr>
+<td></td>
+<td>{{c.taskGroupName}}</td>
+ <td>{{c.getTaskNum}}</td>
+
+
+
+
+
+
+
+ <td><button type="button" name="button" class='btn taskGroupUtility' date-url={{c.id}}>ثبت</button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="4" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}
+<script type="text/javascript">
+  $(".taskGroupUtility").on('click',function(){
+    return $.ajax({
+      url: '/TaskGroup/'+$(this).attr('date-url')+'/'+$("#lastWorkOrderid").val()+'/register/',
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        //alert(btn.attr("data-url"));
+        //alert("321321");
+        // /$("#modal-taskGroup").modal("hide");
+        $("#modal-taskGroup").modal({backdrop: 'static', keyboard: false});
+      },
+      success: function (data) {
+        //alert("3123@!");
+
+         // $("#modal-task .modal-content").html(data.html_taskgroup_list);
+         $("#tbody_task").empty();
+         $("#tbody_task").html(data.html_taskgroup_list);
+         // $('#modal-task').modal('hide');
+         $("#modal-taskGroup").modal("hide");
+
+
+      },
+      error:function(){
+        console.log("error");
+      }
+    });
+    // $("#modal-taskGroup").modal("hide");
+  });
+
+</script>

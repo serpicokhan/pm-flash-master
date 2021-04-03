@@ -1,0 +1,70 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>هزینه های اضافی </h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="woMisc-table">
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>نوع</th>
+                                       <th>شرح</th>
+                                        <th>تعداد تخ</th>
+                                         <th>قیمت واحد تخ</th>
+                                          <th>قیمت کلی تخ</th>
+                                           <th>تعداد</th>
+                                            <th>قیمت واحد</th>
+
+                                              <th>قیمت کلی</th>
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_woMisc'>
+                                            {% include 'cmms/workorder_misccoast/partialWoMiscList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                {% if perms.cmms.add_misccost %}
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-woMisc"
+                                  data-url="{% url 'woMisc_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                                {% endif %}
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-woMisc">
+                 <div class="modal-dialog ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/woMisc.js' %}"></script>
+{% endblock %}

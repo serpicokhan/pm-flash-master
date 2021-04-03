@@ -1,0 +1,18 @@
+
+  {% for c in breaks %}
+    <div class="vertical-timeline-block">
+        <div class="vertical-timeline-icon gray-bg">
+            <i class="fa fa-coffee">
+            </i>
+        </div>
+        <div class="vertical-timeline-content">
+            <p> شروع خرابی
+                {{c.start}}
+            </p>
+            <p>پایان خرابی {{c.end}} </p>
+            <p>علت خرابی {{c.elat}} </p>
+            <span class="vertical-date small text-muted">
+         </span>
+        </div>
+    </div>
+{% endfor %}

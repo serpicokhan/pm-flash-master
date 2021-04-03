@@ -1,0 +1,35 @@
+
+<div class="widget style1 btn-default">
+                    <div class="row">
+
+                        <div class="col-xs-12 text-center" id='lowItemStock'>
+
+                        </div>
+                    </div>
+                </div>
+    <script>
+    $(function(){
+      var GetLowItemStock= function () {
+
+         $.ajax({
+           url: 'Summery/GetLowItemStock/',
+           type:'get',
+           dataType: 'json',
+           success: function (data) {
+
+               //alert("Company created!");  // <-- This is just a placeholder for now for testing
+               //$("#tbody_company").empty();
+               $("#lowItemStock").html(data.html_lowitemstock_list);
+               //$("#modal-company").modal("hide");
+               //console.log(data.html_order_list);
+             //console.log(data);
+
+           }
+         });
+         return false;
+       };
+
+
+    GetLowItemStock();
+    });
+    </script>

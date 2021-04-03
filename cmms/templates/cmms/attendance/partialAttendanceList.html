@@ -1,0 +1,39 @@
+{% for c in attendance %}
+
+<tr>
+<td></td>
+<td>{{c.name}}</td>
+<td>{{c.name.getName}}</td>
+<td>{{c.attendanceTime}}</td>
+<td>{{c.Ezafekar}}</td>
+<td>{{c.get_datecreated_jalali}}</td>
+
+
+
+
+
+
+
+ <td>
+   {% if perms.cmms.view_attendance %}
+   <button type="button"
+              class="btn btn-warning btn-sm js-update-attendance"
+              data-url="{% url 'attendance_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      {% endif %}
+      {% if perms.cmms.delete_attendance %}
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-attendance"
+                   data-url="{% url 'attendance_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+           {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

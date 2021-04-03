@@ -1,0 +1,61 @@
+{% for c in woList %}
+<tr>
+  <td>
+    <input type="checkbox" name="action" value="{{c.id}}" class="selection-box">
+  </td>
+  <td>
+    {% if c.isEM %}
+    <i class="fa fa-times" aria-hidden="true"></i>
+
+    {% else %}
+    <i class="fa fa-minus" aria-hidden="true"></i>
+
+    {% endif %}
+
+  </td>
+  <td>
+    {{c.get_dateCreated_jalali}}
+  </td>
+
+  <td>
+  {% if c.RequestedUser %} {{c.RequestedUser}} {% else %} &nbsp; {% endif %}
+  </td>
+  <td>
+    {% if c.assignedToUser %}  {{c.assignedToUser.getName}}{% else %} &nbsp; {% endif %}
+  </td>
+  <td>
+    {% if c.maintenanceType %} {{c.maintenanceType}}{% else %} &nbsp; {% endif %}
+  </td>
+  <td>
+  {% if c.woAsset %} {{c.woAsset}} {% else %} &nbsp; {% endif %}
+  </td>
+
+  <td>
+  {{c.summaryofIssue|default_if_none:"-"}}
+  </td>
+  <td style="text-align:center">
+  {{c.completionNotes|default:""}}
+  </td>
+  <td>
+  {{c.woCauseCode|default_if_none:"-"}}
+  <td>
+{{c.Project|default_if_none:"-"}}
+  </td>
+  <td>
+{{c.get_dateCompelted_jalali}}
+  </td>
+  <td>
+{{c.timeCompleted|time:"H:i:s" |default_if_none:"&nbsp;"}}
+  </td>
+  <td>{{c.get_pertTime}}</td>
+  <td>
+{{c.get_assoc_user_from_tasks|default_if_none:"&nbsp;"}}
+  </td>
+  <td>{{c.woStopCode|default_if_none:"-"}}</td>
+  <td>
+    {% if c.getPartName %} {{c.getPartName}} {% else %} - {% endif %}
+
+  </td>
+<td>  {% if c.getPartQty %} {{c.getPartQty}} {% else %} - {% endif %}</td>
+</tr>
+{% endfor %}

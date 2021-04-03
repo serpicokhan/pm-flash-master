@@ -1,0 +1,93 @@
+<div  data-url="{% url 'taskGroupAssetCategory_create' %}" class="js-taskGroupAssetCategory-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close cl-task"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/taskgroup_assetcategory/partialTaskGroupAssetCategoryForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-task btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="taskGroupAssetCategory-submit"  >ذخیره</button>
+ <script>
+   $(".cl-task").click(function()
+  {
+    $("#modal-taskGroupAssetCategory").modal("hide");
+    //$("#{modal-company}").css("background-color", "yellow");
+
+
+  }
+ );
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+
+        $("#taskGroupAssetCategory-submit").click(function(){
+
+                   //alert("12321");
+                   //$( "#myselect option:selected" ).text();
+                   var mydata="";
+                   mydata=myformat('{"TaskGroup":{0}\
+                   ,"assetCategory":{1}\
+                   ,"includeSubCategory":{2}}',
+                   $("#lastTaskGroupid").val(),
+                   $("#id_assetCategory").val(),
+                   $("#id_includeSubCategory").is(':checked')      );
+
+                    var form = $(this).parent().parent();
+                    //console.log(form.attr("action"));
+                    //alert($("#id_metrics").val());
+                    // console.log($(this));
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:mydata,
+                      dataType: 'json',
+                      beforeSend: function () {
+                        //alert(btn.attr("data-url"));
+                        // console.log(mydata);
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_taskGroupAssetCategory").empty();
+
+                          $("#tbody_taskGroupAssetCategory").html(data.html_taskGroupAssetCategory_list);
+                          $("#modal-taskGroupAssetCategory").modal("hide");
+                          // console.log(data.html_taskGroupAssetCategory_list);
+                        }
+                        else {
+
+                          $("#taskGroupAssetCategory-table tbody").html(data.html_taskGroupAssetCategory_list);
+                          $("#modal-taskGroupAssetCategory .modal-content").html(data.html_taskGroupAssetCategory_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

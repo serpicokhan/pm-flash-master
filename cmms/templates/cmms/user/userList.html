@@ -1,0 +1,308 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+<div class="row">
+  <div class="col-lg-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>کاربران</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">گزینه 1</a>
+                                    </li>
+                                    <li><a href="#">گزینه 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-5 m-b-xs"><select class="input-sm form-control input-s-sm inline" id="userStatus">
+                                    <option value="0">کاربران فعال</option>
+                                    <option value="1">تمامی کاربران</option>
+                                    <option value="2">کاربران عیرفعال</option>
+
+                                </select>
+                                </div>
+                                <div class="col-sm-4 m-b-xs">
+                                    <!-- <div data-toggle="buttons" class="btn-group">
+                                        <label class="btn btn-sm btn-white " > <input type="radio" id="option1" name="options"> روز </label>
+                                        <label class="btn btn-sm btn-white"> <input type="radio" id="option2" name="options"> هفته </label>
+                                        <label class="btn btn-sm btn-white "> <input type="radio" id="option3" name="options"> ماه </label>
+                                    </div> -->
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group"><input type="text" placeholder="جستجو" class="input-sm form-control" id="userSearch"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> برو!</button> </span></div>
+                                </div>
+                            </div>
+                            <div class="full-height-scroll">
+
+
+
+                            <div class="table-responsive">
+                              <table class="table table-striped table-hover" data-paging="true" data-page-size="8" id="company-table">
+                                  <thead>
+                                  <tr>
+                                    <th class='col-md-1'></th>
+                                    <th class='col-md-1'></th>
+                                    <th class='col-md-1'>نام کاربر</th>
+                                    <th class='col-md-1'>ایمیل</th>
+                                    <th class='col-md-1'>تلفن</th>
+                                    <th class='col-md-1'>نام کاربری</th>
+                                    <th class='col-md-1'>گروه مشخص شده</th>
+                                    <th class='col-md-1'>وضعیت</th>
+                                    <th class='col-md-2'></th>
+
+                                  </tr>
+
+                                  </thead>
+                                  <!-- <tfoot>
+                                    <tr class='footable-paging'>
+                                      <td colspan="5">
+                                              <ul class="pagination pull-right">
+                                              </ul>
+                                          </td>
+
+                                    </tr>
+                                  </tfoot> -->
+                                  <tbody id='tbody_company'>
+                                    {% include 'cmms/user/partialUserList.html' %}
+
+
+                                  </tbody>
+
+                              </table>
+                              <div class="userPaging" >
+                                {% if user.has_other_pages %}
+                                <ul class="pagination">
+                                {% if user.has_previous %}
+                                <li><a href="?page={{ user.previous_page_number }}">&laquo;</a></li>
+                                {% else %}
+                                <li class="disabled"><span>&laquo;</span></li>
+                                {% endif %}
+                                {% for i in user.paginator.page_range %}
+                                {% if user.number == i %}
+                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                                {% if user.has_next %}
+                                <li><a href="?page={{ user.next_page_number }}">&raquo;</a></li>
+                                {% else %}
+                                <li class="disabled"><span>&raquo;</span></li>
+                                {% endif %}
+                                </ul>
+                                {% endif %}
+
+                              </div>
+
+
+
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                {% if request.user.username == "admin" %}
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-user"
+                                  data-url="{% url 'user_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                                {% endif %}
+                            </div>
+                              </div>
+                          </div>
+
+                    </div>
+                    <div class="modal fade" id="modal-company" style="overflow-y: scroll">
+                     <div class="modal-dialog  modal-lg ">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 userDetailInfo" style="display:none;">
+                                         <div class="ibox ">
+                                             <div class="ibox-content">
+                                                 <div class="tab-content">
+                                                     <div id="contact-1" class="tab-pane active">
+                                                         <div class="row m-b-lg">
+                                                             <div class="col-lg-12 text-center">
+
+                                                                 <div class="m-b-sm">
+                                                                     <img alt="image" class="img-circle" id='leftProfileImage' src="img/a2.jpg"
+                                                                     style="width: 62px">
+                                                                 </div>
+                                                                 <h2 id="userName">
+                                                                 علی</h2>
+                                                             </div>
+                                                             <!-- <div class="col-lg-8">
+                                                                 <strong>
+                                                                 درباره من
+                                                                 </strong>
+                                                                 <p>
+                                                                     ورم ایپسوم متن ساختگی با تولید سادگی نامفهوم 1 ورم ایپسوم متن ساختگی با تولید سادگی نامفهوم 1
+                                                                 </p>
+                                                                 <button type="button" class="btn btn-primary btn-sm btn-block">
+                                                                 <i
+                                                                 class="fa fa-envelope">
+                                                                 </i>
+                                                                 ارسال پیام
+                                                                 </button>
+                                                             </div> -->
+                                                         </div>
+                                                         <div class="client-detail">
+                                                             <div class="full-height-scroll">
+                                                                 <strong>
+                                                                وضعیت اجمالی</strong>
+                                                                 <ul class="list-group clear-list">
+                                                                     <li class="list-group-item">
+                                                                        <span class=" pull-left" id="userWorkOrderCount" >
+                                                                         10:16 ق.ظ </span>
+
+                                                                         دستور کارهای انجام شده (ماه و سال)
+                                                                     </li>
+                                                                     <li class="list-group-item">
+                                                                         <span class="pull-left" id="userWorkHour">
+                                                                         08:22 ب.ظ </span>
+                                                                         ساعات کارکرد (ماه و سال)
+                                                                     </li>
+                                                                     <li class="list-group-item">
+                                                                         <span class="pull-left" id="userOnTimeWorkOrder">
+                                                                         11:06 ب.ظ </span>
+                                                                         تکمیل به موقع دستور کارها(ماه و سال)
+                                                                     </li>
+                                                                     <li class="list-group-item">
+                                                                         <span class=" pull-left" id="userAllWorkOrderCount">
+                                                                         12:00 ق.ظ </span>
+                                                                         کل دستور کارها(ماه و سال)
+                                                                     </li>
+                                                                 </ul>
+                                                                 <!-- <strong>
+                                                                 یادداشت</strong>
+                                                                 <p>
+                                                                     لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                                                                 </p> -->
+                                                                 <hr/>
+                                                                 <!-- <strong>
+                                                                 فعالیت ها</strong>
+                                                                 <div id="vertical-timeline" class="vertical-container dark-timeline">
+                                                                     <div class="vertical-timeline-block">
+                                                                         <div class="vertical-timeline-icon gray-bg">
+                                                                             <i class="fa fa-coffee">
+                                                                             </i>
+                                                                         </div>
+                                                                         <div class="vertical-timeline-content">
+                                                                             <p>
+                                                                                 لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                                                                             </p>
+                                                                             <span class="vertical-date small text-muted">
+                                                                             2:10 ب.ظ - 12.06.2014 </span>
+                                                                         </div>
+                                                                     </div>
+                                                                     <div class="vertical-timeline-block">
+                                                                         <div class="vertical-timeline-icon gray-bg">
+                                                                             <i class="fa fa-briefcase">
+                                                                             </i>
+                                                                         </div>
+                                                                         <div class="vertical-timeline-content">
+                                                                             <p>
+                                                                                 لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                                                                             </p>
+                                                                             <span class="vertical-date small text-muted">
+                                                                             4:20 ب.ظ - 10.05.2014 </span>
+                                                                         </div>
+                                                                     </div>
+                                                                     <div class="vertical-timeline-block">
+                                                                         <div class="vertical-timeline-icon gray-bg">
+                                                                             <i class="fa fa-bolt">
+                                                                             </i>
+                                                                         </div>
+                                                                         <div class="vertical-timeline-content">
+                                                                             <p>
+                                                                                 لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                                                                             </p>
+                                                                             <span class="vertical-date small text-muted">
+                                                                             06:10 ب.ظ - 11.03.2014 </span>
+                                                                         </div>
+                                                                     </div>
+                                                                     <div class="vertical-timeline-block">
+                                                                         <div class="vertical-timeline-icon navy-bg">
+                                                                             <i class="fa fa-warning">
+                                                                             </i>
+                                                                         </div>
+                                                                         <div class="vertical-timeline-content">
+                                                                             <p>
+                                                                                 لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                                                                             </p>
+                                                                             <span class="vertical-date small text-muted">
+                                                                             02:50 ب.ظ - 03.10.2014 </span>
+                                                                         </div>
+                                                                     </div>
+                                                                     <div class="vertical-timeline-block">
+                                                                         <div class="vertical-timeline-icon gray-bg">
+                                                                             <i class="fa fa-coffee">
+                                                                             </i>
+                                                                         </div>
+                                                                         <div class="vertical-timeline-content">
+                                                                             <p>
+                                                                                 لورم ایپسوم
+                                                                             </p>
+                                                                             <span class="vertical-date small text-muted">
+                                                                             2:10 ب.ظ - 12.06.2014 </span>
+                                                                         </div>
+                                                                     </div>
+                                                                     <div class="vertical-timeline-block">
+                                                                         <div class="vertical-timeline-icon gray-bg">
+                                                                             <i class="fa fa-briefcase">
+                                                                             </i>
+                                                                         </div>
+                                                                         <div class="vertical-timeline-content">
+                                                                             <p>
+                                                                                 لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                                                                             </p>
+                                                                             <span class="vertical-date small text-muted">
+                                                                             4:20 ب.ظ - 10.05.2014 </span>
+                                                                         </div>
+                                                                     </div>
+                                                                 </div> -->
+                                                             </div>
+                                                         </div>
+                                                     </div>
+
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/user.js' %}"></script>
+
+
+
+{% endblock %}
+{% endblock %}

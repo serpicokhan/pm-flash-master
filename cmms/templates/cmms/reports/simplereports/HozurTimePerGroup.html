@@ -1,0 +1,266 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+ <script type="text/javascript">
+   var omg=0;
+   omg={% autoescape off %}    {{ javab }}{% endautoescape %};
+
+ </script>
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+      گزارش ساعت حضور گروهها بر اساس نوع نگهداری
+
+</h1>
+
+<h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+<h4>به همراه پارامترهای زیر</h4>
+<h4> از تاریخ: {{stdate}}</h4>
+<h4>تا تاریخ: {{enddate}}</h4>
+
+
+<h4>نام دارایی: {{location}}</h4>
+<h4>نام گروه:{{groups}}</h4>
+
+
+
+
+                           </div>
+                           {% for c in javab %}
+
+                           <div class="row">
+                             <div class="col-lg-8">
+                                 <div class="ibox float-e-margins">
+                                     <div class="ibox-title">
+
+
+                                         <div ibox-tools></div>
+                                     </div>
+                                     <div class="ibox-content">
+                                         <div>
+                                             <canvas id="barchart{{c}}" height="100"></canvas>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-lg-4">
+                                 <div class="ibox float-e-margins ">
+                                     <div class="ibox-title">
+
+
+                                         <div ibox-tools></div>
+                                     </div>
+                                     <div class="ibox-content ">
+
+
+                                       <table class="table table-bordered ">
+                               <thead>
+                               <tr>
+                                   <th>نوع سرویس</th>
+                               <th>مقدار</th>
+
+                               </tr>
+                               </thead>
+                               <tbody>
+
+                                 <script type="text/javascript">
+                                   for(i in omg['{{c}}']){
+                                     document.write('<tr>');
+                                       document.write('<td>'+i+'</td>');
+
+                                         document.write('<td>'+omg['{{c}}'][i].toFixed(2)+'</td>');
+
+
+
+
+
+
+                                   document.write('</tr>');
+                                 }
+
+                                 </script>
+
+
+                               </tr>
+
+                               </tbody>
+                           </table>
+                                     </div>
+                                 </div>
+                             </div>
+
+
+                                      </div>
+                                      {% endfor %}
+
+                                      {% load static %}
+
+                                      {% block javascript %}
+                                       <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+
+                                      <script type="text/javascript">
+                                        function getRandomColor() {
+                                          var letters = '0123456789ABCDEF';
+                                          var color = '#';
+                                          for (var i = 0; i < 6; i++) {
+                                            color += letters[Math.floor(Math.random() * 16)];
+                                          }
+                                          return color;
+                                        }
+
+
+
+
+                                        // td={% autoescape off %}    {{ usr }}{% endautoescape %};
+                                        console.log("omg",omg);
+
+                                        // console.log("omg2",omg2);
+                                        // var glll;
+                                        var drawIstgahStatusBar=function(element,data,gname)
+                                        {
+                                          var COLORS = [
+                                            '#4dc9f6',
+                                            '#f67019',
+                                            '#f53794',
+                                            '#537bc4',
+                                            '#acc236',
+                                            '#166a8f',
+                                            '#00a950',
+                                            '#58595b',
+                                            '#8549ba'
+                                          ];
+                                          xx=0;
+                                          dset=[];
+                                          kkk=0;
+                                          lbl=[];
+
+                                          for( i in data)
+                                            {
+                                              lbl.push(i);
+                                              // console.log(i);
+                                              // console.log(data[i]);
+                                              dt=[]
+                                              // for(jj in data[i])
+                                              //   dt.push(data[i][jj])
+                                              // console.log(dt);
+                                              // console.log("data[i]",Object.keys(data[i]));
+
+                                              // dset.push( {
+                                              //    label: i,
+                                              //    backgroundColor: COLORS[kkk%9],
+                                              //    borderColor: COLORS[kkk%9],
+                                              //    borderWidth: 1,
+                                              //    data: dt
+                                              //  });
+                                               // kkk++;
+
+                                            }
+                                            var X=[]
+                                            // for( i in data){
+                                            //
+                                            //   // for (j in data[i])
+                                            //   // {
+                                            //   //   X[j]=[]
+                                            //   // }
+                                            // }
+                                            for( i in data){
+                                              // for(j in data[i]){
+                                                X.push(data[i].toFixed(2));
+                                                // console.log("data",data[i],i);
+
+                                              }
+                                            console.log("X",X);
+                                            // for( i in X)
+                                            // {
+                                              // dset.push( {
+                                              //    label: i,
+                                              //    backgroundColor: COLORS[kkk%9],
+                                              //    borderColor: COLORS[kkk%9],
+                                              //    borderWidth: 1,
+                                              //    data: X[i]
+                                              //  });
+                                              //  kkk++;
+                                            // }
+                                            col=[];
+                                            for(i=0;i<X.length;i++)
+                                            {
+                                              col.push(COLORS[i%9]);
+                                            }
+
+                                            dset=[{
+                                              data:X,
+                                              backgroundColor:col
+
+                                            }];
+
+
+                                          // console.log(lbl);
+                                          var barData = {
+                                            labels: lbl,
+                                            datasets: dset
+                                          };
+                                          console.log(barData);
+
+
+                                          var chartOptions = {
+                                            responsive: true,
+                                            legend: {
+                                              position: "top"
+                                            },
+                                            title: {
+                                              display: true,
+                                              text: gname
+                                                                                        },
+                                            // scales: {
+                                            //   yAxes: [{
+                                            //     ticks: {
+                                            //       beginAtZero: true
+                                            //     }
+                                            //   }]
+                                            // },
+        //                                     animation: {
+				// 	animateScale: true,
+				// 	animateRotate: true
+				// },
+
+
+
+
+                                            "animation": {
+                                              "duration": 500,
+                                              "easing": "easeOutQuart",
+
+                                            },
+
+
+                                          }
+
+
+                                          var ctx = document.getElementById(element).getContext("2d");
+                                          var myBarChart = new Chart(ctx, {
+                                            type: 'doughnut',
+                                            data: barData,
+                                            options: chartOptions
+                                        });
+                                        // drawSegmentValues(myBarChart);
+                                        }
+
+                                        var LoadIstgahStatusBar=function(element,data,gname)
+                                        {
+                                         drawIstgahStatusBar(element,data,gname);
+                                        }
+
+                                        {% for c in javab %}
+                                        LoadIstgahStatusBar("barchart{{c}}",omg['{{c}}'],'{{c}}');
+
+                                        {% endfor %}
+
+                                      </script>
+                                        <!-- <script src="{% static '/js/project/reports/DowntimeByRepairTypeByAssetCategory.js' %}"></script> -->
+
+                                      {% endblock %}
+ {% endblock %}

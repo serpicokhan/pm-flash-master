@@ -1,0 +1,38 @@
+
+{% for c in partBusinesss %}
+
+<tr>
+
+<td>{% autoescape off %}{{c.get_partBusinessIsDefault}}{% endautoescape %}</td>
+<td>{{c.get_businessPartBusinessType_display}}</td>
+
+ <td>{{c.businessPartBusiness}}</td>
+<td>{{c.businessPartSupplierPartNumber}}</td>
+ <td>{{c.businessPartVendorPrice}}</td>
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-partBusiness"
+              data-url="{% url 'partBusiness_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-partBusiness"
+                   data-url="{% url 'partBusiness_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="6" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/partBusiness.js' %}"></script>
+{% endblock %}

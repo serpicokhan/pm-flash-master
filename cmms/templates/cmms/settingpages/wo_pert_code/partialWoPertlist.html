@@ -1,0 +1,31 @@
+
+{% for c in woPerts %}
+
+<tr>
+
+<td>{{c.pertCode}}</td>
+<td>{{c.pertDescription}}</td>
+
+
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-woPert"
+              data-url="{% url 'workorderPert_update' c.id %}">
+
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-woPert"
+                   data-url="{% url 'workorderPert_delete' c.id %}">
+
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="3" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}

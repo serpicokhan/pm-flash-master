@@ -1,0 +1,33 @@
+<form method="post" action="{% url 'mail_create'  %}" class="js-mail-create-form">
+  {% csrf_token %}
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/mail/partialMailForm.html' %}
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default">انصراف</button>
+    <button type="submit" class="btn btn-primary" >ذخیره</button>
+  </div>
+</form>
+<!-- SUMMERNOTE -->
+{% load staticfiles %}
+    <script src="{% static 'js/plugins/summernote/summernote.min.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+
+            $(document).ready(function() {
+   $('#id_Message').summernote();
+ });
+
+        });
+      
+    </script>

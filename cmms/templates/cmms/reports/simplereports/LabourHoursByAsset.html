@@ -1,0 +1,75 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2 class='text-error'>
+
+                  گزارش ساعت کارکرد بر اساس دارایی  {{parts.partName}}
+                  </h2>
+                  <h3> از تاریخ: {{date1}} تا {{date2}}<br/>
+                   تاریخ اجرای گزارش {{currentdate}}</h3>
+
+
+
+
+                           </div>
+
+ <table class="table table-bordered table-striped ">
+   <thead>
+     <tr>
+       <th class="col-md-2">کد</th>
+       <th>نام</th>
+
+
+       <th>دسته</th>
+       <th>سایت</th>
+       <th class="col-md-2">زمان صرف شده(ساعت)
+     </tr>
+   </thead>
+   <tbody>
+     {% for c in wolist %}
+     <tr>
+       <td>{{c.assetCode}}</td>
+       <td>
+         {{c.assetName}}
+       </td>
+       <td>
+         {% if c.assetCategory %}
+         {{c.assetCategory}}
+         {% else %}
+         مشخص نشده
+         {% endif %}
+
+       </td>
+<td>
+  {% if c.assetIsPartOf %}
+  {{c.assetIsPartOf}}
+  {% else %}
+  مشخص نشده
+  {% endif %}
+
+</td>
+       <td>
+         {% if c.timespent %}
+         {{c.timespent}}
+         {% else %}
+         0
+         {% endif %}
+       </td>
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+ {% endblock %}

@@ -1,0 +1,35 @@
+{% load staticfiles %}
+{% for c in attendance %}
+
+<tr>
+<td class="client-avatar">{% if c.profileImage %}
+                                                                    <img alt="image" src="{{c.profileImage.url}} ">
+{% else %}
+<img alt="image" src="{% static 'img/_blank_profile.png' %}">
+{% endif %}</td>
+<td data-url={{c.id}}>{{c}}</td>
+<td>{{c.getName}}</td>
+<td><input type="text" name="" value="" class="timeval"></td>
+<td><input type="text" name="" value="0" class="timeval2"></td>
+<td><input type="text" name="" value="" class="dateval"></td>
+
+
+
+
+
+
+
+ <td>
+
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="6" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}
+<script type="text/javascript">
+
+
+</script>

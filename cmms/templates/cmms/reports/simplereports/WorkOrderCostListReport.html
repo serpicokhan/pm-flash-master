@@ -1,0 +1,93 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+                                     گزارش لیست هزینه های هر دستور کارR                   z  <br>
+
+
+                            </h1>
+
+                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+                          <h4>به همراه پارامترهای زیر</h4>
+                          <h4> از تاریخ: {{stdate}}</h4>
+                          <h4>تا تاریخ: {{enddate}}</h4>
+
+                          <h4>دارایی: {{assets}}</h4>
+                          <h4>نوع دارایی: {{assetcat}}</h4>
+
+                           </div>
+
+                           <table class="table table-bordered table-striped">
+                             <thead>
+                               <tr>
+                                <th class="col-md-1 active">کد دستورکار</th>
+                                <th class="col-md-2 active">شرح دستور کار</th>
+                                <th class="col-md-2 active">نام دارایی</th>
+                                <th class="col-md-1 active">تاریخ تکمیل</th>
+                                <th class="col-md-1 active">هزینه قطعه</th>
+                                <th class="col-md-1 active">هزینه نیروی انسانی</th>
+                                <th class="col-md-1 active">هزینه برونسپاری</th>
+                                <th class="col-md-1 active">مجموع</th>
+
+
+
+                                </tr>
+                             </thead>
+                             <tbody>
+     {% for c in woList %}
+
+     <tr>
+       <td >{{c.id}}</td>
+       <td >
+         {{c.summaryofIssue}}
+       </td>
+       <td >
+         {{c.woAsset}}
+       </td>
+       <td >
+         {{c.get_dateCompelted_jalali}}
+       </td>
+
+       <td >
+
+         {{c.partcost|floatformat:0}}
+
+       </td>
+
+
+       <td  >
+
+         {{c.laborcost|floatformat:0}}
+
+       </td>
+
+       <td >
+
+         {{c.misccost|floatformat:0}}
+
+       </td>
+       <td>
+
+         {{c.total|floatformat:0}}
+
+
+       </td>
+
+
+
+
+     </tr>
+
+
+
+     {% endfor %}
+   </tbody>
+     </table>
+
+ {% endblock %}

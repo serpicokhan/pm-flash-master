@@ -1,0 +1,64 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>کسب و کار</h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="assetBusiness-table">
+                                    <thead>
+                                    <tr>
+                                      <th>پیشفرض</th>
+                                     <th>نوع کسب و کار</th>
+                                     <th>مشخصات</th>
+                                     <th>پارت نامبر</th>
+                                     <th>آخرین قیمت</th>
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_assetBusiness'>
+                                            {% include 'cmms/asset_business/partialAssetBusinessList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-assetBusiness"
+                                  data-url="{% url 'assetBusiness_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                            </div>
+                          </div>
+
+                    </div>
+                    <div class="modal fade" id="modal-assetBusiness" data-backdrop="static" data-keyboard="false">
+                     <div class="modal-dialog moldal-lg">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                </div>
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/assetBusiness.js' %}"></script>
+{% endblock %}

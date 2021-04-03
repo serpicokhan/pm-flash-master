@@ -1,0 +1,61 @@
+
+{% for c in userGroups %}
+
+<tr>
+ <td><input type="checkbox" checked class="i-checks" name="input[]" data-url="{{c.groupUserGroups_id}}" /></td>
+<td>{{c.groupUserGroups.userGroupName}}</td>
+
+
+
+
+
+
+
+</tr>
+
+{% endfor %}
+
+
+{% for c in userGroup %}
+
+<tr>
+ <td><input type="checkbox"  class="i-checks" name="input[]" data-url="{{c.id}}" /></td>
+<td>{{c.userGroupName}}</td>
+
+
+
+
+
+
+
+</tr>
+
+{% endfor %}
+<script type="text/javascript">
+  $('.i-checks').iCheck({
+      checkboxClass: 'icheckbox_square-green',
+      radioClass: 'iradio_square-green',
+
+  });
+  $('.i-checks').on('ifToggled', function(event){
+  // alert(event.type + ' callback');
+  // alert($(this).attr("data-url"));
+  return $.ajax({
+    url: '/UserGroups/'+$("#lastUserId").val()+'/'+$(this).attr("data-url")+'/updateStatus/',
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+
+
+
+    },
+    success: function (data) {
+
+
+
+    }
+
+  });
+});
+
+</script>

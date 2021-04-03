@@ -1,0 +1,122 @@
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+
+ <div class="row">
+    {% include "cmms/summery/dateselector.html" %}
+ </div>
+ <div class="clear">
+
+ </div>
+
+ <div class="row">
+                         <div class="col-lg-3">
+                             {% include "cmms/summery/worequeted.html" %}
+                         </div>
+                         <div class="col-lg-3">
+                            {% include "cmms/summery/wopart.html" %}
+                         </div>
+                         <div class="col-lg-3">
+                           {% include "cmms/summery/mttr.html" %}
+                         </div>
+                         <div class="col-lg-3">
+                           {% include "cmms/summery/misc.html" %}
+                         </div>
+
+                     </div>
+
+
+
+                     <div class="row">
+                                             <div class="col-lg-2">
+                                                <a href="#" class='highprioritywo'> {% include "cmms/summery/highprioritywo.html" %}</a>
+                                             </div>
+                                             <div class="col-lg-2">
+                                               <a href="#" class="woGetOpenWO">
+                                                {% include "cmms/summery/openworequeted.html" %}
+                                                </a>
+                                             </div>
+                                             <div class="col-lg-2">
+                                               <a href="#" class="woGetCloseWO">
+                                                {% include "cmms/summery/closeworequeted.html" %}
+                                                </a>
+                                             </div>
+                                             <div class="col-lg-2">
+                                               <a href="#" class="woGetOverdueWO">
+                                                {% include "cmms/summery/overdueworequeted.html" %}
+                                                </a>
+                                             </div>
+                                             <div class="col-lg-2">
+                                               <a href="{% url 'list_lowItemStock' %}">
+                                                {% include "cmms/summery/lowitemstock.html" %}
+                                                </a>
+                                             </div>
+                                             <div class="col-lg-2">
+                                               <a href="{% url 'list_lowItemStock' %}">
+                                                {% include "cmms/summery/woPending.html" %}
+                                                </a>
+                                             </div>
+
+
+                                         </div>
+                                         <div class="row">
+                                           <div class="col-lg-6">
+                                             {% include "cmms/summery/pmStatus.html" %}
+                                             {% include "cmms/summery/onDemandStatus.html" %}
+                                               {% include "cmms/summery/equip_downtime.html" %}
+
+                                           </div>
+                                           <div class="col-lg-6">
+                                                {% include "cmms/summery/woStatus.html" %}
+                                                {% include "cmms/summery/resource.html" %}
+                                                  {% include "cmms/summery/wogroupbar.html" %}
+                                                  {% include "cmms/summery/woCompletedDonat.html" %}
+
+
+
+                                           </div>
+
+                                         </div>
+                                         <div class="row">
+                                           <div class="col-lg-12">
+
+                                             {% include "cmms/summery/equip_cost.html" %}
+                                           </div>
+
+                                         </div>
+                                         <div class="clearfix">
+
+                                         </div>
+
+                                         {% load static %}
+
+                                         {% block javascript %}
+
+                                           <script src="{% static '/js/project/dashboard/datepicker.js' %}"></script>
+                                           <script src="{% static '/js/project/dashboard/donatchart.js' %}"></script>
+                                           <script src="{% static '/js/project/dashboard/info.js' %}"></script>
+                                           <script src="{% static '/js/project/dashboard/res.js' %}"></script>
+                                           <script src="{% static '/js/project/dashboard/wogroupbar.js' %}"></script>
+                                           <script src="{% static '/js/project/dashboard/main.js' %}"></script>
+                                           <script src="{% static '/js/project/dashboard/equipdowntime.js' %}"></script>
+                                           <script src="{% static '/js/project/dashboard/equipcost.js' %}"></script>
+                                           <script type="text/javascript">
+                                             //code for update date according to user selection
+                                              $('.highprioritywo').click(function(){
+                                                $('.highprioritywo').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/HighPriority/');
+                                              });
+                                              $('.woGetOpenWO').click(function(){
+                                                $('.woGetOpenWO').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/OpenWorkOrder/');
+                                              });
+                                              $('.woGetCloseWO').click(function(){
+                                                $('.woGetCloseWO').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/CloseWorkOrder/');
+                                              });
+                                              $('.woGetOverdueWO').click(function(){
+                                                $('.woGetOverdueWO').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/OverdueWorkOrder/');
+                                              });
+
+                                           </script>
+
+                                         {% endblock %}
+
+ {% endblock %}

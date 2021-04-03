@@ -1,0 +1,86 @@
+<div  data-url="{% url 'woProblem_create' %}" class="js-woProblem-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/settingpages/wo_problem_code/partialWoProblemForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="woProblem-submit"  >ذخیره</button>
+ <script>
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+
+        $("#woProblem-submit").click(function(){
+
+                   //alert("12321");
+                   //$( "#myselect option:selected" ).text();
+                   var mydata="";
+                   mydata=myformat('{"problemCode":"{0}"\
+                   ,"problemDescription":"{1}","problemIsActive":true}',
+                   $("#id_problemCode").val(),
+                   $("#id_problemDescription").val(),
+
+                 );
+
+                    var form = $(this).parent().parent();
+                    console.log(form);
+                    console.log("action",form.attr("action"));
+                    //alert($("#id_metrics").val());
+
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:mydata,
+                      dataType: 'json',
+                      beforeSend: function () {
+                        //alert(btn.attr("data-url"));
+                        console.log(mydata);
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_woProblem").empty();
+
+                          $("#tbody_woProblem").html(data.html_woProblem_list);
+                          $("#modal-woProblem").modal("hide");
+                          console.log(data.html_woProblem_list);
+                        }
+                        else {
+
+                          $("#woProblem-table tbody").html(data.html_woProblem_list);
+                          $("#modal-woProblem .modal-content").html(data.html_woProblem_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

@@ -1,0 +1,15 @@
+{% for c in eq %}
+<tr>
+
+
+  <td class="project-completion">
+            <small>تکمیل: {{c.totalcompleted}}</small>
+            <div class="progress progress-mini">
+                <div style="width: {{c.id}}%;" class="progress-bar"></div>
+            </div>
+        </td>
+        <td>{{c.assetname}}</td>
+
+</tr>
+
+{% endfor %}

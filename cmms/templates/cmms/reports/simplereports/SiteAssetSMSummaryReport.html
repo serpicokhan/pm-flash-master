@@ -1,0 +1,55 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>
+                          این گزارش دارایی های موجود در تسهیلات و SM های مربوطه را فهرست می کند.<br>
+
+                              تاریخ تولید گزارش: {{currentdate}}
+
+                            </h2>
+
+                           </div>
+
+ <table class="table table-bordered">
+   <thead>
+     <tr>
+       <th>کد سایت</th>
+       <th>نام سایت</th>
+       <th>کد سرویس</th>
+
+       <th>شرح</th>
+       <th>زمانبندی</th>
+       <th>وضعیت</th>
+
+     </tr>
+   </thead>
+   <tbody>
+     {% for c in wos %}
+     <tr>
+       <td>{{c.woAsset.assetCode}}</td>
+       <td>{{c.woAsset.assetName}}</td>
+       <td>{{c}}</td>
+       <td>{{c.summaryofIssue}}</td>
+       <td>{{c.getSchedule}}</td>
+       <td>{% autoescape off %}{{c.get_woStatus}}{% endautoescape %}</td>
+
+
+
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="6" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+ {% endblock %}

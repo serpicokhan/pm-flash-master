@@ -1,0 +1,47 @@
+
+{% for c in woNotifys %}
+
+<tr>
+ <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+<td>{{c.woNotifUser}}</td>
+ <td>{% autoescape off %}{{c.get_woNotifOnAssignment}}{% endautoescape %}</td>
+
+ <td>{% autoescape off %}{{c.get_woNotifOnStatusChange}}{% endautoescape %}</td>
+  <td>{% autoescape off %}{{c.get_woNotifOnCompletion}}{% endautoescape %}</td>
+   <td>{% autoescape off %}{{c.get_woNotifOnTaskCompleted}}{% endautoescape %}</td>
+    <td>{% autoescape off %}{{c.get_woNotifOnOnlineOffline}}{% endautoescape %}</td>
+
+
+
+
+
+
+
+ <td>
+   {% if perms.cmms.view_workorderusernotification %}
+   <button type="button"
+              class="btn btn-warning btn-sm js-update-woNotify"
+              data-url="{% url 'woNotify_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> مشاهده
+      </button>
+      {% endif %}
+      {% if perms.cmms.delete_workorderusernotification %}
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-woNotify"
+                   data-url="{% url 'woNotify_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+           {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="9" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/woNotify.js' %}"></script>
+{% endblock %}

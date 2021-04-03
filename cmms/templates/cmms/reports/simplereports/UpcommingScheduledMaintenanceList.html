@@ -1,0 +1,57 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>
+                            گزارش سرویس های دوره ای پیش رو<br>
+                            از تاریخ: {{stdate}} تا {{enddate}} <br/>
+                            تاریخ تولید گزارش: {{currentdate}}
+
+                            </h2>
+
+                           </div>
+
+ <table class="table table-bordered">
+   <thead>
+     <tr>
+       <th>کد سرویس دوره ای</th>
+       <th>شرح</th>
+       <th>دارایی</th>
+
+       <th>نوع نگهداری</th>
+       <th>کاربر</th>
+       <th>زمان فعال شدن</th>
+       <th>تکمیل تخمینی</th>
+       <th>ساعت تخمینی</th>
+     </tr>
+   </thead>
+   <tbody>
+     {% for c in wos %}
+     <tr>
+       <td>{{c.id}}</td>
+       <td>{{c.summaryofIssue}}</td>
+       <td>{{c.woAsset}}</td>
+       <td>{{c.maintenanceType}}</td>
+       <td>{{c.assignedToUser}}</td>
+       <td>{{c.get_dateCreated_jalali}},{{c.timecreated}}</td>
+       <td>{{c.estimatedCompilation}}</td>
+       <td>{{c.estimatedLabor}}</td>
+
+
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="8" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+ {% endblock %}

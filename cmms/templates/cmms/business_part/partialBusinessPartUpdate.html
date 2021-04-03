@@ -1,0 +1,104 @@
+<div  data-url="{% url 'businessPart_update' form.instance.id %}" class="js-businessPart-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close cl-task"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/business_part/partialBusinessPartForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-task btn btn-default" >بستن</button>
+    <button type="button" class="btn btn-primary" id="businessPart-submit">ویرایش</button>
+
+
+    <script>
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+   }
+       $( document).ready(
+         function()
+         {
+           $(".cl-task").click(function()
+           {
+             $("#modal-businessPart").modal("hide");
+             //$("#{modal-company}").css("background-color", "yellow");
+
+
+           }
+          );
+
+           $("#businessPart-submit").click(function(){
+
+                      //alert("12321");
+                      //$( "#myselect option:selected" ).text();
+                      var mydata="";
+                      var mydata="";
+                      mydata=myformat('{"BusinessPartPart":{0}\
+                      ,"businessPartBusiness":{1}\
+                      ,"businessPartBusinessType":{2}\
+                      ,"businessPartSupplierPartNumber":"{3}"\
+                    ,"businessPartCatalog":"{4}"\
+                  ,"businessPartisDefault":"{5}" }',
+                      $("#id_BusinessPartPart").val(),
+                      $("#lastBusinessid").val(),
+                      $("#id_businessPartBusinessType").val(),
+                      $("#id_businessPartSupplierPartNumber").val(),
+                      $("#id_businessPartCatalog").val(),
+
+                      $("#id_businessPartisDefault").is(':checked')
+                    );
+
+                      var form = $(this).parent().parent();
+                       //console.log(form.attr("action"));
+                       //alert($("#id_metrics").val());
+                       // console.log($(this));
+                       $.ajax({
+                         url: form.attr("data-url"),
+                         type: "POST",
+                         data:mydata,
+                         dataType: 'json',
+                         beforeSend: function () {
+                           //alert(btn.attr("data-url"));
+                          // console.log($("#id_businessAssetisDefault").is(':checked'));
+
+                         },
+                         success: function (data) {
+                           if (data.form_is_valid) {
+                             //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                             $("#tbody_businessPart").empty();
+
+                             $("#tbody_businessPart").html(data.html_businessPart_list);
+                             $("#modal-businessPart").modal("hide");
+                             // console.log(data.html_businessPart_list);
+                           }
+                           else {
+
+                             $("#businessPart-table tbody").html(data.html_businessPart_list);
+                             $("#modal-businessPart .modal-content").html(data.html_businessPart_form);
+                           }
+                         }
+
+                       });
+                       return false;
+
+
+
+                  });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

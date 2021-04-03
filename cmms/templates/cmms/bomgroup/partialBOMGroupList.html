@@ -1,0 +1,38 @@
+{% for c in bomgroup %}
+
+<tr>
+  <td><input type="checkbox" name="action" value=""></td>
+<td>{{c.BOMGroupName}}</td>
+<td>{{c.getPartNUM}}</td>
+
+
+
+
+
+{% if perms.cmms.view_bomgroup %}
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-bomgroup"
+              data-url="{% url 'bomgroup_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      {% endif %}
+      {% if perms.cmms.view_bomgroup %}
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-bomgroup"
+                   data-url="{% url 'bomgroup_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+           {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="4" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/bomgroup.js' %}"></script>
+{% endblock %}

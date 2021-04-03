@@ -1,0 +1,31 @@
+{% for c in assetCategory %}
+
+<tr>
+<td></td>
+<td>{{c.name}}</td>
+<td>{{c.description}}</td>
+ <td>{{c.isPartOf}}</td>
+
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-assetCategory"
+              data-url="{% url 'assetCategory_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-assetCategory"
+                   data-url="{% url 'assetCategory_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

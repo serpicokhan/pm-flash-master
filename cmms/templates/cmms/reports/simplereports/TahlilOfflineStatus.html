@@ -1,0 +1,163 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+      تحلیل علتهای توقف
+
+
+</h1>
+
+<h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+<h4>به همراه پارامترهای زیر</h4>
+
+
+
+
+<h4>نام دارایی: {{location.assetName}}</h4>
+
+
+
+
+                           </div>
+
+
+                           <div class="row">
+                             <div class="col-lg-12">
+                                 <div class="ibox float-e-margins">
+                                     <div class="ibox-title">
+
+
+                                         <div ibox-tools></div>
+                                     </div>
+                                     <div class="ibox-content">
+                                         <div>
+                                             <canvas id="barchart" height="150"></canvas>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+
+
+                                      </div>
+
+
+                                      {% load static %}
+
+                                      {% block javascript %}
+                                       <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+
+                                       <script>
+                                         omg={% autoescape off %}    {{ javab }}{% endautoescape %};
+                                         omg1={% autoescape off %}    {{ label }}{% endautoescape %};
+                                         omg2={% autoescape off %}    {{ causeCode }}{% endautoescape %};
+
+var COLORS = [
+  '#4dc9f6',
+  '#f67019',
+  '#f53794',
+  '#537bc4',
+  '#acc236',
+  '#166a8f',
+  '#00a950',
+  '#58595b',
+  '#8549ba'
+];
+       		var MONTHS = [];
+          var mdata=[];
+
+          X=[];
+          for( i in omg)
+            {
+            MONTHS.push(i);
+
+            mdata.push(omg[i]);
+
+            }
+            X=[];
+
+            for(i=0;i<omg2.length;i++)
+            {
+              console.log("omg2[i]"+omg2[i]);
+              X[i]=[]
+              for(j in omg)
+              {
+                console.log(omg2[i]);
+                X[i].push(omg[j][omg2[i]]);
+              }
+
+
+            }
+          result=[];
+          for(i=0;i<X.length;i++)
+          {
+            result.push({
+              label: omg1[i],
+              lineTension: 0,
+              backgroundColor: COLORS[i],
+              borderColor: COLORS[i],
+              data:X[i].reverse(),
+              fill: false,
+              lineTension: 0,
+            });
+          }
+
+
+
+       		var config = {
+       			type: 'line',
+       			data: {
+       				labels: MONTHS.reverse(),
+       				datasets: result
+       			},
+       			options: {
+       				responsive: true,
+       				title: {
+       					display: false,
+       					text: 'Chart.js Line Chart'
+       				},
+       				tooltips: {
+       					mode: 'index',
+       					intersect: false,
+       				},
+       				hover: {
+       					mode: 'nearest',
+       					intersect: true
+       				},
+       				scales: {
+       					xAxes: [{
+       						display: true,
+       						scaleLabel: {
+       							display: true,
+       							labelString: 'Month'
+       						}
+       					}],
+       					yAxes: [{
+       						display: true,
+       						scaleLabel: {
+       							display: true,
+       							labelString: 'Value'
+       						}
+       					}]
+       				}
+       			}
+       		};
+
+       		window.onload = function() {
+       			var ctx = document.getElementById('barchart').getContext('2d');
+       			window.myLine = new Chart(ctx, config);
+       		};
+
+       	
+       	</script>
+
+                                      </script>
+                                        <!-- <script src="{% static '/js/project/reports/DowntimeByRepairTypeByAssetCategory.js' %}"></script> -->
+
+                                      {% endblock %}
+ {% endblock %}

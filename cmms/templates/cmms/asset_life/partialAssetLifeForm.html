@@ -1,0 +1,188 @@
+{% load widget_tweaks %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <i class="fa fa-info-circle"></i>
+      </div>
+
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="tabs-container">
+              <ul class="nav nav-tabs">
+                  <li class="active"><a data-toggle="tab" href="#tab-failur" aria-expanded="true">گزارش خرابی</a></li>
+                  <li class=""><a data-toggle="tab" href="#tab-correct" aria-expanded="false">گزارش استارت</a></li>
+
+
+              </ul>
+               <div class="tab-content ">
+                 <div id="tab-failur" class="tab-pane active">
+                   <div class="panel-body">
+                     <div class="row">
+                       <div class="col-lg-6">
+                         <div class="form-group">
+                           <label>{{form.warantyLocation.label}}</label>
+
+                           <input type=text id='id_assetMeterAssetjq' class="form-control" readonly/>
+                           <script type="text/javascript">
+                           $("#id_assetMeterAssetjq").val($("#id_assetName").val());
+
+                           </script>
+                         </div>
+                         <div class="form-group">
+                           <label>{{form.assetOfflineFrom.label}}</label>
+
+                           {{form.assetOfflineFrom| add_class:"form-control" }}
+                         </div>
+                         <div class="form-group">
+                           <label>{{form.assetSetOfflineByUser.label}}</label>
+
+                           {{form.assetSetOfflineByUser| add_class:"form-control" }}
+                         </div>
+                         <div class="form-group">
+                           <label>{{form.assetEventType.label}}</label>
+
+                           {{form.assetEventType| add_class:"form-control" }}
+                         </div>
+
+
+
+
+
+
+                       </div>
+                       <div class="col-lg-6">
+                         <div class="form-group">
+                           <label>{{form.assetOfflineStatus.label}}</label>
+
+                           {{form.assetOfflineStatus| add_class:"form-control" }}
+                         </div>
+                         <div class="form-group">
+                           <label>{{form.assetOfflineFromTime.label}}</label>
+
+                           {{form.assetOfflineFromTime| add_class:"form-control" }}
+                         </div>
+                         <div class="form-group">
+                           <label>{{form.assetWOAssoc.label}}</label>
+
+                           <!-- {{form.assetWOAssoc| add_class:"form-control" }} -->
+                           {{form.woName| add_class:"form-control" }}
+                           {{form.assetWOAssoc.as_hidden}}
+
+                         </div>
+                         <div class="form-group">
+                           <label>{{form.assetStopCode.label}}</label>
+
+                           {{form.assetStopCode| add_class:"form-control" }}
+
+                         </div>
+
+                         <div class="form-group">
+                           <label>{{form.assetCheckEvent.label}}</label>
+
+                           {{form.assetCheckEvent| add_class:"" }}
+                         </div>
+
+
+
+                       </div>
+                     </div>
+                     <div class="row">
+                       <div class="col-lg-12">
+                         <div class="form-group">
+                           <label>{{form.assetEventDescription.label}}</label>
+
+                           {{form.assetEventDescription| add_class:"form-control" }}
+                         </div>
+
+                         <div class="form-group">
+
+                           <label>{{form.assetOfflineAdditionalInfo.label}}</label>
+
+                           {{form.assetOfflineAdditionalInfo| add_class:"form-control" }}
+                         </div>
+
+                       </div>
+
+                     </div>
+                   </div>
+                 </div>
+                 <div id="tab-correct" class="tab-pane">
+                   <div class="panel-body">
+                     <div class="row">
+                     <div class="col-lg-12">
+                       <div class="row">
+                         <div class="col-lg-6">
+                           <div class="form-group">
+                             <label>{{form.warantyLocation.label}}</label>
+
+                             <input type=text id='id_assetMeterAssetjq2' class="form-control" readonly/>
+                             <script type="text/javascript">
+                             $("#id_assetMeterAssetjq2").val($("#id_assetName").val());
+
+                             </script>
+                           </div>
+                           <div class="form-group">
+                             <label>{{form.assetOnlineFrom.label}}</label>
+
+                             {{form.assetOnlineFrom| add_class:"form-control" }}
+                           </div>
+                           <div class="form-group">
+                             <label>{{form.assetOnlineFromTime.label}}</label>
+
+                             {{form.assetOnlineFromTime| add_class:"form-control" }}
+                           </div>
+                           <div class="form-group">
+                             <label>{{form.assetSetOnlineByUser.label}}</label>
+
+                             {{form.assetSetOnlineByUser| add_class:"form-control" }}
+                           </div>
+                           <div class="form-group">
+                             <label>{{form.assetOnlineStatus.label}}</label>
+
+                             {{form.assetOnlineStatus| add_class:"form-control" }}
+                           </div>
+
+
+
+                         </div>
+                         <div class="col-lg-6">
+
+
+                           <div class="form-group">
+                             <label>{{form.assetOnlineAdditionalInfo.label}}</label>
+
+                             {{form.assetOnlineAdditionalInfo| add_class:"form-control" }}
+                           </div>
+                           <div class="form-group">
+                             <label>{{form.assetOnlineProducteHourAffected.label}}</label>
+
+                             {{form.assetOnlineProducteHourAffected| add_class:"form-control" }}
+                           </div>
+
+
+
+
+                         </div>
+
+                       </div>
+
+
+                       </div>
+
+                     </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>

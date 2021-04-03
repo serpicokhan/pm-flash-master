@@ -1,0 +1,99 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+     گزارش لیست هزینه های دستورکار با جزییات <br>
+
+
+                            </h1>
+
+                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+                          <h4>به همراه پارامترهای زیر</h4>
+                          <h4> از تاریخ: {{stdate}}</h4>
+                          <h4>تا تاریخ: {{enddate}}</h4>
+
+                          <h4>دارایی: {{assets}}</h4>
+                          <h4>نوع دارایی: {{assetcat}}</h4>
+
+
+                           </div>
+
+
+     {% for c in woList %}
+
+     {% if c.1.0.id > 0 %}
+     <table class="table table-bordered">
+       <thead>
+         <tr>
+          <th class="col-md-1 active">کد دارایی</th>
+          <th class="col-md-2 active">نام دارایی</th>
+
+         </tr>
+       </thead>
+       <tbody>
+     <tr>
+       <td class="active">{{c.0.assetCode}}</td>
+       <td class="active">
+         {{c.0.assetName}}
+       </td>
+
+
+
+
+     </tr>
+     <tr >
+       <td colspan="2">
+         <table class="table table-borderless table-dark">
+
+         <thead>
+           <th>کد دستور کار</th>
+           <th>شرح</th>
+           <th>هزینه نیروی انسانی</th>
+           <th>هزینه قطعه</th>
+           <th>هزینه برونسپاری</th>
+           <th>مجموع</th>
+         </thead>
+          <tbody>
+            {% for k in c.1 %}
+            <tr>
+              <td>{{k.id}}</td>
+              <td>{{k.summaryofIssue}}</td>
+              <td>
+               {{k.laborcost|floatformat:0}}
+              </td>
+              <td>
+               {{k.partcost|floatformat:0}}
+               </td>
+              <td>
+               {{k.misccost|floatformat:0}}
+               </td>
+              <td>
+               {{k.total|floatformat:0}}
+               </td>
+
+            </tr>
+            {% empty %}
+            <tr>
+             <td colspan="6" class="text-center bg-warning">بدون فعالیت</td>
+            </tr>
+
+            {%endfor%}
+
+         </tbody>
+       </table></td>
+
+
+     </tr>
+
+   </tbody>
+     </table>
+     {% endif %}
+     {% endfor %}
+
+ {% endblock %}

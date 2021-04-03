@@ -1,0 +1,108 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+                    تعمیر و نگهداری برنامه ریزی شده آینده با پیش بینی انبار<br>
+
+
+                            </h1>
+
+                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+                          <h4>به همراه پارامترهای زیر</h4>
+                          <h4> از تاریخ: {{stdate}}</h4>
+                          <h4>تا تاریخ: {{enddate}}</h4>
+
+                          <h4>وضعیت دستورکار: {{woStatus}}</h4>
+
+                           </div>
+
+
+     {% for c in woList %}
+     <table class="table table-bordered">
+       <thead>
+         <tr>
+          <th class="col-md-1 active">کد سرویس دوره ای</th>
+          <th class="col-md-2 active">شرح</th>
+          <th class="col-md-1 active">دارایی</th>
+          <th class="col-md-1 active">کاربر</th>
+          <th class="col-md-1 active">نوع سرویس</th>
+          <th class="col-md-1 active">تاریخ اجرا</th>
+
+
+         </tr>
+       </thead>
+       <tbody>
+     <tr>
+       <td class="active">{{c.0}}</td>
+       <td class="active">
+         {{c.0.summaryofIssue}}
+       </td>
+       <td class="active">
+         {{c.0.woAsset}}
+       </td>
+
+       <td class="active">
+         {{c.0.assignedToUser}}
+       </td>
+       <td class="active">
+         {{c.0.maintenanceType}}
+       </td>
+       <td class="active">
+         {{c.0.datecreated}}
+       </td>
+
+
+
+     </tr>
+     <tr >
+       <td colspan="6">
+         <table class="table table-borderless table-dark">
+
+         <thead>
+           <th>نام قطعه</th>
+           <th>تعداد پیشنهادی</th>
+           <th>تعداد موجود</th>
+           <th>موجودی کم SM</th>
+           <th>Stock Qty for WO</th>
+
+         </thead>
+          <tbody>
+            {% for k in c.1 %}
+            <tr>
+              <td>{{k.woPartPart}}</td>
+              <td>{{k.woPartPlannedQnty}}</td>
+              <td>{{k.woPartStock.qtyOnHand}}</td>
+              <td>{{k.isPartOf}}</td>
+              <td>{{k.isPartOf.summaryofIssue}}</td>
+
+            </tr>
+            {% empty %}
+            <tr>
+             <td colspan="5" class="text-center bg-warning">بدون قطعه</td>
+            </tr>
+
+            {%endfor%}
+
+         </tbody>
+       </table>
+     </td>
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+   </tbody>
+     </table>
+
+     {% endfor %}
+
+
+ {% endblock %}

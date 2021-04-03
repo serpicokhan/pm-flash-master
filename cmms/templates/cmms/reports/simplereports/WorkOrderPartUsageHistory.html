@@ -1,0 +1,60 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>
+                            گزارش تاریخچه قطعات مصرف شده توسط دستور کارها<br>
+                            از تاریخ: {{date1}} تا {{date2}}<br/>
+                          نام قطعات:{% for c in parts %} {{c}} , {%endfor%}
+                            </h2>
+
+                           </div>
+
+ <table class="table table-bordered">
+                                <thead>
+                                <tr>
+
+                                <th>دستور کار</th>
+                                <th>شرح دستور کار</th>
+                                <th>کد قطعه</th>
+                                <th>نام قطعه</th>
+                                <th>تاریخ ایجاد</th>
+                                <th>تعداد استفاده شده</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for c in woparts %}
+                                <tr>
+
+
+                            <td>
+                              {{c.woPartWorkorder}}
+                            </td>
+                            <td>
+                              {{c.woPartWorkorder.summaryofIssue}}
+                            </td>
+                              <td>
+                                  {{c.woPartPart.partName}}
+                              </td>
+                            <td>
+                              {{c.woPartPart.partCode}}
+                            </td>
+                            <td>
+                                {{c.woPartWorkorder.get_dateCreated_jalali}}
+                            </td>
+
+                            <td>
+                              {{c.woPartActulaQnty}}
+                            </td>
+                              </tr>
+
+
+                                {% endfor %}
+                                </tbody>
+                            </table>
+ {% endblock %}

@@ -1,0 +1,22 @@
+<ul class="errorlist"><li>schDailyRep<ul class="errorlist"><li>This field is req
+uired.</li></ul></li><li>schWeeklyRep<ul class="errorlist"><li>This field is req
+uired.</li></ul></li><li>schMonthlyRep<ul class="errorlist"><li>This field is re
+quired.</li></ul></li><li>schDayofMonthlyRep<ul class="errorlist"><li>This field
+ is required.</li></ul></li><li>schYearlyRep<ul class="errorlist"><li>This field
+ is required.</li></ul></li><li>schMonthOfYearRep<ul class="errorlist"><li>This
+field is required.</li></ul></li><li>schDayOfMonthOfYearRep<ul class="errorlist"
+><li>This field is required.</li></ul></li><li>shMeterReadingMetrics<ul class="e
+rrorlist"><li>This field is required.</li></ul></li><li>shMeterReadingWhenMetric
+<ul class="errorlist"><li>This field is required.</li></ul></li><li>shMetricComp
+arison<ul class="errorlist"><li>This field is required.</li></ul></li></ul>
+[02/Jul/2018 16:58:33] "POST /Schedule/create/ HTTP/1.1" 200 37803
+
+schDailyRep
+schWeeklyRep
+schMonthlyRep
+schYearlyRep
+schMonthOfYearRep
+schDayOfMonthOfYearRep
+shMeterReadingMetrics
+shMeterReadingWhenMetric
+shMetricComparison

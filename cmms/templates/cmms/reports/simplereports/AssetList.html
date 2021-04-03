@@ -1,0 +1,68 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>
+                          لیست اموال  <br>
+
+
+                            </h2>
+
+                           </div>
+
+ <table class="table table-bordered">
+   <thead>
+     <tr>
+      <th>نام دارایی</th>
+      <th>کد دارایی</th>
+      <th>گروه</th>
+      <th>ساخت</th>
+      <th>مدل</th>
+      <th>شماره سریال</th>
+      <th>وضعیت</th>
+     </tr>
+   </thead>
+   <tbody>
+     {% for c in assetlist %}
+     <tr>
+       <td>{{c}}</td>
+       <td>
+         {{c.assetCode|default_if_none:"ندارد"}}
+       </td>
+       <td>
+         {{c.assetCategory|default_if_none:"ندارد"}}
+       </td>
+
+       <td>
+         {{c.assetManufacture|default_if_none:"ندارد"}}
+       </td>
+
+       <td>
+         {{c.assetModel|default_if_none:"ندارد"}}
+       </td>
+       <td>
+         {{c.assetSerialNumber|default_if_none:"ندارد"}}
+       </td>
+       <td>
+         {% if c.assetStatus %}
+         روشن
+         {% else %}
+         خاموش
+         {%endif%}
+       </td>
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="7" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+ {% endblock %}

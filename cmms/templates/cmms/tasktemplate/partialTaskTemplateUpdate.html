@@ -1,0 +1,156 @@
+<div  data-url="{% url 'taskTemplate_update' form.instance.id %}" class="js-taskTemplate-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close cl-taskTemplate"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/taskTemplate/partialTaskTemplateForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-taskTemplate btn btn-default" >بستن</button>
+    <button type="button" class="btn btn-primary" id="taskTemplate-submit">ویرایش</button>
+
+
+    <script>
+      $(".cl-taskTemplate").click(function()
+      {
+        $("#modal-taskTemplate").modal("hide");
+      }
+    );
+
+      getStringVal=function(element){
+        if(element.length===0)
+          return "";
+        else{
+          return element;
+        }
+      }
+      getVal=function(element){
+
+
+        if(element.val().length==0){
+          if(element.attr('id')=="id_taskTemplateTypes" ||element.attr('id')=="id_taskTemplateMetrics")
+          {
+            console.log("dsds");
+
+            return 1;
+
+          }
+          else if(element.attr('id')=="id_taskTemplateAssignedToUser" || element.attr('id')=="id_taskTemplateCompletedByUser")
+           {
+             return 1;
+           }
+
+          else return 0;
+        }
+        else{
+          return element.val();
+        }
+      }
+
+     myformat = function() {
+
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+    }
+       $( document).ready(
+         function()
+         {
+           if($( "#id_taskTemplateTypes" ).val()<3)
+            $("#id_taskTemplateMetrics").hide();
+           $("#id_taskTemplateTypes").change(
+             function()
+             {
+
+               switch ( $( "#id_taskTemplateTypes" ).val()) {
+                 case "1":
+                 case "2":
+                   $("#id_taskTemplateMetrics").hide();
+                   break;
+                 case "3":
+                 $("#id_taskTemplateMetrics").show();
+                 break;
+
+                 default:
+
+               }
+
+             }
+
+           );
+
+     $("#taskTemplate-submit").click(function(){
+
+                //alert("12321");
+                 var form = $(this).parent().parent();
+
+                 var mydata=myformat('{"taskTemplateTypes":{0}\
+                 ,"taskTemplateMetrics":{1}\
+                 ,"taskTemplateDescription":"{2}"\
+                 ,"taskTemplateTimeEstimate":{3}\
+                 ,"taskTemplateTaskGroup":{4}}',
+                 getVal($("#id_taskTemplateTypes")),
+                 getVal($("#id_taskTemplateMetrics")),
+                 getStringVal($("#id_taskTemplateDescription").val()),
+                 getVal($("#id_taskTemplateTimeEstimate")),getVal($("#lastTaskGroupid")));
+
+                 $.ajax({
+                   url: form.attr("data-url"),
+                   type: "POST",
+                   data:mydata,
+
+
+
+                   dataType: 'json',
+                   beforeSend: function () {
+                     //alert(btn.attr("data-url"));
+
+                   },
+                   success: function (data) {
+                     if (data.form_is_valid) {
+                       //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                       $("#tbody_taskTemplate").empty();
+                       $("#tbody_taskTemplate").html(data.html_taskTemplate_list);
+                       $("#modal-taskTemplate").modal("hide");
+                       //console.log(data.html_wo_list);
+                     }
+                     else {
+
+
+                       console.log(data);
+                       if(data.form_err_code==1)
+                       {
+                         toastr.error(data.form_err_msg);
+                       }
+                       else {
+                         $("#taskTemplate-table tbody").html(data.html_taskTemplate_list);
+                         $("#modal-taskTemplate .modal-content").html(data.html_taskTemplate_form);
+                         toastr.error("ورودیهای خود را کنترل کنید");
+
+                       }
+                     }
+                   }
+
+                 });
+                 return false;
+
+
+
+            });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

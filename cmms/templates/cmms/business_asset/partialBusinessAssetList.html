@@ -1,0 +1,37 @@
+
+{% for c in businessAssets %}
+
+<tr>
+
+<td>{% autoescape off %}{{c.get_assetBusinessIsDefault}}{% endautoescape %}</td>
+<td>{{c.get_businessAssetBusinessType_display}}</td>
+
+ <td>{{c.BusinessAssetAsset}}</td>
+<td>{{c.businessAssetSupplierPartNumber}}</td>
+ <td>{{c.businessAssetVendorPrice}}</td>
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-businessAsset"
+              data-url="{% url 'businessAsset_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-businessAsset"
+                   data-url="{% url 'businessAsset_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="6" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}
+{% load static %}
+{% block javascript %}
+  <script src="{% static '/js/project/businessAsset.js' %}"></script>
+{% endblock %}

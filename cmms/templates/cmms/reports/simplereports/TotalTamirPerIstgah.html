@@ -1,0 +1,182 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+     گزارش تعمیرات ایستکاهها بر حسب ساعت
+
+
+</h1>
+
+<h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+<h4>به همراه پارامترهای زیر</h4>
+<h4> از تاریخ: {{stdate}}</h4>
+<h4>تا تاریخ: {{enddate}}</h4>
+
+
+
+
+
+
+
+
+                           </div>
+
+
+                           <div class="row">
+                             <div class="col-lg-12">
+                                 <div class="ibox float-e-margins">
+                                     <div class="ibox-title">
+
+
+                                         <div ibox-tools></div>
+                                     </div>
+                                     <div class="ibox-content">
+                                         <div>
+                                             <canvas id="barchart" height="70"></canvas>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+
+
+                                      </div>
+
+
+                                      {% load static %}
+
+                                      {% block javascript %}
+                                       <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+
+                                      <script type="text/javascript">
+
+
+                                        var omg=0;
+                                        omg={% autoescape off %}    {{ javab }}{% endautoescape %};
+
+                                        console.log(omg);
+                                        // var glll;
+                                        var drawIstgahStatusBar=function(element,data)
+                                        {
+                                          lbl=[];
+                                          var COLORS = [
+                                            '#4dc9f6',
+                                            '#f67019',
+                                            '#f53794',
+                                            '#537bc4',
+                                            '#acc236',
+                                            '#166a8f',
+                                            '#00a950',
+                                            '#58595b',
+                                            '#8549ba'
+                                          ];
+                                          xx=0;
+                                          dset=[];
+                                          kkk=0;
+
+                                          for( i in data)
+                                            {
+                                              // console.log(i);
+                                              // console.log(data[i]);
+                                              lbl.push(i);
+                                              dset.push( data[i]);
+                                               kkk++;
+
+                                            }
+                                            cc=[]
+                                            for(var j=0;j<dset.length-2;j++)
+                                            {
+                                              cc.push(COLORS[0]);
+                                            }
+                                            cc.push(COLORS[1]);
+                                            cc.push(COLORS[1]);
+
+                                            var datasets= [{
+				label: '',
+				backgroundColor: cc,
+				borderColor: cc,
+				borderWidth: 1,
+				data: dset}]
+                                            console.log(dset);
+                                            console.log(lbl);
+
+
+                                          // console.log(data);
+                                          var barData = {
+                                            labels: lbl,
+                                            datasets: datasets
+                                          };
+
+                                          var chartOptions = {
+                                            responsive: true,
+                                            legend: {
+                                              position: "top"
+                                            },
+                                            title: {
+                                              display: true,
+                                              text: "تعمیرات ایستکاهها بر حسب ساعت"                                            },
+                                            scales: {
+                                              yAxes: [{
+                                                ticks: {
+                                                  beginAtZero: true
+                                                }
+                                              }]
+                                            },
+
+
+
+
+                                            "animation": {
+                                              "duration": 1,
+                                              "onComplete": function() {
+                                                var chartInstance = this.chart,
+                                                  ctx = chartInstance.ctx;
+
+                                                ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+
+                                                ctx.textAlign = 'center';
+                                                ctx.textBaseline = 'bottom';
+
+                                                this.data.datasets.forEach(function(dataset, i) {
+                                                  var meta = chartInstance.controller.getDatasetMeta(i);
+                                                  meta.data.forEach(function(bar, index) {
+                                                    var data = dataset.data[index];
+                                                    ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                                                  });
+                                                });
+                                              }
+                                            },
+
+
+                                          }
+                                          console.log(barData);
+                                          console.log(chartOptions);
+
+
+                                          var ctx = document.getElementById(element).getContext("2d");
+                                          var myBarChart = new Chart(ctx, {
+                                            type: 'bar',
+                                            data: barData,
+                                            options: chartOptions
+                                        });
+                                        }
+
+                                        var LoadIstgahStatusBar=function(element,data)
+                                        {
+                                         drawIstgahStatusBar(element,data);
+                                        }
+
+                                        LoadIstgahStatusBar("barchart",omg);
+
+
+
+                                      </script>
+                                        <!-- <script src="{% static '/js/project/reports/DowntimeByRepairTypeByAssetCategory.js' %}"></script> -->
+
+                                      {% endblock %}
+ {% endblock %}

@@ -1,0 +1,305 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>فیلتر </h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-down"></i>
+                </a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-wrench"></i>
+                </a>
+
+                <a class="close-link">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+          <div class="ibox-content" style="display: none;">
+            <div class="row">
+              <div class="form-group">
+
+                 <div class="col-sm-2">
+                   <div class="input-group date">
+                                         <input type="text" class="form-control ltr-input dtpicker" id="wodt1">
+                                         <span class="input-group-addon">
+                                             <i class="fa fa-calendar">
+                                             </i>
+                                         </span>
+                                     </div>
+                 </div>
+                 <div class="col-sm-2">
+                   <div class="input-group date">
+                                         <input type="text" class="form-control ltr-input dtpicker" id="wodt2">
+                                         <span class="input-group-addon">
+                                             <i class="fa fa-calendar">
+                                             </i>
+
+                                         </span>
+
+                                     </div>
+
+
+                 </div>
+
+                 <div class="col-sm-2">
+                   <select class="form-control" name="ordertype" id="ordertype">
+                     <option value="0" selected>صعودی</option>
+                     <option value="1">نزولی</option>
+
+                   </select>
+
+
+                 </div>
+                 <div class="col-sm-2">
+                   <div class="input-group m-b">
+
+
+
+
+                                            <select class="form-control" name="ordercol" id="ordercol">
+                                              <option value="0">کد درخواست</option>
+                                              <option value="1">زمان ارسال</option>
+                                              <option value="2">دارایی</option>
+                                              <option value="3">وضعیت</option>
+
+                                            </select>
+                                           </div>
+
+                 </div>
+                 <div class="col-sm-2">
+                   <a class="btn btn-primary btn-bitbucket wo-filter">
+                    <i class="fa fa-check-circle-o">
+                    </i>
+                  </a>
+                   <!-- <div class="btn-group">
+                   <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false">
+                   انتخاب <span class="caret">
+                   </span>
+                   </button>
+                   <ul class="dropdown-menu">
+
+                     <li>
+                       <a href="#">
+                     ماه گذشته</a>
+                     </li>
+                     <li>
+                       <a href="#">
+                       این ماه</a>
+                     </li>
+                     <li>
+                       <a href="#">
+                     30 روز گذشته</a>
+                     </li>
+                     <li>
+                       <a href="#">
+                     از ابتدای سال</a>
+                     </li>
+
+                   </ul>
+                 </div> -->
+
+                 </div>
+             </div>
+
+            </div>
+            <script type="text/javascript">
+              $('.dtpicker').pDatepicker({
+                format: 'YYYY-MM-DD',
+
+                autoClose:true,
+                initialValueType: 'gregorian'
+                          });//id_dateCompleted
+                          xxxDate1=new persianDate();
+                          dt1=xxxDate1.pDate.year.toString()+"-"+("0" + xxxDate1.pDate.month).slice(-2)+"-01";
+                          $("#wodt1").val(dt1);
+
+            </script>
+            </div>
+        </div>
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>درخواست ها </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                {% if perms.cmms.add_workorder %}
+                                <ul class="dropdown-menu dropdown-user">
+
+                                    <li><a href="#" class="js-bulkem-selector" date-url='{% url "set_wo_to_em" %}'>تبدیل به EM
+                                    </a>
+                                    </li>
+                                </ul>
+                                {% endif %}
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="row">
+                                <div class="col-sm-2 m-b-xs">
+                                  <select class="input-sm form-control input-s-sm inline" id='woGroup'>
+                                    <option value="-1">همه</option>
+                                  {% for i in groups %}
+                                  <option value="{{i.id}}">{{i}}</option>
+                                  {% endfor %}
+                                </select>
+                                </div>
+                                <div class="col-sm-2 m-b-xs">
+                                  <select class="input-sm form-control input-s-sm inline" id='woType'>
+                                <option value="1">همه</option>
+                                <option value="2">برنامه ریزی شده</option>
+                                <option value="3">موردی</option>
+                                </select>
+                                </div>
+                                <div class="col-sm-4 m-b-xs">
+                                    <div data-toggle="buttons" class="btn-group">
+                                        <label class="btn btn-sm btn-white " > <input type="radio" id="option1" name="options"> روز </label>
+                                        <label class="btn btn-sm btn-white"> <input type="radio" id="option2" name="options"> هفته </label>
+                                        <label class="btn btn-sm btn-white "> <input type="radio" id="option3" name="options"> ماه </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group"><input type="text" placeholder="جستجو" class="input-sm form-control" id='woSearch'> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary" id='woSearchBtn'> برو!</button> </span></div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                              <table class="table  breakpoint-lg" data-paging="true" data-page-size="8" id="company-table">
+                                  <thead>
+                                  <tr>
+                                    <th></th>
+
+                                    <th>کد</th>
+                                    <th class="col-md-3">شرح</th>
+                                    <th>اولویت</th>
+                                    <th>دارایی</th>
+                                    <th>کاربر مشخص شده</th>
+                                    <th>واحد</th>
+                                    <th>وضعیت</th>
+                                    <th>نوع</th>
+                                    <th>کاربر صادر کننده</th>
+
+
+                                    <th>زمان واقعی(m)</th>
+
+
+
+
+                                      <th></th>
+                                      <style media="screen">
+                                        th{
+                                          text-align:center;
+                                        }
+                                      </style>
+
+                                  </tr>
+
+                                  </thead>
+                                  <!-- <tfoot>
+                                    <tr class='footable-paging'>
+                                      <td colspan="5">
+                                              <ul class="pagination pull-right">
+                                              </ul>
+                                          </td>
+
+                                    </tr>
+                                  </tfoot> -->
+                                  <tbody id='tbody_company'>
+                                    {% include 'cmms/maintenance/partialWoList.html' %}
+
+
+                                  </tbody>
+
+                              </table>
+                              {% load mathfilters %}
+                              <div class="woPaging" >
+                                {% if wo.has_other_pages %}
+                                <ul class="pagination">
+                                {% if wo.has_previous %}
+                                <li><a href="?page={{ wo.previous_page_number }}">&laquo;</a></li>
+                                {% else %}
+                                <li class="disabled"><span>&laquo;</span></li>
+                                {% endif %}
+                                {% for i in wo.paginator.page_range %}
+                                {% if  wo.number  ==  i %}
+                                <li class="active">
+                                  <span>{{ i }} <span class="sr-only">(current)</span></span>
+                                </li>
+                                {% elif  i|sub:3 <=  wo.number and i|add:3 > wo.number %}
+
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                                {% if wo.has_next %}
+                                <li><a href="?page={{ wo.next_page_number }}">&raquo;</a></li>
+                                {% else %}
+                                <li class="disabled"><span>&raquo;</span></li>
+                                {% endif %}
+                                </ul>
+                                {% endif %}
+
+                              </div>
+
+
+
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                {% if perms.cmms.add_workorder %}
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-wo"
+                                  data-url="{% url 'wo_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                                {% endif %}
+                            </div>
+                          </div>
+
+                    </div>
+                    <div class="modal fade" id="modal-company" style="overflow-y: scroll">
+                     <div class="modal-dialog  modal-lg ">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                    <div class="modal fade" id="modal-woEM" style="overflow-y: scroll">
+                     <div class="modal-dialog ">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                </div>
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/workorder.js' %}"></script>
+
+
+
+{% endblock %}
+{% endblock %}

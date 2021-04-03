@@ -1,0 +1,151 @@
+<div  data-url="{% url 'assetWaranty_create' %}" class="js-assetWaranty-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close cl-part"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/asset_waranty/partialAssetWarantyForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-part btn btn-default" >انصراف</button>
+    <button type="button" class=" btn btn-primary" id="assetWaranty-submit"  >ذخیره</button>
+ <script>
+
+
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+        $(".cl-part").click(function()
+        {
+          $("#modal-assetWaranty").modal("hide");
+          //$("#{modal-company}").css("background-color", "yellow");
+
+
+        }
+       );
+
+        $("#assetWaranty-submit").click(function(){
+
+                   //alert("12321");
+                   //$( "#myselect option:selected" ).text();
+                   var mydata="";
+                   switch($("#id_warantyUsageTermType option:selected" ).val())
+                   {
+                     case "1":
+                     mydata=myformat('{"warantyLocation":{0}\
+                     ,"warantyType":{1}\
+                     ,"warantyProvider":{2}\
+                     ,"warantyUsageTermType":{3}\
+                   ,"warantyExpirationDate":"{4}"\
+                 ,"warantyCertificationNumber":"{5}"\
+               ,"warantyDescription":"{6}" }',
+                     $("#lastAssetid").val(),
+                     $("#id_warantyType").val(),
+                     $("#id_warantyProvider").val(),
+                     $("#id_warantyUsageTermType").val(),
+                     $("#id_warantyExpirationDate").val(),
+                     $("#id_warantyCertificationNumber").val(),
+                     $("#id_warantyCertificationNumber").val()
+                   );
+
+                     break;
+                     case "2":
+                     mydata=myformat('{"warantyLocation":{0}\
+                     ,"warantyType":{1}\
+                     ,"warantyProvider":{2}\
+                     ,"warantyUsageTermType":{3}\
+                   ,"warantyExpirationDate":"{4}"\
+                 ,"warantyCertificationNumber":"{5}"\
+               ,"warantyMeterReadingValueLimit":{6}\
+             ,"warantyMeterReadingUnit":{7} \
+            ,"warantyDescription":"{8}" }',
+                     $("#lastAssetid").val(),
+                     $("#id_warantyType").val(),
+                     $("#id_warantyProvider").val(),
+                     $("#id_warantyUsageTermType").val(),
+                     $("#id_warantyExpirationDate").val(),
+                     $("#id_warantyCertificationNumber").val(),
+                     $("#id_warantyMeterReadingValueLimit").val(),
+                     $("#id_warantyMeterReadingUnit").val(),
+                     $("#id_warantyDescription").val()
+                   );
+                     break;
+                     case "3":
+                     mydata=myformat('{"warantyLocation":{0}\
+                     ,"warantyType":{1}\
+                     ,"warantyProvider":{2}\
+                     ,"warantyUsageTermType":{3}\
+                   ,"warantyExpirationDate":"{4}"\
+                 ,"warantyCertificationNumber":"{5}"\
+               ,"warantyMeterReadingValueLimit":{6}\
+             ,"warantyMeterReadingUnit":{7} \
+            ,"warantyDescription":"{8}" }',
+                     $("#lastAssetid").val(),
+                     $("#id_warantyType").val(),
+                     $("#id_warantyProvider").val(),
+                     $("#id_warantyUsageTermType").val(),
+                     $("#id_warantyExpirationDate").val(),
+                     $("#id_warantyCertificationNumber").val(),
+                     $("#id_warantyMeterReadingValueLimit").val(),
+                     $("#id_warantyMeterReadingUnit").val(),
+                     $("#id_warantyDescription").val()
+                   );
+                     break;
+                   }
+                    var form = $(this).parent().parent();
+                    //console.log(form.attr("action"));
+                    //alert($("#id_metrics").val());
+                    // console.log($(this));
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:mydata,
+                      dataType: 'json',
+                      beforeSend: function () {
+                        //alert(btn.attr("data-url"));
+                        // console.log(mydata);
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_assetWaranty").empty();
+
+                          $("#tbody_assetWaranty").html(data.html_assetWaranty_list);
+                          $("#modal-assetWaranty").modal("hide");
+                          // console.log(data.html_assetWaranty_list);
+                        }
+                        else {
+
+                          $("#assetWaranty-table tbody").html(data.html_assetWaranty_list);
+                          $("#modal-assetWaranty .modal-content").html(data.html_assetWaranty_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

@@ -1,0 +1,69 @@
+{% load widget_tweaks %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <i class="fa fa-info-circle"></i> اطلاعات خرید
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>{{form.purchaseAssetId.label}}</label>
+
+              <input type=text id='id_assetPurchasejq' class="form-control" readonly/>
+              <script type="text/javascript">
+              $("#id_assetPurchasejq").val($("#id_assetName").val());
+
+              </script>
+            </div>
+            <div class="form-group">
+              <label>{{form.purchasedFrom.label}}</label>
+
+              {% render_field form.purchasedFrom class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+            </div>
+            <div class="form-group">
+              <label>{{form.purchaseDateOrdered.label}}</label>
+
+              {{form.purchaseDateOrdered| add_class:"form-control" }}
+              </div>
+            <div class="form-group">
+              <label>{{form.purchasePriceTotla.label}}</label>
+
+              {{form.purchasePriceTotla| add_class:"form-control" }}
+            </div>
+
+          </div>
+        <div class="col-lg-6">
+
+          <div class="form-group">
+            <label>{{form.purchaseCurrency.label}}</label>
+
+            {{form.purchaseCurrency| add_class:"form-control" }}
+          </div>
+          <div class="form-group">
+            <label>{{form.purchaseDateRecieved.label}}</label>
+
+            {{form.purchaseDateRecieved| add_class:"form-control" }}
+          </div>
+          <div class="form-group">
+            <label>{{form.purchaseDateofExpire.label}}</label>
+
+            {{form.purchaseDateofExpire| add_class:"form-control" }}
+          </div>
+          <div class="form-group">
+            <label>{{form.purchaseUser.label}}</label>
+
+            {% render_field form.purchaseUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+          </div>
+
+
+          </div>
+
+        </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

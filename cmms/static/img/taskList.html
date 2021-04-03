@@ -1,0 +1,72 @@
+
+<!--pip install django-widget-tweaks-->
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>فعالیت ها </h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive" style="position: relative;height: 200px;overflow: auto;display:block">
+                                <table class="table table-striped" id="task-table">
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th></th>
+                                      <th>شرح</th>
+                                      <th>کاربر مشخص شده</th>
+                                     <th>زمان تخمینی</th>
+                                      <th>زمان واقعی صرف شده</th>
+                                      <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_task'>
+                                            {% include 'cmms/tasks/partialTasklist.html' %}
+                                    </tbody>
+                                </table>
+
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-task"
+                                  data-url="{% url 'task_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                  <button type="button" class="btn btn-primary js-create-taskGroup"
+                                  data-url="{% url 'taskGroup_TaskGroup' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-task">
+                 <div class="modal-dialog ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+</div>
+{% load static %}
+
+{% block javascript %}
+<script src="{% static '/js/project/task.js' %}"></script>
+
+{% endblock %}

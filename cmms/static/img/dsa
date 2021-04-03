@@ -1,0 +1,35 @@
+
+
+
+{% for c in task %}
+
+<tr>
+ <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+<td>{{c.task.get_taskTypes_display}}</td>
+ <td>{{c.task.taskDescription}}</td>
+
+ <td>{{c.task.taskAssignedToUser}}</td>
+ <td>{{c.task.taskTimeEstimate}}</td>
+ <td>{{c.task.taskTimeSpent}}</td>
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-task"
+              data-url="{% url 'task_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-task"
+                   data-url="{% url 'task_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="12" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

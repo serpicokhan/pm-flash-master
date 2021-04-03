@@ -1,0 +1,37 @@
+<form method="post" action="{% url 'get_assetCategoryMain' ids %}" class="js-bulkasset-selector-form2">
+  {% csrf_token %}
+<div class="modal-header" style="background-color: #1ab394;border-color: #1ab394;Color:white">
+  <button type="button" class="close"  aria-label="Close" data-dismiss="modal">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h4 class="modal-title " >انتساب دسته</h4>
+</div>
+<div class="modal-body" style='height: 250px;overflow-y: auto;'>
+   <div id="treeview1" class=""></div>
+   <input type="hidden" name="assetCat" id="assetCat" value="">
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+  <button type="submit" class="btn btn-primary">ذخیره</button>
+</div>
+
+<script type="text/javascript">
+
+{% autoescape off %}
+    var defaultData = [{{cat}}];
+    // console.log(defaultData);
+ {% endautoescape %}
+       $('#treeview1').treeview({
+             data: defaultData,
+             onNodeSelected: function(event, node) {
+              //console.log(node.tags);
+              val=node.tags;
+              $("#assetCat").val(val);
+              // console.log($("#id_assetCategory").val());
+              // $("#id_asseccategorytxt").val(node.text);
+              // console.log($("#id_assetCategory").val());
+              // $("#modal-assetcategory").modal("hide");
+           },
+           });
+</script>
+</form>

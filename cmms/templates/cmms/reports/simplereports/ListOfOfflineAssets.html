@@ -1,0 +1,69 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>
+                        گزارش لیست دارایی های متوقف  <br>
+
+
+                            </h2>
+                        زمان تولید گزارش: {{currentdate}}
+
+                           </div>
+
+ <table class="table table-bordered">
+   <thead>
+     <tr>
+      <th>کد دارایی</th>
+      <th>نام دارایی</th>
+
+      <th>دسته </th>
+      <th>علت توقف </th>
+      <th>شروع توقف</th>
+      <th>توسط</th>
+
+      
+
+     </tr>
+   </thead>
+   <tbody>
+     {% for c in woList %}
+     <tr>
+       <td>{{c.assetLifeAssetid.assetCode}}</td>
+       <td>
+         {{c.assetLifeAssetid.assetName}}
+       </td>
+       <td>
+         {{c.assetLifeAssetid.assetCategory}}
+       </td>
+
+       <td>
+         {{c.assetOfflineStatus}}
+       </td>
+
+       <td>
+         {{c.getdate}}    {{c.assetOfflineFromTime|time:'H:i'}}
+       </td>
+       <td>
+         {{c.assetSetOfflineByUser}}
+       </td>
+
+
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="6" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+
+ {% endblock %}

@@ -1,0 +1,66 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="woPert-table">
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>علت پرت</th>
+                                      <th>زمان پرت</th>
+
+
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_woPert'>
+                                            {% include 'cmms/wo_pert/partialWoPertList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                {% if perms.cmms.add_workorderpert %}
+
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-woPert"
+                                  data-url="{% url 'woPert_create' lId %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                                {% endif %}
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-woPert">
+                 <div class="modal-dialog ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/woPert.js' %}"></script>
+{% endblock %}

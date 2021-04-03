@@ -1,0 +1,65 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>اطلاعات زمانبندیت </h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="schedule-table" >
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>نوع</th>
+                                        <th>تاریخ اجرای بعدی</th>
+                                       <th>شرح</th>
+
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_schedule'>
+                                            {% include 'cmms/schedule/partialScheduleList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                {% if perms.cmms.add_schedule %}
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-schedule"
+                                  data-url="{% url 'schedule_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                                {% endif %}
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-schedule"  data-backdrop="static" data-keyboard="false" >
+
+                 <div class="modal-dialog " style="width:80% ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+</div>
+{% load static %}
+
+{% block javascript %}
+<script src="{% static '/js/project/schedule.js' %}"></script>
+
+{% endblock %}

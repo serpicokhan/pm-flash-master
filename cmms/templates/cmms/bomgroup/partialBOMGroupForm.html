@@ -1,0 +1,108 @@
+{% load widget_tweaks %}
+<div class="row">
+<div class="col-sm-6 b-r">
+  {% load static %}
+  <div class="form-group">
+  <label>{{form.BOMGroupName.label}}</label>
+  {{form.BOMGroupName| add_class:"form-control" }}
+  </div>
+  <input type=hidden name='lastBOMGroupid' id='lastBOMGroupid' value='{{lId}}'/>
+
+
+
+
+
+</div>
+<div class="col-sm-6 b-r">
+
+
+
+</div>
+
+</div>
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">قطعات</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">دارایی</a></li>
+
+
+
+
+                        </ul>
+                        <div class="tab-content ">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+
+                                                                  <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="panel panel-info">
+                                      <div class="panel-heading">
+                                      <i class="fa fa-info-circle"></i>
+                                      </div>
+                                      <div class="panel-body">
+                                        {% include "cmms/bomgroup_parts/bomGroupPartList.html" %}
+
+
+
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+
+
+
+
+
+                                </div>
+                                </div>
+                            <div id="tab-2" class="tab-pane ">
+                                <div class="panel-body">
+
+                                                                  <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="panel panel-info">
+                                      <div class="panel-heading">
+                                      <i class="fa fa-info-circle"></i>
+                                      </div>
+                                      <div class="panel-body">
+                                        <div class="row">
+                                          {% include "cmms/bomgroup_assets/bomGroupAssetList.html" %}
+
+                                        </div>
+
+
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+
+
+
+
+
+                                </div>
+                                </div>
+
+
+
+
+                </div>
+
+
+
+
+
+
+                    </div>
+                </div>
+</div>

@@ -1,0 +1,155 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+
+<div class="row">
+  <div class="col-lg-8">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>تجهیزات و دارایی ها </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                {% if perms.cmms.add_assets %}
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#" class="js-bulkasset-category-selector" date-url='{% url "get_assetCategoryMain" %}'>انتساب دسته</a>
+                                    </li>
+                                    <li><a href="#">حذف گروهی</a>
+                                    </li>
+                                    <li><a href="#" class="js-bulkasset-type-selector">نوع دستگاه</a>
+                                    </li>
+                                </ul>
+                              {% endif %}
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-5 m-b-xs"><select class="input-sm form-control input-s-sm inline" id='assetStatus'>
+                                    <option value="0">همه</option>
+                                    <option value="1">فعال</option>
+                                    <option value="2">غیر فعال</option>
+
+                                </select>
+                                </div>
+                                <div class="col-sm-4 m-b-xs">
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group"><input type="text" placeholder="جستجو" id="assetSearch" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> برو!</button> </span></div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover" id="company-table">
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>مکان</th>
+                                      <th>نام</th>
+                                      <th>کد</th>
+                                      <th>وضعیت</th>
+                                      <th>دسته</th>
+
+
+
+
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_company'>
+                                            {% include 'cmms/asset/partialAssetList.html' %}
+                                    </tbody>
+                                </table>
+                                <div class="assetPaging" >
+                                  {% if asset.has_other_pages %}
+                                  <ul class="pagination">
+                                  {% if asset.has_previous %}
+                                  <li><a href="?page={{ asset.previous_page_number }}">&laquo;</a></li>
+                                  {% else %}
+                                  <li class="disabled"><span>&laquo;</span></li>
+                                  {% endif %}
+                                  {% for i in asset.paginator.page_range %}
+                                  {% if asset.number == i %}
+                                  <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                  {% else %}
+                                  <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                  {% endif %}
+                                  {% endfor %}
+                                  {% if asset.has_next %}
+                                  <li><a href="?page={{ asset.next_page_number }}">&raquo;</a></li>
+                                  {% else %}
+                                  <li class="disabled"><span>&raquo;</span></li>
+                                  {% endif %}
+                                  </ul>
+                                  {% endif %}
+
+                                </div>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                {% if perms.cmms.add_assets %}
+                                <p>
+                                  <button type="button" class="btn btn-primary js-select-asset-type"
+                                  data-url="{% url 'asset_type_selector' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+
+                                </p>
+                                {% endif %}
+                            </div>
+                          </div>
+
+                    </div>
+                    <div class="modal fade" id="modal-company" style="overflow-y: scroll">
+                     <div class="modal-dialog  modal-lg ">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                    <div class="modal fade" id="modal-assetcategory" style="overflow-y: scroll">
+                     <div class="modal-dialog ">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                    <div class="modal fade" id="modal-assettype" style="overflow-y: scroll">
+                     <div class="modal-dialog ">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                </div>
+
+{% include 'cmms/asset/partialAssetDetails.html' %}
+
+
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/asset.js' %}"></script>
+
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+                    گزارش تاریخ توقف دارایی ها <br>
+
+
+                            </h1>
+
+                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+                          <h4>به همراه پارامترهای زیر</h4>
+                          <h4> از تاریخ: {{stdate}}</h4>
+                          <h4>تا تاریخ: {{enddate}}</h4>
+
+                          <h4>دسته بندی:
+                            {% for p in assetcat %}
+                               {{p}},
+                             {% endfor %}</h4>
+                          <h4>دارایی: {% for p in asset %}
+                              {{p.assetName}},
+                            {% endfor %}</h4>
+                          <h4>علت: {% for p in problemcode %}
+                              {{p}},
+                            {% endfor %}</h4>
+                            <h4>مجموع: {{sum|floatformat:"2"}} ساعت</h4>
+
+
+                           </div>
+
+
+     {% for c in woList %}
+     <table class="table table-bordered">
+       <thead>
+         <tr>
+          <th class="col-md-1 active">کد دارایی</th>
+          <th class="col-md-2 active">نام دارایی</th>
+          <th class="col-md-1 active">شرح</th>
+          <th class="col-md-1 active">دسته</th>
+         </tr>
+       </thead>
+       <tbody>
+     <tr>
+       <td class="active">{{c.0.assetCode}}</td>
+       <td class="active">
+         {{c.0.assetName}}
+       </td>
+       <td class="active">
+         {{c.0.assetDescription}}
+       </td>
+
+       <td class="active">
+         {{c.0.assetCategory}}
+       </td>
+
+
+
+
+
+     </tr>
+     <tr >
+       <td colspan="6">
+         <table class="table table-borderless table-dark">
+
+         <thead>
+          <th class="col-md-1">توقف از تاریخ</th>
+          <th class="col-md-1">توقف تا تاریخ</th>
+          <th class="col-md-1">کاربر</th>
+          <th class="col-md-1">جزییات آفلاین شدن</th>
+          <th class="col-md-1">علت</th>
+          <th class="col-md-1">ساعت توقف در تولید</th>
+          <th class="col-md-1">جزییات آنلاین شدن</th>
+
+
+         </thead>
+          <tbody>
+            {% for k in c.1 %}
+            <tr>
+              <td>{{k.getdate}} {{k.assetOfflineFromTime|time:'H:i'}}</td>
+              <td>{{k.getonlinedate}}  {{k.assetOnlineFromTime|time:'H:i'}}</td>
+              <td>{{k.assetSetOfflineByUser}}</td>
+              <td>{{k.assetOfflineAdditionalInfo |default_if_none:"N/A"}}</td>
+              <td>{{k.assetStopCode}}</td>
+              <td>{{k.getAffectedHour}}</td>
+              <td>{{k.assetOnlineAdditionalInfo |default_if_none:"N/A"}}</td>
+
+            </tr>
+            {% empty %}
+            <tr>
+             <td colspan="7" class="text-center bg-warning">بدون توقف</td>
+            </tr>
+
+            {%endfor%}
+
+         </tbody>
+       </table>
+     </td>
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+   </tbody>
+     </table>
+
+     {% endfor %}
+
+
+ {% endblock %}

@@ -1,0 +1,86 @@
+<div  data-url="{% url 'woStop_create' %}" class="js-woStop-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/settingpages/wo_stop_code/partialWoStopForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="woStop-submit"  >ذخیره</button>
+ <script>
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+
+        $("#woStop-submit").click(function(){
+
+                   //alert("12321");
+                   //$( "#myselect option:selected" ).text();
+                   var mydata="";
+                   mydata=myformat('{"stopCode":"{0}"\
+                   ,"stopDescription":"{1}","problemIsActive":true}',
+                   $("#id_stopCode").val(),
+                   $("#id_stopDescription").val(),
+
+                 );
+
+                    var form = $(this).parent().parent();
+                    // console.log(form);
+                    // console.log("action",form.attr("action"));
+                    //alert($("#id_metrics").val());
+
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:mydata,
+                      dataType: 'json',
+                      beforeSend: function () {
+                        //alert(btn.attr("data-url"));
+                        // console.log(mydata);
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_woStop").empty();
+
+                          $("#tbody_woStop").html(data.html_woStop_list);
+                          $("#modal-woStop").modal("hide");
+                          // console.log(data.html_woStop_list);
+                        }
+                        else {
+
+                          $("#woStop-table tbody").html(data.html_woStop_list);
+                          $("#modal-woStop .modal-content").html(data.html_woStop_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

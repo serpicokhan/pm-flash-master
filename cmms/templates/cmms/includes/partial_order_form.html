@@ -1,0 +1,55 @@
+{% load widget_tweaks %}
+<div class="row">
+<div class="col-sm-6 b-r">
+       <div class="form-group">
+         <label>کد رنگ</label>
+       {{form.CodeRang| add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+          <label>{{form.MotabeghBaRang.label}}</label>
+        {{form.MotabeghBaRang| add_class:"form-control" }}
+         </div>
+         <div class="form-group">
+           <label>{{form.AlyafeKham.label}}</label>
+         {{form.AlyafeKham| add_class:"form-control" }}
+          </div>
+
+          <div class="form-group">
+            <label>{{form.AlyafeRangShode.label}}</label>
+          {{form.AlyafeRangShode| add_class:"form-control" }}
+           </div>
+           <div class="form-group">
+             <label>{{form.TotlaWeight.label}}</label>
+           {{form.TotlaWeight| add_class:"form-control" }}
+            </div>
+
+
+
+
+</div>
+<div class="col-sm-6 b-r">
+      <div class="form-group">
+        <label>{{form.Color.label}}</label>
+      {{form.Color| add_class:"form-control" }}
+       </div>
+       <div class="form-group">
+         <label>{{form.TarikheStart.label}}</label>
+       {{form.TarikheStart|attr:"data-mask:9999/99/99"|add_class:"form-control"}}
+        </div>
+        <div class="form-group">
+          <label>{{form.TarikheEtmam.label}}</label>
+       <!-- <input type="text" name="TarikheEtmam" id='id_TarikheEtmam' class="form-control ltr-input" data-mask="9999/99/99" placeholder="">-->
+       {{form.TarikheEtmam|attr:"data-mask:9999/99/99"|add_class:"form-control"}}
+         </div>
+         <div class="form-group">
+           <label>{{form.orderstatus.label}}</label>
+         {{form.orderstatus| add_class:"form-control" }}
+          </div>
+          <div class="form-group">
+            <label>{{form.CustomerId.label}}</label>
+          {{form.CustomerId|add_class:"form-control"}}
+           </div>
+
+</div>
+
+</div>

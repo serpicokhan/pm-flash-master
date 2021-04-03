@@ -1,0 +1,158 @@
+<div  data-url="{% url 'partPurchase_create' %}" class="js-partPurchase-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close cl-task"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/part_purchase/partialPartPurchaseForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-task btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="partPurchase-submit"  >ذخیره</button>
+ <script>
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+        $(".cl-task").click(function()
+        {
+          $("#modal-partPurchase").modal("hide");
+          //$("#{modal-company}").css("background-color", "yellow");
+
+
+        }
+       );
+        $("#id_purchaseQuantityReceived").change(function(){
+          if($("#id_purchasePricePerUnit").val()>0 && $("#id_purchaseQuantityReceived").val()>0)
+          {
+
+            $("#id_purchasePriceTotla").val($("#id_purchasePricePerUnit").val()*$("#id_purchaseQuantityReceived").val());
+          }
+          else{
+            // console.log($("#id_purchasePriceTotla").val($("#id_purchasePricePerUnit").val()*$("#id_purchaseQuantityReceived").val()));
+
+          }
+        });
+
+        $("#partPurchase-submit").click(function(){
+
+                   //alert("12321");
+                   //$( "#myselect option:selected" ).text();
+                   var mydata="";
+                   mydata=myformat('{"purchasePartId":{0}\
+                   ,"purchaseDateOrdered":"{1}"\
+                   ,"purchasePriceTotla":{2}\
+                   ,"purchaseCurrency":{3}\
+                 ,"purchaseDateRecieved":"{4}"\
+               ,"purchaseDateofExpire":"{5}"\
+             ,"purchasedFrom":{6}\
+           ,"purchaseUser":{7},\
+         "purchasePricePerUnit":{8},\
+       "purchaseStock":{9},\
+     "purchaseQuantityReceived":{10} }',
+                   $("#lastPartid").val(),
+                   $("#id_purchaseDateOrdered").val(),
+                   $("#id_purchasePriceTotla").val(),
+                   $("#id_purchaseCurrency").val(),
+                   $("#id_purchaseDateRecieved").val(),
+
+                   ($("#id_purchaseDateofExpire").val().length>0)?$("#id_purchaseDateofExpire").val():'',
+                   $("#id_purchasedFrom").val(),
+                   $("#id_purchaseUser").val(),
+                   $("#id_purchasePricePerUnit").val(),
+                   $("#id_purchaseStock").val(),
+                   $("#id_purchaseQuantityReceived").val(),
+
+                 );
+
+                    var form = $(this).parent().parent();
+                    //console.log(form.attr("action"));
+                    //alert($("#id_metrics").val());
+                    // console.log($(this));
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:mydata,
+                      dataType: 'json',
+                      beforeSend: function (x,y) {
+                        //alert(btn.attr("data-url"));
+                        console.log(mydata);
+                        if($("#id_purchaseQuantityReceived").val()==0)
+                        {
+                          toastr.error("خطا در تعداد");
+                          x.abort();
+                        }
+                        if($('#id_purchasedFrom').val()<=0)
+                        {
+                          toastr.error("فروشنده را مشخص کنید");
+                          x.abort();
+                        }
+                        if($('#id_purchaseUser').val()<=0)
+                        {
+                          toastr.error("کاربر درخواست کننده نامشخص");
+                          x.abort();
+                        }
+                        if($('#id_purchaseStock').val()<=0)
+                        {
+                          toastr.error("انبار نامشخص");
+                          x.abort();
+                        }
+                        if($("#id_purchasePricePerUnit").val()==0)
+                        {
+                          toastr.error("خطا در قیمت واحد");
+                          x.abort();
+                        }
+                        if($("#id_purchasePricePerUnit").val()>0 && $("#id_purchaseQuantityReceived").val()>0)
+                        {
+                          $("#id_purchasePriceTotla").val($("#id_purchasePricePerUnit").val()*$("#id_purchaseQuantityReceived").val());
+                        }
+
+
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_partPurchase").empty();
+
+                          $("#tbody_partPurchase").html(data.html_partPurchase_list);
+                          $("#modal-partPurchase").modal("hide");
+                          toastr.success('اطلاعات خرید با موفقیت درج شد');
+                        }
+                        else {
+
+                          $("#partPurchase-table tbody").html(data.html_partPurchase_list);
+                          $("#modal-partPurchase .modal-content").html(data.html_partPurchase_form);
+                          toastr.error("خطا در ایجاد اطلاعات خرید. لطفا مجددا سعی نمایید");
+                        }
+                      },
+                      error:function(){
+                      toastr.error("خطایی رخ داده است");
+                    }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

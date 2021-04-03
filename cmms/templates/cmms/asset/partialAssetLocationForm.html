@@ -1,0 +1,426 @@
+{% load widget_tweaks %}
+<div class="row">
+<div class="col-sm-4 b-r">
+  {% load static %}
+  <img src="{% static 'img/if_industry_50840.png' %}" / >
+  <input type=hidden name='lastAssetid' id='lastAssetid' value='{{lId}}'/>
+  {{form.assetTypes.as_hidden}}
+<hr>
+  <div class="form-group">
+    <label>{{form.assetStatus.label}}</label>
+    {% render_field form.assetStatus class='js-switch' style='margin:0 auto' data-url='/AssetLife/1/create/'  %}
+
+  </div>
+
+
+</div>
+<div class="col-sm-8 b-r">
+  <div class="form-group">
+    {{ form.assetCategory.as_hidden }}
+
+  </div>
+  <div class="form-group">
+
+
+  <label>{{form.assetCategory.label}}</label>
+
+  {{form.asseccategorytxt| add_class:"form-control" }}
+  </div>
+
+  <div class="form-group">
+  <label>{{form.assetName.label}}</label>
+  {{form.assetName| add_class:"form-control" }}
+  </div>
+  <div class="form-group">
+  <label>{{form.assetDescription.label}}</label>
+  {{form.assetDescription| add_class:"form-control" }}
+  </div>
+  <div class="form-group">
+  <label>{{form.assetCode.label}}</label>
+  {{form.assetCode| add_class:"form-control" }}
+  </div>
+</div>
+
+</div>
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">عمومی</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">قطعات</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">قرائت</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-34" aria-expanded="false">رویداد</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">کاربران</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">پیوست ها</a></li>
+                            <li id='li_assetlife' class=""><a data-toggle="tab" href="#tab-assetlife" aria-expanded="false">سوابق</a></li>
+
+
+                        </ul>
+                        <div class="tab-content ">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+
+                                  <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="panel panel-info">
+                                      <div class="panel-heading">
+
+                                      </div>
+                                      <div class="panel-body">
+                                        <div class="row">
+                                          <div class="col-lg-6">
+                                            <div class="form-group">
+                                              <input type="radio" name="isPartOf" value="True"  >
+                                            <label>{{form.assetIsPartOf.label}}</label>
+                                            {{form.assetIsPartOf| add_class:"form-control" }}
+                                            </div>
+                                            <div class="form-group">
+                                              <input type="radio" name="isPartOf" value="False"  >
+                                            </div>
+                                            <div class="form-group">
+                                            <label>{{form.assetAddress.label}}</label>
+                                            {{form.assetAddress| add_class:"form-control" }}
+                                            </div>
+                                            <div class="form-group">
+                                            <label>{{form.assetCity.label}}</label>
+                                            {{form.assetCity| add_class:"form-control" }}
+                                            </div>
+
+
+                                          </div>
+                                          <div class="col-lg-6">
+                                            <div class="form-group">
+                                            <label>{{form.assetState.label}}</label>
+                                            {{form.assetState| add_class:"form-control" }}
+                                            </div>
+
+                                            <div class="form-group">
+                                            <label>{{form.assetCountry.label}}</label>
+                                            {{form.assetZipcode| add_class:"form-control" }}
+                                            </div>
+                                            <div class="form-group">
+                                            <label>{{form.dateCompleted.label}}</label>
+                                            {{form.dateCompleted| add_class:"form-control" }}
+                                            </div>
+
+                                          </div>
+
+                                        </div>
+
+                                      </div>
+
+
+                                      </div>
+
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="panel panel-info">
+                                      <div class="panel-heading">
+                                      <i class="fa fa-info-circle"></i>   اطلاعات عمومی
+                                      </div>
+                                      <div class="panel-body">
+                                        <div class="row">
+                                          <div class="col-sm-6">
+                                            <div class="form-group">
+                                              <label>{{form.assetAccount.label}}</label>
+                                              {{form.assetAccount| add_class:"form-control" }}
+
+
+                                            </div>
+                                            <div class="form-group">
+                                              <label>{{form.assetChargeDepartment.label}}</label>
+                                              {{form.assetChargeDepartment| add_class:"form-control" }}
+
+
+                                            </div>
+                                          </div>
+                                          <div class="col-sm-6">
+                                            <div class="form-group">
+                                              <label>{{form.assetBarcode.label}}</label>
+                                              {{form.assetBarcode| add_class:"form-control" }}
+
+
+                                            </div>
+                                          </div>
+
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-sm-12">
+                                            <div class="form-group">
+                                              <label>{{form.assetNotes.label}}</label>
+                                              {{form.assetNotes| add_class:"form-control" }}
+
+
+                                            </div>
+                                            <div class="form-group">
+                                              <label>{{form.assetIsStock.label}}</label>
+                                              {{form.assetIsStock| add_class:"form-control" }}
+
+
+                                            </div>
+
+
+                                          </div>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+
+
+
+
+
+                                </div>
+                                </div>
+
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                  <div class='row'>
+                                    <div class='col-lg-12'>
+                                      <div class="panel panel-info">
+                                           <div class="panel-heading">
+                                               <i class="fa fa-info-circle"></i> قطعات
+                                           </div>
+                                           <div class="panel-body">
+                                               <div class="row">
+                                                 <div class="col-lg-12">
+
+                                                    {% include 'cmms/asset_parts/assetPartList.html' %}
+
+                                                 </div>
+
+                                               </div>
+                                           </div>
+
+                                      </div>
+
+
+
+
+                                    </div>
+                                  </div>
+
+                                   </div>
+
+                            </div>
+                            <div id="tab-3" class="tab-pane">
+                                <div class="panel-body">
+
+                                    <div class='row'>
+                                      <div class='col-lg-12'>
+                                        <div class="panel panel-info">
+                                             <div class="panel-heading">
+                                                 <i class="fa fa-info-circle"></i> قرائت
+                                             </div>
+                                             <div class="panel-body">
+                                                 <div class="row">
+                                                   <div class="col-lg-12">
+                                                     <div class="panel panel-info">
+
+                                                       <div class="panel-body">
+                                                         {% include 'cmms/asset_meter/assetMeterList.html' %}
+
+                                                       </div>
+
+                                                     </div>
+
+
+
+
+                                                   </div>
+
+                                                 </div>
+                                             </div>
+
+
+                                      </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                          </div>
+                          <div id="tab-34" class="tab-pane">
+                              <div class="panel-body">
+
+                                  <div class='row'>
+                                    <div class='col-lg-12'>
+                                      <div class="panel panel-info">
+                                           <div class="panel-heading">
+                                               <i class="fa fa-info-circle"></i> رویداد
+                                                                                    </div>
+                                           <div class="panel-body">
+                                               <div class="row">
+                                                 <div class="col-lg-12">
+
+                                                   <div class="panel panel-info">
+
+                                                     <div class="panel-body">
+                                                       {% include 'cmms/asset_event/assetEventList.html' %}
+
+                                                     </div>
+
+                                                   </div>
+
+
+
+                                                 </div>
+
+                                               </div>
+                                           </div>
+
+
+                                    </div>
+                                  </div>
+
+
+
+                              </div>
+                          </div>
+                        </div>
+                          <div id="tab-4" class="tab-pane">
+                              <div class="panel-body">
+
+                                  <div class='row'>
+                                    <div class='col-lg-12'>
+                                      <div class="panel panel-info">
+                                           <div class="panel-heading">
+                                               <i class="fa fa-info-circle"></i>کاربران
+                                           </div>
+                                           <div class="panel-body">
+                                               <div class="row">
+                                                 <div class="col-lg-12">
+
+                                                    {% include 'cmms/asset_user/assetUserList.html' %}
+
+                                                 </div>
+
+                                               </div>
+                                           </div>
+
+
+                                    </div>
+                                  </div>
+
+                                   </div>
+
+
+                          </div>
+                        </div>
+                        <div id="tab-5" class="tab-pane">
+                            <div class="panel-body">
+
+                                <div class='row'>
+                                  <div class='col-lg-12'>
+                                    <div class="panel panel-info">
+                                         <div class="panel-heading">
+                                             <i class="fa fa-info-circle"></i>پیوستها
+                                         </div>
+                                         <div class="panel-body">
+                                             <div class="row">
+                                               <div class="col-lg-12">
+
+                                                  {% include 'cmms/asset_file/assetFileList.html' %}
+
+                                               </div>
+
+                                             </div>
+                                         </div>
+
+
+                                  </div>
+                                </div>
+
+                                 </div>
+
+
+                        </div>
+                      </div>
+                      <div id="tab-assetlife" class="tab-pane">
+                          <div class="panel-body">
+
+                              <div class='row'>
+                                <div class='col-lg-12'>
+                                  <div class="panel panel-info">
+                                       <div class="panel-heading">
+                                           <i class="fa fa-info-circle"></i>سوابق خرابی                                       </div>
+                                       <div class="panel-body">
+                                           <div class="row">
+                                             <div class="col-lg-12">
+
+                                                {% include 'cmms/asset_life/assetLifeList.html' %}
+
+                                             </div>
+
+                                           </div>
+                                       </div>
+
+
+                                </div>
+                              </div>
+
+                               </div>
+
+
+                      </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+                    </div>
+                </div>
+</div>
+<div class="row">
+  <div class="modal fade" id="modal-assetcategory" style="overflow-y: scroll">
+   <div class="modal-dialog ">
+
+     <div class="modal-content ">
+
+
+
+
+
+
+
+
+
+     </div>
+   </div>
+  </div>
+
+</div>
+<script type="text/javascript">
+  $("#id_asseccategorytxt").focusin(function(){
+
+     $.ajax({
+      url: '/Asset/Category/',
+      beforeSend: function () {
+
+        $("#modal-assetcategory").modal({backdrop: 'static', keyboard: false});
+      },
+      success: function (data) {
+
+        //data.modalassetcat
+         $("#modal-assetcategory .modal-content").html(data.modalassetcat);
+      }
+    });
+
+  });
+</script>

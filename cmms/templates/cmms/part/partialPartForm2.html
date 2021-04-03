@@ -1,0 +1,139 @@
+<!-- for wopart modal form dynamic part creation -->
+{% load widget_tweaks %}
+<div class="row">
+<div class="col-sm-4 b-r">
+  {% load static %}
+  <img src="{% static 'img/if_industry_50840.png' %}" / >
+  <input type=hidden name='lastPartid' id='lastPartid' value='{{lId}}'/>
+
+
+
+
+</div>
+<div class="col-sm-8 b-r">
+
+  <div class="form-group">
+  <label>{{form.partName.label}}</label>
+  {{form.partName| add_class:"form-control" }}
+  </div>
+  <div class="form-group">
+  <label>{{form.partDescription.label}}</label>
+  {{form.partDescription| add_class:"form-control" }}
+  </div>
+  <div class="form-group">
+  <label>{{form.partCode.label}}</label>
+  {{form.partCode| add_class:"form-control" }}
+  </div>
+  
+</div>
+
+</div>
+<!-- <div class="row">
+  <div class="col-lg-12">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-11" aria-expanded="true">اطلاعات موجودی</a></li>
+
+
+
+                        </ul>
+                        <div class="tab-content ">
+                            <div id="tab-11" class="tab-pane active">
+                                <div class="panel-body">
+
+
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="panel panel-info">
+                                      <div class="panel-heading">
+                                      <i class="fa fa-info-circle"></i>   اطلاعات عمومی
+                                      </div>
+                                      <div class="panel-body">
+                                        <div class="row">
+                                          <div class="col-sm-6">
+                                            <div class="form-group">
+                                              <label>{{form.partAccount.label}}</label>
+                                              {{form.partAccount| add_class:"form-control" }}
+
+
+                                            </div>
+                                            <div class="form-group">
+                                              <label>{{form.partChargeDepartment.label}}</label>
+                                              {{form.partChargeDepartment| add_class:"form-control" }}
+
+
+                                            </div>
+
+                                            <div class="form-group">
+                                              <label>{{form.partMake.label}}</label>
+                                              {{form.partMake| add_class:"form-control" }}
+
+
+                                            </div>
+
+                                          </div>
+                                          <div class="col-sm-6">
+                                            <div class="form-group">
+                                              <label>{{form.partBarcode.label}}</label>
+                                              {{form.partBarcode| add_class:"form-control" }}
+
+
+                                            </div>
+                                            <div class="form-group">
+                                              <label>{{form.partModel.label}}</label>
+                                              {{form.partModel| add_class:"form-control" }}
+
+
+                                            </div>
+
+                                            <div class="form-group">
+                                              <label>{{form.partLastPrice.label}}</label>
+                                              {{form.partLastPrice| add_class:"form-control" }}
+
+
+                                            </div>
+                                          </div>
+
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-sm-12">
+                                            <div class="form-group">
+                                              <label>{{form.partNotes.label}}</label>
+                                              {{form.partNotes| add_class:"form-control" }}
+
+
+                                            </div>
+
+
+                                          </div>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+
+
+
+
+
+                                </div>
+                                </div>
+
+
+
+                </div>
+
+
+
+
+
+
+                    </div>
+                </div>
+</div> -->

@@ -1,0 +1,39 @@
+{% for c in miniWorkorder %}
+
+<tr data-url="{% url 'miniWorkorder_view' c.id %}">
+<td><input type="checkbox" name="" value=""></td>
+<td>#{{c.id}}</td>
+<td>{{c.get_woStatus_display}}</td>
+<td>{{c.summaryofIssue}}</td>
+<td>{{c.woAsset}}</td>
+<td>{{c.RequestedUser}}</td>
+<td>{{c.get_dateCreated_jalali}}</td>
+
+
+
+
+
+
+ <td>
+   {% if perms.cmms.view_miniworkorder %}
+   <button type="button"
+              class="btn btn-warning btn-sm js-update-miniWorkorder"
+              data-url="{% url 'miniWorkorder_view' c.id %}">
+        <span class="glyphicon glyphicon-ok"></span> مشاهده
+      </button>
+      {% endif %}
+      {% if perms.cmms.delete_miniworkorder %}
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-miniWorkorder"
+                   data-url="{% url 'miniWorkorder_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+           {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

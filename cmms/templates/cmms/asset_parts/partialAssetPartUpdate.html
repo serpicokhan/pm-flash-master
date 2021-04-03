@@ -1,0 +1,101 @@
+<div  data-url="{% url 'assetPart_update' form.instance.id %}" class="js-assetPart-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close cl-part"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/asset_parts/partialAssetPartForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-part btn btn-default" >بستن</button>
+    <button type="button" class="btn btn-primary" id="assetPart-submit">ویرایش</button>
+
+
+    <script>
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+   }
+       $( document).ready(
+         function()
+         {
+           $(".cl-part").click(function()
+           {
+             $("#modal-assetPart").modal("hide");
+             //$("#{modal-company}").css("background-color", "yellow");
+
+
+           }
+          );
+
+
+           $("#assetPart-submit").click(function(){
+
+                      //alert("12321");
+                       var form = $(this).parent().parent();
+                       //console.log(form.attr("action"));
+                       //alert($("#id_metrics").val());
+                       // console.log(form.attr('class'));
+                       $.ajax({
+                         url: form.attr("data-url"),
+                         type: "POST",
+                         data:myformat('{"assetPartPid":{0},\
+                         "assetPartQnty":{1},\
+                         "lastAssetid":{2}}',
+                         $("#id_assetPartPid").val(),
+                         $("#id_assetPartQnty").val(),
+
+                         $("#lastAssetid").val()),
+
+
+
+
+                         dataType: 'json',
+                         beforeSend: function () {
+                           //alert(btn.attr("data-url"));
+                           // console.log(myformat('{"assetPartPart":{0},"assetPartPlannedQnty":{1},"assetPartActulaQnty":{2},"assetPartWorkorder":{3}}',$("#id_assetPartPart").val(),$("#id_assetPartPlannedQnty").val(),$("#id_assetPartActulaQnty").val(),$("#lastWorkOrderid").val()));
+                           // console.log(myformat('{"assetPartid":{0},\
+                           // "assetPartQnty":{1},\
+                           // "lastAssetid":{2}}',$("#id_assetPartPid").val(),$("#id_assetPartQnty").val(), $("#lastAssetid").val()));
+
+                         },
+                         success: function (data) {
+                           if (data.form_is_valid) {
+                             //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                             $("#tbody_assetPart").empty();
+
+                             $("#tbody_assetPart").html(data.html_assetPart_list);
+                             $("#modal-assetPart").modal("hide");
+                             // console.log(data.html_assetPart_list);
+                           }
+                           else {
+                             toastr.error('ورودیها را کنترل نمایید!');
+
+                             $("#assetPart-table tbody").html(data.html_assetPart_list);
+                             $("#modal-assetPart .modal-content").html(data.html_assetPart_form);
+                           }
+                         }
+
+                       });
+                       return false;
+
+
+
+                  });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

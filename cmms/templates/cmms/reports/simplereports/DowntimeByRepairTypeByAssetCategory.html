@@ -1,0 +1,161 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>
+                        خرابی بر اساس نوع تعمیر و نوع دارایی <br><br/>
+                        از تاریخ{{start}} تا تاریخ{{end}}
+
+
+                            </h2>
+
+                           </div>
+
+                           <div class="row">
+                                          <div class="col-lg-12">
+                                              <div class="ibox float-e-margins">
+                                                  <div class="ibox-title">
+                                                      <h5>علت توقف</h5>
+
+                                                      <div ibox-tools></div>
+                                                  </div>
+                                                  <div class="ibox-content">
+                                                      <div class="text-center">
+                                                          <canvas id="polarChart" height="140"></canvas>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-lg-12">
+                                              <div class="ibox float-e-margins">
+                                                  <div class="ibox-title">
+                                                      <h5>مجموع زمان توقف</h5>
+
+                                                      <div ibox-tools></div>
+                                                  </div>
+                                                  <div class="ibox-content">
+                                                      <div>
+                                                          <canvas id="doughnutChart" height="140"></canvas>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      {% load static %}
+
+                                      {% block javascript %}
+                                      <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+                                      <script type="text/javascript">
+                                        // var glll;
+
+
+                                        var MONTHS = {{s1}};
+                                      		var color = Chart.helpers.color;
+                                      		var barChartData = {
+                                      			labels: {% autoescape off %} {{s2}} {% endautoescape %},
+                                      			datasets: [{
+                                      				label: 'تعداد توقفات',
+                                      				backgroundColor: "rgba(220,220,220,0.5)",
+                                      				borderColor: "rgba(220,220,220,0.5)",
+
+                                      				borderWidth: 1,
+
+                                      				data:
+                                      					{{s1}}
+
+                                      			}]
+
+                                      		};
+
+
+
+
+                                           var ctx = document.getElementById("polarChart").getContext("2d");
+
+                                           window.myBar = new Chart(ctx, {
+                                             type: 'bar',
+
+                                             data: barChartData,
+                                             options: {
+                                               responsive: true,
+                                               animation:false,
+                                               scales: {
+                                                 yAxes: [{
+                                                   ticks: {
+                                                     beginAtZero: true,
+                                                     steps: 1,
+                                                     stepValue: 1,
+                                                     max: 100 //max value for the chart is 60
+                                                   }
+                                                 }
+                                                 ]
+                                               },
+                                               legend: {
+                                                 position: 'top',
+                                               },
+                                               title: {
+                                                 display: true,
+                                                 text: 'تعداد توقفات'
+                                               }
+                                             }
+                                           });
+                                      		var barChartData2 = {
+                                      			labels: {% autoescape off %} {{z2}} {% endautoescape %},
+                                      			datasets: [{
+                                      				label: 'زمان توقفات',
+                                      				backgroundColor: "rgba(220,220,220,0.5)",
+                                      				borderColor: "rgba(220,220,220,0.5)",
+
+                                      				borderWidth: 1,
+
+                                      				data:
+                                      					 {{z1}}
+
+                                      			}]
+
+                                      		};
+
+
+
+
+                                           var ctx2 = document.getElementById("doughnutChart").getContext("2d");
+
+                                           window.myBar1 = new Chart(ctx2, {
+                                             type: 'bar',
+
+                                             data: barChartData2,
+                                             options: {
+                                               responsive: true,
+                                               animation:false,
+                                               scales: {
+                                                 yAxes: [{
+                                                   ticks: {
+                                                     beginAtZero: true,
+                                                     steps: 1,
+                                                     stepValue: 1,
+                                                     max: 100 //max value for the chart is 60
+                                                   }
+                                                 }
+                                                 ]
+                                               },
+                                               legend: {
+                                                 position: 'top',
+                                               },
+                                               title: {
+                                                 display: true,
+                                                 text: 'زمان توقفات'
+                                               }
+                                             }
+                                           });
+
+
+                                      </script>
+                                        <!-- <script src="{% static '/js/project/reports/DowntimeByRepairTypeByAssetCategory.js' %}"></script> -->
+
+                                      {% endblock %}
+ {% endblock %}

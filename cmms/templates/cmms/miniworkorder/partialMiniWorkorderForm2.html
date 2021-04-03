@@ -1,0 +1,85 @@
+{% load widget_tweaks %}
+
+
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">مشاهده درخواست</h4>
+  </div>
+  <div class="modal-body">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                              شماره {{c.id}}#
+                                            </div>
+                                            <div class="panel-body">
+                                              <div class="table-responsive m-t">
+                                      <table class="table invoice-table">
+
+                                          <tbody>
+                                            <tr>
+                                                <td><div><strong>&gt;تاریخ ارسال</strong></div>
+
+                                                <td>{{c.get_dateCreated_jalali}} {{c.timecreated}}</td>
+
+                                            </tr>
+                                          <tr>
+                                              <td><div><strong>&gt;شرح</strong></div>
+
+                                              <td>{{c.summaryofIssue}}</td>
+
+                                          </tr>
+                                          <tr>
+                                              <td><div><strong>&gt;دارایی</strong></div>
+
+                                              <td>{{c.woAsset}}</td>
+
+                                          </tr>
+                                          <tr>
+                                              <td><div><strong>&gt;درخواست کننده</strong></div>
+
+                                              <td>{{c.RequestedUser}}</td>
+
+                                          </tr>
+
+
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                            </div>
+                                            <div class="panel-footer">
+                                              <div class="stat-percent font-bold text-info">
+                                          {{c.get_woStatus_display}}
+                                          </i>
+                                      </div>
+                                      <small>
+                                      وضعیت</small>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+    <div >
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+
+  </div>
+</form>

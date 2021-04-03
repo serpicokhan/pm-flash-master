@@ -1,0 +1,56 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>
+گزارش کارکرد ایستگاهها بر اساس نوع نگهداری<br/>
+
+       <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+       <h4>به همراه پارامترهای زیر</h4>
+       <h4>نوع نگهداری: {{mtype}}</h4>
+       <h4> از تاریخ: {{stdate}}</h4>
+       <h4>تا تاریخ: {{enddate}}</h4>
+
+
+                            </h2>
+
+                           </div>
+
+ <table class="table table-bordered  table-striped">
+   <thead>
+     <tr>
+
+  {% for k in row1 %}
+  <th>{{k}}</th>
+  {% endfor %}
+     </tr>
+   </thead>
+   <tbody>
+     {% for c in woList %}
+
+     <tr>
+
+       {% for kk in c %}
+       {% if forloop.counter == 1 %}
+       <td style=" vertical-align: middle;">{{kk.0}}</td>
+       {% else %}
+      <td style="text-align:center">{{kk.0}}<hr/>{{kk.1}}</td>
+
+       {% endif %}
+       {% endfor %}
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+ {% endblock %}

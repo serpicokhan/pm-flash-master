@@ -1,0 +1,787 @@
+{% load widget_tweaks %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <i class="fa fa-info-circle"></i>  زمانبندی بر اساس
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-lg-12">
+            {{ form.schNextWo.as_hidden }}
+            {% for choice in form.schChoices %}
+
+
+
+            <div class="form-group">
+              {{ choice.tag}}
+              <label>{{ choice.choice_label }}</label>
+
+
+            </div>
+            {% endfor %}
+
+          </div></div>
+
+
+
+        </div>
+      </div>
+
+
+      <div class="panel panel-info" id='genByTime'>
+        <div class="panel-heading">
+          <i class="fa fa-info-circle"></i> تکرار
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="panel panel-default">
+
+                    <div class="panel-body">
+                      {% for choice in form.schHowOften %}
+
+
+
+                      <div class="form-group">
+                        {{ choice.tag}}
+                        <label>{{ choice.choice_label }}</label>
+
+
+                      </div>
+                      {% endfor %}
+                    </div>
+
+                  </div>
+
+
+                </div>
+                <div class="col-lg-9">
+                  <div class="panel panel-default" id='howoftendiv1'>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          <div class="panel">
+                            <div class="panel-body">
+                              <div class="form-group"><label class="col-lg-4 control-label">هر</label>
+
+                                <div class="col-lg-4">{% render_field form.schHourRep class="form-control"  %}
+
+                                </div>
+                                ساعت
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-5">
+                          <div class="panel panel-default">
+
+                            <div class="panel-body">
+                              {% for choice in form.schHourIsFixed %}
+
+
+
+                              <div class="form-group">
+                                {{ choice.tag}}
+                                <label>{{ choice.choice_label }}</label>
+
+
+                              </div>
+                              {% endfor %}
+
+
+                            </div>
+
+                          </div>
+
+                        </div>
+                        <div class="col-lg-7">
+                          <div class="panel panel-default">
+
+                            <div class="panel-body" >
+                              با تنظیم یک ماشه تاریخ مشخص، شما نشان می دهید
+                              شما می توانید تاریخ ماشه بعدی را همیشه در رویدادهای تاریخ که شما تنظیم کرده اید رخ دهد.
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+                  <div class="panel panel-default" id='howoftendiv2'>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          <div class="panel">
+                            <div class="panel-body">
+                              <div class="form-group"><label class="col-lg-4 control-label">هر</label>
+
+                                <div class="col-lg-4">{% render_field form.schDailyRep class="form-control"  %}
+                                </div>روز
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-5">
+                          <div class="panel panel-default">
+
+                            <div class="panel-body">
+                              {% for choice in form.schDayIsFixed %}
+
+
+
+                              <div class="form-group">
+                                {{ choice.tag}}
+                                <label>{{ choice.choice_label }}</label>
+
+
+                              </div>
+                              {% endfor %}
+
+
+                            </div>
+
+                          </div>
+
+                        </div>
+                        <div class="col-lg-7">
+                          <div class="panel panel-default">
+
+                            <div class="panel-body" >
+                              با تنظیم یک ماشه تاریخ مشخص، شما نشان می دهید
+                              شما می توانید تاریخ ماشه بعدی را همیشه در رویدادهای تاریخ که شما تنظیم کرده اید رخ دهد.
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+                  <div class="panel panel-default" id='howoftendiv3'>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          <div class="panel">
+                            <div class="panel-body">
+                              <div class="row">
+                                <div class="form-group"><label class="col-lg-4 control-label">هر</label>
+
+                                  <div class="col-lg-4">{% render_field form.schWeeklyRep class="form-control"  %}
+
+                                  </div>
+
+                                  هفته در روز
+
+
+                                </div>
+
+                              </div>
+                              <hr>
+                              <div class="row">
+                                <label class="checkbox-inline">
+
+
+                                  {% render_field form.isSaturday  %}
+                                  {{form.isSaturday.label}}
+
+                                </label>
+                                <label class="checkbox-inline">
+
+
+                                  {% render_field form.isSunday  %}
+                                  {{form.isSunday.label}}
+
+                                </label>
+                                <label class="checkbox-inline">
+
+
+                                  {% render_field form.isMonday  %}
+                                  {{form.isMonday.label}}
+
+                                </label>
+                                <label class="checkbox-inline">
+
+
+                                  {% render_field form.isTuesday  %}
+                                  {{form.isTuesday.label}}
+
+                                </label>
+
+
+
+
+
+
+
+
+
+                              </div>
+                              <hr style="border:none;">
+                              <div class="row">
+                                <label class="checkbox-inline">
+
+
+                                  {% render_field form.isWednenday  %}
+                                  {{form.isWednenday.label}}
+
+                                </label>
+                                <label class="checkbox-inline">
+
+
+                                  {% render_field form.isThursday  %}
+                                  {{form.isThursday.label}}
+
+                                </label>
+                                <label class="checkbox-inline">
+
+
+                                  {% render_field form.isFriday  %}
+                                  {{form.isFriday.label}}
+
+                                </label>
+
+
+
+
+
+
+
+
+
+
+                              </div>
+
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+                  </div>
+                  <div class="panel panel-default" id='howoftendiv4'>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          <div class="panel">
+                            <div class="panel-body">
+                              <div class="row">
+                                هر{% render_field form.schDayofMonthlyRep class="form-control"  %}روز در هر{% render_field form.schMonthlyRep class="form-control"  %}ماه
+
+
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-5">
+                          <div class="panel panel-default">
+
+                            <div class="panel-body">
+                              {% for choice in form.schMonthIsFixed %}
+
+
+
+                              <div class="form-group">
+                                {{ choice.tag}}
+                                <label>{{ choice.choice_label }}</label>
+
+
+                              </div>
+                              {% endfor %}
+
+
+                            </div>
+
+                          </div>
+
+                        </div>
+                        <div class="col-lg-7">
+                          <div class="panel panel-default">
+
+                            <div class="panel-body" >
+                              با تنظیم یک ماشه تاریخ مشخص، شما نشان می دهید
+                              شما می توانید تاریخ ماشه بعدی را همیشه در رویدادهای تاریخ که شما تنظیم کرده اید رخ دهد.
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+                  <div class="panel panel-default" id='howoftendiv5'>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          <div class="panel">
+                            <div class="panel-body">
+                              <div class="row">
+                                هر{% render_field form.schYearlyRep class="form-control"  %}سال در ماه {% render_field form.schMonthOfYearRep class="form-control"  %}
+                                از روز {% render_field form.schDayOfMonthOfYearRep class="form-control"  %}
+
+
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-5">
+                          <div class="panel panel-default">
+
+                            <div class="panel-body">
+                              {% for choice in form.schYearIsFixed %}
+
+
+
+                              <div class="form-group">
+                                {{ choice.tag}}
+                                <label>{{ choice.choice_label }}</label>
+
+
+                              </div>
+                              {% endfor %}
+
+                            </div>
+
+                          </div>
+
+                        </div>
+                        <div class="col-lg-7">
+                          <div class="panel panel-default">
+
+                            <div class="panel-body" >
+                              با تنظیم یک ماشه تاریخ مشخص، شما نشان می دهید
+                              شما می توانید تاریخ ماشه بعدی را همیشه در رویدادهای تاریخ که شما تنظیم کرده اید رخ دهد.
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+                  <div class="panel panel-default" id='howoftendiv6'>
+                    <div class="panel-heading">
+                      شروع و مدت
+
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>{{form.shStartDate.label}}</label>
+                            <div class="input-group date">
+                                                               {% render_field form.shStartDate class='form-control ltr-input' data-mask='9999/99/99' %}
+                                                                  <span class="input-group-addon">
+                                                                      <i class="fa fa-calendar">
+                                                                      </i>
+                                                                  </span>
+                                                              </div>
+
+
+
+
+
+
+                          </div>
+
+
+
+
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                           {{form.shHasEndDate}}  {{form.shHasEndDate.label }}
+                           <div class="input-group date">
+                                                              {% render_field form.shEndDate class="form-control" %}
+                                                                 <span class="input-group-addon">
+                                                                     <i class="fa fa-calendar">
+                                                                     </i>
+                                                                 </span>
+                                                             </div>
+
+
+                          </div>
+
+
+
+
+
+
+
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+                <script type="text/javascript">
+                $(document).ready(function() {
+
+                  switch($('input[name=schHowOften]:checked').val())
+                  {
+                    case '1':
+                    $('#howoftendiv1').show();
+                    $('#howoftendiv2').hide();
+                    $('#howoftendiv3').hide();
+                    $('#howoftendiv4').hide();
+                    $('#howoftendiv5').hide();
+                    $('#howoftendiv6').show();
+                    break;
+                    case '2':
+                    $('#howoftendiv1').hide();
+                    $('#howoftendiv2').show();
+                    $('#howoftendiv3').hide();
+                    $('#howoftendiv4').hide();
+                    $('#howoftendiv5').hide();
+                    $('#howoftendiv6').show();
+
+                    break;
+                    case '3':
+                    $('#howoftendiv1').hide();
+                    $('#howoftendiv2').hide();
+                    $('#howoftendiv3').show();
+                    $('#howoftendiv4').hide();
+                    $('#howoftendiv5').hide();
+                    $('#howoftendiv6').show();
+
+                    break;
+                    case '4':
+                    $('#howoftendiv1').hide();
+                    $('#howoftendiv2').hide();
+                    $('#howoftendiv3').hide();
+                    $('#howoftendiv4').show();
+                    $('#howoftendiv5').hide();
+                    $('#howoftendiv6').show();
+                    break;
+                    case '5':
+                    $('#howoftendiv1').hide();
+                    $('#howoftendiv2').hide();
+                    $('#howoftendiv3').hide();
+                    $('#howoftendiv4').hide();
+                    $('#howoftendiv5').show();
+                    $('#howoftendiv6').show();
+                    break;
+                    case '6':
+                    $('#howoftendiv1').hide();
+                    $('#howoftendiv2').hide();
+                    $('#howoftendiv3').hide();
+                    $('#howoftendiv4').hide();
+                    $('#howoftendiv5').hide();
+                    $('#howoftendiv6').show();
+                    break;
+                  }
+
+                  $('input[type=radio][name=schHowOften]').change(function() {
+                    if (this.value == '1') {
+                      $('#howoftendiv1').show();
+                      $('#howoftendiv2').hide();
+                      $('#howoftendiv3').hide();
+                      $('#howoftendiv4').hide();
+                      $('#howoftendiv5').hide();
+                      $('#howoftendiv6').show();
+
+
+                    }
+                    else if (this.value == '2') {
+                      $('#howoftendiv1').hide();
+                      $('#howoftendiv2').show();
+                      $('#howoftendiv3').hide();
+                      $('#howoftendiv4').hide();
+                      $('#howoftendiv5').hide();
+                      $('#howoftendiv6').show();
+                    }
+                    else if (this.value == '3') {
+                      $('#howoftendiv1').hide();
+                      $('#howoftendiv2').hide();
+                      $('#howoftendiv3').show();
+                      $('#howoftendiv4').hide();
+                      $('#howoftendiv5').hide();
+                      $('#howoftendiv6').show();
+                    }
+                    else if (this.value == '4') {
+                      $('#howoftendiv1').hide();
+                      $('#howoftendiv2').hide();
+                      $('#howoftendiv3').hide();
+                      $('#howoftendiv4').show();
+                      $('#howoftendiv5').hide();
+                      $('#howoftendiv6').show();
+                    }
+                    else if (this.value == '5') {
+                      $('#howoftendiv1').hide();
+                      $('#howoftendiv2').hide();
+                      $('#howoftendiv3').hide();
+                      $('#howoftendiv4').hide();
+                      $('#howoftendiv5').show();
+                      $('#howoftendiv6').show();
+                    }
+                    else if (this.value == '6') {
+                      $('#howoftendiv1').hide();
+                      $('#howoftendiv2').hide();
+                      $('#howoftendiv3').hide();
+                      $('#howoftendiv4').hide();
+                      $('#howoftendiv5').hide();
+                      $('#howoftendiv6').show();
+                    }
+                  });
+                });
+
+                </script>
+
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="panel panel-info" id='genByMeter'>
+        <div class="panel-heading">
+
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-info">
+                <div class="panel-body">
+                  <div class="row">
+
+
+
+                      <div class="col-sm-1">
+
+                       {% if form.shMeterReadingHasTiming.value == True %}
+
+                          <input type="radio" name="whenreading" value="0" checked>
+                       {% else %}
+                          <input type="radio" name="whenreading" value="0">
+                       {% endif %}
+
+
+                      </div>
+
+                      <div class="col-sm-5">
+                        <div class="form-group">
+                          <label class="col-sm-1 control-label">هر</label>
+
+                          {% render_field form.shMeterReadingEvreyQnty class="form-control" %}
+
+                        </div>
+                        <div class="form-group">
+                          <label>شروع در </label>
+                          {% render_field form.shMeterReadingStartAt class="form-control" %}
+
+                        </div>
+
+                      </div>
+                      <div class="col-sm-5">
+                        <div class="form-group">
+                          <label>{{form.shMeterReadingMetrics.label}}</label>
+                          {% render_field form.shMeterReadingMetrics class="form-control" %}
+                        </div>
+                        <div class="form-group">
+                          {% render_field form.schHasEndReading %}<label>{{form.schHasEndReading.label}}</label>
+                          {% render_field form.shMeterReadingEndBy class="form-control" %}
+                        </div>
+                        <div class="form-group">
+                          <label>{{form.schMeterReadingIsFixed.label}}</label>
+
+                            {% render_field form.schMeterReadingIsFixed class='form-control' %}
+
+
+
+
+
+                      </div>
+                    </div>
+                  </div>
+
+                  </div>
+
+                </div>
+
+
+              <div class="panel panel-info">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="form-group">
+                      <div class="col-sm-1">
+                       {% if form.shMeterReadingHasTiming.value == False %}
+                          <input type="radio" name="whenreading" value="1" checked>
+                       {% else %}
+                          <input type="radio" name="whenreading" value="1">
+
+                       {% endif %}
+
+
+                      </div>
+
+                      <label class="col-sm-1 control-label">در زمان</label>
+
+                      <div class="col-sm-4">
+                        {% render_field form.shMeterReadingWhenMetric class="form-control" %}
+                      </div>
+                      <div class="col-sm-3">
+                        {% render_field form.shMetricComparison class="form-control" %}
+                      </div>
+                      <div class="col-sm-3">
+                        {% render_field form.shMeterReadingWhenQnty class="form-control" %}
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="panel panel-info" id="genByEvent">
+        <div class="panel-body">
+          <div class="row">
+            <div class="form-group">
+
+
+              <label class="col-sm-4 control-label">در زمان وقوع رخداد</label>
+
+              <div class="col-sm-8">
+                {% render_field form.schEvent class="form-control" %}
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      <script type="text/javascript">
+      $(document).ready(function() {
+
+        switch($('input[name=schChoices]:checked').val())
+        {
+          case '0':
+          $('#genByTime').show();
+          $('#genByMeter').hide();
+          $('#genByEvent').hide();
+
+
+          break;
+          case '1':
+          $('#genByTime').hide();
+          $('#genByMeter').show();
+
+          $('#genByEvent').hide();
+          break;
+          case '2':
+          $('#genByTime').hide();
+          $('#genByMeter').hide();
+          $('#genByEvent').show();
+
+
+        }
+
+        $('input[type=radio][name=schChoices]').change(function() {
+          if (this.value == '0') {
+            $('#genByTime').show();
+            $('#genByMeter').hide();
+            $('#genByEvent').hide();
+
+
+          }
+          else if (this.value == '1') {
+            $('#genByTime').hide();
+            $('#genByMeter').show();
+            $('#genByEvent').hide();
+          }
+          else if (this.value == '2') {
+            $('#genByTime').hide();
+            $('#genByMeter').hide();
+            $('#genByEvent').show();
+          }
+
+        });
+
+        if($("#id_schHasEndReading").is(":checked")==true)
+        {
+          $("#id_shMeterReadingEndBy").prop('disabled', false);
+        }
+        else{
+          $("#id_shMeterReadingEndBy").prop('disabled', true);
+
+        }
+
+        $("#id_schHasEndReading").change(function(){
+          if($("#id_schHasEndReading").is(":checked")==true)
+          {
+            $("#id_shMeterReadingEndBy").prop('disabled', false);
+          }
+          else{
+            $("#id_shMeterReadingEndBy").prop('disabled', true);
+
+          }
+
+
+        });
+
+      });
+
+
+      </script>
+
+    </div>
+
+
+  </div>

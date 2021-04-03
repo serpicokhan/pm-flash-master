@@ -1,0 +1,64 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>رویدادها </h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive" style="position: relative;height: 200px;overflow: auto;display:block">
+                                <table class="table table-striped" id="assetEvent-table">
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>رویداد</th>
+                                      <th>شرح</th>
+                                      <th>تاریخ</th>
+
+
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_assetEvent'>
+                                            {% include 'cmms/asset_event/partialAssetEventList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-assetEvent"
+                                  data-url="{% url 'assetEvent_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-assetEvent" data-backdrop="static" data-keyboard="false">
+                 <div class="modal-dialog ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/assetEvent.js' %}"></script>
+{% endblock %}

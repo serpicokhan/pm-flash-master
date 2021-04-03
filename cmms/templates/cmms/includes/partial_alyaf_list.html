@@ -1,0 +1,33 @@
+{% for c in alyafs %}
+
+<tr>
+ <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+<td>{{c.CompanyId}}</td>
+ <td>{{c.Zerafat}}</td>
+ <td>{{c.Tool}}</td>
+ <td>{{c.Hmabaft}}</td>
+ <td>{{c.Color}}</td>
+ <td>{{c.Vaznekham}}</td>
+ <td>{{c.get_AlyafType_display}}</td>
+ <td>{{c.get_Derakhshandegi_display}}</td>
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-alyaf"
+              data-url="{% url 'alyaf_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-alyaf"
+                   data-url="{% url 'alyaf_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="9" class="text-center bg-warning">هیچ نوع الیافی یافت نشد</td>
+</tr>
+
+{% endfor %}

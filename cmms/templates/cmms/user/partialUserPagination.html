@@ -1,0 +1,56 @@
+
+{% if user.has_other_pages %}
+
+<ul class="pagination">
+{% if user.has_previous %}
+<li><a href="#" data-url="{% url pageType %}?page={{ user.previous_page_number }}" class="user_month_paginator">&laquo;</a></li>
+{% else %}
+<li class="disabled"><span>&laquo;</span></li>
+{% endif %}
+{% for i in user.paginator.page_range %}
+{% if users.number == i %}
+<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+{% else %}
+<li><a href="#" data-url="{% url pageType %}?page={{ i }}" class="user_month_paginator">{{ i }}</a></li>
+{% endif %}
+{% endfor %}
+{% if user.has_next %}
+<li><a href="#" data-url="{% url pageType %}?page={{ user.next_page_number }}" class="user_month_paginator"">&raquo;</a></li>
+{% else %}
+<li class="disabled"><span>&raquo;</span></li>
+{% endif %}
+</ul>
+{% endif %}
+<script type="text/javascript">
+  $(".user_month_paginator").click(function()
+  {
+
+    //console.log($(this).attr("data-url"));
+    $.ajax({
+      url: $(this).attr("data-url"),
+
+      type: "get",
+      dataType: 'json',
+      success: function (data) {
+        if (data.form_is_valid) {
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+          $("#tbody_company").empty();
+          $("#tbody_company").html(data.html_user_list);
+           $(".userPaging").html(data.html_user_paginator);
+          $("#modal-company").modal("hide");
+
+
+         // console.log(data.html_user_list);
+        }
+        else {
+
+          $("#company-table tbody").html(data.html_user_list);
+          $("#modal-company .modal-content").html(data.html_user_form);
+        }
+      }
+    });
+
+  });
+
+
+</script>

@@ -1,0 +1,20 @@
+{% load static %}
+{% load utils_tags %}
+{% for c in wolog %}
+
+<tr>
+
+  <td style="text-align:center">{{c.user}}</td>
+  <td style="text-align:center">{{c.change_message}}</td>
+  <td style="text-align:center">{{c.action_flag|get_filter_action}}</td>
+  <td style="text-align:center">{{c.action_time|get_jalali}},{{c.action_time|time:"h:i"}}</td>
+
+
+
+</tr>
+{% empty %}
+<tr>
+ <td colspan="4" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

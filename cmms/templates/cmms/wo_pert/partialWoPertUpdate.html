@@ -1,0 +1,88 @@
+<div  data-url="{% url 'woPert_update' form.instance.id %}" class="js-woPert-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close cl-pert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/wo_pert/partialWoPertForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-pert btn btn-default" >بستن</button>
+      {% if perms.cmms.change_workorderpertreading %}
+    <button type="button" class="btn btn-primary" id="woPert-submit">ویرایش</button>
+    {% endif %}
+
+
+    <script>
+      $(".cl-pert").click(function()
+      {
+        $("#modal-woPert").modal("hide");
+
+      }
+     );
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+    }
+       $( document).ready(
+         function()
+         {
+
+     $("#woPert-submit").click(function(){
+
+                //alert("12321");
+                 var form = $(this).parent().parent();
+                 //console.log(form.attr("action"));
+                 //alert($("#id_metrics").val());
+                 $.ajax({
+                   url: form.attr("data-url"),
+                   type: "POST",
+                     data:myformat('{"woPertWorkorder":{0},"woPertPert":{1},"wpPertTime":{2}}',$("#lastWorkOrderid").val(),$("#id_woPertPert").val(),$("#id_wpPertTime").val()),
+
+
+
+
+                   dataType: 'json',
+                   beforeSend: function () {
+                     //alert(btn.attr("data-url"));
+                    // console.log(myformat('{"woPertPart":{0},"woPertPlannedQnty":{1},"woPertActulaQnty":{2},"woPertWorkorder":{3}}',$("#id_woPertPart").val(),$("#id_woPertPlannedQnty").val(),$("#id_woPertActulaQnty").val(),$("#id_woPertWorkorder").val()));
+
+                   },
+                   success: function (data) {
+                     if (data.form_is_valid) {
+                       //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                       $("#tbody_woPert").empty();
+                       $("#tbody_woPert").html(data.html_woPert_list);
+                       $("#modal-woPert").modal("hide");
+                       //console.log(data.html_wo_list);
+                     }
+                     else {
+
+                       $("#woPert-table tbody").html(data.html_woPert_list);
+                       $("#modal-woPert .modal-content").html(data.html_woPert_form);
+                     }
+                   }
+
+                 });
+                 return false;
+
+
+
+            });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div  data-url="{% url 'woFile_create' %}" class="js-woFile-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/workorder_file/partialWoFileForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="woFile-submit"  >ذخیره</button>
+
+
+  </div>
+</div>

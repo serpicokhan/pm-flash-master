@@ -1,0 +1,104 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>تامین کنندگان </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-5 m-b-xs">
+
+                                </div>
+                                <div class="col-sm-4 m-b-xs">
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group"><input type="text" placeholder="جستجو" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> برو!</button> </span></div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="company-table">
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>کد</th>
+
+                                      <th>نام</th>
+
+                                      <th>آدرس</th>
+                                      <th>شهر</th>
+                                      <th>استان</th>
+                                      <th>کشور</th>
+
+
+
+
+
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_company'>
+                                            {% include 'cmms/business/partialBusinessList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-business"
+                                  data-url="{% url 'business_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-company" style="overflow-y: scroll">
+                 <div class="modal-dialog  modal-lg ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/business.js' %}"></script>
+{% endblock %}
+{% endblock %}

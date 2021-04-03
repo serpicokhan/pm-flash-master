@@ -1,0 +1,46 @@
+
+{% for c in partPurchases %}
+
+<tr>
+
+<td>{{c.purchasedFrom}}</td>
+<td>{{c.purchaseUser}}</td>
+
+ <td>{{c.getDateOrdered}}</td>
+<td>{{c.getDateRecieved}}</td>
+ <td>{{c.getDateofExpire}}</td>
+
+ <td>{{c.purchasePriceTotla}}
+   {% if c.purchaseCurrency == 1 %}
+   ریال
+ {% else %}
+ $
+ {% endif %}
+ </td>
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-partPurchase"
+              data-url="{% url 'partPurchase_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-partPurchase"
+                   data-url="{% url 'partPurchase_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="8" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/partPurchase.js' %}"></script>
+{% endblock %}

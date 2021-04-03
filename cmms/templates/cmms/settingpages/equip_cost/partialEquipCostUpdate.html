@@ -1,0 +1,86 @@
+<div  data-url="{% url 'equipCost_update' form.instance.id %}" class="js-equipCost-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/settingpages/equip_cost/partialEquipCostForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+    <button type="button" class="btn btn-primary" id="equipCost-submit">ویرایش</button>
+
+
+    <script>
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+   }
+       $( document).ready(
+         function()
+         {
+
+           $("#equipCost-submit").click(function(){
+
+                      //alert("12321");
+                      //$( "#myselect option:selected" ).text();
+                      var mydata="";
+                      var mydata="";
+                      mydata=myformat('{"settingEqAsset":{0}}',
+                      $("#id_settingEqAsset").val(),
+
+                    );
+
+                      var form = $(this).parent().parent();
+                       //console.log(form.attr("action"));
+                       //alert($("#id_metrics").val());
+                       console.log($(this));
+                       $.ajax({
+                         url: form.attr("data-url"),
+                         type: "POST",
+                         data:mydata,
+                         dataType: 'json',
+                         beforeSend: function () {
+                           //alert(btn.attr("data-url"));
+                      //     console.log($("#id_businessPartisDefault").is(':checked'));
+
+                         },
+                         success: function (data) {
+                           if (data.form_is_valid) {
+                             //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                             $("#tbody_equipCost").empty();
+
+                             $("#tbody_equipCost").html(data.html_equipCost_list);
+                             $("#modal-equipCost").modal("hide");
+                             console.log(data.html_equipCost_list);
+                           }
+                           else {
+
+                             $("#equipCost-table tbody").html(data.html_equipCost_list);
+                             $("#modal-equipCost .modal-content").html(data.html_equipCost_form);
+                           }
+                         }
+
+                       });
+                       return false;
+
+
+
+                  });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

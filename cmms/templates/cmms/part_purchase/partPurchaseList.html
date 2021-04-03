@@ -1,0 +1,66 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>اطلاعات خرید</h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive" style="position: relative;height: 300px;overflow: auto;display:block">
+                                <table class="table table-striped" id="partPurchase-table">
+                                    <thead>
+                                    <tr>
+                                      <th>خرید از</th>
+                                      <th>خرید توسط</th>
+                                     <th>تاریخ سفارش</th>
+                                     <th>تاریخ دریافت</th>
+                                     <th>تاریخ انقضا</th>
+
+                                     <th>قیمت</th>
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_partPurchase'>
+                                            {% include 'cmms/part_purchase/partialPartPurchaseList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-partPurchase"
+                                  data-url="{% url 'partPurchase_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                            </div>
+                          </div>
+
+                    </div>
+                    <div class="modal fade" id="modal-partPurchase">
+                     <div class="modal-dialog">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                </div>
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/partPurchase.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% load widget_tweaks %}
+<div class="row">
+<div class="col-sm-12 b-r">
+  <div class="form-group">
+    <label>{{form.name.label}}</label>
+    {% render_field form.name  class='form-control' %}
+
+  </div>
+  <div class="form-group">
+    <label>{{form.summaryofIssue.label}}</label>
+    {% render_field form.summaryofIssue data-url="/WorkOrder/GetProblems" class='form-control basicAutoComplete' %}
+
+  </div>
+  <div class="form-group">
+
+    <label>{{form.woAsset.label}}</label>
+      {% render_field form.woAsset  class="form-control selectpicker" data-show-subtext="true" data-live-search="true" %}
+
+
+  </div>
+
+
+
+
+
+
+
+</div>
+
+
+</div>

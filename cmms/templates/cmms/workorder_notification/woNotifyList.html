@@ -1,0 +1,68 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>اعلانات </h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="woNotify-table">
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>کاربر</th>
+                                       <th>ایجاد</th>
+                                        <th>تغییر وضعیت</th>
+                                         <th>تکمیل</th>
+                                          <th>تکمیل وظیفه</th>
+                                           <th>آنلاین/آفلاین</th>
+
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_woNotify'>
+                                            {% include 'cmms/workorder_notification/partialWoNotifyList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                {% if perms.cmms.add_workorderusernotification %}
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-woNotify"
+                                  data-url="{% url 'woNotify_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                                {% endif %}
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-woNotify">
+                 <div class="modal-dialog ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/woNotify.js' %}"></script>
+{% endblock %}

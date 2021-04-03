@@ -1,0 +1,91 @@
+<div  data-url="{% url 'partUser_update' form.instance.id %}" class="js-partUser-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close partUser"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/part_user/partialPartUserForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="partUser btn btn-default" >بستن</button>
+    <button type="button" class="btn btn-primary" id="partUser-submit">ویرایش</button>
+
+
+    <script>
+
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+    }
+       $( document).ready(
+         function()
+         {
+           $(".cl-task").click(function()
+           {
+             $("#modal-partUser").modal("hide");
+             //$("#{modal-company}").css("background-color", "yellow");
+
+
+           }
+          );
+
+     $("#partUser-submit").click(function(){
+
+                //alert("12321");
+                 var form = $(this).parent().parent();
+                 //console.log(form.attr("action"));
+                 //alert($("#id_metrics").val());
+                 $.ajax({
+                   url: form.attr("data-url"),
+                   type: "POST",
+                   data:myformat('{"PartUserPartId":{0}\
+                   ,"PartUserUserId":{1}}',
+                   $("#lastPartid").val(),
+                   $("#id_PartUserUserId").val()),
+
+
+
+                   dataType: 'json',
+                   beforeSend: function () {
+                     //alert(btn.attr("data-url"));
+                    // console.log(myformat('{"partUserPart":{0},"partUserPlannedQnty":{1},"partUserActulaQnty":{2},"partUserWorkorder":{3}}',$("#id_partUserPart").val(),$("#id_partUserPlannedQnty").val(),$("#id_partUserActulaQnty").val(),$("#id_partUserWorkorder").val()));
+
+                   },
+                   success: function (data) {
+                     if (data.form_is_valid) {
+                       //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                       $("#tbody_partUser").empty();
+                       $("#tbody_partUser").html(data.html_partUser_list);
+                       $("#modal-partUser").modal("hide");
+                       //console.log(data.html_wo_list);
+                     }
+                     else {
+
+                       $("#partUser-table tbody").html(data.html_partUser_list);
+                       $("#modal-partUser .modal-content").html(data.html_partUser_form);
+                     }
+                   }
+
+                 });
+                 return false;
+
+
+
+            });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

@@ -1,0 +1,8 @@
+{'{"schWeeklyRep":4,"schHowOften":3,"isSaturday":"true","isSunday":"false","isMo
+nday":"false","isTuesday":"false","isWednenday":"false","isThursday":"true","isF
+riday":"false","schChoices":0,"workOrder":4,"shStartDate":"","shEndDate":"undefi
+ned"}': '', 'schChoices': 0, 'workOrder': 4, 'schHowOften': 3, 'schWeeklyRep': 4
+, 'isSaturday': True, 'isSunday': False, 'isMonday': False, 'isTuesday': False,
+'isWednenday': False, 'isThursday': True, 'isFriday': False}
+123
+["'' value must be either True or False."]

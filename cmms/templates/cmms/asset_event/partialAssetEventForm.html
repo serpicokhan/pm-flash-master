@@ -1,0 +1,45 @@
+{% load widget_tweaks %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <i class="fa fa-info-circle"></i>  رویداد
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label>{{form.AssetEventAssetId.label}}</label>
+
+              <input type=text id='id_assetEventjq' class="form-control" readonly/>
+              <script type="text/javascript">
+              $("#id_assetEventjq").val($("#id_assetName").val());
+              </script>
+            </div>
+            <div class="form-group">
+              <label>{{form.AssetEventEventId.label}}</label>
+
+              {{form.AssetEventEventId| add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+              <label>{{form.AssetEventAdditionalDescription.label}}</label>
+
+              {{form.AssetEventAdditionalDescription| add_class:"form-control" }}
+            </div>
+
+
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>

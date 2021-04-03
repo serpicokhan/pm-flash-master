@@ -1,0 +1,872 @@
+<div class="modal fade in" id="modal-company" aria-hidden="false" style="display: block;">
+  <div class="modal-dialog  modal-lg ">
+
+    <div class="modal-content "><form method="post" action="/WorkOrder/48/update/" class="js-wo-update-form">
+      <input type="hidden" name="csrfmiddlewaretoken" value="ji3mOxMruP7YCWBmWtzCBPR1vfpkfAeqCblmKY2yNO9FymosvZt14ua03qTVmD05">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title">ویرایش</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-sm-4 b-r">
+
+            <img src="/static/img/if_industry_50840.png">
+            <input type="hidden" name="lastWorkOrderid" id="lastWorkOrderid" value="48">
+
+
+          </div>
+          <div class="col-sm-4 b-r">
+            <div class="form-group">
+              <label>وضعیت درخواست</label>
+              <select name="woStatus" class="form-control" id="id_woStatus">
+                <option value="" selected="">---------</option>
+
+                <option value="1">درخواست شده</option>
+
+                <option value="2">متوقف</option>
+
+                <option value="4">تخصیص داده شده</option>
+
+                <option value="5">باز</option>
+
+                <option value="6">در حال پیشرفت</option>
+
+                <option value="7">بسته شده کامل</option>
+
+                <option value="8">بسته شده، ناقص</option>
+
+              </select>
+            </div>
+            <div class="form-group">
+              <label>نوع نگهداری</label>
+              <select name="maintenanceType" class="form-control" id="id_maintenanceType">
+                <option value="" selected="">---------</option>
+
+              </select>
+            </div>
+            <div class="form-group">
+              <label>اولویت</label>
+              <select name="woPriority" class="form-control" id="id_woPriority">
+                <option value="" selected="">---------</option>
+
+                <option value="1">خیلی زیاد</option>
+
+                <option value="2">زیاد</option>
+
+                <option value="3">متوسط</option>
+
+                <option value="4">پایین</option>
+
+                <option value="5">خیلی پایین</option>
+
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-4 b-r">
+            <div class="form-group">
+              <label>دارایی</label>
+              <select name="woAsset" class="form-control" id="id_woAsset">
+                <option value="" selected="">---------</option>
+
+                <option value="1">dsa:rewrew</option>
+
+              </select>
+            </div>
+            <div class="form-group">
+              <label>پروژه</label>
+              <select name="Project" class="form-control" id="id_Project">
+                <option value="" selected="">---------</option>
+
+              </select>
+            </div>
+            <div class="form-group">
+              <label> تاریخ اتمام مورد نیاز</label>
+              <input type="text" name="requiredCompletionDate" value="2018-11-27" class="form-control" id="id_requiredCompletionDate"><input type="hidden" name="initial-requiredCompletionDate" value="2018-11-27" id="initial-id_requiredCompletionDate">
+            </div>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="tabs-container">
+              <ul class="nav nav-tabs">
+                <li class=""><a data-toggle="tab" href="#tab-1" aria-expanded="false">عمومی</a></li>
+                <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">اطلاعات تکمیلی</a></li>
+                <li class="active"><a data-toggle="tab" href="#tab-3" aria-expanded="true">کارها</a></li>
+                <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">قطعات</a></li>
+                <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">قرائت</a></li>
+                <li class=""><a data-toggle="tab" href="#tab-6" aria-expanded="false">هزینه های متفرقه</a></li>
+                <li class=""><a data-toggle="tab" href="#tab-7" aria-expanded="false">اعلانات</a></li>
+                <li class=""><a data-toggle="tab" href="#tab-8" aria-expanded="false">پیوست ها</a></li>
+
+              </ul>
+              <div class="tab-content ">
+                <div id="tab-1" class="tab-pane">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <label>خلاصه مشکل</label>
+                          <input type="text" name="summaryofIssue" maxlength="100" class="form-control" id="id_summaryofIssue">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label>دستورالعمل</label>
+                          <textarea name="workInstructions" cols="100" rows="15" class="form-control" id="id_workInstructions"></textarea>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <label>تاریخ ایجاد</label>
+                          <input type="text" name="datecreated" value="2018-11-27 09:24:47" class="form-control" id="id_datecreated"><input type="hidden" name="initial-datecreated" value="2018-11-27 09:24:47" id="initial-id_datecreated">
+                        </div>
+                        <div class="form-group">
+                          <label>اختصاص به کاربر</label>
+                          <select name="assignedToUser" class="form-control" id="id_assignedToUser">
+                            <option value="" selected="">---------</option>
+
+                            <option value="1">admin</option>
+
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>ساعت کار مورد نیاز (تخمینی)</label>
+                          <input type="number" name="estimatedLabor" step="any" class="form-control" id="id_estimatedLabor">
+                        </div>
+                        <div class="form-group">
+                          <label>تکمیل درخواست توسط کاربر</label>
+                          <select name="completedByUser" class="form-control" id="id_completedByUser">
+                            <option value="" selected="">---------</option>
+
+                            <option value="1">admin</option>
+
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>ساعت کار واقعی</label>
+                          <input type="number" name="actualLabor" step="any" class="form-control" id="id_actualLabor">
+                        </div>
+                        <div class="form-group">
+                          <label> تاریخ تکمیل(تخمینی)</label>
+                          <input type="text" name="dateCompleted" value="2018-11-27 09:24:47" class="form-control" id="id_dateCompleted"><input type="hidden" name="initial-dateCompleted" value="2018-11-27 09:24:47" id="initial-id_dateCompleted">
+                        </div>
+                      </div>
+
+                    </div>
+
+
+
+
+
+                  </div>
+                </div>
+
+                <div id="tab-2" class="tab-pane">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="panel panel-info">
+                          <div class="panel-heading">
+                            <i class="fa fa-info-circle"></i> پیگیری هزینه
+                          </div>
+                          <div class="panel-body">
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <div class="form-group">
+                                  <label>حساب</label>
+                                  <input type="text" name="account" maxlength="50" class="form-control" id="id_account">
+                                </div>
+                              </div>
+                              <div class="col-lg-6">
+                                <div class="form-group">
+                                  <label>دپارتمان مسوول</label>
+                                  <input type="text" name="chargeDepartment" maxlength="50" class="form-control" id="id_chargeDepartment">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="panel panel-info">
+                          <div class="panel-heading">
+                            <i class="fa fa-info-circle"></i>اطلاعات تکمیلی
+                          </div>
+                          <div class="panel-body">
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <label>یادداشت تکمیلی</label>
+                                  <textarea name="completionNotes" cols="100" rows="5" class="form-control" id="id_completionNotes"></textarea>
+                                </div>
+                                <div class="form-group">
+                                  <label>مشکل (خلاصه)</label>
+                                  <input type="text" name="problemBrief" maxlength="50" class="form-control" id="id_problemBrief">
+                                </div>
+                                <div class="form-group">
+                                  <label>علت اصلی</label>
+                                  <input type="text" name="rootCause" maxlength="50" class="form-control" id="id_rootCause">
+                                </div>
+                                <div class="form-group">
+                                  <label>راه حل</label>
+                                  <input type="text" name="solution" maxlength="50" class="form-control" id="id_solution">
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="panel panel-info">
+                          <div class="panel-heading">
+                            <i class="fa fa-info-circle"></i>یادداشت مدیر
+                          </div>
+                          <div class="panel-body">
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <div class="form-group">
+                                  <label>یادداشت مدیر</label>
+                                  <textarea name="adminNote" cols="100" rows="5" class="form-control" id="id_adminNote"></textarea>
+                                </div>
+
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div id="tab-3" class="tab-pane active">
+                  <div class="panel-body">
+
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="panel panel-info">
+                          <div class="panel-heading">
+                            <i class="fa fa-info-circle"></i> پیگیری هزینه
+                          </div>
+                          <div class="panel-body">
+                            <div class="row">
+                              <div class="col-lg-12">
+
+                                <!--pip install django-widget-tweaks-->
+
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="ibox float-e-margins">
+                                      <div class="ibox-title">
+                                        <h5>فعالیت ها </h5>
+
+                                      </div>
+                                      <div class="ibox-content">
+
+                                        <div class="table-responsive">
+                                          <table class="table table-striped" id="task-table">
+                                            <thead>
+                                              <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th>شرح</th>
+
+                                                <th>کاربر مشخص شده</th>
+                                                <th>زمان تخمینی</th>
+                                                <th>زمان واقعی صرف شده</th>
+                                                <th></th>
+
+                                              </tr>
+
+                                            </thead>
+                                            <tbody id="tbody_task">
+
+
+                                              <tr>
+                                                <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+                                                <td>عمومی</td>
+                                                <td>sdfd</td>
+
+                                                <td>admin</td>
+                                                <td>29.0</td>
+                                                <td>2.0</td>
+
+
+
+
+                                                <td><button type="button" class="btn btn-warning btn-sm js-update-task" data-url="/Task/3/update/">
+                                                  <span class="glyphicon glyphicon-pencil"></span> ویرایش
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm js-delete-task" data-url="/Task/3/delete/">
+                                                  <span class="glyphicon glyphicon-trash"></span> حذف
+                                                </button>
+                                              </td>
+                                            </tr>
+
+                                          </tbody>
+                                        </table>
+                                        <!-- BUTTON TO TRIGGER THE ACTION -->
+                                        <p>
+                                          <button type="button" class="btn btn-primary js-create-task" data-url="/Task/create/">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                            جدید
+                                          </button>
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                                <div class="modal fade" id="modal-task">
+                                  <div class="modal-dialog ">
+
+                                    <div class="modal-content ">
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+
+
+
+
+
+                              <script src="/static/js/project/task.js"></script>
+
+
+
+                            </div>
+
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+
+
+                  </div>
+                </div>
+              </div>
+              <div id="tab-4" class="tab-pane">
+                <div class="panel-body">
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="panel panel-info">
+                        <div class="panel-heading">
+                          <i class="fa fa-info-circle"></i> قطعات
+                        </div>
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="col-lg-12">
+
+                              <!--pip install django-widget-tweaks-->
+
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                      <h5>قطعات </h5>
+
+                                    </div>
+                                    <div class="ibox-content">
+
+                                      <div class="table-responsive">
+                                        <table class="table table-striped" id="woPart-table">
+                                          <thead>
+                                            <tr>
+                                              <th></th>
+                                              <th>نام قطعه</th>
+                                              <th> کمیت پیشنهادی</th>
+
+                                              <th>کمیت استفاده شده</th>
+
+                                              <th></th>
+
+                                            </tr>
+
+                                          </thead>
+                                          <tbody id="tbody_woPart">
+
+                                            <tr>
+                                              <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+                                            </tr>
+
+
+                                          </tbody>
+                                        </table>
+                                        <!-- BUTTON TO TRIGGER THE ACTION -->
+                                        <p>
+                                          <button type="button" class="btn btn-primary js-create-woPart" data-url="/WoPart/create/">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                            جدید
+                                          </button>
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                                <div class="modal fade" id="modal-woPart">
+                                  <div class="modal-dialog ">
+
+                                    <div class="modal-content ">
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+
+
+
+
+
+                              <script src="/static/js/project/woPart.js"></script>
+
+
+
+                            </div>
+
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                  </div>
+
+
+                </div>
+              </div>
+              <div id="tab-5" class="tab-pane">
+                <div class="panel-body">
+
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="panel panel-info">
+                        <div class="panel-heading">
+                          <i class="fa fa-info-circle"></i> قرائت
+                        </div>
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="col-lg-12">
+
+                              <!--pip install django-widget-tweaks-->
+
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                      <h5>قرائت ها </h5>
+
+                                    </div>
+                                    <div class="ibox-content">
+
+                                      <div class="table-responsive">
+                                        <table class="table table-striped" id="woMeter-table">
+                                          <thead>
+                                            <tr>
+                                              <th></th>
+                                              <th>مکان/دستگاه</th>
+                                              <th>تاریخ</th>
+
+                                              <th>مقذار خوانده شده در این WO</th>
+
+                                              <th></th>
+
+                                            </tr>
+
+                                          </thead>
+                                          <tbody id="tbody_woMeter">
+
+
+                                            <tr>
+                                              <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+                                              <td>dsa:rewrew</td>
+                                              <td>1397-09-06</td>
+
+                                              <td>Hours (h)  0.0</td>
+
+
+
+
+
+                                              <td><button type="button" class="btn btn-warning btn-sm js-update-woMeter" data-url="/WoMeter/1/update/">
+                                                <span class="glyphicon glyphicon-pencil"></span> ویرایش
+                                              </button>
+                                              <button type="button" class="btn btn-danger btn-sm js-delete-woMeter" data-url="/WoMeter/1/delete/">
+                                                <span class="glyphicon glyphicon-trash"></span> حذف
+                                              </button>
+                                            </td>
+                                          </tr>
+
+                                        </tbody>
+                                      </table>
+                                      <!-- BUTTON TO TRIGGER THE ACTION -->
+                                      <p>
+                                        <button type="button" class="btn btn-primary js-create-woMeter" data-url="/WoMeter/create/">
+                                          <span class="glyphicon glyphicon-plus"></span>
+                                          جدید
+                                        </button>
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                              <div class="modal fade" id="modal-woMeter">
+                                <div class="modal-dialog ">
+
+                                  <div class="modal-content ">
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+
+
+
+
+                            <script src="/static/js/project/woMeter.js"></script>
+
+
+
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </div>
+            <div id="tab-6" class="tab-pane">
+              <div class="panel-body">
+
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        <i class="fa fa-info-circle"></i> قرائت
+                      </div>
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-lg-12">
+
+                            <!--pip install django-widget-tweaks-->
+
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                  <div class="ibox-title">
+                                    <h5>قطعات </h5>
+
+                                  </div>
+                                  <div class="ibox-content">
+
+                                    <div class="table-responsive">
+                                      <table class="table table-striped" id="woMisc-table">
+                                        <thead>
+                                          <tr>
+                                            <th></th>
+                                            <th>نوع</th>
+                                            <th>شرح</th>
+                                            <th>تعداد تخ</th>
+                                            <th>قیمت واحد تخ</th>
+                                            <th>قیمت کلی تخ</th>
+                                            <th>تعداد</th>
+                                            <th>قیمت واحد</th>
+
+                                            <th>قیمت کلی</th>
+
+                                            <th></th>
+
+                                          </tr>
+
+                                        </thead>
+                                        <tbody id="tbody_woMisc">
+
+                                          <tr>
+                                            <td colspan="9" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+                                          </tr>
+
+
+                                        </tbody>
+                                      </table>
+                                      <!-- BUTTON TO TRIGGER THE ACTION -->
+                                      <p>
+                                        <button type="button" class="btn btn-primary js-create-woMisc" data-url="/WoMisc/create/">
+                                          <span class="glyphicon glyphicon-plus"></span>
+                                          جدید
+                                        </button>
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                              <div class="modal fade" id="modal-woMisc">
+                                <div class="modal-dialog ">
+
+                                  <div class="modal-content ">
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+
+
+
+
+                            <script src="/static/js/project/woMisc.js"></script>
+
+
+
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </div>
+            <div id="tab-7" class="tab-pane">
+              <div class="panel-body">
+
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        <i class="fa fa-info-circle"></i>اعلانات
+                      </div>
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-lg-12">
+
+                            <!--pip install django-widget-tweaks-->
+
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                  <div class="ibox-title">
+                                    <h5>اعلانات </h5>
+
+                                  </div>
+                                  <div class="ibox-content">
+
+                                    <div class="table-responsive">
+                                      <table class="table table-striped" id="woNotify-table">
+                                        <thead>
+                                          <tr>
+                                            <th></th>
+                                            <th>کاربر</th>
+                                            <th>ایجاد</th>
+                                            <th>تغییر وضعیت</th>
+                                            <th>تکمیل</th>
+                                            <th>تکمیل وظیفه</th>
+                                            <th>آنلاین/آفلاین</th>
+
+
+                                            <th></th>
+
+                                          </tr>
+
+                                        </thead>
+                                        <tbody id="tbody_woNotify">
+
+                                          <tr>
+                                            <td colspan="9" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+                                          </tr>
+
+
+                                        </tbody>
+                                      </table>
+                                      <!-- BUTTON TO TRIGGER THE ACTION -->
+                                      <p>
+                                        <button type="button" class="btn btn-primary js-create-woNotify" data-url="/WoNotify/create/">
+                                          <span class="glyphicon glyphicon-plus"></span>
+                                          جدید
+                                        </button>
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                              <div class="modal fade" id="modal-woNotify">
+                                <div class="modal-dialog ">
+
+                                  <div class="modal-content ">
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+
+
+
+
+                            <script src="/static/js/project/woNotify.js"></script>
+
+
+
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </div>
+            <div id="tab-8" class="tab-pane">
+              <div class="panel-body">
+
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        <i class="fa fa-info-circle"></i> فایل های ضمیمه
+                      </div>
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-lg-12">
+
+                            <!--pip install django-widget-tweaks-->
+
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                  <div class="ibox-title">
+                                    <h5>پیوست ها</h5>
+
+                                  </div>
+                                  <div class="ibox-content">
+
+                                    <div class="table-responsive">
+                                      <table class="table table-striped" id="woFile-table">
+                                        <thead>
+                                          <tr>
+                                            <th></th>
+
+                                            <th>نام</th>
+                                            <th>نوع فایل </th>
+
+                                            <th>اندازه</th>
+
+                                            <th></th>
+
+                                          </tr>
+
+                                        </thead>
+                                        <tbody id="tbody_woFile">
+
+                                          <tr>
+                                            <td colspan="9" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+                                          </tr>
+
+
+                                        </tbody>
+                                      </table>
+                                      <!-- BUTTON TO TRIGGER THE ACTION -->
+                                      <p>
+                                        <button type="button" class="btn btn-primary js-upload-woFiles">
+                                          <span class="glyphicon glyphicon-cloud-upload"></span> بارگذاری عکس
+                                        </button>
+                                        <input id="woFileupload" type="file" name="woFile" multiple="" style="display: none;" data-url="/WoFile/48/basic-upload/" data-form-data="{&quot;csrfmiddlewaretoken&quot;: &quot;ji3mOxMruP7YCWBmWtzCBPR1vfpkfAeqCblmKY2yNO9FymosvZt14ua03qTVmD05&quot;}">
+
+
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                              <div class="modal fade" id="modal-woFile">
+                                <div class="modal-dialog ">
+
+                                  <div class="modal-content ">
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+
+
+
+
+
+
+                            <script src="/static/js/project/woFile.js"></script>
+
+
+
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </div>
+
+
+
+
+
+
+
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+    <button type="submit" class="btn btn-primary">ویرایش</button>
+  </div>
+</form>
+</div>
+</div>
+</div>

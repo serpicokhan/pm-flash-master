@@ -1,0 +1,70 @@
+{% load widget_tweaks %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <i class="fa fa-info-circle"></i>  موجودی
+      </div>
+      <div class="panel-body">
+       <div class="row">
+         <div class="col-lg-6">
+           <div class="form-group">
+             <label>{{form.stockItem.label}}</label>
+              {% render_field form.mypart class='form-control advanced2AutoComplete'  %}
+              {{form.stockItem.as_hidden}}
+
+
+           </div>
+           <div class="form-group">
+             <label>{{form.location.label}}</label>
+
+
+             {% render_field form.location class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+           </div>
+           <div class="form-group">
+             <label>{{form.qtyOnHand.label}}</label>
+
+             {{form.qtyOnHand| add_class:"form-control" }}
+           </div>
+           <div class="form-group">
+             <label>{{form.minQty.label}}</label>
+
+             {{form.minQty| add_class:"form-control" }}
+           </div>
+         </div>
+         <div class="col-lg-6">
+
+           <div class="form-group">
+             <label>{{form.aisle.label}}</label>
+
+             {{form.aisle| add_class:"form-control" }}
+           </div>
+           <div class="form-group">
+             <label>{{form.row.label}}</label>
+
+             {{form.row| add_class:"form-control" }}
+           </div>
+           <div class="form-group">
+             <label>{{form.bin.label}}</label>
+
+             {{form.bin| add_class:"form-control" }}
+           </div>
+
+
+         </div>
+
+       </div>
+
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>

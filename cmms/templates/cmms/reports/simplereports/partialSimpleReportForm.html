@@ -1,0 +1,53 @@
+{% load widget_tweaks %}
+<div class="row">
+<div class="col-sm-12 b-r">
+  <div class="form-group">
+    <div class="alert alert-info">
+                              {{form.test}}
+                            </div>
+
+
+  </div>
+
+  {% for field in form %}
+
+  {% if field.field.widget.input_type == 'checkbox' %}
+  <div class="form-group">
+      {{ field.errors }}
+      {{ field.label_tag }}  {{field }}
+
+  </div>
+
+  {% elif field.field.widget.input_type != 'hidden' %}
+    <div class="form-group">
+        {{ field.errors }}
+        {{ field.label_tag }}  {{field| add_class:"form-control" }}
+
+    </div>
+    {% else %}
+    <div class="form-group">
+        {{ field.errors }}
+        {{field| add_class:"form-control" }}
+
+    </div>
+
+    {% endif %}
+  {% endfor %}
+  <div class="row">
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</div>

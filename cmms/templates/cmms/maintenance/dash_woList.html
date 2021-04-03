@@ -1,0 +1,162 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+
+<div class="row">
+  <div class="col-lg-12">
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>درخواست ها </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">گزینه 1</a>
+                                    </li>
+                                    <li><a href="#">گزینه 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="row">
+                                <div class="col-sm-2 m-b-xs">
+                                  <!-- <select class="input-sm form-control input-s-sm inline" id='woGroup'>
+                                    <option value="-1">همه</option>
+                                  {% for i in groups %}
+                                  <option value="{{i.id}}">{{i}}</option>
+                                  {% endfor %}
+                                </select> -->
+                                </div>
+                                <div class="col-sm-2 m-b-xs">
+                                  <!-- <select class="input-sm form-control input-s-sm inline" id='woType'>
+                                <option value="1">همه</option>
+                                <option value="2">برنامه ریزی شده</option>
+                                <option value="3">موردی</option>
+                                </select> -->
+                                </div>
+                                <div class="col-sm-4 m-b-xs">
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <!-- <div class="input-group"><input type="text" placeholder="جستجو" class="input-sm form-control" id='woSearch'> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary" id='woSearchBtn'> برو!</button> </span></div> -->
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                              <table class="table  breakpoint-lg" data-paging="true" data-page-size="8" id="company-table">
+                                  <thead>
+                                  <tr>
+                                    <th></th>
+                                    <th>کد</th>
+                                    <th class="col-md-3">شرح</th>
+                                    <th>اولویت</th>
+                                    <th>دارایی</th>
+                                    <th>کاربر مشخص شده</th>
+                                    <th>واحد</th>
+                                    <th>وضعیت</th>
+                                    <th>نوع</th>
+                                    <th>کاربر صادر کننده</th>
+
+
+                                    <th>زمان واقعی(m)</th>
+
+
+
+
+                                      <th></th>
+                                      <style media="screen">
+                                        th{
+                                          text-align:center;
+                                        }
+                                      </style>
+
+                                  </tr>
+
+                                  </thead>
+                                  <!-- <tfoot>
+                                    <tr class='footable-paging'>
+                                      <td colspan="5">
+                                              <ul class="pagination pull-right">
+                                              </ul>
+                                          </td>
+
+                                    </tr>
+                                  </tfoot> -->
+                                  <tbody id='tbody_company'>
+                                    {% include 'cmms/maintenance/partialWoList.html' %}
+
+
+                                  </tbody>
+
+                              </table>
+                              {% load mathfilters %}
+                              <div class="woPaging" >
+                                {% if wo.has_other_pages %}
+                                <ul class="pagination">
+                                {% if wo.has_previous %}
+                                <li><a href="?page={{ wo.previous_page_number }}">&laquo;</a></li>
+                                {% else %}
+                                <li class="disabled"><span>&laquo;</span></li>
+                                {% endif %}
+                                {% for i in wo.paginator.page_range %}
+                                {% if  wo.number  ==  i %}
+                                <li class="active">
+                                  <span>{{ i }} <span class="sr-only">(current)</span></span>
+                                </li>
+                                {% elif  i|sub:3 <=  wo.number and i|add:3 > wo.number %}
+
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                                {% if wo.has_next %}
+                                <li><a href="?page={{ wo.next_page_number }}">&raquo;</a></li>
+                                {% else %}
+                                <li class="disabled"><span>&raquo;</span></li>
+                                {% endif %}
+                                </ul>
+                                {% endif %}
+
+                              </div>
+
+
+
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                              
+                            </div>
+                          </div>
+
+                    </div>
+                    <div class="modal fade" id="modal-company" style="overflow-y: scroll">
+                     <div class="modal-dialog  modal-lg ">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                </div>
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/workorder.js' %}"></script>
+
+
+
+{% endblock %}
+{% endblock %}

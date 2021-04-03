@@ -1,0 +1,102 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+                     گزارش پروژه به همراه شرح دستور کارها <br>
+
+
+                            </h1>
+
+                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+                          <h4>به همراه پارامترهای زیر</h4>
+                          <h4> از تاریخ: {{stdate}}</h4>
+                          <h4>تا تاریخ: {{enddate}}</h4>
+
+                          <h4>وضعیت دستورکار: {{woStatus}}</h4>
+
+                           </div>
+
+
+     {% for c in woList %}
+     <table class="table table-bordered">
+       <thead>
+         <tr>
+          <th class="col-md-1 active">نام پروژه</th>
+          <th class="col-md-2 active">شرح</th>
+          <th class="col-md-1 active">تاریخ شروع</th>
+          <th class="col-md-1 active">تاریخ پایان</th>
+
+         </tr>
+       </thead>
+       <tbody>
+     <tr>
+       <td class="active">{{c.0.projectName}}</td>
+       <td class="active">
+         {{c.0.projectDescription}}
+       </td>
+       <td class="active">
+         {{c.0.get_ProjectActualStartDate_jalali}}
+       </td>
+
+       <td class="active">
+         {{c.0.get_ProjectActualEndDate_jalali}}
+       </td>
+     </tr>
+     <tr >
+       <td colspan="8">
+         <table class="table table-borderless table-dark">
+
+         <thead>
+           <th>دستورکار</th>
+           <th>شرح</th>
+           <th>وضعیت</th>
+           <th>کد SM</th>
+           <th>شرح زمانبندی</th>
+           <th>هزینه قطعات</th>
+           <th>هزینه نیرو</th>
+           <th>هزینه برونسپاری</th>
+           <th>مجموع</th>
+         </thead>
+          <tbody>
+            {% for k in c.1 %}
+            <tr>
+              <td>{{k.id}}</td>
+              <td>{{k.summaryofIssue}}</td>
+              <td>{{k.get_woStatus_display}}</td>
+              <td>{{k.isPartOf}}</td>
+              <td>{{k.isPartOf}}</td>
+              <td>{{k.partcost}}</td>
+              <td>{{k.laborcost}}</td>
+              <td>{{k.misccost}}</td>
+              <td>{{k.total}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+             <td colspan="9" class="text-center bg-warning">بدون دستور کار</td>
+            </tr>
+
+            {%endfor%}
+
+         </tbody>
+       </table>
+     </td>
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="7" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+   </tbody>
+     </table>
+
+     {% endfor %}
+
+
+ {% endblock %}

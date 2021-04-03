@@ -1,0 +1,153 @@
+<div  data-url="" class="js-task-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close task"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body ">
+    <div class="ibox float-e-margins">
+
+        <div class="ibox-content ">
+            <div class="row">
+                <div class="col-sm-5 m-b-xs">
+
+                </div>
+                <div class="col-sm-4 m-b-xs">
+
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-group"><input type="text" placeholder="جستجو" class="input-sm form-control" id='tgSearch'> <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary" id='swoSearchBtn'> برو!</button> </span></div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped  table-hover" id="company-table">
+                    <thead>
+                    <tr>
+
+                      <th>نام گروه </th>
+                      <th>تعداد فعالیت ها</th>
+                      <th></th>
+
+
+                  </tr>
+
+                  </thead>
+                  <tbody id='tbody_taskgroup'>
+
+
+            {% for c in taskGroup %}
+
+            <tr>
+            <td><input type="checkbox" name="" value=""></td>
+            <td>{{c.taskGroupName}}</td>
+             <td>{{c.getTaskNum}}</td>
+             <td><button type="button" name="button" class='btn taskGroupUtility' date-url={{c.id}}>ثبت</button></td>
+
+
+
+
+
+
+
+
+            </tr>
+            {% empty %}
+            <tr>
+             <td colspan="4" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+            </table>
+            </div>
+          </div>
+
+    </div>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" >انصراف</button>
+  <button type="button" class="btn btn-primary" id="taskgroup-submit"  >انتخاب</button>
+  <script type="text/javascript">
+    $("#taskgroup-submit").click(function(){
+
+      alert($("#id_woAsset").val());
+    });
+    $(".taskGroupUtility").click(function(){
+      return $.ajax({
+        url: '/TaskGroup/'+$(this).attr('date-url')+'/'+$("#lastWorkOrderid").val()+'/register/',
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+          //alert(btn.attr("data-url"));
+          //alert("321321");
+          // /$("#modal-taskGroup").modal("hide");
+          $("#modal-taskGroup").modal({backdrop: 'static', keyboard: false});
+        },
+        success: function (data) {
+          //alert("3123@!");
+
+           // $("#modal-task .modal-content").html(data.html_taskgroup_list);
+           $("#tbody_task").empty();
+           $("#tbody_task").html(data.html_taskgroup_list);
+           // $('#modal-task').modal('hide');
+           $("#modal-taskGroup").modal("hide");
+
+
+        },
+        error:function(){
+          console.log("error");
+        }
+      });
+      // $("#modal-taskGroup").modal("hide");
+    });
+    $("#tgSearch").on('input',function(){
+      var searchStr=$('#tgSearch').val().replace(' ','_');
+      if($('#tgSearch').val().length<3 && $('#tgSearch').val().length>0)
+        return;
+      if($('#tgSearch').val().length==0)
+        searchStr='empty';
+
+      return $.ajax({
+        url: '/TaskGroup/'+searchStr+'/search/',
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+          //alert(btn.attr("data-url"));
+          //alert("321321");
+          // /$("#modal-taskGroup").modal("hide");
+          // $("#modal-taskGroup").modal({backdrop: 'static', keyboard: false});
+        },
+        success: function (data) {
+
+          //alert("3123@!");
+
+           // $("#modal-task .modal-content").html(data.html_taskgroup_list);
+           // $("#tbody_taskgroup").empty();
+           $("#tbody_taskgroup").html(data.html_taskGroup_list);
+           // $('#modal-task').modal('hide');
+           // $("#modal-taskGroup").modal("hide");
+
+
+        },
+        error:function(){
+          console.log("error");
+        }
+    });
+  });
+
+  </script>
+  {% load static %}
+
+  {% block javascript %}
+    <script src="{% static '/js/project/task.js' %}"></script>
+  {% endblock %}
+
+</div>
+
+</div>

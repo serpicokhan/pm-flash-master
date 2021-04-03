@@ -1,0 +1,136 @@
+{% load widget_tweaks %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-info">
+         <div class="panel-heading">
+             <i class="fa fa-info-circle"></i> جزییات وظیفه
+         </div>
+         <div class="panel-body">
+             <div class="row">
+               <div class="col-lg-6">
+
+                 <label>{{form.taskTypes.label}}</label>
+
+                 </div>
+
+               <div class="col-lg-6">
+                 {{form.taskTypes| add_class:"form-control" }}
+               </div>
+             </div>
+             <div class="row">
+               <div class="col-lg-6">
+
+                 <label>{{form.metrics.label}}</label>
+
+                 </div>
+
+               <div class="col-lg-6">
+                 {{form.metrics| add_class:"form-control" }}
+               </div>
+             </div>
+             <div class="row">
+               <div class="col-lg-12">
+
+                 <label>{{form.description.label}}</label>
+
+
+                 {{form.description| add_class:"form-control" }}
+               </div>
+             </div>
+             <div class="row">
+               <div class="col-lg-6">
+
+                 <label>{{form.assignedToUser.label}}</label>
+
+                 </div>
+
+               <div class="col-lg-6">
+                 {{form.assignedToUser| add_class:"form-control" }}
+               </div>
+             </div>
+             <div class="row">
+               <div class="col-lg-6">
+
+                 <label>{{form.startDate.label}}</label>
+
+                 </div>
+
+               <div class="col-lg-6">
+                 {{form.startDate| add_class:"form-control" }}
+               </div>
+             </div>
+             <div class="row">
+               <div class="col-lg-6">
+
+                 <label>{{form.timeEstimate.label}}</label>
+
+                 </div>
+
+               <div class="col-lg-6">
+                 {{form.timeEstimate| add_class:"form-control" }}
+               </div>
+             </div>
+         </div>
+
+    </div>
+    <div class="panel panel-info">
+         <div class="panel-heading">
+             <i class="fa fa-info-circle"></i> جزییات وظیفه
+         </div>
+         <div class="panel-body">
+             <div class="row">
+               <div class="col-lg-6">
+
+                 <label>{{form.completedByUser.label}}</label>
+
+                 </div>
+
+               <div class="col-lg-6">
+                 {{form.completedByUser| add_class:"form-control" }}
+               </div>
+             </div>
+             <div class="row">
+               <div class="col-lg-6">
+
+                 <label>{{form.dateCompleted.label}}</label>
+
+                 </div>
+
+               <div class="col-lg-6">
+                 {{form.dateCompleted| add_class:"form-control" }}
+               </div>
+             </div>
+
+
+             <div class="row">
+               <div class="col-lg-6">
+
+                 <label>{{form.timeSpent.label}}</label>
+
+                 </div>
+
+               <div class="col-lg-6">
+                 {{form.timeSpent| add_class:"form-control" }}
+               </div>
+             </div>
+
+             <div class="row">
+               <div class="col-lg-12">
+
+                 <label>{{form.taskCompletionNote.label}}</label>
+
+
+                 {{form.taskCompletionNote| add_class:"form-control" }}
+               </div>
+         </div>
+
+    </div>
+
+
+
+
+
+
+  </div>
+</div>

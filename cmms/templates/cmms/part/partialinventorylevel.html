@@ -1,0 +1,34 @@
+<li class="list-group-item navy-bg">
+  فهرست موجودی
+</li>
+
+<table class="table table-hover table-striped no-margins">
+    <thead>
+        <tr>
+            <th>
+            نام انبار</th>
+
+            <th>
+            مقدار</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% for c in wos %}
+        <tr>
+            <td>
+                <small >
+            {{ c.location}}</small>
+            </td>
+
+
+            <td class="text-navy">
+            {{c.qtyOnHand}}
+           </td>
+        </tr>
+      {% empty %}
+      <tr>
+        <td colspan="2" class="text-center bg-warning"> موردی یافت نشد</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>

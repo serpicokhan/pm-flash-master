@@ -1,0 +1,104 @@
+<div  data-url="{% url 'assetBusiness_update' form.instance.id %}" class="js-assetBusiness-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close cl-part"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/asset_business/partialAssetBusinessForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-part btn btn-default" >بستن</button>
+    <button type="button" class="btn btn-primary" id="assetBusiness-submit">ویرایش</button>
+
+
+    <script>
+
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+   }
+       $( document).ready(
+         function()
+         {
+           $(".cl-part").click(function()
+           {
+             $("#modal-assetBusiness").modal("hide");
+             //$("#{modal-company}").css("background-color", "yellow");
+
+
+           });
+
+           $("#assetBusiness-submit").click(function(){
+
+                      //alert("12321");
+                      //$( "#myselect option:selected" ).text();
+                      var mydata="";
+                      var mydata="";
+                      mydata=myformat('{"BusinessAssetAsset":{0}\
+                      ,"businessAssetBusiness":{1}\
+                      ,"businessAssetBusinessType":{2}\
+                      ,"businessAssetSupplierPartNumber":"{3}"\
+                    ,"businessAssetCatalog":"{4}"\
+                  ,"businessAssetisDefault":"{5}" }',
+                      $("#lastAssetid").val(),
+                      $("#id_businessAssetBusiness").val(),
+                      $("#id_businessAssetBusinessType").val(),
+                      $("#id_businessAssetSupplierPartNumber").val(),
+                      $("#id_businessAssetCatalog").val(),
+
+                      $("#id_businessAssetisDefault").is(':checked')
+                    );
+
+                      var form = $(this).parent().parent();
+                       //console.log(form.attr("action"));
+                       //alert($("#id_metrics").val());
+                       console.log($(this));
+                       $.ajax({
+                         url: form.attr("data-url"),
+                         type: "POST",
+                         data:mydata,
+                         dataType: 'json',
+                         beforeSend: function () {
+                           //alert(btn.attr("data-url"));
+                           console.log($("#id_businessAssetisDefault").is(':checked'));
+
+                         },
+                         success: function (data) {
+                           if (data.form_is_valid) {
+                             //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                             $("#tbody_assetBusiness").empty();
+
+                             $("#tbody_assetBusiness").html(data.html_assetBusiness_list);
+                             $("#modal-assetBusiness").modal("hide");
+                             console.log(data.html_assetBusiness_list);
+                           }
+                           else {
+
+                             $("#assetBusiness-table tbody").html(data.html_assetBusiness_list);
+                             $("#modal-assetBusiness .modal-content").html(data.html_assetBusiness_form);
+                           }
+                         }
+
+                       });
+                       return false;
+
+
+
+                  });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

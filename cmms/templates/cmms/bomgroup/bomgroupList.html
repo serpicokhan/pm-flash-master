@@ -1,0 +1,123 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> گروه BOM</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-5 m-b-xs">
+
+                                </div>
+                                <div class="col-sm-4 m-b-xs">
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group"><input type="text" placeholder="جستجو" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> برو!</button> </span></div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="company-table">
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+
+
+                                      <th>نام</th>
+
+                                  <th>تعداد قطعه</th>
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_company'>
+                                            {% include 'cmms/bomgroup/partialBOMGroupList.html' %}
+                                    </tbody>
+                                </table>
+                                <div class="woPaging" >
+                                  {% if bomgroup.has_other_pages %}
+                                  <ul class="pagination">
+                                  {% if bomgroup.has_previous %}
+                                  <li><a href="?page={{ bomgroup.previous_page_number }}">&laquo;</a></li>
+                                  {% else %}
+                                  <li class="disabled"><span>&laquo;</span></li>
+                                  {% endif %}
+                                  {% for i in bomgroup.paginator.page_range %}
+                                  {% if bomgroup.number == i %}
+                                  <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                  {% else %}
+                                  <!-- <li><a href="?page={{ i }}">{{ i }}</a></li> -->
+
+                                  {% endif %}
+                                  {% endfor %}
+                                  {% if bomgroup.has_next %}
+                                  <li><a href="?page={{ bomgroup.next_page_number }}">&raquo;</a></li>
+                                  {% else %}
+                                  <li class="disabled"><span>&raquo;</span></li>
+                                  {% endif %}
+                                  </ul>
+                                  {% endif %}
+
+                                </div>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                    {% if perms.cmms.add_bomgroup %}
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-bomgroup"
+                                  data-url="{% url 'bomgroup_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                                {% endif %}
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-company" style="overflow-y: scroll">
+                 <div class="modal-dialog  modal-lg ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/bomgroup.js' %}"></script>
+{% endblock %}
+{% endblock %}

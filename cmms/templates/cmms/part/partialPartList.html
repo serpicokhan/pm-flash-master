@@ -1,0 +1,33 @@
+{% for c in part %}
+
+<tr data-url={{c.id}} data-model={{c.partModel}} data-make={{c.partMake}}>
+
+<td>{{c.partName| default_if_none:"-"}}</td>
+ <td>{{c.partCode| default_if_none:"-"}}</td>
+ <td>{{c.partLastPrice| default_if_none:"-"}}</td>
+<td>{{c.partModel| default_if_none:"-"}}</td>
+
+
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-part"
+              data-url="{% url 'part_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-part"
+                   data-url="{% url 'part_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="8" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

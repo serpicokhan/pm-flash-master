@@ -1,0 +1,60 @@
+ {% load static %}
+<div class="modal-header " style="background:#ccc">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h4 class="modal-title">جدید</h4>
+</div>
+<div class="modal-body">
+<div class="row">
+  <div class="col-lg-6">
+    <div class="widget yellow-bg p-lg text-center ">
+
+      <button class="btn btn-primary  dim btn-large-dim js-create-asset" id='btn100' data-url="{% url 'asset_create_location' %}" type="button" style="background-image:url({% static 'img/if_industry_50840.png' %});background-repeat:   no-repeat;    background-position: center center;background-size:     cover; ">
+
+
+
+
+</button>
+<h1>اماکن</h1>
+
+                     </div>
+
+
+                     <div class="widget yellow-bg p-lg text-center ">
+
+                       <button class="btn btn-primary  dim btn-large-dim js-create-asset" id='btn100' data-url="{% url 'asset_create_machine' %}" type="button" style="background-image: url({% static 'img/forklift.png' %}); background-repeat:   no-repeat;    background-position: center center;background-size:     cover; ">
+
+
+
+
+                 </button>
+                 <h1> ماشین آلات</h1>
+
+                                      </div>
+
+  </div>
+  <div class="col-lg-6">
+    <div class="widget yellow-bg p-lg text-center ">
+
+      <button class="btn btn-primary  dim btn-large-dim js-create-asset" id='btn100' data-url="{% url 'asset_create_tool' %}" type="button" style="background-image: url({% static 'img/tools.png' %}); background-repeat:   no-repeat;    background-position: center center;background-size:     cover; ">
+
+
+
+
+ </button>
+ <h1> ابزارآلات</h1>
+
+                     </div>
+
+
+  </div>
+
+</div>
+</div>
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/asset.js' %}"></script>
+{% endblock %}

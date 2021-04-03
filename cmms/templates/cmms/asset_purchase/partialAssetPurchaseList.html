@@ -1,0 +1,40 @@
+
+{% for c in assetPurchases %}
+
+<tr>
+
+<td>{{c.purchasedFrom}}</td>
+<td>{{c.purchaseUser}}</td>
+
+ <td>{{c.purchaseDateOrdered}}</td>
+<td>{{c.purchaseDateRecieved}}</td>
+ <td>{{c.purchaseDateofExpire}}</td>
+ <td>{{c.purchaseCurrency}}</td>
+ <td>{{c.purchasePriceTotla}}</td>
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-assetPurchase"
+              data-url="{% url 'assetPurchase_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-assetPurchase"
+                   data-url="{% url 'assetPurchase_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="8" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/assetPurchase.js' %}"></script>
+{% endblock %}

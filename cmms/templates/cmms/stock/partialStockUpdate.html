@@ -1,0 +1,118 @@
+<div  data-url="{% url 'stock_update' form.instance.id %}" class="js-stock-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/stock/partialStockForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+    <button type="button" class="btn btn-primary" id="stock-submit">ویرایش</button>
+
+
+    <script>
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+   }
+       $( document).ready(
+         function()
+         {
+
+           $("#stock-submit").click(function(){
+
+                      //alert("12321");
+                       var form = $(this).parent().parent();
+                       //console.log(form.attr("action"));
+                       //alert($("#id_metrics").val());
+                       console.log(form.attr('class'));
+                       $.ajax({
+                         url: form.attr("data-url"),
+                         type: "POST",
+                         data:myformat('{"stockItem":{0},\
+                         "location":{1},\
+                         "qtyOnHand":{2},\
+                         "minQty":{3},\
+                         "aisle":{4},\
+                         "row":{5},\
+                         "bin":{6}}',
+                         $("#id_stockItem").val(),
+                         $("#id_location").val(),
+
+                         $("#id_qtyOnHand").val(),
+                         $("#id_minQty").val(),
+                         $("#id_aisle").val(),
+                         $("#id_row").val(),
+                         $("#id_bin").val()
+
+
+
+                       ),
+
+
+
+
+                         dataType: 'json',
+                         beforeSend: function () {
+                           //alert(btn.attr("data-url"));
+                           console.log(myformat('{"stockItem":{0},\
+                           "location":{1},\
+                           "qtyOnHand":{2},\
+                           "minQty":{3},\
+                           "aisle":{4},\
+                           "row":{5},\
+                           "bin":{6}}',
+                           $("#lastPartid").val(),
+                           $("#id_location").val(),
+
+                           $("#id_qtyOnHand").val(),
+                           $("#id_minQty").val(),
+                           $("#id_aisle").val(),
+                           $("#id_row").val(),
+                           $("#id_bin").val()
+
+
+
+                         ));
+
+                         },
+                         success: function (data) {
+                           if (data.form_is_valid) {
+                             //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                             $("#tbody_stock").empty();
+
+                             $("#tbody_stock").html(data.html_stock_list);
+                             $("#modal-stock").modal("hide");
+                             console.log(data.html_stock_list);
+                           }
+                           else {
+
+                             $("#stock-table tbody").html(data.html_stock_list);
+                             $("#modal-stock .modal-content").html(data.html_stock_form);
+                           }
+                         }
+
+                       });
+                       return false;
+
+
+
+                  });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

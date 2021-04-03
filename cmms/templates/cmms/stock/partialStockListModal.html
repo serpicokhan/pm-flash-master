@@ -1,0 +1,33 @@
+
+{% for c in stocks %}
+
+<tr date-url={{c.id}} data-partmodel={{c.stockItem.partModel}} data-partMake={{c.stockItem.partMake}} >
+ <td ><input type="checkbox" name="acttion" value=""></td>
+ <td class="col-md-2">{{c.stockItem}}</td>
+<td class="col-md-2">{{c.location}}</td>
+
+ <td>{{c.qtyOnHand}}</td>
+ <td>{{c.minQty}}</td>
+
+
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-select-stock"
+              data-url="{{ c.id }}"
+              data-name="{{c.stockItem.partName}}"
+              >
+        <span class="glyphicon glyphicon-plus"></span> انتخاب
+      </button>
+
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="10" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

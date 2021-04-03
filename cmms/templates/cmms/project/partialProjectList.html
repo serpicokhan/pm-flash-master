@@ -1,0 +1,36 @@
+{% for c in projects %}
+
+<tr data-url={{c.id}} title={{c.description}}>
+<td></td>
+<td>{{c.projectName}}</td>
+ <td>{{c.projectDescription}}</td>
+
+
+
+
+
+
+
+ <td>
+   {% if perms.cmms.view_project %}
+   <button type="button"
+              class="btn btn-warning btn-sm js-update-project"
+              data-url="{% url 'project_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> مشاهده
+      </button>
+      {% endif %}
+      {% if perms.cmms.delete_project %}
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-project"
+                   data-url="{% url 'project_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+         {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="4" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

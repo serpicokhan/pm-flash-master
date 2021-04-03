@@ -1,0 +1,105 @@
+<div  data-url="{% url 'woPart_update' form.instance.id %}" class="js-woPart-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close cl-woPart"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/workorder_parts/partialWoPartForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-woPart btn btn-default" >بستن</button>
+    {% if perms.cmms.change_workorderpart %}
+    <button type="button" class="btn btn-primary" id="woPart-submit">ویرایش</button>
+    {% endif %}
+
+
+
+      <script>
+        $(".cl-woPart").click(function()
+        {
+          $("#modal-woPart").modal("hide");
+
+        }
+       );
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+    }
+       $( document).ready(
+         function()
+         {
+
+     $("#woPart-submit").click(function(){
+
+                //alert("12321");
+                 var form = $(this).parent().parent();
+                 //console.log(form.attr("action"));
+                 //alert($("#id_metrics").val());
+                 $.ajax({
+                   url: form.attr("data-url"),
+                   type: "POST",
+// data:myformat('{"woPartPart":{0},"woPartPlannedQnty":{1},"woPartActulaQnty":{2},"woPartWorkorder":{3},"woPartStock":{4}}',$("#id_woPartPart").val(),$("#id_woPartPlannedQnty").val(),$("#id_woPartActulaQnty").val(),$("#lastWorkOrderid").val(),$("#id_woPartStock").val()),
+data:myformat('{"woPartPlannedQnty":{0},"woPartActulaQnty":{1},"woPartWorkorder":{2},"woPartStock":{3}}',$("#id_woPartPlannedQnty").val(),$("#id_woPartActulaQnty").val(),$("#lastWorkOrderid").val(),$("#id_woPartStock").val()),
+
+
+
+
+                   dataType: 'json',
+                   beforeSend: function () {
+                     //alert(btn.attr("data-url"));
+                    // console.log(myformat('{"woPartPart":{0},"woPartPlannedQnty":{1},"woPartActulaQnty":{2},"woPartWorkorder":{3}}',$("#id_woPartPart").val(),$("#id_woPartPlannedQnty").val(),$("#id_woPartActulaQnty").val(),$("#id_woPartWorkorder").val()));
+
+                   },
+                   success: function (data) {
+                     if (data.form_is_valid) {
+                       //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                       $("#tbody_woPart").empty();
+                       $("#tbody_woPart").html(data.html_woPart_list);
+                       // message handling
+                       if(data.html_woPart_list_success)
+                       {
+                         toastr.success(data.html_woPart_list_success)
+                       }
+                       else if(data.html_woPart_list_error){
+                         toastr.error(data.html_woPart_list_error)
+                         $("#id_woStatus").val(data.html_woPart_wo_status)
+                       }
+                       else {
+
+                       }
+
+                       ////
+
+                       $("#modal-woPart").modal("hide");
+                       //console.log(data.html_wo_list);
+                     }
+                     else {
+
+                       $("#woPart-table tbody").html(data.html_woPart_list);
+                       $("#modal-woPart .modal-content").html(data.html_woPart_form);
+                     }
+                   }
+
+                 });
+                 return false;
+
+
+
+            });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

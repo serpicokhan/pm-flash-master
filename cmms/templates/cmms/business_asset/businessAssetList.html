@@ -1,0 +1,64 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>دارایی</h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive" style="position: relative;height: 200px;overflow: auto;display:block">
+                                <table class="table table-striped" id="businessAsset-table">
+                                    <thead>
+                                    <tr>
+                                      <th>پیشفرض</th>
+                                     <th>نوع کسب و کار</th>
+                                     <th>دارایی</th>
+                                     <th>پارت نامبر</th>
+                                     <th>آخرین قیمت</th>
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_businessAsset'>
+                                            {% include 'cmms/business_asset/partialBusinessAssetlist.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-businessAsset"
+                                  data-url="{% url 'businessAsset_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                            </div>
+                          </div>
+
+                    </div>
+                    <div class="modal fade" id="modal-businessAsset" >
+                     <div class="modal-dialog ">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                </div>
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/businessAsset.js' %}"></script>
+{% endblock %}

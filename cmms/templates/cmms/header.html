@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>thi is a test</title>
+    {% load staticfiles %}
+
+<link href="{% static 'css/bootstrap.min.css' %}"  rel="stylesheet">
+  </head>
+  <body>
+    <div>
+      {% block content %}
+      {% endblock %}
+
+    </div>
+  </body>
+
+</html>

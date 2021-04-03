@@ -1,0 +1,28 @@
+
+{% for c in projectWos %}
+
+<tr>
+
+
+  <td>{{c.id}}</td>
+  <td>{{c.description}}</td>
+  <td>{{c.get_woPriority_display}}</td>
+  <td>{{c.woAsset}}</td>
+  <td>{{c.assignedToUser}}</td>
+  <td>{{c.get_woStatus_display}}</td>
+  <td>{{c.maintenanceType}}</td>
+  <td>{{c.completedByUser}}</td>
+  <td>{{c.estimatedLabor}}</td>
+  <td>{{c.get_actual_labour2}}</td>
+
+
+
+
+
+
+</tr>
+{% empty %}
+<tr>
+ <td colspan="10" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}

@@ -1,0 +1,85 @@
+<div  data-url="{% url 'partLocation_update' form.instance.id %}" class="js-partLocation-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/asset_parts/partialPartLocationForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+    <button type="button" class="btn btn-primary" id="partLocation-submit">ویرایش</button>
+
+
+    <script>
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+   }
+       $( document).ready(
+         function()
+         {
+
+           $("#partLocation-submit").click(function(){
+
+                      //alert("12321");
+                       var form = $(this).parent().parent();
+                       //console.log(form.attr("action"));
+                       //alert($("#id_metrics").val());
+                       console.log(form.attr('class'));
+                       $.ajax({
+                         url: form.attr("data-url"),
+                         type: "POST",
+                         data:myformat('{"assetPartAssetid":{0},\
+                         "assetPartPid":{1},\
+                         "assetPartQnty":{2}}',
+                         $("#id_assetPartAssetid").val(),
+                         $("#lastPartid").val(),
+
+                         $("#id_assetPartQnty").val()),
+
+                         dataType: 'json',
+                         beforeSend: function () {
+                           //alert(btn.attr("data-url"));
+                          // console.log(myformat('{"partLocationPart":{0},"partLocationPlannedQnty":{1},"partLocationActulaQnty":{2},"partLocationWorkorder":{3}}',$("#id_partLocationPart").val(),$("#id_partLocationPlannedQnty").val(),$("#id_partLocationActulaQnty").val(),$("#lastWorkOrderid").val()));
+
+                         },
+                         success: function (data) {
+                           if (data.form_is_valid) {
+                             //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                             $("#tbody_partLocation").empty();
+
+                             $("#tbody_partLocation").html(data.html_partLocation_list);
+                             $("#modal-partLocation").modal("hide");
+                             console.log(data.html_partLocation_list);
+                           }
+                           else {
+
+                             $("#partLocation-table tbody").html(data.html_partLocation_list);
+                             $("#modal-partLocation .modal-content").html(data.html_partLocation_form);
+                           }
+                         }
+
+                       });
+                       return false;
+
+
+
+                  });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

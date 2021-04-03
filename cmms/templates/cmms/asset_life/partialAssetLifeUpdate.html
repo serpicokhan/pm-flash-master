@@ -1,0 +1,178 @@
+<div  data-url="{% url 'assetLife_update' form.instance.id %}" class="js-assetLife-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close close-assetLife"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/asset_life/partialAssetLifeForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="close-assetLife btn btn-default" >بستن</button>
+    <button type="button" class="btn btn-primary" id="assetLife-submit">ویرایش</button>
+
+
+    <script>
+
+      $(".close-assetLife").click(function()
+      {
+        $("#modal-assetLife").modal("hide");
+        $("#id_assetStatus").trigger('click');
+        //$("#{modal-company}").css("background-color", "yellow");
+
+
+      }
+      );
+
+
+
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+   }
+   getStringVal=function(element){
+     if(element.val().length===0)
+     {
+       switch(element.attr("id"))
+       {
+
+
+         case "id_assetOnlineAdditionalInfo":
+
+          return "بدون توضیح";
+         break;
+         default:
+         return " ";
+         break;
+       }
+   }
+   else{
+     // switch(element.attr("id"))
+     // {
+     //   case "id_assetOfflineFrom":
+     //        return $("#id_assetOfflineFrom").attr("value");
+     //        break;
+     //   case "id_assetOnlineFrom":
+     //             return $("#id_assetOnlineFrom").attr("value");
+     //             break;
+     //   default:
+     //   return element.val();
+     //   break;
+     //
+     // }
+     return element.val();
+
+   }
+   }
+   getVal=function(element){
+     if(element.val().length===0)
+     {
+        switch(element.attr("id"))
+        {
+
+          case "id_assetSetOnlineByUser":
+          case "id_assetOnlineStatus":
+          case "id_assetOnlineProducteHourAffected":
+           console.log(element.attr("id"));
+           return -1;
+          break;
+          default:
+          return 0;
+          break;
+        }
+      }
+     else{
+       return element.val();
+     }
+   }
+       $(document).ready(function(){
+         $("#assetLife-submit").click(function(){
+
+                      var mydata="";
+
+                      mydata=myformat('{"assetStatus":0\
+                        ,"assetLifeAssetid":{0}\
+                      ,"assetOfflineFrom":"{1}"\
+                      ,"assetSetOfflineByUser":{2}\
+                      ,"assetOfflineStatus":{3}\
+                    ,"assetWOAssoc":{4}\
+                  ,"assetOfflineAdditionalInfo":"{5}"\
+                ,"assetEventType":{6}\
+              ,"assetEventDescription":"{7}"\
+            ,"assetOnlineFrom":"{8}"\
+          ,"assetSetOnlineByUser":{9}\
+          ,"assetOnlineStatus":{10}\
+          ,"assetOnlineAdditionalInfo":"{11}"\
+        ,"assetOnlineProducteHourAffected":{12},"assetOfflineFromTime":"{13}","assetOnlineFromTime":"{14}","assetCheckEvent":{15},"assetStopCode":{16}}',
+                      getVal($("#lastAssetid")),
+                      getStringVal($("#id_assetOfflineFrom")),
+                      getVal($("#id_assetSetOfflineByUser")),
+                      getVal($("#id_assetOfflineStatus")),
+                      (getVal($("#id_assetWOAssoc")).length>0)?getVal($("#id_assetWOAssoc")).length>0:null,
+                      getStringVal( $("#id_assetOfflineAdditionalInfo")),
+                      getVal($("#id_assetEventType")),
+                      getStringVal($("#id_assetEventDescription")),
+
+                      getStringVal($("#id_assetOnlineFrom")),
+                      getVal($("#id_assetSetOnlineByUser")),
+                      getVal($("#id_assetOnlineStatus")),
+
+                      getStringVal($("#id_assetOnlineAdditionalInfo")),
+                      getVal($("#id_assetOnlineProducteHourAffected")),
+                      getStringVal($("#id_assetOfflineFromTime")),
+                      getStringVal($("#id_assetOnlineFromTime")),
+                      $("#id_assetCheckEvent").is(":checked"),
+                      ($("#id_assetStopCode").val().length>0)?$("#id_assetStopCode").val():'null'
+
+
+                    );
+
+                       var form = $(this).parent().parent();
+                       $.ajax({
+                         url: form.attr("data-url"),
+                         type: "POST",
+                         data:mydata,
+                         dataType: 'json',
+                         beforeSend: function () {
+                           console.log(mydata);
+
+
+                         },
+                         success: function (data) {
+                           if (data.form_is_valid) {
+                             //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                             $("#tbody_assetLife").empty();
+                             $("#tbody_assetLife").html(data.html_assetLife_list);
+                             $("#modal-assetLife").modal("hide");
+                             $("#id_assetStatus").trigger('click');
+                           }
+                           else {
+
+                             $("#assetLife-table tbody").html(data.html_assetLife_list);
+                             $("#modal-assetLife .modal-content").html(data.html_assetLife_form);
+                           }
+                         }
+
+                       });
+                       return false;
+
+
+
+                  });
+                });
+
+
+
+
+
+       </script>
+
+  </div>
+</div>

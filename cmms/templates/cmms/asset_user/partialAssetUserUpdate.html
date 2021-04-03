@@ -1,0 +1,92 @@
+<div  data-url="{% url 'assetUser_update' form.instance.id %}" class="js-assetUser-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close cl-assetuser"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/asset_user/partialAssetUserForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-assetuser btn btn-default" >بستن</button>
+    <button type="button" class="btn btn-primary" id="assetUser-submit">ویرایش</button>
+
+
+    <script>
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+    }
+       $( document).ready(
+         function()
+         {
+           $(".cl-assetuser").click(function()
+          {
+            $("#modal-assetUser").modal("hide");
+            //$("#{modal-company}").css("background-color", "yellow");
+
+
+          }
+         );
+
+
+     $("#assetUser-submit").click(function(){
+
+                //alert("12321");
+                 var form = $(this).parent().parent();
+                 //console.log(form.attr("action"));
+                 //alert($("#id_metrics").val());
+                 $.ajax({
+                   url: form.attr("data-url"),
+                   type: "POST",
+                   data:myformat('{"AssetUserAssetId":{0}\
+                   ,"AssetUserUserId":{1}}',
+                   $("#lastAssetid").val(),
+                   $("#id_AssetUserUserId").val()),
+
+
+
+
+                   dataType: 'json',
+                   beforeSend: function () {
+                     //alert(btn.attr("data-url"));
+                    // console.log(myformat('{"assetUserPart":{0},"assetUserPlannedQnty":{1},"assetUserActulaQnty":{2},"assetUserWorkorder":{3}}',$("#id_assetUserPart").val(),$("#id_assetUserPlannedQnty").val(),$("#id_assetUserActulaQnty").val(),$("#id_assetUserWorkorder").val()));
+
+                   },
+                   success: function (data) {
+                     if (data.form_is_valid) {
+                       //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                       $("#tbody_assetUser").empty();
+                       $("#tbody_assetUser").html(data.html_assetUser_list);
+                       $("#modal-assetUser").modal("hide");
+                       //console.log(data.html_wo_list);
+                     }
+                     else {
+
+                       $("#assetUser-table tbody").html(data.html_assetUser_list);
+                       $("#modal-assetUser .modal-content").html(data.html_assetUser_form);
+                     }
+                   }
+
+                 });
+                 return false;
+
+
+
+            });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

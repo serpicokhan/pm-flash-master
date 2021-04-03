@@ -1,0 +1,90 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>قطعات </h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive" style="position: relative;height: 300px;overflow: auto;display:block">
+                                <table class="table table-striped" id="woPart-table" >
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>نام قطعه</th>
+                                      <th> کمیت پیشنهادی</th>
+
+                                      <th>کمیت استفاده شده</th>
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_woPart'>
+                                            {% include 'cmms/workorder_parts/partialWoPartList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                {% if perms.cmms.add_workorderpart %}
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-woPart"
+                                  data-url="{% url 'woPart_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                                {% endif %}
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-woPart">
+                 <div class="modal-dialog ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+                <div class="modal fade" id="modal-woPartStock">
+                 <div class="modal-dialog  ">
+
+                   <div class="modal-content ">
+
+                   </div>
+                 </div>
+                </div>
+                <div class="modal fade" id="modal-woPartStockNew">
+                 <div class="modal-dialog  ">
+
+                   <div class="modal-content ">
+
+                   </div>
+                 </div>
+                </div>
+                <div class="modal fade" id="modal-woPartPartNew">
+                 <div class="modal-dialog  ">
+
+                   <div class="modal-content ">
+
+                   </div>
+                 </div>
+                </div>
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/woPart.js' %}"></script>
+
+{% endblock %}

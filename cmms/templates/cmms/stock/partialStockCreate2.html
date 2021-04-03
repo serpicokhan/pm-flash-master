@@ -1,0 +1,120 @@
+<!-- this is for wo part storck creation form -->
+<div  data-url="{% url 'stock_create2' %}"  >
+
+  <div class="modal-header" style="background:#ccc">
+    <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/stock/partialStockForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default"  data-dismiss="modal">انصراف</button>
+    <button type="button" class="btn btn-primary js-save-new-stock" id="stock-submit2"  >ذخیره</button>
+    <button type="button" class="btn btn-success js-add-new-part" id="stock-submit"  >جدید</button>
+ <script>
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+
+        $(".js-save-new-stock").click(function(){
+
+                   alert("12321");
+                    var form = $(this).parent().parent();
+                    //console.log(form.attr("action"));
+                    //alert($("#id_metrics").val());
+
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:myformat('{"stockItem":{0},\
+                      "location":{1},\
+                      "qtyOnHand":{2},\
+                      "minQty":{3},\
+                      "aisle":{4},\
+                      "row":{5},\
+                      "bin":{6}}',
+                      $("#id_stockItem").val(),
+                      $("#id_location").val(),
+
+                      $("#id_qtyOnHand").val(),
+                      $("#id_minQty").val(),
+                      $("#id_aisle").val(),
+                      $("#id_row").val(),
+                      $("#id_bin").val()
+
+
+
+                    ),
+
+
+
+
+                      dataType: 'json',
+                      beforeSend: function () {
+                        //alert(btn.attr("data-url"));
+                        console.log(myformat('{"stockItem":{0},\
+                        "location":{1},\
+                        "qtyOnHand":{2},\
+                        "minQty":{3},\
+                        "aisle":{4},\
+                        "row":{5},\
+                        "bin":{6}}',
+                        $("#id_stockItem").val(),
+                        $("#id_location").val(),
+
+                        $("#id_qtyOnHand").val(),
+                        $("#id_minQty").val(),
+                        $("#id_aisle").val(),
+                        $("#id_row").val(),
+                        $("#id_bin").val()
+
+
+
+                      ));
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_stock").empty();
+
+                          $("#tbody_stock").html(data.html_stock_list);
+                          $("#modal-woPartStockNew").modal("hide");
+                          // console.log(data.html_stock_list);
+                          toastr.success(data.html_success)
+                        }
+                        else {
+                          toastr.error(data.stock_err_msg);
+
+                          // $("#stock-table tbody").html(data.html_stock_list);
+                          // $("#modal-stock .modal-content").html(data.html_stock_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

@@ -1,0 +1,125 @@
+{% extends 'cmms/mainTheme.html' %}
+
+{% block content %}
+
+<div class="row">
+  {% include "cmms/summery/dateselector.html" %}
+</div>
+<div class="clear">
+
+</div>
+<div class="row">
+  <div class="col-lg-3">
+    {% include "cmms/summery/worequeted.html" %}
+  </div>
+  <div class="col-lg-3">
+    {% include "cmms/summery/hworequeted.html" %}
+  </div>
+  <div class="col-lg-3">
+    {% include "cmms/summery/MIT.html" %}
+  </div>
+  <div class="col-lg-3">
+    {% include "cmms/summery/misc.html" %}
+  </div>
+
+</div>
+
+
+
+<div class="row">
+  <div class="col-lg-2">
+    <a href="#" class='dash_tekrar' > {% include "cmms/summery/tekrarha.html" %}</a>
+  </div>
+  <div class="col-lg-2">
+    <a href="#"  class="dash_tavizat"> {% include "cmms/summery/tavizat.html" %}</a>
+  </div>
+  <div class="col-lg-2">
+    <a href="#" class="dash_tavaghof" > {% include "cmms/summery/tavaghofat.html" %}</a>
+  </div>
+  <div class="col-lg-2">
+    <a href="#" class="dash_servicemonghazi"> {% include "cmms/summery/servicemonghazi.html" %}</a>
+  </div>
+  <div class="col-lg-2">
+    <a href="{% url 'list_lowItemStock' %}" > {% include "cmms/summery/hadetajdid.html" %}</a>
+  </div>
+  <div class="col-lg-2">
+    <a href="#" class="dash_newrequest" > {% include "cmms/summery/newrequest.html" %}</a>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+
+    {% include "cmms/summery/istgahStatus.html" %}
+  </div>
+
+</div>
+
+
+
+<div class="row">
+  <div class="col-lg-12">
+
+    {% include "cmms/summery/causeBar.html" %}
+  </div>
+
+</div>
+<div class="row">
+
+    {% for m in dashugroups %}
+    {% include "cmms/summery/resourceStatus.html" %}
+    {% endfor %}
+
+
+
+
+
+</div>
+
+
+
+{% load static %}
+
+{% block javascript %}
+<script type="text/javascript">
+  xxxDate1=new persianDate();
+  dt1=xxxDate1.pDate.year.toString()+"-"+("0" + xxxDate1.pDate.month).slice(-2)+"-01";
+  //$("#dashboardt1").val(dt1);
+  $('.dash_tekrar').click(function(){
+    $('.dash_tekrar').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/EM/');
+  });
+  $('.dash_tavizat').click(function(){
+    $('.dash_tavizat').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/taviz/');
+  });
+  $('.dash_tavaghof').click(function(){
+    $('.dash_tavaghof').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/tavaghof/');
+  });
+  $('.dash_servicemonghazi').click(function(){
+    $('.dash_servicemonghazi').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/overdue/');
+  });
+  $('.dash_newrequest').click(function(){
+    $('.dash_newrequest').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/new/');
+  });
+  $('.highprioritywo').click(function(){
+    $('.highprioritywo').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/HighPriority/');
+  });
+
+
+</script>
+<script src="{% static '/js/project/dashboard/datepicker.js' %}"></script>
+<script src="{% static '/js/project/dashboard/randomcolor.js' %}"></script>
+<script src="{% static '/js/project/dashboard/resourceStatus.js' %}"></script>
+<script src="{% static '/js/project/dashboard/causeBar.js' %}"></script>
+<script src="{% static '/js/project/dashboard/istgahStatus.js' %}"></script>
+ <script src="{% static '/js/project/dashboard/info.js' %}"></script>
+  <script src="{% static '/js/project/dashboard/manager.js' %}"></script>
+<script type="text/javascript">
+
+  LoadCauseBar();
+  LoadIstgahStatusBar();
+
+</script>
+
+{% endblock %}
+{% endblock %}

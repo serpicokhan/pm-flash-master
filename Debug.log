@@ -1,0 +1,100 @@
+2020-11-22 20:24:02,077 PIL.Image    DEBUG    Importing BlpImagePlugin
+2020-11-22 20:24:02,079 PIL.Image    DEBUG    Importing BmpImagePlugin
+2020-11-22 20:24:02,084 PIL.Image    DEBUG    Importing BufrStubImagePlugin
+2020-11-22 20:24:02,085 PIL.Image    DEBUG    Importing CurImagePlugin
+2020-11-22 20:24:02,086 PIL.Image    DEBUG    Importing DcxImagePlugin
+2020-11-22 20:24:02,087 PIL.Image    DEBUG    Importing DdsImagePlugin
+2020-11-22 20:24:02,088 PIL.Image    DEBUG    Importing EpsImagePlugin
+2020-11-22 20:24:02,117 PIL.Image    DEBUG    Importing FitsStubImagePlugin
+2020-11-22 20:24:02,118 PIL.Image    DEBUG    Importing FliImagePlugin
+2020-11-22 20:24:02,119 PIL.Image    DEBUG    Importing FpxImagePlugin
+2020-11-22 20:24:02,121 PIL.Image    DEBUG    Image: failed to import FpxImagePlugin: No module named 'olefile'
+2020-11-22 20:24:02,122 PIL.Image    DEBUG    Importing FtexImagePlugin
+2020-11-22 20:24:02,123 PIL.Image    DEBUG    Importing GbrImagePlugin
+2020-11-22 20:24:02,124 PIL.Image    DEBUG    Importing GifImagePlugin
+2020-11-22 20:24:02,126 PIL.Image    DEBUG    Importing GribStubImagePlugin
+2020-11-22 20:24:02,127 PIL.Image    DEBUG    Importing Hdf5StubImagePlugin
+2020-11-22 20:24:02,128 PIL.Image    DEBUG    Importing IcnsImagePlugin
+2020-11-22 20:24:02,133 PIL.Image    DEBUG    Importing IcoImagePlugin
+2020-11-22 20:24:02,134 PIL.Image    DEBUG    Importing ImImagePlugin
+2020-11-22 20:24:02,136 PIL.Image    DEBUG    Importing ImtImagePlugin
+2020-11-22 20:24:02,137 PIL.Image    DEBUG    Importing IptcImagePlugin
+2020-11-22 20:24:02,138 PIL.Image    DEBUG    Importing JpegImagePlugin
+2020-11-22 20:24:02,147 PIL.Image    DEBUG    Importing Jpeg2KImagePlugin
+2020-11-22 20:24:02,147 PIL.Image    DEBUG    Importing McIdasImagePlugin
+2020-11-22 20:24:02,148 PIL.Image    DEBUG    Importing MicImagePlugin
+2020-11-22 20:24:02,150 PIL.Image    DEBUG    Image: failed to import MicImagePlugin: No module named 'olefile'
+2020-11-22 20:24:02,150 PIL.Image    DEBUG    Importing MpegImagePlugin
+2020-11-22 20:24:02,151 PIL.Image    DEBUG    Importing MpoImagePlugin
+2020-11-22 20:24:02,152 PIL.Image    DEBUG    Importing MspImagePlugin
+2020-11-22 20:24:02,153 PIL.Image    DEBUG    Importing PalmImagePlugin
+2020-11-22 20:24:02,155 PIL.Image    DEBUG    Importing PcdImagePlugin
+2020-11-22 20:24:02,155 PIL.Image    DEBUG    Importing PcxImagePlugin
+2020-11-22 20:24:02,156 PIL.Image    DEBUG    Importing PdfImagePlugin
+2020-11-22 20:24:02,171 PIL.Image    DEBUG    Importing PixarImagePlugin
+2020-11-22 20:24:02,172 PIL.Image    DEBUG    Importing PngImagePlugin
+2020-11-22 20:24:02,173 PIL.Image    DEBUG    Importing PpmImagePlugin
+2020-11-22 20:24:02,174 PIL.Image    DEBUG    Importing PsdImagePlugin
+2020-11-22 20:24:02,175 PIL.Image    DEBUG    Importing SgiImagePlugin
+2020-11-22 20:24:02,176 PIL.Image    DEBUG    Importing SpiderImagePlugin
+2020-11-22 20:24:02,177 PIL.Image    DEBUG    Importing SunImagePlugin
+2020-11-22 20:24:02,178 PIL.Image    DEBUG    Importing TgaImagePlugin
+2020-11-22 20:24:02,179 PIL.Image    DEBUG    Importing TiffImagePlugin
+2020-11-22 20:24:02,179 PIL.Image    DEBUG    Importing WebPImagePlugin
+2020-11-22 20:24:02,181 PIL.Image    DEBUG    Importing WmfImagePlugin
+2020-11-22 20:24:02,182 PIL.Image    DEBUG    Importing XbmImagePlugin
+2020-11-22 20:24:02,185 PIL.Image    DEBUG    Importing XpmImagePlugin
+2020-11-22 20:24:02,186 PIL.Image    DEBUG    Importing XVThumbImagePlugin
+2020-11-22 20:24:03,163 PIL.Image    DEBUG    Importing BlpImagePlugin
+2020-11-22 20:24:03,165 PIL.Image    DEBUG    Importing BmpImagePlugin
+2020-11-22 20:24:03,168 PIL.Image    DEBUG    Importing BufrStubImagePlugin
+2020-11-22 20:24:03,168 PIL.Image    DEBUG    Importing CurImagePlugin
+2020-11-22 20:24:03,169 PIL.Image    DEBUG    Importing DcxImagePlugin
+2020-11-22 20:24:03,170 PIL.Image    DEBUG    Importing DdsImagePlugin
+2020-11-22 20:24:03,171 PIL.Image    DEBUG    Importing EpsImagePlugin
+2020-11-22 20:24:03,191 PIL.Image    DEBUG    Importing FitsStubImagePlugin
+2020-11-22 20:24:03,192 PIL.Image    DEBUG    Importing FliImagePlugin
+2020-11-22 20:24:03,193 PIL.Image    DEBUG    Importing FpxImagePlugin
+2020-11-22 20:24:03,194 PIL.Image    DEBUG    Image: failed to import FpxImagePlugin: No module named 'olefile'
+2020-11-22 20:24:03,194 PIL.Image    DEBUG    Importing FtexImagePlugin
+2020-11-22 20:24:03,195 PIL.Image    DEBUG    Importing GbrImagePlugin
+2020-11-22 20:24:03,196 PIL.Image    DEBUG    Importing GifImagePlugin
+2020-11-22 20:24:03,197 PIL.Image    DEBUG    Importing GribStubImagePlugin
+2020-11-22 20:24:03,198 PIL.Image    DEBUG    Importing Hdf5StubImagePlugin
+2020-11-22 20:24:03,199 PIL.Image    DEBUG    Importing IcnsImagePlugin
+2020-11-22 20:24:03,201 PIL.Image    DEBUG    Importing IcoImagePlugin
+2020-11-22 20:24:03,202 PIL.Image    DEBUG    Importing ImImagePlugin
+2020-11-22 20:24:03,203 PIL.Image    DEBUG    Importing ImtImagePlugin
+2020-11-22 20:24:03,204 PIL.Image    DEBUG    Importing IptcImagePlugin
+2020-11-22 20:24:03,205 PIL.Image    DEBUG    Importing JpegImagePlugin
+2020-11-22 20:24:03,211 PIL.Image    DEBUG    Importing Jpeg2KImagePlugin
+2020-11-22 20:24:03,211 PIL.Image    DEBUG    Importing McIdasImagePlugin
+2020-11-22 20:24:03,212 PIL.Image    DEBUG    Importing MicImagePlugin
+2020-11-22 20:24:03,213 PIL.Image    DEBUG    Image: failed to import MicImagePlugin: No module named 'olefile'
+2020-11-22 20:24:03,213 PIL.Image    DEBUG    Importing MpegImagePlugin
+2020-11-22 20:24:03,214 PIL.Image    DEBUG    Importing MpoImagePlugin
+2020-11-22 20:24:03,215 PIL.Image    DEBUG    Importing MspImagePlugin
+2020-11-22 20:24:03,215 PIL.Image    DEBUG    Importing PalmImagePlugin
+2020-11-22 20:24:03,217 PIL.Image    DEBUG    Importing PcdImagePlugin
+2020-11-22 20:24:03,218 PIL.Image    DEBUG    Importing PcxImagePlugin
+2020-11-22 20:24:03,218 PIL.Image    DEBUG    Importing PdfImagePlugin
+2020-11-22 20:24:03,231 PIL.Image    DEBUG    Importing PixarImagePlugin
+2020-11-22 20:24:03,232 PIL.Image    DEBUG    Importing PngImagePlugin
+2020-11-22 20:24:03,233 PIL.Image    DEBUG    Importing PpmImagePlugin
+2020-11-22 20:24:03,233 PIL.Image    DEBUG    Importing PsdImagePlugin
+2020-11-22 20:24:03,234 PIL.Image    DEBUG    Importing SgiImagePlugin
+2020-11-22 20:24:03,235 PIL.Image    DEBUG    Importing SpiderImagePlugin
+2020-11-22 20:24:03,236 PIL.Image    DEBUG    Importing SunImagePlugin
+2020-11-22 20:24:03,236 PIL.Image    DEBUG    Importing TgaImagePlugin
+2020-11-22 20:24:03,237 PIL.Image    DEBUG    Importing TiffImagePlugin
+2020-11-22 20:24:03,237 PIL.Image    DEBUG    Importing WebPImagePlugin
+2020-11-22 20:24:03,238 PIL.Image    DEBUG    Importing WmfImagePlugin
+2020-11-22 20:24:03,239 PIL.Image    DEBUG    Importing XbmImagePlugin
+2020-11-22 20:24:03,242 PIL.Image    DEBUG    Importing XpmImagePlugin
+2020-11-22 20:24:03,243 PIL.Image    DEBUG    Importing XVThumbImagePlugin
+2020-11-22 20:24:04,328 django.db.backends DEBUG    (0.001) None; args=None
+2020-11-22 20:24:04,328 django.db.backends DEBUG    (0.000) None; args=None
+2020-11-22 20:24:04,329 django.db.backends DEBUG    (0.000) None; args=None
+2020-11-22 20:24:04,423 django.db.backends DEBUG    (0.001) None; args=None
+2020-11-22 20:24:04,432 django.db.backends DEBUG    (0.009) None; args=None
+2020-11-22 20:24:04,436 django.db.backends DEBUG    (0.001) None; args=()

@@ -1,0 +1,101 @@
+<div  data-url="{% url 'partBusiness_create' %}" class="js-partBusiness-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close cl-task"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/part_business/partialPartBusinessForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-task btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="partBusiness-submit"  >ذخیره</button>
+ <script>
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+        $(".cl-task").click(function()
+        {
+          $("#modal-partBusiness").modal("hide");
+          //$("#{modal-company}").css("background-color", "yellow");
+
+
+        }
+       );
+
+        $("#partBusiness-submit").click(function(){
+
+                   //alert("12321");
+                   //$( "#myselect option:selected" ).text();
+                   var mydata="";
+                   mydata=myformat('{"BusinessPartPart":{0}\
+                   ,"businessPartBusiness":{1}\
+                   ,"businessPartBusinessType":{2}\
+                   ,"businessPartSupplierPartNumber":"{3}"\
+                 ,"businessPartCatalog":"{4}"\
+               ,"businessPartisDefault":"{5}" }',
+                   $("#lastPartid").val(),
+                   $("#id_businessPartBusiness").val(),
+                   $("#id_businessPartBusinessType").val(),
+                   $("#id_businessPartSupplierPartNumber").val(),
+                   $("#id_businessPartCatalog").val(),
+
+                   $("#id_businessPartisDefault").is(':checked')
+                 );
+
+                    var form = $(this).parent().parent();
+                    //console.log(form.attr("action"));
+                    //alert($("#id_metrics").val());
+                    // console.log($(this));
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:mydata,
+                      dataType: 'json',
+                      beforeSend: function () {
+                        //alert(btn.attr("data-url"));
+                        console.log(mydata);
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_partBusiness").empty();
+
+                          $("#tbody_partBusiness").html(data.html_partBusiness_list);
+                          $("#modal-partBusiness").modal("hide");
+                          // console.log(data.html_partBusiness_list);
+                        }
+                        else {
+
+                          $("#partBusiness-table tbody").html(data.html_partBusiness_list);
+                          $("#modal-partBusiness .modal-content").html(data.html_partBusiness_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

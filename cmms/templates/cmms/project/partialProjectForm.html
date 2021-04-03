@@ -1,0 +1,302 @@
+{% load widget_tweaks %}
+<div class="row">
+
+  <div class="col-sm-8 b-r">
+    <input type=hidden name='lastProjectid' id='lastProjectid' value='{{lId}}'/>
+    <div class="form-group">
+      <label>{{form.projectName.label}}</label>
+
+      {% render_field form.projectName class="form-control" value=lId %}
+      <!-- <script type="text/javascript">
+      $("#id_projectName").val("#Project "+$("#id_projectName").val());
+
+      </script> -->
+    </div>
+    <div class="form-group">
+      <label>{{form.projectDescription.label}}</label>
+      {{form.projectDescription| add_class:"form-control" }}
+    </div>
+
+  </div>
+
+</row>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="tabs-container">
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">عمومی</a></li>
+        <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">تعمیرات دوره ای</a></li>
+
+        <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">درخواست</a></li>
+        <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">تکنسین ها</a></li>
+
+        <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">پیوست ها</a></li>
+
+
+      </ul>
+      <div class="tab-content ">
+        <div id="tab-1" class="tab-pane active">
+          <div class="panel-body">
+
+
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <i class="fa fa-info-circle"></i>   اطلاعات عمومی
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="panel panel-info">
+                          <div class="panel-heading">
+                            <i class="fa fa-info-circle"></i>   تاریخ های تخمینی
+                          </div>
+                          <div class="panel-body">
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <div class="form-group">
+                                  <label>{{form.ProjectStartDate.label}}</label>
+                                  {{form.ProjectStartDate| add_class:"form-control" }}
+
+
+                                </div>
+                                <div class="form-group">
+                                  <label>{{form.ProjectEndDate.label}}</label>
+                                  {{form.ProjectEndDate| add_class:"form-control" }}
+
+
+                                </div>
+
+
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="panel panel-info">
+                          <div class="panel-heading">
+                            <i class="fa fa-info-circle"></i>  تاریخ های واقعی
+                          </div>
+                          <div class="panel-body">
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <div class="form-group">
+                                  <label>{{form.ProjectActualStartDate.label}}</label>
+                                  {{form.ProjectActualStartDate| add_class:"form-control" }}
+
+
+                                </div>
+                                <div class="form-group">
+                                  <label>{{form.ProjectActualEndDate.label}}</label>
+                                  {{form.ProjectActualEndDate| add_class:"form-control" }}
+
+
+                                </div>
+
+
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+
+
+
+          </div>
+        </div>
+
+        <div id="tab-2" class="tab-pane">
+          <div class="panel-body">
+            <div class='row'>
+              <div class='col-lg-12'>
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <i class="fa fa-info-circle"></i>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-lg-12">
+
+                        {% include 'cmms/projectscheduled/projectScheduledList.html' %}
+
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+
+
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <div id="tab-3" class="tab-pane">
+          <div class="panel-body">
+
+            <div class='row'>
+              <div class='col-lg-12'>
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <i class="fa fa-info-circle"></i>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="panel panel-info">
+
+                          <div class="panel-body">
+                            {% include 'cmms/projectwo/projectWoList.html' %}
+
+
+                          </div>
+
+                        </div>
+
+
+
+
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+
+
+        <div id="tab-4" class="tab-pane">
+          <div class="panel-body">
+
+            <div class='row'>
+              <div class='col-lg-12'>
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <i class="fa fa-info-circle"></i> گارانتی
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-lg-12">
+                         {% include 'cmms/project_user/projectUserList.html' %}
+
+
+
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+
+        <div id="tab-5" class="tab-pane">
+          <div class="panel-body">
+
+            <div class='row'>
+              <div class='col-lg-12'>
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        {% include 'cmms/project_file/projectFileList.html' %}
+
+
+
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+        <div id="tab-8" class="tab-pane">
+          <div class="panel-body">
+
+            <div class='row'>
+              <div class='col-lg-12'>
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <i class="fa fa-info-circle"></i>پیوستها
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-lg-12">
+
+
+
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+    </div>
+  </div>
+</div>

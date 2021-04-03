@@ -1,0 +1,133 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+      گزارش آماری علت کدهای خرابی <br>
+
+
+</h1>
+
+<h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+<h4>به همراه پارامترهای زیر</h4>
+<h4> از تاریخ: {{stdate}}</h4>
+<h4>تا تاریخ: {{enddate}}</h4>
+
+
+<h4>نوع دارایی: {{assetcat}}</h4>
+
+
+
+
+                           </div>
+
+                           <div class="row">
+                             <div class="col-lg-12">
+                                 <div class="ibox float-e-margins">
+                                     <div class="ibox-title">
+
+
+                                         <div ibox-tools></div>
+                                     </div>
+                                     <div class="ibox-content">
+                                         <div>
+                                             <canvas id="doughnutChart" height="140"></canvas>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                                          <div class="col-lg-12">
+                                              <div class="ibox float-e-margins">
+                                                  <div class="ibox-title">
+
+
+                                                      <div ibox-tools></div>
+                                                  </div>
+                                                  <div class="ibox-content">
+                                                      <table class="table table-striped">
+                                                        <thead>
+                                                          <tr>
+                                                            <th>کد علت خرابی</th>
+                                                            <th>شرح علت</th>
+                                                            <th>تعداد</th>
+                                                          </tr>
+
+                                                        </thead>
+                                                        <tbody>
+
+                                                            {%for c in wolist %}
+                                                            <tr>
+                                                              <td>{{c.causecode}}</td>
+                                                              <td>{{c.causeDescription}}</td>
+                                                              <td>{{c.tedad}}</td>
+                                                                </tr>
+                                                            {%endfor%}
+
+                                                        </tbody>
+                                                      </table>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                      </div>
+                                      {% load static %}
+
+                                      {% block javascript %}
+                                      <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+                                      <script type="text/javascript">
+                                        // var glll;
+
+
+                                        var MONTHS = {{s1}};
+                                      		var color = Chart.helpers.color;
+                                      		var barChartData = {
+                                      			labels: {% autoescape off %} {{s2}} {% endautoescape %},
+                                      			datasets: [{
+                                      				label: '',
+                                              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#b0cac7","#f7d6bf","#318fb5","#005086","#f6f4e6","#fddb3a","#52575d","#cdb30c","#62760c"],
+
+
+                                      				borderWidth: 1,
+
+                                      				data:
+                                      					{{s1}}
+
+                                      			}]
+
+                                      		};
+
+
+
+
+                                           var ctx = document.getElementById("doughnutChart").getContext("2d");
+
+                                           window.myBar = new Chart(ctx, {
+                                             type: 'pie',
+
+                                             data: barChartData,
+                                             options: {
+                                               responsive: true,
+                                               animation:false,
+
+                                               legend: {
+                                                 position: 'top',
+                                               },
+                                               title: {
+                                                 display: false,
+                                                 text: 'تعداد توقفات'
+                                               }
+                                             }
+                                           });
+
+
+
+                                      </script>
+                                        <!-- <script src="{% static '/js/project/reports/DowntimeByRepairTypeByAssetCategory.js' %}"></script> -->
+
+                                      {% endblock %}
+ {% endblock %}

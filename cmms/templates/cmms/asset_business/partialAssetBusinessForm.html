@@ -1,0 +1,54 @@
+{% load widget_tweaks %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <i class="fa fa-info-circle"></i> کسب و کار
+      </div>
+      <div class="panel-body">
+        <div class="row">
+        <div class="col-lg-12">
+          <div class="form-group">
+            <label>{{form.BusinessAssetAsset.label}}</label>
+
+            <input type=text id='id_assetBusinessjq' class="form-control" readonly/>
+            <script type="text/javascript">
+            $("#id_assetBusinessjq").val($("#id_assetName").val());
+
+            </script>
+          </div>
+          <div class="form-group">
+            <label>{{form.businessAssetBusiness.label}}</label>
+
+            {% render_field form.businessAssetBusiness class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+          </div>
+          <div class="form-group">
+            <label>{{form.businessAssetBusinessType.label}}</label>
+
+            {{form.businessAssetBusinessType| add_class:"form-control" }}
+          </div>
+          <div class="form-group">
+            <label>{{form.businessAssetSupplierPartNumber.label}}</label>
+
+            {{form.businessAssetSupplierPartNumber| add_class:"form-control" }}
+          </div>
+          <div class="form-group">
+            <label>{{form.businessAssetCatalog.label}}</label>
+
+            {{form.businessAssetCatalog| add_class:"form-control" }}
+          </div>
+          <div class="form-group">
+            <label>{{form.businessAssetisDefault.label}}</label>
+
+            {{form.businessAssetisDefault| add_class:"form-control" }}
+          </div>
+
+          </div>
+
+        </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

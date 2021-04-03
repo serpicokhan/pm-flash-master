@@ -1,0 +1,80 @@
+<div  data-url="{% url 'task_update' form.instance.id %}" class="js-task-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/tasks/partialTaskForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+    <button type="button" class="btn btn-primary" id="task-submit">ویرایش</button>
+
+
+    <script>
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+    }
+       $( document).ready(
+         function()
+         {
+
+     $("#task-submit").click(function(){
+
+                //alert("12321");
+                 var form = $(this).parent().parent();
+                 //console.log(form.attr("action"));
+                 alert($("#id_metrics").val());
+                 $.ajax({
+                   url: form.attr("data-url"),
+                   type: "POST",
+                   data:myformat('{"taskTypes":{0},"taskMetrics":{1},"taskDescription":"{2}","taskAssignedToUser":"{3}","taskStartDate":"{4}","taskTimeEstimate":{5},"taskCompletedByUser":"{6}","taskDateCompleted":"{7}","taskTimeSpent":{8},"taskCompletionNote":"{9}","woId":{10},"workOrder":{11},"result":"123"}',$("#id_taskTypes").val(),$("#id_taskMetrics").val(),$("#id_taskDescription").val(),$("#id_taskAssignedToUser").val(),$("#id_taskStartDate").val(),$("#id_taskTimeEstimate").val(),$("#id_taskCompletedByUser").val(),$("#id_taskDateCompleted").val(),$("#id_taskTimeSpent").val(),$("#id_taskCompletionNote").val(),$("#lastWorkOrderid").val(),$("#lastWorkOrderid").val()),
+
+
+
+
+                   dataType: 'json',
+                   beforeSend: function () {
+                     //alert(btn.attr("data-url"));
+                     console.log(myformat('{"taskTypes":{0},"taskMetrics":{1},"taskDescription":"{2}","taskAssignedToUser":"{3}","taskStartDate":"{4}","taskTimeEstimate":{5},"taskCompletedByUser":"{6}","taskDateCompleted":"{7}","taskTimeSpent":{8},"taskCompletionNote":"{9}","woId":{10},"workOrder":{11},"result":"123"}',$("#id_taskTypes").val(),$("#id_taskMetrics").val(),$("#id_taskDescription").val(),$("#id_taskAssignedToUser").val(),$("#id_taskStartDate").val(),$("#id_taskTimeEstimate").val(),$("#id_taskCompletedByUser").val(),$("#id_taskDateCompleted").val(),$("#id_taskTimeSpent").val(),$("#id_taskCompletionNote").val(),$("#lastWorkOrderid").val(),$("#lastWorkOrderid").val()));
+
+                   },
+                   success: function (data) {
+                     if (data.form_is_valid) {
+                       //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                       $("#tbody_task").empty();
+                       $("#tbody_task").html(data.html_task_list);
+                       $("#modal-task").modal("hide");
+                       //console.log(data.html_wo_list);
+                     }
+                     else {
+
+                       $("#task-table tbody").html(data.html_task_list);
+                       $("#modal-task .modal-content").html(data.html_task_form);
+                     }
+                   }
+
+                 });
+                 return false;
+
+
+
+            });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

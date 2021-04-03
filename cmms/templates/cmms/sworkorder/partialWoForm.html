@@ -1,0 +1,371 @@
+{% load widget_tweaks %}
+<div class="row">
+<div class="col-sm-4 b-r">
+  {% load static %}
+  <img src="{% static 'img/if_industry_50840.png' %}" / >
+  <input type=hidden name='lastWorkOrderid' id='lastWorkOrderid' value='{{lId}}'/>
+  {{ form.isScheduling.as_hidden }}
+  <div class="form-group">
+    <label>{{form.running.label}}</label>
+    {% render_field form.running class='js-switch' style='margin:0 auto' %}
+
+  </div>
+  <div class="form-group">
+    {{form.creatNewWO}}
+    <label>{{form.creatNewWO.label}}</label>
+
+
+  </div>
+
+
+
+</div>
+<div class="col-sm-4 b-r">
+  <div class="form-group">
+  <label>{{form.woStatus.label}}</label>
+  {{form.woStatus| add_class:"form-control" }}
+  </div>
+  <div class="form-group">
+  <label>{{form.maintenanceType.label}}</label>
+  {{form.maintenanceType| add_class:"form-control" }}
+  </div>
+  <div class="form-group">
+  <label>{{form.woPriority.label}}</label>
+  {{form.woPriority| add_class:"form-control" }}
+  </div>
+</div>
+<div class="col-sm-4 b-r">
+  <div class="form-group">
+    <label>{{form.woAsset.label}}</label>
+      {% render_field form.woAsset class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+    </div>
+    <div class="form-group">
+    <label>{{form.Project.label}}</label>
+    {% render_field form.Project class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+    </div>
+    <div class="form-group">
+    <label>{{form.estimatedCompilation.label}}</label>
+    {{form.estimatedCompilation| add_class:"form-control" }}
+    </div>
+
+</div>
+</row>
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">عمومی</a></li>
+                             <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">زمان بندی</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">کارها</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">قطعات</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">یادداشت</a></li>
+
+
+                            <li class=""><a data-toggle="tab" href="#tab-6" aria-expanded="false">اعلانات</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-7" aria-expanded="false">پیوست ها</a></li>
+                            
+                              {% if perms.cmms.view_logentry %}
+                            <li class=""><a data-toggle="tab" href="#tab-9" aria-expanded="false">فعالیت ها</a></li>
+                            {% endif %}
+
+                        </ul>
+                        <div class="tab-content ">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="panel panel-info">
+                                         <div class="panel-heading">
+                                             <i class="fa fa-info-circle"></i> پیگیری هزینه
+                                         </div>
+                                         <div class="panel-body">
+                                             <div class="row">
+                                               <div class="col-lg-6">
+                                                 <div class="form-group">
+                                                 <label>{{form.account.label}}</label>
+                                                 {{form.account| add_class:"form-control" }}
+                                                 </div>
+                                               </div>
+                                               <div class="col-lg-6">
+                                                 <div class="form-group">
+                                                 <label>{{form.chargeDepartment.label}}</label>
+                                                 {{form.chargeDepartment| add_class:"form-control" }}
+                                                 </div>
+                                               </div>
+                                             </div>
+                                         </div>
+
+                                    </div>
+
+                                </div >
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <div class="panel panel-info">
+                                       <div class="panel-heading">
+                                           <i class="fa fa-info-circle"></i> تعمیر و نگهداری
+                                       </div>
+                                       <div class="panel-body">
+                                           <div class="row">
+                                             <div class="col-lg-12">
+                                               <div class="rows">
+                                                 <div class="form-group">
+                                                 <label>{{form.summaryofIssue.label}}</label>
+                                                 {{form.summaryofIssue| add_class:"form-control" }}
+                                                 </div>
+                                               </div>
+
+                                               <div class="row">
+                                               <div class="col-lg-6">
+                                                 <div class="form-group">
+                                                 <label>{{form.workInstructions.label}}</label>
+                                                 {{form.workInstructions| add_class:"form-control" }}
+                                                 </div>
+                                               </div>
+                                                 <div class="col-lg-6">
+                                                   <div class="form-group">
+                                                   <label>{{form.assignedToUser.label}}</label>
+                                                     {% render_field form.assignedToUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+                                                   </div>
+                                                   <div class="form-group">
+                                                   <label>{{form.estimatedLabor.label}}</label>
+                                                   {{form.estimatedLabor| add_class:"form-control" }}
+                                                   </div>
+
+                                                 </div>
+
+                                             </div>
+                                             </div>
+
+
+                                           </div>
+                                       </div>
+
+                                  </div>
+
+                                </div>
+                              </div>
+
+
+
+
+
+
+                                </div>
+                                </div>
+                                <div id="tab-2" class="tab-pane">
+                                    <div class="panel-body">
+
+                                        <div class='row'>
+                                          <div class='col-lg-12'>
+                                            <div class="panel panel-info">
+                                                 <div class="panel-heading">
+                                                     <i class="fa fa-info-circle"></i> فعالیت ها
+                                                 </div>
+                                                 <div class="panel-body">
+                                                     <div class="row">
+                                                       <div class="col-lg-12">
+
+                                                          {% include 'cmms/schedule/scheduleList.html' %}
+
+                                                       </div>
+
+                                                     </div>
+                                                 </div>
+
+
+                                          </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>             </div>
+
+
+                            <div id="tab-3" class="tab-pane">
+                                <div class="panel-body">
+
+                                    <div class='row'>
+                                      <div class='col-lg-12'>
+                                        <div class="panel panel-info">
+                                             <div class="panel-heading">
+                                                 <i class="fa fa-info-circle"></i> فعالیت ها
+                                             </div>
+                                             <div class="panel-body">
+                                                 <div class="row">
+                                                   <div class="col-lg-12">
+
+                                                      {% include 'cmms/tasks/taskList.html' %}
+
+                                                   </div>
+
+                                                 </div>
+                                             </div>
+
+
+                                      </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>             </div>
+                            <div id="tab-4" class="tab-pane">
+                                <div class="panel-body">
+
+                                    <div class='row'>
+                                      <div class='col-lg-12'>
+                                        <div class="panel panel-info">
+                                             <div class="panel-heading">
+                                                 <i class="fa fa-info-circle"></i> قطعات
+                                             </div>
+                                             <div class="panel-body">
+                                                 <div class="row">
+                                                   <div class="col-lg-12">
+
+                                                      {% include 'cmms/workorder_parts/woPartList.html' %}
+
+                                                   </div>
+
+                                                 </div>
+                                             </div>
+
+
+                                      </div>
+                                    </div>
+
+                                     </div>
+
+
+                            </div>                 </div>
+                          <div id="tab-5" class="tab-pane">
+                              <div class="panel-body">
+
+                                  <div class='row'>
+                                    <div class='col-lg-12'>
+                                      <div class="panel panel-info">
+                                           <div class="panel-heading">
+                                               <i class="fa fa-info-circle"></i>یادداشت
+                                           </div>
+                                           <div class="panel-body">
+                                               <div class="row">
+                                                 <div class="col-lg-12">
+
+                                                   <div class="form-group">
+                                                   <label>{{form.adminNote.label}}</label>
+                                                   {{form.adminNote| add_class:"form-control" }}
+                                                   </div>
+
+                                                 </div>
+
+                                               </div>
+                                           </div>
+
+
+                                    </div>
+                                  </div>
+
+                                   </div>
+
+
+                          </div>                 </div>
+
+
+
+                    <div id="tab-6" class="tab-pane">
+                        <div class="panel-body">
+
+                            <div class='row'>
+                              <div class='col-lg-12'>
+                                <div class="panel panel-info">
+                                     <div class="panel-heading">
+                                         <i class="fa fa-info-circle"></i>اعلانات
+                                     </div>
+                                     <div class="panel-body">
+                                         <div class="row">
+                                           <div class="col-lg-12">
+
+                                              {% include 'cmms/workorder_notification/woNotifyList.html' %}
+
+                                           </div>
+
+                                         </div>
+                                     </div>
+
+
+                              </div>
+                            </div>
+
+                             </div>
+
+
+                    </div>
+                  </div>
+                  <div id="tab-7" class="tab-pane">
+                      <div class="panel-body">
+
+                          <div class='row'>
+                            <div class='col-lg-12'>
+                              <div class="panel panel-info">
+                                   <div class="panel-heading">
+                                       <i class="fa fa-info-circle"></i> فایل های ضمیمه
+                                   </div>
+                                   <div class="panel-body">
+                                       <div class="row">
+                                         <div class="col-lg-12">
+
+                                            {% include 'cmms/workorder_file/woFileList.html' %}
+
+                                         </div>
+
+                                       </div>
+                                   </div>
+
+
+                            </div>
+                          </div>
+
+                           </div>
+
+
+                  </div>
+                </div>
+                <div id="tab-9" class="tab-pane">
+                  <div class="panel-body">
+
+                    <div class='row'>
+                      <div class='col-lg-12'>
+                        <div class="panel panel-info">
+                          <div class="panel-heading">
+                            <i class="fa fa-info-circle"></i> پیوست ها
+                          </div>
+                          <div class="panel-body">
+                            <div class="row">
+                              <div class="col-lg-12">
+
+                                {% include 'cmms/workorder_log/woLogList.html' %}
+
+                              </div>
+
+                            </div>
+                          </div>
+
+
+                        </div>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+
+
+
+
+                    </div>
+                </div>
+</div>

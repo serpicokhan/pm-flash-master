@@ -1,0 +1,93 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+     ساعات کاری {{user}} <br>
+
+
+                            </h1>
+
+                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+                          <h4>به همراه پارامترهای زیر</h4>
+                          <h4> از تاریخ: {{stdate}}</h4>
+                          <h4>تا تاریخ: {{enddate}}</h4>
+
+
+
+
+
+                           </div>
+
+
+     <strong>
+       خلاصه وضعیت دستور کارها
+     </strong>
+     <div class="row">
+       <div class="col-lg-4">
+         #دستورکارهای تکمیل شده {% if n1.0.id %}{{n1.0.id}} {% else %} 0 {% endif %}
+
+       </div>
+       <div class="col-lg-4">
+         #دستور کارهای انتسابی {% if n1.0.assoc %}{{n1.0.assoc}} {% else %} 0 {% endif %}
+       </div>
+       <div class="col-lg-4">
+         #مجموع ساعات صرف شده {% if n1.0.logged %}{{n1.0.logged}} {% else %} 0 {% endif %}
+       </div>
+
+     </div>
+     <hr>
+
+     <strong>لیست دستورکارهای مرتبط</strong>
+     <table class="table table-bordered ">
+       <thead>
+         <tr>
+          <th class="col-md-1 active">کد دستور کار</th>
+          <th class="col-md-2 active">وضعیت فعلی</th>
+          <th class="col-md-2 active">تاریخ تکمیل</th>
+          <th class="col-md-2 active">شرح</th>
+          <th class="col-md-2 active">زمان صرف شده</th>
+
+         </tr>
+       </thead>
+       <tbody>
+    {% for c in n2 %}
+     <tr>
+       <td class="active">{{c.id}}</td>
+       <td class="active">
+         {{c.get_woStatus_display}}
+       </td>
+       <td class="active">
+         {{c.get_dateCompelted_jalali}}
+       </td>
+       <td class="active">
+         {{c.summaryofIssue}}
+       </td>
+       <td class="active">
+         {{c.hour}}
+       </td>
+
+
+
+
+
+
+     </tr>
+     {% empty %}
+     <tr>
+      <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+     {% endfor %}
+
+
+   </tbody>
+     </table>
+
+
+
+ {% endblock %}

@@ -1,0 +1,53 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>سالن ها </h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div id='divtbUSerLog' class="table-responsive" style="position: relative;height: 300px;overflow: auto;display:block">
+                                <table class="table table-striped" id="userLog-table">
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>نوع نگهداری</th>
+                                      <th>وضعیت درخواست</th>
+                                        <th>کد</th>
+                                        <th>شرح</th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_userLog'>
+                                            {% include 'cmms/user_log/partialUserLogList.html' %}
+                                    </tbody>
+                                </table>
+                                <script type="text/javascript">
+                                  $("#divtbUSerLog").scroll(function() {
+                                    var o=document.getElementById('divtbUSerLog');
+                                    //console.log(o.offsetHeight + o.scrollTop == o.scrollHeight);
+
+                                    if(o.offsetHeight + o.scrollTop == o.scrollHeight) {
+                                        alert("#2132");
+                                  }
+
+                                  });
+
+                                </script>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+
+
+</div>
+
+
+{% load static %}

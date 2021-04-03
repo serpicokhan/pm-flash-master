@@ -1,0 +1,16 @@
+<form method="post" action="{% url 'set_wo_to_em' ids %}" class="js-bulkem-selector-form2">
+  {% csrf_token %}
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">انتساب دسته ای</h4>
+  </div>
+  <div class="modal-body">
+    <p class="lead">تایید می کنید؟</p>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success"> تایید</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+  </div>
+</form>

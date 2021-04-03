@@ -1,0 +1,130 @@
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+
+ <div class="row">
+    {% include "cmms/summery/dateselector.html" %}
+ </div>
+ <div class="clear">
+
+ </div>
+ <div class="row">
+   <div class="col-lg-4">
+     {% include "cmms/summery/nafarfani.html" %}
+   </div>
+   <div class="col-lg-4">
+     {% include "cmms/summery/hazinenafar.html" %}
+   </div>
+   <div class="col-lg-4">
+     {% include "cmms/summery/ezafekari.html" %}
+   </div>
+
+
+ </div>
+ <div class="row">
+   <div class="col-lg-2">
+     <a href="#" > {% include "cmms/summery/tekrarha.html" %}</a>
+   </div>
+   <div class="col-lg-2">
+     <a href="#" > {% include "cmms/summery/tavizat.html" %}</a>
+   </div>
+   <div class="col-lg-2">
+     <a href="#" > {% include "cmms/summery/tavaghofat.html" %}</a>
+   </div>
+   <div class="col-lg-3">
+     <a href="#" > {% include "cmms/summery/servicemonghazi.html" %}</a>
+   </div>
+   <div class="col-lg-3">
+     <a href="#" > {% include "cmms/summery/hadetajdid.html" %}</a>
+   </div>
+
+ </div>
+ <div class="row">
+   <div class="col-lg-4">
+     <a href="#" > {% include "cmms/summery/mpu.html" %}</a>
+   </div>
+   <div class="col-lg-4">
+     <a href="#" > {% include "cmms/summery/mpe.html" %}</a>
+   </div>
+   <div class="col-lg-4">
+     <a href="#" > {% include "cmms/summery/mcu.html" %}</a>
+   </div>
+
+
+ </div>
+ <div class="row">
+   <div class="col-lg-6">
+     <a href="#" > {% include "cmms/summery/ghetebekol.html" %}</a>
+   </div>
+   <div class="col-lg-6">
+     <a href="#" > {% include "cmms/summery/bedunetavaghofbekol.html" %}</a>
+   </div>
+
+
+
+ </div>
+ <div class="row">
+   <div class="col-lg-2">
+     <a href="#" > {% include "cmms/summery/kayzen.html" %}</a>
+   </div>
+   <div class="col-lg-2">
+     <a href="#" > {% include "cmms/summery/py.html" %}</a>
+   </div>
+   <div class="col-lg-2">
+     <a href="#" > {% include "cmms/summery/cm.html" %}</a>
+   </div>
+   <div class="col-lg-2">
+     <a href="#" > {% include "cmms/summery/rcm.html" %}</a>
+   </div>
+   <div class="col-lg-4">
+     <a href="#" > {% include "cmms/summery/mfmea.html" %}</a>
+   </div>
+
+
+
+ </div>
+
+ <div class="row">
+   <div class="col-lg-6">
+     {% for m in dashugroups %}
+     {% include "cmms/summery/resourceStatus.html" %}
+     {% endfor %}
+
+
+
+   </div>
+
+
+ </div>
+ <div class="row">
+   <div class="col-lg-12">
+
+     {% include "cmms/summery/eqCostDirector.html" %}
+   </div>
+
+ </div>
+ {% load static %}
+
+ {% block javascript %}
+ <script type="text/javascript">
+   xxxDate1=new persianDate();
+   dt1=xxxDate1.pDate.year.toString()+"-"+("0" + xxxDate1.pDate.month).slice(-2)+"-01";
+   //$("#dashboardt1").val(dt1);
+
+
+ </script>
+   <script src="{% static '/js/project/dashboard/datepicker.js' %}"></script>
+   <script src="{% static '/js/project/dashboard/randomcolor.js' %}"></script>
+   <script src="{% static '/js/project/dashboard/resourceStatus.js' %}"></script>
+   <script src="{% static '/js/project/dashboard/eqCostDirector.js' %}"></script>
+   <script src="{% static '/js/project/dashboard/info.js' %}"></script>
+     <script src="{% static '/js/project/dashboard/manager.js' %}"></script>
+   <script type="text/javascript">
+     LoadResourceStatusDonat();
+     LoadResourceStatusPie();
+     LoadCauseBar();
+
+   </script>
+
+ {% endblock %}
+ {% endblock %}

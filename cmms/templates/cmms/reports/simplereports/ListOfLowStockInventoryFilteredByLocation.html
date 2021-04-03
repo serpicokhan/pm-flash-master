@@ -1,0 +1,94 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>
+گزارش کارکرد واحدها<br/>
+
+       <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+       <h4>به همراه پارامترهای زیر</h4>
+       <h4> از تاریخ: {{stdate}}</h4>
+       <h4>تا تاریخ: {{enddate}}</h4>
+
+
+                            </h2>
+
+                           </div>
+
+ <table class="table table-bordered  table-striped">
+   <thead>
+     <tr>
+
+    <th>نام واحد</th>
+    <th>تعداد نفرات</th>
+    <th>ساعت حضور</th>
+    <th>ساعت تعمیر</th>
+    <th>ساعت سرویس</th>
+    <th>ساعت پروژه</th>
+    <th>بیشترین حضور</th>
+    <th>نفر ساعت حضور</th>
+    <th>نفر ساعت تعمیر</th>
+    <th>نفر ساعت سرویس</th>
+    <th>نفر ساعت پروژه</th>
+    <th>پیمانکار</th>
+     </tr>
+   </thead>
+   <tbody>
+     {% for c in woList %}
+
+     <tr>
+       <td>{{c.unitname}}</td>
+       <td>
+         {{c.member}}
+
+       </td>
+       <td>
+            {{c.hozur}}
+       </td>
+
+       <td>
+         {{c.تعمیر}}
+       </td>
+
+       <td>
+         {{c.سرویس}}
+       </td>
+       <td>
+         {{c.پروژه}}
+       </td>
+       <td>
+         {{c.maxhozurP}} ({{c.maxhozurH}} ساعت)
+       </td>
+       <td>
+         {{c.nafarsaathozur}}
+       </td>
+       <td>
+        {{c.نفر_ساعت_تعمیر}}
+       </td>
+       <td>
+        {{c.نفر_ساعت_سرویس}}
+       </td>
+       <td>
+        {{c.نفر_ساعت_پروژه}}
+       </td>
+       <td>
+
+       </td>
+
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+ {% endblock %}

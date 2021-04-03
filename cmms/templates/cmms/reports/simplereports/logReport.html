@@ -1,0 +1,59 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+{% load utils_tags %}
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>
+                        گزارش لیست دارایی های متوقف  <br>
+
+
+                            </h2>
+                        زمان تولید گزارش: {{currentdate}}
+
+                           </div>
+
+ <table class="table table-bordered table-striped">
+   <thead>
+     <tr>
+
+
+            <th>کاربر</th>
+            <th>شی</th>
+            <th>IP</th>
+             <th>نوع عملیات </th>
+
+               <th>تاریخ</th>
+
+
+
+     </tr>
+   </thead>
+   <tbody>
+
+     {% for c in wolog %}
+
+     <tr>
+
+       <td style="text-align:center">{{c.user}}</td>
+       <td style="text-align:center">{{c.object_repr}}</td>
+       <td style="text-align:center">{{c.change_message}}</td>
+       <td style="text-align:center">{{c.action_flag|get_filter_action}}</td>
+       <td style="text-align:center">{{c.action_time|get_jalali}},{{c.action_time|time:"h:i"}}</td>
+
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="4" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+
+ {% endblock %}

@@ -1,0 +1,40 @@
+{% for c in wo %}
+
+<tr title="{{c.summaryofIssue}}">
+ <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+<td>{{c}}</td>
+ <td>...</td>
+ <td>{{c.get_woPriority_display}}</td>
+ <td>{{c.woAsset}}</td>
+ <td>{{c.assignedToUser}}</td>
+ <td>{{c.get_woStatus_display}}</td>
+ <td><span class="label label-primary" style="background-color:{{c.maintenanceType.color}}; min-width: 55px !important;  display: inline-block !important">
+                                                  {{c.maintenanceType}}</span></td>
+ <td>{{c.completedByUser}}</td>
+ <td>{{c.estimatedLabor}}</td>
+ <td>{{c.actualLabor}}</td>
+
+
+
+ <td>
+     {% if perms.cmms.view_workorder %}
+   <button type="button"
+              class="btn btn-warning btn-sm js-update-swo"
+              data-url="{% url 'swo_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span>مشاهده     </button>
+      {% endif %}
+        {% if perms.cmms.delete_workorder %}
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-swo"
+                   data-url="{% url 'swo_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+       {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="12" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

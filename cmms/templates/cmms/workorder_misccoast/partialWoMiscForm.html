@@ -1,0 +1,80 @@
+{% load widget_tweaks %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <i class="fa fa-info-circle"></i>  قطعه مصرفی
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label>{{form.miscCoastType.label}}</label>
+
+              {{form.miscCoastType| add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+              <label>{{form.miscCoastdescription.label}}</label>
+
+              {{form.miscCoastdescription| add_class:"form-control" }}
+            </div>
+           <div class="row">
+             <div class="col-lg-4">
+               <label>{{form.estimatedQnty.label}}</label>
+
+               {{form.estimatedQnty| add_class:"form-control" }}
+
+             </div>
+             <div class="col-lg-4">
+               <label>{{form.estimatedUnitCoast.label}}</label>
+
+               {{form.estimatedUnitCoast| add_class:"form-control" }}
+
+             </div>
+             <div class="col-lg-4">
+               <label>{{form.estimatedTotalCoast.label}}</label>
+
+               {{form.estimatedTotalCoast| add_class:"form-control" }}
+
+             </div>
+
+           </div>
+
+           <div class="row">
+             <div class="col-lg-4">
+               <label>{{form.qnty.label}}</label>
+
+               {{form.qnty| add_class:"form-control" }}
+
+             </div>
+             <div class="col-lg-4">
+               <label>{{form.actualUnitCoast.label}}</label>
+
+               {{form.actualUnitCoast| add_class:"form-control" }}
+
+             </div>
+             <div class="col-lg-4">
+               <label>{{form.actualTotlaCoast.label}}</label>
+
+               {{form.actualTotlaCoast| add_class:"form-control" }}
+
+             </div>
+
+           </div>
+
+
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>

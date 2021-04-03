@@ -1,0 +1,92 @@
+<div  data-url="{% url 'woMisc_create' %}" class="js-woMisc-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close cl-miscoast"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/workorder_misccoast/partialWoMiscForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-miscoast btn btn-default" >انصراف</button>
+    {% if perms.cmms.add_misccost %}
+    <button type="button" class="btn btn-primary" id="woMisc-submit"  >ذخیره</button>
+    {% endif %}
+ <script>
+   $(".cl-miscoast").click(function()
+   {
+     $("#modal-woMisc").modal("hide");
+
+   }
+  );
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+
+        $("#woMisc-submit").click(function(){
+
+                   //alert("12321");
+                    var form = $(this).parent().parent();
+                    //console.log(form.attr("action"));
+                    //alert($("#id_metrics").val());
+                    if($("#id_miscCoastdescription").val().length==0)
+                    {
+                      $("#id_miscCoastdescription").val("خالی");
+
+                    }
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:myformat('{"miscCoastWorkorder":{0},"miscCoastType":{1},"miscCoastdescription":"{2}","estimatedQnty":{3},"estimatedUnitCoast":{4},"estimatedTotalCoast":{5},"qnty":{6},"actualUnitCoast":{7},"actualTotlaCoast":{8}}',$("#lastWorkOrderid").val(),$("#id_miscCoastType").val(),$("#id_miscCoastdescription").val(),$("#id_estimatedQnty").val(),$("#id_estimatedUnitCoast").val(),$("#id_estimatedTotalCoast").val(),$("#id_qnty").val(),$("#id_actualUnitCoast").val(),$("#id_actualTotlaCoast").val()),
+
+
+
+
+                      dataType: 'json',
+                      beforeSend: function () {
+                        //alert(btn.attr("data-url"));
+                        // console.log(myformat('{"miscCoastWorkorder":{0},"miscCoastType":{1},"miscCoastdescription":"{2}","estimatedQnty":{3},"estimatedUnitCoast":{4},"estimatedTotalCoast":{5},"qnty":{6},"actualUnitCoast":{7},"actualTotlaCoast":{8}}',$("#lastWorkOrderid").val(),$("#id_miscCoastType").val(),$("#id_miscCoastdescription").val(),$("#id_estimatedQnty").val(),$("#id_estimatedUnitCoast").val(),$("#id_estimatedTotalCoast").val(),$("#id_qnty").val(),$("#id_actualUnitCoast").val(),$("#id_actualTotlaCoast").val()));
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_woMisc").empty();
+
+                          $("#tbody_woMisc").html(data.html_woMisc_list);
+                          $("#modal-woMisc").modal("hide");
+                          // console.log(data.html_woMisc_list);
+                        }
+                        else {
+
+                          $("#woMisc-table tbody").html(data.html_woMisc_list);
+                          $("#modal-woMisc .modal-content").html(data.html_woMisc_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

@@ -1,0 +1,134 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+{% load staticfiles %}
+<link href="{% static 'css/plugins/summernote/summernote.css' %}" rel="stylesheet">
+
+
+  <div class="row">
+           <div class="col-lg-3">
+               <div class="ibox float-e-margins">
+                   <div class="ibox-content mailbox-content">
+                       <div class="file-manager">
+
+                           <button type="button" class="btn btn-block btn-primary js-create-mail"
+                           data-url="{% url 'mail_create' %}"                                  >
+                             <span class="glyphicon glyphicon-plus"
+
+
+
+                             ></span>
+                           جدید
+                           </button>
+                           <div class="space-25"></div>
+
+
+
+
+                           <div class="clearfix"></div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+           <div class="col-lg-9 animated fadeInRight">
+           <div class="mail-box-header">
+
+               <form method="get" action="http://webapplayers.com/inspinia_admin-v2.2/index.html" class="pull-left mail-search">
+                   <div class="input-group">
+                       <input type="text" class="form-control input-sm" name="search" placeholder=" جستجو ایمیل">
+                       <div class="input-group-btn">
+                           <button type="submit" class="btn btn-sm btn-primary">
+                               جستجو
+                           </button>
+                       </div>
+                   </div>
+               </form>
+               <h2>
+               {{title}}
+               </h2>
+               <div class="mail-tools tooltip-demo m-t-md">
+                   <div class="btn-group pull-left">
+                       <button class="btn btn-white btn-sm"><i class="fa fa-arrow-right"></i></button>
+                       <button class="btn btn-white btn-sm"><i class="fa fa-arrow-left"></i></button>
+
+                   </div>
+                   <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" title="Refresh inbox"><i class="fa fa-refresh"></i> تازه کردن</button>
+                   <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Mark as read"><i class="fa fa-eye"></i> </button>
+                   <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Mark as important"><i class="fa fa-exclamation"></i> </button>
+                   <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to trash"><i class="fa fa-trash-o"></i> </button>
+
+               </div>
+           </div>
+               <div class="mail-box">
+
+               <table class="table table-hover table-mail" id="company-table">
+                 <thead>
+                   <tr>
+
+
+                   <td></td>
+                   <td>از</td>
+                   <td>موضوع</td>
+                   <td>تاریخ</td>
+                   <td></td>
+                   </tr>
+
+
+                 </th>
+                 <tbody id='tbody_company'>
+                         {% include 'cmms/mail/partialMailList.html' %}
+                 </tbody>
+               </table>
+               <div class="woPaging" >
+                 {% if mails.has_other_pages %}
+                 <ul class="pagination">
+                 {% if mails.has_previous %}
+                 <li><a href="?page={{ mails.previous_page_number }}">&laquo;</a></li>
+                 {% else %}
+                 <li class="disabled"><span>&laquo;</span></li>
+                 {% endif %}
+                 {% for i in mails.paginator.page_range %}
+                 {% if mails.number == i %}
+                 <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                 {% else %}
+                 <li><a href="?page={{ i }}">{{ i }}</a></li>
+                 {% endif %}
+                 {% endfor %}
+                 {% if wo.has_next %}
+                 <li><a href="?page={{ mails.next_page_number }}">&raquo;</a></li>
+                 {% else %}
+                 <li class="disabled"><span>&raquo;</span></li>
+                 {% endif %}
+                 </ul>
+                 {% endif %}
+
+               </div>
+
+
+               </div>
+               <div class="modal fade" id="modal-company">
+                <div class="modal-dialog  modal-lg ">
+
+                  <div class="modal-content ">
+                  </div>
+                </div>
+               </div>
+           </div>
+       </div>
+
+
+
+
+
+
+
+
+
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/mail.js' %}"></script>
+{% endblock %}
+{% endblock %}

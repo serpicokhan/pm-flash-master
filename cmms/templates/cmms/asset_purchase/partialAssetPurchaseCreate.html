@@ -1,0 +1,106 @@
+<div  data-url="{% url 'assetPurchase_create' %}" class="js-assetPurchase-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close cl-part"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/asset_purchase/partialAssetPurchaseForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-part btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="assetPurchase-submit"  >ذخیره</button>
+ <script>
+  myformat = function() {
+
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+        $(".cl-part").click(function()
+        {
+          $("#modal-assetPurchase").modal("hide");
+          //$("#{modal-company}").css("background-color", "yellow");
+
+
+        });
+
+        $("#assetPurchase-submit").click(function(){
+
+                   //alert("12321");
+                   //$( "#myselect option:selected" ).text();
+                   var mydata="";
+                   mydata=myformat('{"purchaseAssetId":{0}\
+                   ,"purchaseDateOrdered":"{1}"\
+                   ,"purchasePriceTotla":{2}\
+                   ,"purchaseCurrency":{3}\
+                 ,"purchaseDateRecieved":"{4}"\
+               ,"purchaseDateofExpire":"{5}"\
+             ,"purchasedFrom":{6}\
+           ,"purchaseUser":{7} }',
+                   $("#lastAssetid").val(),
+                   $("#id_purchaseDateOrdered").val(),
+                   $("#id_purchasePriceTotla").val(),
+                   $("#id_purchaseCurrency").val(),
+                   $("#id_purchaseDateRecieved").val(),
+
+                   $("#id_purchaseDateofExpire").val(),
+                   $("#id_purchasedFrom").val(),
+                   $("#id_purchaseUser").val(),
+
+                 );
+
+                    var form = $(this).parent().parent();
+                    //console.log(form.attr("action"));
+                    //alert($("#id_metrics").val());
+                    // console.log($(this));
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:mydata,
+                      dataType: 'json',
+                      beforeSend: function () {
+                        //alert(btn.attr("data-url"));
+                        console.log(mydata);
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_assetPurchase").empty();
+
+                          $("#tbody_assetPurchase").html(data.html_assetPurchase_list);
+                          $("#modal-assetPurchase").modal("hide");
+                          // console.log(data.html_assetPurchase_list);
+                        }
+                        else {
+
+                          $("#assetPurchase-table tbody").html(data.html_assetPurchase_list);
+                          $("#modal-assetPurchase .modal-content").html(data.html_assetPurchase_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

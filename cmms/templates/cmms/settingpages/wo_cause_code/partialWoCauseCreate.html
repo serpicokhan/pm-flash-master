@@ -1,0 +1,86 @@
+<div  data-url="{% url 'woCause_create' %}" class="js-woCause-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/settingpages/wo_cause_code/partialWoCauseForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="woCause-submit"  >ذخیره</button>
+ <script>
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+
+        $("#woCause-submit").click(function(){
+
+                   //alert("12321");
+                   //$( "#myselect option:selected" ).text();
+                   var mydata="";
+                   mydata=myformat('{"causeCode":"{0}"\
+                   ,"causeDescription":"{1}","causeIsActive":true}',
+                   $("#id_causeCode").val(),
+                   $("#id_causeDescription").val(),
+
+                 );
+
+                    var form = $(this).parent().parent();
+                    console.log(form);
+                    console.log("action",form.attr("action"));
+                    //alert($("#id_metrics").val());
+
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:mydata,
+                      dataType: 'json',
+                      beforeSend: function () {
+                        //alert(btn.attr("data-url"));
+                        console.log(mydata);
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_woCause").empty();
+
+                          $("#tbody_woCause").html(data.html_woCause_list);
+                          $("#modal-woCause").modal("hide");
+                          console.log(data.html_woCause_list);
+                        }
+                        else {
+
+                          $("#woCause-table tbody").html(data.html_woCause_list);
+                          $("#modal-woCause .modal-content").html(data.html_woCause_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

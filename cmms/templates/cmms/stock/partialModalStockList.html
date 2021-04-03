@@ -1,0 +1,19 @@
+<div  data-url="{% url 'stock_create' %}" class="js-stock-create-form" >
+
+  <div class="modal-header" style="background:#ccc">
+    <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/stock/partialModalStockTable.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default"  data-dismiss="modal">انصراف</button>
+    <button type="button" class="btn btn-primary" id="stock-submit"  >ذخیره</button>
+    <button type="button" class="btn btn-success js-add-new-stock-modal" id="stock-submit2"  >جدید</button>
+ 
+
+  </div>
+</div>

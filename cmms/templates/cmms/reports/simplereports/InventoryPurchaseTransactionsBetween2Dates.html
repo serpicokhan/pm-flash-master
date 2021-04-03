@@ -1,0 +1,102 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+                  گزارش خرید قطعه با جزییات <br>
+
+
+                            </h1>
+
+                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+                          <h4>به همراه پارامترهای زیر</h4>
+                          <h4> از تاریخ: {{stdate}}</h4>
+                          <h4>تا تاریخ: {{enddate}}</h4>
+
+                        
+
+                           </div>
+
+
+     {% for c in woList %}
+     <table class="table table-bordered">
+       <thead>
+         <tr>
+          <th class="col-md-1 active">نام قطعه</th>
+          <th class="col-md-1 active">کد قطعه</th>
+          <th class="col-md-1 active">انبار</th>
+          <th class="col-md-1 active">موجودی</th>
+
+
+
+         </tr>
+       </thead>
+       <tbody>
+     <tr>
+       <td class="active">{{c.0.stockItem.partName}}</td>
+       <td class="active">
+         {{c.0.stockItem.partCode}}
+       </td>
+       <td class="active">
+         {{c.0.location}}
+       </td>
+       <td class="active">
+         {{c.0.qtyOnHand}}
+       </td>
+
+
+
+
+     </tr>
+     <tr >
+       <td colspan="4">
+         <table class="table table-borderless table-dark">
+
+         <thead>
+           <th>تاریخ سفارش</th>
+           <th>تاریخ دریافت</th>
+           <th>تعداد</th>
+           <th>قیمت واحد</th>
+           <th>قیمت کل</th>
+
+
+         </thead>
+          <tbody>
+            {% for k in c.1 %}
+            <tr>
+              <td>{{k.getDateOrdered}}</td>
+              <td>{{k.getDateRecieved}}</td>
+              <td>{{k.purchaseQuantityReceived}}</td>
+              <td>{{k.purchasePricePerUnit}}</td>
+              <td>{{k.purchasePriceTotla}}</td>
+
+            </tr>
+            {% empty %}
+            <tr>
+             <td colspan="5" class="text-center bg-warning">بدون قطعه</td>
+            </tr>
+
+            {%endfor%}
+
+         </tbody>
+       </table>
+     </td>
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+   </tbody>
+     </table>
+
+     {% endfor %}
+
+
+ {% endblock %}

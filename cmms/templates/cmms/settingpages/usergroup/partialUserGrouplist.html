@@ -1,0 +1,33 @@
+
+{% for c in userGroups %}
+
+<tr>
+
+<td>{{c.userGroupCode}}</td>
+<td>{{c.userGroupName}}</td>
+<td>{{c.userGroupIsPartOF}}</td>
+<td>{{c.userUserLocation}}</td>
+
+
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-userGroup"
+              data-url="{% url 'userGroup_update' c.id %}">
+
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-userGroup"
+                   data-url="{% url 'userGroup_delete' c.id %}">
+
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}

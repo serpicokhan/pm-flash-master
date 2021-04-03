@@ -1,0 +1,56 @@
+
+{% if reports.has_other_pages %}
+
+<ul class="pagination">
+{% if reports.has_previous %}
+<li><a href="#" data-url="{% url pageType pageArg %}?page={{ reports.previous_page_number }}" class="reports_month_paginator">&laquo;</a></li>
+{% else %}
+<li class="disabled"><span>&laquo;</span></li>
+{% endif %}
+{% for i in reports.paginator.page_range %}
+{% if reports.number == 0 %}
+<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+{% else %}
+<li><a href="#" data-url="{% url pageType pageArg %}?page={{ i }}" class="reports_month_paginator">{{ i }}</a></li>
+{% endif %}
+{% endfor %}
+{% if reports.has_next %}
+<li><a href="#" data-url="{% url pageType pageArg %}?page={{ reports.next_page_number }}" class="reports_month_paginator"">&raquo;</a></li>
+{% else %}
+<li class="disabled"><span>&raquo;</span></li>
+{% endif %}
+</ul>
+{% endif %}
+<script type="text/javascript">
+  $(".reports_month_paginator").click(function()
+  {
+// alert($(this).attr("data-url"));
+    //console.log($(this).attr("data-url"));
+    $.ajax({
+      url: $(this).attr("data-url"),
+
+      type: "get",
+      dataType: 'json',
+      success: function (data) {
+        // alert('seuxxes');
+        // console.log(data);
+        // if (data.form_is_valid) {
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+          $("#tbody_report").empty();
+          $("#tbody_report").html(data.html_report_list);
+           $(".woPaging").html(data.html_reports_paginator);
+          // $("#modal-company").modal("hide");
+
+
+         // console.log(data.html_reports_list);
+
+      },
+      error:function(){
+        console.log('error in report paginator')//;('error');
+      }
+    });
+
+  });
+
+
+</script>

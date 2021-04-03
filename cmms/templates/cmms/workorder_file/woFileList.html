@@ -1,0 +1,67 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>پیوست ها</h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="woFile-table">
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+
+                                           <th>نام</th>
+                                            <th>نوع فایل </th>
+
+                                              <th>اندازه</th>
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_woFile'>
+                                            {% include 'cmms/workorder_file/partialWoFileList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                  {% if perms.cmms.add_workorderfile %}
+                                <p>
+                                  <button type="button" class="btn btn-primary js-upload-woFiles">
+                                    <span class="glyphicon glyphicon-cloud-upload"></span> بارگذاری عکس
+                                  </button>
+                                  <input id="woFileupload" type="file" name="woFile" multiple
+                                    style="display: none;"
+                                    data-url="{% url 'workorder_upload' lId %}"
+                                    data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+
+                                  </button>
+                                </p>
+                                {% endif %}
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-woFile">
+                 <div class="modal-dialog ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/woFile.js' %}"></script>
+{% endblock %}

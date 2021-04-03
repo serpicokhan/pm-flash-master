@@ -1,0 +1,78 @@
+<!-- for wopart modal form dynamic part creation -->
+<div method="post" action="{% url 'part_create2'   %}" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">قطعه جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/part/partialPartForm2.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">انصراف</button>
+    <button type="button" class="btn btn-primary js-save-new-part" >ذخیره</button>
+  </div>
+  <script type="text/javascript">
+    $( document).ready(
+      function()
+      {
+
+        $(".js-save-new-part").click(function(){
+
+                   //alert("12321");
+                    var form = $(this).parent().parent();
+
+                    console.log(form.attr("action"));
+                    //alert($("#id_metrics").val());
+                    // console.log(form.attr('class'));
+                    mydata=myformat('{"partName":"{0}","partDescription":"{1}","partCode":"{2}"}',$("#id_partName").val(),$("#id_partDescription").val(),$("#id_partCode").val());
+                    $.ajax({
+                      url: form.attr("action"),
+                      type: "POST",
+                      data:mydata,
+
+
+
+
+                      dataType: 'json',
+                      beforeSend: function () {
+                      console.log(mydata);
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                        toastr.success("قطعه ایجاد شد");
+
+
+
+
+
+
+                          $("#id_stockItem").text(data.partname);
+                          $("#id_stockItem").val(data.partId);
+                          $("#modal-woPartPartNew").modal("hide");
+                          // console.log(data.html_woPart_list);
+                        }
+                        else {
+
+                          $("#woPart-table tbody").html(data.html_woPart_list);
+                          $("#modal-woPart .modal-content").html(data.html_woPart_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+
+  </script>
+</div>

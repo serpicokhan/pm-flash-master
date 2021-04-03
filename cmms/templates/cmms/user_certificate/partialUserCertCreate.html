@@ -1,0 +1,111 @@
+<div  data-url="{% url 'userCertification_create' %}" class="js-userCertification-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/user_certificate/partialUserCertForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="userCertification-submit"  >ذخیره</button>
+
+ <script>
+
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+getStringVal=function(element){
+  try{
+  if(element.val().length===0)
+  {
+    return " ";
+}
+  else{
+
+      return element.val();
+
+
+  }
+}
+catch
+{
+  console.log(element.attr("id"));
+}
+}
+getVal=function(element){
+  if(element.val().length===0)
+  {
+     return 0;
+
+   }
+  else{
+
+      return element.val();
+
+  }
+}
+    $( document).ready(
+      function()
+      {
+        $("#userCertification-submit").click(function(){
+                   var mydata="";
+                   mydata=myformat('{"userCertificationName":"{0}"\
+                   ,"userCertificationUser":{1}\
+                   ,"userCertificationType":{2}\
+                   ,"userCertificationDesc":"{3}"\
+                   ,"userCertificationStart":"{4}"\
+                   ,"userCertificationEnd":"{5}"}',
+                     getStringVal($("#id_userCertificationName")),
+                     $("#lastUserId").val(),
+                     getVal($("#id_userCertificationType")),
+                     getStringVal($("#id_userCertificationDesc")),
+                     $("#id_userCertificationStart").val(),
+                     $("#id_userCertificationEnd").val()
+                   );
+                    var form = $(this).parent().parent();
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:mydata,
+                      dataType: 'json',
+                      beforeSend: function () {
+                        console.log(mydata);
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          $("#tbody_userCertification").empty();
+                          $("#tbody_userCertification").html(data.html_userCertification_list);
+                          $("#modal-userCertification").modal("hide");
+                        }
+                        else {
+
+                          $("#userCertification-table tbody").html(data.html_userCertification_list);
+                          $("#modal-userCertification .modal-content").html(data.html_userCertification_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

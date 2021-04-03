@@ -1,0 +1,64 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>قطعات</h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive" style="position: relative;height: 200px;overflow: auto;display:block">
+                                <table class="table table-striped" id="businessPart-table">
+                                    <thead>
+                                    <tr>
+                                      <th>پیشفرض</th>
+                                     <th>نوع کسب و کار</th>
+                                     <th>مشخصات</th>
+                                     <th>پارت نامبر</th>
+                                     <th>آخرین قیمت</th>
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_businessPart'>
+                                            {% include 'cmms/business_part/partialBusinessPartlist.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-businessPart"
+                                  data-url="{% url 'businessPart_create' lId %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                            </div>
+                          </div>
+
+                    </div>
+                    <div class="modal fade" id="modal-businessPart">
+                     <div class="modal-dialog ">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                </div>
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/businessPart.js' %}"></script>
+{% endblock %}

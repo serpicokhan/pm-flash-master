@@ -1,0 +1,389 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+
+ <div class="row animated fadeInDown">
+ 						<div class="col-lg-3">
+ 							<div class="ibox float-e-margins">
+ 								<div class="ibox-title">
+ 									<h5>
+ 									رویداد ها</h5>
+ 									<div class="ibox-tools">
+ 										<a class="collapse-link">
+ 											<i class="fa fa-chevron-up">
+ 											</i>
+ 										</a>
+ 										<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+ 											<i class="fa fa-wrench">
+ 											</i>
+ 										</a>
+ 										<ul class="dropdown-menu dropdown-user">
+ 											<li>
+ 												<a href="#">
+ 												گزینه 1</a>
+ 											</li>
+ 											<li>
+ 												<a href="#">
+ 												گزینه 2</a>
+ 											</li>
+ 										</ul>
+ 										<a class="close-link">
+ 											<i class="fa fa-times">
+ 											</i>
+ 										</a>
+ 									</div>
+ 								</div>
+ 								<div class="ibox-content">
+                  <div class="row">
+                    <div class="col-sm-12">
+
+
+                  <label>
+                  یک گروه کاری انتخاب کنید</label>
+                  <select class="input-sm form-control input-s-sm inline" id='woGroup'>
+                    <option value="-1">همه</option>
+                  {% for i in ug %}
+                  <option value="{{i.id}}">{{i}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+                <div class="col-sm-12">
+                  <label>
+              نوع نگهداری را مشخص کنید</label>
+                  <select class="input-sm form-control input-s-sm inline" id='mt'>
+                    <option value="-1">همه</option>
+                  {% for i in mt %}
+                  <option value="{{i.id}}">{{i}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+
+                   <div class="col-sm-12">
+                     <label>تاریخ شروع</label>
+                     <div class="input-group date">
+                                           <input type="text" class="form-control ltr-input" id="dashboardt1">
+                                           <span class="input-group-addon">
+                                               <i class="fa fa-calendar">
+                                               </i>
+                                           </span>
+                                       </div>
+                   </div>
+                   <div class="col-sm-12">
+                     <label for="">تاریخ پایان</label>
+                     <div class="input-group date">
+                                           <input type="text" class="form-control ltr-input" id="dashboardt2">
+                                           <span class="input-group-addon">
+                                               <i class="fa fa-calendar">
+                                               </i>
+
+                                           </span>
+
+                                       </div>
+
+
+                   </div>
+
+
+
+               </div>
+
+              </div>
+
+              <div class="row">
+                <button type="button" class="btn btn-w-m btn-primary" id='displayEvents'>
+                      نمایش</button>
+
+              </div>
+
+ 									<!-- <div id='external-events'>
+ 										<p>
+ 										یک رویداد را به تقویم بکشید ورها کنید.</p>
+ 										<div class='external-event navy-bg'>
+ 										برم فروشگاه.</div>
+ 										<div class='external-event navy-bg'>
+ 										حساب شرکت را چک کنم.</div>
+ 										<div class='external-event navy-bg'>
+ 										اطلاعات را ارسال کنم به مدیر.</div>
+ 										<div class='external-event navy-bg'>
+ 										جلسه برم.</div>
+ 										<p class="m-t">
+ 											<input type='checkbox' id='drop-remove' class="i-checks" checked />
+ 											<label for='drop-remove'>
+ 											حذف کردن.</label>
+ 										</p>
+ 									</div> -->
+ 								</div>
+ 							</div>
+ 						
+ 						</div>
+ 						<div class="col-lg-9">
+ 							<div class="ibox float-e-margins">
+ 								<div class="ibox-title">
+ 									<h5>
+ 									جدول</h5>
+ 									<div class="ibox-tools">
+ 										<a class="collapse-link">
+ 											<i class="fa fa-chevron-up">
+ 											</i>
+ 										</a>
+ 										<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+ 											<i class="fa fa-wrench">
+ 											</i>
+ 										</a>
+ 										<ul class="dropdown-menu dropdown-user">
+ 											<li>
+ 												<a href="#">
+ 												گزینه 1</a>
+ 											</li>
+ 											<li>
+ 												<a href="#">
+ 												گزینه 2</a>
+ 											</li>
+ 										</ul>
+ 										<a class="close-link">
+ 											<i class="fa fa-times">
+ 											</i>
+ 										</a>
+ 									</div>
+ 								</div>
+ 								<div class="ibox-content">
+ 									<div id="calendar">
+ 									</div>
+ 								</div>
+                <div class="modal fade" id="modal-company" style="overflow-y: scroll">
+                 <div class="modal-dialog  modal-lg ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+ 							</div>
+ 						</div>
+ 					</div>
+
+
+
+{% load static %}
+
+
+
+{% block javascript %}
+
+<script>
+			$(document).ready(function() {
+					$('.i-checks').iCheck({
+						checkboxClass: 'icheckbox_square-green',
+						radioClass: 'iradio_square-green'
+					});
+          var gDashDate1=new Date();
+          var gDashDate2=new Date();
+
+          $('#dashboardt1').pDatepicker({
+                          format: 'YYYY-MM-DD',
+                          autoClose: true,
+                          initialValueType: 'gregorian',
+                          "onSelect": function(time) {
+                              gDashDate1 = new persianDate(time).toDate();
+                              console.log(gDashDate1);
+                          }
+
+                      });
+          $('#dashboardt2').pDatepicker({
+                                      format: 'YYYY-MM-DD',
+                                      autoClose: true,
+                                      initialValueType: 'gregorian',
+                                      "onSelect": function(time) {
+                                          gDashDate2 = new persianDate(time).toDate();
+                                          console.log(gDashDate2);
+                                      }
+
+                                  });
+                                  xxxDate1=new persianDate();
+                                  dt1=xxxDate1.pDate.year.toString()+"-"+("0" + xxxDate1.pDate.month).slice(-2)+"-01";
+                                  $("#dashboardt1").val(dt1);
+          $("#displayEvents").click(function(){
+            // var date = new Date();
+    				// var d = date.getDate();
+    				// var m = date.getMonth();
+    				// var y = date.getFullYear();
+            // var calendar = $('#calendar').fullCalendar('getCalendar');
+            // var event={id:1 , title: 'New event', start:  new Date(y,m,d,0,0,0),end:'2021-03-24 12:00:00'};
+            // var event2={id:2 , title: 'New event2', start:  new Date(y,m,d+2,0,0,0),end:'2021-03-25 12:00:00'};
+            // $('#calendar').fullCalendar( 'renderEvent', event, true);
+            // $('#calendar').fullCalendar( 'renderEvent', event2, true);
+
+            update_display();
+          });
+
+				/* initialize the external events
+				-----------------------------------------------------------------*/
+				// $('#external-events div.external-event').each(function() {
+				// 	// store data so the calendar knows to render an event upon drop
+				// 	$(this).data('event', {
+				// 		title: $.trim($(this).text()), // use the element's text as the event title
+				// 		stick: true // maintain when user navigates (see docs on the renderEvent method)
+				// 	});
+				// 	// make the event draggable using jQuery UI
+				// 	$(this).draggable({
+				// 		zIndex: 1111999,
+				// 			revert: true,	  // will cause the event to go back to its
+				// 		revertDuration: 0  //  original position after the drag
+				// 	});
+				// });
+				/* initialize the calendar
+				-----------------------------------------------------------------*/
+				var date = new Date();
+				var d = date.getDate();
+				var m = date.getMonth();
+				var y = date.getFullYear();
+				$('#calendar').fullCalendar({
+					header: {
+						left: 'next,prev today',
+						// center: 'title',
+						// right: 'month,agendaWeek,agendaDay'
+					},
+          // defaultView: 'agendaWeek',
+          isJalaali:true,
+			 // defaultView: 'agendaWeek',
+			 defaultView: 'basicWeek',
+
+			  isRTL : true,
+				 lang : "fa",
+
+
+
+					editable: true,
+					droppable: false, // this allows things to be dropped onto the calendar
+					lang:'persianJalali',
+
+
+					isRTL: true,
+          eventClick: function(info) {
+
+loadForm(info);
+}
+
+				});
+        var loadForm =function (btn1) {
+          var btn=btn1;
+          //console.log(btn1);
+
+          //console.log($(btn).attr("type"));
+          //console.log($(btn).attr("data-url"));
+          return $.ajax({
+            url: "/WorkOrder/"+btn.id+"/update/",
+            type: 'get',
+            dataType: 'json',
+            beforeSend: function () {
+              //alert(btn.attr("data-url"));
+              //alert("321321");
+              $("#modal-company").modal({backdrop: 'static', keyboard: false});
+
+            },
+            success: function (data) {
+
+              //alert("3123@!");
+
+              $("#modal-company .modal-content").html(data.html_wo_form);
+              $('#id_requiredCompletionDate').pDatepicker({
+                              format: 'YYYY-MM-DD',
+                              autoClose: true,
+                              initialValueType: 'gregorian'
+                          });
+                          $('#id_datecreated').pDatepicker({
+                            format: 'YYYY-MM-DD',
+                            initialValueType: 'gregorian',
+                            autoClose:true
+
+
+                        });//id_dateCompleted
+                        //console.log($('#id_dateCompleted').val()+":dsadsa");
+
+                                      $('#id_dateCompleted').pDatepicker({
+                                        format: 'YYYY-MM-DD',
+
+                                        autoClose:true,
+                                        initialValueType: 'gregorian'
+                                                  });//id_dateCompleted
+
+                        //id_completedByUser
+
+                        $("#id_woAsset").change(function(){
+                          $.ajax({
+                            url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
+                            type:'get',
+                            dataType: 'json',
+                            success: function (data) {
+                              // console.log("hahaha");
+
+                            }
+                          });
+
+
+                        });
+                        $('.selectpicker').selectpicker();
+                        $('.basicAutoComplete').autoComplete();
+
+
+
+
+            }
+
+          });
+         // $("#id_assignedToUser").chosen('.chosen-select-width': {
+           //           width: "95%"
+             //     });
+
+
+
+      };
+        function update_display(){
+          events=[];
+          $.ajax({
+            url: '/Calendar/Update/'+$("#mt").val()+'/'+$("#woGroup").val()+'/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val(),
+            type: 'GET',
+            dataType: 'json',
+            data: '',
+            success: function (doc) {
+              console.log(doc)
+
+              if (doc != null) {
+                for(i in doc){
+                  console.log(i);
+                events.push({
+                  id: doc[i].id,
+                  title: doc[i].title,
+                  start: doc[i].datecreated ,
+                  color:doc[i].color
+
+                  // end: doc.to_date
+                });
+              }
+              console.log("calendar");
+              console.log(events);
+                $("#calendar").fullCalendar('removeEvents');
+                $("#calendar").fullCalendar('addEventSource', events);
+              }
+
+              // callback(events); //you have to pass the list of events to fullCalendar!
+            }
+          });
+        }
+
+			});
+
+		</script>
+{% endblock %}
+{% endblock %}
+<!-- $('body').on('click', 'button.fc-prev-button', function() {
+  //do something
+});
+
+$('body').on('click', 'button.fc-next-button', function() {
+  //do something
+}); -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script> -->

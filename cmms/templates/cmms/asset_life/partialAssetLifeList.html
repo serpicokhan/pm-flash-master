@@ -1,0 +1,48 @@
+
+{% for c in assetLifes %}
+
+<tr>
+  {% if c.assetOnlineStatus == None %}
+ <td><i class='fa fa-stop'>										</i>								</td>
+ <td>{{c.get_assetOfflineStatus_display}} </td>
+ <td>{{c.getdate}}</td>
+  <td>{{c.assetSetOfflineByUser}}</td>
+
+  <td>--</td>
+ {% else %} <td><i class='fa fa-play'>										</i>		</td>
+ <td>{{c.get_assetOnlineStatus_display}} </td>
+ <td>{{c.getdate}}</td>
+  <td>{{c.assetSetOfflineByUser}}</td>
+
+  <td>{{c.assetOnlineProducteHourAffected}}</td>
+
+
+ {% endif %}
+
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-assetLife"
+              data-url="{% url 'assetLife_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-assetLife"
+                   data-url="{% url 'assetLife_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="6" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/assetlife.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,101 @@
+<div method="post" action="{% url 'attendance_batch_create'   %}" class="js-attendance-batch-create-form">
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/attendance/partialBatchAttendanceList.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default">انصراف</button>
+    {% if perms.cmms.add_attendance %}
+    <button type="click" class="btn btn-primary" id='savebatch' >ذخیره</button>
+    {% endif %}
+  </div>
+</div>
+<script type="text/javascript">
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+var time1=''
+  $("#savebatch").click(function(){
+   //  $("#company-table2").find('tr').each(function (i, el) {
+   //     var $tds = $(this).find('td'),
+   //         userId = $tds.eq(1).attr('data-url'),
+   //         time1 = $tds.eq(3),//$tds.eq(3).find("input").val(),
+   //         ezafetime = $tds.eq(4).text(),
+   //         date = $tds.eq(5).val();
+   //
+   //
+   //         console.log(time1.html());
+   //     // do something with productId, product, Quantity
+   // });
+   mydata="";
+   $("#company-table2 tr:gt(0)").each(function () {
+        var this_row = $(this);
+        var userId = $.trim(this_row.find('td:eq(1)').attr('data-url'));//td:eq(0) means first td of this row
+
+        var time1 = $.trim(this_row.find('td:eq(3)>input').val());
+        var ezafetime = $.trim(this_row.find('td:eq(4)>input').val());
+        var date1 = $.trim(this_row.find('td:eq(5)>input').val());
+        console.log(date1);
+        mydata+=myformat("{'userId':{0},'time1':{1},'ezafetime':{2},'date1':'{3}'},",userId,time1,ezafetime,date1);
+    });
+
+
+    myobj=myformat("[{0}]",mydata);
+    $.ajax({
+      url: '/Attendance/Mass/',
+      type: "POST",
+      data:JSON.stringify( myobj),
+
+
+
+
+      dataType: 'json',
+      beforeSend: function (xhr, opts) {
+        // console.log(myobj);
+        // console.log(JSON.stringify( myobj));
+
+
+      },
+      success: function (data) {
+        console.log(data);
+        if (data.form_is_valid) {
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+          $("#tbody_task").empty();
+          // $("#tbody_task").html(data.html_task_list);
+          $("#modal-company2").modal("hide");
+          //console.log(data.html_wo_list);
+        }
+        else {
+
+
+          // console.log(data);
+          if(data.form_err_code==1)
+          {
+            toastr.error(data.form_err_msg);
+          }
+          else {
+            // $("#task-table tbody").html(data.html_task_list);
+            // $("#modal-task .modal-content").html(data.html_task_form);
+            toastr.error("ورودیهای خود را کنترل کنید");
+
+          }
+        }
+      }
+
+    });
+    return false;
+  });
+
+</script>

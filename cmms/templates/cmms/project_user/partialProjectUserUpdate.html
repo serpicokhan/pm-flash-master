@@ -1,0 +1,96 @@
+<div  data-url="{% url 'projectUser_update' form.instance.id %}" class="js-projectUser-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close cl-projectuser"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/asset_business/partialProjectUserForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-projectuser btn btn-default" data-dismiss="modal">بستن</button>
+    <button type="button" class="btn btn-primary" id="projectUser-submit">ویرایش</button>
+
+
+    <script>
+      $(".cl-projectuser").click(function()
+     {
+       $("#modal-projectUser").modal("hide");
+       //$("#{modal-company}").css("background-color", "yellow");
+
+
+     }
+    );
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+   }
+       $( document).ready(
+         function()
+         {
+
+           $("#projectUser-submit").click(function(){
+
+                      //alert("12321");
+                      //$( "#myselect option:selected" ).text();
+                      var mydata="";
+                      var mydata="";
+                      mydata=myformat('{"ProjectUserId":{0}\
+                      ,"ProjectUserUserId":{1}}',
+                      $("#lastProjectid").val(),
+                      $("#id_ProjectUserUserId").val()
+
+                    );
+
+                      var form = $(this).parent().parent();
+                       //console.log(form.attr("action"));
+                       //alert($("#id_metrics").val());
+                       console.log($(this));
+                       $.ajax({
+                         url: form.attr("data-url"),
+                         type: "POST",
+                         data:mydata,
+                         dataType: 'json',
+                         beforeSend: function () {
+                           //alert(btn.attr("data-url"));
+                           //console.log($("#id_businessAssetisDefault").is(':checked'));
+
+                         },
+                         success: function (data) {
+                           if (data.form_is_valid) {
+                             //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                             $("#tbody_projectUser").empty();
+
+                             $("#tbody_projectUser").html(data.html_projectUser_list);
+                             $("#modal-projectUser").modal("hide");
+                             console.log(data.html_projectUser_list);
+                           }
+                           else {
+
+                             $("#projectUser-table tbody").html(data.html_projectUser_list);
+                             $("#modal-projectUser .modal-content").html(data.html_projectUser_form);
+                           }
+                         }
+
+                       });
+                       return false;
+
+
+
+                  });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

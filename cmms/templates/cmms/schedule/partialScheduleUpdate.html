@@ -1,0 +1,245 @@
+<div  data-url="{% url 'schedule_update' form.instance.id %}" class="js-schedule-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close cl-schedule"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/schedule/partialScheduleForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-schedule btn btn-default">بستن</button>
+    {% if perms.cmms.change_schedule %}
+    <button type="button" class="btn btn-primary" id="schedule-submit">ویرایش</button>
+    {% endif %}
+
+    <script>
+      $(".cl-schedule").click(function()
+      {
+        $("#modal-schedule").modal("hide");
+        //$("#{modal-company}").css("background-color", "yellow");
+
+
+      }
+     );
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+    }
+       $( document).ready(
+         function()
+         {
+
+           $("#schedule-submit").click(function(){
+
+
+                       var form = $(this).parent().parent();
+                       var mydata="";
+                       if($('input[name=schChoices]:checked').val()=='0')
+                       {
+                         if($('input[name=schHowOften]:checked').val()=='1')
+                         {
+                           mydata=myformat('{"schHourRep":{0},\
+                           "schHowOften":{1},\
+                           "schHourIsFixed":"{2}"\
+                           ,"schChoices":{3},\
+                           "workOrder":{4},\
+                           "shStartDate":"{5}",\
+                           "shEndDate":"{6}",\
+                          "shHasEndDate":{7}}'
+                           ,$('#id_schHourRep').val(),
+                           $('input[name=schHowOften]:checked').val(),
+                           $('input[name=schHourIsFixed]:checked').val(),
+                           $('input[name=schChoices]:checked').val(),
+                           $("#lastWorkOrderid").val(),
+                           $("#id_shStartDate").val(),
+                           $("#id_shEndDate").val(),
+
+                           $("#id_shHasEndDate").is(":checked")
+                           );
+                         }
+                         else if($('input[name=schHowOften]:checked').val()=='2')
+                         {
+                          mydata=myformat('{"schDailyRep":{0},\
+                          "schHowOften":{1},\
+                          "schDailyIsFixed":"{2}",\
+                          "schChoices":{3},\
+                          "workOrder":{4},\
+                          "shStartDate":"{5}",\
+                          "shEndDate":"{6}" ,"shHasEndDate":"{7}","schNextWo":{8} }',
+                          $('#id_schDailyRep').val(),
+                          $('input[name=schHowOften]:checked').val(),
+                          $('input[name=schDayIsFixed]:checked').val(),
+                          $('input[name=schChoices]:checked').val(),
+                          $("#lastWorkOrderid").val(),
+                          $("#id_shStartDate").val(),
+                          $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"),$("#id_schNextWo").val());
+                         }//end of if
+                         else if($('input[name=schHowOften]:checked').val()=='3')
+                         {
+                         mydata=myformat('{"schWeeklyRep":{0},\
+                         "schHowOften":{1},\
+                         "isSaturday":"{2}",\
+                         "isSunday":"{3}",\
+                         "isMonday":"{4}",\
+                         "isTuesday":"{5}",\
+                         "isWednenday":"{6}",\
+                         "isThursday":"{7}",\
+                         "isFriday":"{8}",\
+                         "schChoices":{9},\
+                         "workOrder":{10},\
+                         "shStartDate":"{11}",\
+                         "shEndDate":"{12}", "shHasEndDate":{13}}',
+                         $('#id_schWeeklyRep').val(),
+                         $('input[name=schHowOften]:checked').val(),
+                         $('#id_isSaturday').prop('checked'),
+                         $('#id_isSunday').prop('checked'),
+                         $('#id_isMonday').prop('checked'),
+                         $('#id_isTuesday').prop('checked'),
+                         $('#id_isWednenday').prop('checked'),
+                         $('#id_isThursday').prop('checked'),
+                         $('#id_isFriday').prop('checked'),
+                         $('input[name=schChoices]:checked').val(),
+                         $("#lastWorkOrderid").val(),
+                         $("#id_shStartDate").val(),
+                         $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"));
+                         }//end of if
+                         else if($('input[name=schHowOften]:checked').val()=='4')
+                         {
+                           mydata=myformat('{"schDayofMonthlyRep":{0},\
+                           "schMonthlyRep":{1},\
+                           "schHowOften":{2},\
+                           "schMonthIsFixed":"{3}",\
+                           "schChoices":{4},\
+                           "workOrder":{5},\
+                           "shStartDate":"{6}",\
+                           "shEndDate":"{7}","shHasEndDate":{8}}',
+                           $('#id_schDayofMonthlyRep').val(),
+                           $('#id_schMonthlyRep').val(),
+                           $('input[name=schHowOften]:checked').val(),
+                           $('input[name=schMonthIsFixed]:checked').val(),
+                           $('input[name=schChoices]:checked').val(),
+                           $("#lastWorkOrderid").val(),$("#id_shStartDate").val(),
+                           $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"));
+                         }//end of if
+                         else if($('input[name=schHowOften]:checked').val()=='5')
+                         {
+                          mydata=myformat('{"schYearlyRep":{0},\
+                          "schMonthOfYearRep":{1},\
+                          "schDayOfMonthOfYearRep":{2},\
+                          "schHowOften":{3},\
+                          "schYearIsFixed":"{4}",\
+                          "schChoices":{5},\
+                          "workOrder":{6},\
+                          "shStartDate":"{7}",\
+                          "shEndDate":"{8}","shHasEndDate":{9}}',
+                          $('#id_schYearlyRep').val(),
+                          $('#id_schMonthOfYearRep').val(),
+                          $('#id_schDayOfMonthOfYearRep').val(),
+                          $('input[name=schHowOften]:checked').val(),
+                          $('input[name=schYearIsFixed]:checked').val(),
+                          $('input[name=schChoices]:checked').val(),
+                          $("#lastWorkOrderid").val(),
+                          $("#id_shStartDate").val(),
+                          $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"));
+                         }//end of if
+
+
+
+                       }//end of if
+                       else if($('input[name=schChoices]:checked').val()=='1')
+                       {
+
+                         if($('input[name=whenreading]:checked').val()=='0'){
+                          mydata=myformat('{"whenreading":{0},"schChoices":{1},\
+                          "shMeterReadingEvreyQnty":{2},\
+                          "shMeterReadingMetrics":{3},\
+                          "shMeterReadingStartAt":{4},\
+                          "shMeterReadingEndBy":"{5}",\
+                          "schMeterReadingIsFixed":"{6}"\
+                          ,"workOrder":{7},"schHasEndReading":{8},"schAsset":{9},"schNextWo":{10}}',
+                          $('input[name=whenreading]:checked').val(),
+                          $('input[name=schChoices]:checked').val(),
+                          $('#id_shMeterReadingEvreyQnty').val(),
+                          $("#id_shMeterReadingMetrics").val(),
+                          $("#id_shMeterReadingStartAt").val(),
+                          $("#id_shMeterReadingEndBy").val(),
+                          $('#id_schMeterReadingIsFixed').val(),
+                          $("#lastWorkOrderid").val(),
+                          $("#id_schHasEndReading").is(":checked"),
+                          $("#id_woAsset").val(),$("#id_schNextWo").val());
+
+                        }
+                         else
+                         {
+                           mydata=myformat('{"whenreading":{0},"schChoices":{1},\
+                           "shMeterReadingWhenMetric":{2},\
+                           "shMetricComparison":{3},"shMeterReadingWhenQnty":{4}\
+                           ,"workOrder":{5},"schAsset":{6},"schNextWo":{7}}',"1","1",$("#id_shMeterReadingWhenMetric").val(),
+                           $("#id_shMetricComparison").val(),$("#id_shMeterReadingWhenQnty").val(),$("#lastWorkOrderid").val(),
+                           $("#id_woAsset").val(),$("#id_schNextWo").val());
+                         }
+
+
+                       }
+                       else if($('input[name=schChoices]:checked').val()=='2')
+                       {
+
+                         mydata=myformat('{"schChoices":{0},"schEvent":{1},"workOrder":{2},"schAsset":{3},"schNextWo":{4}}'
+                         ,"2",$("#id_schEvent").val(),$("#lastWorkOrderid").val(),$("#id_woAsset").val(),$("#id_schNextWo").val());
+
+
+                       }
+                       $.ajax({
+                         url: form.attr("data-url"),
+                         type: "POST",
+                         data:mydata,
+                         dataType: 'json',
+                         beforeSend: function () {
+                           //alert(btn.attr("data-url"));
+                           // console.log(mydata);
+                         },
+                         success: function (data) {
+                           if (data.form_is_valid) {
+                             //console.log("1");
+                             //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                             $("#tbody_schedule").empty();
+
+                             $("#tbody_schedule").html(data.html_schedule_list);
+                             $("#modal-schedule").modal("hide");
+                             //console.log(data.html_schedule_list);
+                           }
+                           else {
+
+                             $("#schedule-table tbody").html(data.html_schedule_list);
+                             $("#modal-schedule .modal-content").html(data.html_schedule_form);
+
+                           }
+                         }
+
+                       });
+
+
+
+                       return false;
+
+
+
+                  });
+         }
+
+
+       );
+
+       </script>
+
+
+  </div>
+</div>

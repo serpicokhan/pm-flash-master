@@ -1,0 +1,16 @@
+<form method="post" action="{% url 'assetCategory_create'   %}" class="js-assetCategory-create-form">
+  {% csrf_token %}
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/assetCategory/partialAssetCategoryForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default">انصراف</button>
+    <button type="submit" class="btn btn-primary" >ذخیره</button>
+  </div>
+</form>

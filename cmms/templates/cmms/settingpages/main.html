@@ -1,0 +1,39 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+
+<div class="row">
+<div class="col-lg-4">
+  {% include 'cmms/settingpages/wo_problem_code/workorder_problem_codes.html' %}
+  {% include 'cmms/settingpages/offline_status/offline_status_codes.html' %}
+
+</div>
+<div class="col-lg-4">
+  {% include 'cmms/settingpages/wo_cause_code/workorder_cause_codes.html' %}
+    {% include 'cmms/settingpages/equip_cost/equipCostList.html' %}
+
+</div>
+<div class="col-lg-4">
+  {% include 'cmms/settingpages/wo_action_code/workorder_action_codes.html' %}
+  {% include 'cmms/settingpages/usergroup/userGroupList.html' %}
+  {% include 'cmms/settingpages/wo_pert_code/workorder_pert_codes.html' %}
+  {% include 'cmms/settingpages/wo_stop_code/workorder_stop_codes.html' %}
+
+</div>
+
+
+
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/settingpages/setting.js' %}"></script>
+
+{% endblock %}
+{% endblock %}

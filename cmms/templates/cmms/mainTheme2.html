@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My CMMS</title>
+  {% load staticfiles %}
+
+        <link href="{% static 'css/bootstrap.min.css' %}"  rel="stylesheet">
+
+         <link href="{% static 'css/bootstrap.rtl.min.css' %}"  rel="stylesheet">
+
+        <link href="{% static 'font-awesome/css/font-awesome.css' %}"  rel="stylesheet">
+        <!-- Toastr style -->
+
+        <link href="{% static 'css/plugins/toastr/toastr.min.css' %}"  rel="stylesheet">
+        <!-- Gritter -->
+
+        <link href="{% static 'css/style.rtl.css' %}"  rel="stylesheet">
+
+        <link href="{% static 'css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+        <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+        <link href="{% static 'css/plugins/jasny/jasny-bootstrap.min.css' %}" rel="stylesheet">
+        <!-- orris -->
+        <link href="{% static 'css/plugins/morris/morris-0.4.3.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css' %}" rel="stylesheet">
+        <link href="{% static 'css/plugins/dropzone/dropzone.css' %}" rel="stylesheet">
+         <link href="{% static 'css/plugins/summernote/summernote.css' %}" rel="stylesheet">
+         <link href="{% static 'css/plugins/summernote/summernote-bs3.css' %}" rel="stylesheet">
+        <!-- Mainly scripts -->
+            <script src="{% static 'js/jquery-2.1.1.js' %}"></script>
+            <script src="{% static 'js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+            <script src="{% static 'js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+            <!-- Peity -->
+            <script src="{% static 'js/plugins/peity/jquery.peity.min.js' %}"></script>
+
+            <!-- Custom and plugin javascript -->
+            <script src="{% static 'js/rada.js' %}"></script>
+            <script src="{% static 'js/plugins/pace/pace.min.js' %}"></script>
+
+            <!-- iCheck -->
+            <script src="{% static 'js/plugins/iCheck/icheck.min.js' %}"></script>
+
+
+            <!-- moment -->
+            <script src="{% static 'js/plugins/fullcalendar/moment.min.js' %}"></script>
+            <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+            <!-- Morris -->
+            <script src="{% static 'js/plugins/morris/raphael-2.1.0.min.js' %}"></script>
+            <script src="{% static 'js/plugins/morris/morris.js' %}"></script>
+            <!-- ChartJS-->
+            <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+            <!-- DROPZONE -->
+            <script src="{% static 'js/plugins/dropzone/dropzone.js' %}"></script>
+            <script src="{% static 'js/plugins/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+           <script src="{% static 'js/plugins/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+           <script src="{% static 'js/plugins/jquery-file-upload/jquery.fileupload.js' %}"></script>
+
+
+           {# PHOTOS PAGE SCRIPTS #}
+
+
+
+
+    </head>
+    <body >
+        <div id="wrapper">
+
+           {% block menu %}
+           {%include "cmms/menu.html" %}
+           {% endblock %}
+            <div id="page-wrapper" class="gray-bg">
+
+              {% block search %}
+              {%include "cmms/searchbox.html" %}
+              {% endblock %}
+
+              {% block content %}
+
+              {% endblock %}
+              {% block footer %}
+              {%include "cmms/footer.html" %}
+              {% endblock %}
+
+
+            </div>
+        </div>
+
+
+    </body>
+
+
+
+
+      <script src="{% static '/js/project/utils.js' %}"></script>
+
+</html>
