@@ -746,7 +746,7 @@ var loadPdate=function()
 
          $("#tbody_company").empty();
          $("#tbody_company").html(data.html_wo_list);
-         $(".woPaging").html(data.html_wo_paginator)
+         $(".woPaging").html(data.html_wo_paginator);
 
        }
 
