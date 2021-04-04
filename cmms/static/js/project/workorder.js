@@ -168,10 +168,10 @@ var cancelform=function(){
         // console.log(data);
         if(data.form_is_valid)
         {
+          swal("حذف شد!", $("#id_summaryofIssue").val(), "success");
 
-
-          $("#tbody_company").empty();
-          $("#tbody_company").html(data.html_wo_list);
+          // $("#tbody_company").empty();
+          // $("#tbody_company").html(data.html_wo_list);
          // $("#modal-company").modal("hide");
 
         }
@@ -208,6 +208,7 @@ var saveForm= function () {
          $("#tbody_company").html(data.html_wo_list);
          $("#modal-company").modal("hide");
          toastr.success("دستور کار با موفقیت  ایجاد شد");
+         $("#issavechanged").val("1");
 
 
         // console.log(data.html_wo_list);
@@ -756,17 +757,21 @@ var loadPdate=function()
  }
 
  $('#modal-company').on('hidden.bs.modal', function () {
+   if($("#issavechanged").val()=="-1" && $("#id_summaryofIssue").val()=="" ){
    swal({
-        title: "Are you sure?",
+        title: "حذف دستور کار بدون موضوع",
         text: $("#id_summaryofIssue").val(),
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "بلی",
+        cancelButtonText: "خیر",
         closeOnConfirm: false
     }, function () {
-        swal("Deleted!", $("#id_summaryofIssue").val(), "success");
+        cancelform();
+
     });
+  }
    // do something…
  });
 

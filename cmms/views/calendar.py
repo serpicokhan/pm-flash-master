@@ -60,7 +60,11 @@ def display_calendar(request,mtId,gId,startHijri,endHijri):
     for i in m:
         mdic[i.id]=i.color
     for i in wo:
-        color=mdic[i.maintenanceType.id]
+        if(i.maintenanceType):
+            color=mdic[i.maintenanceType.id]
+        else:
+            color='#000'
+
         events.append({
         'id':i.id,
         'title':i.summaryofIssue,
