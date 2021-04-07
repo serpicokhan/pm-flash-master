@@ -2040,3 +2040,5 @@ class reporttest:
          else:
              books=LogEntry.objects.filter(object_repr=reportType,action_time__range=(date1,date2))
          return render(request, 'cmms/reports/simplereports/logReport.html',{'wolog':books,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
+    def SummaryReportByUser(Self,request):
+        return render(request, 'cmms/reports/simplereports/SummaryReportByUser.html',{'':''})
