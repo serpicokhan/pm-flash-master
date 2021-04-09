@@ -49,7 +49,7 @@ var barData = {
       },
   }
 
-console.log("kirekhar");
+// console.log("kirekhar");
    var ctx = document.getElementById("polarChart").getContext("2d");
   var myBarChart = new Chart(ctx, {
     type: 'verticalBar',

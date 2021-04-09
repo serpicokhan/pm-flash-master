@@ -2041,5 +2041,51 @@ class reporttest:
              books=LogEntry.objects.filter(object_repr=reportType,action_time__range=(date1,date2))
          return render(request, 'cmms/reports/simplereports/logReport.html',{'wolog':books,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
     def SummaryReportByUser(Self,request):
+         reportType=request.POST.getlist("reportType","")
+         user=request.POST.get("usernames","")
+         maintype=request.POST.get("maintenanceType","")
+         date1=DateJob.getDate2(request.POST.get("startDate",""))
+         date2=DateJob.getDate2(request.POST.get("endDate",""))
+         startDate=request.POST.get("startDate","").replace('-','/')
+         endDate=request.POST.get("endDate","").replace('-','/')
+         n1=WOUtility.GetOnTimeCompletedWONumByUser(date1,date2,user,maintype)
+         n2=WOUtility.GetTotalCompletedWONumByUser(date1,date2,user,maintype)
+         n3=0
+         try:
+             n3=(n1[0].id/n2[0].id)*100
+         except ZeroDivisionError:
+             n3=0
+         m1=WOUtility.GetOnTimeCompletedWONumByUser2(date1,date2,user)
+         m2=WOUtility.GetTotalCompletedWONumByUser2(date1,date2,user)
+         m3=0
+         try:
+             m3=(m1[0].id/m2[0].id)*100
+         except ZeroDivisionError:
+             m3=0
+         s=WOUtility.GetDowntimeByUser(date1,date2,user)
+         d={}
+         for i in s:
+             d[i.d2]=float("{:.2f}".format((float(i.id)/60)))
+             # d[i.d2]=float(i.id)
+         s2=WOUtility.GetDowntimeHitsReasonByUser(date1,date2,user)
+         d2={}
+         for i in s2:
+             d2[i.d2]=i.id
+         s3=WOUtility.GetUserWoByMType(date1,date2,user)
+         d3={}
 
-        return render(request, 'cmms/reports/simplereports/SummaryReportByUser.html',{'':''})
+         for i in s3:
+             d3[i.name]=i.id
+         user_wo_by_mtype=UserUtility.getuser_work_hour_mtype(date1,date2,user)
+         user_hozur=UserUtility.getHozurTimeUser(date1,date2,user)[0].id
+         d4={}
+         total=0
+         for i in user_wo_by_mtype:
+             d4[i.name]=float("{:.2f}".format((float(i.id)/60)))
+             total=total+float(i.id)
+         d4["بدون برنامه"]=float("{:.2f}".format(((total-float(user_hozur))/60)))
+
+
+         username=SysUser.objects.get(id=user)
+         mtype_name=MaintenanceType.objects.get(id=maintype)
+         return render(request, 'cmms/reports/simplereports/SummaryReportByUser.html',{'result1':n3,'result2':m3,'result3':d,'result4':d2,'result5':d3,'result6':d4,'username':username.title,'mtype':mtype_name.name,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})

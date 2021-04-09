@@ -20,7 +20,7 @@ class UserUtility:
     @staticmethod
     def getOveralView(userID,start,end):
         if(userID):
-            print(" select get_closed_wo_byuser({0},'{1}','{2}') as id,get_assoc_wo_byuser({0},'{1}','{2}') as assoc ,get_logged_labour_hour_byuser({0},'{1}','{2}') as  logged from workorder where datecreated between '{1}' and '{2}' limit 1".format(userID,start,end))
+            # print(" select get_closed_wo_byuser({0},'{1}','{2}') as id,get_assoc_wo_byuser({0},'{1}','{2}') as assoc ,get_logged_labour_hour_byuser({0},'{1}','{2}') as  logged from workorder where datecreated between '{1}' and '{2}' limit 1".format(userID,start,end))
             return WorkOrder.objects.raw(" select get_closed_wo_byuser({0},'{1}','{2}') as id,get_assoc_wo_byuser({0},'{1}','{2}') as assoc ,get_logged_labour_hour_byuser({0},'{1}','{2}') as  logged from workorder where datecreated between '{1}' and '{2}' limit 1".format(userID,start,end))
         if(unitId):
 
@@ -33,3 +33,22 @@ class UserUtility:
     def getHozurTimeGid(dt1,dt2,gid):
         n1=Attendance.objects.raw("select get_unint_member_attendance({0},'{1}','{2}') as id".format(gid,dt1,dt2))[0].id
         return n1
+    @staticmethod
+    def getHozurTimeUser(dt1,dt2,uid):
+
+        n1=Attendance.objects.raw("select sum(attendanceTime+ezafekar) as id from attendance where name_id ={0} and (datecreated between '{1}' and '{2}')".format(uid,dt1,dt2))
+        return n1
+    @staticmethod
+    def getuser_work_hour_mtype(dt1,dt2,uid):
+        return SysUser.objects.raw("""    select COALESCE( sum(timestampdiff(minute,cast(concat(taskStartDate,
+         ' ', taskStartTime) as datetime),cast(concat(taskDateCompleted, ' ', taskTimeCompleted) as datetime))),0)
+          as id , m.name as name,m.id from tasks
+                 inner JOIN sysusers on tasks.taskAssignedToUser_id=sysusers.id
+
+                 inner JOIN workorder on tasks.workOrder_id=workorder.id
+                 inner join maintenancetype as m on workorder.maintenanceType_id=m.id
+
+                 where
+                 tasks.taskDateCompleted between '{1}' and '{2}' and workorder.assignedToUser_id={0}
+                 and workorder.isScheduling=0 and workorder.visibile=1
+                 group by m.id """.format(uid,dt1,dt2))

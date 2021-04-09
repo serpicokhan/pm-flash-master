@@ -257,9 +257,10 @@ class AssetUtility:
     @staticmethod
     def getOfflineCountByEvent(assetList,date1,date2):
 
-            return AssetLife.objects.raw(''' select count(assetlife.id) as id,b.id as event,b.name as eventname
+            return AssetLife.objects.raw(''' select count(assetlife.id) as id,b.id as event,b.causeCode as eventname
                                         from assetlife
-                                        left join offlinestatus b on assetlife.assetofflinestatus_id=b.id
+                                        left join workorder wo on assetlife.assetWOAssoc_id=wo.id
+                                        left join causecode b on wo.woCauseCode_id=b.id
 
                                         where assetLifeAssetid_id in {0} and
                                         (assetOfflineFrom between "{1}" and "{2}")
@@ -274,12 +275,12 @@ class AssetUtility:
     @staticmethod
     def getOfflineSumTimeByEvent(assetList,date1,date2):
             return AssetLife.objects.raw(''' select sum(timestampdiff(HOUR,
-                                  cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ', assetOnlineFromTime) as datetime))) as id,b.id as eventid, b.name as eventname
+                                  cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ', assetOnlineFromTime) as datetime))) as id,b.id as eventid, b.causeCode as eventname
 
                                   from assetlife  as t1
 
-
-                                  inner join offlinestatus b on t1.assetofflinestatus_id=b.id
+                                    left join workorder wo on assetlife.assetWOAssoc_id=wo.id
+                                    left join causecode b on wo.woCauseCode_id=b.id
 
                                   where assetLifeAssetid_id in {0} and (assetOfflineFrom between '{1}' and '{2}')
                                   and
@@ -358,7 +359,12 @@ class AssetUtility:
                  return Asset.objects.all().order_by('-id')
     @staticmethod
     def getAssetOfflineStatus(id):
-        n1=AssetLife.objects.raw(""" select (count(assetlife.id)/total_getdownhits({0}))*100   as id ,offlinestatus.name as reason  from assetlife inner join offlinestatus on assetlife.assetOfflineStatus_id=offlinestatus.id inner join assets on assets.id=assetlife.assetLifeAssetid_id  where (assetlifeassetid_id={0} or assets.assetIsLocatedAt_id={0} or assets.assetIsPartOf_id={0}) group by assetofflinestatus_id """.format(id))
+        n1=AssetLife.objects.raw(""" select (count(assetlife.id)/total_getdownhits({0}))*100   as id ,b.causeCode as reason  from assetlife
+         left join workorder wo on assetlife.assetWOAssoc_id=wo.id
+         left join causecode b on wo.woCauseCode_id=b.id
+         inner join assets on assets.id=assetlife.assetLifeAssetid_id
+         where (assetlifeassetid_id={0} or assets.assetIsLocatedAt_id={0} or assets.assetIsPartOf_id={0})
+         group by b.causeCode  """.format(id))
         return n1
     @staticmethod
     def getAssetOfflineStatusLine(id):
