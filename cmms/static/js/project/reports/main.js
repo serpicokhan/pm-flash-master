@@ -176,11 +176,85 @@ $("#reportCategory").change(function(){
   });
   return false;
 });
+$("#option1").change(function(){
+  $.ajax({
+    url: '/Report/1/show_fav_reports/',
+
+    type: 'get',
+    dataType: 'json',
+    success: function (data) {
+
+        //alert("Company created!");  // <-- This is just a placeholder for now for testing
+        $("#tbody_report").empty();
+        $("#tbody_report").html(data.html_report_list);
+        // console.log("start");
+        // console.log(data);
+        // console.log(data.html_report_paginator);
+        $(".woPaging").html(data.html_report_paginator);
+        // $("#report-table").on("click", ".js-update-report", myReportLoader);
+        // $("#modal-report").modal("hide");
+       // console.log(data.html_report_list);
+
+    }
+  });
+  return false;
+
+});
+$("#option2").change(function(){
+  $.ajax({
+    url: '/Report/0/show_fav_reports/',
+
+    type: 'get',
+    dataType: 'json',
+    success: function (data) {
+
+        //alert("Company created!");  // <-- This is just a placeholder for now for testing
+        $("#tbody_report").empty();
+        $("#tbody_report").html(data.html_report_list);
+        // console.log("start");
+        // console.log(data);
+        // console.log(data.html_report_paginator);
+        $(".woPaging").html(data.html_report_paginator);
+        // $("#report-table").on("click", ".js-update-report", myReportLoader);
+        // $("#modal-report").modal("hide");
+       // console.log(data.html_report_list);
+
+    }
+  });
+  return false;
+
+});
+var make_fav=function(){
+  // alert("123");
+  var btn=$(this);
+  report_id=$(this).attr("data-url");
+  // console.log(report_id);
+  $.ajax({
+    url: '/Report/'+report_id+'/fav_report/',
+
+    type: 'get',
+    dataType: 'json',
+    success: function (data) {
+    // console.log(data);
+      btn.toggleClass("btn-info");
+      btn.children('i').toggleClass("fa-star-o");
+
+
+
+
+    },
+    error:function(x,y,z){
+      console.log(x,y,z);
+    }
+  });
+  return false;
+}
 $(".js-create-report").click(myWoLoader);
 $("#modal-report").on("submit", ".js-report-create-form", saveForm);
 
 // Update book
 $("#report-table").on("click", ".js-update-report", myReportLoader);
+$("#report-table").on("click", ".fav_report", make_fav);
 $("#report-table").on("click", ".js-operate-report", myReportLoader);
 $("#modal-report").on("submit", ".js-report-update-form", saveForm);
 // Delete book

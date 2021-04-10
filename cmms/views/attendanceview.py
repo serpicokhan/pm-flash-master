@@ -162,6 +162,10 @@ def mass_create(request):
         'attendance': wos,
         'perms': PermWrapper(request.user)
     })
+    data['html_attendance_paging'] = render_to_string('cmms/attendance/partialAttendancePagination.html', {
+        'attendance': wos,
+        'perms': PermWrapper(request.user)
+    })
 
 
 

@@ -869,8 +869,8 @@ class reporttest:
        #this report include bar graph
        date1=DateJob.getDate2(request.POST.get("startDate",""))
        date2=DateJob.getDate2(request.POST.get("endDate",""))
-       startDate=request.POST.get("startDate","")
-       endDate=request.POST.get("endDate","")
+       startDate=request.POST.get("startDate","").replace('-','/')
+       endDate=request.POST.get("endDate","").replace('-','/')
 
        ######asset category###########
        categoryText=request.POST.getlist("categoryText", "")
@@ -1004,8 +1004,8 @@ class reporttest:
     def WorkOrderHoursLoggedbyTechnician(self,request):
         date1=DateJob.getDate2(request.POST.get("startDate",""))
         date2=DateJob.getDate2(request.POST.get("endDate",""))
-        startDate=request.POST.get("startDate","")
-        endDate=request.POST.get("endDate","")
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
         userLink=request.POST.get("userLink", "")
         user=SysUser.objects.get(id=userLink)
         n1=UserUtility.getOveralView(userLink,date1,date2)

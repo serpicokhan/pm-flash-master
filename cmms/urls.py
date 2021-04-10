@@ -546,6 +546,8 @@ urlpatterns = [
            url(r'^Report/(?P<lId>\d+)/Broker/$', simpleReportBroker, name='simpleReportBroker'),
            url(r'^Report/(?P<id>-?\d+)/FilterCategory/$', FilterReportCategory, name='FilterReportCategory'),
            url(r'^Report/(?P<str>[-\w]+)/reportSearch/$', reportSearch, name='reportSearch'),
+           url(r'^Report/(?P<id>\d+)/fav_report/$', make_favorits_report, name='make_favorits_report'),
+           url(r'^Report/(?P<id>\d+)/show_fav_reports/$', show_fav_reports, name='show_fav_reports'),
            url(r'^Calendar/$',list_calendar,name='list_calendar'),
            url(r'^Calendar/Update/(?P<mtId>-?\d+)/(?P<gId>-?\d+)/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)$',display_calendar,name='display_calendar'),
            #api_view

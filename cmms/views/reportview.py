@@ -138,6 +138,29 @@ def FilterReportCategory(request,id):
     data['html_report_list'] = render_to_string('cmms/reports/partialReportlist.html', {
          'reports': wos
      })
-    print(wos)
+    # print(wos)
     data['html_report_paginator'] = render_to_string('cmms/reports/partialReportPagination.html', {'reports': wos,'pageType':'FilterReportCategory','pageArg':id})
+    return JsonResponse(data)
+def make_favorits_report(request,id):
+    rep=Report.objects.get(id=id)
+    rep.reportFav=not rep.reportFav
+    rep.save()
+    data=dict()
+    data["form_is_valid"]=True
+    return JsonResponse(data)
+def show_fav_reports(request,id):
+    data=dict()
+
+    books=[]
+
+    if(id=='1'):
+        books = Report.objects.filter(reportFav=True)
+    else:
+         books = Report.objects.all()
+    wos=ReportUtility.doPaging(request,books)
+    data['html_report_list'] = render_to_string('cmms/reports/partialReportlist.html', {
+         'reports': wos
+     })
+    # print(wos)
+    data['html_report_paginator'] = render_to_string('cmms/reports/rep_pagination2.html', {'reports': wos})
     return JsonResponse(data)

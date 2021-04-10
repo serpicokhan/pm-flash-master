@@ -74,6 +74,7 @@ var time1=''
           //alert("Company created!");  // <-- This is just a placeholder for now for testing
           $("#tbody_company").empty();
          $("#tbody_company").html(data.html_attendance_list);
+         $(".userPaging").html(data.html_attendance_paging);
           $("#modal-company2").modal("hide");
           //console.log(data.html_wo_list);
         }

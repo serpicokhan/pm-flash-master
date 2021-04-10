@@ -847,7 +847,7 @@ $(document).ready(function(){
 
       });
     // var btn={'data-url':'/WorkOrder/10/update/'};
-    loadForm(test);
+     $.when(loadForm(test)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad,initWoPertLoad);
   }
 });
 
