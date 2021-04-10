@@ -72,8 +72,8 @@ var time1=''
         console.log(data);
         if (data.form_is_valid) {
           //alert("Company created!");  // <-- This is just a placeholder for now for testing
-          $("#tbody_task").empty();
-          // $("#tbody_task").html(data.html_task_list);
+          $("#tbody_company").empty();
+         $("#tbody_company").html(data.html_attendance_list);
           $("#modal-company2").modal("hide");
           //console.log(data.html_wo_list);
         }

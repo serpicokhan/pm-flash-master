@@ -1,6 +1,7 @@
 {% extends 'cmms/reports/simplereports/main.html' %}
 
  {% block content %}
+ {% load utils_tags %}
 
 
    <div class="alert alert-warning text-center">
@@ -58,7 +59,8 @@
        <tbody>
     {% for c in n2 %}
      <tr>
-       <td class="active">{{c.id}}</td>
+       <td class="active"><a class='btn btn-warning btn-rounded' href='/WorkOrder/{{c.id}}/details' target="_blank">
+   											{{c.id}}</a></td>
        <td class="active">
          {{c.get_woStatus_display}}
        </td>
@@ -69,7 +71,7 @@
          {{c.summaryofIssue}}
        </td>
        <td class="active">
-         {{c.hour}}
+         {{c.hour|show_hour}}
        </td>
 
 

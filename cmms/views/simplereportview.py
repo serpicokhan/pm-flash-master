@@ -2078,12 +2078,14 @@ class reporttest:
              d3[i.name]=i.id
          user_wo_by_mtype=UserUtility.getuser_work_hour_mtype(date1,date2,user)
          user_hozur=UserUtility.getHozurTimeUser(date1,date2,user)[0].id
+         if(user_hozur is None):
+             user_hozur=0
          d4={}
          total=0
          for i in user_wo_by_mtype:
              d4[i.name]=float("{:.2f}".format((float(i.id)/60)))
              total=total+float(i.id)
-         d4["بدون برنامه"]=float("{:.2f}".format(((total-float(user_hozur))/60)))
+         d4["بدون برنامه"]=float("{:.2f}".format((((float(user_hozur)))-total)/60))
 
 
          username=SysUser.objects.get(id=user)

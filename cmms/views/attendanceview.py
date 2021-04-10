@@ -156,6 +156,12 @@ def mass_create(request):
     for element in final_dictionary:
          Attendance.objects.create(name=SysUser.objects.get(id=element['userId']),datecreated=DateJob.getDate2(element['date1']),attendanceTime=element['time1'],Ezafekar=element['ezafetime'])
     data['form_is_valid']=True
+    books = Attendance.objects.all().order_by('-datecreated')
+    wos=UserUtility.doPaging(request,books)
+    data['html_attendance_list'] = render_to_string('cmms/attendance/partialAttendanceList.html', {
+        'attendance': wos,
+        'perms': PermWrapper(request.user)
+    })
 
 
 
