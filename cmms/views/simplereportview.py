@@ -2091,3 +2091,44 @@ class reporttest:
          username=SysUser.objects.get(id=user)
          mtype_name=MaintenanceType.objects.get(id=maintype)
          return render(request, 'cmms/reports/simplereports/SummaryReportByUser.html',{'result1':n3,'result2':m3,'result3':d,'result4':d2,'result5':d3,'result6':d4,'username':username.title,'mtype':mtype_name.name,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
+    def SummaryReportByAsset(Self,request):
+         reportType=request.POST.getlist("reportType","")
+         asset=request.POST.get("assetname","")
+         maintype=request.POST.get("maintenanceType","")
+         date1=DateJob.getDate2(request.POST.get("startDate",""))
+         date2=DateJob.getDate2(request.POST.get("endDate",""))
+         startDate=request.POST.get("startDate","").replace('-','/')
+         endDate=request.POST.get("endDate","").replace('-','/')
+         n1=AssetUtility.GetOnTimeCompletedWONumByAsset(date1,date2,asset,maintype)
+         n2=AssetUtility.GetTotalCompletedWONumByAsset(date1,date2,asset,maintype)
+         n3=0
+         try:
+             n3=(n1[0].id/n2[0].id)*100
+         except ZeroDivisionError:
+             n3=0
+         m1=AssetUtility.GetOnTimeCompletedWONumByAsset2(date1,date2,asset)
+         m2=AssetUtility.GetTotalCompletedWONumByAsset2(date1,date2,asset)
+         m3=0
+         try:
+             m3=(m1[0].id/m2[0].id)*100
+         except ZeroDivisionError:
+             m3=0
+         s=AssetUtility.GetDowntimeByAsset(date1,date2,asset)
+         d={}
+         for i in s:
+             d[i.d2]=float("{:.2f}".format((float(i.id)/60)))
+             # d[i.d2]=float(i.id)
+         s2=AssetUtility.GetDowntimeHitsReasonByAsset(date1,date2,asset)
+         d2={}
+         for i in s2:
+             d2[i.d2]=i.id
+         s3=AssetUtility.GetAssetWoByMType(date1,date2,asset)
+         d3={}
+
+         for i in s3:
+             d3[i.name]=i.id
+
+
+         assetname=Asset.objects.get(id=asset)
+         mtype_name=MaintenanceType.objects.get(id=maintype)
+         return render(request, 'cmms/reports/simplereports/SummaryReportByAsset.html',{'result1':n3,'result2':m3,'result3':d,'result4':d2,'result5':d3,'username':assetname.assetName,'mtype':mtype_name.name,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})

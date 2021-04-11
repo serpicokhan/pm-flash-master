@@ -1,0 +1,80 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>خلاصه وضعیت کاربران</h2>
+                            <h3>تاریخ تولید گزارش: {{currentdate}}</h3>
+                            <h3>از تاریخ: {{stdate}}</h3>
+                            <h3>تا تاریخ: {{enddate}}</h3>
+                            <h3>  نام کاربر: {{username}}</h3>
+                            <h3>نوع نگهداری: {{mtype}}</h3>
+
+
+
+                           </div>
+
+      <div class="row">
+        <div id="canvas-holder" class=' col-md-offset-3' style="width:50%;-moz-user-select: none;  -webkit-user-select: none;  -ms-user-select: none;  ">
+<canvas id="chart"></canvas>
+</div>
+
+      </div>
+      <div class="row" style='margin-top:50px;'>
+        <div id="canvas-holder2" class=' col-md-offset-3' style="width:50%;-moz-user-select: none;  -webkit-user-select: none;  -ms-user-select: none;  ">
+<canvas id="chart2"></canvas>
+</div>
+
+      </div>
+      <div class="row" style='margin-top:50px;'>
+        <div id="canvas-holder3" class=' col-md-offset-3' style="width:50%;-moz-user-select: none;  -webkit-user-select: none;  -ms-user-select: none;  ">
+<canvas id="causeBarChart"></canvas>
+</div>
+
+      </div>
+      <div class="row" style='margin-top:50px;'>
+        <div id="canvas-holder4" class=' col-md-offset-3' style="width:50%;-moz-user-select: none;  -webkit-user-select: none;  -ms-user-select: none;  ">
+<canvas id="causeBarCharthits"></canvas>
+</div>
+
+      </div>
+      <div class="row" style='margin-top:50px;'>
+        <div id="canvas-holder5" class=' col-md-offset-3' style="width:50%;-moz-user-select: none;  -webkit-user-select: none;  -ms-user-select: none;  ">
+<canvas id="mtypecount"></canvas>
+</div>
+
+      </div>
+      <div class="row" style='margin-top:50px;'>
+        <div id="canvas-holder6" class=' col-md-offset-3' style="width:50%;-moz-user-select: none;  -webkit-user-select: none;  -ms-user-select: none;  ">
+<canvas id="mtypecount2"></canvas>
+</div>
+
+      </div>
+
+ <script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
+ <script src="https://unpkg.com/chartjs-gauge@0.2.0/dist/chartjs-gauge.js"></script>
+
+
+ <script type="text/javascript">
+ var value = {{result1}};
+ var value2 = {{result2}};
+ var causedata={% autoescape off %}{{result3}}{% endautoescape %};
+ var causedatahits={% autoescape off %}{{result4}}{% endautoescape %};
+ var womtypecounts={% autoescape off %}{{result5}}{% endautoescape %};
+
+
+
+
+ </script>
+ <script src="{% static '/js/project/reports/SummaryReportByAsset.js' %}">
+
+ </script>
+
+
+
+
+ {% endblock %}

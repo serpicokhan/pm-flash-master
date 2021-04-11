@@ -419,3 +419,49 @@ class AssetUtility:
                     wo.woAsset.assetState=False;
                     wo.woAsset.save()
                 i.delete()
+
+
+    @staticmethod
+    def GetOnTimeCompletedWONumByAsset(start,end,asset,maintype):
+
+        return WorkOrder.objects.raw("select count(id) as id from workorder where datecompleted <= requiredCompletionDate and (datecompleted between '{0}' and '{1}') and  wostatus=7 and woAsset_id={2} and maintenanceType_id={3}".format(start,end,asset,maintype))
+    ##########
+    @staticmethod
+    def GetTotalCompletedWONumByAsset(start,end,asset,maintype):
+        return WorkOrder.objects.raw("select count(id) as id from workorder where  (datecompleted between '{0}' and '{1}') and  wostatus=7 and woAsset_id={2} and maintenanceType_id={3}".format(start,end,asset,maintype))
+    #########################################################################################
+    @staticmethod
+    def GetOnTimeCompletedWONumByAsset2(start,end,asset):
+
+        return WorkOrder.objects.raw("select count(id) as id from workorder where datecompleted <= requiredCompletionDate and (datecompleted between '{0}' and '{1}') and  wostatus=7 and woAsset_id={2}".format(start,end,asset))
+
+    #################
+    #########################################################################################
+    @staticmethod
+    def GetTotalCompletedWONumByAsset2(start,end,asset):
+        return WorkOrder.objects.raw("select count(id) as id from workorder where  (datecompleted between '{0}' and '{1}') and  wostatus=7 and woAsset_id={2} ".format(start,end,asset))
+
+
+    #########################################################################################
+    @staticmethod
+    def GetDowntimeByAsset(start,end,assetid):
+        # print("select count(assetlife.id) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by assetStopCode_id".format(start,end,userid))
+        # print("select sum(timestampdiff(MINute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ',assetOnlineFromTime) as datetime))) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by assetStopCode_id".format(start,end,userid))
+        return AssetLife.objects.raw("select sum(timestampdiff(MINute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ',assetOnlineFromTime) as datetime))) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetLifeAssetid_id={2} group by assetStopCode_id".format(start,end,assetid))
+    #########################################################################################
+    @staticmethod
+    def GetDowntimeHitsReasonByAsset(start,end,assetid):
+        # print("select count(assetlife.id) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by assetStopCode_id".format(start,end,userid))
+        return AssetLife.objects.raw("""select count(assetlife.id) as id,s.causeDescription as d2,s.id from assetlife
+         join workorder as wo on wo.id=assetlife.assetWOAssoc_id
+         left join CauseCode as s on wo.woCauseCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetLifeAssetid_id={2} group by s.id""".format(start,end,assetid))
+    #########################################################################################
+    @staticmethod
+    def GetAssetWoByMType(start,end,assetid):
+
+        return WorkOrder.objects.raw(""" select count(wo.id) as id,maintenanceType_id,m.name as name from workorder as wo
+        inner join maintenancetype as m on wo.maintenanceType_id=m.id
+        where (wo.datecreated between '{0}' and '{1}') and wo.woAsset_id={2} and isScheduling=0 and visibile=1
+        group by maintenanceType_id
+
+         """.format(start,end,assetid))

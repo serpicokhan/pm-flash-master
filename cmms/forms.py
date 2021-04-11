@@ -2569,6 +2569,21 @@ class SummaryReportByUser(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     usernames= forms.ModelChoiceField(label="نام کاربر",queryset=SysUser.objects.filter(userStatus=True),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+class SummaryReportByAsset(forms.Form):
+    test='خلاصه وضعیت تجهیز'
+    startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+
+    OPTIONS = (
+        (0, "pdf"),
+        (1, "EXCEL"),
+
+        )
+    reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
+    maintenanceType= forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
         #
 
 
