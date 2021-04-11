@@ -244,9 +244,9 @@ class ScheduleUtility:
                 cd+=timedelta(1)
             if(cd.isocalendar()[1]==Newsch.schnextTime.isocalendar()[1]):
                 Newsch.schnextTime=cd
-                print("hirekhar2")
+
             else:
-                print("hirekhar")
+                
                 cd+=timedelta((Newsch.schWeeklyRep-1)*7)
                 Newsch.schnextTime=cd
             print(cd,"@@@@@@@@@@@@")
@@ -312,7 +312,7 @@ class ScheduleUtility:
             if(c.schChoices==0):
                 #.replace(tzinfo=None)
                 while(c.schnextTime.date()<=three_months ):
-                    print(c.schnextTime,c.shEndDate,"**************")
+                    # print(c.schnextTime,c.shEndDate,"**************")
                     if(c.shHasEndDate and c.schnextTime.date()>c.shEndDate):
                         break
                     swo=WorkOrder.objects.get(id=c.workOrder.id)

@@ -140,27 +140,18 @@ def assetLife_create(request,assetId=None):
             # print(asset1,"if#####################")
         else:
             pass
-            #  asset1.assetStatus=False
-            #  asset1.save()
-            #  print("else")
-
-            # dt1=datetime.combine(datetime.strptime(data['assetOnlineFrom'], "%Y-%m-%d").date(), data['assetOnlineFromTime'])
-            # dt2=datetime.combine(datetime.strptime(data['assetOffFrom'], "%Y-%m-%d").date(), data['assetOfflineFromTime'])
-            # dt1=dateutil.parser.parse(data['assetOfflineFrom'])
-            # dt2=dateutil.parser.parse(data['assetOnlineFrom'])
-            # dt11=datetime.combine(dt1.date(), t1.time())
-            # dt22=datetime.combine(dt2.date(), t2.time())
-            # diff = relativedelta(dt22, dt11)
-
-            # data['assetOnlineProducteHourAffected']=diff.days
 
 
 
 
 
-        print(data['assetCheckEvent'])
+
         if(data['assetCheckEvent']==True):
             AssetEvent.objects.create(AssetEventAssetId_id=woId,AssetEventEventId_id=data['assetEventType'])
+        else:
+            af=AssetEvent.objects.filter(AssetEventAssetId_id=woId,AssetEventEventId_id=data['assetEventType'])
+            if(af):
+                af.delete();
 
         form = AssetLifeForm(data)
         # AssetStatus.ReverseAssetStatus(woId)
@@ -209,6 +200,13 @@ def assetLife_update(request, id):
         else:
             woId.assetStatus=False;
             woId.save()
+
+        if(data['assetCheckEvent']==True):
+            AssetEvent.objects.create(AssetEventAssetId_id=woId,AssetEventEventId_id=data['assetEventType'])
+        else:
+            af=AssetEvent.objects.filter(AssetEventAssetId_id=woId,AssetEventEventId_id=data['assetEventType'])
+            if(af):
+                af.delete();
 
 
         form = AssetLifeForm(data, instance=company)
