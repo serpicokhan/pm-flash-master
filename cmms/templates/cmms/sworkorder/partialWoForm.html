@@ -4,6 +4,7 @@
   {% load static %}
   <img src="{% static 'img/if_industry_50840.png' %}" / >
   <input type=hidden name='lastWorkOrderid' id='lastWorkOrderid' value='{{lId}}'/>
+  <input type=hidden name='issavechanged' id='issavechanged' value='-1'/>
   {{ form.isScheduling.as_hidden }}
   <div class="form-group">
     <label>{{form.running.label}}</label>
@@ -63,7 +64,7 @@
 
                             <li class=""><a data-toggle="tab" href="#tab-6" aria-expanded="false">اعلانات</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-7" aria-expanded="false">پیوست ها</a></li>
-                            
+
                               {% if perms.cmms.view_logentry %}
                             <li class=""><a data-toggle="tab" href="#tab-9" aria-expanded="false">فعالیت ها</a></li>
                             {% endif %}

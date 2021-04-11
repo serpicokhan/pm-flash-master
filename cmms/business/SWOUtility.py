@@ -34,8 +34,10 @@ class SWOUtility:
     @staticmethod
     def seachSWoByTags(searchStr):
         if(not searchStr):
-            return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=True).order_by('-id')
-        return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=True,woTags__contains=searchStr).order_by('-id')
+            return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=True).order_by('-running','-id')
+        if(searchStr.isdigit()):
+            return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=True).filter(Q(summaryofIssue__contains=searchStr)|Q(id=int(searchStr))).order_by('-running','-id')
+        return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=True,woTags__contains=searchStr).order_by('-running','-id')
     @staticmethod
     def getAssetSMSummaryReport(asset):
         wos=[]

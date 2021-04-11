@@ -108,7 +108,7 @@ class AssetUtility:
         d={}
         mval={}#corresponding maintenance value for eash station
         mcol={}
-        mid=MaintenanceType.objects.all().exclude(id=1)
+        mid=MaintenanceType.objects.all()
         assetname=[]
         for m in mid:
             mval[m.name]=[]
@@ -344,22 +344,22 @@ class AssetUtility:
         if(searchStr != 'empty'):
              if(aType>0):
                  if(searchStr.isdigit()):
-                     return Asset.objects.filter(Q(assetName__contains=searchStr,assetTypes=aType)|Q(assetCode__contains=searchStr,assetTypes=aType)|Q(id=int(searchStr),assetTypes=aType)) #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
-                 return Asset.objects.filter(assetName__contains=searchStr,assetTypes=aType)|Asset.objects.filter(assetCode__contains=searchStr,assetTypes=aType) #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
+                     return Asset.objects.filter(Q(assetName__contains=searchStr,assetTypes=aType)|Q(assetCode__contains=searchStr,assetTypes=aType)|Q(id=int(searchStr),assetTypes=aType)).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
+                 return Asset.objects.filter(assetName__contains=searchStr,assetTypes=aType)|Asset.objects.filter(assetCode__contains=searchStr,assetTypes=aType).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
              else:
                  if(searchStr.isdigit()):
-                      return Asset.objects.filter(Q(assetName__contains=searchStr)|Q(assetCode__contains=searchStr)|Q(id=int(searchStr))) #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
-                 return Asset.objects.filter(assetName__contains=searchStr)|Asset.objects.filter(assetCode__contains=searchStr) #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
+                      return Asset.objects.filter(Q(assetName__contains=searchStr)|Q(assetCode__contains=searchStr)|Q(id=int(searchStr))).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
+                 return Asset.objects.filter(assetName__contains=searchStr)|Asset.objects.filter(assetCode__contains=searchStr).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
 
          # return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,woTags__contains=searchStr).order_by('-id')
         else:
              if(aType>0):
-                 return Asset.objects.filter(assetTypes=aType).order_by('-id')
+                 return Asset.objects.filter(assetTypes=aType).order_by('-assetName')
              else:
-                 return Asset.objects.all().order_by('-id')
+                 return Asset.objects.all().order_by('-assetName')
     @staticmethod
     def getAssetOfflineStatus(id):
-        n1=AssetLife.objects.raw(""" select (count(assetlife.id)/total_getdownhits({0}))*100   as id ,b.causeCode as reason  from assetlife
+        n1=AssetLife.objects.raw(""" select (count(assetlife.id)/total_getdownhits({0}))*100   as id ,b.causeDescription as reason,b.causeCode  from assetlife
          left join workorder wo on assetlife.assetWOAssoc_id=wo.id
          left join causecode b on wo.woCauseCode_id=b.id
          inner join assets on assets.id=assetlife.assetLifeAssetid_id

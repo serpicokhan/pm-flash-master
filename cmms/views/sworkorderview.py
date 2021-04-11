@@ -45,7 +45,7 @@ def filterUser(request,books):
 def list_swo(request,id=None):
     books = WorkOrder.objects.filter(isScheduling=True)
      #paging
-    books=filterUser(request,books)
+    books=filterUser(request,books).order_by('-running')
     wos=SWOUtility.doPaging(request,books)
     return render(request, 'cmms/sworkorder/woList.html', {'wo': wos})
 
@@ -195,12 +195,13 @@ def swo_searchworkOrderByTags(request,searchStr):
 
     searchStr=searchStr.replace('empty_','')
     searchStr=searchStr.replace('_',' ')
-    books=list(SWOUtility.seachSWoByTags(searchStr))
+    books=(SWOUtility.seachSWoByTags(searchStr))
+    books=filterUser(request,books)
 
     wos=SWOUtility.doPaging(request,books)
     if(not searchStr):
         searchStr='empty_'
-    data['html_swo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {'wo': wos})
+    data['html_swo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {'wo': wos, 'perms': PermWrapper(request.user)   })
     data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination.html', {'wo': wos,'pageType':'swo_searchworkOrderByTags','pageArgs':searchStr            })
     data['form_is_valid'] = True
     return JsonResponse(data)
@@ -215,13 +216,13 @@ def swo_cancel(request,id):
             # print(wo)
             wo.delete()
             data['form_is_valid'] = True  # This is just to play along with the existing code
-            companies = WorkOrder.objects.filter(isScheduling=True)
-            companies=filterUser(request,companies)
-            # page=request.GET.get('page',1)
-            wos=WOUtility.doPaging(request,companies)
-            #Tasks.objects.filter(woId=id).update(workorder=id)
-            data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWolist.html', {
-                'wo': wos
-            })
+            # companies = WorkOrder.objects.filter(isScheduling=True)
+            # companies=filterUser(request,companies)
+            # # page=request.GET.get('page',1)
+            # wos=WOUtility.doPaging(request,companies)
+            # #Tasks.objects.filter(woId=id).update(workorder=id)
+            # data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWolist.html', {
+            #     'wo': wos
+            # })
 
     return JsonResponse(data)

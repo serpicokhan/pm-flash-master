@@ -728,6 +728,7 @@ var loadPdate=function()
  $("#woType").change(function(){
    filterWo($("#woType").val());
  });
+ //////////////////////////////////////////////
  var filterWoGroup=function(id){
    return $.ajax({
      url: '/WorkOrder/'+id+'/getGroup/',
@@ -755,6 +756,7 @@ var loadPdate=function()
 
    });
  }
+ ///////////////////////////////////////////////
 
  $('#modal-company').on('hidden.bs.modal', function () {
    if($("#issavechanged").val()=="-1" && $("#id_summaryofIssue").val()=="" ){

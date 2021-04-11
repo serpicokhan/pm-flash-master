@@ -76,9 +76,9 @@ var cancelform=function(){
         if(data.form_is_valid)
         {
 
-
-          $("#tbody_company").empty();
-          $("#tbody_company").html(data.html_wo_list);
+swal("حذف شد!", $("#id_summaryofIssue").val(), "success");
+          // $("#tbody_company").empty();
+          // $("#tbody_company").html(data.html_wo_list);
          // $("#modal-company").modal("hide");
 
         }
@@ -108,6 +108,7 @@ var saveForm= function () {
          $("#tbody_company").html(data.html_wo_list);
          $("#modal-company").modal("hide");
          toastr.success("دستور کار زمانبندی شده با موفقیت  ایجاد شد");
+         $("#issavechanged").val("1");
 
         // console.log(data.html_wo_list);
        }
@@ -217,17 +218,17 @@ var saveForm= function () {
   //############# Time Radio Button هفته###################
   $('#option2').change(function(){
 
-    getListWorkorderLastTime(2);
+    // getListWorkorderLastTime(2);
 });
 //################### ماه #####################
 $('#option3').change(function(){
 
-  getListWorkorderLastTime(3);
+  // getListWorkorderLastTime(3);
 });
 
 $('#option1').change(function(){
 
-  getListWorkorderLastTime(1);
+  // getListWorkorderLastTime(1);
 });
 /*
  $('#modal-company').on('hidden.bs.modal', function () {
@@ -473,6 +474,30 @@ return false;
 
    //initLoad();
  }
+
+ //////////////
+ $('#modal-company').on('hidden.bs.modal', function () {
+   if($("#issavechanged").val()=="-1" && $("#id_summaryofIssue").val()=="" ){
+   swal({
+        title: "حذف دستور کار بدون موضوع",
+        text: $("#id_summaryofIssue").val(),
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "بلی",
+        cancelButtonText: "خیر",
+        closeOnConfirm: false
+    }, function () {
+        cancelform();
+
+    });
+  }
+   // do something…
+ });
+
+
+
+ /////////////
 
 
 $(".js-create-swo").click(loadForm);

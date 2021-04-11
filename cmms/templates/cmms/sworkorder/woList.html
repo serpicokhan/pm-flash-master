@@ -27,12 +27,25 @@
                         </div>
                         <div class="ibox-content">
                             <div class="row">
-                                <div class="col-sm-5 m-b-xs">
+                              <div class="col-sm-2 m-b-xs">
+                                  <div data-toggle="buttons" class="btn-group">
+                                      <label class="btn btn-sm btn-white " > <input type="radio" id="option1" name="options"> فعال </label>
+                                      <label class="btn btn-sm btn-white"> <input type="radio" id="option2" name="options"> غیرفعال </label>
+                                      <label class="btn btn-sm btn-white "> <input type="radio" id="option3" name="options"> همه </label>
+                                  </div>
+                              </div>
+                                <div class="col-sm-2 m-b-xs">
+                                  <select class="input-sm form-control input-s-sm inline" id='woGroup'>
+                                    <option value="-1">همه</option>
+                                    <option value="1">دارای زمانبندی</option>
+                                    <option value="2">بر اساس قرائت</option>
+                                    <option value="3">بر اساس رویداد</option>
+
+                                </select>
 
                                 </div>
-                                <div class="col-sm-4 m-b-xs">
-
-                                </div>
+                                  <div class="col-sm-5 m-b-xs">
+                                  </div>
                                 <div class="col-sm-3">
                                     <div class="input-group"><input type="text" placeholder="جستجو" class="input-sm form-control" id='swoSearch'> <span class="input-group-btn">
                                         <button type="button" class="btn btn-sm btn-primary" id='swoSearchBtn'> برو!</button> </span></div>
