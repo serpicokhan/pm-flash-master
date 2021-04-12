@@ -79,6 +79,25 @@ def save_swo_form(request, form, template_name,id=None):
             books = WorkOrder.objects.filter(isScheduling=True)
             books=filterUser(request,books)
             wos=SWOUtility.doPaging(request,books)
+            if(id):
+                LogEntry.objects.log_action(
+                    user_id         = request.user.pk,
+                    content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                    object_id       = form.instance.id,
+                    object_repr     = 'sworkorder',
+                    action_flag     = CHANGE,
+                    change_message= request.META.get('REMOTE_ADDR')
+                )
+            else:
+                LogEntry.objects.log_action(
+                    user_id         = request.user.pk,
+                    content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                    object_id       = form.instance.id,
+                    object_repr     = 'sworkorder',
+                    action_flag     = ADDITION,
+                    change_message= request.META.get('REMOTE_ADDR')
+                )
+
 
             data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWolist.html', {
                 'wo': wos,
@@ -225,4 +244,39 @@ def swo_cancel(request,id):
             #     'wo': wos
             # })
 
+    return JsonResponse(data)
+##########################
+#########show runnign swo in woList
+def swo_show_swo_by_type(request,status):
+    data=dict()
+    books=WorkOrder.objects.none()
+    if(status=='1'):
+        books=WorkOrder.objects.filter(running=True,isScheduling=True).order_by('-id')
+    elif(status=='2'):
+        books=WorkOrder.objects.filter(running=False,isScheduling=True).order_by('-id')
+    else:
+        books=WorkOrder.objects.filter(isScheduling=True).order_by('-id')
+    books=filterUser(request,books).order_by('-running')
+    wos=SWOUtility.doPaging(request,books)
+    data['html_swo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {'wo': wos, 'perms': PermWrapper(request.user)   })
+    data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination.html', {'wo': wos,'pageType':'swo_show_swo_by_type','pageArgs':status            })
+    data['form_is_valid'] = True
+    return JsonResponse(data)
+###############################################
+def swo_show_swo_by_schedule_type(request,status):
+    data=dict()
+    books=WorkOrder.objects.none()
+    if(status=='1'):
+        books=WorkOrder.objects.filter(isScheduling=True,id__in=Schedule.objects.filter(schChoices=0).values_list('workOrder',flat=True)).order_by('-id')
+    elif(status=='2'):
+        books=WorkOrder.objects.filter(id__in=Schedule.objects.filter(schChoices=1).values_list('workOrder',flat=True),isScheduling=True).order_by('-id')
+    elif(status=='3'):
+        books=WorkOrder.objects.filter(isScheduling=True,id__in=Schedule.objects.filter(schChoices=2).values_list('workOrder',flat=True)).order_by('-id')
+    else:
+        books=WorkOrder.objects.filter(isScheduling=True).order_by('-id')
+    books=filterUser(request,books).order_by('-running')
+    wos=SWOUtility.doPaging(request,books)
+    data['html_swo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {'wo': wos, 'perms': PermWrapper(request.user)   })
+    data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination.html', {'wo': wos,'pageType':'swo_show_swo_by_schedule_type','pageArgs':status            })
+    data['form_is_valid'] = True
     return JsonResponse(data)

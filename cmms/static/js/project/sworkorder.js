@@ -125,20 +125,13 @@ var saveForm= function () {
 
 
  //############# Time Change ############################
- var getListWorkorderLastTime= function (n) {
+ var get_swo_by_type= function (n) {
 
-    myurl="";
-    if(n===2)
-      myurl='ListCurrentWeek';
-    else if(n===3) {
-      myurl='ListCurrentMonth';
-    }
-    else {
-       myurl='ListCurrentDay';
-    }
+
+
 
     $.ajax({
-      url: myurl,
+      url: '/SWorkOrder/'+n+'/swo_show_swo_by_type/',
 
       type: 'GET',
       dataType: 'json',
@@ -148,8 +141,43 @@ var saveForm= function () {
           //alert("Company created!");  // <-- This is just a placeholder for now for testing
           $("#tbody_company").empty();
 
-          $("#tbody_company").html(data.html_wo_list);
-          $(".woPaging").html(data.html_wo_paginator);
+          $("#tbody_company").html(data.html_swo_list);
+          $(".woPaging").html(data.html_swo_paginator);
+
+          $("#modal-company").modal("hide");
+         // console.log(data.html_amar_list);
+        }
+        else {
+
+
+        }
+      },
+      error: function (jqXHR, exception) {
+        alert(exception);
+        console.log(exception)
+      }
+    });
+    return false;
+  };
+  ///////////////////////////////
+ var swo_show_swo_by_schedule_type= function (n) {
+
+
+
+
+    $.ajax({
+      url: '/SWorkOrder/'+n+'/swo_show_swo_by_schedule_type/',
+
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+
+        if (data.form_is_valid) {
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+          $("#tbody_company").empty();
+
+          $("#tbody_company").html(data.html_swo_list);
+          $(".woPaging").html(data.html_swo_paginator);
 
           $("#modal-company").modal("hide");
          // console.log(data.html_amar_list);
@@ -218,17 +246,22 @@ var saveForm= function () {
   //############# Time Radio Button هفته###################
   $('#option2').change(function(){
 
-    // getListWorkorderLastTime(2);
+    get_swo_by_type(2);
 });
 //################### ماه #####################
 $('#option3').change(function(){
 
-  // getListWorkorderLastTime(3);
+  get_swo_by_type(3);
 });
 
 $('#option1').change(function(){
 
-  // getListWorkorderLastTime(1);
+  get_swo_by_type(1);
+});
+$('#woScheduleGroup').change(function(){
+  // alert("!23");
+
+  swo_show_swo_by_schedule_type($('#woScheduleGroup').val());
 });
 /*
  $('#modal-company').on('hidden.bs.modal', function () {

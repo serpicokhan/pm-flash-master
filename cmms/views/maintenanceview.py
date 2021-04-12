@@ -186,7 +186,10 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
                 err_code=0
                 if(not form.instance.assignedToUser):
                     err_code=1
-                    err_msg="کاربر را مشخص نمایدد"
+                    err_msg="کاربر را مشخص نمایید"
+                if(not form.instance.maintenanceType):
+                    err_code=1
+                    err_msg="نوع نگهداری را تعیین کنید"
 
                 if(err_code==0):
                     print("$")
