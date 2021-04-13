@@ -170,9 +170,7 @@ var cancelform=function(){
         {
           swal("حذف شد!", $("#id_summaryofIssue").val(), "success");
 
-          // $("#tbody_company").empty();
-          // $("#tbody_company").html(data.html_wo_list);
-         // $("#modal-company").modal("hide");
+          
 
         }
         else {
@@ -197,7 +195,16 @@ var saveForm= function () {
      dataType: 'json',
      beforeSend:function(xhr,opt)
      {
-
+       if($("#id_woAsset").val().length<1)
+       {
+         toastr.error("برای دستور کار، تجهیزی انتخاب نشده است");
+         xhr.abort();
+       }
+       if($("#id_summaryofIssue").val().length<1)
+       {
+         toastr.error("اطلاعات مربوط به خلاصه مشکل را وارد نمایید!");
+         xhr.abort();
+       }
 
 
      },

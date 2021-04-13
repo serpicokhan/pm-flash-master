@@ -232,12 +232,14 @@
                          dataType: 'json',
                          beforeSend: function () {
                            //alert(btn.attr("data-url"));
-                           console.log(mydata);
+                           // console.log(mydata);
                          },
                          success: function (data) {
                            if (data.form_is_valid) {
-                             console.log("1");
+                             // console.log("1");
+
                              //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                             $("#haveschedule").val("1");
                              $("#tbody_schedule").empty();
 
                              $("#tbody_schedule").html(data.html_schedule_list);

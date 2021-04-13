@@ -101,6 +101,23 @@ var saveForm= function () {
      data: form.serialize(),
      type: form.attr("method"),
      dataType: 'json',
+     beforeSend:function(xhr, opts){
+       if($("#id_woAsset").val().length<1)
+       {
+         toastr.error("برای دستور کار، تجهیزی انتخاب نشده است");
+         xhr.abort();
+       }
+       if($("#id_summaryofIssue").val().length<1)
+       {
+         toastr.error("اطلاعات مربوط به خلاصه مشکل را وارد نمایید!");
+         xhr.abort();
+       }
+       if($("#haveschedule").val()=="-1")
+       {
+         toastr.error("برنامه زمانبندی انتخاب نشده است!");
+         xhr.abort();
+       }
+     },
      success: function (data) {
        if (data.form_is_valid) {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing

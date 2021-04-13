@@ -5,6 +5,7 @@
   <img src="{% static 'img/if_industry_50840.png' %}" / >
   <input type=hidden name='lastWorkOrderid' id='lastWorkOrderid' value='{{lId}}'/>
   <input type=hidden name='issavechanged' id='issavechanged' value='-1'/>
+  <input type=hidden name='haveschedule' id='haveschedule' value='-1'/>
   {{ form.isScheduling.as_hidden }}
   <div class="form-group">
     <label>{{form.running.label}}</label>
