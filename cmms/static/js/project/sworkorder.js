@@ -330,7 +330,8 @@ $('#woScheduleGroup').change(function(){
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_task").empty();
          $("#tbody_task").html(data.html_task_list);
-         console.log(data);
+         // console.log(data);
+         console.log("12312312");
          if(data.is_not_empty){
            $("#havetasks").val("1");
          }
@@ -542,6 +543,7 @@ return false;
 
  //////////////
  $('#modal-company').on('hidden.bs.modal', function () {
+   if($(this).attr("id")=="modal-company")
    if($("#issavechanged").val()=="-1" && $("#id_summaryofIssue").val()=="" ){
    swal({
         title: "حذف دستور کار بدون موضوع",
