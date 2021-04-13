@@ -43,6 +43,10 @@ def js_list_task(request,woId):
 
     ####
     books = Tasks.objects.filter(workOrder=woId)
+    if(books.count()>1):
+        data["is_not_empty"]=True
+    else:
+        data["is_not_empty"]=False
 
     data['html_task_list']= render_to_string('cmms/tasks/partialTaskList.html', {
         'task': books,

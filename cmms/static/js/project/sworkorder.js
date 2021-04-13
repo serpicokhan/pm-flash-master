@@ -117,6 +117,11 @@ var saveForm= function () {
          toastr.error("برنامه زمانبندی انتخاب نشده است!");
          xhr.abort();
        }
+       if($("#havetasks").val()=="-1")
+       {
+         toastr.error("فعالیتی مشخص نکرده اید!");
+         xhr.abort();
+       }
      },
      success: function (data) {
        if (data.form_is_valid) {
@@ -325,6 +330,10 @@ $('#woScheduleGroup').change(function(){
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_task").empty();
          $("#tbody_task").html(data.html_task_list);
+         console.log(data);
+         if(data.is_not_empty){
+           $("#havetasks").val("1");
+         }
          $("#modal-task").modal("hide");
          //console.log(data.html_wo_list);
        }
@@ -383,6 +392,12 @@ return false;
          //alert(data.html_woMeter_list);  // <-- This is just a placeholder for now for testing
          $("#tbody_schedule").empty();
          $("#tbody_schedule").html(data.html_schedule_list);
+         if(data.is_not_empty)
+         {
+           $("#haveschedule").val("1");
+
+         }
+         // console.log(data.html_schedule_list);
          $("#modal-schedule").modal("hide");
          //console.log(data.html_wo_list);
        }

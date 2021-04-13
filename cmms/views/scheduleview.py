@@ -43,6 +43,13 @@ def list_schedule(request,id=None):
 def js_list_schedule(request,woId):
     data=dict()
     books=Schedule.objects.filter(workOrder=woId)
+    if(books.count()>0):
+        print("#@!#!@#!@#@!")
+
+        data['is_not_empty']=True
+    else:
+        data['is_not_empty']=False
+
 
     data['html_schedule_list']= render_to_string('cmms/schedule/partialScheduleList.html', {
         'schedules': books,
