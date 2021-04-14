@@ -326,12 +326,14 @@ $('#woScheduleGroup').change(function(){
 
 
      success: function (data) {
+       // console.log(data);
        if (data.form_is_valid) {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_task").empty();
+         console.log(data);
          $("#tbody_task").html(data.html_task_list);
          // console.log(data);
-         console.log("12312312");
+
          if(data.is_not_empty){
            $("#havetasks").val("1");
          }
@@ -533,6 +535,7 @@ return false;
  return false;
  };
  var myWoLoader= function(){
+
    btn=$(this);
    //console.log(btn);
    $.when(loadForm(btn)).done(initLoad,initWoPartLoad,initialScheduleLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad);
@@ -543,7 +546,10 @@ return false;
 
  //////////////
  $('#modal-company').on('hidden.bs.modal', function () {
-   if($(this).attr("id")=="modal-company")
+   if($(this).attr("id")=="modal-company"){
+     console.log($(this));
+
+
    if($("#issavechanged").val()=="-1" && $("#id_summaryofIssue").val()=="" ){
    swal({
         title: "حذف دستور کار بدون موضوع",
@@ -559,6 +565,7 @@ return false;
 
     });
   }
+}
    // do something…
  });
 

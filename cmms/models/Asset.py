@@ -26,7 +26,9 @@ class Asset(models.Model):
         else:
             return "-"
     def get_name(self):
-        return "{}:{}".format(self.assetName,self.assetCode)
+        if(self.assetName):
+            return "{}:{}".format(self.assetName,self.assetCode)
+        return "مشخص نشده"
     def get_assetStatus(self):
                  if(self.assetStatus==True):
                      return "<i class='fa fa-play'></i>								"

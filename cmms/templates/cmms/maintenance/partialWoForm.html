@@ -1,10 +1,13 @@
-{% load widget_tweaks %}
+\{% load widget_tweaks %}
 <div class="row">
   <div class="col-sm-3 b-r">
     {% load static %}
     <img src="{% static 'img/images2.png' %}" / >
     <input type=hidden name='lastWorkOrderid' id='lastWorkOrderid' value='{{lId}}'/>
     <input type=hidden name='issavechanged' id='issavechanged' value='-1'/>
+    
+    <input type=hidden name='haveschedule' id='haveschedule' value='-1'/>
+    <input type=hidden name='havetasks' id='havetasks' value='-1'/>
     {{ form.visibile.as_hidden }}
     {{ form.isUpdating.as_hidden }}
 

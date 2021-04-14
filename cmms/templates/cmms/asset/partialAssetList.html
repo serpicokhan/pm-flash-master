@@ -2,9 +2,9 @@
 
 <tr date-url={{c.id}} date-type={{c.assetTypes}}>
  <td><input type="checkbox" name="action"  value={{c.id}} class="selection-box"></td>
-<td>{{c.get_location}}</td>
- <td>{{c.get_name}}</td>
- <td>{{c.assetCode}}</td>
+<td>{{c.get_location|default_if_none:0}}</td>
+ <td>{{c.get_name|default_if_none:0}}</td>
+ <td>{{c.assetCode|default_if_none:"مشخص نشده"}}</td>
  <td>{% autoescape off %}{{c.get_assetStatus}}{% endautoescape %}</td>
  <td>{{c.assetCategory|default_if_none:'بدون دسته بندی'}}</td>
 

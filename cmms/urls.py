@@ -201,6 +201,7 @@ urlpatterns = [
         url(r'^Asset/Category2/(?P<ids>\d+(?:,\d+)*)$', get_assetCategoryMain, name='get_assetCategoryMain'),
         url(r'^Asset/Location/Category$', get_location_by_category, name='get_location_by_category'),
 
+        url(r'^Asset/(?P<id>\d+)/show_Asset_status/$', show_Asset_status, name='show_Asset_status'),
         url(r'^Asset/(?P<id>\d+)/MTTR/$', asset_mttr, name='asset_mttr'),
         url(r'^Asset/(?P<id>\d+)/MTBF/$', asset_mtbf, name='asset_mtbf'),
         url(r'^Asset/(?P<id>\d+)/WOStatus/$', asset_status, name='asset_status'),

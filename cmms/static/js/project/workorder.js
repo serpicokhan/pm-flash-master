@@ -170,7 +170,7 @@ var cancelform=function(){
         {
           swal("حذف شد!", $("#id_summaryofIssue").val(), "success");
 
-          
+
 
         }
         else {
@@ -203,6 +203,12 @@ var saveForm= function () {
        if($("#id_summaryofIssue").val().length<1)
        {
          toastr.error("اطلاعات مربوط به خلاصه مشکل را وارد نمایید!");
+         xhr.abort();
+       }
+       
+       if($("#havetasks").val()=="-1")
+       {
+         toastr.error("فعالیتی مشخص نکرده اید!");
          xhr.abort();
        }
 
@@ -451,6 +457,9 @@ $('#option1').change(function(){
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_task").empty();
          $("#tbody_task").html(data.html_task_list);
+         if(data.is_not_empty){
+           $("#havetasks").val("1");
+         }
          $("#modal-task").modal("hide");
          //console.log(data.html_wo_list);
        }

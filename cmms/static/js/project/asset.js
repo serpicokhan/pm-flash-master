@@ -680,7 +680,7 @@ var showAssetSelector=function(){
 
 }
 var showAssetTypeSelector=function(){
-  
+
 
   matches=[];
   $(".selection-box:checked").each(function() {
@@ -721,7 +721,7 @@ var showMTTR=function(id)
      // $("#modal-assetcategory").modal({backdrop: 'static', keyboard: false});
    },
    success: function (data) {
-     // console.log(data);
+     // //console.log(data);
 
      //data.modalassetcat
       $(".mttr").html((data.asset_mttr!=null)?data.asset_mttr:'0');
@@ -737,7 +737,7 @@ var showMTBF=function(id)
      // $("#modal-assetcategory").modal({backdrop: 'static', keyboard: false});
    },
    success: function (data) {
-     // console.log(data);
+     // //console.log(data);
 
      //data.modalassetcat
       $(".mtbf").html((data.asset_mtbf!=null)?data.asset_mtbf:'0');
@@ -755,7 +755,7 @@ var showAssetWoStatus=function(id)
      // $("#modal-assetcategory").modal({backdrop: 'static', keyboard: false});
    },
    success: function (data) {
-     // console.log(data);
+     // //console.log(data);
 
      //data.modalassetcat
       $(".overdue").html((data.asset_overdue!=null)?data.asset_overdue:'0');
@@ -776,7 +776,7 @@ var loadAssetOfflineStatus=function(id)
 
     },
     success: function (data) {
-   console.log(data);
+   // //console.log(data);
 
     DrawDonat2(data.html_assetOfflineStatus_list,'assetOfflinePie');
     DrawLine(data.html_assetOfflineStatus_list,'assetOfflineLine');
@@ -916,6 +916,39 @@ var change_type=function(){
 
 
 }
+/////////////////////////////////////
+$("#assetStatus").change(function(){
+  // var myurl=$(this).attr("data-url");
+  $.ajax({
+    url: '/Asset/'+$("#assetStatus").val()+'/show_Asset_status/',
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+
+    },
+    success: function (data) {
+      if (data.form_is_valid) {
+
+        //alert("Company created!");  // <-- This is just a placeholder for now for testing
+        $("#tbody_company").empty();
+
+        $("#tbody_company").html(data.html_asset_search_tag_list);
+        $(".assetPaging").html(data.html_asset_paginator);
+
+        $("#modal-company").modal("hide");
+        $("tr").on("click", showAssetDetails);
+       // console.log(data.html_amar_list);
+      }
+      else {
+
+
+      }
+
+  }
+});
+
+
+});
 //for tr click
 $("tr").on("click", showAssetDetails);
 

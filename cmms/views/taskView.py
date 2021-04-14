@@ -43,7 +43,7 @@ def js_list_task(request,woId):
 
     ####
     books = Tasks.objects.filter(workOrder=woId)
-    if(books.count()>1):
+    if(books.count()>0):
         data["is_not_empty"]=True
     else:
         data["is_not_empty"]=False
@@ -52,6 +52,7 @@ def js_list_task(request,woId):
         'task': books,
         'perms': PermWrapper(request.user)
     })
+    data["form_is_valid"]=True
     return JsonResponse(data)
 
 

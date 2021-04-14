@@ -40,7 +40,7 @@ def list_asset(request,id=None):
     #print("username {}".format(request.user.username))
     # if(request.user.username=="admin"):
     books=[]
-    books =Asset.objects.all().order_by('-assetName')
+    books =Asset.objects.all().order_by('assetName')
     wos=AssetUtility.doPaging(request,books)
     return render(request, 'cmms/asset/assetList.html', {'asset': wos})
     # else:
@@ -246,9 +246,9 @@ def get_location_by_category(request):
 #######################Search By tags#####################
 def asset_search(request,kvm,searchStr):
     data=dict()
-    print("1232321321")
+    # print("1232321321")
     searchStr=searchStr.replace("__"," ")
-    print(kvm,"$$$$$$$$$$$$$")
+    # print(kvm,"$$$$$$$$$$$$$")
     books=AssetUtility.seachAsset(kvm,searchStr)
     wos=AssetUtility.doPaging(request,list(books))
     data['html_asset_search_tag_list'] = render_to_string('cmms/asset/partialAssetList.html', {
@@ -373,4 +373,22 @@ def asset_type_update(request,ids,cat):
     data=dict()
     print("update is ok")
     data["is_valid"]=True
+    return JsonResponse(data)
+def show_Asset_status(request,id):
+    data=dict()
+
+    wo=Asset.objects.none()
+    if(id=="1"):
+        wo=Asset.objects.filter(assetStatus=True).order_by("assetName")
+    elif(id=="2"):
+        wo=Asset.objects.filter(assetStatus=False).order_by("assetName")
+    else:
+        wo=Asset.objects.all().order_by("assetName")
+
+    wos=AssetUtility.doPaging(request,wo)
+    data['html_asset_search_tag_list'] = render_to_string('cmms/asset/partialAssetList.html', {
+                   'asset': wos                      ,'perms': PermWrapper(request.user) })
+    data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination2.html', {
+                      'asset': wos,'pageType':'show_Asset_status','ptr':id})
+    data["form_is_valid"]=True
     return JsonResponse(data)

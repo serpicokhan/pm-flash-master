@@ -214,6 +214,7 @@ def schedule_create(request):
                         data['shMeterReadingEndBy']=body['shMeterReadingEndBy']
                         data['schHasEndReading']=body['schHasEndReading']
                         data['schMeterReadingIsFixed']=True if body['schMeterReadingIsFixed']=='True' else False
+                        data['shMeterNextVal']=int(body['shMeterReadingEvreyQnty'])+int(body['shMeterReadingStartAt'])
                     except Exception as e1:
                         print(e1)
                 else:
@@ -334,6 +335,7 @@ def schedule_update(request, id):
                          data['shMeterReadingStartAt']=body['shMeterReadingStartAt']
                          data['shMeterReadingEndBy']=body['shMeterReadingEndBy']
                          data['schHasEndReading']=body['schHasEndReading']
+                         data['shMeterNextVal']=int(body['shMeterReadingEvreyQnty'])+int(body['shMeterReadingStartAt'])
                          data['schMeterReadingIsFixed']=True if body['schMeterReadingIsFixed']=='True' else False
                      except Exception as e1:
                          print(e1)
