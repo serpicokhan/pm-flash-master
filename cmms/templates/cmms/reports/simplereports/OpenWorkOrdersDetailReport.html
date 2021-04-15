@@ -42,7 +42,7 @@
        </thead>
        <tbody>
      <tr>
-       <td class="active">{{c.0.id}}</td>
+       <td class="active"><a href="/WorkOrder/{{c.0.id}}/details" target="_blank">{{c.0.id}}</a></td>
        <td class="active">
          {{c.0.summaryofIssue}}
        </td>
@@ -51,20 +51,20 @@
        </td>
 
        <td class="active">
-         {{c.0.name}}
+         {{c.0.maintenanceType}}
        </td>
 
        <td class="active">
-         {{c.0.time1| time:"H:i"}}  {{c.0.date1}}
+         {{c.0.timecreated| time:"H:i"}}  {{c.0.get_dateCreated_jalali}}
        </td>
        <td class="active" >
-         {{c.0.t3}}
+         {{c.0.get_omr}}
        </td>
        <td class="active">
-        {{c.0.time2 | time:"H:i"}}  {{c.0.date2}}
+        {{c.0.requiredCompletionTime | time:"H:i"}}  {{c.0.get_dateRequire_jalali}}
        </td>
        <td class="active">
-         {{c.0.duedate}}
+         {{c.0.get_dirkard}}
        </td>
 
      </tr>

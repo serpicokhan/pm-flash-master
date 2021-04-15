@@ -414,7 +414,7 @@ class reporttest:
         assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getCloseWorkOrdersDetailReport(date1,date2,tuple(assignUser),tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType)))
+        woList=list(WOUtility.getCloseWorkOrdersDetailReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
         for i in woList:

@@ -114,7 +114,7 @@ var LoadFormSetEm =function () {
        confirmButtonColor: "#DD6B55",
        confirmButtonText: "بلی",
        cancelButtonText: "خیر",
-       closeOnConfirm: false
+       closeOnConfirm: true
    }, function () {
      $.ajax({
        url: '/WorkOrder/bulkEm/'+matches,

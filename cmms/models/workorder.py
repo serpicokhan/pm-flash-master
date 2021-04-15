@@ -187,6 +187,36 @@ class WorkOrder(models.Model):
     def get_dateCompelted_jalali(self):
         if(self.dateCompleted):
             return jdatetime.date.fromgregorian(day=self.dateCompleted.day,month=self.dateCompleted.month,year=self.dateCompleted.year)
+    def get_dateRequire_jalali(self):
+        if(self.requiredCompletionDate):
+            return jdatetime.date.fromgregorian(day=self.requiredCompletionDate.day,month=self.requiredCompletionDate.month,year=self.requiredCompletionDate.year)
+    def get_omr(self):
+        dt1=datetime.combine(self.datecreated,self.timecreated)
+        dt2=datetime.now()
+        days=(dt2-dt1).total_seconds()/(3600*24)
+        hours=((dt2-dt1).total_seconds()/(3600))%24
+        return "{0:.0f} روز ,{1:.0f} ساعت".format(days,hours)
+    def get_dirkard(self):
+        dt1=datetime.combine(self.requiredCompletionDate,self.requiredCompletionTime)
+        dt2=datetime.now()
+        if(self.woStatus==7 or self.woStatus==8):
+            if(self.dateCompleted):
+                dt3=datetime.combine(self.dateCompleted,self.timeCompleted)
+                days=(dt3-dt1).total_seconds()/(3600*24)
+                hours=((dt3-dt1).total_seconds()/(3600))%24
+            else:
+                days=(dt2-dt1).total_seconds()/(3600*24)
+                hours=((dt2-dt1).total_seconds()/(3600))%24
+        else:
+            days=(dt2-dt1).total_seconds()/(3600*24)
+            hours=((dt2-dt1).total_seconds()/(3600))%24
+
+
+
+
+        return "{0:.0f} روز ,{1:.0f} ساعت".format(days,hours)
+
+
     def getPartName(self):
         partname=WorkorderPart.objects.filter(woPartWorkorder=self)
         str=''

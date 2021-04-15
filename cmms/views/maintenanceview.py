@@ -832,11 +832,11 @@ def shownewwo(request,startHijri,endHijri):
     return render(request,"cmms/maintenance/dash_woList.html",{"wo" : wos})
 @csrf_exempt
 def set_wo_to_em(request,ids):
-    clean_data=[int(i)  for i in ids.split(',')]
+        clean_data=[int(i)  for i in ids.split(',')]
 
-    data=dict()
-    '''render_to_string('cmms/asset/temp.txt')'''
-    if (request.method == 'POST'):
+        data=dict()
+        '''render_to_string('cmms/asset/temp.txt')'''
+    # if (request.method == 'POST'):
         wos=WorkOrder.objects.filter(id__in=clean_data)
 
         for s in wos:
@@ -865,15 +865,15 @@ def set_wo_to_em(request,ids):
         })
 
 
-    else:
-
-        # m=AssetUtility.getCategory()
-        # m=m.replace('"',"'")
-        context={'perms': PermWrapper(request.user),'ids':ids}
-        data["modalem"]=render_to_string('cmms/maintenance/partialWobulkEM.html',
-        context,
-        request=request)
-    return JsonResponse(data)
+    # else:
+    #
+    #     # m=AssetUtility.getCategory()
+    #     # m=m.replace('"',"'")
+    #     context={'perms': PermWrapper(request.user),'ids':ids}
+    #     data["modalem"]=render_to_string('cmms/maintenance/partialWobulkEM.html',
+    #     context,
+    #     request=request)
+        return JsonResponse(data)
 # for changing em val in formset
 def updateEm(request,id,val):
     data=dict()

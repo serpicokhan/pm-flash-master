@@ -269,21 +269,7 @@ class WOUtility:
         if(len(priority)>0):
             whereConition+=" and  woPriority in {0}".format(priority)
 
-        print("""select workorder.id as id, summaryofIssue,woStatus,b.name,pdate(datecreated) as date1, timecreated as time1,
-        timestampdiff(day,cast(concat(datecreated, ' ', timecreated) as datetime),NOW()) as t3,pdate(requiredCompletionDate) as date2,requiredCompletionTime as time2,
-        timestampdiff(day,cast(concat(requiredCompletionDate, ' ', requiredCompletiontime) as datetime),NOW()) as duedate,
-        cast(concat(dateCompleted, ' ', timeCompleted) as datetime) as t5,
-        cast(concat(requiredCompletionDate, ' ', requiredCompletionTime) as datetime) as t6
 
-
-        from workorder
-        left join maintenancetype b on workorder.maintenancetype_id=b.id
-        left join assets a on workorder.woasset_id=a.id
-        {0}
-        having t6<t5
-
-         order by workorder.id
-         """.format(whereConition))
 
         return WorkOrder.objects.raw(""" select workorder.id as id, summaryofIssue,woStatus,b.name,pdate(datecreated) as date1, timecreated as time1,
         timestampdiff(day,cast(concat(datecreated, ' ', timecreated) as datetime),NOW()) as t3,pdate(requiredCompletionDate) as date2,requiredCompletionTime as time2,
@@ -304,55 +290,71 @@ class WOUtility:
     @staticmethod
     def getOpenWorkOrdersDetailReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority):
 
-        whereConition="where datecreated between '{0}' and '{1}' and wostatus in (1,2,4,5,6,9) and isScheduling=0".format(start ,end)
+        # whereConition="where datecreated between '{0}' and '{1}' and wostatus in (1,2,4,5,6,9) and isScheduling=0".format(start ,end)
+        # if(len(assignedUser)>0):
+        #     whereConition+=" and  assignedToUser_id in {0}".format(str(assignedUser))
+        # if(len(asset)>0):
+        #     whereConition+=" and  assignedToUser_id in {0}".format(str(asset))
+        # if(len(assetCategory)>0):
+        #     whereConition+=" and  woAsset_id in {0}".format(str(assetCategory))
+        #
+        # if(len(maintenanceType)>0):
+        #     whereConition+=" and  maintenanceType_id in {0}".format(maintenanceType)
+        #
+        # if(len(priority)>0):
+        #     whereConition+=" and  woPriority in {0}".format(priority)
+        #
+        # return WorkOrder.objects.raw(""" select workorder.id as id, summaryofIssue,woStatus,b.name,pdate(datecreated) as date1, timecreated as time1,
+        # timestampdiff(day,cast(concat(datecreated, ' ', timecreated) as datetime),NOW()) as t3,pdate(requiredCompletionDate) as date2,requiredCompletionTime as time2,
+        # timestampdiff(day,cast(concat(requiredCompletionDate, ' ', requiredCompletiontime) as datetime),NOW()) as duedate
+        #
+        # from workorder
+        # inner join maintenancetype b on workorder.maintenancetype_id=b.id
+        # inner join assets a on workorder.woasset_id=a.id
+        # {0} order by workorder.id
+        #  """.format(whereConition))
+        wo=WorkOrder.objects.none()
         if(len(assignedUser)>0):
-            whereConition+=" and  assignedToUser_id in {0}".format(str(assignedUser))
-        if(len(asset)>0):
-            whereConition+=" and  assignedToUser_id in {0}".format(str(asset))
-        if(len(assetCategory)>0):
-            whereConition+=" and  woAsset_id in {0}".format(str(assetCategory))
-
+            wo=WorkOrder.objects.filter(assignedToUser__id__in=assignedUser,visibile=True,datecreated__range=(start,end)).exclude(woStatus__in=(7,8))
+        else:
+            wo=WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(woStatus__in=(7,8))
         if(len(maintenanceType)>0):
-            whereConition+=" and  maintenanceType_id in {0}".format(maintenanceType)
-
+            wo=wo.filter(maintenanceType__id__in=maintenanceType)
+        if(len(assetCategory)>0):
+            wo=wo.filter(woAsset__assetCategory__id__in=assetCategory)
+        else:
+            if(len(asset)>0):
+                wo=wo.filter(woAsset__id__in=asset)
         if(len(priority)>0):
-            whereConition+=" and  woPriority in {0}".format(priority)
+            wo=wo.filter(woPriority__in=priority)
+        return wo;
 
-        return WorkOrder.objects.raw(""" select workorder.id as id, summaryofIssue,woStatus,b.name,pdate(datecreated) as date1, timecreated as time1,
-        timestampdiff(day,cast(concat(datecreated, ' ', timecreated) as datetime),NOW()) as t3,pdate(requiredCompletionDate) as date2,requiredCompletionTime as time2,
-        timestampdiff(day,cast(concat(requiredCompletionDate, ' ', requiredCompletiontime) as datetime),NOW()) as duedate
-
-        from workorder
-        inner join maintenancetype b on workorder.maintenancetype_id=b.id
-        inner join assets a on workorder.woasset_id=a.id
-        {0} order by workorder.id
-         """.format(whereConition))
     @staticmethod
     def getCloseWorkOrdersDetailReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority):
 
-        whereConition="where datecreated between '{0}' and '{1}' and wostatus in (7,8) and isScheduling=0".format(start ,end)
+
+        # print("asset:",asset)
+        # print("priority",priority)
+        # print("maintenance:",assetCategory)
+        wo=WorkOrder.objects.none()
         if(len(assignedUser)>0):
-            whereConition+=" and  assignedToUser_id in {0}".format(str(assignedUser))
-        if(len(asset)>0):
-            whereConition+=" and  assignedToUser_id in {0}".format(str(asset))
-        if(len(assetCategory)>0):
-            whereConition+=" and  woAsset_id in {0}".format(str(assetCategory))
-
+            wo=WorkOrder.objects.filter(assignedToUser__id__in=assignedUser,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
+        else:
+            wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
         if(len(maintenanceType)>0):
-            whereConition+=" and  maintenanceType_id in {0}".format(maintenanceType)
-
+            wo=wo.filter(maintenanceType__id__in=maintenanceType)
+        if(len(assetCategory)>0):
+            wo=wo.filter(woAsset__assetCategory__id__in=assetCategory)
+        else:
+            if(len(asset)>0):
+                wo=wo.filter(woAsset__id__in=asset)
         if(len(priority)>0):
-            whereConition+=" and  woPriority in {0}".format(priority)
+            wo=wo.filter(woPriority__in=priority)
+        return wo;
 
-        return WorkOrder.objects.raw(""" select workorder.id as id, summaryofIssue,woStatus,b.name,pdate(datecreated) as date1, timecreated as time1,
-        timestampdiff(day,cast(concat(datecreated, ' ', timecreated) as datetime),NOW()) as t3,pdate(requiredCompletionDate) as date2,requiredCompletionTime as time2,
-        timestampdiff(day,cast(concat(requiredCompletionDate, ' ', requiredCompletiontime) as datetime),NOW()) as duedate
 
-        from workorder
-        inner join maintenancetype b on workorder.maintenancetype_id=b.id
-        inner join assets a on workorder.woasset_id=a.id
-        {0} order by workorder.id
-         """.format(whereConition))
+
+
     @staticmethod
     def getAllWorkOrdersDetailReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority):
 
