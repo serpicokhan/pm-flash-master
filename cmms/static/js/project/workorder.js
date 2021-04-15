@@ -85,27 +85,62 @@ var LoadFormSetEm =function () {
   $(".selection-box:checked").each(function() {
       matches.push(this.value);
   });
-  console.log(matches);
+  // console.log(matches);
 
 
 
-  return $.ajax({
-    url: $(this).attr("date-url")+matches,
-    type: 'get',
-    dataType: 'json',
-    beforeSend: function () {
+  // return $.ajax({
+  //   url: $(this).attr("date-url")+matches,
+  //   type: 'get',
+  //   dataType: 'json',
+  //   beforeSend: function () {
+  //
+  //     $("#modal-woEM").modal({backdrop: 'static', keyboard: false});
+  //
+  //   },
+  //   success: function (data) {
+  //     //alert("3123@!");
+  //     // alert(1);
+  //     $("#modal-woEM .modal-content").html(data.modalem);
+  //
+  //
+  //   }
+  // });
+  swal({
+       title: "تبدیل به EM",
+       text:"",
+       type: "warning",
+       showCancelButton: true,
+       confirmButtonColor: "#DD6B55",
+       confirmButtonText: "بلی",
+       cancelButtonText: "خیر",
+       closeOnConfirm: false
+   }, function () {
+     $.ajax({
+       url: '/WorkOrder/bulkEm/'+matches,
+       data: matches,
+       type: 'get',
+       dataType: 'json',
+       success: function (data) {
+         if (data.form_is_valid) {
+           //alert("Company created!");  // <-- This is just a placeholder for now for testing
+           $("#tbody_company").empty();
+           $("#tbody_company").html(data.html_wo_list);
+           // alert("!23");
+          $("#modal-woEM").modal("hide");
+          // $("tr").on("click", showAssetDetails);
 
-      $("#modal-woEM").modal({backdrop: 'static', keyboard: false});
+          // console.log(data.html_asset_list);
+         }
+         else {
 
-    },
-    success: function (data) {
-      //alert("3123@!");
-      // alert(1);
-      $("#modal-woEM .modal-content").html(data.modalem);
+           $("#company-table tbody").html(data.html_asset_list);
+           $("#modal-assetcategory .modal-content").html(data.html_asset_form);
+         }
+       }
+     });
 
-
-    }
-  });
+   });
 
 
 
@@ -205,7 +240,7 @@ var saveForm= function () {
          toastr.error("اطلاعات مربوط به خلاصه مشکل را وارد نمایید!");
          xhr.abort();
        }
-       
+
        if($("#havetasks").val()=="-1")
        {
          toastr.error("فعالیتی مشخص نکرده اید!");

@@ -420,7 +420,7 @@ def wo_setAsset(request,wid,aid):
         for book in books:
             book.assetMeterLocation=Asset.objects.get(id=aid)
             book.save()
-    
+
         data['form_is_valid']=True
     except Exception as error:
         print(error)
@@ -830,6 +830,7 @@ def shownewwo(request,startHijri,endHijri):
     n1=WOUtility.getNewWO(start,end)
     wos=WOUtility.doPaging(request,n1)
     return render(request,"cmms/maintenance/dash_woList.html",{"wo" : wos})
+@csrf_exempt
 def set_wo_to_em(request,ids):
     clean_data=[int(i)  for i in ids.split(',')]
 
