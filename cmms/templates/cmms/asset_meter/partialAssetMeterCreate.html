@@ -48,13 +48,21 @@
                       $("#lastAssetid").val(),
                       $("#id_assetMeterMeterReading").val(),
                       $("#id_assetMeterMeterReadingUnit").val(),
-                      $("#id_assetWorkorderMeterReading").val()),
+                      ($("#id_assetWorkorderMeterReading").val().length == 0)? "-1" : $("#id_assetWorkorderMeterReading").val()),
 
 
 
 
                       dataType: 'json',
                       beforeSend: function (xhr,opts) {
+                        console.log(myformat('{"assetMeterLocation":{0}\
+                        ,"assetMeterMeterReading":{1}\
+                        ,"assetMeterMeterReadingUnit":{2},"assetWorkorderMeterReading":{3}}',
+                        $("#lastAssetid").val(),
+                        $("#id_assetMeterMeterReading").val(),
+                        $("#id_assetMeterMeterReadingUnit").val(),
+                        ($("#id_assetWorkorderMeterReading").val().length == 0)? "-1" : $("#id_assetWorkorderMeterReading").val()));
+
                         if( $("#id_assetMeterMeterReading").val().length==0 ||  $("#id_assetMeterMeterReading").val()==0)
                         {
                           toastr.error("پر کردن فیلدها الزامیست");
@@ -72,6 +80,7 @@
 
                       },
                       success: function (data) {
+                        console.log(data);
                         if (data.form_is_valid) {
                           //alert("Company created!");  // <-- This is just a placeholder for now for testing
                           $("#tbody_assetMeter").empty();

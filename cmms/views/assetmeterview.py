@@ -64,7 +64,9 @@ def save_assetMeter_form(request, form, template_name,woId=None):
             data['html_assetMeter_list'] = render_to_string('cmms/asset_meter/partialAssetMeterList.html', {
                 'assetMeters': books
             })
+            print("form is valid")
           else:
+              print("error occore in line 69");
               fmt = getattr(settings, 'LOG_FORMAT', None)
               lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
               logging.basicConfig(format=fmt, level=lvl)
@@ -107,7 +109,14 @@ def assetMeter_create(request,id=None):
         data['assetMeterLocation']=body['assetMeterLocation']
         data['assetMeterMeterReading']=body['assetMeterMeterReading']
         data['assetMeterMeterReadingUnit']=body['assetMeterMeterReadingUnit']
-        data['assetWorkorderMeterReading']=body['assetWorkorderMeterReading']
+
+        if(body['assetWorkorderMeterReading']!=-1):
+
+            data['assetWorkorderMeterReading']=body['assetWorkorderMeterReading']
+        else:
+
+            data['assetWorkorderMeterReading']=None
+
         woId=body['assetMeterLocation']
 
 
@@ -133,7 +142,12 @@ def assetMeter_update(request, id):
         data['assetMeterLocation']=body['assetMeterLocation']
         data['assetMeterMeterReading']=body['assetMeterMeterReading']
         data['assetMeterMeterReadingUnit']=body['assetMeterMeterReadingUnit']
-        data['assetWorkorderMeterReading']=body['assetWorkorderMeterReading']
+        if(body['assetWorkorderMeterReading']!=-1):
+
+                data['assetWorkorderMeterReading']=body['assetWorkorderMeterReading']
+        else:
+
+                data['assetWorkorderMeterReading']=None
 
 
         form = AssetMeterForm(data=data,instance=company)

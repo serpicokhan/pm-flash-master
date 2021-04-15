@@ -520,7 +520,7 @@ class AssetMeterForm(forms.ModelForm):
              self.asset_id = kwargs.pop('asset_id')
              print("######",self.asset_id)
              super(AssetMeterForm,self).__init__(*args,**kwargs)
-             self.fields['assetWorkorderMeterReading'] = forms.ModelChoiceField(label="دستور کاری",queryset=WorkOrder.objects.filter(woAsset=self.asset_id),widget=forms.Select(attrs={'class':'selectpicker', 'data-live-search':'true'}),required=False)
+             self.fields['assetWorkorderMeterReading'] = forms.ModelChoiceField(label="دستور کاری",queryset=WorkOrder.objects.filter(woAsset=self.asset_id,isScheduling=False),widget=forms.Select(attrs={'class':'selectpicker', 'data-live-search':'true'}),required=False)
      # assetWOAssoc = forms.CharField()
     #populate and filter select according to its workorder
     # def __init__(self,asset=None,*args,**kwargs):
@@ -542,11 +542,14 @@ class AssetMeterForm(forms.ModelForm):
     def clean(self):
                 self.is_valid()
                 cleaned_data=super(AssetMeterForm, self).clean()
-                assetMeterLocation=cleaned_data.get('assetMeterLocation','')
-                assetMeterMeterReading=cleaned_data.get('assetMeterMeterReading','')
-                assetMeterMeterReadingUnit=cleaned_data.get('assetMeterMeterReadingUnit','')
-                assetWorkorderMeterReading=cleaned_data.get('assetWorkorderMeterReading','')
-                print("forms.py,line 354",cleaned_data.get('assetWorkorderMeterReading',''))
+                try:
+                    assetMeterLocation=cleaned_data.get('assetMeterLocation','')
+                    assetMeterMeterReading=cleaned_data.get('assetMeterMeterReading','')
+                    assetMeterMeterReadingUnit=cleaned_data.get('assetMeterMeterReadingUnit','')
+                    assetWorkorderMeterReading=cleaned_data.get('assetWorkorderMeterReading',None)
+                # print("forms.py,line 354",cleaned_data.get('assetWorkorderMeterReading',''))
+                except:
+                    pass
                 return cleaned_data
 
 

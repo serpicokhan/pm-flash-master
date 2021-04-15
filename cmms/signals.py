@@ -146,37 +146,44 @@ def save_wo_profile(sender, instance, **kwargs):
 
 
 
-# @receiver(pre_save, sender=AssetMeterReading )
-# def save_user_profile(sender, instance, **kwargs):
-#           try:
-#               print("kirekhar#############################")
-#               ##### چک کردن فعال بودن swo ????????????
-#               sche=Schedule.objects.filter(schAsset=instance.assetMeterLocation).filter(shMeterReadingMetrics=instance.assetMeterMeterReadingUnit)
-#               for unit in sche:
-#                  if(unit.shMeterNextVal!=None):
-#                   if(instance.assetMeterMeterReading>=unit.shMeterNextVal and instance.assetMeterMeterReading<=unit.shMeterReadingEndBy and unit.workOrder.running==True):
-#                       unit.shMeterNextVal=unit.shMeterReadingEvreyQnty+instance.assetMeterMeterReading
-#                       create_wo(unit)
-#                       unit.save()
-#               sche1=Schedule.objects.filter(schAsset=instance.assetMeterLocation).filter(shMeterReadingWhenMetric=instance.assetMeterMeterReadingUnit)
-#
-#               for unit in sche1:
-#                   if(unit.shMeterReadingHasTiming==False):
-#                       if(unit.shMetricComparison==0):
-#                           if(instance.assetMeterMeterReading>unit.shMeterReadingWhenQnty and unit.workOrder.running==True):
-#                               create_wo(unit) #create wo
-#                               #print("yeah instance.assetMeterMeterReading>unit.shMeterReadingWhenQnty ")
-#                               unit.save()
-#                       if(unit.shMetricComparison==1):
-#                            if(instance.assetMeterMeterReading<unit.shMeterReadingWhenQnty):
-#                                create_wo(unit) #create wo
-#                                unit.save()
-#           except Exception as e1:
-#               print("asddsadsa#############################")
-#               print(e1)
-#               exc_type, exc_obj, tb = sys.exc_info()
-#               print(tb.tb_lineno)
-#               print("error in signals")
+@receiver(post_save, sender=AssetMeterReading )
+def save_assetmeter(sender, instance, **kwargs):
+          try:
+
+              ##### چک کردن فعال بودن swo ????????????
+             
+              sche=Schedule.objects.filter(schAsset=instance.assetMeterLocation,shMeterReadingMetrics=instance.assetMeterMeterReadingUnit)
+
+              for unit in sche:
+                 print(unit.shMeterNextVal)
+                 if(unit.shMeterNextVal!=None):
+
+
+                     if(instance.assetMeterMeterReading>=unit.shMeterNextVal  and unit.workOrder.running==True):
+                      #and instance.assetMeterMeterReading<=unit.shMeterReadingEndBy
+                      unit.shMeterNextVal=unit.shMeterReadingEvreyQnty+instance.assetMeterMeterReading
+                      # create_wo(unit)
+                      print("Hello")
+                      unit.save()
+              # sche1=Schedule.objects.filter(schAsset=instance.assetMeterLocation).filter(shMeterReadingWhenMetric=instance.assetMeterMeterReadingUnit)
+              #
+              # for unit in sche1:
+              #     if(unit.shMeterReadingHasTiming==False):
+              #         if(unit.shMetricComparison==0):
+              #             if(instance.assetMeterMeterReading>unit.shMeterReadingWhenQnty and unit.workOrder.running==True):
+              #                 create_wo(unit) #create wo
+              #                 #print("yeah instance.assetMeterMeterReading>unit.shMeterReadingWhenQnty ")
+              #                 unit.save()
+              #         if(unit.shMetricComparison==1):
+              #              if(instance.assetMeterMeterReading<unit.shMeterReadingWhenQnty):
+              #                  create_wo(unit) #create wo
+              #                  unit.save()
+          except Exception as e1:
+              print("asddsadsa#############################")
+              print(e1)
+              exc_type, exc_obj, tb = sys.exc_info()
+              print(tb.tb_lineno)
+              print("error in signals Asset Meter Reading")
 # @receiver(pre_save, sender=AssetEvent )
 # def save_user_profile(sender, instance, **kwargs):
 #     try:
