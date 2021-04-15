@@ -13,6 +13,7 @@ import logging
 from django.conf import settings
 from cmms.models.users import *
 from cmms.models.task import *
+from cmms.models.workorder import *
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 

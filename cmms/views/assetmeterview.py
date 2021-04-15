@@ -150,9 +150,9 @@ def assetMeter_update(request, id):
                 data['assetWorkorderMeterReading']=None
 
 
-        form = AssetMeterForm(data=data,instance=company)
+        form = AssetMeterForm(data=data,instance=company,asset_id=int(data['assetMeterLocation']))
     else:
         # assets=Asset.objects.get(pk=company.assetMeterLocation.id)
         # form = AssetMeterForm(asset=company.assetMeterLocation,instance=company,initial={'assetWorkorderMeterReading': company.assetWorkorderMeterReading})
-        form = AssetMeterForm(asset=company.assetMeterLocation.id,instance=company)
+        form = AssetMeterForm(asset_id=company.assetMeterLocation.id,instance=company)
     return save_assetMeter_form(request, form, 'cmms/asset_meter/partialAssetMeterUpdate.html',woId)

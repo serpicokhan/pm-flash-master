@@ -41,7 +41,7 @@ def filterUser(request,books):
         books=books.order_by('-datecreated','-timecreated')
     return books
 ##########################################################
-# @permission_required('cmms.view_workorder')
+@permission_required('cmms.view_workorder')
 def list_swo(request,id=None):
     books = WorkOrder.objects.filter(isScheduling=True)
      #paging
@@ -194,6 +194,7 @@ def swo_deleteChildren(requst,id):
     comp1.delete()
     '''
 ###############################################
+@permission_required('cmms.add_workorder',login_url='/not_found')
 def SWOupdateRunning(request,id):
     obj=WorkOrder.objects.get(id=id)
     obj.running=not obj.running
@@ -201,12 +202,28 @@ def SWOupdateRunning(request,id):
     data=dict()
     data['result']=obj.running
     return JsonResponse(data)
+
+@permission_required('cmms.add_workorder',login_url='/not_found')
 def swo_setAsset(request,wid,aid):
-    wo=WorkOrder.objects.get(id=wid)
-    wo.woAsset_id=aid
-    wo.save()
-    data=dict()
-    data['result']=wo.woAsset_id
+    try:
+        wo=WorkOrder.objects.get(id=wid)
+        wo.woAsset_id=aid
+        wo.save()
+        data=dict()
+        data['result']=wo.woAsset_id
+        books=AssetMeterReading.objects.filter(assetWorkorderMeterReading=wo)
+        for book in books:
+            book.assetMeterLocation=Asset.objects.get(id=aid)
+            book.save()
+        sches=Schedule.objects.filter(workOrder=wo)
+        for sch in sches:
+            sch.schAsset=Asset.objects.get(id=aid)
+            sch.save()
+        data['form_is_valid']=True
+    except Exception as error:
+        print(error)
+        data['form_is_valid']=False
+
     return JsonResponse(data)
 #######################Search By tags#####################
 def swo_searchworkOrderByTags(request,searchStr):

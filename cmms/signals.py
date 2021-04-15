@@ -151,7 +151,7 @@ def save_assetmeter(sender, instance, **kwargs):
           try:
 
               ##### چک کردن فعال بودن swo ????????????
-             
+
               sche=Schedule.objects.filter(schAsset=instance.assetMeterLocation,shMeterReadingMetrics=instance.assetMeterMeterReadingUnit)
 
               for unit in sche:
@@ -184,8 +184,8 @@ def save_assetmeter(sender, instance, **kwargs):
               exc_type, exc_obj, tb = sys.exc_info()
               print(tb.tb_lineno)
               print("error in signals Asset Meter Reading")
-# @receiver(pre_save, sender=AssetEvent )
-# def save_user_profile(sender, instance, **kwargs):
+# @receiver(post_save, sender=AssetEvent )
+# def save_asset_event(sender, instance, **kwargs):
 #     try:
 #         print(instance.AssetEventEventId)
 #         print(instance.AssetEventAssetId)

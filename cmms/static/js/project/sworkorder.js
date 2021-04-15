@@ -43,10 +43,18 @@ $(function () {
             url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
             type:'get',
             success: function (data) {
-            dataType: 'json',
-              console.log("hahaha");
-
+            if(data.form_is_valid){
+              toastr.success("تجهیز با موفقیت تغییر پیدا نمود.");
             }
+            else
+            {
+              toastr.error("متاسفانه خطایی رخ داده است");
+            }
+
+          },
+          error:function(){
+            toastr.error("متاسفانه خطایی رخ داده است");
+          }
           });
 
 
