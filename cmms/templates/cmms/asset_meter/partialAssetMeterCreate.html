@@ -55,13 +55,7 @@
 
                       dataType: 'json',
                       beforeSend: function (xhr,opts) {
-                        console.log(myformat('{"assetMeterLocation":{0}\
-                        ,"assetMeterMeterReading":{1}\
-                        ,"assetMeterMeterReadingUnit":{2},"assetWorkorderMeterReading":{3}}',
-                        $("#lastAssetid").val(),
-                        $("#id_assetMeterMeterReading").val(),
-                        $("#id_assetMeterMeterReadingUnit").val(),
-                        ($("#id_assetWorkorderMeterReading").val().length == 0)? "-1" : $("#id_assetWorkorderMeterReading").val()));
+
 
                         if( $("#id_assetMeterMeterReading").val().length==0 ||  $("#id_assetMeterMeterReading").val()==0)
                         {
