@@ -118,7 +118,7 @@
  									</div> -->
  								</div>
  							</div>
- 						
+
  						</div>
  						<div class="col-lg-9">
  							<div class="ibox float-e-margins">
@@ -286,9 +286,11 @@ loadForm(info);
             },
             success: function (data) {
 
+
               //alert("3123@!");
 
               $("#modal-company .modal-content").html(data.html_wo_form);
+                $("#woformupdatesubmit").hide();
               $('#id_requiredCompletionDate').pDatepicker({
                               format: 'YYYY-MM-DD',
                               autoClose: true,
@@ -349,11 +351,12 @@ loadForm(info);
             dataType: 'json',
             data: '',
             success: function (doc) {
-              console.log(doc)
+
+              // console.log(doc)
 
               if (doc != null) {
                 for(i in doc){
-                  console.log(i);
+                  // console.log(i);
                 events.push({
                   id: doc[i].id,
                   title: doc[i].title,
@@ -363,8 +366,8 @@ loadForm(info);
                   // end: doc.to_date
                 });
               }
-              console.log("calendar");
-              console.log(events);
+              // console.log("calendar");
+              // console.log(events);
                 $("#calendar").fullCalendar('removeEvents');
                 $("#calendar").fullCalendar('addEventSource', events);
               }
@@ -375,6 +378,12 @@ loadForm(info);
         }
 
 			});
+      function cancelformsubmit()
+      {
+        $("#modal-company").modal("hide");
+        return false;
+      }
+      $("#modal-company").on("submit", cancelformsubmit);
 
 		</script>
 {% endblock %}
