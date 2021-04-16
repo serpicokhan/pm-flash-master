@@ -116,25 +116,18 @@ def save_swo_form(request, form, template_name,id=None):
 
 def swo_delete(request, id):
     comp1 = get_object_or_404(WorkOrder, id=id)
-
     data = dict()
     if (request.method == 'POST'):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies = WorkOrder.objects.filter(isScheduling=True)
         companies=filterUser(request,companies)
+        wos=SWOUtility.doPaging(request,companies)
         #Tasks.objects.filter(woId=id).update(workorder=id)
         data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWolist.html', {
-            'wo': companies,
+            'wo': wos,
             'perms': PermWrapper(request.user)
         })
-        LogEntry.objects.log_action(
-        user_id         = request.user.pk,
-        content_type_id = ContentType.objects.get_for_model(form.instance).pk,
-        object_id       = form.instance.id,
-        object_repr     = 'workorder',
-        action_flag     = DELETION
-    )
     else:
         context = {'wo': comp1}
         data['html_wo_form'] = render_to_string('cmms/sworkorder/partialWoDelete.html',

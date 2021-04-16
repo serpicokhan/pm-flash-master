@@ -216,14 +216,14 @@ class reporttest:
         startDate=request.POST.get("startDate","").replace('-','/')
         endDate=request.POST.get("endDate","").replace('-','/')
         assetList=AssetUtility.getAssetListByCategory(categoryText)
-        print("#######",assetList)
+        # print("#######",assetList)
         ########### GERnetare output####################
         ##############count by event type ###################
         ##############sum ofline time by event type############
         s1,s2=[],[]
         z1,z2=[],[]
         offlineCountByEvent=AssetUtility.getOfflineCountByEvent(assetList,date1,date2)
-        print(offlineCountByEvent,'$$$$$$$$$$$$$$$$$$$$')
+        # print(offlineCountByEvent,'$$$$$$$$$$$$$$$$$$$$')
         offlineSumTimeByEvent=AssetUtility.getOfflineSumTimeByEvent(assetList,date1,date2)
         for i in offlineCountByEvent:
             s1.append(i.id)
@@ -362,7 +362,7 @@ class reporttest:
         assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getOpenWorkOrdersDetailReport(date1,date2,assignUser,asset,tuple(categoryText),tuple(maintenanceType),tuple(priorityType)))
+        woList=list(WOUtility.getOpenWorkOrdersDetailReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
         for i in woList:
@@ -466,7 +466,7 @@ class reporttest:
         assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getAllWorkOrdersDetailReport(date1,date2,tuple(assignUser),tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType)))
+        woList=list(WOUtility.getAllWorkOrdersDetailReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
         for i in woList:
@@ -517,7 +517,7 @@ class reporttest:
         assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getOpenWorkOrdersListReport(date1,date2,tuple(assignUser),tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType)))
+        woList=list(WOUtility.getOpenWorkOrdersListReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 
@@ -564,7 +564,7 @@ class reporttest:
         assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getCloseWorkOrdersListReport(date1,date2,tuple(assignUser),tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType)))
+        woList=list(WOUtility.getCloseWorkOrdersListReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 
@@ -611,7 +611,7 @@ class reporttest:
         assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getOpenPMWorkOrdersListReport(date1,date2,tuple(assignUser),tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType)))
+        woList=list(WOUtility.getOpenPMWorkOrdersListReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 
@@ -648,6 +648,8 @@ class reporttest:
             maintenanceType.append(-1)
         if(len(categoryText)==1):
             categoryText.append(-1)
+        if(len(asset)==1):
+            asset.append(-1)
 
 
         user1=User.objects.filter(id__in=assignUser).values_list('username', flat=True)

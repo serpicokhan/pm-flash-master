@@ -49,44 +49,44 @@
      {% for c in woList %}
 
      <tr>
-       <td class="active">{{c}}</td>
+         <td class="active"><a href="/WorkOrder/{{c.0.id}}/details" target="_blank">{{c.0.id}}</a></td>
        <td class="active">
-         {{c.summaryofIssue}}
+         {{c.summaryofIssue|default_if_none="نامشخص"}}
        </td>
        <td class="active">
-         {{c.get_woStatus_display}}
+         {{c.get_woStatus_display|default_if_none="نامشخص"}}
        </td>
        <td class="active">
-         {{c.isPartOf}}
+         {{c.isPartOf|default_if_none="نامشخص"}}
        </td>
        <td class="active">
-         {{c.woAsset}}
+         {{c.woAsset|default_if_none="نامشخص"}}
        </td>
 
 
 
        <td class="active">
-         {{c.name}}
+         {{c.maintenanceType|default_if_none="نامشخص"}}
        </td>
 
 
        <td class="active" >
-         {{c.woAsset.assetCategory}}
+         {{c.woAsset.assetCategory|default_if_none="نامشخص"}}
        </td>
 
 
        <td>{{c.woPriority}}</td>
        <td class="active">
-        {{c.time1 | time:"H:i"}}  {{c.date1}}
+        {{c.timecreated | time:"H:i"}}  {{c.get_dateCreated_jalali}}
        </td>
        <td class="active">
-        {{c.time2 | time:"H:i"}}  {{c.date2}}
+        {{c.requiredCompletionTime | time:"H:i"}}  {{c.get_dateRequire_jalali}}
        </td>
        <td class="active">
-        {{c.assignedToUser}}
+        {{c.assignedToUser|default_if_none="نامشخص"}}
        </td>
-       <td>{{c.estimatedLabor}}</td>
-       <td>{{c.duedate}}</td>
+       <td>{{c.estimatedLabor|default_if_none="نامشخص"}}</td>
+       <td>{{c.get_dirkard}}</td>
 
 
      </tr>

@@ -223,6 +223,7 @@ var saveForm= function () {
 
    var form = $(this);
 
+
    $.ajax({
      url: form.attr("action"),
      data: form.serialize(),
@@ -230,22 +231,27 @@ var saveForm= function () {
      dataType: 'json',
      beforeSend:function(xhr,opt)
      {
-       if($("#id_woAsset").val().length<1)
-       {
-         toastr.error("برای دستور کار، تجهیزی انتخاب نشده است");
-         xhr.abort();
-       }
-       if($("#id_summaryofIssue").val().length<1)
-       {
-         toastr.error("اطلاعات مربوط به خلاصه مشکل را وارد نمایید!");
-         xhr.abort();
-       }
+      if(!$(this)[0].url.includes('delete')){
+        if($("#id_woAsset").val().length<1)
+        {
+          toastr.error("برای دستور کار، تجهیزی انتخاب نشده است");
+          xhr.abort();
+        }
+        if($("#id_summaryofIssue").val().length<1)
+        {
+          toastr.error("اطلاعات مربوط به خلاصه مشکل را وارد نمایید!");
+          xhr.abort();
+        }
 
-       if($("#havetasks").val()=="-1")
-       {
-         toastr.error("فعالیتی مشخص نکرده اید!");
-         xhr.abort();
-       }
+        if($("#havetasks").val()=="-1")
+        {
+          toastr.error("فعالیتی مشخص نکرده اید!");
+          xhr.abort();
+        }
+
+
+
+      }
 
 
      },
@@ -840,6 +846,7 @@ var loadPdate=function()
  var saveWoEmForm= function () {
     var form = $(this);
     $.ajax({
+
       url: form.attr("action"),
       data: form.serialize(),
       type: form.attr("method"),
@@ -877,9 +884,9 @@ $("#modal-company").on("submit", ".js-wo-create-form", saveForm);
 $("#company-table").on("click", ".js-update-wo", myWoLoader);
 $("#modal-company").on("submit", ".js-wo-update-form", saveForm);
 // Delete book
-$("#company-table").on("click", ".js-delete-wo", loadForm);
+$("#company-table").on("click", ".js-delete-wo2", loadForm);
 
-$("#modal-company").on("submit", ".js-wo-delete-form", saveForm);
+$("#modal-company").on("submit", ".js-wo2-delete-form", saveForm);
 $("#modal-company").on("submit", ".js-formset-delete-form", saveFormsetForm);
 $("#modal-woEm").on("submit", ".js-bulkem-selector-form2", saveWoEmForm);
 $(".wo-filter").on("click",filter);

@@ -17,7 +17,7 @@
                           <h4>به همراه پارامترهای زیر</h4>
                           <h4> از تاریخ: {{stdate}}</h4>
                           <h4>تا تاریخ: {{enddate}}</h4>
-                          
+
                           <h4>دارایی: {{assets}}</h4>
                           <h4>نوع دارایی: {{assetcat}}</h4>
                           <h4>نوع نگهداری: {{maintype}}</h4>
@@ -45,25 +45,25 @@
      {% for c in woList %}
 
      <tr>
-       <td class="active">{{c.id}}</td>
+       <td class="active"><a href="/WorkOrder/{{c.0.id}}/details" target="_blank">{{c.0.id}}</a></td>
        <td class="active">
-         {{c.summaryofIssue}}
+         {{c.summaryofIssue|default_if_none="نامشخص"}}
        </td>
 
 
        <td class="active">
-         {{c.woAsset}}
+         {{c.woAsset|default_if_none="نامشخص"}}
        </td>
 
 
 
 
-      <td class="active">{{c.RequestedUser}}</td>
+      <td class="active">{{c.RequestedUser|default_if_none="نامشخص"}}</td>
        <td class="active">
-        {{c.assignedToUser}}
+        {{c.assignedToUser|default_if_none="نامشخص"}}
        </td>
-       <td class="active">{{c.date1}}</td>
-       <td class="active">{{c.estimatedLabor}}</td>
+       <td class="active">{{c.get_dateCreated_jalali}}</td>
+       <td class="active">{{c.estimatedLabor|default_if_none="نامشخص"}}</td>
 
 
 

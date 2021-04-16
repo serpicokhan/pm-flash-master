@@ -457,6 +457,13 @@ function validateform(){
 
 
   }
+  else if($("#id_maintenanceType").val()=="")
+  {
+    is_ok=false;
+    msg="نوع نگهداری را مشخص کنید";
+
+
+  }
   else if($("#id_summaryofIssue").val()=="")
   {
     is_ok=false;

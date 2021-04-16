@@ -256,8 +256,22 @@ class AssetUtility:
 
     @staticmethod
     def getOfflineCountByEvent(assetList,date1,date2):
+            # print("count")
+            # print(''' select count(assetlife.id) as id,b.id as event,b.causeDescription as eventname
+            #                             from assetlife
+            #                             left join workorder wo on assetlife.assetWOAssoc_id=wo.id
+            #                             left join causecode b on wo.woCauseCode_id=b.id
+            #
+            #                             where assetLifeAssetid_id in {0} and
+            #                             (assetOfflineFrom between "{1}" and "{2}")
+            #                             and assetlife.assetOnlineStatus is not null
+            #                             group by b.id
+            #
+            #
+            #
+            #                              '''.format(tuple(assetList),date1,date2))
 
-            return AssetLife.objects.raw(''' select count(assetlife.id) as id,b.id as event,b.causeCode as eventname
+            return AssetLife.objects.raw(''' select count(assetlife.id) as id,b.id as event,b.causeDescription as eventname
                                         from assetlife
                                         left join workorder wo on assetlife.assetWOAssoc_id=wo.id
                                         left join causecode b on wo.woCauseCode_id=b.id
@@ -274,12 +288,27 @@ class AssetUtility:
             # return AssetLife.objects.filter(assetOfflineFrom__range=(date1, date2),assetLifeAssetid__in=assetList).values('assetOfflineStatus').order_by().annotate(Count('id'))
     @staticmethod
     def getOfflineSumTimeByEvent(assetList,date1,date2):
+            # print("sum")
+            # print(''' select sum(timestampdiff(HOUR,
+            #                       cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ', assetOnlineFromTime) as datetime))) as id,b.id as eventid, b.causeDescription as eventname
+            #
+            #                       from assetlife  as t1
+            #
+            #                         left join workorder wo on t1.assetWOAssoc_id=wo.id
+            #                         left join causecode b on wo.woCauseCode_id=b.id
+            #
+            #                       where assetLifeAssetid_id in {0} and (assetOfflineFrom between '{1}' and '{2}')
+            #                       and
+            #                        t1.assetOnlineStatus is not null
+            #
+            #                        group by b.id
+            #                        '''.format(tuple(assetList),date1,date2))
             return AssetLife.objects.raw(''' select sum(timestampdiff(HOUR,
-                                  cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ', assetOnlineFromTime) as datetime))) as id,b.id as eventid, b.causeCode as eventname
+                                  cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ', assetOnlineFromTime) as datetime))) as id,b.id as eventid, b.causeDescription as eventname
 
                                   from assetlife  as t1
 
-                                    left join workorder wo on assetlife.assetWOAssoc_id=wo.id
+                                    left join workorder wo on t1.assetWOAssoc_id=wo.id
                                     left join causecode b on wo.woCauseCode_id=b.id
 
                                   where assetLifeAssetid_id in {0} and (assetOfflineFrom between '{1}' and '{2}')

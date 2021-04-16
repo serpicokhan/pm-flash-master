@@ -282,9 +282,8 @@ def wo_delete(request, id):
     if (request.method == 'POST'):
     #     LogEntry.objects.log_action(
     #     user_id         = request.user.pk,
-        company= get_object_or_404(WorkOrder, id=id)
-    #     content_type_id = ContentType.objects.get_for_model(form.instance).pk,
-    #     object_id       = form.instance.id,
+    #     content_type_id = ContentType.objects.get_for_model(comp1),
+    #     object_id       = comp1.id,
     #     object_repr     = 'workorder',
     #     action_flag     = DELETION
     # )
@@ -296,7 +295,7 @@ def wo_delete(request, id):
             companies = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
 
         else:
-                   companies = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True).order_by('-datecreated','-timecreated')
+            companies = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True).order_by('-datecreated','-timecreated')
 
         wos=WOUtility.doPaging(request,companies)
         #Tasks.objects.filter(woId=id).update(workorder=id)
@@ -310,6 +309,7 @@ def wo_delete(request, id):
             context,
             request=request,
         )
+
     return JsonResponse(data)
 
 ##########################################################

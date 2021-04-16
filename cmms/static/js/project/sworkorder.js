@@ -110,6 +110,7 @@ var saveForm= function () {
      type: form.attr("method"),
      dataType: 'json',
      beforeSend:function(xhr, opts){
+       if(!$(this)[0].url.includes('delete')){
        if($("#id_woAsset").val().length<1)
        {
          toastr.error("برای دستور کار، تجهیزی انتخاب نشده است");
@@ -130,6 +131,7 @@ var saveForm= function () {
          toastr.error("فعالیتی مشخص نکرده اید!");
          xhr.abort();
        }
+     }
      },
      success: function (data) {
        if (data.form_is_valid) {
