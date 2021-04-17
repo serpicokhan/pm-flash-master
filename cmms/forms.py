@@ -92,6 +92,7 @@ class WorkOrderForm2(forms.ModelForm):
                 stops = set(stopwords_list())
                 words = [word for word in word_tokenize(summaryofIssue) if word not in stops]
                 woTags= ', '.join(str(e) for e in words)
+                isPm=False
 
 
                 #woId=cleaned_data.get('woId','')

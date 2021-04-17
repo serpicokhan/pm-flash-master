@@ -257,6 +257,7 @@ var saveForm= function () {
      },
      success: function (data) {
        if (data.form_is_valid) {
+         
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_company").empty();
          $("#tbody_company").html(data.html_wo_list);

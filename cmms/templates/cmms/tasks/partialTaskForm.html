@@ -46,7 +46,8 @@
                  </div>
 
                <div class="col-lg-6">
-                 {{form.taskAssignedToUser| add_class:"form-control" }}
+
+                   {% render_field form.taskAssignedToUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
                </div>
              </div>
              <div class="row">
@@ -117,7 +118,8 @@
                  </div>
 
                <div class="col-lg-6">
-                 {{form.taskCompletedByUser| add_class:"form-control" }}
+
+                    {% render_field form.taskCompletedByUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
                </div>
              </div>
              <div class="row">
@@ -211,7 +213,7 @@ $('#id_taskStartDate').pDatepicker({
 
                           },
                           success: function (data) {
-                            console.log(data);
+                            // console.log(data);
                             $("#id_taskTimeSpent").val(data.task_hour_result);
                           }
                         });

@@ -24,7 +24,8 @@ $(function () {
         //alert("3123@!");
 
          $("#modal-taskGroup .modal-content").html(data.html_taskGroup_list);
-        console.log(data);
+
+
 
       },
       error:function(){
@@ -49,6 +50,7 @@ $(function () {
       },
       success: function (data) {
         $("#modal-task .modal-content").html(data.html_task_form);
+        $(".selectpicker").selectpicker();
       }
     });
 

@@ -184,6 +184,8 @@ class WorkOrder(models.Model):
         return jdatetime.date.fromgregorian(date=self.datecreated)
     def get_dateTimeCreated_jalali(self):
         return "{0}".format(jdatetime.date.fromgregorian(date=self.datecreated))
+    # def get_datec_jalali(self):
+    #     return "{0}".format(jdatetime.date.fromgregorian(date=self.datecreated))
     def get_dateCompelted_jalali(self):
         if(self.dateCompleted):
             return jdatetime.date.fromgregorian(day=self.dateCompleted.day,month=self.dateCompleted.month,year=self.dateCompleted.year)

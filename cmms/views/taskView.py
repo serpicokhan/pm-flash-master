@@ -18,6 +18,7 @@ import django.core.serializers
 import logging
 from django.conf import settings
 from cmms.models.task import *
+from cmms.models.workorder import *
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from django.utils.decorators import method_decorator
 
@@ -74,6 +75,20 @@ def save_task_form(request, form, template_name,woId=None):
 
                 newTask=form.save()
                 data['form_is_valid'] = True
+                wo=WorkOrder.objects.get(id=woId)
+                #only for none pm workorder
+                if(wo.isPm==False):
+                    tasks = Tasks.objects.order_by('-taskDateCompleted','-taskTimeCompleted')
+                    if(tasks):
+                        data['last_task_date']=str(jdatetime.date.fromgregorian(date=tasks[0].taskDateCompleted))
+                        data['last_task_time']=tasks[0].taskTimeCompleted
+                    else:
+                        data['last_task_date']=str(jdatetime.date.fromgregorian(date=newTask.instance.taskDateCompleted))
+                        data['last_task_time']=newTask.instance.taskTimeCompleted
+
+
+
+
                 books = Tasks.objects.filter(workOrder=woId)
                 #books = Tasks.objects.all()
                 #######
@@ -145,6 +160,9 @@ def task_create(request):
         form = TaskForm(data)
 
     else:
+        # if(woid):
+        #     wo=WorkOrder.objects.get(id=woid)
+        #     form = TaskForm(initial={'taskDescription':wo.summaryofIssue,'taskCompletedByUser':wo.completedByUser,'taskAssignedToUser':wo.assignedToUser})
         form = TaskForm()
     return save_task_form(request, form, 'cmms/tasks/partialTaskCreate.html',woId)
 ###################################################################

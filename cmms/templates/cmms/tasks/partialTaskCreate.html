@@ -151,6 +151,15 @@
                   if (data.form_is_valid) {
                     //alert("Company created!");  // <-- This is just a placeholder for now for testing
                     $("#tbody_task").empty();
+                    // console.log(data.last_task_date);
+                    // console.log(data.last_task_time);
+                    if(data.last_task_date.length>0)
+                    {
+                      $("#id_dateCompleted").val(data.last_task_date);
+                      $("#id_timeCompleted").val(data.last_task_time);
+                      $("#id_workInstructions").val($("#id_workInstructions").val()+'\n'+'somthing');
+
+                    }
                     $("#tbody_task").html(data.html_task_list);
                     $("#havetasks").val("1");
                     console.log("12312312");
