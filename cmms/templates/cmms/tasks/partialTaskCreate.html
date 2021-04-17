@@ -153,16 +153,24 @@
                     $("#tbody_task").empty();
                     // console.log(data.last_task_date);
                     // console.log(data.last_task_time);
-                    if(data.last_task_date.length>0)
+                    console.log(data);
+                    if(data.last_task_date)
                     {
                       $("#id_dateCompleted").val(data.last_task_date);
                       $("#id_timeCompleted").val(data.last_task_time);
-                      $("#id_workInstructions").val($("#id_workInstructions").val()+'\n'+'somthing');
+                      // $("#id_workInstructions").val($("#id_workInstructions").val()+'\n'+'somthing');
 
+                    }
+                    if(data.last_task_workinstraction)
+                    {
+                      $("#id_workInstructions").val($("#id_workInstructions").val()+'\n'+data.last_task_workinstraction);
+                      $("#id_assignedToUser").val(data.last_task_assignedUser);
+                      $("#id_completedByUser").val(data.last_task_completedUser);
+                      $('.selectpicker').selectpicker('refresh');
                     }
                     $("#tbody_task").html(data.html_task_list);
                     $("#havetasks").val("1");
-                    console.log("12312312");
+                    // console.log("12312312");
                     $("#modal-task").modal("hide");
                     //console.log(data.html_wo_list);
                   }

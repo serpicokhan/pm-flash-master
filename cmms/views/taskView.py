@@ -77,14 +77,22 @@ def save_task_form(request, form, template_name,woId=None):
                 data['form_is_valid'] = True
                 wo=WorkOrder.objects.get(id=woId)
                 #only for none pm workorder
+                tasks = Tasks.objects.filter(workOrder=woId).order_by('-taskDateCompleted','-taskTimeCompleted')
+                print(tasks.count(),"couunt")
+                if(tasks.count()==1):
+
+                    data['last_task_workinstraction']=newTask.taskDescription
+                    data['last_task_assignedUser']=newTask.taskAssignedToUser.id
+                    data['last_task_completedUser']=newTask.taskCompletedByUser.id
                 if(wo.isPm==False):
-                    tasks = Tasks.objects.order_by('-taskDateCompleted','-taskTimeCompleted')
-                    if(tasks):
                         data['last_task_date']=str(jdatetime.date.fromgregorian(date=tasks[0].taskDateCompleted))
                         data['last_task_time']=tasks[0].taskTimeCompleted
-                    else:
-                        data['last_task_date']=str(jdatetime.date.fromgregorian(date=newTask.instance.taskDateCompleted))
-                        data['last_task_time']=newTask.instance.taskTimeCompleted
+
+
+
+
+
+
 
 
 

@@ -36,12 +36,28 @@ def list_partLocation(request,id=None):
 ###################################################################
 def js_list_partLocation(request,woId):
     data=dict()
-    query="select id as id,assetPartAssetid_id,sum(assetPartQnty) as assetPartQnty from assetpart where  assetPartPid_id group by assetPartAssetid_id,AssetPartPid_id".format(woId)
+    query="select id as id,assetPartAssetid_id,sum(assetPartQnty) as assetPartQnty from assetpart where  assetPartPid_id={0} group by assetPartAssetid_id,AssetPartPid_id".format(woId)
     #print(query)
     books=AssetPart.objects.raw(query)
 
+    # books2=BOMGroupAsset.objects.filter(BOMGroupAssetBOMGroup__in=
+    # BOMGroupPart.objects.filter(BOMGroupPartPart=woId).values_list('BOMGroupPartBOMGroup',flat=True))
+    books2=BOMGroupAsset.objects.raw('''SELECT
+              bomgroupasset.BOMGroupAssetAsset_id as id,
+              bomgrouppart.BOMGroupPartQnty as qty,
+              assets.assetName as name
+            FROM
+              bomgroup
+              INNER JOIN bomgroupasset ON bomgroupasset.BOMGroupAssetBOMGroup_id = bomgroup.id
+              INNER JOIN bomgrouppart ON bomgrouppart.BOMGroupPartBOMGroup_id = bomgroup.id
+              INNER JOIN assets ON bomgroupasset.BOMGroupAssetAsset_id = assets.id
+              where BOMGroupPartPart_id={0}
+              '''.format(woId))
+
     data['html_partLocation_list']= render_to_string('cmms/part_location/partialPartLocationList.html', {
-        'partLocations': books
+        'partLocations': books,
+        'partLocations2':books2
+
     })
     data['form_is_valid']=True
     return JsonResponse(data)

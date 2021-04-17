@@ -161,7 +161,7 @@ return false;
  }
 
 
-$(".js-create-bomgroup").unbind();
+// $(".js-create-bomgroup").unbind();
 $(".js-create-bomgroup").click(myWoLoader);
 $("#modal-company").on("submit", ".js-bomgroup-create-form", saveForm);
 
