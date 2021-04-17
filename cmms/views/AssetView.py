@@ -212,7 +212,8 @@ def get_assetCategoryMain(request,ids):
     '''render_to_string('cmms/asset/temp.txt')'''
     if (request.method == 'POST'):
         assets=Asset.objects.filter(id__in=clean_data)
-        catId=request.POST.get("assetCat")
+        catId=request.POST.get("assetCat2")
+        print(catId,"cat***************************")
         for s in assets:
             s.assetCategory=AssetCategory.objects.get(id=int(catId))
             s.save()

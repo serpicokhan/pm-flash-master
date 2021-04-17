@@ -143,13 +143,13 @@ $(function () {
       dataType: 'json',
       beforeSend: function () {
 
-        $("#modal-assetcategory").modal({backdrop: 'static', keyboard: false});
+        $("#modal-assetcategory2").modal({backdrop: 'static', keyboard: false});
 
       },
       success: function (data) {
         //alert("3123@!");
         // alert(1);
-        $("#modal-assetcategory .modal-content").html(data.modalassetcat);
+        $("#modal-assetcategory2 .modal-content").html(data.modalassetcat);
 
 
       }
@@ -369,7 +369,7 @@ var saveAssetCatForm= function () {
          $("#tbody_company").empty();
          $("#tbody_company").html(data.html_asset_list);
          // alert("!23");
-        $("#modal-assetcategory").modal("hide");
+        $("#modal-assetcategory2").modal("hide");
         $("tr").on("click", showAssetDetails);
 
         // console.log(data.html_asset_list);
@@ -377,7 +377,7 @@ var saveAssetCatForm= function () {
        else {
 
          $("#company-table tbody").html(data.html_asset_list);
-         $("#modal-assetcategory .modal-content").html(data.html_asset_form);
+         $("#modal-assetcategory2 .modal-content").html(data.html_asset_form);
        }
      }
    });
@@ -959,7 +959,7 @@ $(".js-create-asset").click(myWoLoader);
 
 $("#modal-company").on("submit", ".js-asset-create-form", saveForm);
 
-$("#modal-assetcategory").on("submit", ".js-bulkasset-selector-form2", saveAssetCatForm);
+$("#modal-assetcategory2").on("submit", ".js-bulkasset-selector-form2", saveAssetCatForm);
 
 // Update book
 $("#company-table ").on("click", ".js-update-asset", myWoLoader);
