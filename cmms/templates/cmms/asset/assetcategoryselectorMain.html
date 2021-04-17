@@ -7,8 +7,8 @@
   <h4 class="modal-title " >انتساب دسته</h4>
 </div>
 <div class="modal-body" style='height: 250px;overflow-y: auto;'>
-   <div id="treeview1" class=""></div>
-   <input type="hidden" name="assetCat" id="assetCat" value="">
+   <div id="treeview2" class=""></div>
+   <input type="hidden" name="assetCat2" id="assetCat2" value="">
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
@@ -21,12 +21,12 @@
     var defaultData = [{{cat}}];
     // console.log(defaultData);
  {% endautoescape %}
-       $('#treeview1').treeview({
+       $('#treeview2').treeview({
              data: defaultData,
              onNodeSelected: function(event, node) {
               //console.log(node.tags);
               val=node.tags;
-              $("#assetCat").val(val);
+              $("#assetCat2").val(val);
               // console.log($("#id_assetCategory").val());
               // $("#id_asseccategorytxt").val(node.text);
               // console.log($("#id_assetCategory").val());

@@ -177,7 +177,7 @@ def asset_update(request, id):
 ##########################################################
 
 ##########################################################
-def asset_type_selector(request,ids):
+def asset_type_selector(request,ids=None):
     # data=dict()
     # clean_data=[int(i)  for i in ids.split(',')]
     #
