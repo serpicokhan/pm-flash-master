@@ -75,6 +75,8 @@ catch
 }
 }
 getVal=function(element){
+  if(element){
+    console.log(element);
   if(element.val().length===0)
   {
      switch(element.attr("id"))
@@ -95,6 +97,8 @@ getVal=function(element){
   else{
     return element.val();
   }
+}
+return '-1'
 }
 var initAssetEventLoad=function(){
 
