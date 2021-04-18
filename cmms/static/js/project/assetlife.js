@@ -15,6 +15,7 @@ $(function () {
       success: function (data) {
 
         $("#modal-assetLife .modal-content").html(data.html_assetLife_form);
+        $(".selectpicker").selectpicker();
         $('#id_assetOfflineFrom').pDatepicker({
           format: 'YYYY-MM-DD',
           autoClose: true,
