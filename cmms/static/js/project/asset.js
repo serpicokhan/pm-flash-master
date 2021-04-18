@@ -260,25 +260,25 @@ var js_switch_change=function()
                               format: 'YYYY/MM/DD',
 
             autoClose: true,
-            onSelect:function(unix){
-              assetOfflineFrom=new Date(unix);
-            }
+            // onSelect:function(unix){
+            //   assetOfflineFrom=new Date(unix);
+            // }
           });
       $('#id_assetOnlineFrom').pDatepicker({
                                   format: 'YYYY/MM/DD',
 
                 autoClose: true,
-                onSelect: function(unix){
-
-                 // var date1 = new Date(Date.parse($("#id_assetOfflineFrom").attr("value")));
-                  // var date2 = new Date(Date.parse($("#id_assetOnlineFrom").attr("value")));
-                  assetLifeOnlineFrom=new Date(unix);
-                  // var timeDiff = Math.abs(assetLifeOnlineFrom.getTime() - assetLifeOfflineFrom.getTime());
-                  // var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                  // alert(diffDays);
-                }
+                // onSelect: function(unix){
+                //
+                //  // var date1 = new Date(Date.parse($("#id_assetOfflineFrom").attr("value")));
+                //   // var date2 = new Date(Date.parse($("#id_assetOnlineFrom").attr("value")));
+                //   assetLifeOnlineFrom=new Date(unix);
+                //   // var timeDiff = Math.abs(assetLifeOnlineFrom.getTime() - assetLifeOfflineFrom.getTime());
+                //   // var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                //   // alert(diffDays);
+                // }
                                             });
-                                            $('.woselector').autoComplete({
+                $('.woselector').autoComplete({
                                               resolver: 'custom',
                                               minLength:1,
                                               formatResult: function (item) {
@@ -303,12 +303,12 @@ var js_switch_change=function()
                                                 },
 
                                               }
-                                            });
-                                            $('.woselector').on('autocomplete.select', function (evt, item) {
-                                              $("#id_assetWOAssoc").val(item.id);
+                });
+                $('.woselector').on('autocomplete.select', function (evt, item) {
+                                            $("#id_assetWOAssoc").val(item.id);
                                               $('#id_assetWOAssoc').val(item.id).trigger('change');
                                               // $('.basicAutoCompleteCustom').html('');
-                                            });
+                });
 
 
 

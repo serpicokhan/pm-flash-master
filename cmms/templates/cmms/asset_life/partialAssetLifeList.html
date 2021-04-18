@@ -4,13 +4,13 @@
 <tr>
   {% if c.assetOnlineStatus == None %}
  <td><i class='fa fa-stop'>										</i>								</td>
- <td>{{c.get_assetOfflineStatus_display}} </td>
+ <td>{{c.assetOfflineStatus}} </td>
  <td>{{c.getdate}}</td>
   <td>{{c.assetSetOfflineByUser}}</td>
 
   <td>--</td>
  {% else %} <td><i class='fa fa-play'>										</i>		</td>
- <td>{{c.get_assetOnlineStatus_display}} </td>
+ <td>در حال فعالیت </td>
  <td>{{c.getdate}}</td>
   <td>{{c.assetSetOfflineByUser}}</td>
 
