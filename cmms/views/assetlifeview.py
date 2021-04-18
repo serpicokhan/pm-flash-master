@@ -52,7 +52,7 @@ def js_list_assetLife(request,woId):
 
 ###################################################################    ###################################################################
 @csrf_exempt
-def save_assetLife_form(request, form, template_name,woId=None):
+def save_assetLife_form(request, form, template_name,woId=None,n1=None):
         data = dict()
         if (request.method == 'POST'):
               if form.is_valid():
@@ -64,7 +64,7 @@ def save_assetLife_form(request, form, template_name,woId=None):
                 })
               else:
                   print(form.errors)
-        context = {'form': form}
+        context = {'form': form,'new':n1}
         data['html_assetLife_form'] = render_to_string(template_name, context, request=request)
         return JsonResponse(data)
 
@@ -99,7 +99,8 @@ def assetLife_create(request,assetId=None):
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        print(body)
+        # print(body)
+
 
 
         data = request.POST.dict()
@@ -121,7 +122,7 @@ def assetLife_create(request,assetId=None):
         # print("dsadsadsa%%%%%%%"+str(body['assetOnlineStatus']))
         # asset1=Asset.objects.get(pk=int(woId))
 
-        if (body['assetOnlineStatus']!=-1):
+        if ("assetOnlineStatus" in body):
 
 
             data['assetOnlineFrom']=DateJob.getDate2(body['assetOnlineFrom'])
@@ -148,10 +149,10 @@ def assetLife_create(request,assetId=None):
 
         if(data['assetCheckEvent']==True):
             AssetEvent.objects.create(AssetEventAssetId_id=woId,AssetEventEventId_id=data['assetEventType'])
-        else:
-            af=AssetEvent.objects.filter(AssetEventAssetId_id=woId,AssetEventEventId_id=data['assetEventType'])
-            if(af):
-                af.delete();
+        # else:
+        #     af=AssetEvent.objects.filter(AssetEventAssetId_id=woId,AssetEventEventId_id=data['assetEventType'])
+        #     if(af):
+        #         af.delete();
 
         form = AssetLifeForm(data)
         # AssetStatus.ReverseAssetStatus(woId)
@@ -160,9 +161,15 @@ def assetLife_create(request,assetId=None):
 
 
     else:
+        al=AssetLife.objects.filter(assetLifeAssetid=assetId)
+        n1=0
+        if(al.count()==0):
+            n1=1
+        else:
+            n1=2
         form = AssetLifeForm()
 
-    return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeCreate.html',woId)
+    return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeCreate.html',woId,n1)
 ###################################################################
 
 @csrf_exempt
@@ -186,7 +193,7 @@ def assetLife_update(request, id):
         data['assetCheckEvent']=body['assetCheckEvent']
         data['assetOfflineFromTime']=body['assetOfflineFromTime']
 
-        if (int(body['assetOnlineStatus'])!=-1):
+        if ("assetOnlineStatus" in body):
             data['assetOnlineFrom']=DateJob.getDate2(body['assetOnlineFrom'])#DateJob.getDate(body['assetOnlineFrom'])
             data['assetSetOnlineByUser']=body['assetSetOnlineByUser']
             data['assetOnlineStatus']=body['assetOnlineStatus']
