@@ -80,11 +80,11 @@
           <tbody>
             {% for k in c.1 %}
             <tr>
-              <td>{{k.taskDescription|default_if_none=""}}</td>
-              <td>{{k.taskAssignedToUser|default_if_none="نامشخص"}}</td>
-              <td>{{k.taskTimeEstimate|default_if_none="نامشخص"}}</td>
-              <td>{{c.0.woAsset|default_if_none="نامشخص"}}</td>
-              <td>{{c.0.woAsset.assetCategory|default_if_none="نامشخص"}}</td>
+              <td>{{k.taskDescription|default_if_none:""}}</td>
+              <td>{{k.taskAssignedToUser|default_if_none:"نامشخص"}}</td>
+              <td>{{k.taskTimeEstimate|default_if_none:"نامشخص"}}</td>
+              <td>{{c.0.woAsset|default_if_none:"نامشخص"}}</td>
+              <td>{{c.0.woAsset.assetCategory|default_if_none:"نامشخص"}}</td>
             </tr>
             {% empty %}
             <tr>
