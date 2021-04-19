@@ -25,7 +25,7 @@
 
                            </div>
 
-                           <table class="table table-bordered">
+                           <table class="table table-bordered table-striped">
                              <thead>
                                <tr>
                                 <th class="col-md-1 active">کد</th>
@@ -48,38 +48,38 @@
      {% for c in woList %}
 
      <tr>
-        <td class="active"><a href="/WorkOrder/{{c.id}}/details" target="_blank">{{c.id}}</a></td>
-       <td class="active">
+        <td  ><a href="/WorkOrder/{{c.id}}/details" target="_blank">{{c.id}}</a></td>
+       <td  >
          {{c.summaryofIssue|default_if_none:"نامشخص"}}
        </td>
-       <td class="active">
+       <td  >
          {{c.get_woStatus_display|default_if_none:"نامشخص"}}
        </td>
 
-       <td class="active">
+       <td  >
          {{c.woAsset|default_if_none:"نامشخص"}}
        </td>
 
 
-       <td class="active" >
+       <td   >
          {{c.woAsset.assetCategory|default_if_none:"نامشخص"}}
        </td>
 
-       <td class="active">
+       <td  >
          {{c.maintenanceType|default_if_none:"نامشخص"}}
        </td>
-       <td>{{c.woPriority|default_if_none:"نامشخص"}}</td>
-       <td class="active">
+       <td  >{{c.woPriority|default_if_none:"نامشخص"}}</td>
+       <td  >
         {{c.timecreated | time:"H:i"}}  {{c.get_dateCreated_jalali}}
        </td>
-       <td class="active">
+       <td  >
         {{c.requiredCompletionTime | time:"H:i"}}  {{c.get_dateRequire_jalali}}
        </td>
-       <td class="active">
+       <td  >
         {{c.assignedToUser|default_if_none:"نامشخص"}}
        </td>
-       <td>{{c.estimatedLabor|default_if_none:"نامشخص"}}</td>
-       <td>{{c.get_dirkard}}</td>
+       <td  >{{c.estimatedLabor|default_if_none:"نامشخص"}}</td>
+       <td  >{{c.get_dirkard}}</td>
 
 
      </tr>

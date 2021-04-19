@@ -21,6 +21,7 @@
 
                                 <th>دستور کار</th>
                                 <th>شرح دستور کار</th>
+                                <th>تجهیز</th>
                                 <th>کد قطعه</th>
                                 <th>نام قطعه</th>
                                 <th>تاریخ ایجاد</th>
@@ -32,17 +33,20 @@
                                 <tr>
 
 
-                            <td>
-                              {{c.woPartWorkorder}}
-                            </td>
+
+
+                              <td  ><a href="/WorkOrder/{{c.woPartWorkorder.id}}/details" target="_blank">{{c.woPartWorkorder}}</a></td>
+
+
                             <td>
                               {{c.woPartWorkorder.summaryofIssue}}
                             </td>
+                              <td>{{c.woPartWorkorder.woAsset}}</td>
                               <td>
-                                  {{c.woPartPart.partName}}
+                                  {{c.woPartStock.stockItem}}
                               </td>
                             <td>
-                              {{c.woPartPart.partCode}}
+                              {{c.woPartStock.stockItem.partCode}}
                             </td>
                             <td>
                                 {{c.woPartWorkorder.get_dateCreated_jalali}}
