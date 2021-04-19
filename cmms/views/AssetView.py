@@ -40,7 +40,7 @@ def list_asset(request,id=None):
     #print("username {}".format(request.user.username))
     # if(request.user.username=="admin"):
     books=[]
-    books =Asset.objects.all().order_by('assetName')
+    books =Asset.objects.all().order_by('-assetName')
     wos=AssetUtility.doPaging(request,books)
     return render(request, 'cmms/asset/assetList.html', {'asset': wos})
     # else:
@@ -312,16 +312,9 @@ def assetCancel(request,id):
     if(request.method=='POST'):
         tg=Asset.objects.get(id=id)
         if(tg):
-            if(not tg.assetName or not tg.assetCode):
+            if(not tg.assetName or not tg.assetCode or not tg.assetCategory):
                 tg.delete()
-                data['form_is_valid'] = True  # This is just to play along with the existing code
-                companies =  Asset.objects.all().order_by('-assetName')
-                wos=AssetUtility.doPaging(request,companies)
-                #Tasks.objects.filter(taskGroupId=id).update(taskGroup=id)
-                data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
-                     'asset': wos,
-                     'perms': PermWrapper(request.user)
-                 })
+                data['form_is_valid'] = True
 
     return JsonResponse(data)
 ##########################################################
@@ -340,11 +333,13 @@ def list_asset_dash(request):
         assets=Asset.objects.filter(assetCategory=i,assetTypes=2)
         x2=[]
         x4=[]
+        x5=[]
         for x in assets:
 
             x2.append(x.assetName)
             x4.append(x.id)
-        x3.append(zip(x2,x4))
+            x5.append(x.assetStatus)
+        x3.append(zip(x2,x4,x5))
     final_list=zip(x1,x3,x0)
     a_zip=zip(x1,x0)
             # acat_dict[i.name][x.id]=x.assetName

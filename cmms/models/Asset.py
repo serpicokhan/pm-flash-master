@@ -217,7 +217,7 @@ class AssetLife(models.Model):
     assetOfflineFrom=models.DateField("تاریخ خاموشی",default=datetime.now,blank=True,null=True)
     assetOfflineFromTime=models.TimeField("زمان خاموشی",default=datetime.now,blank=True,null=True)
     assetSetOfflineByUser=models.ForeignKey(SysUser,on_delete=models.CASCADE,verbose_name="کاربر",blank=True,null=True,related_name="offlineUser")
-    assetOfflineStatus=models.ForeignKey(OfflineStatus,on_delete=models.CASCADE,verbose_name="علت خرابی",blank=True,null=True)
+    assetOfflineStatus=models.ForeignKey(OfflineStatus,on_delete=models.CASCADE,verbose_name="وضعیت",blank=True,null=True)
     assetWOAssoc=models.ForeignKey('WorkOrder',verbose_name="درخواست مرتبط",on_delete=models.CASCADE,blank=True,null=True)
     assetOfflineAdditionalInfo=models.TextField("اطلاعات اضافی",blank=True,null=True)
     assetEventType=models.ForeignKey(Events,verbose_name="نوع رویداد",on_delete=models.CASCADE,blank=True,null=True)

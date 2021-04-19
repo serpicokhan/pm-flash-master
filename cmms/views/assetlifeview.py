@@ -52,7 +52,7 @@ def js_list_assetLife(request,woId):
 
 ###################################################################    ###################################################################
 @csrf_exempt
-def save_assetLife_form(request, form, template_name,woId=None):
+def save_assetLife_form(request, form, template_name,woId=None,assetStatus=None):
         data = dict()
         if (request.method == 'POST'):
               if form.is_valid():
@@ -64,7 +64,8 @@ def save_assetLife_form(request, form, template_name,woId=None):
                 })
               else:
                   print(form.errors)
-        context = {'form': form}
+
+        context = {'form': form,'assetstatus':assetStatus}
         data['html_assetLife_form'] = render_to_string(template_name, context, request=request)
         return JsonResponse(data)
 
@@ -165,7 +166,7 @@ def assetLife_create(request,assetId=None):
 
         form = AssetLifeForm()
 
-    return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeCreate.html',woId)
+    return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeCreate.html',woId,False)
 ###################################################################
 
 @csrf_exempt
@@ -173,6 +174,7 @@ def assetLife_update(request, id):
     company= get_object_or_404(AssetLife, id=id)
     woId=company.assetLifeAssetid
     print("{}".format(woId.assetStatus))
+    assetStatus=False
     #parrent asset
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')
@@ -197,9 +199,10 @@ def assetLife_update(request, id):
             data['assetOnlineProducteHourAffected']=body['assetOnlineProducteHourAffected']
             # print("assetOnlineStatus :"+str(body['assetOnlineStatus']))
             data['assetOnlineFromTime']=body['assetOnlineFromTime']
+            assetStatus=True
             woId.assetStatus=True
             woId.save()
-            print("{}".format(woId.assetStatus))
+            # print("{}".format(woId.assetStatus))
         else:
             woId.assetStatus=False;
             woId.save()
@@ -223,7 +226,7 @@ def assetLife_update(request, id):
         woId.save()
     else:
          form = AssetLifeForm(instance=company,initial={'woName':company.assetWOAssoc})
-    return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeUpdate.html',woId.id)
+    return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeUpdate.html',woId.id,assetStatus)
 ###################################################################    ###################################################################
 @csrf_exempt
 def findLastOpenAssetLife(request,assetId):

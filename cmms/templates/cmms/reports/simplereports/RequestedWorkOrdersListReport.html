@@ -45,25 +45,25 @@
      {% for c in woList %}
 
      <tr>
-       <td class="active"><a href="/WorkOrder/{{c.0.id}}/details" target="_blank">{{c.0.id}}</a></td>
+       <td class="active"><a href="/WorkOrder/{{c.id}}/details" target="_blank">{{c.id}}</a></td>
        <td class="active">
-         {{c.summaryofIssue|default_if_none="نامشخص"}}
+         {{c.summaryofIssue|default_if_none:"نامشخص"}}
        </td>
 
 
        <td class="active">
-         {{c.woAsset|default_if_none="نامشخص"}}
+         {{c.woAsset|default_if_none:"نامشخص"}}
        </td>
 
 
 
 
-      <td class="active">{{c.RequestedUser|default_if_none="نامشخص"}}</td>
+      <td class="active">{{c.RequestedUser|default_if_none:"نامشخص"}}</td>
        <td class="active">
-        {{c.assignedToUser|default_if_none="نامشخص"}}
+        {{c.assignedToUser|default_if_none:"نامشخص"}}
        </td>
        <td class="active">{{c.get_dateCreated_jalali}}</td>
-       <td class="active">{{c.estimatedLabor|default_if_none="نامشخص"}}</td>
+       <td class="active">{{c.estimatedLabor|default_if_none:"نامشخص"}}</td>
 
 
 

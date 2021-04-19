@@ -2,6 +2,7 @@
 // var assetLifeOnlineFrom;
 $(function () {
 
+
   var LoadAssetSelector=function(){
     var btn=$(this)
     $.ajax({
@@ -37,12 +38,13 @@ $(function () {
         if (data.form_is_valid) {
           //alert("taskGroup created!");  // <-- This is just a placeholder for now for testing
 
-          $("#tbody_company").empty();
-          $("#tbody_company").html(data.html_asset_list);
-          $("tr").on("click", showAssetDetails);
+          // $("#tbody_company").empty();
+          // $("#tbody_company").html(data.html_asset_list);
+          // $("tr").on("click", showAssetDetails);
 
           // $("#modal-taskGroup").modal("hide");
          // console.log(data.html_taskGroup_list);
+         swal("حذف شد!", $("#id_summaryofIssue").val(), "success");
         }
         else {
 
@@ -55,6 +57,24 @@ $(function () {
 
 
   };
+  $('#modal-company').on('hidden.bs.modal', function () {
+    if($("#issavechanged").val()=="-1" && ($("#id_asseccategorytxt").val()=="" || $("#id_assetName").val().length==0 || $("#id_assetCode").val().length==0) ){
+    swal({
+         title:"حذف تجهیز بدون کد و مشخصات",
+         text: $("#id_summaryofIssue").val(),
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#DD6B55",
+         confirmButtonText: "بلی",
+         cancelButtonText: "خیر",
+         closeOnConfirm: true
+     }, function () {
+         cancelForm();
+
+     });
+   }
+    // do something…
+  });
 
   var loadForm =function (btn1) {
     var btn=0;
@@ -338,6 +358,16 @@ var saveForm= function () {
      data: form.serialize(),
      type: form.attr("method"),
      dataType: 'json',
+     beforeSend:function(x,h)
+     {
+       if(!$(this)[0].url.includes('delete')){
+       if($("#id_assetCategory").val().length==0)
+       {
+         toastr.error("دسته تجهیز را مشخص کنید");
+         x.abort();
+       }
+     }
+     },
      success: function (data) {
        if (data.form_is_valid) {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
@@ -345,6 +375,7 @@ var saveForm= function () {
          $("#tbody_company").html(data.html_asset_list);
          $("#modal-company").modal("hide");
            $("tr").on("click", showAssetDetails);
+            $("#issavechanged").val("1");
         // console.log(data.html_asset_list);
        }
        else {

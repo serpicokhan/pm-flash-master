@@ -48,27 +48,27 @@
      {% for c in woList %}
 
      <tr>
-        <td class="active"><a href="/WorkOrder/{{c.0.id}}/details" target="_blank">{{c.0.id}}</a></td>
+        <td class="active"><a href="/WorkOrder/{{c.id}}/details" target="_blank">{{c.id}}</a></td>
        <td class="active">
-         {{c.summaryofIssue|default_if_none="نامشخص"}}
+         {{c.summaryofIssue|default_if_none:"نامشخص"}}
        </td>
        <td class="active">
-         {{c.get_woStatus_display|default_if_none="نامشخص"}}
+         {{c.get_woStatus_display|default_if_none:"نامشخص"}}
        </td>
 
        <td class="active">
-         {{c.woAsset|default_if_none="نامشخص"}}
+         {{c.woAsset|default_if_none:"نامشخص"}}
        </td>
 
 
        <td class="active" >
-         {{c.woAsset.assetCategory|default_if_none="نامشخص"}}
+         {{c.woAsset.assetCategory|default_if_none:"نامشخص"}}
        </td>
 
        <td class="active">
-         {{c.maintenanceType|default_if_none="نامشخص"}}
+         {{c.maintenanceType|default_if_none:"نامشخص"}}
        </td>
-       <td>{{c.woPriority|default_if_none="نامشخص"}}</td>
+       <td>{{c.woPriority|default_if_none:"نامشخص"}}</td>
        <td class="active">
         {{c.timecreated | time:"H:i"}}  {{c.get_dateCreated_jalali}}
        </td>
@@ -76,9 +76,9 @@
         {{c.requiredCompletionTime | time:"H:i"}}  {{c.get_dateRequire_jalali}}
        </td>
        <td class="active">
-        {{c.assignedToUser|default_if_none="نامشخص"}}
+        {{c.assignedToUser|default_if_none:"نامشخص"}}
        </td>
-       <td>{{c.estimatedLabor|default_if_none="نامشخص"}}</td>
+       <td>{{c.estimatedLabor|default_if_none:"نامشخص"}}</td>
        <td>{{c.get_dirkard}}</td>
 
 

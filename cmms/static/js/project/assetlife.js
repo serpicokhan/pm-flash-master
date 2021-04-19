@@ -1,4 +1,24 @@
 $(function () {
+  ///////////////////////////////////////////////
+
+  $('#modal-company').on('hidden.bs.modal', function () {
+    if($("#issavechanged").val()=="-1" && $("#id_summaryofIssue").val()=="" ){
+    swal({
+         title:"حذف تجهیز بدون کد و مشخصات",
+         text: $("#id_summaryofIssue").val(),
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#DD6B55",
+         confirmButtonText: "بلی",
+         cancelButtonText: "خیر",
+         closeOnConfirm: false
+     }, function () {
+         cancelform();
+
+     });
+   }
+    // do something…
+  });
 
 
   var loadAssetLifeForm =function () {

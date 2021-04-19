@@ -62,6 +62,7 @@
 
     </div>
     {% for i in assets %}
+
     <div class="ibox float-e-margins asset_{{i.2}} myasset">
       <div class="ibox-title">
         <h5>{{i.0}} </h5>
@@ -76,9 +77,18 @@
             <div class="ibox float-e-margins">
               <div class="ibox-title">
                 <span class="label label-warning pull-left">
+
+                {% if k.2 %}
                   <i class="fa fa-play">
+
                   </i>
+                {% else %}
+                <i class="fa fa-stop">
+                </i>
+                {% endif %}
+
                 </span>
+
                 <h5>
                 {{k.0}}</h5>
                 </div>
@@ -90,6 +100,8 @@
                 </div>
               </div>
             </div>
+            {% empty %}
+            موردی برای نمایش وجود ندارد
             {% endfor %}
 
 

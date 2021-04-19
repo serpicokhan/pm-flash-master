@@ -390,7 +390,7 @@ class AssetUtility:
     def getAssetOfflineStatus(id):
         n1=AssetLife.objects.raw(""" select (count(assetlife.id)/total_getdownhits({0}))*100   as id ,b.causeDescription as reason,b.causeCode  from assetlife
          left join workorder wo on assetlife.assetWOAssoc_id=wo.id
-         left join causecode b on wo.woCauseCode_id=b.id
+         join causecode b on wo.woCauseCode_id=b.id
          inner join assets on assets.id=assetlife.assetLifeAssetid_id
          where (assetlifeassetid_id={0} or assets.assetIsLocatedAt_id={0} or assets.assetIsPartOf_id={0})
          group by b.causeCode  """.format(id))
