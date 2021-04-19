@@ -358,6 +358,7 @@ urlpatterns = [
         url(r'^Stock/LowItem/$', list_lowItemStock, name='list_lowItemStock'),
         url(r'^Stock/LowItemDetails/$', get_lowItemStock, name='get_lowItemStock'),
         url(r'^Stock/ListAllItemDetails/$', js_list_all_stock, name='js_list_all_stock'),
+        url(r'^Stock/(?P<id>\d+)/ListAllItemDetails/$', js_list_all_stock, name='js_list_all_stock'),
         url(r'^Stock/(?P<locationId>\d+)/ListGroupedStock/$', groupByStockLocation, name='group_by_stock_location'),
         url(r'^Stock/(?P<stockId>\d+)/(?P<num>\d+)/GetConsumes/$', getConsumedItem, name='get_consumed_item'),
         url(r'^Stock/(?P<stockId>\d+)/(?P<num>\d+)/GetPurchases/$', getPurchasedItem, name='get_purchaseditem'),

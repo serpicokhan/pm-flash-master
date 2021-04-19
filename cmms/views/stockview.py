@@ -43,10 +43,12 @@ def get_lowItemStock(request,id=None):
     data=dict()
     books = Stock.objects.filter(qtyOnHand__lt=F('minQty'))
     data['form_is_valid']=True
-    print("low is low",len(books))
+    wos=StockUtility.doPaging(request,books)
+    # print("low is low",len(books))
     data['html_lowitemstock_list'] = render_to_string('cmms/stock/partialStockList.html', {
-                  'stocks': list(books),
+                  'stocks': wos,
               })
+    data['html_stock_paginator'] = render_to_string('cmms/stock/partialStockPagination.html', {               'wo': wos,'pageType':'group_by_stock_location','pageArgs':  id                   })
     return JsonResponse(data)
 
 
@@ -84,7 +86,7 @@ def js_list_modal_stock(request):
     return JsonResponse(data)
 
 
-def js_list_all_stock(request):
+def js_list_all_stock(request,id=None):
     data=dict()
 
     books=Stock.objects.all().order_by('stockItem')
@@ -97,6 +99,8 @@ def js_list_all_stock(request):
     data['html_stock_list']= render_to_string('cmms/stock/partialStockList.html', {
         'stocks': wos
     })
+    data['html_stock_paginator'] = render_to_string('cmms/stock/partialStockPagination.html', {               'wo': wos,'pageType':'js_list_all_stock','pageArgs':1                     })
+
     data['form_is_valid']=True
     return JsonResponse(data)
 
@@ -305,7 +309,7 @@ def groupByStockLocation(request,locationId):
 
     wos=StockUtility.doPaging(request,q)
     data['form_is_valid']=True
-    data['html_stock_list'] = render_to_string('cmms/stock/partialStockList.html', {       'stocks': q      })
+    data['html_stock_list'] = render_to_string('cmms/stock/partialStockList.html', {       'stocks': wos      })
     # data['html_stock_page']=render_to_string('cmms/stock/partialStockList.html', {       '': q      })
     data['html_stock_paginator'] = render_to_string('cmms/stock/partialStockPagination.html', {               'wo': wos,'pageType':'group_by_stock_location'  ,'pageArgs':  locationId                   })
     return JsonResponse(data)

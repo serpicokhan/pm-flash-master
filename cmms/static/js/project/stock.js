@@ -113,7 +113,7 @@ var saveStockForm= function () {
          $("#tbody_stock").empty();
 
          $("#tbody_stock").html(data.html_stock_list);
-         $(".woPaging").html(data.html_wo_paginator);
+         $(".woPaging").html(data.html_stock_paginator);
 
          $("#modal-stock").modal("hide");
          $("tr").on("click",function(){
@@ -143,8 +143,8 @@ var saveStockForm= function () {
                }
              },
              error: function (jqXHR, exception) {
-               alert(exception);
-               console.log(exception)
+               // alert(exception);
+               // console.log(exception)
              }
            });
            $.ajax({
@@ -169,8 +169,8 @@ var saveStockForm= function () {
                }
              },
              error: function (jqXHR, exception) {
-               alert(exception);
-               console.log(exception)
+               // alert(exception);
+               // console.log(exception)
              }
            });
 
@@ -185,8 +185,8 @@ var saveStockForm= function () {
        }
      },
      error: function (jqXHR, exception) {
-       alert(exception);
-       console.log(exception)
+       // alert(exception);
+       // console.log(exception)
      }
    });
    return false;
@@ -207,7 +207,7 @@ var saveStockForm= function () {
          $("#tbody_stock").empty();
 
          $("#tbody_stock").html(data.html_lowitemstock_list);
-         $(".woPaging").html(data.html_wo_paginator);
+         $(".woPaging").html(data.html_stock_paginator);
 
          $("#modal-stock").modal("hide");
          $("tr").on("click",function(){
@@ -237,8 +237,8 @@ var saveStockForm= function () {
                }
              },
              error: function (jqXHR, exception) {
-               alert(exception);
-               console.log(exception)
+               // alert(exception);
+               // console.log(exception)
              }
            });
            $.ajax({
@@ -263,8 +263,8 @@ var saveStockForm= function () {
                }
              },
              error: function (jqXHR, exception) {
-               alert(exception);
-               console.log(exception)
+               // alert(exception);
+               // console.log(exception)
              }
            });
 
@@ -279,8 +279,8 @@ var saveStockForm= function () {
        }
      },
      error: function (jqXHR, exception) {
-       alert(exception);
-       console.log(exception)
+       // alert(exception);
+       // console.log(exception)
      }
    });
    return false;
@@ -331,8 +331,8 @@ $(".selectpicker").change(function(){
               }
             },
             error: function (jqXHR, exception) {
-              alert(exception);
-              console.log(exception)
+              // alert(exception);
+              // console.log(exception)
             }
           });
           $.ajax({
@@ -357,8 +357,8 @@ $(".selectpicker").change(function(){
               }
             },
             error: function (jqXHR, exception) {
-              alert(exception);
-              console.log(exception)
+              // alert(exception);
+              // console.log(exception)
             }
           });
 
@@ -373,8 +373,8 @@ $(".selectpicker").change(function(){
       }
     },
     error: function (jqXHR, exception) {
-      alert(exception);
-      console.log(exception)
+      // alert(exception);
+      // console.log(exception)
     }
   });
   return false;
@@ -409,8 +409,8 @@ $("tr").click(function(){
       }
     },
     error: function (jqXHR, exception) {
-      alert(exception);
-      console.log(exception)
+      // alert(exception);
+      // console.log(exception)
     }
   });
   $.ajax({
@@ -435,8 +435,8 @@ $("tr").click(function(){
       }
     },
     error: function (jqXHR, exception) {
-      alert(exception);
-      console.log(exception)
+      // alert(exception);
+      // console.log(exception)
     }
   });
 
@@ -482,8 +482,8 @@ var searchStock=function(searchStr){
               }
             },
             error: function (jqXHR, exception) {
-              alert(exception);
-              console.log(exception)
+              // alert(exception);
+              // console.log(exception)
             }
           });
           $.ajax({
@@ -508,8 +508,8 @@ var searchStock=function(searchStr){
               }
             },
             error: function (jqXHR, exception) {
-              alert(exception);
-              console.log(exception)
+              // alert(exception);
+              // console.log(exception)
             }
           });
 
@@ -524,8 +524,8 @@ var searchStock=function(searchStr){
       }
     },
     error: function (jqXHR, exception) {
-      alert(exception);
-      console.log(exception)
+      // alert(exception);
+      // console.log(exception)
     }
   });
   return false;
@@ -569,8 +569,8 @@ $("#vertical_timeline2").on('click','.woloadmore',function(){
       }
     },
     error: function (jqXHR, exception) {
-      alert(exception);
-      console.log(exception)
+      // alert(exception);
+      // console.log(exception)
     }
   });
   return false;
@@ -602,8 +602,8 @@ $("#vertical_timeline1").on('click','.purchaseloadmore',function(){
       }
     },
     error: function (jqXHR, exception) {
-      alert(exception);
-      console.log(exception)
+      // alert(exception);
+      // console.log(exception)
     }
   });
   return false;
