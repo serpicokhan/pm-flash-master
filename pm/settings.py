@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 	'background_task',
     'mathfilters',
      'rest_framework',
+     # 'channels',
      # 'utils_tags',
 
 
@@ -81,6 +82,15 @@ TEMPLATES = [
         },
     },
 ]
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'asgi_redis.RedisChannelLayer',
+#         'CONFIG': {
+#             'hosts': [('localhost', 6379)],
+#         },
+#         'ROUTING': 'example_channels.routing.channel_routing',
+#     }
+# }
 
 WSGI_APPLICATION = 'pm.wsgi.application'
 
