@@ -39,23 +39,30 @@ drawCauseBar(causedata,"chart","گزارش روند مصرف قطعه");
 // console.log(causedata);
 // });
 // var glll;
+
 var drawCauseBar=function(data,element,lbl)
 {
 label=[];
 dtset=[];
+pname='';
+
 for(i in data)
 {
+  // console.log(i);
+  // console.log(data[i]);
 
   // console.log(i,data[i])
-  label.push(i);
-  dtset.push(data[i]);
+  label.push(data[i]['zaman']);
+  dtset.push(data[i]['total']);
+  pname=data[i]['part']
 }
   // console.log(data);
 var barData = {
       labels: label,
       datasets: [
           {
-              label:lbl,
+              label:lbl+' '+pname,
+
 
               backgroundColor:"#F3F3F4",
               // borderColor:"#F3F3F4",
@@ -121,49 +128,6 @@ var barData = {
   var ctx3 = document.getElementById(element).getContext("2d");
   var myBarChart = new Chart(ctx3, {
     type: 'line',
-    data: barData,
-    options: barOptions
-});
-}
-var drawCauseBar2=function(data,element,lbl)
-{
-label=[];
-dtset=[];
-for(i in data)
-{
-
-  // console.log(i,data[i])
-  label.push(i);
-  dtset.push(data[i]);
-}
-  // console.log(data);
-var barData = {
-      labels: label,
-      datasets: [
-          {
-              label:lbl,
-
-              backgroundColor:"#F3F3F4",
-              // borderColor:"#F3F3F4",
-
-              data: dtset,
-               backgroundColor:["rgba(255, 99, 132, 0.2)","rgba(255, 159, 64, 0.2)","rgba(255, 205, 86, 0.2)","rgba(75, 192, 192, 0.2)","rgba(54, 162, 235, 0.2)","rgba(153, 102, 255, 0.2)","rgba(201, 203, 207, 0.2)"],"borderColor":["rgb(255, 99, 132)","rgb(255, 159, 64)","rgb(255, 205, 86)","rgb(75, 192, 192)","rgb(54, 162, 235)","rgb(153, 102, 255)","rgb(201, 203, 207)"]
-          }
-      ]
-  };
-
-  var barOptions = {
-    title: {
-       display: true,
-       text:lbl
-     }
-
-  }
-
-
-  var ctx3 = document.getElementById(element).getContext("2d");
-  var myBarChart = new Chart(ctx3, {
-    type: 'pie',
     data: barData,
     options: barOptions
 });

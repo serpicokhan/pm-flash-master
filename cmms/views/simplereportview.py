@@ -2185,36 +2185,109 @@ class reporttest:
         assetType=[int(i) for i in assetType]
         if(len(assetType)==0):
             assetType.append(-1)
-        if((assetType[0]==-1)):
-             assetType=AssetCategory.objects.values_list('id', flat=True)
+        # if((assetType[0]==-1)):
+        #      assetType=AssetCategory.objects.values_list('id', flat=True)
 
         if(len(assetname) >0 and not assetname[0]):
              assetname.pop(0)
         assetname=[int(i) for i in assetname]
         if(len(assetname)==0):
              assetname.append(-1)
-        if((assetname[0]==-1)):
-             assetname=Asset.objects.values_list('id', flat=True)
+        # if((assetname[0]==-1)):
+        #      assetname=Asset.objects.values_list('id', flat=True)
 
-        n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
-        n2=WorkorderPart.objects.filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartStock__stockItem_id=partName,timeStamp__range=(date1,date2))
-        # print(WorkorderPart.objects.filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).query)
+        n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
+        'woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,
+        timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+        # n2=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
+        # 'woPartWorkorder__woAsset__assetCategory__name','timeStamp').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,
+        # woPartStock__stockItem_id=partName,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('timeStamp')
+        # # print(WorkorderPart.objects.filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).query)
+        n2=WorkorderPart.objects.raw(''' SELECT
+              sum(workorderpart.woPartActulaQnty) as id ,
+              pdate(date(workorderpart.timeStamp)) as t,
+              parts.id as pid,
+              parts.partName as p
+
+            FROM
+              workorderpart
+              INNER JOIN workorder ON workorderpart.woPartWorkorder_id = workorder.id
+              INNER JOIN assets ON workorder.woAsset_id = assets.id
+              INNER JOIN stocks ON workorderpart.woPartStock_id = stocks.id
+              INNER JOIN parts ON stocks.stockItem_id = parts.id
+              INNER JOIN assetcategory ON assets.assetCategory_id = assetcategory.id
+              where assets.assetIsLocatedAt_id={0} and (workorderpart.timeStamp between '{1}' and '{2}') and parts.id={3}
+              group by t,pid,p
+              '''.format(makan,date1,date2,partName))
 
         if(assetType[0]!=-1):
-            n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
-            n2=WorkorderPart.objects.filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName)
+            n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
+            'woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+            assetType.append(-1)
+            print(''' SELECT
+                  sum(workorderpart.woPartActulaQnty) as id ,
+                  pdate(date(workorderpart.timeStamp)) as t,
+                  parts.id as pid,
+                  parts.partName as p
+
+                FROM
+                  workorderpart
+                  INNER JOIN workorder ON workorderpart.woPartWorkorder_id = workorder.id
+                  INNER JOIN assets ON workorder.woAsset_id = assets.id
+                  INNER JOIN stocks ON workorderpart.woPartStock_id = stocks.id
+                  INNER JOIN parts ON stocks.stockItem_id = parts.id
+                  INNER JOIN assetcategory ON assets.assetCategory_id = assetcategory.id
+                  where assets.assetIsLocatedAt_id={0} and (workorderpart.timeStamp between '{1}' and '{2}') and parts.id={3} and assetcategory.id in {4}
+                  group by t,pid,p
+                  '''.format(makan,date1,date2,partName,tuple(assetType)))
+            n2=WorkorderPart.objects.raw(''' SELECT
+                  sum(workorderpart.woPartActulaQnty) as id ,
+                  pdate(date(workorderpart.timeStamp)) as t,
+                  parts.id as pid,
+                  parts.partName as p
+
+                FROM
+                  workorderpart
+                  INNER JOIN workorder ON workorderpart.woPartWorkorder_id = workorder.id
+                  INNER JOIN assets ON workorder.woAsset_id = assets.id
+                  INNER JOIN stocks ON workorderpart.woPartStock_id = stocks.id
+                  INNER JOIN parts ON stocks.stockItem_id = parts.id
+                  INNER JOIN assetcategory ON assets.assetCategory_id = assetcategory.id
+                  where assets.assetIsLocatedAt_id={0} and (workorderpart.timeStamp between '{1}' and '{2}') and parts.id={3} and assetcategory.id in {4}
+                  group by t,pid,p
+                  '''.format(makan,date1,date2,partName,tuple(assetType)))
         elif(assetname[0]!=-1):
+            assetname.append(-1)
             n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__in=assetname,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
-            n2=WorkorderPart.objects.filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__in=assetname,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName)
+            n2=WorkorderPart.objects.raw(''' SELECT
+                  sum(workorderpart.woPartActulaQnty) as id ,
+                  pdate(date(workorderpart.timeStamp)) as t,
+                  parts.id as pid,
+                  parts.partName as p
+
+                FROM
+                  workorderpart
+                  INNER JOIN workorder ON workorderpart.woPartWorkorder_id = workorder.id
+                  INNER JOIN assets ON workorder.woAsset_id = assets.id
+                  INNER JOIN stocks ON workorderpart.woPartStock_id = stocks.id
+                  INNER JOIN parts ON stocks.stockItem_id = parts.id
+                  INNER JOIN assetcategory ON assets.assetCategory_id = assetcategory.id
+                  where assets.assetIsLocatedAt_id={0} and (workorderpart.timeStamp between '{1}' and '{2}') and parts.id={3} and assets.id in {4}
+                  group by t,pid,p
+                  '''.format(makan,date1,date2,partName,tuple(assetname)))
         # z1={}
-        n2=n2.order_by('timeStamp')
+
         k=[]
-        print(n2.count())
+            # print(n2)
+        # print(n2.query)
         for i in n2:
+            print(i)
             z1={}
-            z1['tedad']=i.woPartActulaQnty
-            z1['zaman']="{0}".format(i.timeStamp)
-            z1['asset']=i.woPartWorkorder.woAsset.assetName
+            # z1['tedad']=i.woPartActulaQnty
+            # print(jdatetime.date.fromgregorian(day=i.timeStamp.day,month=i.timeStamp.month,year=i.timeStamp.year))
+            z1['zaman']=i.t
+            z1['part']=i.p
+            z1['total']=i.id
             k.append(z1)
 
         return render(request, 'cmms/reports/simplereports/PartUsageByLocationandPart.html',{'result1':n1,'result2':k   ,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
