@@ -34,6 +34,7 @@ from cmms.business.UserUtility import *
 from cmms.business.schedule_utility import *
 from cmms.business.SWOUtility import *
 from django.contrib.admin.models import LogEntry
+from django.db.models import Sum
 
 
 def list_simpleReport(request,id=None):
@@ -2134,3 +2135,74 @@ class reporttest:
          assetname=Asset.objects.get(id=asset)
          mtype_name=MaintenanceType.objects.get(id=maintype)
          return render(request, 'cmms/reports/simplereports/SummaryReportByAsset.html',{'result1':n3,'result2':m3,'result3':d,'result4':d2,'result5':d3,'username':assetname.assetName,'mtype':mtype_name.name,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
+    ################################
+    def PartUsageByLocation(Self,request):
+        reportType=request.POST.getlist("reportType","")
+        makan=request.POST.get("makan","")
+        assetType=request.POST.getlist("assetType","")
+        assetname=request.POST.getlist("assetname","")
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+        if(len(assetType) >0 and not assetType[0]):
+            # print("$$$$$$$$$$$$$$$$$$$$$$")
+            assetType.pop(0)
+        assetType=[int(i) for i in assetType]
+        if(len(assetType)==0):
+            assetType.append(-1)
+        if((assetType[0]==-1)):
+             assetType=AssetCategory.objects.values_list('id', flat=True)
+
+        if(len(assetname) >0 and not assetname[0]):
+             assetname.pop(0)
+        assetname=[int(i) for i in assetname]
+        if(len(assetname)==0):
+             assetname.append(-1)
+        if((assetname[0]==-1)):
+             assetname=Asset.objects.values_list('id', flat=True)
+        n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt__in=(makan),timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+
+        if(assetType[0]!=-1):
+            n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt__in=(makan),woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+        elif(assetname[0]!=-1):
+            n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt__in=(makan),woPartWorkorder__woAsset__in=assetname,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+        return render(request, 'cmms/reports/simplereports/PartUsageByLocation.html',{'result1':n1,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
+    def PartUsageByLocationandPart(Self,request):
+        reportType=request.POST.getlist("reportType","")
+        makan=request.POST.get("makan","")
+        assetType=request.POST.getlist("assetType","")
+        assetname=request.POST.getlist("assetname","")
+        partName=request.POST.get("part","")
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+        if(len(assetType) >0 and not assetType[0]):
+            # print("$$$$$$$$$$$$$$$$$$$$$$")
+            assetType.pop(0)
+        assetType=[int(i) for i in assetType]
+        if(len(assetType)==0):
+            assetType.append(-1)
+        if((assetType[0]==-1)):
+             assetType=AssetCategory.objects.values_list('id', flat=True)
+
+        if(len(assetname) >0 and not assetname[0]):
+             assetname.pop(0)
+        assetname=[int(i) for i in assetname]
+        if(len(assetname)==0):
+             assetname.append(-1)
+        if((assetname[0]==-1)):
+             assetname=Asset.objects.values_list('id', flat=True)
+
+        n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt__in=(makan),timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+        n2=WorkorderPart.objects.filter(woPartWorkorder__woAsset__assetIsLocatedAt__in=(makan),timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName)
+
+        if(assetType[0]!=-1):
+            n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt__in=(makan),woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+            n2=WorkorderPart.objects.filter(woPartWorkorder__woAsset__assetIsLocatedAt__in=(makan),woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName)
+        elif(assetname[0]!=-1):
+            n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt__in=(makan),woPartWorkorder__woAsset__in=assetname,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+            n2=WorkorderPart.objects.filter(woPartWorkorder__woAsset__assetIsLocatedAt__in=(makan),woPartWorkorder__woAsset__in=assetname,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName)
+
+        return render(request, 'cmms/reports/simplereports/PartUsageByLocationandPart.html',{'result1':n1,'result2':n2,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
