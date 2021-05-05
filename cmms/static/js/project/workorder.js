@@ -66,6 +66,13 @@ $(function () {
                   });
                   $('.selectpicker').selectpicker();
                   $('.basicAutoComplete').autoComplete();
+                  initLoad();
+                  initWoPartLoad();
+                  initWoMeterLoad();
+                  initWoMiscLoad();
+                  initWoNotifyLoad();
+                  initWoFileLoad();initWoLogLoad();
+                  initWoPertLoad();
 
 
 
@@ -749,7 +756,7 @@ var loadPdate=function()
  var myWoLoader= function(){
    btn=$(this);
    //console.log(btn);
-   $.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad,initWoPertLoad);
+   // $.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad,initWoPertLoad);
 
    //loadForm(btn);
 

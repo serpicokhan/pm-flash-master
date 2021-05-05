@@ -1,7 +1,8 @@
 from __future__ import absolute_import, unicode_literals
 from cmms.models import *
-from celery.task.schedules import crontab
-from celery import task
+# from celery.task.schedules import crontab
+from celery.schedules import crontab
+# from celery import task
 from celery.decorators import periodic_task
 from celery.utils.log import get_task_logger
 from datetime import datetime

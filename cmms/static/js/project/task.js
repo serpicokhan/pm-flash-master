@@ -128,7 +128,8 @@ var saveTaskForm= function () {
 
 
  // Create book
-$(".js-create-taskGroup").unbind();
+// $(".js-create-taskGroup").unbind();
+
 $(".js-create-task").unbind();
 $(".js-create-task").click(loadTaskForm);
 $(".js-create-taskGroup").click(loadForm);

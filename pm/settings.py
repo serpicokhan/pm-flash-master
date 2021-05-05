@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-from celery.task.schedules import crontab
+# from celery.task.schedules import crontab
+from celery.schedules import crontab
 import logging.config
 LOGGING_CONFIG = None
 

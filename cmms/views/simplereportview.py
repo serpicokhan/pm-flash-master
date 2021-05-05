@@ -2224,22 +2224,7 @@ class reporttest:
             n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
             'woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
             assetType.append(-1)
-            print(''' SELECT
-                  sum(workorderpart.woPartActulaQnty) as id ,
-                  pdate(date(workorderpart.timeStamp)) as t,
-                  parts.id as pid,
-                  parts.partName as p
-
-                FROM
-                  workorderpart
-                  INNER JOIN workorder ON workorderpart.woPartWorkorder_id = workorder.id
-                  INNER JOIN assets ON workorder.woAsset_id = assets.id
-                  INNER JOIN stocks ON workorderpart.woPartStock_id = stocks.id
-                  INNER JOIN parts ON stocks.stockItem_id = parts.id
-                  INNER JOIN assetcategory ON assets.assetCategory_id = assetcategory.id
-                  where assets.assetIsLocatedAt_id={0} and (workorderpart.timeStamp between '{1}' and '{2}') and parts.id={3} and assetcategory.id in {4}
-                  group by t,pid,p
-                  '''.format(makan,date1,date2,partName,tuple(assetType)))
+            
             n2=WorkorderPart.objects.raw(''' SELECT
                   sum(workorderpart.woPartActulaQnty) as id ,
                   pdate(date(workorderpart.timeStamp)) as t,

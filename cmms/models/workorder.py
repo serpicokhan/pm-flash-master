@@ -167,7 +167,8 @@ class WorkOrder(models.Model):
         users=Tasks.objects.filter(workOrder=self)
         str=[]
         for k in users:
-            str.append(k.taskAssignedToUser.title)
+            if(k.taskAssignedToUser):
+                str.append(k.taskAssignedToUser.title)
         return ",".join(str)
     def get_pertTime(self):
         perts=WorkorderPert.objects.filter(woPertWorkorder=self)
