@@ -99,6 +99,16 @@ WSGI_APPLICATION = 'pm.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'cmms4',
+#         'USER': 'monty',
+#         'PASSWORD': '84281734Man!@#',
+#         'HOST': '192.168.183.130',
+#         'PORT': '3306',
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -153,7 +163,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = 'list_dashboard'
 LOGIN_URL='login'
 # CELERY STUFF
-BROKER_URL = 'redis://localhost:6379'
+BROKER_URL = 'redis://192.168.183.130:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'

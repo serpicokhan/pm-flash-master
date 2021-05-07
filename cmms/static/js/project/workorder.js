@@ -823,7 +823,7 @@ var loadPdate=function()
  }
  ///////////////////////////////////////////////
 
- $('#modal-company').on('hidden.bs.modal', function () {
+ $('#modal-company').on('click','.woclose', function () {
    if($("#issavechanged").val()=="-1" && $("#id_summaryofIssue").val()=="" ){
    swal({
         title: "حذف دستور کار بدون موضوع",
