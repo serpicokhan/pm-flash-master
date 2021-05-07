@@ -3,3 +3,4 @@ cmms/migrations/__pycache__/0025_auto_20190316_2044.cpython-37.pyc
 tmp/Debug.log
 tmp/Debug.log
 tmp/Debug.log
+celerybeat-schedule.dat
