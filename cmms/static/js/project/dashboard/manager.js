@@ -61,6 +61,7 @@ $(".btn.btn-white.btn-bitbucket").click(function(){
     LoadResource(5);
       LoadCauseBar();
       GetEmCount();
+      getDueService();
 
 
     // GetRequestedWo();
