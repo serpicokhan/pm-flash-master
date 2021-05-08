@@ -14,6 +14,7 @@ GetOverdueWoReqNum();
 GetLowItemStock();
 GetRequestedWo();
 LoadEqCost();
+getDueService();
 
 
 LoadResource(3,"doughnutChartResourceStatus3");

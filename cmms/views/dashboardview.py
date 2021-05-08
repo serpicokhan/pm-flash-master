@@ -155,7 +155,7 @@ def GetOverdueWoReqNum(request,startHijri,endHijri):
      data['html_is_valid']=True
 
      return JsonResponse(data)
-def GetOverdueWoReqNum(request,startHijri,endHijri):
+def GetdueWoNum(request,startHijri,endHijri):
      data=dict()
      start,end=DateJob.convert2Date(startHijri,endHijri)
      # n1=WorkOrder.objects.raw("SELECT  count(id) as id  fr om workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and current_date>requiredCompletionDate and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end))
@@ -166,7 +166,8 @@ def GetOverdueWoReqNum(request,startHijri,endHijri):
              #
              # })
      no=datetime.datetime.now().date()
-     n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus_is_null=False,isPm=True,isScheduling=False,datecreated__lte=no,datecreated__lte=F(''))
+     n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,datecreated__range=(no,F('requiredCompletionDate'))).count()
+     data['html_dueservice_list']=n1
      data['html_is_valid']=True
 
      return JsonResponse(data)

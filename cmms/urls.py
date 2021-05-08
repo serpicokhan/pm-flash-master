@@ -499,6 +499,7 @@ urlpatterns = [
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetOpenWoReqNum/$', GetOpenWoReqNum, name='GetOpenWoReqNum'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCloseWoReqNum/$', GetCloseWoReqNum, name='GetCloseWoReqNum'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetOverdueWoReqNum/$', GetOverdueWoReqNum, name='GetOverdueWoReqNum'),
+           url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetdueWoNum/$', GetdueWoNum, name='GetdueWoNum'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetEmCount/$', GetEmCount, name='GetEmCount'),
            url(r'^Summery/GetLowItemStock/$', GetLowItemStock, name='GetLowItemStock'),
 

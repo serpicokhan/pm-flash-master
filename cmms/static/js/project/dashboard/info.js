@@ -247,7 +247,7 @@ var GetHighPriorityWO= function () {
       var getDueService=function()
       {
         $.ajax({
-          url: 'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetDueService/',
+          url: 'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetdueWoNum/',
           type:'get',
           dataType: 'json',
           success: function (data) {
@@ -255,7 +255,7 @@ var GetHighPriorityWO= function () {
 
               //alert("Company created!");  // <-- This is just a placeholder for now for testing
               //$("#tbody_company").empty();
-              $("#EmCount").html(data.html_dueservice_list.dt1);
+              $("#dueservice").html(data.html_dueservice_list);
               //$("#modal-company").modal("hide");
               //console.log(data.html_order_list);
             //console.log(data);
