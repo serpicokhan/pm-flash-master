@@ -25,6 +25,12 @@ $(function () {
       success: function (data) {
         //alert("3123@!");
         $("#modal-company .modal-content").html(data.html_mail_form);
+        $(".selectpicker").selectpicker();
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        $('#id_Message').summernote();
 
       }
     });

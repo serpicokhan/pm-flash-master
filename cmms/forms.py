@@ -1030,6 +1030,7 @@ class BusinessPartForm(forms.ModelForm):
 
 #############################################################
 class MessageForm(forms.ModelForm):
+    toUser = forms.ModelChoiceField(label="مخاطب",queryset=SysUser.objects.filter(userStatus=True))
     def clean_messageStatus(self):
         if(self.isupdated):
             messageStatus=3
@@ -2626,7 +2627,7 @@ class PartUsageByLocationandPart(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
     partName=forms.CharField(label='نام قطعه',required=False,widget=forms.TextInput(attrs={'class':'partselector','autocomplete':'off'}))
     part=forms.CharField(widget=forms.HiddenInput(),required=False)
-    
+
 
 
 

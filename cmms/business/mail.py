@@ -3,8 +3,8 @@ from cmms.models.message import *
 class Mail:
     @staticmethod
     def SendNewSysMessage(r,title,priority=None,msgid=None,wo=None):
-        print(r)
-        print(title)
+        # print(r)
+        # print(title)
 
         if(priority==None):
             priority=5 #lowest val
@@ -28,7 +28,7 @@ class Mail:
        mails=Message.objects.filter(workOrder=wo)
        for i in mails:
            i.delete()
-       print(msgid,"############")
+       # print(msgid,"############")
        sysuser=SysUser.objects.get(userId__username="admin")
        touser=SysUser.objects.get(userId__username=r)
        sub="سفارش کاری بروز گردانی شد"
@@ -37,4 +37,4 @@ class Mail:
                                            مشاهده دستور کار</a>
 
        <p>خلاصه درخواست:<br/>{2}</p>""".format(touser.fullName,msgid,title)
-       Message.objects.create(subject=sub,messageStatus=2,fromUser=sysuser,toUser=touser,Message=msg,msgPririty=priority)
+       Message.objects.create(subject=sub,messageStatus=2,fromUser=sysuser,toUser=touser,Message=msg,msgPririty=priority,workOrder=wo)

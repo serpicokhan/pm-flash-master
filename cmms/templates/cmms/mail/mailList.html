@@ -49,14 +49,14 @@
                </h2>
                <div class="mail-tools tooltip-demo m-t-md">
                    <div class="btn-group pull-left">
-                       <button class="btn btn-white btn-sm"><i class="fa fa-arrow-right"></i></button>
-                       <button class="btn btn-white btn-sm"><i class="fa fa-arrow-left"></i></button>
+                       <!-- <button class="btn btn-white btn-sm"><i class="fa fa-arrow-right"></i></button>
+                       <button class="btn btn-white btn-sm"><i class="fa fa-arrow-left"></i></button> -->
 
                    </div>
-                   <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" title="Refresh inbox"><i class="fa fa-refresh"></i> تازه کردن</button>
+                   <!-- <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" title="Refresh inbox"><i class="fa fa-refresh"></i> تازه کردن</button>
                    <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Mark as read"><i class="fa fa-eye"></i> </button>
                    <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Mark as important"><i class="fa fa-exclamation"></i> </button>
-                   <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to trash"><i class="fa fa-trash-o"></i> </button>
+                   <button class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Move to trash"><i class="fa fa-trash-o"></i> </button> -->
 
                </div>
            </div>
@@ -80,6 +80,7 @@
                          {% include 'cmms/mail/partialMailList.html' %}
                  </tbody>
                </table>
+               {% load mathfilters %}
                <div class="woPaging" >
                  {% if mails.has_other_pages %}
                  <ul class="pagination">
@@ -89,9 +90,12 @@
                  <li class="disabled"><span>&laquo;</span></li>
                  {% endif %}
                  {% for i in mails.paginator.page_range %}
-                 {% if mails.number == i %}
-                 <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                 {% else %}
+                 {% if  mails.number  ==  i %}
+                 <li class="active">
+                   <span>{{ i }} <span class="sr-only">(current)</span></span>
+                 </li>
+                 {% elif  i|sub:3 <=  mails.number and i|add:3 > mails.number %}
+
                  <li><a href="?page={{ i }}">{{ i }}</a></li>
                  {% endif %}
                  {% endfor %}

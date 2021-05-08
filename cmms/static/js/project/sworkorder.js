@@ -60,6 +60,14 @@ $(function () {
 
         });
         $(".selectpicker").selectpicker();
+        
+        initLoad();
+        initWoPartLoad();
+        initialScheduleLoad();
+        initWoMiscLoad();
+        initWoNotifyLoad();
+        initWoFileLoad();
+        initWoLogLoad();
 
       }
     });
@@ -548,14 +556,14 @@ return false;
 
    btn=$(this);
    //console.log(btn);
-   $.when(loadForm(btn)).done(initLoad,initWoPartLoad,initialScheduleLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad);
-   //loadForm(btn);
+
+   loadForm(btn);
 
    //initLoad();
  }
 
  //////////////
- $('#modal-company').on('hidden.bs.modal', function () {
+ $('#modal-company').on('click','.woclose', function () {
    if($(this).attr("id")=="modal-company"){
      console.log($(this));
 

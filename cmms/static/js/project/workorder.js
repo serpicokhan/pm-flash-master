@@ -758,7 +758,7 @@ var loadPdate=function()
    //console.log(btn);
    // $.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad,initWoPertLoad);
 
-   //loadForm(btn);
+   loadForm(btn);
 
    //initLoad();
  }
