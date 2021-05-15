@@ -46,7 +46,7 @@ def save_machineCategory_form(request, form, template_name,id=None):
             form.save()
             data['form_is_valid'] = True
             books = MachineCategory.objects.all()
-            data['html_machineCategory_list'] = render_to_string('cmms/machineCategory/partialMachineCategorylist.html', {
+            data['html_machineCategory_list'] = render_to_string('cmms/machinecategory/partialMachineCategorylist.html', {
                 'machineCategory': books
             })
         else:
@@ -68,12 +68,12 @@ def machineCategory_delete(request, id):
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies =  MachineCategory.objects.all()
         #Tasks.objects.filter(machineCategoryId=id).update(machineCategory=id)
-        data['html_machineCategory_list'] = render_to_string('cmms/machineCategory/partialMachineCategorylist.html', {
+        data['html_machineCategory_list'] = render_to_string('cmms/machinecategory/partialMachineCategorylist.html', {
             'machineCategory': companies
         })
     else:
         context = {'machineCategory': comp1}
-        data['html_machineCategory_form'] = render_to_string('cmms/machineCategory/partialMachineCategoryDelete.html',
+        data['html_machineCategory_form'] = render_to_string('cmms/machinecategory/partialMachineCategoryDelete.html',
             context,
             request=request,
         )
@@ -85,11 +85,11 @@ def machineCategory_delete(request, id):
 def machineCategory_create(request):
     if (request.method == 'POST'):
         form = MachineCategoryForm(request.POST)
-        return save_machineCategory_form(request, form, 'cmms/machineCategory/partialMachineCategoryCreate.html')
+        return save_machineCategory_form(request, form, 'cmms/machinecategory/partialMachineCategoryCreate.html')
     else:
 
         form = MachineCategoryForm()
-        return save_machineCategory_form(request, form, 'cmms/machineCategory/partialMachineCategoryCreate.html')
+        return save_machineCategory_form(request, form, 'cmms/machinecategory/partialMachineCategoryCreate.html')
 
 
 
@@ -104,7 +104,7 @@ def machineCategory_update(request, id):
         form = MachineCategoryForm(instance=company)
 
 
-    return save_machineCategory_form(request, form,"cmms/machineCategory/partialMachineCategoryUpdate.html",id)
+    return save_machineCategory_form(request, form,"cmms/machinecategory/partialMachineCategoryUpdate.html",id)
 ##########################################################
 
 ##########################################################
