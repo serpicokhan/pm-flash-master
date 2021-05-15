@@ -57,7 +57,7 @@ $(function () {
 
 
   };
-  $('#modal-company').on('hidden.bs.modal', function () {
+  $('#modal-company').on('click','assetclose', function () {
     if($("#issavechanged").val()=="-1" && ($("#id_asseccategorytxt").val()=="" || $("#id_assetName").val().length==0 || $("#id_assetCode").val().length==0) ){
     swal({
          title:"حذف تجهیز بدون کد و مشخصات",
