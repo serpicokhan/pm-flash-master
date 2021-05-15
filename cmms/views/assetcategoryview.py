@@ -67,7 +67,7 @@ def assetCategory_delete(request, id):
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies =  AssetCategory.objects.all()
         #Tasks.objects.filter(assetCategoryId=id).update(assetCategory=id)
-        data['html_assetCategory_list'] = render_to_string('cmms/assetcategory/partialAssetCategorylist.html', {
+        data['html_assetCategory_list'] = render_to_string('cmms/assetcategory/partialAssetCategoryList.html', {
             'assetCategory': companies
         })
     else:
