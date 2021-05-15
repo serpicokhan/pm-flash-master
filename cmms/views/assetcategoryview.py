@@ -45,7 +45,7 @@ def save_assetCategory_form(request, form, template_name,id=None):
             form.save()
             data['form_is_valid'] = True
             books = AssetCategory.objects.all()
-            data['html_assetCategory_list'] = render_to_string('cmms/assetcategory/partialAssetCategorylist.html', {
+            data['html_assetCategory_list'] = render_to_string('cmms/assetcategory/partialAssetCategoryList.html', {
                 'assetCategory': books
             })
         else:
