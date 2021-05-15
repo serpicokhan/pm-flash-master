@@ -68,7 +68,7 @@ def machineCategory_delete(request, id):
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies =  MachineCategory.objects.all()
         #Tasks.objects.filter(machineCategoryId=id).update(machineCategory=id)
-        data['html_machineCategory_list'] = render_to_string('cmms/machinecategory/partialMachineCategorylist.html', {
+        data['html_machineCategory_list'] = render_to_string('cmms/machinecategory/partialMachineCategoryList.html', {
             'machineCategory': companies
         })
     else:
