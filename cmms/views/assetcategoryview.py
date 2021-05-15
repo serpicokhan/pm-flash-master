@@ -31,7 +31,7 @@ from django.db import transaction
 def list_assetCategory(request,id=None):
     #
     books = AssetCategory.objects.all()
-    return render(request, 'cmms/assetcategory/assetcategoryList.html', {'assetCategory': books})
+    return render(request, 'cmms/assetcategory/assetCategoryList.html', {'assetCategory': books})
 
 
 ##########################################################
