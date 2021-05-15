@@ -46,7 +46,7 @@ def save_machineCategory_form(request, form, template_name,id=None):
             form.save()
             data['form_is_valid'] = True
             books = MachineCategory.objects.all()
-            data['html_machineCategory_list'] = render_to_string('cmms/machinecategory/partialMachineCategorylist.html', {
+            data['html_machineCategory_list'] = render_to_string('cmms/machinecategory/partialMachineCategoryList.html', {
                 'machineCategory': books
             })
         else:
