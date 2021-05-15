@@ -46,7 +46,7 @@ def save_maintenanceType_form(request, form, template_name,id=None):
             form.save()
             data['form_is_valid'] = True
             books = MaintenanceType.objects.all()
-            data['html_maintenanceType_list'] = render_to_string('cmms/maintenancetype/partialMaintenanceTypelist.html', {
+            data['html_maintenanceType_list'] = render_to_string('cmms/maintenancetype/partialMaintenanceTypeList.html', {
                 'maintenanceType': books,
                 'perms': PermWrapper(request.user)
             })
@@ -69,7 +69,7 @@ def maintenanceType_delete(request, id):
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies =  MaintenanceType.objects.all()
         #Tasks.objects.filter(maintenanceTypeId=id).update(maintenanceType=id)
-        data['html_maintenanceType_list'] = render_to_string('cmms/maintenancetype/partialMaintenanceTypelist.html', {
+        data['html_maintenanceType_list'] = render_to_string('cmms/maintenancetype/partialMaintenanceTypeList.html', {
             'maintenanceType': companies,
             'perms': PermWrapper(request.user)
         })
