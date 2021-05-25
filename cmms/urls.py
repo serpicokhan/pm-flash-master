@@ -461,6 +461,12 @@ urlpatterns = [
            url(r'^SettingPage/WOStop/(?P<id>\d+)/delete/$', woStop_delete, name='woStop_delete'),
            url(r'^SettingPage/WOStop/(?P<id>\d+)/update/$', woStop_update, name='woStop_update'),
 
+
+           url(r'^SettingPage/DashAsset/listDashAsset$',js_list_dashAsset,name='js_list_dashAsset'),
+           url(r'^SettingPage/DashAsset/create/$', dashAsset_create, name='dashAsset_create'),
+           url(r'^SettingPage/DashAsset/(?P<id>\d+)/delete/$', dashAsset_delete, name='dashAsset_delete'),
+           url(r'^SettingPage/DashAsset/(?P<id>\d+)/update/$', dashAsset_update, name='dashAsset_update'),
+
            url(r'^SettingPage/WOPert/listWoPert$',js_list_workorderPert,name='js_list_workorderPert'),
            url(r'^SettingPage/WOPert/create/$', workorderPert_create, name='workorderPert_create'),
            url(r'^SettingPage/WOPert/(?P<id>\d+)/delete/$', workorderPert_delete, name='workorderPert_delete'),

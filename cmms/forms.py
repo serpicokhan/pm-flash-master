@@ -1197,6 +1197,17 @@ class StopCodeForm(forms.ModelForm):
     class Meta:
          model = StopCode
          fields = '__all__'
+class DashAssetForm(forms.ModelForm):
+    def clean(self):
+                self.is_valid()
+                cleaned_data=super(DashAssetForm, self).clean()
+                settingEqAsset=cleaned_data.get('settingEqAsset','')
+                settingLocation=cleaned_data.get('settingLocation','')
+
+                return cleaned_data
+    class Meta:
+         model = AssetTypeSetting
+         fields = '__all__'
 ########################################################################
 class PertCodeForm(forms.ModelForm):
     def clean(self):

@@ -26,21 +26,19 @@ from django.utils.decorators import method_decorator
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
-from cmms.forms import StopCodeForm
+from cmms.forms import DashAssetForm
 
 ###################################################################
-def list_woStop(request,id=None):
-    books = StopCode.objects.all()
-    return render(request, 'cmms/part_purchase/woStopList.html', {'woStops': books})
+
 
 
 ###################################################################
-def js_list_woStop(request):
+def js_list_dashAsset(request):
     data=dict()
-    books=StopCode.objects.filter()
+    books=AssetTypeSetting.objects.filter()
 
-    data['html_woStop_list']= render_to_string('cmms/settingpages/wo_stop_code/partialWoStoplist.html', {
-        'woStops': books
+    data['html_dashAsset_list']= render_to_string('cmms/settingpages/dash_asset/partialDashAssetList.html', {
+        'dashAssets': books
     })
     data['form_is_valid']=True
     return JsonResponse(data)
@@ -48,7 +46,7 @@ def js_list_woStop(request):
 
 ###################################################################    ###################################################################
 @csrf_exempt
-def save_woStop_form(request, form, template_name):
+def save_dashAsset_form(request, form, template_name):
         data = dict()
         if (request.method == 'POST'):
               if form.is_valid():
@@ -58,9 +56,9 @@ def save_woStop_form(request, form, template_name):
                 lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
                 logging.basicConfig(format=fmt, level=lvl)
                 # logging.debug( woId)
-                books = StopCode.objects.all()
-                data['html_woStop_list'] = render_to_string('cmms/settingpages/wo_stop_code/partialWoStoplist.html', {
-                    'woStops': books
+                books = AssetTypeSetting.objects.all()
+                data['html_dashAsset_list'] = render_to_string('cmms/settingpages/dash_asset/partialDashAssetList.html', {
+                    'dashAssets': books
                 })
               else:
                   fmt = getattr(settings, 'LOG_FORMAT', None)
@@ -69,33 +67,33 @@ def save_woStop_form(request, form, template_name):
                   logging.debug(form.errors)
 
         context = {'form': form}
-        data['html_woStop_form'] = render_to_string(template_name, context, request=request)
+        data['html_dashAsset_form'] = render_to_string(template_name, context, request=request)
         return JsonResponse(data)
 
 ###################################################################
 
 
-def woStop_delete(request, id):
-    comp1 = get_object_or_404(StopCode, id=id)
+def dashAsset_delete(request, id):
+    comp1 = get_object_or_404(DashAsset, id=id)
     data = dict()
 
     if (request.method == 'POST'):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        companies = StopCode.objects.all()
-        data['html_woStop_list'] = render_to_string('cmms/settingpages/wo_stop_code/partialWoStoplist.html', {
-            'woStop': companies
+        companies = AssetTypeSetting.objects.all()
+        data['html_dashAsset_list'] = render_to_string('cmms/settingpages/dash_asset/partialDashAssetList.html', {
+            'dashAsset': companies
         })
     else:
-        context = {'woStop': comp1}
-        data['html_woStop_form'] = render_to_string('cmms/settingpages/wo_stop_code/partialWoStopDelete.html',
+        context = {'dashAsset': comp1}
+        data['html_dashAsset_form'] = render_to_string('cmms/settingpages/dash_asset/partialDashAssetDelete.html',
             context,
             request=request,
         )
     return JsonResponse(data)
 ###################################################################
 @csrf_exempt
-def woStop_create(request):
+def dashAsset_create(request):
     woId=-1
     print("enter:")
     if (request.method == 'POST'):
@@ -106,16 +104,16 @@ def woStop_create(request):
         data['stopCode']=body['stopCode']
         data['stopDescription']=body['stopDescription']
         data['stopIsActive']=True if body['stopDescription'] is 'true' else False
-        form = StopCodeForm(data)
+        form = DashAssetForm(data)
     else:
-        form = StopCodeForm()
+        form = DashAssetForm()
 
-    return save_woStop_form(request, form, 'cmms/settingpages/wo_stop_code/partialWoStopCreate.html')
+    return save_dashAsset_form(request, form, 'cmms/settingpages/dash_asset/partialDashAssetCreate.html')
 ###################################################################
 
 @csrf_exempt
-def woStop_update(request, id):
-    company= get_object_or_404(StopCode, id=id)
+def dashAsset_update(request, id):
+    company= get_object_or_404(DashAsset, id=id)
     # woId=company.purchasePartId
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')
@@ -127,7 +125,7 @@ def woStop_update(request, id):
         data['stopDescription']=body['stopDescription']
 
 
-        form = StopCodeForm(data, instance=company)
+        form = DashAssetForm(data, instance=company)
     else:
-        form = StopCodeForm(instance=company)
-    return save_woStop_form(request, form, 'cmms/settingpages/wo_stop_code/partialWoStopUpdate.html')
+        form = DashAssetForm(instance=company)
+    return save_dashAsset_form(request, form, 'cmms/settingpages/dash_asset/partialDashAssetUpdate.html')
