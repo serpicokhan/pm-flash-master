@@ -149,7 +149,8 @@ def list_unread_mail(request):
     data = dict()
     companies =  Message.objects.filter(messageStatus=2).filter(toUser__userId=request.user)
     data["html_mail_list"]=render_to_string('cmms/mail/status.html', {
-        'mails': companies
+        'mails': companies,
+        'count':companies.count()
     })
     return JsonResponse(data)
 

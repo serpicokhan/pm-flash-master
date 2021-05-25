@@ -1,8 +1,11 @@
 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
     <i class="fa fa-envelope">
     </i>
+      {% if count > 0 %}
     <span class="label label-warning">
+
     {{ mails|length }}</span>
+    {% endif %}
 </a>
 
 
