@@ -1,10 +1,10 @@
 
-{% for c in woStops %}
+{% for c in dashAssets %}
 
 <tr>
 
-<td>{{c.stopCode}}</td>
-<td>{{c.stopDescription}}</td>
+<td>{{c.settingEqAsset}}</td>
+<td>{{c.settingLocation}}</td>
 
 
 
@@ -13,13 +13,13 @@
 
 
  <td><button type="button"
-              class="btn btn-warning btn-sm js-update-woStop"
-              data-url="{% url 'woStop_update' c.id %}">
+              class="btn btn-warning btn-sm js-update-dashAsset"
+              data-url="{% url 'dashAsset_update' c.id %}">
 
       </button>
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-woStop"
-                   data-url="{% url 'woStop_delete' c.id %}">
+                   class="btn btn-danger btn-sm js-delete-dashAsset"
+                   data-url="{% url 'dashAsset_delete' c.id %}">
 
            </button>
     </td>

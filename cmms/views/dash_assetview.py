@@ -18,7 +18,7 @@ import django.core.serializers
 import logging
 from django.conf import settings
 
-from cmms.models.workorder import *
+from cmms.models.eqcostsetting import *
 
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -35,7 +35,7 @@ from cmms.forms import DashAssetForm
 ###################################################################
 def js_list_dashAsset(request):
     data=dict()
-    books=AssetTypeSetting.objects.filter()
+    books=AssetTypeSetting.objects.all()
 
     data['html_dashAsset_list']= render_to_string('cmms/settingpages/dash_asset/partialDashAssetList.html', {
         'dashAssets': books
@@ -49,13 +49,11 @@ def js_list_dashAsset(request):
 def save_dashAsset_form(request, form, template_name):
         data = dict()
         if (request.method == 'POST'):
+              # print("here!")
               if form.is_valid():
                 form.save()
                 data['form_is_valid'] = True
-                fmt = getattr(settings, 'LOG_FORMAT', None)
-                lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-                logging.basicConfig(format=fmt, level=lvl)
-                # logging.debug( woId)
+                
                 books = AssetTypeSetting.objects.all()
                 data['html_dashAsset_list'] = render_to_string('cmms/settingpages/dash_asset/partialDashAssetList.html', {
                     'dashAssets': books
@@ -74,7 +72,7 @@ def save_dashAsset_form(request, form, template_name):
 
 
 def dashAsset_delete(request, id):
-    comp1 = get_object_or_404(DashAsset, id=id)
+    comp1 = get_object_or_404(AssetTypeSetting, id=id)
     data = dict()
 
     if (request.method == 'POST'):
@@ -101,9 +99,9 @@ def dashAsset_create(request):
         body = json.loads(body_unicode)
 
         data = request.POST.dict()
-        data['stopCode']=body['stopCode']
-        data['stopDescription']=body['stopDescription']
-        data['stopIsActive']=True if body['stopDescription'] is 'true' else False
+        data['settingEqAsset']=body['settingEqAsset']
+        data['settingLocation']=body['settingLocation']
+        print(data)
         form = DashAssetForm(data)
     else:
         form = DashAssetForm()
@@ -113,7 +111,7 @@ def dashAsset_create(request):
 
 @csrf_exempt
 def dashAsset_update(request, id):
-    company= get_object_or_404(DashAsset, id=id)
+    company= get_object_or_404(AssetTypeSetting, id=id)
     # woId=company.purchasePartId
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')
@@ -121,8 +119,8 @@ def dashAsset_update(request, id):
 
 
         data = request.POST.dict()
-        data['stopCode']=body['stopCode']
-        data['stopDescription']=body['stopDescription']
+        data['settingEqAsset']=body['settingEqAsset']
+        data['settingLocation']=body['settingLocation']
 
 
         form = DashAssetForm(data, instance=company)

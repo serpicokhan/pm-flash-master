@@ -2,12 +2,12 @@
 <div class="row">
 <div class="col-lg-12 b-r">
   <div class="form-group">
-  <label>{{form.stopCode.label}}</label>
-  {{form.stopCode| add_class:"form-control" }}
-  </div>
+  <label>{{form.settingEqAsset.label}}</label>
+  {% render_field form.settingEqAsset class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+
   <div class="form-group">
-  <label>{{form.stopDescription.label}}</label>
-  {{form.stopDescription| add_class:"form-control" }}
+  <label>{{form.settingLocation.label}}</label>
+    {% render_field form.settingLocation class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
   </div>
 
 

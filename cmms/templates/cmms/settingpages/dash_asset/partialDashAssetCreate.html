@@ -7,7 +7,7 @@
     <h4 class="modal-title">جدید</h4>
   </div>
   <div class="modal-body">
-   {% include 'cmms/settingpages/dash_asset/partialWoStopForm.html' %}
+   {% include 'cmms/settingpages/dash_asset/partialDashAssetForm.html' %}
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" >انصراف</button>
@@ -31,18 +31,16 @@
                    //alert("12321");
                    //$( "#myselect option:selected" ).text();
                    var mydata="";
-                   mydata=myformat('{"stopCode":"{0}"\
-                   ,"stopDescription":"{1}","problemIsActive":true}',
-                   $("#id_stopCode").val(),
-                   $("#id_stopDescription").val(),
+
+                   mydata=myformat('{"settingEqAsset":"{0}"\
+                   ,"settingLocation":"{1}"}',
+                   $("#id_settingEqAsset").val(),
+                   $("#id_settingLocation").val(),
 
                  );
 
-                    var form = $(this).parent().parent();
-                    // console.log(form);
-                    // console.log("action",form.attr("action"));
-                    //alert($("#id_metrics").val());
-
+                    var form = $(this).parent().parent().parent();
+                  
                     $.ajax({
                       url: form.attr("data-url"),
                       type: "POST",

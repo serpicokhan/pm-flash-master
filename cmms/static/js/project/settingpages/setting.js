@@ -196,6 +196,35 @@ var initWoPertLoad=function(){
   });
 return false;
 };
+var initDashAssetLoad=function(){
+
+  $.ajax({
+
+    url: '/SettingPage/DashAsset/listDashAsset',
+
+
+
+    success: function (data) {
+        //alert($("#lastWorkOrderid").val());
+      if (data.form_is_valid) {
+
+
+        //alert(data.html_woCause_list);  // <-- This is just a placeholder for now for testing
+        $("#tbody_dashAsset").empty();
+        $("#tbody_dashAsset").html(data.html_dashAsset_list);
+        console.log(data);
+        $("#modal-dashAsset").modal("hide");
+        //console.log(data.html_wo_list);
+      }
+      else {
+
+        $("#dashAsset-table tbody").html(data.html_woCause_list);
+        $("#modal-dashAsset .modal-content").html(data.html_dashAsset_form);
+      }
+    }
+  });
+return false;
+};
 var initUserGroupLoad=function(){
 
   $.ajax({
@@ -232,4 +261,5 @@ initEquipCostLoad();
 initUserGroupLoad();
 initWoStopLoad();
 initWoPertLoad();
+initDashAssetLoad();
 });

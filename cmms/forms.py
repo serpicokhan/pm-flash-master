@@ -1198,6 +1198,8 @@ class StopCodeForm(forms.ModelForm):
          model = StopCode
          fields = '__all__'
 class DashAssetForm(forms.ModelForm):
+    settingLocation= forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     def clean(self):
                 self.is_valid()
                 cleaned_data=super(DashAssetForm, self).clean()
@@ -1207,7 +1209,7 @@ class DashAssetForm(forms.ModelForm):
                 return cleaned_data
     class Meta:
          model = AssetTypeSetting
-         fields = '__all__'
+         fields = ["settingEqAsset","settingLocation"]
 ########################################################################
 class PertCodeForm(forms.ModelForm):
     def clean(self):
