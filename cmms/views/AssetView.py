@@ -40,7 +40,7 @@ def list_asset(request,id=None):
     #print("username {}".format(request.user.username))
     # if(request.user.username=="admin"):
     books=[]
-    books =Asset.objects.all().order_by('-assetName')
+    books =Asset.objects.all().order_by('-id')
     wos=AssetUtility.doPaging(request,books)
     return render(request, 'cmms/asset/assetList.html', {'asset': wos})
     # else:

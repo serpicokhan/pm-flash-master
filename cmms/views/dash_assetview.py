@@ -75,20 +75,27 @@ def save_dashAsset_form(request, form, template_name):
 def dashAsset_delete(request, id):
     comp1 = get_object_or_404(AssetTypeSetting, id=id)
     data = dict()
+    #
+    # if (request.method == 'POST'):
+    #     comp1.delete()
+    #     data['form_is_valid'] = True  # This is just to play along with the existing code
+    #     companies = AssetTypeSetting.objects.all()
+    #     data['html_dashAsset_list'] = render_to_string('cmms/settingpages/dash_asset/partialDashAssetList.html', {
+    #         'dashAsset': companies
+    #     })
+    # else:
+    #     context = {'dashAsset': comp1}
+    #     data['html_dashAsset_form'] = render_to_string('cmms/settingpages/dash_asset/partialDashAssetDelete.html',
+    #         context,
+    #         request=request,
+    #     )
+    comp1.delete()
+    data['form_is_valid'] = True  # This is just to play along with the existing code
+    companies = AssetTypeSetting.objects.all()
+    data['html_dashAsset_list'] = render_to_string('cmms/settingpages/dash_asset/partialDashAssetList.html', {
+        'dashAssets': companies
+    })
 
-    if (request.method == 'POST'):
-        comp1.delete()
-        data['form_is_valid'] = True  # This is just to play along with the existing code
-        companies = AssetTypeSetting.objects.all()
-        data['html_dashAsset_list'] = render_to_string('cmms/settingpages/dash_asset/partialDashAssetList.html', {
-            'dashAsset': companies
-        })
-    else:
-        context = {'dashAsset': comp1}
-        data['html_dashAsset_form'] = render_to_string('cmms/settingpages/dash_asset/partialDashAssetDelete.html',
-            context,
-            request=request,
-        )
     return JsonResponse(data)
 ###################################################################
 @csrf_exempt

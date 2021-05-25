@@ -11,7 +11,7 @@ $(function () {
         $("#modal-offlineStatus").modal({backdrop: 'static', keyboard: false});
       },
       success: function (data) {
-        
+
         $("#modal-offlineStatus .modal-content").html(data.html_offlineStatus_form);
       }
     });
@@ -49,35 +49,55 @@ var saveOfflineStatusForm= function () {
    });
    return false;
  };
- var deleteOfflineStatusForm= function (event) {
 
-    var form = $(this);
-    if(event.target.className=="btn btn-danger")
-    {
-    $.ajax({
-      async: true,
-      url: form.attr("data-url"),
-      data: form.serialize(),
-      type: 'post',
-      dataType: 'json',
-      success: function (data) {
-        if (data.form_is_valid) {
-          //alert("Company created!");  // <-- This is just a placeholder for now for testing
-          $("#tbody_offlineStatus").empty();
-          $("#tbody_offlineStatus").html(data.html_offlineStatus_list);
-          $("#modal-offlineStatus").modal("hide");
-          //console.log(data.html_wo_list);
-        }
-        else {
+   var deleteOfflineStatus=function(id){
+     $.ajax({
+       async: true,
+       url: '/SettingPage/OfflineStatus/'+id+'/Delete/',
 
-          $("#offlineStatus-table tbody").html(data.html_offlineStatus_list);
-          $("#modal-offlineStatus .modal-content").html(data.html_offlineStatus_form);
-        }
-      }
-    });
-  }
-    return false;
-  };
+       type: 'get',
+       dataType: 'json',
+       success: function (data) {
+         console.log(data);
+         if (data.form_is_valid) {
+           //alert("Company created!");  // <-- This is just a placeholder for now for testing
+           $("#tbody_offlineStatus").empty();
+           $("#tbody_offlineStatus").html(data.html_offlineStatus_list);
+           $("#modal-offlineStatus").modal("hide");
+           //console.log(data.html_wo_list);
+         }
+         else {
+
+           $("#offlineStatus-table tbody").html(data.html_offlineStatus_list);
+           $("#modal-offlineStatus .modal-content").html(data.html_offlineStatus_form);
+         }
+       }
+     });
+
+     return false;
+   }
+   $('#offlineStatus-table').on('click','.js-delete-offlineStatus', function () {
+   const dashassetid=($(this).attr('data-url'));
+
+     swal({
+       title: "حذف",
+       text: "حذف",
+       type: "warning",
+       showCancelButton: true,
+       confirmButtonColor: "#DD6B55",
+       confirmButtonText: "بلی",
+       cancelButtonText: "خیر",
+       closeOnConfirm: true
+      }, function () {
+          // cancelform();
+          deleteOfflineStatus(dashassetid);
+
+      });
+
+     // do something…
+   });
+
+ /////////////////////////////
 
  // Create book
 $(".js-create-offlineStatus").click(loadOfflineStatusForm);
@@ -89,7 +109,7 @@ $("#offlineStatus-table").on("click", ".js-update-offlineStatus", loadOfflineSta
 
 $("#modal-offlineStatus").on("click", ".js-offlineStatus-update-form", saveOfflineStatusForm);
 // Delete book
-$("#offlineStatus-table").on("click", ".js-delete-offlineStatus", loadOfflineStatusForm);
-$("#modal-offlineStatus").on("click", ".js-offlineStatus-delete-form", deleteOfflineStatusForm);
+// $("#offlineStatus-table").on("click", ".js-delete-offlineStatus", loadOfflineStatusForm);
+// $("#modal-offlineStatus").on("click", ".js-offlineStatus-delete-form", deleteOfflineStatusForm);
 
 });

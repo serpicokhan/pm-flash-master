@@ -79,19 +79,12 @@ def woCause_delete(request, id):
     comp1 = get_object_or_404(CauseCode, id=id)
     data = dict()
 
-    if (request.method == 'POST'):
-        comp1.delete()
-        data['form_is_valid'] = True  # This is just to play along with the existing code
-        companies = CauseCode.objects.all()
-        data['html_woCause_list'] = render_to_string('cmms/settingpages/wo_cause_code/partialWoCauselist.html', {
-            'woCause': companies
-        })
-    else:
-        context = {'woCause': comp1}
-        data['html_woCause_form'] = render_to_string('cmms/settingpages/wo_cause_code/partialWoCauseDelete.html',
-            context,
-            request=request,
-        )
+    comp1.delete()
+    data['form_is_valid'] = True  # This is just to play along with the existing code
+    companies = CauseCode.objects.all()
+    data['html_woCause_list'] = render_to_string('cmms/settingpages/wo_cause_code/partialWoCauselist.html', {
+        'woCause': companies
+    })
     return JsonResponse(data)
 ###################################################################
 @csrf_exempt

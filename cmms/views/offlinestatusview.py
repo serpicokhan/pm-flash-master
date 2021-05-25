@@ -79,19 +79,12 @@ def offlineStatus_delete(request, id):
     comp1 = get_object_or_404(OfflineStatus, id=id)
     data = dict()
 
-    if (request.method == 'POST'):
-        comp1.delete()
-        data['form_is_valid'] = True  # This is just to play along with the existing code
-        companies = OfflineStatus.objects.all()
-        data['html_offlineStatus_list'] = render_to_string('cmms/settingpages/offline_status/partialOfflineStatuslist.html', {
-            'offlineStatus': companies
-        })
-    else:
-        context = {'offlineStatus': comp1}
-        data['html_offlineStatus_form'] = render_to_string('cmms/settingpages/offline_status/partialOfflineStatusDelete.html',
-            context,
-            request=request,
-        )
+    comp1.delete()
+    data['form_is_valid'] = True  # This is just to play along with the existing code
+    companies = OfflineStatus.objects.all()
+    data['html_offlineStatus_list'] = render_to_string('cmms/settingpages/offline_status/partialOfflineStatuslist.html', {
+        'offlineStatus': companies
+    })
     return JsonResponse(data)
 ###################################################################
 @csrf_exempt

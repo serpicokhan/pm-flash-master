@@ -79,19 +79,13 @@ def woProblem_delete(request, id):
     comp1 = get_object_or_404(ProblemCode, id=id)
     data = dict()
 
-    if (request.method == 'POST'):
-        comp1.delete()
-        data['form_is_valid'] = True  # This is just to play along with the existing code
-        companies = ProblemCode.objects.all()
-        data['html_woProblem_list'] = render_to_string('cmms/settingpages/wo_problem_code/partialWoProblemlist.html', {
-            'woProblem': companies
-        })
-    else:
-        context = {'woProblem': comp1}
-        data['html_woProblem_form'] = render_to_string('cmms/settingpages/wo_problem_code/partialWoProblemDelete.html',
-            context,
-            request=request,
-        )
+
+    comp1.delete()
+    data['form_is_valid'] = True  # This is just to play along with the existing code
+    companies = ProblemCode.objects.all()
+    data['html_woProblem_list'] = render_to_string('cmms/settingpages/wo_problem_code/partialWoProblemlist.html', {
+        'woProblem': companies
+    })
     return JsonResponse(data)
 ###################################################################
 @csrf_exempt

@@ -49,18 +49,19 @@ var saveWoProblemForm= function () {
    });
    return false;
  };
- var deleteWoProblemForm= function (event) {
 
-    var form = $(this);
-    if(event.target.className=="btn btn-danger")
-    {
+
+  // //////////////////////////////////////////
+
+  var deleteWoProblem=function(id){
     $.ajax({
       async: true,
-      url: form.attr("data-url"),
-      data: form.serialize(),
-      type: 'post',
+      url: '/SettingPage/WoProblem/'+id+'/Delete/',
+
+      type: 'get',
       dataType: 'json',
       success: function (data) {
+        console.log(data);
         if (data.form_is_valid) {
           //alert("Company created!");  // <-- This is just a placeholder for now for testing
           $("#tbody_woProblem").empty();
@@ -75,10 +76,31 @@ var saveWoProblemForm= function () {
         }
       }
     });
-  }
-    return false;
-  };
 
+    return false;
+  }
+  $('#woProblem-table').on('click','.js-delete-woProblem', function () {
+  const dashassetid=($(this).attr('data-url'));
+
+    swal({
+      title: "حذف",
+      text: "حذف",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "بلی",
+      cancelButtonText: "خیر",
+      closeOnConfirm: true
+     }, function () {
+         // cancelform();
+         deleteWoProblem(dashassetid);
+
+     });
+
+    // do something…
+  });
+
+/////////////////////////////
  // Create book
 $(".js-create-woProblem").click(loadWoProblemForm);
 //$("#task-submit").on("", ".js-task-create-form", saveTaskForm);
@@ -89,7 +111,7 @@ $("#woProblem-table").on("click", ".js-update-woProblem", loadWoProblemForm);
 
 $("#modal-woProblem").on("click", ".js-woProblem-update-form", saveWoProblemForm);
 // Delete book
-$("#woProblem-table").on("click", ".js-delete-woProblem", loadWoProblemForm);
-$("#modal-woProblem").on("click", ".js-woProblem-delete-form", deleteWoProblemForm);
+// $("#woProblem-table").on("click", ".js-delete-woProblem", loadWoProblemForm);
+// $("#modal-woProblem").on("click", ".js-woProblem-delete-form", deleteWoProblemForm);
 
 });

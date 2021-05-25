@@ -16,6 +16,15 @@ $(function () {
       success: function (data) {
 
         $("#modal-company .modal-content").html(data.form_asset_selector);
+        initAssetPartLoad();
+        initAssetMeterLoad();
+        initAssetEventLoad();
+        initAssetUserLoad();
+        initAssetFileLoad();
+        initAssetWarantyLoad();
+        initAssetBusinessLoad();
+        initAssetPurchaseLoad();
+        initAssetLifeLoad();
 
 
 
@@ -57,7 +66,7 @@ $(function () {
 
 
   };
-  $('#modal-company').on('click','assetclose', function () {
+  $('#modal-company').on('click','.assetclose', function () {
     if($("#issavechanged").val()=="-1" && ($("#id_asseccategorytxt").val()=="" || $("#id_assetName").val().length==0 || $("#id_assetCode").val().length==0) ){
     swal({
          title:"حذف تجهیز بدون کد و مشخصات",
@@ -141,6 +150,7 @@ $(function () {
         });
           $('.selectpicker').selectpicker();
             $("tr").on("click", showAssetDetails);
+
 
       }
     });
@@ -685,9 +695,9 @@ return false;
 
 
    //$.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
-   $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad);
+   // $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad);
    //,initAssetLifeLoad
-   //loadForm(btn);
+   loadForm(btn);
 
    //initLoad();
  }

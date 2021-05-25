@@ -49,35 +49,58 @@ var saveWoCauseForm= function () {
    });
    return false;
  };
- var deleteWoCauseForm= function (event) {
+ //////////////
 
-    var form = $(this);
-    if(event.target.className=="btn btn-danger")
-    {
-    $.ajax({
-      async: true,
-      url: form.attr("data-url"),
-      data: form.serialize(),
-      type: 'post',
-      dataType: 'json',
-      success: function (data) {
-        if (data.form_is_valid) {
-          //alert("Company created!");  // <-- This is just a placeholder for now for testing
-          $("#tbody_woCause").empty();
-          $("#tbody_woCause").html(data.html_woCause_list);
-          $("#modal-woCause").modal("hide");
-          //console.log(data.html_wo_list);
-        }
-        else {
+   var deleteWoCause=function(id){
+     $.ajax({
+       async: true,
+       url: '/SettingPage/WoCause/'+id+'/Delete/',
 
-          $("#woCause-table tbody").html(data.html_woCause_list);
-          $("#modal-woCause .modal-content").html(data.html_woCause_form);
-        }
-      }
-    });
-  }
-    return false;
-  };
+       type: 'get',
+       dataType: 'json',
+       success: function (data) {
+         console.log(data);
+         if (data.form_is_valid) {
+           //alert("Company created!");  // <-- This is just a placeholder for now for testing
+           $("#tbody_woCause").empty();
+           $("#tbody_woCause").html(data.html_woCause_list);
+           $("#modal-woCause").modal("hide");
+           //console.log(data.html_wo_list);
+         }
+         else {
+
+           $("#woCause-table tbody").html(data.html_woCause_list);
+           $("#modal-woCause .modal-content").html(data.html_woCause_form);
+         }
+       }
+     });
+
+     return false;
+   }
+   $('#woCause-table').on('click','.js-delete-woCause', function () {
+   const dashassetid=($(this).attr('data-url'));
+
+     swal({
+       title: "حذف",
+       text: "حذف",
+       type: "warning",
+       showCancelButton: true,
+       confirmButtonColor: "#DD6B55",
+       confirmButtonText: "بلی",
+       cancelButtonText: "خیر",
+       closeOnConfirm: true
+      }, function () {
+          // cancelform();
+          deleteWoCause(dashassetid);
+
+      });
+
+     // do something…
+   });
+
+
+
+ ///////////////
 
  // Create book
 $(".js-create-woCause").click(loadWoCauseForm);
@@ -89,7 +112,7 @@ $("#woCause-table").on("click", ".js-update-woCause", loadWoCauseForm);
 
 $("#modal-woCause").on("click", ".js-woCause-update-form", saveWoCauseForm);
 // Delete book
-$("#woCause-table").on("click", ".js-delete-woCause", loadWoCauseForm);
-$("#modal-woCause").on("click", ".js-woCause-delete-form", deleteWoCauseForm);
+// $("#woCause-table").on("click", ".js-delete-woCause", loadWoCauseForm);
+// $("#modal-woCause").on("click", ".js-woCause-delete-form", deleteWoCauseForm);
 
 });

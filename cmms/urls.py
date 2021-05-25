@@ -454,8 +454,12 @@ urlpatterns = [
            url(r'^SettingPage/$',list_settings,name='list_settings'),
            url(r'^SettingPage/WOProblem/listWoProblem$',js_list_woProblem,name='js_list_woProblem'),
            url(r'^SettingPage/WOProblem/create/$', woProblem_create, name='woProblem_create'),
-           url(r'^SettingPage/WOProblem/(?P<id>\d+)/delete/$', woProblem_delete, name='woProblem_delete'),
+
            url(r'^SettingPage/WOProblem/(?P<id>\d+)/update/$', woProblem_update, name='woProblem_update'),
+           url(r'^SettingPage/WOProblem/(?P<id>\d+)/Delete/$', woProblem_delete, name='woProblem_delete'),
+           # url(r'^SettingPage/WOProblem/(?P<id>\d+)/Delete/$', woProblem_delete, name='woProblem_delete'),
+
+
            url(r'^SettingPage/WOStop/listWoStop$',js_list_woStop,name='js_list_woStop'),
            url(r'^SettingPage/WOStop/create/$', woStop_create, name='woStop_create'),
            url(r'^SettingPage/WOStop/(?P<id>\d+)/delete/$', woStop_delete, name='woStop_delete'),
@@ -466,20 +470,21 @@ urlpatterns = [
            url(r'^SettingPage/DashAsset/create/$', dashAsset_create, name='dashAsset_create'),
            url(r'^SettingPage/DashAsset/(?P<id>\d+)/delete/$', dashAsset_delete, name='dashAsset_delete'),
            url(r'^SettingPage/DashAsset/(?P<id>\d+)/update/$', dashAsset_update, name='dashAsset_update'),
+           url(r'^SettingPage/DashAsset/(?P<id>\d+)/Delete/$', dashAsset_delete, name='dashAsset_delete'),
 
            url(r'^SettingPage/WOPert/listWoPert$',js_list_workorderPert,name='js_list_workorderPert'),
            url(r'^SettingPage/WOPert/create/$', workorderPert_create, name='workorderPert_create'),
            url(r'^SettingPage/WOPert/(?P<id>\d+)/delete/$', workorderPert_delete, name='workorderPert_delete'),
            url(r'^SettingPage/WOPert/(?P<id>\d+)/update/$', workorderPert_update, name='workorderPert_update'),
 
-           url(r'^SettingPage/WOCause/listWoCause$',js_list_woCause,name='js_list_woCause'),
+           # url(r'^SettingPage/WOCause/listWoCause$',js_list_woCause,name='js_list_woCause'),
            url(r'^SettingPage/OfflineStatus/listOfflineStatus$',js_list_offlineStatus,name='js_list_offlineStatus'),
            url(r'^SettingPage/OfflineStatus/create/$', offlineStatus_create, name='offlineStatus_create'),
-           url(r'^SettingPage/OfflineStatus/(?P<id>\d+)/delete/$', offlineStatus_delete, name='offlineStatus_delete'),
+           url(r'^SettingPage/OfflineStatus/(?P<id>\d+)/Delete/$', offlineStatus_delete, name='offlineStatus_delete'),
            url(r'^SettingPage/OfflineStatus/(?P<id>\d+)/update/$', offlineStatus_update, name='offlineStatus_update'),
            url(r'^SettingPage/WOCause/listWoCause$',js_list_woCause,name='js_list_woCause'),
            url(r'^SettingPage/WOCause/create/$', woCause_create, name='woCause_create'),
-           url(r'^SettingPage/WOCause/(?P<id>\d+)/delete/$', woCause_delete, name='woCause_delete'),
+           url(r'^SettingPage/WOCause/(?P<id>\d+)/Delete/$', woCause_delete, name='woCause_delete'),
            url(r'^SettingPage/WOCause/(?P<id>\d+)/update/$', woCause_update, name='woCause_update'),
            url(r'^SettingPage/WOAction/listWoAction$',js_list_woAction,name='js_list_woAction'),
            url(r'^SettingPage/WOAction/create/$', woAction_create, name='woAction_create'),
