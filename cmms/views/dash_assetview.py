@@ -53,7 +53,7 @@ def save_dashAsset_form(request, form, template_name):
               if form.is_valid():
                 form.save()
                 data['form_is_valid'] = True
-                
+
                 books = AssetTypeSetting.objects.all()
                 data['html_dashAsset_list'] = render_to_string('cmms/settingpages/dash_asset/partialDashAssetList.html', {
                     'dashAssets': books
@@ -63,6 +63,7 @@ def save_dashAsset_form(request, form, template_name):
                   lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
                   logging.basicConfig(format=fmt, level=lvl)
                   logging.debug(form.errors)
+                  data["error"]=form.errors
 
         context = {'form': form}
         data['html_dashAsset_form'] = render_to_string(template_name, context, request=request)

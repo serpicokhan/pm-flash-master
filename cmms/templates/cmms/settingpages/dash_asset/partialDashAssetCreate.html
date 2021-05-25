@@ -40,7 +40,7 @@
                  );
 
                     var form = $(this).parent().parent().parent();
-                  
+
                     $.ajax({
                       url: form.attr("data-url"),
                       type: "POST",
@@ -61,9 +61,14 @@
                           // console.log(data.html_dashAsset_list);
                         }
                         else {
+                          // console.log(data);
+                          if(data.error)
+                          {
+                            toastr.error(data.error.__all__);
+                          }
 
-                          $("#dashAsset-table tbody").html(data.html_dashAsset_list);
-                          $("#modal-dashAsset .modal-content").html(data.html_dashAsset_form);
+                          // $("#dashAsset-table tbody").html(data.html_dashAsset_list);
+                          // $("#modal-dashAsset .modal-content").html(data.html_dashAsset_form);
                         }
                       }
 

@@ -10,7 +10,7 @@ class EquipmentCostSetting(models.Model):
        db_table = "equipmentcostSetting"
 class AssetTypeSetting(models.Model):
     settingEqAsset = models.ForeignKey(AssetCategory,verbose_name='دسته دارایی',on_delete=models.CASCADE,null=True,blank=True)
-    settingLocation = models.ForeignKey('Asset',on_delete=models.CASCADE,null=True,blank=True)
+    settingLocation = models.ForeignKey('Asset',on_delete=models.CASCADE,null=True,blank=True,verbose_name='مکان')
     settingEqTimestamp=models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.settingEqAsset.__str__()
