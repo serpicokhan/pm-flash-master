@@ -1,0 +1,31 @@
+
+{% for c in woStops %}
+
+<tr>
+
+<td>{{c.stopCode}}</td>
+<td>{{c.stopDescription}}</td>
+
+
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-woStop"
+              data-url="{% url 'woStop_update' c.id %}">
+
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-woStop"
+                   data-url="{% url 'woStop_delete' c.id %}">
+
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="3" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}
