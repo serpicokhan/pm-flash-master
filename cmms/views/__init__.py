@@ -75,4 +75,4 @@ from cmms.views.taskgroupfileview import *
 from cmms.views.wolog import *
 from cmms.views.adsetview import *
 from cmms.views.bomgrouppartview import *
-from cmms.views.bomgroupassetview import *
+from cmms.views.dash_assetview import *
