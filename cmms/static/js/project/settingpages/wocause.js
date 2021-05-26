@@ -54,7 +54,7 @@ var saveWoCauseForm= function () {
    var deleteWoCause=function(id){
      $.ajax({
        async: true,
-       url: '/SettingPage/WoCause/'+id+'/Delete/',
+       url: '/SettingPage/WOCause/'+id+'/Delete/',
 
        type: 'get',
        dataType: 'json',

@@ -56,7 +56,7 @@ var saveWoProblemForm= function () {
   var deleteWoProblem=function(id){
     $.ajax({
       async: true,
-      url: '/SettingPage/WoProblem/'+id+'/Delete/',
+      url: '/SettingPage/WOProblem/'+id+'/Delete/',
 
       type: 'get',
       dataType: 'json',

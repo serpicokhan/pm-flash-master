@@ -342,10 +342,12 @@ def list_asset_dash(request):
         x3.append(zip(x2,x4,x5))
     final_list=zip(x1,x3,x0)
     a_zip=zip(x1,x0)
+
+    assetloc=Asset.objects.filter(assetIsLocatedAt__isnull=True)
             # acat_dict[i.name][x.id]=x.assetName
         # x1.push(x2)
         # x2=[]
-    return render(request, 'cmms/asset/dash2.html', {'assets':final_list,'test':a_zip})
+    return render(request, 'cmms/asset/dash2.html', {'assets':final_list,'test':a_zip,'locs':assetloc})
 
 
 

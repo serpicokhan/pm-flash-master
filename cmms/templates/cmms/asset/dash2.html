@@ -18,10 +18,7 @@
             <i class="fa fa-wrench"></i>
           </a>
           <ul class="dropdown-menu dropdown-user">
-            <li><a href="#" class="js-bulkasset-category-selector" date-url='{% url "get_assetCategoryMain" %}'>انتساب دسته</a>
-            </li>
-            <li><a href="#">حذف گروهی</a>
-            </li>
+
           </ul>
           {% endif %}
           <a class="close-link">
@@ -42,7 +39,16 @@
           </select>
         </div>
         <div class="col-sm-4 m-b-xs">
+          <div class="col-sm-5 m-b-xs">
+            <select class="input-sm form-control input-s-sm inline" id='assetloc'>
 
+            {% for i in locs %}
+            <option value="{{i.id}}">{{i.assetName}}</option>
+
+            {% endfor %}
+
+          </select>
+        </div>
         </div>
         <div class="col-sm-3">
           <div class="input-group"><input type="text" placeholder="جستجو" id="assetSearch" class="input-sm form-control"> <span class="input-group-btn">
@@ -101,7 +107,10 @@
               </div>
             </div>
             {% empty %}
-            موردی برای نمایش وجود ندارد
+            <script type="text/javascript">
+              $(".myasset:last-of-type").remove();
+
+            </script>
             {% endfor %}
 
 
