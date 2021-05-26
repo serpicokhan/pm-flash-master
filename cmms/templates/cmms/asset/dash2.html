@@ -41,8 +41,9 @@
         <div class="col-sm-4 m-b-xs">
 
             <select class="input-sm form-control input-s-sm inline" id='assetloc'>
-
+              <option value="0">همه</option>
             {% for i in locs %}
+
             <option value="{{i.id}}">{{i.assetName}}</option>
 
             {% endfor %}
@@ -86,18 +87,27 @@
           <div class="col-lg-3" data-url="{{k.1}}"   style="cursor:help" data-url2="{% url 'asset_update' k.1 %}">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
+                {% if k.2 %}
                 <span class="label label-warning pull-left">
 
-                {% if k.2 %}
+
                   <i class="fa fa-play">
 
                   </i>
-                {% else %}
-                <i class="fa fa-stop">
-                </i>
-                {% endif %}
+
 
                 </span>
+                {% else %}
+                <span class="label label-danger pull-left">
+
+
+
+                <i class="fa fa-stop">
+                </i>
+
+
+                </span>
+                  {% endif %}
 
                 <h5>
                 {{k.0}}</h5>
@@ -181,6 +191,7 @@
               $("#assetloc").change(function(){
 
 
+
                 $.ajax({
                   async: true,
                   url: '/Asset/'+$("#assetloc").val()+'/jslist/',
@@ -189,8 +200,9 @@
                   dataType: 'json',
                   success: function (data) {
 
-                    console.log(data);
+
                     if (data.form_is_valid) {
+                      console.log(data);
                       //alert("Company created!");  // <-- This is just a placeholder for now for testing
                       $(".wrapper2").empty();
                       $(".wrapper2").html(data.html_asset_dash_list);

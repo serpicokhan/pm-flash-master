@@ -314,19 +314,7 @@ loadForm(info);
 
                         //id_completedByUser
 
-                        $("#id_woAsset").change(function(){
-                          $.ajax({
-                            url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
-                            type:'get',
-                            dataType: 'json',
-                            success: function (data) {
-                              // console.log("hahaha");
-
-                            }
-                          });
-
-
-                        });
+                
                         $('.selectpicker').selectpicker();
                         $('.basicAutoComplete').autoComplete();
 

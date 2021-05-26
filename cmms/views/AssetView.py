@@ -351,7 +351,8 @@ def list_asset_dash(request):
 #################################################################################
 
 def js_list_asset_dash(request,locId):
-    acat=AssetCategory.objects.all().order_by("priority")
+    print("location",locId)
+    acat=AssetCategory.objects.all()
     data=dict()
     acat_dict={}
     x1=[]
@@ -361,20 +362,23 @@ def js_list_asset_dash(request,locId):
 
     for i in acat:
         acat_dict[i.name]={}
-        x0.append(i.id)
-        x1.append(i.name)
-        assets=Asset.objects.filter(assetCategory=i,assetTypes=2,assetIsLocatedAt=locId)
-        x2=[]
-        x4=[]
-        x5=[]
-        for x in assets:
 
-            x2.append(x.assetName)
-            x4.append(x.id)
-            x5.append(x.assetStatus)
-        x3.append(zip(x2,x4,x5))
-    final_list=zip(x1,x3,x0)
-    a_zip=zip(x1,x0)
+        assets=Asset.objects.filter(assetCategory=i,assetTypes=2,assetIsLocatedAt=locId)
+        if(assets.count()>0):
+            x0.append(i.id)
+            x1.append(i.name)
+            x2=[]
+            x4=[]
+            x5=[]
+            for x in assets:
+
+                x2.append(x.assetName)
+                print(x.id)
+                x4.append(x.id)
+                x5.append(x.assetStatus)
+            x3.append(zip(x2,x4,x5))
+            final_list=zip(x1,x3,x0)
+            a_zip=zip(x1,x0)
 
     # assetloc=Asset.objects.filter(assetIsLocatedAt__isnull=True)
             # acat_dict[i.name][x.id]=x.assetName

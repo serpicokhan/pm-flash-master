@@ -17,6 +17,7 @@ $(function () {
         //alert("3123@!");
 
         $("#modal-company .modal-content").html(data.html_asset_form);
+        $("#assetformupdatesubmit").hide();
 
         var elem = document.querySelector('.js-switch');
         var init = new Switchery(elem);
@@ -37,9 +38,7 @@ $(function () {
 
 
 };
-  $(".col-lg-3").click(function(
-
-  ){
+  $(".col-lg-3").on('click',function(){
 
 loadForm($(this));
 

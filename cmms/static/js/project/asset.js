@@ -16,15 +16,7 @@ $(function () {
       success: function (data) {
 
         $("#modal-company .modal-content").html(data.form_asset_selector);
-        initAssetPartLoad();
-        initAssetMeterLoad();
-        initAssetEventLoad();
-        initAssetUserLoad();
-        initAssetFileLoad();
-        initAssetWarantyLoad();
-        initAssetBusinessLoad();
-        initAssetPurchaseLoad();
-        initAssetLifeLoad();
+
 
 
 
@@ -694,10 +686,10 @@ return false;
 
 
 
-   //$.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
-   // $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad);
+   // $.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
+   $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad);
    //,initAssetLifeLoad
-   loadForm(btn);
+   // loadForm(btn);
 
    //initLoad();
  }
