@@ -61,7 +61,7 @@ var saveWoProblemForm= function () {
       type: 'get',
       dataType: 'json',
       success: function (data) {
-        console.log(data);
+        
         if (data.form_is_valid) {
           //alert("Company created!");  // <-- This is just a placeholder for now for testing
           $("#tbody_woProblem").empty();

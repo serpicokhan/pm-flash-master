@@ -1,0 +1,76 @@
+{% load static %}
+<div class="wrapper2">
+
+
+
+{% for i in assets %}
+
+<div class="ibox float-e-margins asset_{{i.2}} myasset">
+  <div class="ibox-title">
+    <h5>{{i.0}} </h5>
+
+  </div>
+  <div class="ibox-content" style='background-color:transparent'>
+    <div class="row">
+
+{% for k in i.1 %}
+
+      <div class="col-lg-3" data-url="{{k.1}}"   style="cursor:help" data-url2="{% url 'asset_update' k.1 %}">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <span class="label label-warning pull-left">
+
+            {% if k.2 %}
+              <i class="fa fa-play">
+
+              </i>
+            {% else %}
+            <i class="fa fa-stop">
+            </i>
+            {% endif %}
+
+            </span>
+
+            <h5>
+            {{k.0}}</h5>
+            </div>
+            <div class="ibox-content ">
+
+              <img src="{% static 'img/if_industry_50840.png' %}"  class="center-block" / >
+
+
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <script type="text/javascript">
+          $(".myasset:last-of-type").remove();
+
+        </script>
+        {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+                  </div>
+
+
+                </div>
+
+              </div>
+
+              {% endfor %}
+
+
+
+
+
+            </div>

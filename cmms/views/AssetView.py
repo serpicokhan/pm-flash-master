@@ -348,6 +348,47 @@ def list_asset_dash(request):
         # x1.push(x2)
         # x2=[]
     return render(request, 'cmms/asset/dash2.html', {'assets':final_list,'test':a_zip,'locs':assetloc})
+#################################################################################
+
+def js_list_asset_dash(request,locId):
+    acat=AssetCategory.objects.all().order_by("priority")
+    data=dict()
+    acat_dict={}
+    x1=[]
+    x0=[]
+    # x2=[]
+    x3=[]
+
+    for i in acat:
+        acat_dict[i.name]={}
+        x0.append(i.id)
+        x1.append(i.name)
+        assets=Asset.objects.filter(assetCategory=i,assetTypes=2,assetIsLocatedAt=locId)
+        x2=[]
+        x4=[]
+        x5=[]
+        for x in assets:
+
+            x2.append(x.assetName)
+            x4.append(x.id)
+            x5.append(x.assetStatus)
+        x3.append(zip(x2,x4,x5))
+    final_list=zip(x1,x3,x0)
+    a_zip=zip(x1,x0)
+
+    # assetloc=Asset.objects.filter(assetIsLocatedAt__isnull=True)
+            # acat_dict[i.name][x.id]=x.assetName
+        # x1.push(x2)
+        # x2=[]
+    context={'perms': PermWrapper(request.user),'assets':final_list}
+    data["html_asset_dash_list"]=render_to_string('cmms/asset/partialdash2.html',
+        context,
+        request=request)
+    data["form_is_valid"]=True
+    return JsonResponse(data)
+
+
+###################################################################################
 
 
 

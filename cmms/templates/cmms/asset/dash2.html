@@ -39,7 +39,7 @@
           </select>
         </div>
         <div class="col-sm-4 m-b-xs">
-          <div class="col-sm-5 m-b-xs">
+
             <select class="input-sm form-control input-s-sm inline" id='assetloc'>
 
             {% for i in locs %}
@@ -48,7 +48,7 @@
             {% endfor %}
 
           </select>
-        </div>
+
         </div>
         <div class="col-sm-3">
           <div class="input-group"><input type="text" placeholder="جستجو" id="assetSearch" class="input-sm form-control"> <span class="input-group-btn">
@@ -67,6 +67,10 @@
       </div>
 
     </div>
+    <div class="wrapper2">
+
+
+
     {% for i in assets %}
 
     <div class="ibox float-e-margins asset_{{i.2}} myasset">
@@ -130,12 +134,15 @@
                     </div>
 
                   </div>
+
                   {% endfor %}
 
 
 
 
+
                 </div>
+              </div>
               </div>
               {% load static %}
 
@@ -171,6 +178,35 @@
                 //   console.log(x[i]);
                 // }
                 // log(x[i]);
+              $("#assetloc").change(function(){
+
+
+                $.ajax({
+                  async: true,
+                  url: '/Asset/'+$("#assetloc").val()+'/jslist/',
+
+                  type: 'get',
+                  dataType: 'json',
+                  success: function (data) {
+
+                    console.log(data);
+                    if (data.form_is_valid) {
+                      //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                      $(".wrapper2").empty();
+                      $(".wrapper2").html(data.html_asset_dash_list);
+
+                      //console.log(data.html_wo_list);
+                    }
+                    else {
+
+                      // $("#woProblem-table tbody").html(data.html_woProblem_list);
+                      // $("#modal-woProblem .modal-content").html(data.html_woProblem_form);
+                    }
+                  }
+                });
+
+                return false;
+              });
 
 
               </script>
