@@ -50,6 +50,10 @@ var saveForm= function () {
         // console.log(data.html_assetCategory_list);
        }
        else {
+         if(data.error){
+           
+           toastr.error(data.error.code[0]);
+         }
 
          $("#company-table tbody").html(data.html_assetCategory_list);
          $("#modal-company .modal-content").html(data.html_assetCategory_form);

@@ -351,7 +351,7 @@ def list_asset_dash(request):
 #################################################################################
 
 def js_list_asset_dash(request,locId):
-    print("location",locId)
+
     acat=AssetCategory.objects.all()
     data=dict()
     acat_dict={}
@@ -359,6 +359,8 @@ def js_list_asset_dash(request,locId):
     x0=[]
     # x2=[]
     x3=[]
+    final_list=None
+    a_zip=None
 
     for i in acat:
         acat_dict[i.name]={}
@@ -373,7 +375,7 @@ def js_list_asset_dash(request,locId):
             for x in assets:
 
                 x2.append(x.assetName)
-                print(x.id)
+                
                 x4.append(x.id)
                 x5.append(x.assetStatus)
             x3.append(zip(x2,x4,x5))

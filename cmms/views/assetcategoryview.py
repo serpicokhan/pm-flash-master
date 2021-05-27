@@ -25,6 +25,7 @@ from django.forms.models import model_to_dict
 from cmms.forms import AssetCategoryForm
 from django.urls import reverse_lazy
 from django.db import transaction
+from django.db import IntegrityError
 
 
 
@@ -41,15 +42,22 @@ def save_assetCategory_form(request, form, template_name,id=None):
 
     data = dict()
     if (request.method == 'POST'):
+        print("123")
+
         if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-            books = AssetCategory.objects.all()
-            data['html_assetCategory_list'] = render_to_string('cmms/assetcategory/partialAssetCategoryList.html', {
-                'assetCategory': books
-            })
+
+
+                form.save()
+                data['form_is_valid'] = True
+                books = AssetCategory.objects.all()
+                data['html_assetCategory_list'] = render_to_string('cmms/assetcategory/partialAssetCategoryList.html', {
+                    'assetCategory': books
+                })
+
         else:
+            data["error"]=form.errors
             data['form_is_valid'] = False
+
 
     context = {'form': form}
 

@@ -5,7 +5,7 @@
     <img src="{% static 'img/images2.png' %}" / >
     <input type=hidden name='lastWorkOrderid' id='lastWorkOrderid' value='{{lId}}'/>
     <input type=hidden name='issavechanged' id='issavechanged' value='-1'/>
-    
+
     <input type=hidden name='haveschedule' id='haveschedule' value='-1'/>
     <input type=hidden name='havetasks' id='havetasks' value='-1'/>
     {{ form.visibile.as_hidden }}
@@ -32,7 +32,15 @@
   </div>
   <div class="col-sm-5 b-r">
     <div class="form-group">
+
+      
+                <a class="btn btn-white btn-bitbucket pull-left" id="woassetrefresh">
+										<i class="fa fa-refresh">
+										</i>
+									</a>
+
       <label>{{form.woAsset.label}}</label>
+
       {% render_field form.woAsset class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
     </div>
     <div class="form-group">

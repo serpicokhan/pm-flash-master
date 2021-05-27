@@ -3,6 +3,7 @@ from django.db import models
 
 class AssetCategory(models.Model):
     name=models.CharField("نام",max_length = 50)
+    code=models.CharField("کد",max_length = 50,unique=True)
     description=models.CharField("توضیحات",max_length = 50)
     priority=models.IntegerField("اولویت", null=True)
 

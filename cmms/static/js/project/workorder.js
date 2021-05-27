@@ -73,6 +73,10 @@ $(function () {
                   initWoNotifyLoad();
                   initWoFileLoad();initWoLogLoad();
                   initWoPertLoad();
+                  $('#woassetrefresh').click(function(){
+                    alert(12);
+                    $(this).html('<i class="fa fa-refresh fa-spin"></i>')
+                  });
 
 
 
@@ -703,7 +707,7 @@ return false;
 
 
      success: function (data) {
-       console.log(data);
+       // console.log(data);
 
        if (data.form_is_valid) {
          // alert("!23");
@@ -897,6 +901,7 @@ $("#company-table").on("click", ".js-delete-wo2", loadForm);
 $("#modal-company").on("submit", ".js-wo2-delete-form", saveForm);
 $("#modal-company").on("submit", ".js-formset-delete-form", saveFormsetForm);
 $("#modal-woEm").on("submit", ".js-bulkem-selector-form2", saveWoEmForm);
+
 $(".wo-filter").on("click",filter);
 
 $(document).ready(function(){
