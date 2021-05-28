@@ -375,7 +375,7 @@ def js_list_asset_dash(request,locId):
             for x in assets:
 
                 x2.append(x.assetName)
-                
+
                 x4.append(x.id)
                 x5.append(x.assetStatus)
             x3.append(zip(x2,x4,x5))
@@ -436,4 +436,16 @@ def show_Asset_status(request,id):
     data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination2.html', {
                       'asset': wos,'pageType':'show_Asset_status','ptr':id})
     data["form_is_valid"]=True
+    return JsonResponse(data)
+def show_asset_tree(request,id):
+    children=Asset.objects.filter(assetIsPartOf=id)
+    test1={}
+    for i in children:
+        test1[i.id]={}
+        test1[i.id]["text"]=i.assetName
+        test1[i.id]["cat"]=i.assetCategory.name
+    data=dict()
+    data['form_is_valid']=True
+    data['result']=render_to_string('cmms/asset/partialAssetTree.html', {
+                      'assets': test1})
     return JsonResponse(data)

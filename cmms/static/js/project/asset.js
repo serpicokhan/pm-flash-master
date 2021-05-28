@@ -144,6 +144,8 @@ $(function () {
             $("tr").on("click", showAssetDetails);
 
 
+
+
       }
     });
 
@@ -678,6 +680,43 @@ return false;
       });
     return false;
     };
+    var initAssetTreeInit=function(){
+
+      $.ajax({
+
+        url: '/Asset/'+$("#lastAssetid").val()+'/listtree/',
+
+
+
+        success: function (data) {
+            //alert($("#lastWorkOrderid").val());
+          if (data.form_is_valid) {
+            // $('#htmlmachineasset').jstree();
+            console.log(data);
+            $('#htmlmachineasset').jstree({
+              'core' : {
+                'data' : [
+                  { "text" : "Root node", "children" : [
+                      { "text" : "Child node 1" },
+                      { "text" : "Child node 2" }
+                  ]}
+                ]
+              }
+            });
+
+            //alert(data.html_assetLife_list);  // <-- This is just a placeholder for now for testing
+
+            //console.log(data.html_wo_list);
+          }
+          else {
+            //
+            // $("#assetLife-table tbody").html(data.html_assetLife_list);
+            // $("#modal-assetLife .modal-content").html(data.html_assetLife_form);
+          }
+        }
+      });
+    return false;
+    };
 
 
 
@@ -687,7 +726,7 @@ return false;
 
 
    // $.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
-   $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad);
+   $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad,initAssetTreeInit);
    //,initAssetLifeLoad
    // loadForm(btn);
 

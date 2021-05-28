@@ -197,6 +197,7 @@ urlpatterns = [
         url(r'^Asset/Tool/create/$', asset_create_tool, name='asset_create_tool'),
         url(r'^Asset/(?P<id>\d+)/delete/$', asset_delete, name='asset_delete'),
         url(r'^Asset/(?P<id>\d+)/update/$', asset_update, name='asset_update'),
+        url(r'^Asset/(?P<id>\d+)/listtree/$', show_asset_tree, name='show_asset_tree'),
 
         url(r'^Asset/Category/$', get_assetCategory, name='get_assetCategory'),
         url(r'^Asset/Category2/$', get_assetCategoryMain, name='get_assetCategoryMain'),
