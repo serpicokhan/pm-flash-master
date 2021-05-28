@@ -691,18 +691,20 @@ return false;
         success: function (data) {
             //alert($("#lastWorkOrderid").val());
           if (data.form_is_valid) {
-            // $('#htmlmachineasset').jstree();
-            console.log(data);
-            $('#htmlmachineasset').jstree({
-              'core' : {
-                'data' : [
-                  { "text" : "Root node", "children" : [
-                      { "text" : "Child node 1" },
-                      { "text" : "Child node 2" }
-                  ]}
-                ]
-              }
-            });
+            $("#htmlmachineasset").html(data.result);
+
+            $('#htmlmachineasset').jstree();
+            // console.log(data);
+            // $('#htmlmachineasset').jstree({
+            //   'core' : {
+            //     'data' : [
+            //       { "text" : "Root node", "children" : [
+            //           { "text" : "Child node 1" },
+            //           { "text" : "Child node 2" }
+            //       ]}
+            //     ]
+            //   }
+            // });
 
             //alert(data.html_assetLife_list);  // <-- This is just a placeholder for now for testing
 

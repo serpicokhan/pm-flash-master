@@ -78,7 +78,7 @@ def list_asset_tool(request):
 def save_asset_form(request, form, template_name,id=None):
     data = dict()
     os=Asset.objects.get(id=id)
-    print("Asset From asset status {}".format(os.assetStatus))
+    # print("Asset From asset status {}".format(os.assetStatus))
     if (request.method == 'POST'):
         if form.is_valid():
             form.save()
@@ -159,7 +159,7 @@ def asset_create_tool(request):
 ##########################################################
 def asset_update(request, id):
     company= get_object_or_404(Asset, id=id)
-    print("asset status:{}".format(company.assetStatus))
+    # print("asset status:{}".format(company.assetStatus))
     template=""
     if (request.method == 'POST'):
         form = AssetForm(request.POST, instance=company)
@@ -213,7 +213,7 @@ def get_assetCategoryMain(request,ids):
     if (request.method == 'POST'):
         assets=Asset.objects.filter(id__in=clean_data)
         catId=request.POST.get("assetCat2")
-        print(catId,"cat***************************")
+        # print(catId,"cat***************************")
         for s in assets:
             s.assetCategory=AssetCategory.objects.get(id=int(catId))
             s.save()
@@ -278,7 +278,7 @@ def asset_status(request,id):
     return JsonResponse(data)
 def asset_offline_status(request,id):
     data=dict()
-    print("*******dsadsa***************")
+    # print("*******dsadsa***************")
     # start,end=DateJob.convert2Date(startHijri,endHijri)
     n1=AssetUtility.getAssetOfflineStatus(id)
     n2=AssetUtility.getAssetOfflineStatusLine(id)
@@ -416,7 +416,7 @@ def asset_type_update(request,ids,cat):
         i.assetTypes=int(cat)
         i.save()
     data=dict()
-    print("update is ok")
+    # print("update is ok")
     data["is_valid"]=True
     return JsonResponse(data)
 def show_Asset_status(request,id):
@@ -439,13 +439,31 @@ def show_Asset_status(request,id):
     return JsonResponse(data)
 def show_asset_tree(request,id):
     children=Asset.objects.filter(assetIsPartOf=id)
-    test1={}
+    a=[]
+
     for i in children:
-        test1[i.id]={}
-        test1[i.id]["text"]=i.assetName
-        test1[i.id]["cat"]=i.assetCategory.name
+        test1={}
+
+        # test1[i.id]={}
+        test1["text"]=i.assetName
+        test1["cat"]=i.assetCategory.name
+        test1["parrents"]=[]
+        rt1=i.assetCategory
+        while(rt1.isPartOf):
+            d1={}
+            # test1[i.id]["rootcat"]=i.assetCategory.isPartOf.name
+            d1["d1"]=rt1.isPartOf.name
+            test1["parrents"].append(d1)
+            rt1=rt1.isPartOf
+        a.append(test1)
+        test1={}
+
+
+
+        # if(i.assetCategory.isPartOf):
+        #     test1[i.id]["rootcat"]=i.assetCategory.isPartOf.name
     data=dict()
     data['form_is_valid']=True
     data['result']=render_to_string('cmms/asset/partialAssetTree.html', {
-                      'assets': test1})
+                      'assets': a})
     return JsonResponse(data)

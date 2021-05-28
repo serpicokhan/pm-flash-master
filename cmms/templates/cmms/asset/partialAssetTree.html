@@ -1,3 +1,12 @@
-{% autoescape off %}
-    {{ assets }}
-{% endautoescape %}
+<ul>
+    <li data-jstree='{ "opened" : true }'>تجهیزات دستگاه
+
+<ul>
+{% for i in assets %}
+  <li>{{i.text}}</li>
+
+
+{% endfor %}
+</ul>
+</li>
+</ul>
