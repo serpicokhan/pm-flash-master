@@ -1,0 +1,59 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>دستور کارهای باز</h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive" style="position: relative;height: 150px;overflow: auto;display:block">
+                                <table class="table table-striped" id="assetWo-table" >
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>کد</th>
+                                     <th>شرح</th>
+                                     <th>تاریخ ایجاد</th>
+
+
+
+
+
+
+
+
+
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_assetWo'>
+                                            {% include 'cmms/asset_wo/partialAssetWoList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-assetWo">
+                 <div class="modal-dialog ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/assetlife.js' %}"></script>
+{% endblock %}

@@ -482,3 +482,33 @@ def show_asset_tree(request,id):
     data['result']=render_to_string('cmms/asset/partialAssetTree.html', {
                       'assets': a})
     return JsonResponse(data)
+@csrf_exempt
+def js_list_assetWo(request,woId):
+    data=dict()
+    books=WorkOrder.objects.filter(woAsset=woId,isScheduling=False).exclude(woStatus__in=(7,8)).order_by('-id')
+
+    data['html_assetWo_list']= render_to_string('cmms/asset_wo/partialAssetWoList.html', {
+        'assetwos': books
+    })
+    data['form_is_valid']=True
+    return JsonResponse(data)
+@csrf_exempt
+def js_list_assetCloseWo(request,woId):
+    data=dict()
+    books=WorkOrder.objects.filter(woAsset=woId,woStatus__in=(7,8),isScheduling=False).order_by('-id')[:5]
+
+    data['html_assetCloseWo_list']= render_to_string('cmms/asset_close_wo/partialAssetWoList.html', {
+        'assetwos': books
+    })
+    data['form_is_valid']=True
+    return JsonResponse(data)
+@csrf_exempt
+def js_list_assetConsumedPart(request,woId):
+    data=dict()
+    books=WorkOrderPart.objects.filter(woPartWorkorder=woId).order_by('-id')[:10]
+
+    data['html_assetConsumedPart_list']= render_to_string('cmms/asset_consumed_part/partialAssetWoList.html', {
+        'assetwos': books
+    })
+    data['form_is_valid']=True
+    return JsonResponse(data)

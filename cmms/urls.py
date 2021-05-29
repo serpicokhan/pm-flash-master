@@ -198,6 +198,9 @@ urlpatterns = [
         url(r'^Asset/(?P<id>\d+)/delete/$', asset_delete, name='asset_delete'),
         url(r'^Asset/(?P<id>\d+)/update/$', asset_update, name='asset_update'),
         url(r'^Asset/(?P<id>\d+)/listtree/$', show_asset_tree, name='show_asset_tree'),
+        url(r'^Asset/(?P<woId>\d+)/listAssetWO/$', js_list_assetWo, name='js_list_assetWo'),
+        url(r'^Asset/(?P<woId>\d+)/listAssetCloseWO/$', js_list_assetCloseWo, name='js_list_assetCloseWo'),
+        url(r'^Asset/(?P<woId>\d+)/listAssetConsumedPart/$', js_list_assetConsumedPart, name='js_list_assetConsumedPart'),
 
         url(r'^Asset/Category/$', get_assetCategory, name='get_assetCategory'),
         url(r'^Asset/Category2/$', get_assetCategoryMain, name='get_assetCategoryMain'),

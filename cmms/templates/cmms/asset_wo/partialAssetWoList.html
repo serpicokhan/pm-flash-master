@@ -1,0 +1,16 @@
+
+{% for c in assetwos %}
+
+<tr>
+<td></td>
+ <td><a href="/WorkOrder/{{c.id}}/details" target="_blank">{{c.id}}</a></td> 
+ <td>{{c.summaryofIssue}}</td>
+  <td>{{c.get_dateCreated_jalali}}</td>
+
+
+</tr>
+{% empty %}
+<tr>
+ <td colspan="4" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}

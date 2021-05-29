@@ -680,6 +680,90 @@ return false;
       });
     return false;
     };
+    var initAssetWoLoad=function(){
+
+      $.ajax({
+
+        url: '/Asset/'+$("#lastAssetid").val()+'/listAssetWO/',
+
+
+
+        success: function (data) {
+            //alert($("#lastWorkOrderid").val());
+          if (data.form_is_valid) {
+
+
+            //alert(data.html_assetLife_list);  // <-- This is just a placeholder for now for testing
+            $("#tbody_assetWo").empty();
+            $("#tbody_assetWo").html(data.html_assetWo_list);
+
+            //console.log(data.html_wo_list);
+          }
+          else {
+            //
+            // $("#assetLife-table tbody").html(data.html_assetLife_list);
+            // $("#modal-assetLife .modal-content").html(data.html_assetLife_form);
+          }
+        }
+      });
+    return false;
+    };
+    var initAssetCloseWoLoad=function(){
+
+      $.ajax({
+
+        url: '/Asset/'+$("#lastAssetid").val()+'/listAssetCloseWO/',
+
+
+
+        success: function (data) {
+            //alert($("#lastWorkOrderid").val());
+          if (data.form_is_valid) {
+
+
+            //alert(data.html_assetLife_list);  // <-- This is just a placeholder for now for testing
+            $("#tbody_assetCloseWo").empty();
+            $("#tbody_assetCloseWo").html(data.html_assetCloseWo_list);
+
+            //console.log(data.html_wo_list);
+          }
+          else {
+
+            // $("#assetLife-table tbody").html(data.html_assetLife_list);
+            // $("#modal-assetLife .modal-content").html(data.html_assetLife_form);
+          }
+        }
+      });
+    return false;
+    };
+    var initAssetConsumedPartLoad=function(){
+
+      $.ajax({
+
+        url: '/Asset/'+$("#lastAssetid").val()+'/listAssetConsumedPart/',
+
+
+
+        success: function (data) {
+            //alert($("#lastWorkOrderid").val());
+          if (data.form_is_valid) {
+
+
+            //alert(data.html_assetLife_list);  // <-- This is just a placeholder for now for testing
+            $("#tbody_assetCloseWo").empty();
+            $("#tbody_assetCloseWo").html(data.html_assetConsumedPart_list);
+
+            //console.log(data.html_wo_list);
+          }
+          else {
+
+            // $("#assetLife-table tbody").html(data.html_assetLife_list);
+            // $("#modal-assetLife .modal-content").html(data.html_assetLife_form);
+          }
+        }
+      });
+    return false;
+    };
     var initAssetTreeInit=function(){
 
       $.ajax({
@@ -693,8 +777,8 @@ return false;
           if (data.form_is_valid) {
             $("#htmlmachineasset").html(data.result);
 
-            $('#htmlmachineasset').jstree();
-             console.log(data);
+            // $('#htmlmachineasset').jstree();
+
             // $('#htmlmachineasset').jstree({
             //   'core' : {
             //     'data' : [
@@ -728,7 +812,7 @@ return false;
 
 
    // $.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
-   $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad,initAssetTreeInit);
+   $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad,initAssetTreeInit,initAssetWoLoad,initAssetCloseWoLoad,initAssetConsumedPartLoad);
    //,initAssetLifeLoad
    // loadForm(btn);
 
@@ -760,7 +844,7 @@ var showAssetTypeSelector=function(){
   $(".selection-box:checked").each(function() {
       matches.push(this.value);
   });
-  console.log(matches);
+
      $.ajax({
       url: '/Asset/Types/'+matches,
       beforeSend: function () {
