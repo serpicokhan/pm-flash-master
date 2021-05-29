@@ -448,7 +448,22 @@ def show_asset_tree(request,id):
         test1["text"]=i.assetName
         test1["cat"]=i.assetCategory.name
         test1["parrents"]=[]
+        test1["parts"]=[]
         rt1=i.assetCategory
+        parts=AssetPart.objects.filter(assetPartAssetid=i.id)
+        books2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
+        BOMGroupAsset.objects.filter(BOMGroupAssetAsset=i.id).values_list('BOMGroupAssetBOMGroup',flat=True))
+        a1={}
+        for k in parts:
+            a1={}
+            a1["text"]=k.assetPartPid.partName
+            test1["parts"].append(a1)
+        for k in books2:
+            a1={}
+            a1["text"]=k.BOMGroupPartPart.partName
+            test1["parts"].append(a1)
+
+
         while(rt1.isPartOf):
             d1={}
             # test1[i.id]["rootcat"]=i.assetCategory.isPartOf.name

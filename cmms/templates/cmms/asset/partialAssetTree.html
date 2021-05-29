@@ -1,9 +1,18 @@
+
 <ul>
     <li data-jstree='{ "opened" : true }'>تجهیزات دستگاه
 
 <ul>
 {% for i in assets %}
   <li>{{i.text}}</li>
+  {% if i.parts %}
+  <ul>
+  {% for k in i.parts %}
+    <li>{{k.text}}</li>
+  {% endfor %}
+  </ul>
+  {% endif %}
+
 
 
 {% endfor %}

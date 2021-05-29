@@ -56,7 +56,7 @@
 
 
                       dataType: 'json',
-                      beforeSend: function () {
+                      beforeSend: function (x,y) {
                         // console.log(myformat('{"assetPartPid":{0},\
                         // "assetPartQnty":{1},\
                         // "lastAssetid":{2}}',
@@ -65,6 +65,11 @@
                         // $("#lastAssetid").val()));
                         //alert(btn.attr("data-url"));
                        // console.log(myformat('{"assetPartPart":{0},"assetPartPlannedQnty":{1},"assetPartActulaQnty":{2},"assetPartWorkorder":{3}}',$("#id_assetPartPart").val(),$("#id_assetPartPlannedQnty").val(),$("#id_assetPartActulaQnty").val(),$("#lastWorkOrderid").val()));
+                       if($("#id_assetPartQnty").val().length==0){
+                         toastr.error("تعداد را مشخص کنید");
+                         x.abort();
+
+                       }
 
                       },
                       success: function (data) {

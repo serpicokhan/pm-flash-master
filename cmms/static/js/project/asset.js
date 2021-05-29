@@ -694,7 +694,7 @@ return false;
             $("#htmlmachineasset").html(data.result);
 
             $('#htmlmachineasset').jstree();
-            // console.log(data);
+             console.log(data);
             // $('#htmlmachineasset').jstree({
             //   'core' : {
             //     'data' : [

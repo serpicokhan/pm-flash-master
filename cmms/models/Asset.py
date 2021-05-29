@@ -136,7 +136,7 @@ class BOMGroup(models.Model):
         db_table="bomgroup"
 class BOMGroupPart(models.Model):
     def __str__(self):
-        return '{}:{}'.format(self.BOMGroupName)
+        return '{}:{}'.format(self.BOMGroupPartBOMGroup)
     BOMGroupPartPart=models.ForeignKey('Part',verbose_name="قطعه",on_delete=models.CASCADE,blank=True,null=True)
     BOMGroupPartBOMGroup=models.ForeignKey('BOMGroup',verbose_name="گروه",on_delete=models.CASCADE,blank=True,null=True)
     BOMGroupPartQnty=models.IntegerField("تعداد",blank=True,null=True)

@@ -42,7 +42,7 @@ def js_list_assetPart(request,woId):
     # query="select * from assetpart where assetPartAssetid_id={0}".format(woId)
     books2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
     BOMGroupAsset.objects.filter(BOMGroupAssetAsset=woId).values_list('BOMGroupAssetBOMGroup',flat=True))
-    # print(query)
+
     books=AssetPart.objects.filter(assetPartAssetid=woId)
 
     data['html_assetPart_list']= render_to_string('cmms/asset_parts/partialAssetPartList.html', {
