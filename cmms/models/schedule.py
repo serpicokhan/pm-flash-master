@@ -16,9 +16,63 @@ class Schedule(models.Model):
     def get_nextTime_jalali(self):
         if(self.schnextTime):
             return jdatetime.datetime.fromgregorian(date=self.schnextTime)
-    CHOICES=[(0,'item 1'),
-          (1,'item 2'),
-          (2,'item 3')]
+    def get_tekrar(self):
+        if(self.schChoices==0):
+            if(self.schHowOften==1):
+                return "every {0} hour".format(self.schHourRep)
+            elif(self.schHowOften==2):
+                return "once every {0} day(s)".format(self.schDailyRep)
+            elif(self.schHowOften==3):
+                str=""
+                if(isSunday):
+                    str="یکشنبه"
+                if(isMonday):
+                    str+=",دوشنبه"
+                if(isTuesday):
+                    str+=",سه شنبه"
+                if(isWednenday):
+                    str+=",چهارشنبه"
+                if(isThursday):
+                    str+=",پنجشنبه"
+                if(isFriday):
+                    str+=",جمعه"
+                if(isSaturday):
+                    str+=",شنبه"
+                return "{0} in every {1}".format(str,self.schWeeklyRep)
+            elif(self.schHowOften==4):
+                return "هر {0} روز در هر {1} ماه".format(self.schDayofMonthlyRep,self.schMonthlyRep)
+
+            elif(self.schHowOften==5):
+                str=""
+                if(schMonthOfYearRep==1):
+                    str=="فروردین"
+                elif(schMonthOfYearRep==2):
+                    str="اردیبهشت"
+                elif(schMonthOfYearRep==3):
+                    str="خرداد"
+                elif(schMonthOfYearRep==4):
+                    str="تیر"
+                elif(schMonthOfYearRep==5):
+                    str="مرداد"
+                elif(schMonthOfYearRep==6):
+                    str="شهریور"
+                elif(schMonthOfYearRep==7):
+                    str="مهر"
+                elif(schMonthOfYearRep==8):
+                    str="آبان"
+                elif(schMonthOfYearRep==9):
+                    str="آذر"
+                elif(schMonthOfYearRep==10):
+                    str="دی"
+                elif(schMonthOfYearRep==11):
+                    str="بهمن"
+                elif(schMonthOfYearRep==12):
+                    str="اسفند"
+                return "هر {0} سال در ماه {1}  در روز {2}".format(self.schYearlyRep,self.schMonthOfYearRep,self.schDayOfMonthOfYearRep)
+
+    CHOICES=[(0,'با تکرار زمان'),
+          (1,'بر اساس مقدار'),
+          (2,'رویداد محور')]
     COMPARISON=[(0,'بزرگتر از'),
                 (1,'کوچکتر از'),
                 ]

@@ -86,6 +86,7 @@ urlpatterns = [
     url(r'^SWorkOrder/(?P<id>\d+)/cancel/$', swo_cancel, name='swo_cancel'),
     url(r'^SWorkOrder/(?P<status>\d+)/swo_show_swo_by_type/$', swo_show_swo_by_type, name='swo_show_swo_by_type'),
     url(r'^SWorkOrder/(?P<status>\d+)/swo_show_swo_by_schedule_type/$', swo_show_swo_by_schedule_type, name='swo_show_swo_by_schedule_type'),
+    url(r'^SWorkOrder/(?P<id>-?\d+)/details$', swo_detail, name='swo_detail'),
 
 
      url(r'^Task/$',list_task,name='list_task'),
@@ -199,6 +200,7 @@ urlpatterns = [
         url(r'^Asset/(?P<id>\d+)/update/$', asset_update, name='asset_update'),
         url(r'^Asset/(?P<id>\d+)/listtree/$', show_asset_tree, name='show_asset_tree'),
         url(r'^Asset/(?P<woId>\d+)/listAssetWO/$', js_list_assetWo, name='js_list_assetWo'),
+        url(r'^Asset/(?P<woId>\d+)/listAssetSWO/$', js_list_assetSWo, name='js_list_assetSWo'),
         url(r'^Asset/(?P<woId>\d+)/listAssetCloseWO/$', js_list_assetCloseWo, name='js_list_assetCloseWo'),
         url(r'^Asset/(?P<woId>\d+)/listAssetConsumedPart/$', js_list_assetConsumedPart, name='js_list_assetConsumedPart'),
 

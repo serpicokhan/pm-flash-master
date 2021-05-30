@@ -60,7 +60,7 @@ $(function () {
 
         });
         $(".selectpicker").selectpicker();
-        
+
         initLoad();
         initWoPartLoad();
         initialScheduleLoad();
@@ -603,4 +603,25 @@ $("#company-table").on("click", ".js-delete-swo", loadForm);
 $("#modal-company").on("submit", ".js-swo-delete-form", saveForm);
 // $('#modal-company').on('hidden.bs.modal',cancelform);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);
+
+
+$(document).ready(function(){
+
+
+  var cururl=window.location.pathname;
+  if(cururl.indexOf('details')>-1)
+  {
+
+    url_parts=cururl.split('/');
+    var test = $('<button/>',
+      {
+          text: 'Test',
+          'data-url':'/SWorkOrder/'+url_parts[2]+'/update/',
+          click: function () {  },
+
+      });
+    // var btn={'data-url':'/WorkOrder/10/update/'};
+     $.when(loadForm(test)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad,initWoPertLoad);
+  }
+});
 });

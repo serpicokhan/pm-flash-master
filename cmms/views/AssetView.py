@@ -439,6 +439,9 @@ def show_Asset_status(request,id):
     return JsonResponse(data)
 def show_asset_tree(request,id):
     children=Asset.objects.filter(assetIsPartOf=id)
+    mainparts=AssetPart.objects.filter(assetPartAssetid=id)
+    mainbooks2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
+    BOMGroupAsset.objects.filter(BOMGroupAssetAsset=id).values_list('BOMGroupAssetBOMGroup',flat=True))
     a=[]
 
     for i in children:
@@ -492,6 +495,17 @@ def js_list_assetWo(request,woId):
     })
     data['form_is_valid']=True
     return JsonResponse(data)
+def js_list_assetSWo(request,woId):
+    data=dict()
+    books=Schedule.objects.filter(workOrder__in=WorkOrder.objects.filter(woAsset=woId
+    ,isScheduling=True,running=True).values_list('id',flat=True)).order_by('-id')
+    print(books)
+
+    data['html_assetSWo_list']= render_to_string('cmms/asset_swo/partialAssetWoList.html', {
+        'assetwos': books
+    })
+    data['form_is_valid']=True
+    return JsonResponse(data)
 @csrf_exempt
 def js_list_assetCloseWo(request,woId):
     data=dict()
@@ -505,7 +519,7 @@ def js_list_assetCloseWo(request,woId):
 @csrf_exempt
 def js_list_assetConsumedPart(request,woId):
     data=dict()
-    books=WorkOrderPart.objects.filter(woPartWorkorder=woId).order_by('-id')[:10]
+    books=WorkorderPart.objects.filter(woPartWorkorder=woId).order_by('-id')[:10]
 
     data['html_assetConsumedPart_list']= render_to_string('cmms/asset_consumed_part/partialAssetWoList.html', {
         'assetwos': books

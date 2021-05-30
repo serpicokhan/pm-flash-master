@@ -708,6 +708,34 @@ return false;
       });
     return false;
     };
+    var initAssetSWoLoad=function(){
+
+      $.ajax({
+
+        url: '/Asset/'+$("#lastAssetid").val()+'/listAssetSWO/',
+
+
+
+        success: function (data) {
+            //alert($("#lastWorkOrderid").val());
+          if (data.form_is_valid) {
+
+
+            //alert(data.html_assetLife_list);  // <-- This is just a placeholder for now for testing
+            $("#tbody_assetSWo").empty();
+            $("#tbody_assetSWo").html(data.html_assetSWo_list);
+
+            //console.log(data.html_wo_list);
+          }
+          else {
+            //
+            // $("#assetLife-table tbody").html(data.html_assetLife_list);
+            // $("#modal-assetLife .modal-content").html(data.html_assetLife_form);
+          }
+        }
+      });
+    return false;
+    };
     var initAssetCloseWoLoad=function(){
 
       $.ajax({
@@ -812,7 +840,7 @@ return false;
 
 
    // $.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
-   $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad,initAssetTreeInit,initAssetWoLoad,initAssetCloseWoLoad,initAssetConsumedPartLoad);
+   $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad,initAssetTreeInit,initAssetWoLoad,initAssetCloseWoLoad,initAssetConsumedPartLoad,initAssetSWoLoad);
    //,initAssetLifeLoad
    // loadForm(btn);
 

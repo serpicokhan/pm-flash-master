@@ -290,3 +290,32 @@ def swo_show_swo_by_schedule_type(request,status):
     data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination.html', {'wo': wos,'pageType':'swo_show_swo_by_schedule_type','pageArgs':status            })
     data['form_is_valid'] = True
     return JsonResponse(data)
+@permission_required('cmms.view_workorder',login_url='/not_found')
+def swo_detail(request,id=None):
+    try:
+        books=[]
+        groups=[]
+
+        if(request.user.username!="admin"):
+            books = WorkOrder.objects.filter(isScheduling=True,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
+            usid=SysUser.objects.get(userId=request.user.id)
+
+            groups=UserGroup.objects.filter(id__in=UserGroups.objects.filter(userUserGroups__id=usid.id).values_list('groupUserGroups',flat=True))
+
+        else:
+            books = WorkOrder.objects.filter(isScheduling=True).filter(visibile=True).order_by('-datecreated','-timecreated')
+            groups=UserGroup.objects.all()
+        #paging
+        # books = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True)#.order_by('-datecreated','-timecreated')
+        # groups=UserGroup.objects.all(id__in=UserGroups.objects.filter(userUserGroups__id=request.user.id).values_list('groupUserGroups',flat=True))
+        # groups=UserGroup.objects.all()
+        #
+        # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        user1=SysUser.objects.get(userId=request.user)
+        # print(user1)
+        # print(user1.profileImage,'$$$$$$$$$$')
+        wos=WOUtility.doPaging(request,books)
+        return render(request, 'cmms/sworkorder/woList.html', {'wo': wos,'groups':groups,'user2':user1})
+    except Exception as ex:
+        print(ex)
+        return render(request, 'cmms/404.html', {'to':123})
