@@ -25,3 +25,9 @@
 </tr>
 
 {% endfor %}
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/assetFile.js' %}"></script>
+{% endblock %}

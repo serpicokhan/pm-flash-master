@@ -443,6 +443,15 @@ def show_asset_tree(request,id):
     mainbooks2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
     BOMGroupAsset.objects.filter(BOMGroupAssetAsset=id).values_list('BOMGroupAssetBOMGroup',flat=True))
     a=[]
+    for k in mainparts:
+        test1={}
+        test1["text"]=k.assetPartPid.partName
+        a.append(test1)
+    for k in mainbooks2:
+        test1={}
+        test1["text"]=k.BOMGroupPartPart.partName
+        a.append(test1)
+
 
     for i in children:
         test1={}

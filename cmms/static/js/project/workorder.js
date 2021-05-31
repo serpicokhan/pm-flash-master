@@ -353,12 +353,12 @@ var saveFormsetForm= function () {
 
     myurl="";
     if(n===2)
-      myurl='ListCurrentWeek';
+      myurl='/WorkOrder/ListCurrentWeek';
     else if(n===3) {
-      myurl='ListCurrentMonth';
+      myurl='/WorkOrder/ListCurrentMonth';
     }
     else {
-       myurl='ListCurrentDay';
+       myurl='/WorkOrder/ListCurrentDay';
     }
 
     $.ajax({

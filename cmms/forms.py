@@ -456,6 +456,7 @@ class ScheduleForm(forms.ModelForm):
          model = Schedule
          fields = '__all__'
 class AssetForm(forms.ModelForm):
+    assetDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     # def clean_assetCategory(self):
     #     last_name = self.cleaned_data['assetCategory']
     #     print(last_name,"$$$$$$$$$$$$$$$$")
