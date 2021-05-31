@@ -9,10 +9,10 @@
                                 <i class="fa fa-wrench"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                <li><a href="#">گزینه 1</a>
+                              {% for i in darayee %}
+                                <li><a href="#{{ai.id}}">{{i.assetName}}</a>
                                 </li>
-                                <li><a href="#">گزینه 2</a>
-                                </li>
+                              {% endfor %}
                             </ul>
                             <a class="close-link">
                                 <i class="fa fa-times"></i>
