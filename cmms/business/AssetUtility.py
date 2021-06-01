@@ -139,8 +139,6 @@ class AssetUtility:
 
         for r1 in eqList:
             assetname.append(r1.settingEqAsset.name)
-
-
             mval["EM"].append(Tasks.objects.raw(""" select floor(COALESCE(sum(timestampdiff(minute,cast(concat(taskStartDate,
             ' ', taskStartTime) as datetime),
             cast(concat(taskDateCompleted, ' ', taskTimeCompleted) as datetime))),0)/60) as id from tasks
@@ -151,9 +149,55 @@ class AssetUtility:
              where  tasks.taskStartDate between '{0}' and '{1}'
              and assets.assetCategory_id={2} and workorder.isScheduling=0 and workorder.isem=1
              ;
-
-
             """.format(start,end,r1.settingEqAsset.id))[0].id)
+        return mval,mcol,assetname;
+        #gethumancostforwo(start,end)
+    @staticmethod
+    def getDashIstgahStatusWithLocation(start,end,location):
+        eqList=list(AssetTypeUtility.getList().filter(settingLocation__id=location))
+        n1=0
+        d={}
+        mval={}#corresponding maintenance value for eash station
+        mcol={}
+        mid=MaintenanceType.objects.all()
+        assetname=[]
+        for m in mid:
+            mval[m.name]=[]
+            mcol['{0}-1'.format(m.name)]=m.color
+
+            for r1 in eqList:
+                mval[m.name].append(Tasks.objects.raw("""select
+                floor(COALESCE(sum(timestampdiff(minute,cast(concat(taskStartDate, ' ', taskStartTime) as datetime),
+                cast(concat(taskDateCompleted, ' ', taskTimeCompleted) as datetime))),0)/60) as id from tasks
+                 inner JOIN workorder on tasks.workOrder_id=workorder.id
+                 inner join assets on workorder.woAsset_id=assets.id
+                 where workorder.maintenanceType_id={0}
+                 and tasks.taskStartDate between '{1}' and '{2}'
+                 and assets.assetCategory_id={3} and workorder.isScheduling=0 and assets.assetIsLocatedAt_id={4}
+                 ;
+
+
+                """.format(m.id,start,end,r1.settingEqAsset.id,location))[0].id)
+
+
+        mval["EM"]=[]
+        mcol['EM-1']='red'
+
+        for r1 in eqList:
+            assetname.append(r1.settingEqAsset.name)
+            mval["EM"].append(Tasks.objects.raw(""" select floor(COALESCE(sum(timestampdiff(minute,cast(concat(taskStartDate,
+            ' ', taskStartTime) as datetime),
+            cast(concat(taskDateCompleted, ' ', taskTimeCompleted) as datetime))),0)/60) as id from tasks
+
+             inner JOIN workorder on tasks.workOrder_id=workorder.id
+             inner join assets on workorder.woAsset_id=assets.id
+
+             where  tasks.taskStartDate between '{0}' and '{1}'
+             and assets.assetCategory_id={2} and workorder.isScheduling=0 and workorder.isem=1 and assets.assetIsLocatedAt_id={3}
+             ;
+
+
+            """.format(start,end,r1.settingEqAsset.id,location))[0].id)
 
 
 

@@ -101,6 +101,31 @@ var LoadEqCost=function()
   }
 });
 }
+var LoadEqCost2=function(loc)
+{
+  $.ajax({
+    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetIstgahStatus2/'+loc,
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+
+    },
+    success: function (data) {
+      // console.log(data);
+
+    drawIstgahStatusBar(data.html_DashIstgahStatus_list.dt1,data.html_DashIstgahStatus_list.dt2,data.html_DashIstgahStatus_list.dt3);
+
+
+  // $("#dash_eqdowntimebody").html(data.html_dashEqDownTime_list);
+
+  }
+});
+}
+$(".darayeeselector").click(function(){
+loc=($(this).attr("date-url"));
+LoadEqCost2(loc);
+return false;
+});
 var LoadIstgahStatusBar=function()
 {
 

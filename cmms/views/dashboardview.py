@@ -395,6 +395,19 @@ def dash_getDashIstgahStatus(request,startHijri,endHijri):
                 #'x2':n2
                 }
     return JsonResponse(data)
+def dash_getDashIstgahStatus2(request,startHijri,endHijri,loc):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    n1,n2,n3=AssetUtility.getDashIstgahStatusWithLocation(start,end,loc)
+
+    data['html_DashIstgahStatus_list'] = {
+                'dt1': n1,
+                'dt2':n2,
+                'dt3':n3 #assetname
+
+                #'x2':n2
+                }
+    return JsonResponse(data)
 ############################################
 def dash_getDashCauseCount(request,startHijri,endHijri):
     data=dict()

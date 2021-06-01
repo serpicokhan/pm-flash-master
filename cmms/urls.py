@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetDownTime/$', dash_getEquipDownTime, name='dash_getEquipDownTime'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetEquipCost/$', dash_getEquipCost, name='dash_getEquipCost'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetIstgahStatus/$', dash_getDashIstgahStatus, name='dash_getDashIstgahStatus'),
+    url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetIstgahStatus2/(?P<loc>\d+)$', dash_getDashIstgahStatus2, name='dash_getDashIstgahStatus2'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCauseCount/$', dash_getDashCauseCount, name='dash_getDashCauseCount'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/(?P<gid>\d+)/GetResStatus/$', dash_getDashResourceStatus, name='dash_getDashResourceStatus'),
     ###################################
