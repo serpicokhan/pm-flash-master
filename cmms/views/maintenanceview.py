@@ -885,3 +885,10 @@ def updateEm(request,id,val):
     wo.save()
     data["isvalid"]=True
     return JsonResponse(data)
+def load_dynamic_Asset(request):
+    assets=Asset.objects.all()
+    data=dict()
+    data["html_assets_dynamics"]=render_to_string('cmms/maintenance/partialWOAssetDynamics.html',
+        {'assets':assets})
+    data["form_is_valid"]=True
+    return JsonResponse(data)

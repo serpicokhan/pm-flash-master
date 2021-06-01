@@ -34,6 +34,10 @@ class UserUtility:
         n1=Attendance.objects.raw("select get_unint_member_attendance({0},'{1}','{2}') as id".format(gid,dt1,dt2))[0].id
         return n1
     @staticmethod
+    def getHozurTimeGid2(dt1,dt2,gid,loc):
+        n1=Attendance.objects.raw("select get_unint_member_attendance2({0},'{1}','{2}',{3}) as id".format(gid,dt1,dt2,loc))[0].id
+        return n1
+    @staticmethod
     def getHozurTimeUser(dt1,dt2,uid):
 
         n1=Attendance.objects.raw("select sum(attendanceTime+ezafekar) as id from attendance where name_id ={0} and (datecreated between '{1}' and '{2}')".format(uid,dt1,dt2))

@@ -26,6 +26,8 @@ function DrawResourceStatusDonat(element,gid,date1,date2)
 
   };
 
+  $('.doughnutChartResourceStatus'+gid).remove(); // this is my <canvas> element
+  $('#dchartcontainer'+gid).append('<canvas class="doughnutChartResourceStatus'+gid+'" style="width: 78px; height: 78px;"><canvas>');
 
   var ctx = document.getElementsByClassName(element)[0].getContext("2d");
 
@@ -38,7 +40,7 @@ function DrawResourceStatusDonat(element,gid,date1,date2)
 
 
 }
-function DrawResourceStatusDonat2(element,data)
+function DrawResourceStatusDonat2(element,data,gid)
 {
   label=[];
   dtset=[];
@@ -79,6 +81,8 @@ function DrawResourceStatusDonat2(element,data)
 
   };
 
+  $('.pieChartResourceStatus'+gid).remove(); // this is my <canvas> element
+  $('#pgidcontainer'+gid).append('<canvas class="pieChartResourceStatus'+gid+'" style="width: 78px; height: 78px;"><canvas>');
 
   var ctx = document.getElementsByClassName(element)[0].getContext("2d");
 
@@ -108,7 +112,30 @@ var LoadResource=function(gid,element)
     DrawResourceStatusDonat("doughnutChartResourceStatus"+gid,gid,data.html_DashResourceStatus_list.dt1,data.html_DashResourceStatus_list.dt2);
     $(".pmWoComOnTimedh"+gid).text(data.html_DashResourceStatus_list.dt1)
     $(".pmWoComh"+gid).text(data.html_DashResourceStatus_list.dt2)
-    DrawResourceStatusDonat2("pieChartResourceStatus"+gid,data.html_DashResourceStatus_list.dt3);
+    DrawResourceStatusDonat2("pieChartResourceStatus"+gid,data.html_DashResourceStatus_list.dt3,gid);
+
+
+  // $("#dash_eqdowntimebody").html(data.html_dashEqDownTime_list);
+
+  }
+});
+}
+var LoadResource2=function(gid,element,loc)
+{
+  $.ajax({
+    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/'+gid+'/GetResStatus2/'+loc,
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+
+    },
+    success: function (data) {
+      // console.log(data);
+
+    DrawResourceStatusDonat("doughnutChartResourceStatus"+gid,gid,data.html_DashResourceStatus_list.dt1,data.html_DashResourceStatus_list.dt2);
+    $(".pmWoComOnTimedh"+gid).text(data.html_DashResourceStatus_list.dt1)
+    $(".pmWoComh"+gid).text(data.html_DashResourceStatus_list.dt2)
+    DrawResourceStatusDonat2("pieChartResourceStatus"+gid,data.html_DashResourceStatus_list.dt3,gid);
 
 
   // $("#dash_eqdowntimebody").html(data.html_dashEqDownTime_list);

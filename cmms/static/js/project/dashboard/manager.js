@@ -44,24 +44,47 @@ GetEmCount();
 });
 //date change
 $(".btn.btn-white.btn-bitbucket").click(function(){
-
+    var ex=$("#makans").val();
     //DrawDonat(100,200,'doughnutChartOnDemand');
+    if(ex=='-1')
+    {
     GetWoReqNum();
     GetWoPartNum();
-    GetMTTR();
+    // GetMTTR();
     GetMisc();
     GetHighPriorityWO();
-    GetWoPartNum();
+    // GetWoPartNum();
     GetStopNum();
     GetOverdueWoReqNum();
     GetLowItemStock();
     LoadEqCost();
-    LoadResource(3);
-    LoadResource(4);
-    LoadResource(5);
+    for ( i=0;i<ggid.length;i++){
+
+    LoadResource(ggid[i],"doughnutChartResourceStatus"+ggid[i]);
+  }
     LoadCauseBar();
     GetEmCount();
     getDueService();
+  }
+  else
+  {
+
+    GetWoReqNum2(ex);
+    GetWoPartNum2(ex);
+    GetMisc2(ex);
+    GetHighPriorityWO2(ex);
+    LoadEqCost2(ex);
+    GetStopNum2(ex);
+    GetOverdueWoReqNum2(ex);
+    for ( i=0;i<ggid.length;i++){
+
+    LoadResource2(ggid[i],"doughnutChartResourceStatus"+ggid[i],ex);
+  }
+  LoadCauseBar2(ex);
+  GetEmCount2(ex);
+  getDueService2(ex);
+}
+
 
 
     // GetRequestedWo();

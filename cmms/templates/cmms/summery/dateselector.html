@@ -30,6 +30,21 @@
 
 
                  </div>
+                 <div class="col-sm-2">
+                   <div class=" ">
+                                         <select class="form-control" id="makans">
+                                           <option value="-1">همه</option>
+                                           {% for i in darayee %}
+                                             <option value="{{i.id}}" class="darayeeselector">{{i.assetName}}</option>
+
+                                           {% endfor %}
+
+                                         </select>
+
+                                     </div>
+
+
+                 </div>
 
                  <div class="col-sm-2">
                    <a class="btn btn-white btn-bitbucket">

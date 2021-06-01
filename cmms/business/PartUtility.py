@@ -7,7 +7,15 @@ class PartUtility:
     @staticmethod
     def getUsedPartNum(start,end):
         # print("SELECT  count(woPartActulaQnty) as id   from workorderpart inner join workorder on  workorderpart.woPartWorkorder_id=workorder.id where workorder.datecreated  between '{0}' and '{1}' and isScheduling=0".format(start,end))
-        return WorkorderPart.objects.raw("SELECT  count(woPartActulaQnty) as id   from workorderpart inner join workorder on  workorderpart.woPartWorkorder_id=workorder.id where (workorder.datecreated)  between '{0}' and '{1}' and isScheduling=0".format(start,end))
+        return WorkorderPart.objects.raw("SELECT  count(woPartActulaQnty) as id from workorderpart inner join workorder on  workorderpart.woPartWorkorder_id=workorder.id where (workorder.datecreated)  between '{0}' and '{1}' and isScheduling=0".format(start,end))
+    @staticmethod
+    def getUsedPartNum2(start,end,loc):
+        # print("SELECT  count(woPartActulaQnty) as id   from workorderpart inner join workorder on  workorderpart.woPartWorkorder_id=workorder.id where workorder.datecreated  between '{0}' and '{1}' and isScheduling=0".format(start,end))
+        return WorkorderPart.objects.raw("""SELECT  count(woPartActulaQnty) as id
+         from workorderpart inner join workorder on  workorderpart.woPartWorkorder_id=workorder.id
+         inner join assets on assets.id =workorder.woAsset_id
+
+         where (workorder.datecreated)  between '{0}' and '{1}' and isScheduling=0 and assets.assetIsLocatedAt_id={2} """.format(start,end,loc))
     @staticmethod
     def getPartCost(start,end):
         return WorkorderPart.objects.raw("""SELECT  sum(t1.woPartActulaQnty*t2.partLastPrice) as id  from workorderpart

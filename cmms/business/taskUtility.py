@@ -143,6 +143,19 @@ class TaskUtility:
          ; """.format(gid,dt1,dt2))[0].id
         return n1;
     @staticmethod
+    def getWorkHourByGid2(dt1,dt2,gid,loc):
+        n1=Tasks.objects.raw("""select floor(COALESCE( sum(timestampdiff(minute,cast(concat(taskStartDate, ' ',
+        taskStartTime) as datetime)
+        ,cast(concat(taskDateCompleted, ' ', taskTimeCompleted) as datetime))),0)/60) as id from tasks
+         inner JOIN usergroups on tasks.taskAssignedToUser_id=usergroups.userUserGroups_id
+         inner JOIN workorder on tasks.workOrder_id=workorder.id
+         inner join assets on assets.id=workorder.woAsset_id
+         where  usergroups.groupUserGroups_id={0}
+         and tasks.taskDateCompleted between '{1}' and '{2}'
+         and workorder.isScheduling=0 and assets.assetIsLocatedAt_id={3}
+         ; """.format(gid,dt1,dt2,loc))[0].id
+        return n1;
+    @staticmethod
     def getGroupMaintenance(dt1,dt2,gid,mid):
         n1=Tasks.objects.raw("""select floor(COALESCE( sum(timestampdiff
                              (minute,cast(concat(taskStartDate, ' ', taskStartTime) as datetime)

@@ -113,3 +113,31 @@ error:function(){
 });
 
 }
+var LoadCauseBar2=function(loc)
+{
+  $.ajax({
+    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetCauseCount2/'+loc,
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+
+    },
+    success: function (data) {
+      console.log(data);
+      drawCauseBar(data.html_DashCAuseCount_list.dt1);
+      //html_DashCAuseCount_list
+
+
+
+
+
+
+  // $("#dash_eqdowntimebody").html(data.html_dashEqDownTime_list);
+
+},
+error:function(){
+  alert("error");
+}
+});
+
+}

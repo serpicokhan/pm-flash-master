@@ -57,8 +57,9 @@ def list_dashboard(request):
         return render(request,"cmms/dashboards/director.html",{"today" : today,'user2':user1})
     elif((user1.userId.groups.filter(name= 'manager').exists())):
         dashugroups=UserGroup.objects.all().exclude(userGroupName="سایر")
-        darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True)
-        return render(request,"cmms/dashboards/manager.html",{"dashugroups" : dashugroups,'user2':user1,'naghsh':'تکنسین PM','darayee':darayee})
+        gid=UserGroup.objects.all().exclude(userGroupName="سایر").values_list('id',flat=True)
+        darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
+        return render(request,"cmms/dashboards/manager.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'تکنسین PM','darayee':darayee})
     else:
         return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1})
     # return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1})
@@ -72,6 +73,20 @@ def GetWoPartNum(request,startHijri,endHijri):
 
     start,end=DateJob.convert2Date(startHijri,endHijri)
     n1=PartUtility.getUsedPartNum(start,end)
+    #n2=WorkorderPart.objects.raw("SELECT  count(woPartActulaQnty) as id  from workorderpart where pmonth(timeStamp) =pmonth(CURRENT_DATE - INTERVAL 1 MONTH)")
+    data['html_monthlywopartnumrep_list'] = render_to_string('cmms/summery/partialwopart.html', {
+                'x1': n1,
+                #'x2':n2
+
+            })
+    data['html_is_valid']=True
+
+    return JsonResponse(data)
+def GetWoPartNum2(request,startHijri,endHijri,loc):
+    data=dict()
+
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    n1=PartUtility.getUsedPartNum2(start,end,loc)
     #n2=WorkorderPart.objects.raw("SELECT  count(woPartActulaQnty) as id  from workorderpart where pmonth(timeStamp) =pmonth(CURRENT_DATE - INTERVAL 1 MONTH)")
     data['html_monthlywopartnumrep_list'] = render_to_string('cmms/summery/partialwopart.html', {
                 'x1': n1,
@@ -96,11 +111,40 @@ def GeStopNum(request,startHijri,endHijri):
     data['html_is_valid']=True
 
     return JsonResponse(data)
+def GeStopNum2(request,startHijri,endHijri,loc):
+    data=dict()
+
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    n1=AssetUtility.getAssetOfflineTime2(start,end,loc)
+    #n2=WorkorderPart.objects.raw("SELECT  count(woPartActulaQnty) as id  from workorderpart where pmonth(timeStamp) =pmonth(CURRENT_DATE - INTERVAL 1 MONTH)")
+    data['html_stopnumrep_list'] = render_to_string('cmms/summery/stopNum.html', {
+                'x1': n1,
+                #'x2':n2
+
+            })
+    data['html_is_valid']=True
+
+    return JsonResponse(data)
     ###################################################################
 def GetWoReqNum(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
     n1=WOUtility.getWoReqNum(start,end)
+    #n2=WorkOrder.objects.raw("SELECT  count(id) as id  from workorder where pmonth(datecreated) =pmonth(CURRENT_DATE - INTERVAL 1 MONTH) and isScheduling=0" )
+    data['html_monthlyworeqnumrep_list'] = render_to_string('cmms/summery/partialworequest.html', {
+                'x1': n1,
+                #'x2':n2
+
+            })
+    data['html_is_valid']=True
+
+    return JsonResponse(data)
+def GetWoReqNum2(request,startHijri,endHijri,loc):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+
+    n1=WOUtility.getWoReqNum2(start,end,loc)
+
     #n2=WorkOrder.objects.raw("SELECT  count(id) as id  from workorder where pmonth(datecreated) =pmonth(CURRENT_DATE - INTERVAL 1 MONTH) and isScheduling=0" )
     data['html_monthlyworeqnumrep_list'] = render_to_string('cmms/summery/partialworequest.html', {
                 'x1': n1,
@@ -156,6 +200,24 @@ def GetOverdueWoReqNum(request,startHijri,endHijri):
      data['html_is_valid']=True
 
      return JsonResponse(data)
+def GetOverdueWoReqNum2(request,startHijri,endHijri,loc):
+     data=dict()
+     start,end=DateJob.convert2Date(startHijri,endHijri)
+     n1=WorkOrder.objects.raw("""SELECT  count(id) as id  fr om workorder
+     inner join assets on workorder.woAsset_id=assets.id
+      where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and
+      current_date>requiredCompletionDate and isScheduling=0 and (datecreated between '{0}' and '{1}')
+      and assets.assetIsLocatedAt_id={2}
+      """.format(start,end,loc))
+     #n2=WorkOrder.objects.raw("SELECT  count(id) as id  fr om workorder where pmonth(timeStamp) =pmonth(CURRENT_DATE - INTERVAL 1 MONTH) and woStatus=5")
+     data['html_overdueworeqnumrep_list'] = render_to_string('cmms/summery/partialoverdueworequest.html', {
+                 'x1': n1,
+
+
+             })
+     data['html_is_valid']=True
+
+     return JsonResponse(data)
 def GetdueWoNum(request,startHijri,endHijri):
      data=dict()
      start,end=DateJob.convert2Date(startHijri,endHijri)
@@ -168,6 +230,22 @@ def GetdueWoNum(request,startHijri,endHijri):
              # })
      no=datetime.datetime.now().date()
      n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,datecreated__range=(no,F('requiredCompletionDate'))).count()
+     data['html_dueservice_list']=n1
+     data['html_is_valid']=True
+
+     return JsonResponse(data)
+def GetdueWoNum2(request,startHijri,endHijri,loc):
+     data=dict()
+     start,end=DateJob.convert2Date(startHijri,endHijri)
+     # n1=WorkOrder.objects.raw("SELECT  count(id) as id  fr om workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and current_date>requiredCompletionDate and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end))
+     #n2=WorkOrder.objects.raw("SELECT  count(id) as id  fr om workorder where pmonth(timeStamp) =pmonth(CURRENT_DATE - INTERVAL 1 MONTH) and woStatus=5")
+     # data['html_dueservice_list'] = render_to_string('cmms/summery/partialoverdueworequest.html', {
+             #     'x1': n1,
+             #
+             #
+             # })
+     no=datetime.datetime.now().date()
+     n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,datecreated__range=(no,F('requiredCompletionDate')),woAsset__assetIsLocatedAt__id=loc).count()
      data['html_dueservice_list']=n1
      data['html_is_valid']=True
 
@@ -195,6 +273,23 @@ def GetMiscCost(request,startHijri,endHijri):
      ###From ExtraCoast Class
      n1=ExtraCost.getMiscCost(start,end)
 
+
+     data['html_monthlymiscrep_list'] = render_to_string('cmms/summery/partialmisc.html', {
+                 'x1': n1,
+                 #'x2':n2
+
+             })
+     data['html_is_valid']=True
+
+     return JsonResponse(data)
+def GetMiscCost2(request,startHijri,endHijri,loc):
+
+     data=dict()
+     start,end=DateJob.convert2Date(startHijri,endHijri)
+     ###From ExtraCoast Class
+     n1=ExtraCost.getMiscCost2(start,end,loc)
+     # print(n1[0].id)
+
      data['html_monthlymiscrep_list'] = render_to_string('cmms/summery/partialmisc.html', {
                  'x1': n1,
                  #'x2':n2
@@ -209,6 +304,15 @@ def GetHighPriorityWO(request,startHijri,endHijri):
 
     start,end=DateJob.convert2Date(startHijri,endHijri)
     n1=WOUtility.GetHighPriorityWO(start,end)
+    data['html_highprioritywo_list'] = render_to_string('cmms/summery/partialhighprioritywo.html', {
+                 'x1': n1,
+             })
+    return JsonResponse(data)
+def GetHighPriorityWO2(request,startHijri,endHijri,loc):
+    data=dict()
+
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    n1=WOUtility.GetHighPriorityWO2(start,end,loc)
     data['html_highprioritywo_list'] = render_to_string('cmms/summery/partialhighprioritywo.html', {
                  'x1': n1,
              })
@@ -419,6 +523,16 @@ def dash_getDashCauseCount(request,startHijri,endHijri):
 
                 }
     return JsonResponse(data)
+def dash_getDashCauseCount2(request,startHijri,endHijri,loc):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    n1=WOUtility.getDashCauseCount2(start,end,loc)
+
+    data['html_DashCAuseCount_list'] = {
+                'dt1': n1,
+
+                }
+    return JsonResponse(data)
 ############################################
 def dash_getDashResourceStatus(request,startHijri,endHijri,gid):
     data=dict()
@@ -440,11 +554,41 @@ def dash_getDashResourceStatus(request,startHijri,endHijri,gid):
                 #'x2':n2
                 }
     return JsonResponse(data)
+def dash_getDashResourceStatus2(request,startHijri,endHijri,gid,loc):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    n1=TaskUtility.getWorkHourByGid2(start,end,gid,loc)
+    n2=UserUtility.getHozurTimeGid2(start,end,gid,loc)
+    mid=MaintenanceType.objects.all()
+    d={}
+    for k in mid:
+        d[k.name]=TaskUtility.getGroupMaintenance(start,end,gid,k.id)
+        d['c_'+k.name]=k.color
+
+    data['html_DashResourceStatus_list'] = {
+                'dt1': int(n1),
+                'dt2':n2,
+                'dt3':d
+
+
+                #'x2':n2
+                }
+    return JsonResponse(data)
 # EM
 def GetEmCount(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
     n1=WOUtility.getEmCount(start,end)
+
+    data['html_emwo_list'] = {
+                'dt1': n1,
+
+                }
+    return JsonResponse(data)
+def GetEmCount2(request,startHijri,endHijri,loc):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    n1=WOUtility.getEmCount2(start,end,loc)
 
     data['html_emwo_list'] = {
                 'dt1': n1,

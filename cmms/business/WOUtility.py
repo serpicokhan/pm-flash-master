@@ -118,8 +118,17 @@ class WOUtility:
     #########################################################################################
     @staticmethod
     def getWoReqNum(start,end):
+        print("!1@#!@#@!",WorkOrder.objects.filter(datecreated__range=[start,end],isScheduling=False).count())
 
-        return WorkOrder.objects.raw("SELECT  count(id) as id  from workorder where datecreated between '{0}' and '{1}' and isScheduling=0".format(start,end))
+        return WorkOrder.objects.filter(datecreated__range=[start,end],isScheduling=False).count()
+        # raw("SELECT  count(id) as id  from workorder where datecreated between '{0}' and '{1}' and isScheduling=0".format(start,end))
+    #########################################################################################
+    @staticmethod
+    def getWoReqNum2(start,end,loc):
+
+
+        return WorkOrder.objects.filter(datecreated__range=[start,end],isScheduling=False,woAsset__assetIsLocatedAt__id=loc).count()
+        # raw("SELECT  count(id) as id  from workorder where datecreated between '{0}' and '{1}' and isScheduling=0".format(start,end))
     #########################################################################################
 
     @staticmethod
@@ -227,6 +236,12 @@ class WOUtility:
         # print("!!!!","select count(id) as id from workorder where wopriority IN (1,2) and wostatus IN (1,4,5,6,9) and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end))
 
         n1 = WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9)).count()
+        return n1
+    @staticmethod
+    def GetHighPriorityWO2(start,end,loc):
+        # print("!!!!","select count(id) as id from workorder where wopriority IN (1,2) and wostatus IN (1,4,5,6,9) and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end))
+
+        n1 = WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9),woAsset__assetIsLocatedAt__id=loc).count()
         return n1
     ##############################
     # @staticmethod
@@ -896,8 +911,24 @@ class WOUtility:
         return d
     #EM
     @staticmethod
+    def getDashCauseCount2(start,end,loc):
+        d={}
+        causes=CauseCode.objects.all()
+        for c in causes:
+            d[c.causeDescription]=WorkOrder.objects.raw(""" select count(workorder.id) as id from workorder
+            inner join assets on assets.id=workorder.woAsset_id
+             where woCauseCode_id={0} and (datecreated between '{1}' and '{2}')
+             and assets.assetIsLocatedAt_id={3}""".format(c.id,start,end,loc))[0].id
+        return d
+    #EM
+    @staticmethod
     def getEmCount(start,end):
         return WorkOrder.objects.raw("select COALESCE(count(id),0) as id from workorder where datecreated between '{0}' and '{1}' and isem=1".format(start,end))[0].id
+    @staticmethod
+    def getEmCount2(start,end,loc):
+        return WorkOrder.objects.raw("""select COALESCE(count(id),0) as id from workorder
+        inner join assets on assets.id=workorder.woAsset_id
+        where (datecreated between '{0}' and '{1}') and isem=1 and assets.assetIsLocatedAt_id={2}""".format(start,end,loc))[0].id
     #EM
     @staticmethod
     def getEms(start,end):

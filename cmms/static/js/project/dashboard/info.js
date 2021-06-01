@@ -6,12 +6,25 @@ var GetWoPartNum= function () {
      dataType: 'json',
      success: function (data) {
 
-         // alert(ompany created!");  // <-- This is just a placeholder for now for testing
-         //$("#tbody_company").empty();
-         // console.log(data);
+
          $("#monthlyWoPartNumRep").html(data.html_monthlywopartnumrep_list);
-         //$("#modal-company").modal("hide");
-         //console.log(data.html_order_list);
+
+
+
+     }
+   });
+   return false;
+ };
+var GetWoPartNum2= function (loc) {
+
+   $.ajax({
+     url: 'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetWoPartNum2/'+loc,
+     type:'get',
+     dataType: 'json',
+     success: function (data) {
+
+
+         $("#monthlyWoPartNumRep").html(data.html_monthlywopartnumrep_list);
 
 
      }
@@ -26,12 +39,26 @@ var GetStopNum= function () {
      dataType: 'json',
      success: function (data) {
 
-         // alert(ompany created!");  // <-- This is just a placeholder for now for testing
-         //$("#tbody_company").empty();
-         // console.log(data);
+
          $("#stopNumRep").html(data.html_stopnumrep_list);
-         //$("#modal-company").modal("hide");
-         //console.log(data.html_order_list);
+
+
+
+     }
+   });
+   return false;
+ };
+var GetStopNum2= function (loc) {
+
+   $.ajax({
+     url: 'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetStopNum2/'+loc,
+     type:'get',
+     dataType: 'json',
+     success: function (data) {
+
+
+         $("#stopNumRep").html(data.html_stopnumrep_list);
+
 
 
      }
@@ -48,20 +75,32 @@ var GetStopNum= function () {
       dataType: 'json',
       success: function (data) {
 
-          //alert("Company created!");  // <-- This is just a placeholder for now for testing
-          //$("#tbody_company").empty();
-          // console.log("'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetWoReqNum/'");
-          // console.log(data.html_monthlyworeqnumrep_list);
-          // console.log("tamam");
+
           $("#monthlyWoReqNumRep").html(data.html_monthlyworeqnumrep_list);
-          //$("#modal-company").modal("hide");
-          //console.log(data.html_order_list);
+
 
 
       }
     });
     return false;
   };
+  var GetWoReqNum2= function (loc) {
+
+     $.ajax({
+       url: 'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetWoReqNum2/'+loc,
+       type:'get',
+       dataType: 'json',
+       success: function (data) {
+
+
+           $("#monthlyWoReqNumRep").html(data.html_monthlyworeqnumrep_list);
+
+
+
+       }
+     });
+     return false;
+   };
 
 //////////////////
 var GetMTTR= function () {
@@ -72,11 +111,8 @@ var GetMTTR= function () {
     dataType: 'json',
     success: function (data) {
 
-      //alert("Company created!");  // <-- This is just a placeholder for now for testing
-      //$("#tbody_company").empty();
+
       $("#monthlyMTTR").html(data.html_monthlymttrrep_list);
-      //$("#modal-company").modal("hide");
-      //console.log(data.html_order_list);
 
 
     }
@@ -93,11 +129,23 @@ var GetMisc= function () {
      dataType: 'json',
      success: function (data) {
 
-         //alert("Company created!");  // <-- This is just a placeholder for now for testing
-         //$("#tbody_company").empty();
+
          $("#monthlyMisc").html(data.html_monthlymiscrep_list);
-         //$("#modal-company").modal("hide");
-         //console.log(data.html_order_list);
+
+     }
+   });
+   return false;
+ };
+var GetMisc2= function (loc) {
+
+   $.ajax({
+     url: 'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetMiscCost2/'+loc,
+     type:'get',
+     dataType: 'json',
+     success: function (data) {
+
+
+         $("#monthlyMisc").html(data.html_monthlymiscrep_list);
 
 
      }
@@ -113,15 +161,30 @@ var GetHighPriorityWO= function () {
      type:'get',
      dataType: 'json',
      success: function (data) {
-       // console.log("darkhast bala");
-       // console.log(data);
-       // console.log("tamam");
 
-         //alert("Company created!");  // <-- This is just a placeholder for now for testing
-         //$("#tbody_company").empty();
+
+
          $("#HighPriorityWO").html(data.html_highprioritywo_list);
-         //$("#modal-company").modal("hide");
-         //console.log(data.html_order_list);
+
+
+
+     }
+   });
+   return false;
+ };
+var GetHighPriorityWO2= function (loc) {
+
+
+   $.ajax({
+     url: 'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetHighPriorityWo2/'+loc,
+     type:'get',
+     dataType: 'json',
+     success: function (data) {
+
+
+
+         $("#HighPriorityWO").html(data.html_highprioritywo_list);
+
 
 
      }
@@ -137,12 +200,9 @@ var GetHighPriorityWO= function () {
       dataType: 'json',
       success: function (data) {
 
-          //alert("Company created!");  // <-- This is just a placeholder for now for testing
-          //$("#tbody_company").empty();
+
           $("#openWoReqNumRep").html(data.html_openworeqnumrep_list);
-          //$("#modal-company").modal("hide");
-          //console.log(data.html_order_list);
-        //console.log(data);
+
 
       }
     });
@@ -156,12 +216,9 @@ var GetHighPriorityWO= function () {
        dataType: 'json',
        success: function (data) {
 
-           //alert("Company created!");  // <-- This is just a placeholder for now for testing
-           //$("#tbody_company").empty();
+
            $("#closeWoReqNumRep").html(data.html_closeworeqnumrep_list);
-           //$("#modal-company").modal("hide");
-           //console.log(data.html_order_list);
-         //console.log(data);
+
 
        }
      });
@@ -175,12 +232,24 @@ var GetHighPriorityWO= function () {
         dataType: 'json',
         success: function (data) {
 
-            //alert("Company created!");  // <-- This is just a placeholder for now for testing
-            //$("#tbody_company").empty();
+
             $("#overdueWoReqNumRep").html(data.html_overdueworeqnumrep_list);
-            //$("#modal-company").modal("hide");
-            //console.log(data.html_order_list);
-          //console.log(data);
+
+
+        }
+      });
+      return false;
+    };
+   var GetOverdueWoReqNum2= function (loc) {
+
+      $.ajax({
+        url: 'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetOverdueWoReqNum2/'+loc,
+        type:'get',
+        dataType: 'json',
+        success: function (data) {
+
+
+            $("#overdueWoReqNumRep").html(data.html_overdueworeqnumrep_list);
 
         }
       });
@@ -194,12 +263,9 @@ var GetHighPriorityWO= function () {
          dataType: 'json',
          success: function (data) {
 
-             //alert("Company created!");  // <-- This is just a placeholder for now for testing
-             //$("#tbody_company").empty();
+
              $("#lowItemStock").html(data.html_lowitemstock_list);
-             //$("#modal-company").modal("hide");
-             //console.log(data.html_order_list);
-           //console.log(data);
+
 
          }
        });
@@ -213,12 +279,9 @@ var GetHighPriorityWO= function () {
          dataType: 'json',
          success: function (data) {
 
-             //alert("Company created!");  // <-- This is just a placeholder for now for testing
-             //$("#tbody_company").empty();
+
              $("#requestedWo").html(data.html_requestedwo_list);
-             //$("#modal-company").modal("hide");
-             //console.log(data.html_order_list);
-           //console.log(data);
+
 
          }
        });
@@ -231,14 +294,28 @@ var GetHighPriorityWO= function () {
           type:'get',
           dataType: 'json',
           success: function (data) {
-            console.log(data);
 
-              //alert("Company created!");  // <-- This is just a placeholder for now for testing
-              //$("#tbody_company").empty();
+
+
               $("#EmCount").html(data.html_emwo_list.dt1);
-              //$("#modal-company").modal("hide");
-              //console.log(data.html_order_list);
-            //console.log(data);
+
+
+          }
+        });
+        return false;
+      };
+     var GetEmCount2= function (loc) {
+
+        $.ajax({
+          url: 'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetEmCount2/'+loc,
+          type:'get',
+          dataType: 'json',
+          success: function (data) {
+
+
+
+              $("#EmCount").html(data.html_emwo_list.dt1);
+
 
           }
         });
@@ -251,14 +328,26 @@ var GetHighPriorityWO= function () {
           type:'get',
           dataType: 'json',
           success: function (data) {
-            console.log(data);
 
-              //alert("Company created!");  // <-- This is just a placeholder for now for testing
-              //$("#tbody_company").empty();
+
+
               $("#dueservice").html(data.html_dueservice_list);
-              //$("#modal-company").modal("hide");
-              //console.log(data.html_order_list);
-            //console.log(data);
+
+          }
+        });
+        return false;
+      }
+      var getDueService2=function()
+      {
+        $.ajax({
+          url: 'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetdueWoNum2/'+loc,
+          type:'get',
+          dataType: 'json',
+          success: function (data) {
+
+
+
+              $("#dueservice").html(data.html_dueservice_list);
 
           }
         });

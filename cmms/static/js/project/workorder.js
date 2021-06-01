@@ -74,8 +74,31 @@ $(function () {
                   initWoFileLoad();initWoLogLoad();
                   initWoPertLoad();
                   $('#woassetrefresh').click(function(){
-                    alert(12);
-                    $(this).html('<i class="fa fa-refresh fa-spin"></i>')
+
+                    $(this).html('<i class="fa fa-refresh fa-spin"></i>');
+                    $.ajax({
+                      url: '/WorkOrder/LoadAsset/',
+
+                      type: 'get',
+                      dataType: 'json',
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                        $("#id_woAsset").html(data.html_assets_dynamics);
+                        $('#woassetrefresh').html('<i class="fa fa-refresh"></i>');
+                        $('#id_woAsset').selectpicker('refresh');
+
+                         // $("tr").on("click", showAssetDetails);
+
+                         // console.log(data.html_asset_list);
+                        }
+                        else {
+
+                        toastr.error("خطایی بوجود آمده لطفا مجددا سعی نمایید");
+                        }
+                      }
+                    });
+
                   });
 
 

@@ -12,7 +12,14 @@ class ExtraCost:
     def getMiscCost(start,end):
         # print("!!!!!!!!!!!!!!!!!!!!!")
         # print("select sum(actualTotlaCoast) as id,DATE_FORMAT(FROM_UNIXTIME(`user.registration`), '%e %b %Y') AS 'date_formatted' from misccoast where  date_formatted between '{0}' and '{1}'".format(start,end))
-        return MiscCost.objects.raw("select sum(misccoast.qnty*misccoast.actualUnitCoast) as id from misccoast where  date(timestamp) between '{0}' and '{1}'".format(start,end))
+        return MiscCost.objects.raw("select sum(misccoast.actualTotlaCoast) as id from misccoast where  date(timestamp) between '{0}' and '{1}'".format(start,end))
+    def getMiscCost2(start,end,loc):
+        # print("!!!!!!!!!!!!!!!!!!!!!")
+        # print("select sum(actualTotlaCoast) as id,DATE_FORMAT(FROM_UNIXTIME(`user.registration`), '%e %b %Y') AS 'date_formatted' from misccoast where  date_formatted between '{0}' and '{1}'".format(start,end))
+        return MiscCost.objects.raw("""select sum(misccoast.actualTotlaCoast) as id from misccoast
+        inner join workorder on  misccoast.miscCoastWorkorder_id=workorder.id
+        inner join assets on assets.id=workorder.woAsset_id
+        where  (workorder.datecreated between '{0}' and '{1}') and assets.assetIsLocatedAt_id={2}""".format(start,end,loc))
     ##############################
     @staticmethod
     def getAvgMiscCost(start,end):

@@ -23,7 +23,9 @@ urlpatterns = [
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetIstgahStatus/$', dash_getDashIstgahStatus, name='dash_getDashIstgahStatus'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetIstgahStatus2/(?P<loc>\d+)$', dash_getDashIstgahStatus2, name='dash_getDashIstgahStatus2'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCauseCount/$', dash_getDashCauseCount, name='dash_getDashCauseCount'),
+    url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCauseCount2/(?P<loc>\d+)$', dash_getDashCauseCount2, name='dash_getDashCauseCount2'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/(?P<gid>\d+)/GetResStatus/$', dash_getDashResourceStatus, name='dash_getDashResourceStatus'),
+    url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/(?P<gid>\d+)/GetResStatus2/(?P<loc>\d+)$', dash_getDashResourceStatus2, name='dash_getDashResourceStatus2'),
     ###################################
     url(r'^WorkOrder/$',list_wo,name='list_wo'),
 
@@ -50,6 +52,7 @@ urlpatterns = [
     url(r'^WorkOrder/(?P<wid>\d+)/(?P<aid>\d+)/setAsset/$', wo_setAsset, name='wo_setAsset'),
     url(r'^WorkOrder/(?P<id>\d+)/deleteChildren$', wo_deleteChildren, name='wo_deleteChildren'),
     url(r'^WorkOrder/GetProblems$', wo_getProblem, name='wo_getProblem'),
+    url(r'^WorkOrder/LoadAsset/$', load_dynamic_Asset, name='load_dynamic_Asset'),
     url(r'WorkOrder/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/HighPriority/$',woGetHighPriority,name='woGetHighPriority'),
     url(r'WorkOrder/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/OpenWorkOrder/$',woGetOpenWO,name='woGetOpenWO'),
     url(r'WorkOrder/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/CloseWorkOrder/$',woGetCloseWO,name='woGetCloseWO'),
@@ -510,16 +513,24 @@ urlpatterns = [
 
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetRequestedWo/$', GetRequestedWo, name='GetRequestedWo'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetWoReqNum/$', GetWoReqNum, name='GetWoReqNum'),
+           url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetWoReqNum2/(?P<loc>\d+)/$', GetWoReqNum2, name='GetWoReqNum2'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetWoPartNum/$', GetWoPartNum, name='GetWoPartNum'),
+           url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetWoPartNum2/(?P<loc>\d+)/$', GetWoPartNum2, name='GetWoPartNum2'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetStopNum/$', GeStopNum, name='GeStopNum'),
+           url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetStopNum2/(?P<loc>\d+)/$', GeStopNum2, name='GeStopNum2'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetMTTR/$', GetMTTR, name='GetMTTR'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetMiscCost/$', GetMiscCost, name='GetMiscCost'),
+           url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetMiscCost2/(?P<loc>\d+)/$', GetMiscCost2, name='GetMiscCost2'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetHighPriorityWo/$', GetHighPriorityWO, name='GetHighPriorityWO'),
+           url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetHighPriorityWo2/(?P<loc>\d+)/$', GetHighPriorityWO2, name='GetHighPriorityWO2'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetOpenWoReqNum/$', GetOpenWoReqNum, name='GetOpenWoReqNum'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCloseWoReqNum/$', GetCloseWoReqNum, name='GetCloseWoReqNum'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetOverdueWoReqNum/$', GetOverdueWoReqNum, name='GetOverdueWoReqNum'),
+           url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetOverdueWoReqNum2/(?P<loc>\d+)/$', GetOverdueWoReqNum2, name='GetOverdueWoReqNum2'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetdueWoNum/$', GetdueWoNum, name='GetdueWoNum'),
+           url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetdueWoNum2/(?P<loc>\d+)/$$', GetdueWoNum2, name='GetdueWoNum2'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetEmCount/$', GetEmCount, name='GetEmCount'),
+           url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetEmCount2/(?P<loc>\d+)/$', GetEmCount2, name='GetEmCount2'),
            url(r'^Summery/GetLowItemStock/$', GetLowItemStock, name='GetLowItemStock'),
 
 

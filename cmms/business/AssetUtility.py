@@ -466,6 +466,19 @@ class AssetUtility:
 
 
         return wos[0].id/60
+    @staticmethod
+    def getAssetOfflineTime2(date1,date2,loc):
+        # print("select  COALESCE( sum(timestampdiff(minute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ', assetOnlineFromTime) as datetime))),0)  as id from assetlife where assetOfflineFrom between '{0}' and '{1}' ".format(date1,date2))
+        wos=AssetLife.objects.raw("""select  COALESCE( sum(timestampdiff(minute,cast(concat(assetOfflineFrom, ' '
+        , assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ', assetOnlineFromTime) as datetime))),0)
+         as id from assetlife
+         inner join assets on assets.id=assetlife.assetLifeAssetid_id
+
+
+          where (assetOfflineFrom between '{0}' and '{1}') and assets.assetIsLocatedAt_id={2} """.format(date1,date2,loc))
+
+
+        return wos[0].id/60
 
     @staticmethod
     def createNewAssetStatus(wo):
