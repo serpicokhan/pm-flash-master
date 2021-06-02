@@ -84,29 +84,52 @@ $(".btn.btn-white.btn-bitbucket").click(function(){
   GetEmCount2(ex);
   getDueService2(ex);
 }
+});
+$("#makans").change(function(){
+  
+    var ex=$("#makans").val();
+    //DrawDonat(100,200,'doughnutChartOnDemand');
+    if(ex=='-1')
+    {
+    GetWoReqNum();
+    GetWoPartNum();
+    // GetMTTR();
+    GetMisc();
+    GetHighPriorityWO();
+    // GetWoPartNum();
+    GetStopNum();
+    GetOverdueWoReqNum();
+    GetLowItemStock();
+    LoadEqCost();
+    for ( i=0;i<ggid.length;i++){
+
+    LoadResource(ggid[i],"doughnutChartResourceStatus"+ggid[i]);
+  }
+    LoadCauseBar();
+    GetEmCount();
+    getDueService();
+  }
+  else
+  {
+
+    GetWoReqNum2(ex);
+    GetWoPartNum2(ex);
+    GetMisc2(ex);
+    GetHighPriorityWO2(ex);
+    LoadEqCost2(ex);
+    GetStopNum2(ex);
+    GetOverdueWoReqNum2(ex);
+    for ( i=0;i<ggid.length;i++){
+
+    LoadResource2(ggid[i],"doughnutChartResourceStatus"+ggid[i],ex);
+  }
+  LoadCauseBar2(ex);
+  GetEmCount2(ex);
+  getDueService2(ex);
+}
 
 
 
-    // GetRequestedWo();
-
-
-    /////Donat
-    // LoadOnDemandDonat();
-    // LoadPmDonat();
-    // LoadTotalDonat();
-    //
-    // ////getResources
-    // LoadResources();
-    // ////
-    // LoadGroupBar();
-    // LoadCompletedWorkOrderDonat();
-    // ///get downtime equpment
-    // LoadEqDownTime();
-    // GetHighPriorityWO();
-    // GetOpenWoReqNum();
-    // GetCloseWoReqNum();
-    // GetOverdueWoReqNum();
-    // LoadEqCost();
 
 
 });

@@ -352,15 +352,17 @@ def wo_update(request, id):
 ##########################################################
 
 @login_required
-def woGetHighPriority(request,startHijri,endHijri):
+def woGetHighPriority(request,startHijri,endHijri,loc=None):
     #paging is ok
 
 
             start,end=DateJob.convert2Date(startHijri,endHijri)
             # print(WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9)).query)
 
-
-            books = WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9))
+            if(not loc):
+                books = WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9))
+            else:
+                books = WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9),woAsset__assetIsLocatedAt__id=loc)
             # if(request.user.username!="admin"):
             #     books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated')
             # books=filterUser(request,books)
@@ -800,22 +802,34 @@ def wo_filter(request,startHijri,endHijri,wotype,ordercol,ordertype):
             return JsonResponse(data)
             return render(request, 'cmms/maintenance/woList.html', {'wo': wos})
 #EM
-def showEM(request,startHijri,endHijri):
+def showEM(request,startHijri,endHijri,loc=None):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    n1=WOUtility.getEms(start,end)
+    n1=0
+    if(not loc):
+        n1=WOUtility.getEms(start,end)
+    else:
+        n1=WOUtility.getEms(start,end,loc)
     wos=WOUtility.doPaging(request,n1)
     return render(request,"cmms/maintenance/dash_woList.html",{"wo" : wos})
-def showtaviz(request,startHijri,endHijri):
+def showtaviz(request,startHijri,endHijri,loc=None):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    n1=WOUtility.getTaviz(start,end)
+    n1=0
+    if(not loc):
+        n1=WOUtility.getTaviz(start,end)
+    else:
+        n1=n1=WOUtility.getTaviz(start,end,loc)
     wos=WOUtility.doPaging(request,n1)
     return render(request,"cmms/maintenance/dash_woList.html",{"wo" : wos})
-def showtavaghof(request,startHijri,endHijri):
+def showtavaghof(request,startHijri,endHijri,loc=None):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    n1=WOUtility.getTavaghof(start,end)
+    n1=0
+    if(not loc):
+        n1=WOUtility.getTavaghof(start,end)
+    else:
+        n1=WOUtility.getTavaghof(start,end,loc)
     wos=WOUtility.doPaging(request,n1)
     return render(request,"cmms/maintenance/dash_woList.html",{"wo" : wos})
 def showmonghazi(request,startHijri,endHijri):

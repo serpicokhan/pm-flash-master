@@ -86,16 +86,33 @@
   var ggid={{ggid}};
 
   xxxDate1=new persianDate();
+
+
+
   dt1=xxxDate1.pDate.year.toString()+"-"+("0" + xxxDate1.pDate.month).slice(-2)+"-01";
   //$("#dashboardt1").val(dt1);
   $('.dash_tekrar').click(function(){
-    $('.dash_tekrar').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/EM/');
+    var ex3=$("#makans").val();
+      $('.dash_tekrar').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/EM/'+((ex3=='-1')?'':ex3));
+
   });
   $('.dash_tavizat').click(function(){
-    $('.dash_tavizat').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/taviz/');
+    var ex2=$("#makans").val();
+  if(ex2 =='-1'){
+  $('.dash_tavizat').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/taviz/');
+  }
+  else
+  {
+    $('.dash_tavizat').click(function(){
+
+      $('.dash_tavizat').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/taviz/'+ex2);
+    });
+  }
+
   });
   $('.dash_tavaghof').click(function(){
-    $('.dash_tavaghof').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/tavaghof/');
+      var ex3=$("#makans").val();
+    $('.dash_tavaghof').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/tavaghof/'+((ex3=='-1')?'':ex3));
   });
   $('.dash_servicemonghazi').click(function(){
     $('.dash_servicemonghazi').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/overdue/');
@@ -104,8 +121,11 @@
     $('.dash_newrequest').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/new/');
   });
   $('.highprioritywo').click(function(){
-    $('.highprioritywo').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/HighPriority/');
+      var ex3=$("#makans").val();
+    $('.highprioritywo').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/HighPriority/'+((ex3=='-1')?'':ex3));
   });
+
+
 
 
 </script>

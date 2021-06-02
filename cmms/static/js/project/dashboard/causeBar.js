@@ -95,7 +95,7 @@ var LoadCauseBar=function()
 
     },
     success: function (data) {
-      console.log(data);
+      // console.log(data);
       drawCauseBar(data.html_DashCAuseCount_list.dt1);
       //html_DashCAuseCount_list
 
@@ -123,7 +123,7 @@ var LoadCauseBar2=function(loc)
 
     },
     success: function (data) {
-      console.log(data);
+      // console.log(data);
       drawCauseBar(data.html_DashCAuseCount_list.dt1);
       //html_DashCAuseCount_list
 

@@ -24,7 +24,7 @@ var drawIstgahStatusBar=function(data,dcolor,assetname)
     labels: assetname,
     datasets: mydataset,
   };
-  console.log(barData);
+  // console.log(barData);
 
   var chartOptions = {
     responsive: true,

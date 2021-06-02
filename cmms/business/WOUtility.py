@@ -926,20 +926,34 @@ class WOUtility:
         return WorkOrder.objects.raw("select COALESCE(count(id),0) as id from workorder where datecreated between '{0}' and '{1}' and isem=1".format(start,end))[0].id
     @staticmethod
     def getEmCount2(start,end,loc):
-        return WorkOrder.objects.raw("""select COALESCE(count(id),0) as id from workorder
+        return WorkOrder.objects.raw("""select COALESCE(count(workorder.id),0) as id from workorder
         inner join assets on assets.id=workorder.woAsset_id
         where (datecreated between '{0}' and '{1}') and isem=1 and assets.assetIsLocatedAt_id={2}""".format(start,end,loc))[0].id
     #EM
     @staticmethod
-    def getEms(start,end):
-        return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end),isEM=1)
+    def getEms(start,end,loc=None):
+        if(not loc):
+            return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end),isEM=1)
+        else:
+            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,datecreated__range=(start,end),isEM=1)
+
     #TAviz Change spare part
     @staticmethod
-    def getTaviz(start,end):
-        return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end)).values_list('woPartWorkorder',flat=True)))
+    def getTaviz(start,end,loc=None):
+        if(not loc):
+            return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end)).values_list('woPartWorkorder',flat=True)))
+        else:
+            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end)).values_list('woPartWorkorder',flat=True)))
+
+    # @staticmethod
+    # def getTaviz(start,end,loc):
+    #     return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end)).values_list('woPartWorkorder',flat=True)))
     @staticmethod
-    def getTavaghof(start,end):
-        return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+    def getTavaghof(start,end,loc)
+        if(not loc):
+            return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+        else:
+            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
     @staticmethod
     def getNewWO(start,end):
         return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end),woStatus=1)

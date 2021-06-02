@@ -337,7 +337,7 @@ var GetHighPriorityWO2= function (loc) {
         });
         return false;
       }
-      var getDueService2=function()
+      var getDueService2=function(loc)
       {
         $.ajax({
           url: 'Summery/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetdueWoNum2/'+loc,
