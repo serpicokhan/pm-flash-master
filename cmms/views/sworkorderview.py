@@ -106,7 +106,7 @@ def save_swo_form(request, form, template_name,id=None):
         else:
             data['form_is_valid'] = False
 
-    context = {'form': form,'lId':id}
+    context = {'form': form,'lId':id,'ispm':True}
 
 
     data['html_wo_form'] = render_to_string(template_name, context, request=request)

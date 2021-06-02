@@ -44,7 +44,7 @@ def js_list_schedule(request,woId):
     data=dict()
     books=Schedule.objects.filter(workOrder=woId)
     if(books.count()>0):
-        print("#@!#!@#!@#@!")
+        # print("#@!#!@#!@#@!")
 
         data['is_not_empty']=True
     else:

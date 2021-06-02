@@ -24,19 +24,19 @@ class Schedule(models.Model):
                 return "once every {0} day(s)".format(self.schDailyRep)
             elif(self.schHowOften==3):
                 str=""
-                if(isSunday):
+                if(self.isSunday):
                     str="یکشنبه"
-                if(isMonday):
+                if(self.isMonday):
                     str+=",دوشنبه"
-                if(isTuesday):
+                if(self.isTuesday):
                     str+=",سه شنبه"
-                if(isWednenday):
+                if(self.isWednenday):
                     str+=",چهارشنبه"
-                if(isThursday):
+                if(self.isThursday):
                     str+=",پنجشنبه"
-                if(isFriday):
+                if(self.isFriday):
                     str+=",جمعه"
-                if(isSaturday):
+                if(self.isSaturday):
                     str+=",شنبه"
                 return "{0} in every {1}".format(str,self.schWeeklyRep)
             elif(self.schHowOften==4):
@@ -44,29 +44,29 @@ class Schedule(models.Model):
 
             elif(self.schHowOften==5):
                 str=""
-                if(schMonthOfYearRep==1):
+                if(self.schMonthOfYearRep==1):
                     str=="فروردین"
-                elif(schMonthOfYearRep==2):
+                elif(self.schMonthOfYearRep==2):
                     str="اردیبهشت"
-                elif(schMonthOfYearRep==3):
+                elif(self.schMonthOfYearRep==3):
                     str="خرداد"
-                elif(schMonthOfYearRep==4):
+                elif(self.schMonthOfYearRep==4):
                     str="تیر"
-                elif(schMonthOfYearRep==5):
+                elif(self.schMonthOfYearRep==5):
                     str="مرداد"
-                elif(schMonthOfYearRep==6):
+                elif(self.schMonthOfYearRep==6):
                     str="شهریور"
-                elif(schMonthOfYearRep==7):
+                elif(self.schMonthOfYearRep==7):
                     str="مهر"
-                elif(schMonthOfYearRep==8):
+                elif(self.schMonthOfYearRep==8):
                     str="آبان"
-                elif(schMonthOfYearRep==9):
+                elif(self.schMonthOfYearRep==9):
                     str="آذر"
-                elif(schMonthOfYearRep==10):
+                elif(self.schMonthOfYearRep==10):
                     str="دی"
-                elif(schMonthOfYearRep==11):
+                elif(self.schMonthOfYearRep==11):
                     str="بهمن"
-                elif(schMonthOfYearRep==12):
+                elif(self.schMonthOfYearRep==12):
                     str="اسفند"
                 return "هر {0} سال در ماه {1}  در روز {2}".format(self.schYearlyRep,self.schMonthOfYearRep,self.schDayOfMonthOfYearRep)
 

@@ -1,0 +1,185 @@
+<div  data-url="{% url 'task_create2' %}" class="js-task-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close cl-task"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/tasks/partialTaskForm2.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-task btn btn-default" >انصراف</button>
+      {% if perms.cmms.add_tasks %}
+    <button type="button" class="btn btn-primary" id="task-submit"  >ذخیره</button>
+    {% endif %}
+ <script>
+
+
+   getStringVal=function(element){
+     if(element.length===0)
+
+
+       return "";
+     else{
+       return element;
+     }
+   }
+   getVal=function(element){
+
+
+     if(element.val().length==0){
+       if(element.attr('id')=="id_taskTypes" ||element.attr('id')=="id_taskMetrics")
+       {
+
+
+         return 1;
+
+       }
+       else if(element.attr('id')=="id_taskAssignedToUser" )
+        {
+          return 1;
+        }
+
+       else return 0;
+     }
+     else{
+       return element.val();
+     }
+   }
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+
+
+      function()
+      {
+        $(".cl-task").click(function()
+        {
+          $("#modal-task").modal("hide");
+          //$("#{modal-company}").css("background-color", "yellow");
+
+
+        }
+       );
+        $("#id_taskMetrics").hide();
+        $("#id_taskTypes").change(
+          function()
+          {
+            switch ( $( "#id_taskTypes" ).val()) {
+              case "1":
+              case "2":
+                $("#id_taskMetrics").hide();
+                break;
+              case "3":
+              $("#id_taskMetrics").show();
+              break;
+
+              default:
+
+            }
+
+          }
+
+        );
+
+  $("#task-submit").click(function(){
+              var form = $(this).parent().parent();
+              // console.log(form.attr("data-url"));
+              var mydata=myformat('{"taskTypes":{0}\
+              ,"taskMetrics":{1}\
+              ,"taskDescription":"{2}"\
+              ,"taskAssignedToUser":{3}\
+              ,"taskTimeEstimate":{4}\
+              ,"woId":{5}\
+              ,"workOrder":{6}}',
+              getVal($("#id_taskTypes")),
+              getVal($("#id_taskMetrics")),
+              getStringVal($("#id_taskDescription").val()),
+              getVal($("#id_taskAssignedToUser")),
+              getVal($("#id_taskTimeEstimate")),
+              getStringVal($("#lastWorkOrderid").val()),
+              getVal($("#lastWorkOrderid")));
+
+
+
+              //alert($("#lastWorkOrderid").val());
+              $.ajax({
+                url: form.attr("data-url"),
+                type: "POST",
+                data:mydata,
+
+
+
+
+                dataType: 'json',
+                beforeSend: function (xhr, opts) {
+//
+
+                },
+                success: function (data) {
+                  if (data.form_is_valid) {
+
+                    $("#tbody_task").empty();
+
+
+                    if(data.last_task_date)
+                    {
+                      $("#id_dateCompleted").val(data.last_task_date);
+                      $("#id_timeCompleted").val(data.last_task_time);
+                      // $("#id_workInstructions").val($("#id_workInstructions").val()+'\n'+'somthing');
+
+                    }
+                    if(data.last_task_workinstraction)
+                    {
+                      $("#id_workInstructions").val($("#id_workInstructions").val()+'\n'+data.last_task_workinstraction);
+                      $("#id_assignedToUser").val(data.last_task_assignedUser);
+                      $("#id_completedByUser").val(data.last_task_completedUser);
+                      $('.selectpicker').selectpicker('refresh');
+                    }
+                    $("#tbody_task").html(data.html_task_list);
+                    $("#havetasks").val("1");
+                    // console.log("12312312");
+                    $("#modal-task").modal("hide");
+                    //console.log(data.html_wo_list);
+                  }
+                  else {
+
+
+                    // console.log(data);
+                    if(data.form_err_code==1)
+                    {
+                      toastr.error(data.form_err_msg);
+                    }
+                    else {
+                      // $("#task-table tbody").html(data.html_task_list);
+                      // $("#modal-task .modal-content").html(data.html_task_form);
+                      toastr.error("ورودیهای خود را کنترل کنید");
+
+                    }
+                  }
+                }
+
+              });
+              return false;
+
+
+
+         });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

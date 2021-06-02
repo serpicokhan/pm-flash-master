@@ -184,6 +184,24 @@ class TaskForm(forms.ModelForm):
          model = Tasks
          fields = '__all__'
 
+
+
+class TaskForm2(forms.ModelForm):
+    taskDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
+    def clean(self):
+                self.is_valid()
+                cleaned_data=super(TaskForm2, self).clean()
+                taskDescription=cleaned_data.get('taskDescription','')
+                taskTypes=cleaned_data.get('taskTypes','')
+                taskMetrics=cleaned_data.get('taskMetrics','')
+                taskAssignedToUser=cleaned_data.get('taskAssignedToUser','')
+                taskTimeEstimate=cleaned_data.get('taskTimeEstimate','')
+                workOrder=cleaned_data.get('workOrder','')
+                return cleaned_data
+    class Meta:
+         model = Tasks
+         fields = ['taskTypes', 'taskMetrics', 'taskDescription', 'taskAssignedToUser','taskTimeEstimate','workOrder']
+
 class TaskTemplateForm(forms.ModelForm):
     taskTemplateDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=True )
     # taskCompletionNote = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )

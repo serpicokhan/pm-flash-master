@@ -25,7 +25,7 @@ from django.utils.decorators import method_decorator
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
-from cmms.forms import TaskForm
+from cmms.forms import TaskForm,TaskForm2
 from cmms.business.DateJob import DateJob
 from cmms.business.taskUtility import TaskUtility
 from django.contrib.auth.decorators import permission_required
@@ -78,15 +78,18 @@ def save_task_form(request, form, template_name,woId=None):
                 wo=WorkOrder.objects.get(id=woId)
                 #only for none pm workorder
                 tasks = Tasks.objects.filter(workOrder=woId).order_by('-taskDateCompleted','-taskTimeCompleted')
-                print(tasks.count(),"couunt")
-                if(tasks.count()==1):
+                # print(tasks.count(),"couunt")
+                try:
+                    if(tasks.count()==1):
 
-                    data['last_task_workinstraction']=newTask.taskDescription
-                    data['last_task_assignedUser']=newTask.taskAssignedToUser.id
-                    data['last_task_completedUser']=newTask.taskCompletedByUser.id
-                if(wo.isPm==False):
-                        data['last_task_date']=str(jdatetime.date.fromgregorian(date=tasks[0].taskDateCompleted))
-                        data['last_task_time']=tasks[0].taskTimeCompleted
+                        data['last_task_workinstraction']=newTask.taskDescription
+                        data['last_task_assignedUser']=newTask.taskAssignedToUser.id
+                        data['last_task_completedUser']=newTask.taskCompletedByUser.id
+                    if(wo.isPm==False):
+                            data['last_task_date']=str(jdatetime.date.fromgregorian(date=tasks[0].taskDateCompleted))
+                            data['last_task_time']=tasks[0].taskTimeCompleted
+                except:
+                    pass
 
 
 
@@ -173,6 +176,27 @@ def task_create(request):
         #     form = TaskForm(initial={'taskDescription':wo.summaryofIssue,'taskCompletedByUser':wo.completedByUser,'taskAssignedToUser':wo.assignedToUser})
         form = TaskForm()
     return save_task_form(request, form, 'cmms/tasks/partialTaskCreate.html',woId)
+@csrf_exempt
+def task_create2(request):
+    woId=-1
+
+    if (request.method == 'POST'):
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        content = body['taskTypes']
+        data = request.POST.dict()
+        data['taskTypes']=body['taskTypes']
+        data['taskDescription']=body['taskDescription']
+        data['taskAssignedToUser']=body['taskAssignedToUser']
+        data['taskMetrics']=body['taskMetrics']
+        data['taskTimeEstimate']=body['taskTimeEstimate']
+        data['workOrder']=body['workOrder']
+        woId=body['workOrder']
+        form = TaskForm2(data)
+
+    else:
+        form = TaskForm2()
+    return save_task_form(request, form, 'cmms/tasks/partialTaskCreate2.html',woId)
 ###################################################################
 
 @csrf_exempt
@@ -208,6 +232,30 @@ def task_update(request, id):
     else:
         form = TaskForm(instance=company)
     return save_task_form(request, form, 'cmms/tasks/partialTaskUpdate.html',woId)
+@csrf_exempt
+def task_update2(request, id):
+
+    #company= get_object_or_404(Tasks, id=id)
+    company=get_object_or_404(Tasks, id=id)
+
+    woId=-1
+    print(woId)
+    if (request.method == 'POST'):
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        content = body['taskTypes']
+        data = request.POST.dict()
+        data['taskTypes']=body['taskTypes']
+        data['taskDescription']=body['taskDescription']
+        data['taskAssignedToUser']=body['taskAssignedToUser']
+        data['taskMetrics']=body['taskMetrics']
+        data['taskTimeEstimate']=body['taskTimeEstimate']
+        data['workOrder']=body['workOrder']
+        woId=body['workOrder']
+        form = TaskForm2(data, instance=company)
+    else:
+        form = TaskForm2(instance=company)
+    return save_task_form(request, form, 'cmms/tasks/partialTaskUpdate2.html',woId)
 def getTaskWoHour(request,startHijri,endHijri,t1,t2):
     start1,end1=DateJob.convert2Date(startHijri,endHijri)
     start=DateJob.combine(start1,t1)

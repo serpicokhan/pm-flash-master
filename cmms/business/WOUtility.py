@@ -949,7 +949,7 @@ class WOUtility:
     # def getTaviz(start,end,loc):
     #     return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end)).values_list('woPartWorkorder',flat=True)))
     @staticmethod
-    def getTavaghof(start,end,loc)
+    def getTavaghof(start,end,loc):
         if(not loc):
             return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
         else:

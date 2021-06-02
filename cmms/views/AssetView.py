@@ -497,7 +497,7 @@ def show_asset_tree(request,id):
 @csrf_exempt
 def js_list_assetWo(request,woId):
     data=dict()
-    books=WorkOrder.objects.filter(woAsset=woId,isScheduling=False).exclude(woStatus__in=(7,8)).order_by('-id')
+    books=WorkOrder.objects.filter(woAsset=woId,isScheduling=False,visibile=True).exclude(woStatus__in=(7,8)).order_by('-id')
 
     data['html_assetWo_list']= render_to_string('cmms/asset_wo/partialAssetWoList.html', {
         'assetwos': books

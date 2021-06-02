@@ -99,6 +99,7 @@ urlpatterns = [
 
      url(r'^Task/$',list_task,name='list_task'),
      url(r'^Task/create/$', task_create, name='task_create'),
+     url(r'^Task/create2/$', task_create2, name='task_create2'),
      # url(r'^Task/(?P<id>\d+)/create/$', task_create, name='task_create'),
      url(r'^Task/(?P<id>\d+)/delete/$', task_delete, name='task_delete'),
      url(r'^Task/(?P<woId>\d+)/listTask/$', js_list_task, name='js_list_task'),

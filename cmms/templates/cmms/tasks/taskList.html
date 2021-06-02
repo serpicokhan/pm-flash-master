@@ -32,6 +32,7 @@
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                 {% if perms.cmms.add_tasks %}
                                 <p>
+                                  {% if not ispm %}
                                   <button type="button" class="btn btn-primary js-create-task"
                                   data-url="{% url 'task_create'  %}"                                  >
                                     <span class="glyphicon glyphicon-plus"
@@ -41,13 +42,25 @@
                                     ></span>
                                   جدید
                                   </button>
-                                  <button type="button" class="btn btn-primary js-create-taskGroup">
+                                  {% else %}
+                                  <button type="button" class="btn btn-primary js-create-task"
+                                  data-url="{% url 'task_create2'  %}"                                  >
                                     <span class="glyphicon glyphicon-plus"
 
 
 
                                     ></span>
                                   جدید
+                                  </button>
+                                  {% endif %}
+
+                                  <button type="button" class="btn btn-primary js-create-taskGroup">
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                دسته فعالیت
                                   </button>
                                 </p>
                                 {% endif %}
