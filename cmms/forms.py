@@ -253,6 +253,23 @@ class TaskGroupAssetCategoryForm(forms.ModelForm):
     class Meta:
          model = TaskGroupAssetCategory
          fields = '__all__'
+###########################################################
+class WoAssetForm(forms.ModelForm):
+    def clean(self):
+                self.is_valid()
+                cleaned_data=super(WoAssetForm, self).clean()
+                assetTypes=cleaned_data.get('assetTypes','')
+                assetName=cleaned_data.get('assetName','')
+                assetCode=cleaned_data.get('assetCode','')
+                assetIsPartOf=cleaned_data.get('assetIsPartOf','')
+                assetIsLocatedAt=cleaned_data.get('assetIsLocatedAt','')
+
+
+                return cleaned_data
+
+    class Meta:
+         model = Asset
+         fields = [assetTypes,assetName,assetCode,assetIsPartOf,assetIsLocatedAt]
 
 ###################################################################################
 class WoPartForm(forms.ModelForm):

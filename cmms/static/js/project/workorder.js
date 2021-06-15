@@ -52,6 +52,8 @@ $(function () {
                   //id_completedByUser
 
                   $("#id_woAsset").change(function(){
+                    if($(this).val()!="-1")
+                    {
                     $.ajax({
                       url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
                       type:'get',
@@ -61,9 +63,17 @@ $(function () {
 
                       }
                     });
+                  }
+                  else {
+                    // $('#id_woAsset').val("1982");
+                    // $('.selectpicker').selectpicker('refresh')
+                      $("#modal-woAsset").modal({backdrop: 'static', keyboard: false});
+
+                  }
 
 
                   });
+                  $("#id_woAsset option:first").after('<Option value="-1">"<b>اضافه کردن عنوان جدید</b>"</option>');
                   $('.selectpicker').selectpicker();
                   $('.basicAutoComplete').autoComplete();
                   initLoad();
