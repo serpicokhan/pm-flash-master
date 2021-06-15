@@ -74,7 +74,7 @@ $(function () {
                         dataType: 'json',
                         success: function (data) {
                           // console.log("hahaha");
-                            $("#modal-woAsset").html(data.html_asset_form);
+                            $("#modal-woAsset .modal-content").html(data.html_asset_form);
 
                         }
                       });
