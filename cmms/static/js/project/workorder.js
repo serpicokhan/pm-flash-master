@@ -68,6 +68,16 @@ $(function () {
                     // $('#id_woAsset').val("1982");
                     // $('.selectpicker').selectpicker('refresh')
                       $("#modal-woAsset").modal({backdrop: 'static', keyboard: false});
+                      $.ajax({
+                        url: '/Asset/WoAsset/Create',
+                        type:'get',
+                        dataType: 'json',
+                        success: function (data) {
+                          // console.log("hahaha");
+                            $("#modal-woAsset").html(data.html_asset_form);
+
+                        }
+                      });
 
                   }
 

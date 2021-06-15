@@ -269,7 +269,7 @@ class WoAssetForm(forms.ModelForm):
 
     class Meta:
          model = Asset
-         fields = [assetTypes,assetName,assetCode,assetIsPartOf,assetIsLocatedAt]
+         fields = ('assetTypes','assetName','assetCode','assetIsPartOf','assetIsLocatedAt')
 
 ###################################################################################
 class WoPartForm(forms.ModelForm):

@@ -22,7 +22,7 @@ from cmms.models.Asset import *
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
-from cmms.forms import AssetForm
+from cmms.forms import AssetForm,WoAssetForm
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
@@ -535,3 +535,33 @@ def js_list_assetConsumedPart(request,woId):
     })
     data['form_is_valid']=True
     return JsonResponse(data)
+@csrf_exempt
+def create_woasset(request):
+
+    data2=dict()
+    if (request.method == 'POST'):
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        data = request.POST.dict()
+        data['assetTypes']=body['assetTypes']
+        data['assetName']=body['assetName']
+        data['assetCode']=body['assetCode']
+        data['assetIsPartOf']=body['assetIsPartOf']
+        data['assetIsLocatedAt']=body['assetIsLocatedAt']
+        form = WoAssetForm(data)
+        if form.is_valid():
+           form.save()
+           data2['form_is_valid'] = True
+           data2['woasset_id']=form.instance.id
+           data2['woasset_name']=form.instance.assetName
+           return JsonResponse(data2)
+        else:
+           pass
+    else:
+           form = AssetForm()
+           context={'form':form}
+           data2['html_asset_form'] = render_to_string('cmms/asset/woasset/woasset_create.html',
+               context,
+               request=request,
+           )
+           return JsonResponse(data2)

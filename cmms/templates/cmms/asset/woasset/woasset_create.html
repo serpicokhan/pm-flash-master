@@ -1,4 +1,4 @@
-<div  data-url="{% url 'woPert_create' %}" class="js-woPert-create-form" >
+<div  class="js-woPert-create-form" >
 
   <div class="modal-header " style="background:#ccc">
     <button type="button" class="close cl-woasset"  aria-label="Close">
@@ -11,9 +11,9 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="cl-woasset btn btn-default" >انصراف</button>
-      {% if perms.cmms.add_assets %}
+
     <button type="button" class="btn btn-primary" id="woasset-submit"  >ذخیره</button>
-    {% endif %}
+
  <script>
    $(".cl-woasset").click(function()
    {
@@ -34,41 +34,36 @@
       function()
       {
 
-        $("#woPert-submit").click(function(){
+        $("#woasset-submit").click(function(){
 
-                   //alert("12321");
+
                     var form = $(this).parent().parent();
-                    //console.log(form.attr("action"));
-                    //alert($("#id_metrics").val());
-                    //console.log(form.attr('class'));
+                    mydata=myformat('{"assetTypes":{0},"assetName":"{1}","assetCode":"{2}","assetIsPartOf":{3},"assetIsLocatedAt":{4}}',$("#id_assetTypes").val(),$("#id_assetName").val(),$("#id_assetCode").val(),$("#id_assetIsPartOf").val(),$("#id_assetIsLocatedAt").val());
+
+
                     $.ajax({
-                      url: form.attr("data-url"),
+                      url: '/Asset/WoAsset/Create',
                       type: "POST",
-                      data:myformat('{"woPertWorkorder":{0},"woPertPert":{1},"wpPertTime":{2}}',$("#lastWorkOrderid").val(),$("#id_woPertPert").val(),$("#id_wpPertTime").val()),
+                      data:mydata,
 
 
 
 
                       dataType: 'json',
                       beforeSend: function () {
-                        //alert(btn.attr("data-url"));
-                        // /console.log(myformat('{"woPertReadingLocation":{0},"woPertReadingPertReading":{1},"woPertReadingPertReadingUnit":{2},"woPertReadingworkorder":{3}}',$("#id_woAsset").val(),$("#id_assetPertPertReading").val(),$("#id_assetPertPertReadingUnit").val(),$("#lastWorkOrderid").val()));
-                        // console.log(data);
+
 
                       },
                       success: function (data) {
                         if (data.form_is_valid) {
-                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
-                          $("#tbody_woPert").empty();
-
-                          $("#tbody_woPert").html(data.html_woPert_list);
-                          $("#modal-woPert").modal("hide");
-                          // console.log(data.html_woPert_list);
+                          $("#id_woAsset option:first").after('<Option value="'+data.woasset_id+'">'+data.woasset_name+'</option>');
+                          $("#id_woAsset").val(data.woasset_id);
+                          $("#id_woAsset").selectpicker('refresh');
+                           $("#modal-woAsset").modal("hide");
                         }
                         else {
 
-                          $("#woPert-table tbody").html(data.html_woPert_list);
-                          $("#modal-woPert .modal-content").html(data.html_woPert_form);
+
                         }
                       }
 
