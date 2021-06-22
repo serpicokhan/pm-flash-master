@@ -929,7 +929,7 @@ var loadPdate=function()
 
 
 $(".js-create-wo").unbind();
-$(".js-upload-woFiles1").unbind();
+
 $(".js-create-wo").click(loadForm);
 $(".js-bulk-formset-delete-wo").click(LoadFormsetDelete);
 $(".js-bulkem-selector").click(LoadFormSetEm);

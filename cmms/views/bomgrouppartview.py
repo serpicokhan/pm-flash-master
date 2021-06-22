@@ -107,7 +107,6 @@ def bomGroupPart_create(request):
         data['BOMGroupPartBOMGroup']=body['BOMGroupPartBOMGroup']
         data['BOMGroupPartPart']=body['BOMGroupPartPart']
         data['BOMGroupPartQnty']=body['BOMGroupPartQnty']
-
         woId=body['BOMGroupPartBOMGroup']
 
         form = BOMGroupPartForm(data)
