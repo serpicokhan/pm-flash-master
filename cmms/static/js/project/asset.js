@@ -1136,6 +1136,7 @@ $("#assetStatus").change(function(){
 
 });
 //for tr click
+$(".js-create-asset").unbind();
 $("tr").on("click", showAssetDetails);
 
 $("#modal-company").on("click", "#id_asseccategorytxt", showAssetSelector);

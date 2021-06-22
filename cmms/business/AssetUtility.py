@@ -419,13 +419,13 @@ class AssetUtility:
 
              if(aType>0):
                  if(searchStr.isdigit()):
-                     return Asset.objects.filter(Q(assetName__contains=searchStr,assetTypes=aType)|Q(assetCode__contains=searchStr,assetTypes=aType)|Q(id=int(searchStr),assetTypes=aType)|Q(assetCategory__name__contains(searchStr))).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
+                     return Asset.objects.filter(Q(assetName__contains=searchStr,assetTypes=aType)|Q(assetIsLocatedAt__id=int(searchStr))|Q(assetIsPartOf__id=int(searchStr))|Q(assetCode__contains=searchStr,assetTypes=aType)|Q(id=int(searchStr),assetTypes=aType)|Q(assetCategory__name__contains(searchStr))).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
 
                  return Asset.objects.filter(Q(assetName__contains=searchStr,assetTypes=aType)|Q(assetCode__contains=searchStr,assetTypes=aType)|Q(assetCategory__name__contains=searchStr)).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
              else:
                  if(searchStr.isdigit()):
-                      return Asset.objects.filter(Q(assetName__contains=searchStr)|Q(assetCode__contains=searchStr)|Q(id=int(searchStr))).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
-                 return Asset.objects.filter(assetName__contains=searchStr)|Asset.objects.filter(assetCode__contains=searchStr)|Asset.objects.filter(assetCategory__name__contains=searchStr).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
+                      return Asset.objects.filter(Q(assetName__contains=searchStr)|Q(assetIsLocatedAt__id=int(searchStr))|Q(assetIsPartOf__id=int(searchStr))|Q(assetCode__contains=searchStr)|Q(id=int(searchStr))).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
+                 return Asset.objects.filter(assetIsPartOf__assetName__contains=searchStr)|Asset.objects.filter(assetIsLocatedAt__assetName__contains=searchStr)|Asset.objects.filter(assetName__contains=searchStr)|Asset.objects.filter(assetCode__contains=searchStr)|Asset.objects.filter(assetCategory__name__contains=searchStr).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
 
          # return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,woTags__contains=searchStr).order_by('-id')
         else:

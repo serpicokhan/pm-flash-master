@@ -18,7 +18,7 @@
  <td>
       <button type="button"
                    class="btn btn-danger btn-sm js-delete-woFile"
-                  
+
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>
     </td>
@@ -32,6 +32,10 @@
 {% load static %}
 
 {% block javascript %}
+<script type="text/javascript">
+  $(".js-upload-woFiles1").unbind();
+
+</script>
 
   <script src="{% static '/js/project/woFile.js' %}"></script>
 {% endblock %}

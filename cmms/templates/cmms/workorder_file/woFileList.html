@@ -32,10 +32,10 @@
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                   {% if perms.cmms.add_workorderfile %}
                                 <p>
-                                  <button type="button" class="btn btn-primary js-upload-woFiles">
+                                  <button type="button" class="btn btn-primary js-upload-woFiles1">
                                     <span class="glyphicon glyphicon-cloud-upload"></span> بارگذاری عکس
                                   </button>
-                                  <input id="woFileupload" type="file" name="woFile" multiple
+                                  <input id="woFileupload1" type="file" name="woFile" multiple
                                     style="display: none;"
                                     data-url="{% url 'workorder_upload' lId %}"
                                     data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
