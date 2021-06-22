@@ -95,6 +95,8 @@ urlpatterns = [
     url(r'^SWorkOrder/(?P<status>\d+)/swo_show_swo_by_type/$', swo_show_swo_by_type, name='swo_show_swo_by_type'),
     url(r'^SWorkOrder/(?P<status>\d+)/swo_show_swo_by_schedule_type/$', swo_show_swo_by_schedule_type, name='swo_show_swo_by_schedule_type'),
     url(r'^SWorkOrder/(?P<id>-?\d+)/details$', swo_detail, name='swo_detail'),
+    url(r'^WorkOrder/Copy/$', swo_copy, name='swo_copy'),
+    url(r'^WorkOrder/Copy/(?P<ids>\d+(?:,\d+)*)$', swo_copy, name='swo_copy'),
 
 
      url(r'^Task/$',list_task,name='list_task'),

@@ -1,5 +1,50 @@
 
 $(function () {
+  var chkselection=function(){
+    matches=[];
+    $(".selection-box:checked").each(function() {
+        matches.push(this.value);
+    });
+    if(matches.length>0)
+    {
+    $(".js-create-swo-copy").show();
+  }
+  else{
+    $(".js-create-swo-copy").hide();
+
+  }
+
+  };
+  var LoadFormCopySelector =function () {
+    matches=[];
+    $(".selection-box:checked").each(function() {
+        matches.push(this.value);
+    });
+    // lo(matches);
+    // console.log(matches);
+
+
+    return $.ajax({
+      url: $(this).attr("date-url")+matches,
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+
+        $("#modal-assetcategory2").modal({backdrop: 'static', keyboard: false});
+
+      },
+      success: function (data) {
+        //alert("3123@!");
+        // alert(1);
+        $("#modal-copy .modal-content").html(data.modalassetcat);
+
+
+      }
+    });
+
+
+
+};
 
   var loadForm =function (btn1) {
     var btn=0;
@@ -597,6 +642,7 @@ $("#modal-company").on("submit", ".js-swo-create-form", saveForm);
 
 // Update book
 $("#company-table").on("click", ".js-update-swo", myWoLoader);
+$("#company-table").on("click", ".selection-box", chkselection);
 $("#modal-company").on("submit", ".js-swo-update-form", saveForm);
 // Delete book
 $("#company-table").on("click", ".js-delete-swo", loadForm);

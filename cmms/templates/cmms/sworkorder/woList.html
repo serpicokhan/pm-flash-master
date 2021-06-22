@@ -56,6 +56,7 @@
                                     <thead>
                                     <tr>
                                       <th></th>
+                                      <th></th>
                                       <th>کد</th>
                                       <th>شرح</th>
                                       <th>اولویت</th>
@@ -63,7 +64,7 @@
                                       <th>کاربر مشخص شده</th>
                                       <th>وضعیت</th>
                                       <th>نوع</th>
-                                    
+
                                       <th>زمان تخمینی</th>
                                       <th>زمان واقعی</th>
 
@@ -115,6 +116,16 @@
                                     ></span>
                                   جدید
                                   </button>
+                                  <button type="button" class="btn btn-primary js-create-swo-copy" style="display:none"
+                                  data-url="{% url 'swo_copy' %}"
+                                                                    >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  کپی
+                                  </button>
                                 </p>
                                 {% endif %}
                             </div>
@@ -123,6 +134,13 @@
                     </div>
                 </div>
                 <div class="modal fade" id="modal-company" style="overflow-y: scroll">
+                 <div class="modal-dialog  modal-lg ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+                <div class="modal fade" id="modal-copy" style="overflow-y: scroll">
                  <div class="modal-dialog  modal-lg ">
 
                    <div class="modal-content ">
