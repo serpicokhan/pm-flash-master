@@ -223,7 +223,9 @@ var saveCopy= function () {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_company").empty();
          $("#tbody_company").html(data.html_wo_list);
+         $(".woPaging").html(data.html_swo_paginator);
          $("#modal-copy").modal("hide");
+
 
          $("#issavechanged").val("1");
 

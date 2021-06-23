@@ -329,14 +329,17 @@ def swo_copy(request,ids=None):
         return JsonResponse(data)
     else:
         data=dict()
-        SWOUtility.copy(ids)
+        assetlist=request.POST.getlist("assetname2", "")
+        SWOUtility.copy(ids,assetlist)
+        # print(request.POST.getlist("assetname2", ""))
         data['form_is_valid'] = True
         books = WorkOrder.objects.filter(isScheduling=True)
         books=filterUser(request,books)
-        wos=SWOUtility.doPaging(request,books)   
+        wos=SWOUtility.doPaging(request,books)
 
         data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWolist.html', {
             'wo': wos,
             'perms': PermWrapper(request.user)
         })
+        data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination.html', {'wo': wos,'pageType':'swo_searchworkOrderByTags','pageArgs':'empty'            })
         return JsonResponse(data)
