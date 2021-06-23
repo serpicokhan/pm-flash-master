@@ -55,58 +55,65 @@ class SWOUtility:
         with transaction.atomic():
             kl=[ids]
              ##### Create Wo #########
-            for i in kl:
-                stableWo=WorkOrder.objects.get(id=i)
-                oldWo=WorkOrder.objects.get(id=i)
-                stableWo.pk=None
-                stableWo.visibile=False
-                stableWo.isScheduling=True
-                stableWo.isPm=False
-                # stableWo.datecreated=datetime.now().date()
-                # stableWo.timecreated=datetime.now().time()
-                # stableWo.isPartOf=unit.workOrder
-                # Newsch.schNextWo=WorkOrder.objects.create(datecreated=Newsch.schnextTime.date(),timecreated=Newsch.schnextTime.time(),visibile=False,isScheduling=False,isPartOf=Newsch.workOrder)
-                stableWo.save()
+            for assets in assetlist:
+                if(assets.isdigit()):
 
-                #################
-                # wt=WorkorderTask.objects.filter(workorder=oldWo)
-                wt=Tasks.objects.filter(workOrder=oldWo)
-                if(wt!=None):
-                    for f in wt:
-                        f.pk=None
-                        f.workOrder=stableWo
-                        f.save()
-                ##############
-                sch=Schedule.objects.filter(workOrder=oldWo)
-                if(sch!=None):
-                    for f in sch:
-                        f.pk=None
-                        f.workOrder=stableWo
-                        f.save()
+                    Ast=Asset.objects.get(id=assets)
+                    for i in kl:
+                        stableWo=WorkOrder.objects.get(id=i)
+                        print(assets)
+                        oldWo=WorkOrder.objects.get(id=i)
+                        stableWo.pk=None
+                        stableWo.visibile=False
+                        stableWo.woAsset=Ast
 
-                ##############
-                wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)
-                if(wp!=None):
-                    for f in wp:
-                        f.pk=None
-                        f.woPartWorkorder=stableWo
-                        # woPartMsg=StockUtility.remove(f)
-                        f.save()
-                ###############
-                wf=WorkorderFile.objects.filter(woFileworkorder=oldWo)
-                if(wf!=None):
+                        stableWo.isScheduling=True
+                        stableWo.isPm=False
+                        # stableWo.datecreated=datetime.now().date()
+                        # stableWo.timecreated=datetime.now().time()
+                        # stableWo.isPartOf=unit.workOrder
+                        # Newsch.schNextWo=WorkOrder.objects.create(datecreated=Newsch.schnextTime.date(),timecreated=Newsch.schnextTime.time(),visibile=False,isScheduling=False,isPartOf=Newsch.workOrder)
+                        stableWo.save()
 
-                    for f in wf:
-                        f.pk=None
-                        f.woFileworkorder=stableWo
-                        f.save()
+                        #################
+                        # wt=WorkorderTask.objects.filter(workorder=oldWo)
+                        wt=Tasks.objects.filter(workOrder=oldWo)
+                        if(wt!=None):
+                            for f in wt:
+                                f.pk=None
+                                f.workOrder=stableWo
+                                f.save()
+                        ##############
+                        sch=Schedule.objects.filter(workOrder=oldWo)
+                        if(sch!=None):
+                            for f in sch:
+                                f.pk=None
+                                f.workOrder=stableWo
+                                f.save()
 
-                ################
-                try:
-                    wn=get_object_or_404(WorkorderUserNotification,woNotifWorkorder=oldWo)
-                    if(wn!=None):
-                        wn.pk=None
-                        wn.woNotifWorkorder=stableWo
-                        wn.save()
-                except Exception as es:
-                    print(es)
+                        ##############
+                        wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)
+                        if(wp!=None):
+                            for f in wp:
+                                f.pk=None
+                                f.woPartWorkorder=stableWo
+                                # woPartMsg=StockUtility.remove(f)
+                                f.save()
+                        ###############
+                        wf=WorkorderFile.objects.filter(woFileworkorder=oldWo)
+                        if(wf!=None):
+
+                            for f in wf:
+                                f.pk=None
+                                f.woFileworkorder=stableWo
+                                f.save()
+
+                        ################
+                        try:
+                            wn=get_object_or_404(WorkorderUserNotification,woNotifWorkorder=oldWo)
+                            if(wn!=None):
+                                wn.pk=None
+                                wn.woNotifWorkorder=stableWo
+                                wn.save()
+                        except Exception as es:
+                            print(es)

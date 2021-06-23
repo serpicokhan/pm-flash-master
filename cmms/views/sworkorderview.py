@@ -341,5 +341,5 @@ def swo_copy(request,ids=None):
             'wo': wos,
             'perms': PermWrapper(request.user)
         })
-        data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination.html', {'wo': wos,'pageType':'swo_searchworkOrderByTags','pageArgs':'empty'            })
+        data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination2.html', {'wo': wos           })
         return JsonResponse(data)
