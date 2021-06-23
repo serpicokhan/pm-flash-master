@@ -49,3 +49,7 @@ class SWOUtility:
             print('else')
             wos=WorkOrder.objects.filter(isScheduling=True).order_by('woAsset_id')
         return wos
+    @staticmethod
+    def copy(ids):
+        for i in ids:
+            print(i)

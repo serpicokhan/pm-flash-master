@@ -1,0 +1,28 @@
+{% load widget_tweaks %}
+<form method="post" action="{% url 'swo_copy' ids %}" class="js-swo-copy-2">
+  {% csrf_token %}
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">انتساب دسته ای</h4>
+  </div>
+  <div class="modal-body">
+    {% render_field form.assetname2 class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success">کپی</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+  </div>
+</form>
+
+
+<script type="text/javascript">
+  $(".closeModal2").click(function(){
+      // $("#modal-assetcategory").modal("hide");
+  });
+
+
+ $("#id_assetname2").selectpicker();
+
+</script>

@@ -22,7 +22,7 @@ from cmms.models.task import *
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
-from cmms.forms import WorkOrderForm
+from cmms.forms import WorkOrderForm,CopyAssetForm
 from django.urls import reverse_lazy
 from cmms.business.SWOUtility import SWOUtility
 from django.db import transaction
@@ -319,3 +319,24 @@ def swo_detail(request,id=None):
     except Exception as ex:
         print(ex)
         return render(request, 'cmms/404.html', {'to':123})
+@csrf_exempt
+def swo_copy(request,ids=None):
+    if(request.method=='GET'):
+        data=dict()
+        assets=Asset.objects.all()
+        form=CopyAssetForm()
+        data["modalcopyasset"]=render_to_string('cmms/sworkorder/assetcopy.html',{'asset':assets,'perms': PermWrapper(request.user),'form':form,'ids':ids})
+        return JsonResponse(data)
+    else:
+        data=dict()
+        SWOUtility.copy(ids)
+        data['form_is_valid'] = True
+        books = WorkOrder.objects.filter(isScheduling=True)
+        books=filterUser(request,books)
+        wos=SWOUtility.doPaging(request,books)   
+
+        data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWolist.html', {
+            'wo': wos,
+            'perms': PermWrapper(request.user)
+        })
+        return JsonResponse(data)

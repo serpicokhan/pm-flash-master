@@ -14,7 +14,12 @@ import hazm
 from hazm import stopwords_list
 from hazm import word_tokenize, sent_tokenize
 from cmms.component.field import *
+class CopyAssetForm(forms.Form):
+    assetname2= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
+
 class WorkOrderForm(forms.ModelForm):
+
     workInstructions = forms.CharField( label="دستورالعمل",widget=forms.Textarea(attrs={'rows': 15, 'cols': 100}),required=False )
     completionNotes = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     adminNote = forms.CharField( label="یادداشت مدیر",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )

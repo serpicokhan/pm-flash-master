@@ -25,18 +25,18 @@ $(function () {
 
 
     return $.ajax({
-      url: $(this).attr("date-url")+matches,
+      url: $(this).attr("data-url")+matches,
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
 
-        $("#modal-assetcategory2").modal({backdrop: 'static', keyboard: false});
+        $("#modal-copy").modal({backdrop: 'static', keyboard: false});
 
       },
       success: function (data) {
         //alert("3123@!");
-        // alert(1);
-        $("#modal-copy .modal-content").html(data.modalassetcat);
+
+        $("#modal-copy .modal-content").html(data.modalcopyasset);
 
 
       }
@@ -193,6 +193,38 @@ var saveForm= function () {
          $("#tbody_company").html(data.html_wo_list);
          $("#modal-company").modal("hide");
          toastr.success("دستور کار زمانبندی شده با موفقیت  ایجاد شد");
+         $("#issavechanged").val("1");
+
+        // console.log(data.html_wo_list);
+       }
+       else {
+
+         $("#company-table tbody").html(data.html_wo_list);
+         $("#modal-company .modal-content").html(data.html_wo_form);
+         toastr.error("خطا در ایجاد دستور کار. لطفا ورودیهای خود را کنترل نمایید.");
+       }
+     }
+   });
+   return false;
+ };
+var saveCopy= function () {
+   var form = $(this);
+
+   $.ajax({
+     url: form.attr("action"),
+     data: form.serialize(),
+     type: form.attr("method"),
+     dataType: 'json',
+     beforeSend:function(xhr, opts){
+
+     },
+     success: function (data) {
+       if (data.form_is_valid) {
+         //alert("Company created!");  // <-- This is just a placeholder for now for testing
+         $("#tbody_company").empty();
+         $("#tbody_company").html(data.html_wo_list);
+         $("#modal-copy").modal("hide");
+
          $("#issavechanged").val("1");
 
         // console.log(data.html_wo_list);
@@ -638,12 +670,15 @@ return false;
 
 
 $(".js-create-swo").click(loadForm);
+$(".js-create-swo-copy").click(LoadFormCopySelector);
 $("#modal-company").on("submit", ".js-swo-create-form", saveForm);
+// $("#modal-copy").on("submit", ".js-swo-create-swo-copy", saveForm);
 
 // Update book
 $("#company-table").on("click", ".js-update-swo", myWoLoader);
 $("#company-table").on("click", ".selection-box", chkselection);
 $("#modal-company").on("submit", ".js-swo-update-form", saveForm);
+$("#modal-copy").on("submit", ".js-swo-copy-2", saveCopy);
 // Delete book
 $("#company-table").on("click", ".js-delete-swo", loadForm);
 $("#modal-company").on("submit", ".js-swo-delete-form", saveForm);
