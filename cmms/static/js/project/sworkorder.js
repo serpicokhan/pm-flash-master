@@ -643,8 +643,8 @@ return false;
 
  //////////////
  $('#modal-company').on('click','.woclose', function () {
-   if($(this).attr("id")=="modal-company"){
-     console.log($(this));
+   
+
 
 
    if($("#issavechanged").val()=="-1" && $("#id_summaryofIssue").val()=="" ){
@@ -662,7 +662,7 @@ return false;
 
     });
   }
-}
+
    // do something…
  });
 
