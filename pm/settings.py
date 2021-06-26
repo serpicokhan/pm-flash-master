@@ -30,7 +30,7 @@ SECRET_KEY = 'mihn3y3afcnbb4)%lq5xpss%2mdi^a#60b4i_=@j5c56j9n09-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.2.12','127.0.0.1','192.168.1.52','172.20.1.69']
+ALLOWED_HOSTS = ['172.16.2.149','127.0.0.1','192.168.1.52','172.20.1.69']
 
 
 # Application definition
@@ -112,7 +112,7 @@ WSGI_APPLICATION = 'pm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmms4',
+        'NAME': 'cmmsuni',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
