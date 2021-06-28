@@ -377,14 +377,14 @@ class AssetUtility:
     def getLabourHoursByAsset(date1,date2,assetCategory,mainType):
         #############$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         #add extra function for empty maintype
-        whereConition=" where 1=1 "
+        whereConition="left join workorder as wo on wo.woasset_id=assets.id  where wo.maintenanceType_id in ({0})".format(mainType)
 
         # if(len(mainType)>0):
         #     whereConition+=" and  maintenanceType_id in {0}".format(str(mainType))
         if(len(assetCategory)>0):
             whereConition+=" and  assetCategory_id in {0}".format(str(assetCategory))
-        print("""  select id,get_task_asset_time_spent (id,'{0}','{1}','{2}') as timespent from assets {3} """.format(date1,date2,mainType,whereConition))
-        return Asset.objects.raw("""  select id,get_task_asset_time_spent (id,'{0}','{1}','{2}') as timespent from assets {3}  """.format(date1,date2,mainType,whereConition))
+        # print(("""select assets.id,get_task_asset_time_spent2 (assets.id,'{0}','{1}') as timespent from assets {2}  """.format(date1,date2,whereConition)))
+        return Asset.objects.raw(""" select assets.id,get_task_asset_time_spent2 (assets.id,'{0}','{1}') as timespent from assets {2}  """.format(date1,date2,whereConition))
     @staticmethod
     def getLabourHoursByAssetTop10(date1,date2,assetCategory,mainType):
         #############$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

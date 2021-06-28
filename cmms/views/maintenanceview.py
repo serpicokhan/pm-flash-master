@@ -826,8 +826,9 @@ def showtavaghof(request,startHijri,endHijri,loc=None):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
     n1=0
-    if(not loc):
-        n1=WOUtility.getTavaghof(start,end)
+    
+    if(loc is None):
+        n1=WOUtility.getTavaghof(start,end,None)
     else:
         n1=WOUtility.getTavaghof(start,end,loc)
     wos=WOUtility.doPaging(request,n1)

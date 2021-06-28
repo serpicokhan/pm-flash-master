@@ -38,7 +38,9 @@
 
 
                     var form = $(this).parent().parent();
-                    mydata=myformat('{"assetTypes":{0},"assetName":"{1}","assetCode":"{2}","assetIsPartOf":{3},"assetIsLocatedAt":{4}}',$("#id_assetTypes").val(),$("#id_assetName").val(),$("#id_assetCode").val(),$("#id_assetIsPartOf").val(),$("#id_assetIsLocatedAt").val());
+                    var assetpartof=($("#id_assetIsPartOf").val().length>0)?$("#id_assetIsPartOf").val():null;
+                    var assetIsLocatedAt=($("#id_assetIsLocatedAt").val().length>0)?$("#id_assetIsLocatedAt").val():null;
+                    mydata=myformat('{"assetTypes":{0},"assetName":"{1}","assetCode":"{2}","assetIsPartOf":{3},"assetIsLocatedAt":{4}}',$("#id_assetTypes").val(),$("#id_assetName").val(),$("#id_assetCode").val(),assetpartof,assetIsLocatedAt);
 
 
                     $.ajax({

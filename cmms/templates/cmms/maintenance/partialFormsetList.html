@@ -27,6 +27,9 @@
     {% if c.maintenanceType %} {{c.maintenanceType}}{% else %} &nbsp; {% endif %}
   </td>
   <td>
+    {% if c.woStatus %} {{c.woStatus}}{% else %} &nbsp; {% endif %}
+  </td>
+  <td>
   {% if c.woAsset %} {{c.woAsset}} {% else %} &nbsp; {% endif %}
   </td>
 

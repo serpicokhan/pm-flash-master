@@ -73,6 +73,7 @@ class WorkOrderForm2(forms.ModelForm):
 
             #if(self.is_valid()):
                 datecreated=cleaned_data.get('datecreated','')
+                woStatus=cleaned_data.get('woStatus','')
                 RequestedUser=cleaned_data.get('RequestedUser','')
                 maintenanceType=cleaned_data.get('maintenanceType','')
                 woAsset=cleaned_data.get('woAsset','')
@@ -105,26 +106,12 @@ class WorkOrderForm2(forms.ModelForm):
                 # result="312312"
                 # print("######################",assignedToUser)
                 return cleaned_data
-    # def clean_woTags(self):
-    #     str1= self.cleaned_data['summaryofIssue']
-    #     # print("********************")
-    #     #print(str1)
-    #     stops = set(stopwords_list())
-    #     words = [word for word in word_tokenize(str1) if word not in stops]
-    #     value= ', '.join(str(e) for e in words)
-    #     # print("********************")
-    #     #print(value)
-    #     return value
 
-
-    # def clean_summaryofIssue(self):
-    #      value= self.cleaned_data['summaryofIssue']
-    #      return value
 
     #CustomerId = forms.ModelChoiceField(queryset=Customer.objects.all())
     class Meta:
         model = WorkOrder
-        fields = ['unitgroups','datecreated','RequestedUser', 'maintenanceType', 'woAsset','Project','dateCompleted','timeCompleted','summaryofIssue','assignedToUser','woStopCode','completionNotes','woCauseCode','isEM']
+        fields = ['unitgroups','datecreated','RequestedUser', 'maintenanceType', 'woAsset','Project','dateCompleted','timeCompleted','summaryofIssue','assignedToUser','woStopCode','completionNotes','woCauseCode','isEM','woStatus']
 class MiniWorkorderForm(forms.ModelForm):
     # def clean(self):
     #             self.is_valid()

@@ -5,7 +5,7 @@
  {% load widget_tweaks %}
 <style media="screen">
   body{
-    width:3000px;
+    width:4000px;
     overflow-x:scroll;
 
   }
@@ -164,19 +164,20 @@
                               <th></th>
                               <th>EM</th>
                                 <th class="col-md-1" style="text-align:center">تاریخ ایجاد</th>
-                                <th>درخواست کننده</th>
-                                <th>واحد مجری</th>
-                                <th>نوع نگهداری</th>
-                                <th>نام دستگاه</th>
-                                <th class="col-md-2">شرح درخواست</th>
-                                <th class="col-md-2" style="text-align:center">توضیحات</th>
-                                <th>علت</th>
-                                <th>پروژه</th>
-                                <th>تاریخ انجام</th>
-                                <th>زمان انجام</th>
-                                <th>زمان پرت</th>
-                                <th>تعمیرکار</th>
-                                <th>با توقف</th>
+                                <th class="col-md-1">درخواست کننده</th>
+                                <th class="col-md-1">واحد مجری</th>
+                                <th class="col-md-1">نوع نگهداری</th>
+                                <th class="col-md-1">وضعیت درخواست</th>
+                                <th class="col-md-1">نام دستگاه</th>
+                                <th class="col-md-1">شرح درخواست</th>
+                                <th class="col-md-1" style="text-align:center">توضیحات</th>
+                                <th class="col-md-1">علت</th>
+                                <th class="col-md-1">پروژه</th>
+                                <th class="col-md-1">تاریخ انجام</th>
+                                <th class="col-md-1">زمان انجام</th>
+                                <th class="col-md-1">زمان پرت</th>
+                                <th class="col-md-1">تعمیرکار</th>
+                                <th class="col-md-1">با توقف</th>
                                 <th class="col-md-1" style="text-align:center">نام قطعه</th>
                                 <th class="col-md-1" style="text-align:center">تعداد</th>
 
@@ -207,6 +208,9 @@
                                 </td>
                                 <td>
                                   {% render_field form.maintenanceType class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+                                </td>
+                                <td>
+                                  {% render_field form.woStatus class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
                                 </td>
 
                                 <td>
@@ -559,7 +563,7 @@ $(".send_form").click(function(){
             ,"woPart":{12}\
             ,"woPartQty":"{13}"\
             ,"isEM":{14}\
-            ,"pertTime":"{15}"}',
+            ,"pertTime":"{15}","woStatus":{16}}',
             getStringVal($("#id_datecreated").val()),
             getVal($("#id_RequestedUser").val()),
             getVal($("#id_maintenanceType").val()),
@@ -576,7 +580,8 @@ $(".send_form").click(function(){
             getVal($("#id_woPart").val()==null)?null:myformat("[{0}]",getVal($("#id_woPart").val())),
             getStringVal($("#id_woPartQty").val()),
             $('#id_isEM').is(":checked"),
-            getStringVal(($("#id_pertTime").val()==""?"-":$("#id_pertTime").val()))
+            getStringVal(($("#id_pertTime").val()==""?"-":$("#id_pertTime").val())),
+            getStringVal(($("#id_woStatus").val()==""?"1":$("#id_woStatus").val()))
 
             );
             if(validateform())
@@ -612,7 +617,7 @@ $(".send_form").click(function(){
                    elem.remove();
                    elem1.remove();
                    $('tr#myform td:nth-child(3)').append($('<input type="text" id="id_datecreated" name="datecreated"  class="form-control"/>'));
-                   $('tr#myform td:nth-child(12)').append($('<input type="text" id="id_dateCompleted" name="dateCompleted"  class="form-control"/>'));
+                   $('tr#myform td:nth-child(13)').append($('<input type="text" id="id_dateCompleted" name="dateCompleted"  class="form-control"/>'));
                    // console.log(elem);
                    // elem.parentElement.removeChild(elem);
                    $('#id_datecreated').pDatepicker({

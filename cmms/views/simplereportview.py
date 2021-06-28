@@ -848,7 +848,7 @@ class reporttest:
                 categoryText.pop(0)
         if(len(maintenanceType) >0 and not maintenanceType[0]):
             maintenanceType.pop(0)
-        print("maintenanceType:=>>>>>>>>>>",maintenanceType)
+        # print("maintenanceType:=>>>>>>>>>>",maintenanceType)
 
         categoryText=[int(i) for i in categoryText]
         maintenanceType=[int(i) for i in maintenanceType]
@@ -2224,7 +2224,7 @@ class reporttest:
             n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
             'woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2),woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
             assetType.append(-1)
-            
+
             n2=WorkorderPart.objects.raw(''' SELECT
                   sum(workorderpart.woPartActulaQnty) as id ,
                   pdate(date(workorderpart.timeStamp)) as t,
