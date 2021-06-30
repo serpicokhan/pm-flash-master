@@ -8,54 +8,54 @@ from django.core.exceptions import ObjectDoesNotExist
 from pprint import pprint
 
 
-# def create_wo(unit):
-#     ##### Create Wo #########
-#     stableWo=WorkOrder.objects.get(id=unit.workOrder_id)
-#     oldWo=WorkOrder.objects.get(id=unit.workOrder_id)
-#     stableWo.pk=None
-#     stableWo.visibile=True
-#     stableWo.isScheduling=False
-#     stableWo.isPm=True
-#     stableWo.datecreated=datetime.now().date()
-#     stableWo.timecreated=datetime.now().time()
-#     stableWo.isPartOf=unit.workOrder
-#     # Newsch.schNextWo=WorkOrder.objects.create(datecreated=Newsch.schnextTime.date(),timecreated=Newsch.schnextTime.time(),visibile=False,isScheduling=False,isPartOf=Newsch.workOrder)
-#     stableWo.save()
-#
-#     #################
-#     # wt=WorkorderTask.objects.filter(workorder=oldWo)
-#     wt=Tasks.objects.filter(workorder=oldWo)
-#     if(wt!=None):
-#         for f in wt:
-#             f.pk=None
-#             f.workorder=stableWo
-#             f.save()
-#     ##############
-#     wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)
-#     if(wp!=None):
-#         for f in wp:
-#             f.pk=None
-#             f.woPartWorkorder=stableWo
-#             woPartMsg=StockUtility.remove(f)
-#             f.save()
-#     ###############
-#     wf=WorkorderFile.objects.filter(woFileworkorder=oldWo)
-#     if(wf!=None):
-#
-#         for f in wf:
-#             f.pk=None
-#             f.woFileworkorder=stableWo
-#             f.save()
-#
-#     ################
-#     try:
-#         wn=get_object_or_404(WorkorderUserNotification,woNotifWorkorder=oldWo)
-#         if(wn!=None):
-#             wn.pk=None
-#             wn.woNotifWorkorder=stableWo
-#             wn.save()
-#     except:
-#         print("error")
+def create_wo(unit):
+    ##### Create Wo #########
+    stableWo=WorkOrder.objects.get(id=unit.workOrder_id)
+    oldWo=WorkOrder.objects.get(id=unit.workOrder_id)
+    stableWo.pk=None
+    stableWo.visibile=True
+    stableWo.isScheduling=False
+    stableWo.isPm=True
+    stableWo.datecreated=datetime.now().date()
+    stableWo.timecreated=datetime.now().time()
+    stableWo.isPartOf=unit.workOrder
+    # Newsch.schNextWo=WorkOrder.objects.create(datecreated=Newsch.schnextTime.date(),timecreated=Newsch.schnextTime.time(),visibile=False,isScheduling=False,isPartOf=Newsch.workOrder)
+    stableWo.save()
+
+    #################
+    # wt=WorkorderTask.objects.filter(workorder=oldWo)
+    wt=Tasks.objects.filter(workorder=oldWo)
+    if(wt!=None):
+        for f in wt:
+            f.pk=None
+            f.workorder=stableWo
+            f.save()
+    ##############
+    wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)
+    if(wp!=None):
+        for f in wp:
+            f.pk=None
+            f.woPartWorkorder=stableWo
+            woPartMsg=StockUtility.remove(f)
+            f.save()
+    ###############
+    wf=WorkorderFile.objects.filter(woFileworkorder=oldWo)
+    if(wf!=None):
+
+        for f in wf:
+            f.pk=None
+            f.woFileworkorder=stableWo
+            f.save()
+
+    ################
+    try:
+        wn=get_object_or_404(WorkorderUserNotification,woNotifWorkorder=oldWo)
+        if(wn!=None):
+            wn.pk=None
+            wn.woNotifWorkorder=stableWo
+            wn.save()
+    except:
+        print("error")
 #
 @receiver(pre_save, sender=PartPurchase )
 def save_purchasepart_profile(sender, instance, **kwargs):
@@ -184,22 +184,23 @@ def save_assetmeter(sender, instance, **kwargs):
               exc_type, exc_obj, tb = sys.exc_info()
               print(tb.tb_lineno)
               print("error in signals Asset Meter Reading")
-# @receiver(post_save, sender=AssetEvent )
-# def save_asset_event(sender, instance, **kwargs):
-#     try:
-#         print(instance.AssetEventEventId)
-#         print(instance.AssetEventAssetId)
-#         ev=Schedule.objects.filter(schEvent=instance.AssetEventEventId).filter(schAsset=instance.AssetEventAssetId)
-#         for unit in ev:
-#
-#             #if(unit.workOrder.running==True):
-#                 create_wo(unit)
-#
-#
-#
-#     except Exception as e:
-#         print(e)
-#         print("problem in assetevent signal")
+
+@receiver(post_save, sender=AssetEvent )
+def save_asset_event(sender, instance, **kwargs):
+    try:
+
+        ev=Schedule.objects.filter(schEvent=instance.AssetEventEventId).filter(schAsset=instance.AssetEventAssetId)
+        for unit in ev:
+
+            if(unit.workOrder.running==True):
+                create_wo(unit)
+                # print(ev,"sarvi")
+
+
+
+    except Exception as e:
+        print(e)
+        print("problem in assetevent signal")
 # @receiver(post_save, sender=WorkOrder)
 # def create_wo_profile(sender, instance, created, **kwargs):
 #     if created:

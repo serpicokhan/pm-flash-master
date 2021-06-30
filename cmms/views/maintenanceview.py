@@ -372,6 +372,27 @@ def woGetHighPriority(request,startHijri,endHijri,loc=None):
 
             wos=WOUtility.doPaging(request,books)
             return render(request, 'cmms/maintenance/dash_woList.html', {'wo': wos})
+@login_required
+def woGetWoReqNumber(request,startHijri,endHijri,loc=None):
+    #paging is ok
+
+
+            start,end=DateJob.convert2Date(startHijri,endHijri)
+            # print(WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9)).query)
+
+            if(not loc):
+                books = WorkOrder.objects.filter(visibile=True,isScheduling=False, datecreated__range=(start, end))
+            else:
+                books = WorkOrder.objects.filter(visibile=True,isScheduling=False, datecreated__range=(start, end),woAsset__assetIsLocatedAt__id=loc)
+            # if(request.user.username!="admin"):
+            #     books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated')
+            # books=filterUser(request,books)
+
+
+
+
+            wos=WOUtility.doPaging(request,books)
+            return render(request, 'cmms/maintenance/dash_woList.html', {'wo': wos})
 
 
 
@@ -609,6 +630,14 @@ def save_formset(request):
                 form.instance.woPriority=3
 
                 f2=form.save()
+                LogEntry.objects.log_action(
+                    user_id         = request.user.pk,
+                    content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                    object_id       = form.instance.id,
+                    object_repr     = 'workorder',
+                    action_flag     = ADDITION,
+                    change_message= request.META.get('REMOTE_ADDR')
+                )
 
                 qty=""
                 if(len(data['woPartQty'])>0):
@@ -826,7 +855,7 @@ def showtavaghof(request,startHijri,endHijri,loc=None):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
     n1=0
-    
+
     if(loc is None):
         n1=WOUtility.getTavaghof(start,end,None)
     else:
