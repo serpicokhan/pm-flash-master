@@ -118,7 +118,7 @@ class WOUtility:
     #########################################################################################
     @staticmethod
     def getWoReqNum(start,end):
-        print("!1@#!@#@!",WorkOrder.objects.filter(datecreated__range=[start,end],isScheduling=False).count())
+        # print("!1@#!@#@!",WorkOrder.objects.filter(datecreated__range=[start,end],isScheduling=False).count())
 
         return WorkOrder.objects.filter(datecreated__range=[start,end],isScheduling=False).count()
         # raw("SELECT  count(id) as id  from workorder where datecreated between '{0}' and '{1}' and isScheduling=0".format(start,end))
