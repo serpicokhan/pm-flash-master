@@ -6,56 +6,60 @@ import sys
 from cmms.business.stockutility import *
 from django.core.exceptions import ObjectDoesNotExist
 from pprint import pprint
+from datetime import datetime
 
 
 def create_wo(unit):
-    ##### Create Wo #########
-    stableWo=WorkOrder.objects.get(id=unit.workOrder_id)
-    oldWo=WorkOrder.objects.get(id=unit.workOrder_id)
-    stableWo.pk=None
-    stableWo.visibile=True
-    stableWo.isScheduling=False
-    stableWo.isPm=True
-    stableWo.datecreated=datetime.now().date()
-    stableWo.timecreated=datetime.now().time()
-    stableWo.isPartOf=unit.workOrder
-    # Newsch.schNextWo=WorkOrder.objects.create(datecreated=Newsch.schnextTime.date(),timecreated=Newsch.schnextTime.time(),visibile=False,isScheduling=False,isPartOf=Newsch.workOrder)
-    stableWo.save()
-
-    #################
-    # wt=WorkorderTask.objects.filter(workorder=oldWo)
-    wt=Tasks.objects.filter(workorder=oldWo)
-    if(wt!=None):
-        for f in wt:
-            f.pk=None
-            f.workorder=stableWo
-            f.save()
-    ##############
-    wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)
-    if(wp!=None):
-        for f in wp:
-            f.pk=None
-            f.woPartWorkorder=stableWo
-            woPartMsg=StockUtility.remove(f)
-            f.save()
-    ###############
-    wf=WorkorderFile.objects.filter(woFileworkorder=oldWo)
-    if(wf!=None):
-
-        for f in wf:
-            f.pk=None
-            f.woFileworkorder=stableWo
-            f.save()
-
-    ################
     try:
-        wn=get_object_or_404(WorkorderUserNotification,woNotifWorkorder=oldWo)
-        if(wn!=None):
-            wn.pk=None
-            wn.woNotifWorkorder=stableWo
-            wn.save()
-    except:
-        print("error")
+        ##### Create Wo #########
+        stableWo=WorkOrder.objects.get(id=unit.workOrder_id)
+        oldWo=WorkOrder.objects.get(id=unit.workOrder_id)
+        stableWo.pk=None
+        stableWo.visibile=True
+        stableWo.isScheduling=False
+        stableWo.isPm=True
+        stableWo.datecreated=datetime.now().date()
+        stableWo.timecreated=datetime.now().time()
+        stableWo.isPartOf=unit.workOrder
+        # Newsch.schNextWo=WorkOrder.objects.create(datecreated=Newsch.schnextTime.date(),timecreated=Newsch.schnextTime.time(),visibile=False,isScheduling=False,isPartOf=Newsch.workOrder)
+        stableWo.save()
+
+        #################
+        # wt=WorkorderTask.objects.filter(workorder=oldWo)
+        wt=Tasks.objects.filter(workOrder=oldWo)
+        if(wt!=None):
+            for f in wt:
+                f.pk=None
+                f.workorder=stableWo
+                f.save()
+        ##############
+        wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)
+        if(wp!=None):
+            for f in wp:
+                f.pk=None
+                f.woPartWorkorder=stableWo
+                woPartMsg=StockUtility.remove(f)
+                f.save()
+        ###############
+        wf=WorkorderFile.objects.filter(woFileworkorder=oldWo)
+        if(wf!=None):
+
+            for f in wf:
+                f.pk=None
+                f.woFileworkorder=stableWo
+                f.save()
+
+        ################
+        try:
+            wn=get_object_or_404(WorkorderUserNotification,woNotifWorkorder=oldWo)
+            if(wn!=None):
+                wn.pk=None
+                wn.woNotifWorkorder=stableWo
+                wn.save()
+        except:
+            print("error")
+    except Exception as ex:
+        print(ex)
 #
 @receiver(pre_save, sender=PartPurchase )
 def save_purchasepart_profile(sender, instance, **kwargs):
