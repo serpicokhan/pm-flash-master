@@ -164,7 +164,7 @@
                           "shMeterReadingStartAt":{4},\
                           "shMeterReadingEndBy":"{5}",\
                           "schMeterReadingIsFixed":"{6}"\
-                          ,"workOrder":{7},"schHasEndReading":{8},"schAsset":{9},"schNextWo":{10}}',
+                          ,"workOrder":{7},"schHasEndReading":{8},"schAsset":{9}}',
                           $('input[name=whenreading]:checked').val(),
                           $('input[name=schChoices]:checked').val(),
                           $('#id_shMeterReadingEvreyQnty').val(),
@@ -174,17 +174,17 @@
                           $('#id_schMeterReadingIsFixed').val(),
                           $("#lastWorkOrderid").val(),
                           $("#id_schHasEndReading").is(":checked"),
-                          $("#id_woAsset").val(),$("#id_schNextWo").val());
-
+                          $("#id_woAsset").val());
+                          alert($("#id_woAsset").val());
                         }
                          else
                          {
                            mydata=myformat('{"whenreading":{0},"schChoices":{1},\
                            "shMeterReadingWhenMetric":{2},\
                            "shMetricComparison":{3},"shMeterReadingWhenQnty":{4}\
-                           ,"workOrder":{5},"schAsset":{6},"schNextWo":{7}}',"1","1",$("#id_shMeterReadingWhenMetric").val(),
+                           ,"workOrder":{5},"schAsset":{6}}',"1","1",$("#id_shMeterReadingWhenMetric").val(),
                            $("#id_shMetricComparison").val(),$("#id_shMeterReadingWhenQnty").val(),$("#lastWorkOrderid").val(),
-                           $("#id_woAsset").val(),$("#id_schNextWo").val());
+                           $("#id_woAsset").val());
                          }
 
 
@@ -204,7 +204,7 @@
                          dataType: 'json',
                          beforeSend: function () {
                            //alert(btn.attr("data-url"));
-                           // console.log(mydata);
+                           console.log(mydata);
                          },
                          success: function (data) {
                            if (data.form_is_valid) {

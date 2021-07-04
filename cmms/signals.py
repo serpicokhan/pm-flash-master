@@ -156,32 +156,31 @@ def save_assetmeter(sender, instance, **kwargs):
 
               ##### چک کردن فعال بودن swo ????????????
 
-              sche=Schedule.objects.filter(schAsset=instance.assetMeterLocation,shMeterReadingMetrics=instance.assetMeterMeterReadingUnit)
+              sche=Schedule.objects.filter(schAsset=instance.assetMeterLocation,shMeterReadingMetrics=instance.assetMeterMeterReadingUnit,workOrder__running=True,shMeterReadingHasTiming=True)
 
               for unit in sche:
-                 print(unit.shMeterNextVal)
                  if(unit.shMeterNextVal!=None):
+                         if(instance.assetMeterMeterReading>=unit.shMeterNextVal  and unit.workOrder.running==True):
+                          #and instance.assetMeterMeterReading<=unit.shMeterReadingEndBy
+                          unit.shMeterNextVal=unit.shMeterReadingEvreyQnty+instance.assetMeterMeterReading
+                          create_wo(unit)
+                          print("Hello")
+                          unit.save()
 
 
-                     if(instance.assetMeterMeterReading>=unit.shMeterNextVal  and unit.workOrder.running==True):
-                      #and instance.assetMeterMeterReading<=unit.shMeterReadingEndBy
-                      unit.shMeterNextVal=unit.shMeterReadingEvreyQnty+instance.assetMeterMeterReading
-                      # create_wo(unit)
-                      print("Hello")
-                      unit.save()
-              # sche1=Schedule.objects.filter(schAsset=instance.assetMeterLocation).filter(shMeterReadingWhenMetric=instance.assetMeterMeterReadingUnit)
+              sche1=Schedule.objects.filter(schAsset=instance.assetMeterLocation,shMeterReadingWhenMetric=instance.assetMeterMeterReadingUnit,shMeterReadingHasTiming=False,workOrder__running=True)
               #
-              # for unit in sche1:
-              #     if(unit.shMeterReadingHasTiming==False):
-              #         if(unit.shMetricComparison==0):
-              #             if(instance.assetMeterMeterReading>unit.shMeterReadingWhenQnty and unit.workOrder.running==True):
-              #                 create_wo(unit) #create wo
-              #                 #print("yeah instance.assetMeterMeterReading>unit.shMeterReadingWhenQnty ")
-              #                 unit.save()
-              #         if(unit.shMetricComparison==1):
-              #              if(instance.assetMeterMeterReading<unit.shMeterReadingWhenQnty):
-              #                  create_wo(unit) #create wo
-              #                  unit.save()
+              for unit in sche1:
+
+                      if(unit.shMetricComparison==0):
+                          if(instance.assetMeterMeterReading>unit.shMeterReadingWhenQnty and unit.workOrder.running==True):
+                              create_wo(unit) #create wo
+                              #print("yeah instance.assetMeterMeterReading>unit.shMeterReadingWhenQnty ")
+                              unit.save()
+                      if(unit.shMetricComparison==1):
+                           if(instance.assetMeterMeterReading<unit.shMeterReadingWhenQnty):
+                               create_wo(unit) #create wo
+                               unit.save()
           except Exception as e1:
               print("asddsadsa#############################")
               print(e1)
@@ -205,6 +204,22 @@ def save_asset_event(sender, instance, **kwargs):
     except Exception as e:
         print(e)
         print("problem in assetevent signal")
+# @receiver(post_save, sender=AssetMeterReading )
+# def save_assetmeter_event(sender, instance, **kwargs):
+#     try:
+#
+#         ev=AssetMeterReading.objects.filter(schEvent=instance.AssetEventEventId).filter(schAsset=instance.AssetEventAssetId)
+#         for unit in ev:
+#
+#             if(unit.workOrder.running==True):
+#                 create_wo(unit)
+#                 # print(ev,"sarvi")
+#
+#
+#
+#     except Exception as e:
+#         print(e)
+#         print("problem in assetevent signal")
 # @receiver(post_save, sender=WorkOrder)
 # def create_wo_profile(sender, instance, created, **kwargs):
 #     if created:

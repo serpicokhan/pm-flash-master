@@ -3,19 +3,13 @@
 
 <ul class="pagination">
 {% if wo.has_previous %}
-<li><a href="#" data-url="{% url pageType pageArgs %}?page={{ wo.previous_page_number }}" class="wo_month_paginator">&laquo;</a></li>
+<li><a href="#" onclick=" return false;" data-url="{% url pageType pageArgs %}?page={{ wo.previous_page_number }}" class="wo_month_paginator">&laquo;</a></li>
 {% else %}
 <li class="disabled"><span>&laquo;</span></li>
 {% endif %}
-{% for i in wo.paginator.page_range %}
-{% if wo.number == i %}
-<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-{% else %}
-<li><a href="#" data-url="{% url pageType pageArgs %}?page={{ i }}" class="wo_month_paginator">{{ i }}</a></li>
-{% endif %}
-{% endfor %}
+  <li ><span>{{ wo.number }} از {{ wo.paginator.num_pages }} <span class="sr-only">(current)</span></span></li>
 {% if wo.has_next %}
-<li><a href="#" data-url="{% url pageType pageArgs %}?page={{ wo.next_page_number }}" class="wo_month_paginator"">&raquo;</a></li>
+<li><a href="#" onclick=" return false;" data-url="{% url pageType pageArgs %}?page={{ wo.next_page_number }}" class="wo_month_paginator"">&raquo;</a></li>
 {% else %}
 <li class="disabled"><span>&raquo;</span></li>
 {% endif %}

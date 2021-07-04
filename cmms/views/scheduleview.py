@@ -66,26 +66,10 @@ def save_schedule_form(request, form, template_name,woId=None):
     if (request.method == 'POST'):
           #if form.is_valid():
              try:
-
-                 #form.save(commit=False)
-                 #print(form.cleaned_data['schDailyRep'])
-                 #form.schnextTime=datetime.combine(form.cleaned_data['shStartDate'],datetime.now().time())+timedelta(days=10)#form.cleaned_data['shStartDate'] #+ timedelta(days=1)
                  if form.is_valid():
-                     print("Create new schedule line 62")
-                     #form.save(commit=False)
-                     #d=int(form.cleaned_data['schDailyRep'])
-                     #print(datetime.combine(form.cleaned_data['shStartDate'],datetime.now().time())+timedelta(days=d))
-                     #form.schnextTime=form.cleaned_data['shStartDate']+timedelta(days=d)
-
                      newItem=form.save()
-                     # print("schedview line 68",form.schNextWo)
                      ScheduleUtility.CreateNewWO(newItem.id)
-                     # ################
                      data['form_is_valid'] = True
-                     fmt = getattr(settings, 'LOG_FORMAT', None)
-                     lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-                     logging.basicConfig(format=fmt, level=lvl)
-                     logging.debug( woId)
                      books = Schedule.objects.filter(workOrder=woId).order_by('id')
                      data['html_schedule_list'] = render_to_string('cmms/schedule/partialSchedulelist.html', {
                          'schedules': books,
@@ -205,7 +189,8 @@ def schedule_create(request):
                 data['schMonthIsFixed']=False
                 data['schYearIsFixed']=False
                 data['schAsset']=body['schAsset']
-                data['shMeterReadingHasTiming']=True if body['whenreading']=='0' else False
+
+                data['shMeterReadingHasTiming']=True if body['whenreading']==0 else False
                 if(int(body['whenreading'])==0):
                     try:
                         data['shMeterReadingEvreyQnty']=body['shMeterReadingEvreyQnty']
@@ -216,7 +201,7 @@ def schedule_create(request):
                         data['schMeterReadingIsFixed']=True if body['schMeterReadingIsFixed']=='True' else False
                         data['shMeterNextVal']=int(body['shMeterReadingEvreyQnty'])+int(body['shMeterReadingStartAt'])
                     except Exception as e1:
-                        print(e1)
+                        print(e1,"line 219")
                 else:
                     data['shMeterReadingWhenMetric']=body['shMeterReadingWhenMetric']
                     data['shMetricComparison']=body['shMetricComparison']
@@ -265,7 +250,7 @@ def schedule_update(request, id):
         print(data['workOrder'])
         woId=data['workOrder']
         if(int(data['schChoices']==0)):
-            print(body['shHasEndDate'],"##################")
+            # print(body['shHasEndDate'],"##################")
             data['shStartDate']=(body['shStartDate'])
             data['shHasEndDate']=True if body['shHasEndDate']==True else False
             # data['schNextWo']=body['schNextWo']
@@ -327,7 +312,7 @@ def schedule_update(request, id):
                  data['schMonthIsFixed']=False
                  data['schYearIsFixed']=False
                  data['schAsset']=body['schAsset']
-                 data['shMeterReadingHasTiming']=True if body['whenreading']=='0' else False
+                 data['shMeterReadingHasTiming']=True if body['whenreading']==0 else False
                  if(int(body['whenreading'])==0):
                      try:
                          data['shMeterReadingEvreyQnty']=body['shMeterReadingEvreyQnty']
@@ -338,12 +323,12 @@ def schedule_update(request, id):
                          data['shMeterNextVal']=int(body['shMeterReadingEvreyQnty'])+int(body['shMeterReadingStartAt'])
                          data['schMeterReadingIsFixed']=True if body['schMeterReadingIsFixed']=='True' else False
                      except Exception as e1:
-                         print(e1)
+                         print(e1,"line 342")
                  else:
                      data['shMeterReadingWhenMetric']=body['shMeterReadingWhenMetric']
                      data['shMetricComparison']=body['shMetricComparison']
                      data['shMeterReadingWhenQnty']=body['shMeterReadingWhenQnty']
-                 print("line 324 sch ",company.schNextWo)
+                 # print("line 324 sch ",company.schNextWo)
                  form = ScheduleForm(data,instance=company)
         else:
             print("event")
@@ -356,5 +341,5 @@ def schedule_update(request, id):
             form = ScheduleForm(data,instance=company)
     else:
         form = ScheduleForm(instance=company)
-    print("line 338 sch ",company.schNextWo)
+    # print("line 338 sch ",company.schNextWo)
     return save_schedule_form(request, form, 'cmms/schedule/partialScheduleUpdate.html',company.workOrder)
