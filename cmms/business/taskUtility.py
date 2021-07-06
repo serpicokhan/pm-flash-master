@@ -1,4 +1,4 @@
-from cmms.models.task import *
+ cmms.models.task import *
 from cmms.models.workorder import *
 from datetime import datetime
 from django.core.paginator import *
@@ -173,3 +173,6 @@ class TaskUtility:
          ;
          ; """.format(gid,dt1,dt2,mid))[0].id
         return n1;
+    @staticmethod
+    def search(searchStr):
+        return TaskGroup.objects.filter(taskGroupName__contais=searchStr)

@@ -1,5 +1,4 @@
-'''
- fmt = getattr(settings, 'LOG_FORMAT', None)
+ = getattr(settings, 'LOG_FORMAT', None)
  lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
 
  logging.basicConfig(format=fmt, level=lvl)
@@ -198,3 +197,12 @@ def taskGroupSearch(request,str):
 
     })
     return JsonResponse(data)
+def search(request,searchStr):
+    data=dict()
+    searchStr=searchStr.replace('_',' ')
+    books=TaskUtility.seach(searchStr).order_by('taskGroupName')
+    wos=TaskUtility.doPaging(request,list(books))
+    data['html_task_search_tag_list'] = render_to_string('cmms/taskgroup/partialTaskGroupList.html', {               'taskGroup': wos                       })
+    # data['html_part_paginator'] = render_to_string('cmms/taskgroup/partialWoPagination.html', {
+    #       'wo': wos,'pageType':'part_searchPart','ptr':searchStr})
+    data['form_is_valid'] = True
