@@ -31,6 +31,7 @@ from cmms.business.taskUtility import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.context_processors import PermWrapper
+from cmms.business.taskUtility import TaskUtility
 
 @permission_required('cmms.view_taskgroup')
 def list_taskGroup(request,id=None):

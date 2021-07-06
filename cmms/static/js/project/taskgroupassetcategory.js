@@ -82,6 +82,7 @@ var savetaskGroupAssetCategoryForm= function () {
   };
 
  // Create book
+$(".js-create-taskGroupAssetCategory").unbind();
 $(".js-create-taskGroupAssetCategory").click(loadtaskGroupAssetCategoryForm);
 //$("#task-submit").on("", ".js-task-create-form", saveTaskForm);
 //s$("#task-submit").on("click",function(){alert("32132");});

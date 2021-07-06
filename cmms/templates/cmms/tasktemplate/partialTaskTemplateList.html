@@ -30,3 +30,8 @@
 </tr>
 
 {% endfor %}
+
+{% load static %}
+{% block javascript %}
+  <script src="{% static '/js/project/tasktemplate.js' %}"></script>
+{% endblock %}

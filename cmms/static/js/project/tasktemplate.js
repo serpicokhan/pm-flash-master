@@ -90,6 +90,7 @@ var saveTaskTemplateForm= function () {
 
 
  // Create book
+$(".js-create-taskTemplate").unbind();
 $(".js-create-taskTemplate").click(loadTaskTemplateForm);
 $("#taskTemplate-table").on("click", ".js-update-taskTemplate", loadTaskTemplateForm);
 // $("#modal-taskTemplate").on("submit", ".js-taskTemplate-update-form", saveTaskTemplateForm);
