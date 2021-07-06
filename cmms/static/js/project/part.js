@@ -43,8 +43,7 @@ var cancelForm=function(){
       if (data.form_is_valid) {
         //alert("taskGroup created!");  // <-- This is just a placeholder for now for testing
 
-        $("#tbody_company").empty();
-        $("#tbody_company").html(data.html_part_list);
+        swal("حذف شد!", $("#id_summaryofIssue").val(), "success");
 
 
         // $("#modal-taskGroup").modal("hide");
@@ -61,6 +60,24 @@ var cancelForm=function(){
 
 
 };
+$('#modal-company').on('click','.partClose', function () {
+  if($("#issavechanged").val()=="-1" && $("#id_partName").val()=="" ){
+  swal({
+       title: "حذف قطعه بدون نام و مشخصات",
+       text: $("#id_summaryofIssue").val(),
+       type: "warning",
+       showCancelButton: true,
+       confirmButtonColor: "#DD6B55",
+       confirmButtonText: "بلی",
+       cancelButtonText: "خیر",
+       closeOnConfirm: true
+   }, function () {
+       cancelForm();
+
+   });
+ }
+  // do something…
+});
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveForm= function () {
    var form = $(this);
@@ -77,6 +94,8 @@ var saveForm= function () {
          $("#tbody_company").html(data.html_part_list);
          $("#modal-company").modal("hide");
          $("tr").on("click", showPartDetails);
+
+         $("#issavechanged").val("1");
          toastr.success("قطعه با موفقیت ثبت گردید");
         // console.log(data.html_part_list);
        }
@@ -499,7 +518,7 @@ var loadPartUsageStatus=function(id)
 
     },
     success: function (data) {
-   console.log(data);
+
 
     DrawDonat2(data.html_part_maintenance_type_list,'PartPie');
     DrawLine(data.html_part_maintenance_type_list,'PartLine');
