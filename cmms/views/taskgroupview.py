@@ -53,6 +53,8 @@ def list_taskGroup_js(request,assetId=None):
     else:
         books=TaskGroup.objects.all().order_by('-id')
 
+    bookp=TaskUtility.doPaging(request,books)
+
 
 
 
@@ -60,9 +62,11 @@ def list_taskGroup_js(request,assetId=None):
 
     ####
 
+
     data['html_taskGroup_list']= render_to_string('cmms/taskgroup/partialtaskGroupList2.html', {
-        'taskGroup': books
+        'taskGroup': bookp
     })
+
     return JsonResponse(data)
 
 def save_taskGroup_form(request, form, template_name,id=None):
