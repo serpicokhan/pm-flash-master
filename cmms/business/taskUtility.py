@@ -1,4 +1,4 @@
- cmms.models.task import *
+from cmms.models.task import *
 from cmms.models.workorder import *
 from datetime import datetime
 from django.core.paginator import *

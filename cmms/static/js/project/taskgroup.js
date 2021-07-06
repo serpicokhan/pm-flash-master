@@ -32,6 +32,60 @@ $(function () {
 
 
 };
+var searchPart= function (searchStr) {
+
+
+   $.ajax({
+     url: '/TaskGroup/'+searchStr+'/Search/',
+
+     type: 'GET',
+     dataType: 'json',
+     success: function (data) {
+
+       if (data.form_is_valid) {
+
+         //alert("Company created!");  // <-- This is just a placeholder for now for testing
+         $("#tbody_company").empty();
+
+         $("#tbody_company").html(data.html_task_search_tag_list);
+         // $(".woPaging").html(data.html_part_paginator);
+
+         $("#modal-company").modal("hide");
+        // console.log(data.html_amar_list);
+       }
+       else {
+
+
+       }
+     },
+     error: function (jqXHR, exception,err) {
+       // alert(exception);
+       console.log(err,jqXHR)
+     }
+   });
+   return false;
+
+ };
+ /////////////////////////////
+
+ $('#txttaskgroupsearch').keyup(function(){
+
+  searchStr=$("#taskSearch").val();
+
+  searchStr=searchStr.replace(' ','_');
+  // searchStr=searchStr.replace('/\\/','');
+  if(searchStr.trim().length>0){
+  searchPart(searchStr);
+}
+else {
+  searchPart('empty');
+
+
+}
+   // alert("salam");
+
+});
+////////////////////////////////////////////////////////////////
 var cancelForm=function(){
 
   $.ajax({
