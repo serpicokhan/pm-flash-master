@@ -70,7 +70,7 @@ var searchPart= function (searchStr) {
 
  $('#txttaskgroupsearch').keyup(function(){
 
-  searchStr=$("#taskSearch").val();
+  searchStr=$("#txttaskgroupsearch").val();
 
   searchStr=searchStr.replace(' ','_');
   // searchStr=searchStr.replace('/\\/','');
