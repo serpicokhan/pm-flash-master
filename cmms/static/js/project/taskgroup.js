@@ -44,13 +44,14 @@ var searchPart= function (searchStr) {
 
        if (data.form_is_valid) {
 
+
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_company").empty();
 
-         $("#tbody_company").html(data.html_task_search_tag_list);
-         // $(".woPaging").html(data.html_part_paginator);
+         $("#tbody_company").html(data.html_taskGroup_list);
+         $(".woPaging").html("");
 
-         $("#modal-company").modal("hide");
+         // $("#modal-company").modal("hide");
         // console.log(data.html_amar_list);
        }
        else {
@@ -76,6 +77,7 @@ var searchPart= function (searchStr) {
   // searchStr=searchStr.replace('/\\/','');
   if(searchStr.trim().length>0){
   searchPart(searchStr);
+
 }
 else {
   searchPart('empty');
@@ -104,9 +106,11 @@ var cancelForm=function(){
       }
       else {
 
-        $("#company-table tbody").html(data.html_taskGroup_list);
-        $("#modal-taskGroup .modal-content").html(data.html_taskGroup_form);
+
       }
+    },
+    error:function(){
+      alert(11);
     }
   });
   return false;

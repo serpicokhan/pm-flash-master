@@ -35,6 +35,8 @@ from cmms.business.schedule_utility import *
 from cmms.business.SWOUtility import *
 from django.contrib.admin.models import LogEntry
 from django.db.models import Sum
+import weasyprint
+from django.conf import settings
 
 
 def list_simpleReport(request,id=None):
@@ -523,6 +525,12 @@ class reporttest:
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 
         return render(request, 'cmms/reports/simplereports/OpenWorkOrdersListReport.html',{'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
+        # html = render_to_string('cmms/reports/simplereports/OpenWorkOrdersListReport.html',
+        # {'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
+        # response = HttpResponse(content_type='application/pdf')
+        # response['Content-Disposition'] = f'filename=order_11.pdf'
+        # weasyprint.HTML(string=html).write_pdf(response,stylesheets=[weasyprint.CSS('cmms/static/css/pdf.css')])
+        # return response
     def CloseWorkOrdersListReport(self,request):
         date1=DateJob.getDate2(request.POST.get("startDate",""))
         date2=DateJob.getDate2(request.POST.get("endDate",""))

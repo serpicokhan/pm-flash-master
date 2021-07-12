@@ -166,6 +166,7 @@
                               <th></th>
                               <th>EM</th>
                                 <th class="col-md-1" style="text-align:center">تاریخ ایجاد</th>
+                                <th class="col-md-1">زمان ایجاد</th>
                                 <th class="col-md-1">درخواست کننده</th>
                                 <th class="col-md-1">واحد مجری</th>
                                 <th class="col-md-1">نوع نگهداری</th>
@@ -201,6 +202,10 @@
                                 </td>
                                 <td>
                                  {% render_field form.datecreated class="form-control" placeholder=woStatus.label %}
+                                </td>
+                                <td>
+                                  {% render_field form.timecreated class="form-control ltr-input"  data-mask="99:99:99"  %}
+
                                 </td>
                                 <td>
                                   {% render_field form.RequestedUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
@@ -582,7 +587,7 @@ $(".send_form").click(function(){
             ,"woPart":{12}\
             ,"woPartQty":"{13}"\
             ,"isEM":{14}\
-            ,"pertTime":"{15}","woStatus":{16}}',
+            ,"pertTime":"{15}","woStatus":{16},"timecreated":"{17}"}',
             getStringVal($("#id_datecreated").val()),
             getVal($("#id_RequestedUser").val()),
             getVal($("#id_maintenanceType").val()),
@@ -600,7 +605,8 @@ $(".send_form").click(function(){
             getStringVal($("#id_woPartQty").val()),
             $('#id_isEM').is(":checked"),
             getStringVal(($("#id_pertTime").val()==""?"-":$("#id_pertTime").val())),
-            getStringVal(($("#id_woStatus").val()==""?"1":$("#id_woStatus").val()))
+            getStringVal(($("#id_woStatus").val()==""?"1":$("#id_woStatus").val())),
+            getStringVal(($("#id_timecreated").val()==""?"00:00:00":$("#id_timecreated").val()))
 
             );
             if(validateform())
@@ -635,8 +641,8 @@ $(".send_form").click(function(){
                    // console.log(elem);
                    elem.remove();
                    elem1.remove();
-                   $('tr#myform td:nth-child(3)').append($('<input type="text" id="id_datecreated" name="datecreated"  class="form-control"/>'));
-                   $('tr#myform td:nth-child(13)').append($('<input type="text" id="id_dateCompleted" name="dateCompleted"  class="form-control"/>'));
+                   $('tr#myform td:nth-child(4)').append($('<input type="text" id="id_datecreated" name="datecreated"  class="form-control"/>'));
+                   $('tr#myform td:nth-child(14)').append($('<input type="text" id="id_dateCompleted" name="dateCompleted"  class="form-control"/>'));
                    // console.log(elem);
                    // elem.parentElement.removeChild(elem);
                    $('#id_datecreated').pDatepicker({
@@ -675,6 +681,7 @@ $(".send_form").click(function(){
                  $("#id_pertTime").val("0");
                  $("#id_woStopCode").val("15");
                  $("#id_woPartQty").val("0");
+                 $("#id_timecreated").val("00:00:00");
 
 
                 }

@@ -1,0 +1,5 @@
+@import url("bootstrap.min.css");
+@import url("bootstrap.rtl.min.css");
+@import url("animate.css");
+@import url("style.rtl.css");
+ @page { size: letter landscape; margin: 2cm; } 

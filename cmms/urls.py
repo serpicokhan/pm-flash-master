@@ -119,7 +119,7 @@ urlpatterns = [
      url(r'^TaskGroup/(?P<id>\d+)/update/$', taskGroup_update, name='taskGroup_update'),
      url(r'^TaskGroup/(?P<tid>\d+)/(?P<woid>\d+)/register/$', registerTaskGroup, name='registerTaskGroup'),
      url(r'^TaskGroup/(?P<id>\d+)/Cancel/$', taskGroupCancel, name='taskGroupCancel'),
-     url(r'^TaskGroup/(?P<str>\w+)/search/$', taskGroupSearch, name='taskGroupSearch'),
+     url(r'^TaskGroup/(?P<str>\w+)/Search/$', taskGroupSearch, name='taskGroupSearch'),
 
      url(r'^TaskTemplate/$',list_taskTemplate,name='list_taskTemplate'),
      url(r'^TaskTemplate/create/$', taskTemplate_create, name='taskTemplate_create'),

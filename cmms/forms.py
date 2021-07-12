@@ -91,7 +91,7 @@ class WorkOrderForm2(forms.ModelForm):
                 woPart=cleaned_data.get('woPart','')
                 woPartQty=cleaned_data.get('woPartQty','')
                 pertTime=cleaned_data.get('pertTime','')
-                timecreated='00:00:00'
+                timecreated=cleaned_data.get('timecreated','')
                 isEM=cleaned_data.get('isEM',False)
 
                 #wo tags

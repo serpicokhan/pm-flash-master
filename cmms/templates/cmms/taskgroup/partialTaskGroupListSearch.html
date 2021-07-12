@@ -1,4 +1,3 @@
-
 {% for c in taskGroup %}
 
 <tr>
@@ -12,7 +11,20 @@
 
 
 
- <td><button type="button" name="button" class='btn taskGroupUtility' date-url={{c.id}}>ثبت</button>
+ <td>
+{% if perms.cmms.view_taskgroup %}
+   <button type="button"
+              class="btn btn-warning btn-sm js-update-taskGroup"
+              data-url="{% url 'taskGroup_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> مشاهده    </button>
+   {% endif %}
+   {% if perms.cmms.delete_taskgroup %}
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-taskGroup"
+                   data-url="{% url 'taskGroup_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+   {% endif %}
     </td>
 </tr>
 {% empty %}

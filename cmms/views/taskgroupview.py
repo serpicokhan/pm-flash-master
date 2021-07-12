@@ -191,6 +191,8 @@ def taskGroupSearch(request,str):
         wos= TaskGroup.objects.filter(taskGroupName__contains=str).order_by('-id')
     else:
         wos=TaskGroup.objects.all().order_by('-id')
+    
+    data["form_is_valid"]=True
     data['html_taskGroup_list']=render_to_string('cmms/taskgroup/partialTaskGroupListSearch.html', {
         'taskGroup': wos,
         'perms': PermWrapper(request.user)
