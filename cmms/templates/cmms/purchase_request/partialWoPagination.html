@@ -1,0 +1,56 @@
+
+{% if wo.has_other_pages %}
+
+<ul class="pagination">
+{% if wo.has_previous %}
+<li><a href="#" data-url="{% url pageType %}?page={{ wo.previous_page_number }}" class="wo_month_paginator2">&laquo;</a></li>
+{% else %}
+<li class="disabled"><span>&laquo;</span></li>
+{% endif %}
+{% for i in wo.paginator.page_range %}
+{% if users.number == i %}
+<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+{% else %}
+<li><a href="#" data-url="{% url pageType %}?page={{ i }}" class="wo_month_paginator2">{{ i }}</a></li>
+{% endif %}
+{% endfor %}
+{% if wo.has_next %}
+<li><a href="#" data-url="{% url pageType %}?page={{ wo.next_page_number }}" class="wo_month_paginator2"">&raquo;</a></li>
+{% else %}
+<li class="disabled"><span>&raquo;</span></li>
+{% endif %}
+</ul>
+{% endif %}
+<script type="text/javascript">
+  $(".wo_month_paginator2").click(function()
+  {
+
+    //console.log($(this).attr("data-url"));
+    $.ajax({
+      url: $(this).attr("data-url"),
+
+      type: "get",
+      dataType: 'json',
+      success: function (data) {
+        if (data.form_is_valid) {
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+          $("#tbody_company").empty();
+          $("#tbody_company").html(data.html_swo_list);
+           $(".woPaging").html(data.html_swo_paginator);
+           $("#modal-company").modal("hide");
+
+
+         // console.log(data.html_wo_list);
+        }
+        else {
+
+          $("#company-table tbody").html(data.html_wo_list);
+          $("#modal-company .modal-content").html(data.html_wo_form);
+        }
+      }
+    });
+
+  });
+
+
+</script>

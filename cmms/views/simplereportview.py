@@ -35,8 +35,8 @@ from cmms.business.schedule_utility import *
 from cmms.business.SWOUtility import *
 from django.contrib.admin.models import LogEntry
 from django.db.models import Sum
-import weasyprint
-from django.conf import settings
+# import weasyprint
+# from django.conf import settings
 
 
 def list_simpleReport(request,id=None):

@@ -1320,6 +1320,14 @@ class AdSetForm(forms.ModelForm):
     class Meta:
          model = AdminSetting
          fields = '__all__'
+#########################################
+class PurchaseRequestForm(forms.ModelForm):
+    PurchaseRequestAssetNotInInventory = forms.CharField( label="ناموجود در انبار؟ اطلاعات بیشتری شرح دهید",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
+
+    class Meta:
+        model = PurchaseRequest
+        exclude = ('PurchaseRequestNotInList',)
+
 ##########################################
 class ReportForm(forms.ModelForm):
     class Meta:
