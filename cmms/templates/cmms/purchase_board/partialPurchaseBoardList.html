@@ -1,17 +1,18 @@
 {% load humanize %}
-<tr>
-  <td colspan="8" style="background-color:#ebc9c9"> <b>قطعات با موجودی کم</b></td>
-</tr>
+
 {% for c in rfq %}
+<tr>
+  <td colspan="8" style="background-color:#ebc9c9"> <b>{{c.0}}</b></td>
+</tr>
 
 <tr>
 <td></td>
-<td>{{c.stockItem}}</td>
- <td>{{c.stockItem.partCode}}</td>
- <td>{{c.get_fav_suplier}}</td>
-<td><input type="text" name="" value="{{c.getmin}}"></td>
- <td><input type="text" name="" value="{{c.getlastprice|intcomma}}">$</td>
- <td>{{c.getTotalPrice|intcomma }}</td>
+<td>{{c.1.stockItem}}</td>
+ <td>{{c.1.stockItem.partCode}}</td>
+ <td>{{c.1.get_fav_suplier}}</td>
+<td><input type="text" name="" value="{{c.1.getmin}}"></td>
+ <td><input type="text" name="" value="{{c.1.getlastprice|intcomma}}">$</td>
+ <td>{{c.1.getTotalPrice|intcomma }}</td>
 
 
 
@@ -21,7 +22,7 @@
  <td><button type="button"
               class="btn btn-warning btn-sm js-update-rfq"
               data-url="">
-        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+        <span class="glyphicon glyphicon-pencil"></span> {{c.2}}
       </button>
       <button type="button"
                    class="btn btn-danger btn-sm js-delete-rfq"
