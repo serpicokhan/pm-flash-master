@@ -10,7 +10,7 @@ class PurchaseRequest(models.Model):
     PurchaseRequestNotInList=models.BooleanField(default=False)
 
     PurchaseRequestAssetQtyNot=models.FloatField("کمیت",max_length = 100,null=True,blank=True)
-    PurchaseRequestAssetQtyNot=models.BooleanField("در صورت عدم تهیه تولید دچار وقفه میشود",null=True,blank=True)
+    PurchaseRequestAssetQtyNot=models.BooleanField("در صورت عدم تهیه تولید دچار وقفه میشود",default=False)
 
     PurchaseRequestWO = models.ForeignKey('WorkOrder',on_delete=models.CASCADE,null=True,blank=True,related_name="ImpactedWO")
     PurchaseRequestAsset = models.ForeignKey('Asset',on_delete=models.CASCADE,null=True,blank=True,related_name="ImpactedAsset")

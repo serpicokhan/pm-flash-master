@@ -448,6 +448,7 @@ urlpatterns = [
 
 
            url(r'^Project/$',list_project,name='list_project'),
+
            url(r'^Project/create/$', project_create, name='project_create'),
            url(r'^Project/(?P<id>\d+)/delete/$', project_delete, name='project_delete'),
 
@@ -599,6 +600,7 @@ urlpatterns = [
            #api_view
            url(r'^api/v1/wos/$',workorder_collection, name='workorder_collection'),
            url(r'^api/v1/login/$',user_login, name='user_login'),
+           url(r'^PurchaseBoard/$',list_purchaseboard,name='list_purchaseboard'),
 
 
 

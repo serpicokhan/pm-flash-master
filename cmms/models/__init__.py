@@ -23,3 +23,4 @@ from cmms.models.adminsetting import *
 from cmms.models.equipsetting import *
 from cmms.models.eqcostsetting import *
 from cmms.models.report import *
+from cmms.models.purchaserequest import *
