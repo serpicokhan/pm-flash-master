@@ -50,9 +50,9 @@
 
                          $("#id_qtyOnHand").val(),
                          $("#id_minQty").val(),
-                         $("#id_aisle").val(),
-                         $("#id_row").val(),
-                         $("#id_bin").val()
+                         ($("#id_aisle").val().length>0)?$("#id_aisle").val():"0",
+                         ($("#id_row").val().length>0)?$("#id_row").val():"0",
+                         ($("#id_bin").val().length>0)?$("#id_bin").val():"0"
 
 
 
@@ -64,25 +64,7 @@
                          dataType: 'json',
                          beforeSend: function () {
                            //alert(btn.attr("data-url"));
-                           console.log(myformat('{"stockItem":{0},\
-                           "location":{1},\
-                           "qtyOnHand":{2},\
-                           "minQty":{3},\
-                           "aisle":{4},\
-                           "row":{5},\
-                           "bin":{6}}',
-                           $("#lastPartid").val(),
-                           $("#id_location").val(),
-
-                           $("#id_qtyOnHand").val(),
-                           $("#id_minQty").val(),
-                           $("#id_aisle").val(),
-                           $("#id_row").val(),
-                           $("#id_bin").val()
-
-
-
-                         ));
+                        
 
                          },
                          success: function (data) {
@@ -92,7 +74,7 @@
 
                              $("#tbody_stock").html(data.html_stock_list);
                              $("#modal-stock").modal("hide");
-                             console.log(data.html_stock_list);
+
                            }
                            else {
 

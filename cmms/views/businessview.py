@@ -113,15 +113,15 @@ def business_update(request, id):
 ##########################################################
 def businessCancel(request,id):
     data=dict()
-    tg=Business.objects.get(id=id)
-    if(tg):
-        if(not tg.name):
-            tg.delete()
-            data['form_is_valid'] = True  # This is just to play along with the existing code
-            companies =  Business.objects.all().order_by('name')
-            #Tasks.objects.filter(taskGroupId=id).update(taskGroup=id)
-            data['html_business_list'] = render_to_string('cmms/business/partialBusinesslist.html', {
-                'business': companies
-            })
+    # tg=Business.objects.get(id=id)
+    # if(tg):
+    #     if(not tg.name):
+    #         tg.delete()
+    #         data['form_is_valid'] = True  # This is just to play along with the existing code
+    #         companies =  Business.objects.all().order_by('name')
+    #         #Tasks.objects.filter(taskGroupId=id).update(taskGroup=id)
+    #         data['html_business_list'] = render_to_string('cmms/business/partialBusinesslist.html', {
+    #             'business': companies
+    #         })
 
     return JsonResponse(data)

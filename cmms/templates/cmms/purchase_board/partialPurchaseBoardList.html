@@ -1,13 +1,17 @@
+{% load humanize %}
+<tr>
+  <td colspan="8" style="background-color:#ebc9c9"> <b>قطعات با موجودی کم</b></td>
+</tr>
 {% for c in rfq %}
 
 <tr>
 <td></td>
-<td>{{c.id}}</td>
- <td>{{c.rfqCode}}</td>
- <td>{{c.rfqLastPrice}}</td>
-<td>{{c.total}}</td>
- <td>{{c.rfqModel}}</td>
- <td>{{c.rfqMake}}</td>
+<td>{{c.stockItem}}</td>
+ <td>{{c.stockItem.partCode}}</td>
+ <td>{{c.get_fav_suplier}}</td>
+<td><input type="text" name="" value="{{c.getmin}}"></td>
+ <td><input type="text" name="" value="{{c.getlastprice|intcomma}}">$</td>
+ <td>{{c.getTotalPrice|intcomma }}</td>
 
 
 

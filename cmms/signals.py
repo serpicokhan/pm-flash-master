@@ -228,3 +228,7 @@ def save_asset_event(sender, instance, **kwargs):
 # @receiver(post_save, sender=User)
 # def save_user_profile(sender, instance, **kwargs):
 #     instance.profile.save()
+@receiver(pre_save, sender=BusinessPart )
+def save_BusinessPart_event(sender, instance, **kwargs):
+    if(instance.businessPartisDefault):
+        BusinessPart.objects.filter(BusinessPartPart=instance.BusinessPartPart,businessPartisDefault=True).update(businessPartisDefault=False)

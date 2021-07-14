@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-striped" id="company-table">
+                                <table class="table " id="purchase-table">
                                     <thead>
                                     <tr>
                                       <th></th>
@@ -57,6 +57,7 @@
                                       <th>منبع</th>
                                       <th>تعداد</th>
                                       <th>قیمت</th>
+                                      <th>مجموع</th>
 
 
 
@@ -74,22 +75,16 @@
                                     </tbody>
                                 </table>
                                 <div class="woPaging" >
-                                  {% if part.has_other_pages %}
+                                  {% if rfq.has_other_pages %}
                                   <ul class="pagination">
-                                  {% if part.has_previous %}
-                                  <li><a href="?page={{ part.previous_page_number }}">&laquo;</a></li>
+                                  {% if rfq.has_previous %}
+                                  <li><a href="?page={{ rfq.previous_page_number }}">&laquo;</a></li>
                                   {% else %}
                                   <li class="disabled"><span>&laquo;</span></li>
                                   {% endif %}
-                                  {% for i in part.paginator.page_range %}
-                                  {% if users.number == i %}
-                                  <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                                  {% else %}
-                                  <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                  {% endif %}
-                                  {% endfor %}
-                                  {% if part.has_next %}
-                                  <li><a href="?page={{ part.next_page_number }}">&raquo;</a></li>
+                                    <li ><span>{{ rfq.number }} از {{ rfq.paginator.num_pages }} <span class="sr-only">(current)</span></span></li>
+                                  {% if rfq.has_next %}
+                                  <li><a href="?page={{ rfq.next_page_number }}">&raquo;</a></li>
                                   {% else %}
                                   <li class="disabled"><span>&raquo;</span></li>
                                   {% endif %}
@@ -98,7 +93,7 @@
 
                                 </div>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
-                              
+
                             </div>
                           </div>
 
@@ -122,6 +117,6 @@
 
 {% block javascript %}
 
-  <script src="{% static '/js/project/part.js' %}"></script>
+
 {% endblock %}
 {% endblock %}

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 	'background_task',
     'mathfilters',
      'rest_framework',
+     'django.contrib.humanize',
      # 'channels',
      # 'utils_tags',
 

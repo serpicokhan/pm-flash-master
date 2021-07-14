@@ -10,9 +10,23 @@ from cmms.models.users import *
 from cmms.models.workorder import *
 from cmms.models.parts import *
 from cmms.models.Asset import *
+from cmms.models.business import *
 class Stock(models.Model):
     def __str__(self):
         return "{}#{}".format(self.location,self.stockItem)
+    def getmin(self):
+        return self.minQty-self.qtyOnHand
+    def getlastprice(self):
+        return 1
+    def getTotalPrice(self):
+        return self.getmin()*self.getlastprice()
+    def get_fav_suplier(self):
+        # (BusinessPart.objects.filter(BusinessPartPart=self.stockItem,businessPartisDefault=True)[:1],"kir khar")
+        try:
+            wo= BusinessPart.objects.filter(BusinessPartPart=self.stockItem,businessPartisDefault=True)
+            return wo[0].businessPartBusiness.name
+        except:
+            return "بدون تامین کننده منتخب"
     stockItem=models.ForeignKey(Part,on_delete=models.CASCADE,verbose_name="نام قطعه")
     location=models.ForeignKey('Asset',on_delete=models.CASCADE,verbose_name="مکان")
     qtyOnHand=models.IntegerField("موجودی",null=True,blank=True)
