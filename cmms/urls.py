@@ -601,6 +601,11 @@ urlpatterns = [
            url(r'^api/v1/wos/$',workorder_collection, name='workorder_collection'),
            url(r'^api/v1/login/$',user_login, name='user_login'),
            url(r'^PurchaseBoard/$',list_purchaseboard,name='list_purchaseboard'),
+           url(r'^PurchaseRequest/$',list_purchaseRequest,name='list_purchaseRequest'),
+            url(r'^PurchaseRequest/create/$', purchaseRequest_create, name='purchaseRequest_create'),
+            url(r'^PurchaseRequest/(?P<id>\d+)/update/$', purchaseRequest_update, name='purchaseRequest_update'),
+            # url(r'^PurchaseRequest/(?P<name>[-\w]+)/Search/$', searchPurchaseRequest, name='searchPurchaseRequest'),
+            url(r'^PurchaseRequest/(?P<id>\d+)/delete/$', purchaseRequest_delete, name='purchaseRequest_delete'),
 
 
 
