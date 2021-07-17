@@ -597,9 +597,9 @@ def save_formset(request):
             body = json.loads(body_unicode)
 
 
-            print(body)
+
             data['datecreated']=DateJob.getDate2(body['datecreated'])
-            # data['timecreated']='00:00:00'
+
             data['requiredCompletionTime']=body['timeCompleted']
             data['RequestedUser']=body['RequestedUser']
             data['maintenanceType']=body['maintenanceType']
@@ -610,6 +610,8 @@ def save_formset(request):
             data['Project']=body['Project']
             data['dateCompleted']=DateJob.getDate2(body['dateCompleted'])
             data['timeCompleted']=body['timeCompleted']
+
+            print("time created:",data['timecreated'])
             data['assignedToUser_1']=body['assignedToUser']
             data['assignedToUser']=body['assignedToUser'][0]
             data['woStopCode']=body['woStopCode']
@@ -626,7 +628,7 @@ def save_formset(request):
 
 
                 form.save(commit=False)
-                form.instance.timecreated='00:00:00'
+
                 form.instance.woPriority=3
 
                 f2=form.save()
@@ -669,10 +671,7 @@ def save_formset(request):
 
 
 
-                # Tasks.objects.create(taskDescription=data['summaryofIssue'],taskAssignedToUser=SysUser.objects.get(id=data['assignedToUser']),taskStartDate=data['datecreated'],taskStartTime='00:00:00',taskDateCompleted=data['dateCompleted'],taskTimeCompleted=data['timeCompleted'],workOrder=f2)
-                # today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-                # today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
-                # print(WorkOrder.objects.filter(timeStamp__gte=today_min).query)
+
 
                 if(request.user.username!="admin"):
                     books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')

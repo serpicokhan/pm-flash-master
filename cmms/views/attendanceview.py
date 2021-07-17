@@ -144,29 +144,33 @@ def attendanceGetUser(request,gid):
 
 @csrf_exempt
 def mass_create(request):
-    body_unicode = request.body.decode('utf-8')
     data=dict()
-    # print("@@@@@@@@@@@@")
-    # print(body_unicode)
-    # xyz=json.dumps(body_unicode)
-    body = json.loads(body_unicode)
-    print(type(body))
-    final_dictionary = eval(body)
-    print(final_dictionary)
-    for element in final_dictionary:
-         Attendance.objects.create(name=SysUser.objects.get(id=element['userId']),datecreated=DateJob.getDate2(element['date1']),attendanceTime=element['time1'],Ezafekar=element['ezafetime'])
-    data['form_is_valid']=True
-    books = Attendance.objects.all().order_by('-datecreated')
-    wos=UserUtility.doPaging(request,books)
-    data['html_attendance_list'] = render_to_string('cmms/attendance/partialAttendanceList.html', {
-        'attendance': wos,
-        'perms': PermWrapper(request.user)
-    })
-    data['html_attendance_paging'] = render_to_string('cmms/attendance/partialAttendancePagination.html', {
-        'attendance': wos,
-        'perms': PermWrapper(request.user)
-    })
+    try:
+        body_unicode = request.body.decode('utf-8')
 
 
+        body = json.loads(body_unicode)
+
+        final_dictionary = eval(body)
+
+        for element in final_dictionary:
+             Attendance.objects.create(name=SysUser.objects.get(id=element['userId']),datecreated=DateJob.getDate2(element['date1']),attendanceTime=element['time1'],Ezafekar=element['ezafetime'])
+        data['form_is_valid']=True
+        books = Attendance.objects.all().order_by('-datecreated')
+        wos=UserUtility.doPaging(request,books)
+        data['html_attendance_list'] = render_to_string('cmms/attendance/partialAttendanceList.html', {
+            'attendance': wos,
+            'perms': PermWrapper(request.user)
+        })
+        data['html_attendance_paging'] = render_to_string('cmms/attendance/partialAttendancePagination.html', {
+            'attendance': wos,
+            'perms': PermWrapper(request.user)
+        })
+
+
+
+        return JsonResponse(data)
+    except django.db.utils.IntegrityError as c:
+        data['error']="ورودی تکراری تاریخ را چک کنید"
 
     return JsonResponse(data)

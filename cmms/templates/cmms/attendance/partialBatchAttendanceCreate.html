@@ -86,6 +86,11 @@ var time1=''
           {
             toastr.error(data.form_err_msg);
           }
+          else if (data.error) {
+            toastr.error(data.error);
+
+
+          }
           else {
             // $("#task-table tbody").html(data.html_task_list);
             // $("#modal-task .modal-content").html(data.html_task_form);

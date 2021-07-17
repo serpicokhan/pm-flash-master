@@ -28,7 +28,7 @@ function DrawResourceStatusDonat(element,gid,date1,date2)
 
   $('.doughnutChartResourceStatus'+gid).remove(); // this is my <canvas> element
   $('#dchartcontainer'+gid).append('<canvas class="doughnutChartResourceStatus'+gid+'" style="width: 78px; height: 78px;"><canvas>');
-
+  console.log(element);
   var ctx = document.getElementsByClassName(element)[0].getContext("2d");
 
     var myNewChart = new Chart(ctx, {
