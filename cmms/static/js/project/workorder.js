@@ -1,7 +1,11 @@
 
 $(function () {
 
+  $("tr").click(function(){
+    let btn={kk:"/WorkOrder/"+$(this).attr("data-url")+"/update/"};
 
+    loadFormNN(btn);
+  });
 
   var loadForm =function (btn1) {
     var btn=0;
@@ -130,6 +134,137 @@ $(function () {
    // $("#id_assignedToUser").chosen('.chosen-select-width': {
      //           width: "95%"
        //     });
+
+
+
+};
+var loadFormNN =function (btn1) {
+  var btn=0;
+  //console.log(btn1);
+  if($(btn1).attr("type")=="click")
+   btn=$(this);
+  else {
+    btn=btn1;
+  }
+  //console.log($(btn).attr("type"));
+  //console.log($(btn).attr("data-url"));
+  return $.ajax({
+    url: btn.kk,
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+      //alert(btn.attr("data-url"));
+      //alert("321321");
+      $("#modal-company").modal({backdrop: 'static', keyboard: false});
+
+    },
+    success: function (data) {
+
+      //alert("3123@!");
+
+      $("#modal-company .modal-content").html(data.html_wo_form);
+      $('#id_requiredCompletionDate').pDatepicker({
+                      format: 'YYYY-MM-DD',
+                      autoClose: true,
+                      initialValueType: 'gregorian'
+                  });
+                  $('#id_datecreated').pDatepicker({
+                    format: 'YYYY-MM-DD',
+                    initialValueType: 'gregorian',
+                    autoClose:true
+
+
+                });//id_dateCompleted
+                //console.log($('#id_dateCompleted').val()+":dsadsa");
+
+                              $('#id_dateCompleted').pDatepicker({
+                                format: 'YYYY-MM-DD',
+
+                                autoClose:true,
+                                initialValueType: 'gregorian'
+                                          });//id_dateCompleted
+
+                //id_completedByUser
+
+                $("#id_woAsset").change(function(){
+                  if($(this).val()!="-1")
+                  {
+                  $.ajax({
+                    url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
+                    type:'get',
+                    dataType: 'json',
+                    success: function (data) {
+                      // console.log("hahaha");
+
+                    }
+                  });
+                }
+                else {
+                  // $('#id_woAsset').val("1982");
+                  // $('.selectpicker').selectpicker('refresh')
+                    $("#modal-woAsset").modal({backdrop: 'static', keyboard: false});
+                    $.ajax({
+                      url: '/Asset/WoAsset/Create',
+                      type:'get',
+                      dataType: 'json',
+                      success: function (data) {
+                        // console.log("hahaha");
+                          $("#modal-woAsset .modal-content").html(data.html_asset_form);
+
+                      }
+                    });
+
+                }
+
+
+                });
+                $("#id_woAsset option:first").after('<Option value="-1">"<b>اضافه کردن عنوان جدید</b>"</option>');
+                $('.selectpicker').selectpicker();
+                $('.basicAutoComplete').autoComplete();
+                initLoad();
+                initWoPartLoad();
+                initWoMeterLoad();
+                initWoMiscLoad();
+                initWoNotifyLoad();
+                initWoFileLoad();initWoLogLoad();
+                initWoPertLoad();
+                $('#woassetrefresh').click(function(){
+
+                  $(this).html('<i class="fa fa-refresh fa-spin"></i>');
+                  $.ajax({
+                    url: '/WorkOrder/LoadAsset/',
+
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (data) {
+                      if (data.form_is_valid) {
+                        //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                      $("#id_woAsset").html(data.html_assets_dynamics);
+                      $('#woassetrefresh').html('<i class="fa fa-refresh"></i>');
+                      $('#id_woAsset').selectpicker('refresh');
+
+                       // $("tr").on("click", showAssetDetails);
+
+                       // console.log(data.html_asset_list);
+                      }
+                      else {
+
+                      toastr.error("خطایی بوجود آمده لطفا مجددا سعی نمایید");
+                      }
+                    }
+                  });
+
+                });
+
+
+
+
+    }
+
+  });
+ // $("#id_assignedToUser").chosen('.chosen-select-width': {
+   //           width: "95%"
+     //     });
 
 
 
