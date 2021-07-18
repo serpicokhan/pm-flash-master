@@ -2,6 +2,10 @@ from django.db import models
 from datetime import datetime
 from cmms.models.Asset import Asset
 class PurchaseRequest(models.Model):
+    def getQTY(self):
+        if(self.PurchaseRequestAssetQty):
+            return self.PurchaseRequestAssetQty
+        return self.
     Requested=1
     onHold=2
     Draft=3
@@ -33,15 +37,18 @@ class PurchaseRequest(models.Model):
     PurchaseRequestMoreInfo=models.CharField("اطلاعات بیشتر",max_length = 100,null=True,blank=True)
     PurchaseRequestAssetNotInInventory=models.CharField("ناموجود در انبار؟ اطلاعات بیشتری شرح دهید",max_length = 100,null=True,blank=True)
     #not in inventory qty
-    PurchaseRequestAssetQty=models.FloatField("تعداد",max_length = 100,null=True,blank=True)
+    PurchaseRequestAssetQty=models.FloatField("تعداد",null=True,blank=True)
+    PurchaseRequestAssetQtyNot=models.FloatField("کمیت",null=True,blank=True)
+    PurchaseRequestAssetNot=models.BooleanField("در صورت عدم تهیه تولید دچار وقفه میشود",default=False)
     PurchaseRequestNotInList=models.BooleanField(default=False)
 
-    PurchaseRequestAssetQtyNot=models.FloatField("کمیت",max_length = 100,null=True,blank=True)
-    PurchaseRequestAssetQtyNot=models.BooleanField("در صورت عدم تهیه تولید دچار وقفه میشود",default=False)
+
+
 
     PurchaseRequestWO = models.ForeignKey('WorkOrder',on_delete=models.CASCADE,null=True,blank=True,related_name="ImpactedWO")
     PurchaseRequestAsset = models.ForeignKey('Asset',on_delete=models.CASCADE,null=True,blank=True,related_name="ImpactedAsset")
-    PurchaseRequestDate = models.DateField("مهلت تا تاریخ",default=datetime.now, blank=True,null=True)
+    PurchaseRequestDateTo = models.DateField("مهلت تا تاریخ",default=datetime.now, blank=True,null=True)
+    PurchaseRequestDateFrom = models.DateField("تاریخ درخواست",default=datetime.now, blank=True,null=True)
     # PurchaseRequestDate2 = models.DateField("مهلت تا تاریخ",default=datetime.now, blank=True,null=True)
     settingTimestamp=models.DateTimeField(auto_now_add=True)
     PurchaseRequestRequestedUser = models.ForeignKey('SysUser',on_delete=models.CASCADE,verbose_name="کاربر درخواست کننده",null=True,blank=True,related_name="PurchaseRequestdUser")

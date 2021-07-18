@@ -31,7 +31,7 @@ from django.db import transaction
 def list_purchaseRequest(request,id=None):
     #
     books = PurchaseRequest.objects.all().order_by('name')
-    return render(request, 'cmms/purchase_request/purchaseRequestList.html', {'purchaseRequest': books})
+    return render(request, 'cmms/purchase_request/purchaseRequestList.html', {'rfq': books})
 
 
 ##########################################################
@@ -45,8 +45,8 @@ def save_purchaseRequest_form(request, form, template_name,id=None):
             form.save()
             data['form_is_valid'] = True
             books = PurchaseRequest.objects.all().order_by('name')
-            data['html_purchaseRequest_list'] = render_to_string('cmms/purchase_request/partialPurchaseRequestlist.html', {
-                'purchaseRequest': books
+            data['html_purchaseRequest_list'] = render_to_string('cmms/purchase_request/partialPurchaseRequestList.html', {
+                'rfq': books
             })
         else:
             data['form_is_valid'] = False
@@ -86,8 +86,9 @@ def purchaseRequest_create(request):
         form = PurchaseRequestForm(request.POST)
         return save_purchaseRequest_form(request, form, 'cmms/purchase_request/partialPurchaseRequestCreate.html')
     else:
-        purchaseRequestInstance=PurchaseRequest.objects.create()
-        form = PurchaseRequestForm(instance=purchaseRequestInstance)
+        # purchaseRequestInstance=PurchaseRequest.objects.create()
+        # form = PurchaseRequestForm(instance=purchaseRequestInstance)
+        form = PurchaseRequestForm()
         return save_purchaseRequest_form(request, form, 'cmms/purchase_request/partialPurchaseRequestCreate.html',purchaseRequestInstance.id)
 
 

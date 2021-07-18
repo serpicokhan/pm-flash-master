@@ -2,10 +2,10 @@
 
 <tr>
 <td></td>
-<td>{{c.rfqName}}</td>
- <td>{{c.rfqCode}}</td>
- <td>{{c.rfqLastPrice}}</td>
-<td>{{c.total}}</td>
+<td>{{c.PurchaseRequestAssetName}}</td>
+ <td>{{c.PurchaseRequestRequestedUser}}</td>
+ <td>{{c.PurchaseRequestDateFrom}}</td>
+<td>{{c.getQTY}}</td>
  <td>{{c.rfqModel}}</td>
  <td>{{c.rfqMake}}</td>
 
@@ -16,12 +16,12 @@
 
  <td><button type="button"
               class="btn btn-warning btn-sm js-update-rfq"
-              data-url="{% url 'rfq_update' c.id %}">
+              data-url="{% url 'purchaseRequest_update' c.id %}">
         <span class="glyphicon glyphicon-pencil"></span> ویرایش
       </button>
       <button type="button"
                    class="btn btn-danger btn-sm js-delete-rfq"
-                   data-url="{% url 'rfq_delete' c.id %}">
+                   data-url="{% url 'purchaseRequest_delete' c.id %}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>
     </td>
