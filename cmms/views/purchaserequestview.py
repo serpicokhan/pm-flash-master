@@ -19,6 +19,7 @@ import logging
 from django.conf import settings
 
 from cmms.models.purchaserequest import *
+from cmms.models.users import *
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
@@ -42,6 +43,8 @@ def save_purchaseRequest_form(request, form, template_name,id=None):
     data = dict()
     if (request.method == 'POST'):
         if form.is_valid():
+            form.save(commit=False)
+            form.instance.PurchaseRequestRequestedUser=SysUser.objects.get(userId=request.user)
             form.save()
             data['form_is_valid'] = True
             books = PurchaseRequest.objects.all()
@@ -50,8 +53,11 @@ def save_purchaseRequest_form(request, form, template_name,id=None):
             })
         else:
             data['form_is_valid'] = False
+    title=None
+    if(form.instance.PurchaseRequestRequestedUser):
+            title=form.instance.PurchaseRequestRequestedUser.title
 
-    context = {'form': form,'lId':id}
+    context = {'form': form,'lId':id,'title':title}
 
 
     data['html_purchaseRequest_form'] = render_to_string(template_name, context, request=request)

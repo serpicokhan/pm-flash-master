@@ -74,7 +74,16 @@ var saveForm= function () {
          $("#tbody_purchaseRequest").empty();
          $("#tbody_purchaseRequest").html(data.html_purchaseRequest_list);
          $("#modal-purchaseRequest").modal("hide");
-        // console.log(data.html_purchaseRequest_list);
+         swal({
+              title: "درخواست با موفقیت ارسال شد",
+              text:"",
+              type: "success",
+
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "تایید",
+              
+              closeOnConfirm: true
+          }, function () {});
        }
        else {
 
@@ -114,7 +123,7 @@ var saveForm= function () {
    });
 return false;
  };
- 
+
 
 
  var myprLoader= function(){
@@ -141,6 +150,6 @@ $("#modal-purchaseRequest").on("submit", ".js-purchaseRequest-update-form", save
 // Delete book
 $("#purchaseRequest-table").on("click", ".js-delete-purchaseRequest", loadForm);
 $("#modal-purchaseRequest").on("submit", ".js-purchaseRequest-delete-form", saveForm);
-$('#modal-purchaseRequest').on('hidden.bs.modal',cancelForm);
+// $('#modal-purchaseRequest').on('hidden.bs.modal',cancelForm);
 //$("#purchaseRequest-table").on("click", ".js-update-wo", initxLoad);
 });

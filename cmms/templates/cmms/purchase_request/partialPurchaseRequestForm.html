@@ -4,16 +4,25 @@
   {% load static %}
   <img src="{% static 'img/pr.png' %}" width="50%" height="50%" / >
   <input type=hidden name='lastPurchaseRequestid' id='lastPurchaseRequestid' value='{{lId}}'/>
+  {% if title %}
+  <div class="form-group">
+
+  <label>{{form.PurchaseRequestRequestedUser.label}}</label>
+
+  <input type="text" name="" value="{{title}}" disabled>
+
+  </div>
+  {% endif %}
 
 
 
 
 </div>
 <div class="col-sm-10 b-r">
-  <div class="row">
+  <div class="row exist">
     <div class="col-sm-8">
       <div class="form-group">
-        <input type="radio" name="n1" value="">
+        <input type="radio" name="n1" value="1">
       <label>{{form.PurchaseRequestAssetName.label}}</label>
       {{form.PurchaseRequestAssetName| add_class:"form-control" }}
       </div>
@@ -27,7 +36,7 @@
     </div>
 
   </div>
-  <div class="row">
+  <div class="row exist">
     <div class="col-sm-12">
       <div class="form-group">
 
@@ -39,7 +48,7 @@
     </div>
 
   </div>
-  <div class="row">
+  <div class="row notexist">
     <div class="col-sm-8">
       <div class="form-group">
           <input type="radio" name="n1" value="">
@@ -116,7 +125,20 @@
 </div>
 <script type="text/javascript">
   $('input[type=radio][name=n1]').change(function() {
-  $(this).parent().parent().parent().css('background-color','black');
+    if($(this).val()=="1")
+    {
+  $(".exist").css('background-color','red');
+  $(".notexist").css('background-color','white');
+
+}
+else {
+  $(".exist").css('background-color','white');
+
+  $(".notexist").css('background-color','red');
+
+
+
+}
 });
 
 </script>
