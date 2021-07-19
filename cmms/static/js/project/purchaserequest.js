@@ -81,14 +81,13 @@ var saveForm= function () {
 
               confirmButtonColor: "#DD6B55",
               confirmButtonText: "تایید",
-              
+
               closeOnConfirm: true
           }, function () {});
        }
        else {
 
-         // $("#purchaseRequest-table tbody").html(data.html_purchaseRequest_list);
-         // $("#modal-purchaseRequest .modal-content").html(data.html_purchaseRequest_form);
+      
        }
      }
    });
