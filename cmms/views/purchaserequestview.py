@@ -57,7 +57,7 @@ def save_purchaseRequest_form(request, form, template_name,id=None):
     if(form.instance.PurchaseRequestRequestedUser):
             title=form.instance.PurchaseRequestRequestedUser.title
 
-    context = {'form': form,'lId':id,'title':title}
+    context = {'form': form,'title':title}
 
 
     data['html_purchaseRequest_form'] = render_to_string(template_name, context, request=request)
