@@ -5,7 +5,7 @@ class PurchaseRequest(models.Model):
     def getQTY(self):
         if(self.PurchaseRequestAssetQty):
             return self.PurchaseRequestAssetQty
-        return self.
+        return self.PurchaseRequestAssetQtyNot
     Requested=1
     onHold=2
     Draft=3

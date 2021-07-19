@@ -30,7 +30,7 @@ from django.db import transaction
 
 def list_purchaseRequest(request,id=None):
     #
-    books = PurchaseRequest.objects.all().order_by('name')
+    books = PurchaseRequest.objects.all()
     return render(request, 'cmms/purchase_request/purchaseRequestList.html', {'rfq': books})
 
 
@@ -44,7 +44,7 @@ def save_purchaseRequest_form(request, form, template_name,id=None):
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            books = PurchaseRequest.objects.all().order_by('name')
+            books = PurchaseRequest.objects.all()
             data['html_purchaseRequest_list'] = render_to_string('cmms/purchase_request/partialPurchaseRequestList.html', {
                 'rfq': books
             })
@@ -89,7 +89,7 @@ def purchaseRequest_create(request):
         # purchaseRequestInstance=PurchaseRequest.objects.create()
         # form = PurchaseRequestForm(instance=purchaseRequestInstance)
         form = PurchaseRequestForm()
-        return save_purchaseRequest_form(request, form, 'cmms/purchase_request/partialPurchaseRequestCreate.html',purchaseRequestInstance.id)
+        return save_purchaseRequest_form(request, form, 'cmms/purchase_request/partialPurchaseRequestCreate.html')
 
 
 
