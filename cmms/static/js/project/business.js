@@ -87,37 +87,7 @@ var saveForm= function () {
    });
    return false;
  };
-/*
- $('#modal-company').on('hidden.bs.modal', function () {
-   alert("321321");
-   console.log($("#lastWorkOrderid").val());
-   $.ajax({
-     url: '/WorkOrder/'+$("#lastWorkOrderid").val()+'/deleteChildren',
 
-
-
-     success: function (data) {
-       if (data.form_is_valid) {
-         //alert("Company created!");  // <-- This is just a placeholder for now for testing
-         //$("#tbody_company").empty();
-         //$("#tbody_company").html(data.html_wo_list);
-         //$("#modal-company").modal("hide");
-         //console.log(data.html_wo_list);
-       }
-       else {
-
-         $("#company-table tbody").html(data.html_wo_list);
-         $("#modal-company .modal-content").html(data.html_form);
-       }
-     }
-   });
-
-
-  // do something…
-});
-*/
- //alert("321312");
- // Create book
 
  var initBusinessStockLoad=function(){
 
@@ -391,6 +361,62 @@ return false;
 
    //initLoad();
  }
+
+ ////////////////Search buttom click#############################
+ var searchBusiness= function (searchStr) {
+
+
+    $.ajax({
+      url: '/Business/'+searchStr+'/Search/',
+
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+
+        if (data.form_is_valid) {
+
+
+          $("#tbody_company").empty();
+
+          $("#tbody_company").html(data.html_business_search_tag_list);
+          $(".woPaging").html(data.html_part_paginator);
+
+          $("#modal-company").modal("hide");
+
+        }
+        else {
+
+
+        }
+      },
+      error: function (jqXHR, exception,err) {
+        // alert(exception);
+        console.log(err,jqXHR)
+      }
+    });
+    return false;
+
+  };
+  /////////////////////////////
+
+  $('#businessSearch').keyup(function(){
+
+   searchStr=$("#businessSearch").val();
+
+   searchStr=searchStr.replace(' ','_');
+
+   if(searchStr.trim().length>0){
+   searchBusiness(searchStr);
+ }
+ else {
+   searchBusiness('empty');
+
+
+ }
+    // alert("salam");
+
+ });
+ ////////////////////////////////////////////////////////////////
 
 
 

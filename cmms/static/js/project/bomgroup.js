@@ -159,6 +159,61 @@ return false;
 
    //initLoad();
  }
+ ////////////////Search buttom click#############################
+ var searchBOM= function (searchStr) {
+
+
+    $.ajax({
+      url: '/BOMGroup/'+searchStr+'/Search/',
+
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+
+        if (data.form_is_valid) {
+
+
+          $("#tbody_company").empty();
+
+          $("#tbody_company").html(data.html_bom_search_tag_list);
+          $(".woPaging").html(data.html_bom_paginator);
+
+          $("#modal-company").modal("hide");
+
+        }
+        else {
+
+
+        }
+      },
+      error: function (jqXHR, exception,err) {
+        // alert(exception);
+        console.log(err,jqXHR)
+      }
+    });
+    return false;
+
+  };
+  /////////////////////////////
+
+  $('#bomSearch').keyup(function(){
+
+   searchStr=$("#bomSearch").val();
+
+   searchStr=searchStr.replace(' ','_');
+
+   if(searchStr.trim().length>0){
+   searchBOM(searchStr);
+ }
+ else {
+   searchBOM('empty');
+
+
+ }
+    // alert("salam");
+
+ });
+ ////////////////////////////////////////////////////////////////
 
 
 $(".js-create-bomgroup").unbind();

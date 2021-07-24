@@ -27,6 +27,7 @@ from django.urls import reverse_lazy
 from django.db import transaction
 from cmms.business.PartUtility import *
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.context_processors import PermWrapper
 from django.db.models import Sum
 
 @login_required
@@ -173,7 +174,7 @@ def part_searchPart(request,searchStr):
     searchStr=searchStr.replace('_',' ')
     books=PartUtility.seachPart(searchStr).order_by('partName')
     wos=PartUtility.doPaging(request,list(books))
-    data['html_part_search_tag_list'] = render_to_string('cmms/part/partialPartList.html', {               'part': wos                       })
+    data['html_part_search_tag_list'] = render_to_string('cmms/part/partialPartList.html', {               'part': wos  ,'perms': PermWrapper(request.user)                       })
     data['html_part_paginator'] = render_to_string('cmms/part/partialWoPagination.html', {
           'wo': wos,'pageType':'part_searchPart','ptr':searchStr})
     data['form_is_valid'] = True

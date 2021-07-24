@@ -1,4 +1,5 @@
 from django.core.paginator import *
+from cmms.models.business import *
 class BusinessUtility:
     @staticmethod
     def doPaging(request,books):
@@ -12,3 +13,11 @@ class BusinessUtility:
         except EmptyPage:
             wos = paginator.page(paginator.num_pages)
         return wos
+    @staticmethod
+    def seachBusiness(searchStr):
+
+             if(searchStr != 'empty'):
+                 return Business.objects.filter(name__contains=searchStr)|Business.objects.filter(code__contains=searchStr)|Business.objects.filter(primaryContact__contains=searchStr)
+
+             else:
+                 return Business.objects.all()

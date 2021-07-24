@@ -25,13 +25,17 @@ from django.forms.models import model_to_dict
 from cmms.forms import BusinessForm
 from django.urls import reverse_lazy
 from django.db import transaction
+from django.contrib.auth.context_processors import PermWrapper
+from cmms.business.BusiUtil import *
 
 
 
 def list_business(request,id=None):
     #
     books = Business.objects.all().order_by('name')
-    return render(request, 'cmms/business/businessList.html', {'business': books})
+    wos=BusinessUtility.doPaging(request,books)
+
+    return render(request, 'cmms/business/businessList.html', {'business': wos})
 
 
 ##########################################################
@@ -124,4 +128,15 @@ def businessCancel(request,id):
     #             'business': companies
     #         })
 
+    return JsonResponse(data)
+#####################
+def business_search(request,searchStr):
+    data=dict()
+    searchStr=searchStr.replace('_',' ')
+    books=BusinessUtility.seachBusiness(searchStr).order_by('name')
+    wos=BusinessUtility.doPaging(request,list(books))
+    data['html_business_search_tag_list'] = render_to_string('cmms/business/partialBusinessList.html', {               'business': wos  ,'perms': PermWrapper(request.user)                       })
+    # data['html_business_paginator'] = render_to_string('cmms/business/partialBusinessPagination.html', {
+    #       'business': wos,'pageType':'business_search','ptr':searchStr})
+    data['form_is_valid'] = True
     return JsonResponse(data)

@@ -133,3 +133,15 @@ def bomgroupCancel(request,id):
             })
 
     return JsonResponse(data)
+##############
+#####################
+def BOM_search(request,searchStr):
+    data=dict()
+    searchStr=searchStr.replace('_',' ')
+    books=TaskUtility.seachBOM(searchStr).order_by('name')
+    wos=AssetUtility.doPaging(request,list(books))
+    data['html_html_bomgroup_list_search_tag_list'] = render_to_string('cmms/business/partialBusinessList.html', {               'business': wos  ,'perms': PermWrapper(request.user)                       })
+    # data['html_business_paginator'] = render_to_string('cmms/business/partialBusinessPagination.html', {
+    #       'business': wos,'pageType':'business_search','ptr':searchStr})
+    data['form_is_valid'] = True
+    return JsonResponse(data)

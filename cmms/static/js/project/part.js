@@ -426,8 +426,7 @@ return false;
       success: function (data) {
 
         if (data.form_is_valid) {
-          console.log(data);
-          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+      
           $("#tbody_company").empty();
 
           $("#tbody_company").html(data.html_part_search_tag_list);
