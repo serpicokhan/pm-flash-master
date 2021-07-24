@@ -53,13 +53,13 @@
 
 
                          dataType: 'json',
-                         beforeSend: function () {
-                           //alert(btn.attr("data-url"));
-                           // console.log(myformat('{"bomGroupAssetAsset":{0},"bomGroupAssetPlannedQnty":{1},"bomGroupAssetActulaQnty":{2},"bomGroupAssetWorkorder":{3}}',$("#id_bomGroupAssetAsset").val(),$("#id_bomGroupAssetPlannedQnty").val(),$("#id_bomGroupAssetActulaQnty").val(),$("#lastWorkOrderid").val()));
-                           // console.log(myformat('{"bomGroupAssetid":{0},\
-                           // "bomGroupAssetQnty":{1},\
-                           // "lastAssetid":{2}}',$("#id_bomGroupAssetPid").val(),$("#id_bomGroupAssetQnty").val(), $("#lastAssetid").val()));
-
+                         beforeSend: function (x,y) {
+                           if($("#id_BOMGroupAssetAsset").val()=="")
+                           {
+                             toastr.error("نام قطعه را مشخص کنید");
+                             x.abort();
+                             return;
+                           }
                          },
                          success: function (data) {
                            if (data.form_is_valid) {

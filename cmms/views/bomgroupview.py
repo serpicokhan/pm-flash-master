@@ -27,6 +27,7 @@ from cmms.forms import BOMGroupForm
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib.auth.context_processors import PermWrapper
+from django.db import IntegrityError
 
 
 
@@ -44,24 +45,32 @@ def save_bomgroup_form(request, form, template_name,id=None):
 
     data = dict()
     if (request.method == 'POST'):
-        if form.is_valid():
-            try:
+        try:
+
+            if form.is_valid():
+
+
+
 
 
                 form.save()
                 data['form_is_valid'] = True
                 books = BOMGroup.objects.all().order_by('BOMGroupName')
                 books=AssetUtility.doPaging(request,books)
-                data['html_bomgroup_list'] = render_to_string('cmms/bomgroup/partialBOMGrouplist.html', {
+                data['html_bomgroup_list'] = render_to_string('cmms/bomgroup/partialBOMGroupList.html', {
                     'bomgroup': books,
                     'perms': PermWrapper(request.user)
                 })
-            except django.db.utils.IntegrityError as exc:
-                print("!!!!!!!!!!!!!!!!!!!")
+
+
+            else:
                 data['form_is_valid'] = False
-                data['bom_error']="نام گروه تکراری"
-        else:
+        except IntegrityError as exc:
+            print(exc)
             data['form_is_valid'] = False
+            data['bom_error']="نام گروه تکراری"
+        except Exeption as c:
+            print("!2321")
 
     context = {'form': form,'lId':id}
 
@@ -115,12 +124,6 @@ def bomgroup_update(request, id):
         form = BOMGroupForm(request.POST, instance=company)
     else:
         form = BOMGroupForm(instance=company)
-    fmt = getattr(settings, 'LOG_FORMAT', None)
-    lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-
-    logging.basicConfig(format=fmt, level=lvl)
-    logging.debug(id)
-
     return save_bomgroup_form(request, form,"cmms/bomgroup/partialBOMGroupUpdate.html",id)
 ##########################################################
 
@@ -129,7 +132,7 @@ def bomgroupCancel(request,id):
     data=dict()
     tg=BOMGroup.objects.get(id=id)
     if(tg):
-        if(not tg.name):
+        if(not tg.BOMGroupName):
             tg.delete()
             data['form_is_valid'] = True  # This is just to play along with the existing code
             companies =  BOMGroup.objects.all().order_by('BOMGroupName')

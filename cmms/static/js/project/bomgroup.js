@@ -64,12 +64,16 @@ var cancelForm=function(){
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveForm= function () {
    var form = $(this);
+   var xxx=form.serialize();
 
    $.ajax({
      url: form.attr("action"),
      data: form.serialize(),
      type: form.attr("method"),
      dataType: 'json',
+     beforeSend:function(){
+       console.log(xxx);
+     },
      success: function (data) {
        if (data.form_is_valid) {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing

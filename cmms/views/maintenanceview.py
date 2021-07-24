@@ -595,6 +595,7 @@ def save_formset(request):
             body_unicode = request.body.decode('utf-8')
             print("here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             body = json.loads(body_unicode)
+            print(body)
 
 
 
@@ -611,15 +612,17 @@ def save_formset(request):
             data['dateCompleted']=DateJob.getDate2(body['dateCompleted'])
             data['timeCompleted']=body['timeCompleted']
 
-            print("time created:",data['timecreated'])
+
             data['assignedToUser_1']=body['assignedToUser']
             data['assignedToUser']=body['assignedToUser'][0]
             data['woStopCode']=body['woStopCode']
             data['woPart']=body['woPart']
 
             data['woPartQty']=body['woPartQty']
+
             data['isEM']=body['isEM'] #if body['isEM']=="true" else False
             data['pertTime']=body['pertTime']
+            data['timecreated']=body['timecreated']
 
 
             form = WorkOrderForm2(data)
@@ -642,15 +645,16 @@ def save_formset(request):
                 )
 
                 qty=""
-                if(len(data['woPartQty'])>0):
-                    qty=data['woPartQty'].split(',')
-                    print("#####",qty)
+                print(len(str(data['woPartQty']).split(',')),"!@@@@@@@@@@@@@@")
+                # if(len(data['woPartQty'].split(','))>0):
+                #     qty=data['woPartQty'].split(',')
+                #     print("#####",qty)
                 i=0
                 # print(data['woPart'],"$$$$$$$$$$$$")
                 if(data['woPart']):
                     for k in list(data['woPart']):
                         stk=Stock.objects.get(id=k)
-                        print("stk",stk)
+
 
 
                         WorkorderPart.objects.create(woPartWorkorder=f2,woPartStock=stk,woPartActulaQnty=qty[i])
@@ -715,8 +719,8 @@ def save_formset(request):
                 data2["error"]=form.errors
     except Exception as e:
             data2['form_is_valid']=False
-            data2["error"]=e
-            print(e,"!@#!@")
+            # data2["error"]=e
+            # print(e,"!@#!@")
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(exc_type, fname, exc_tb.tb_lineno)

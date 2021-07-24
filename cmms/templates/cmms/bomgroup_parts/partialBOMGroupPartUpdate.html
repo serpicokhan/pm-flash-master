@@ -57,7 +57,13 @@
 
 
                          dataType: 'json',
-                         beforeSend: function () {
+                         beforeSend: function (x,y) {
+                           if($("#id_BOMGroupPartPart").val()=="")
+                           {
+                             toastr.error("نام قطعه را مشخص کنید");
+                             x.abort();
+                             return;
+                           }
 
                          },
                          success: function (data) {

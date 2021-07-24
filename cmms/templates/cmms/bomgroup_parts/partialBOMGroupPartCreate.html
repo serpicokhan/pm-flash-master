@@ -37,7 +37,7 @@
 
         $("#bomGroupPart-submit").click(function(){
 
-                  alert("12321");
+
                     var form = $(this).parent().parent();
 
                     $.ajax({
@@ -54,9 +54,16 @@
 
 
                       dataType: 'json',
-                      beforeSend: function () {
+                      beforeSend: function (x,y) {
+                        if($("#id_BOMGroupPartPart").val()=="")
+                        {
+                          toastr.error("نام قطعه را مشخص کنید");
+                          x.abort();
+                          return;
+                        }
 
-                       console.log(myformat('{"BOMGroupPartPart":{0},"BOMGroupPartQnty":{1},"BOMGroupPartBOMGroup":{2}}',$("#id_BOMGroupPartPart").val(), $("#id_BOMGroupPartQnty").val(),$("#lastBOMGroupid").val()));
+
+                       // console.log(myformat('{"BOMGroupPartPart":{0},"BOMGroupPartQnty":{1},"BOMGroupPartBOMGroup":{2}}',$("#id_BOMGroupPartPart").val(), $("#id_BOMGroupPartQnty").val(),$("#lastBOMGroupid").val()));
                       },
                       success: function (data) {
                         if (data.form_is_valid) {

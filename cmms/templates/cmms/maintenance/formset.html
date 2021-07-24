@@ -321,7 +321,7 @@
       $('.basicAutoComplete').autoComplete();
 
 
-    
+
 
 
   });
@@ -584,7 +584,7 @@ $(".send_form").click(function(){
             getVal($("#id_assignedToUser").val()==null)?null:myformat("[{0}]",getVal($("#id_assignedToUser").val())),
             getVal($("#id_woStopCode").val()),
             getVal($("#id_woPart").val()==null)?null:myformat("[{0}]",getVal($("#id_woPart").val())),
-            getStringVal($("#id_woPartQty").val()),
+            ($("#id_woPartQty").val())==""?null:$("#id_woPartQty").val(),
             $('#id_isEM').is(":checked"),
             getStringVal(($("#id_pertTime").val()==""?"-":$("#id_pertTime").val())),
             getStringVal(($("#id_woStatus").val()==""?"1":$("#id_woStatus").val())),
@@ -602,7 +602,7 @@ $(".send_form").click(function(){
 
               dataType: 'json',
               beforeSend: function (xhr, opts) {
-                // console.log(mydata);
+                console.log(mydata);
 
 
               },
