@@ -37,11 +37,9 @@
 
         $("#bomGroupPart-submit").click(function(){
 
-                   //alert("12321");
+                  alert("12321");
                     var form = $(this).parent().parent();
-                    //console.log(form.attr("action"));
-                    //alert($("#id_metrics").val());
-                    // console.log(form.attr('class'));
+
                     $.ajax({
                       url: form.attr("data-url"),
                       type: "POST",

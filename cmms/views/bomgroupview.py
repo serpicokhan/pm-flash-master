@@ -45,14 +45,21 @@ def save_bomgroup_form(request, form, template_name,id=None):
     data = dict()
     if (request.method == 'POST'):
         if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-            books = BOMGroup.objects.all().order_by('BOMGroupName')
-            books=AssetUtility.doPaging(request,books)
-            data['html_bomgroup_list'] = render_to_string('cmms/bomgroup/partialBOMGrouplist.html', {
-                'bomgroup': books,
-                'perms': PermWrapper(request.user)
-            })
+            try:
+
+
+                form.save()
+                data['form_is_valid'] = True
+                books = BOMGroup.objects.all().order_by('BOMGroupName')
+                books=AssetUtility.doPaging(request,books)
+                data['html_bomgroup_list'] = render_to_string('cmms/bomgroup/partialBOMGrouplist.html', {
+                    'bomgroup': books,
+                    'perms': PermWrapper(request.user)
+                })
+            except django.db.utils.IntegrityError as exc:
+                print("!!!!!!!!!!!!!!!!!!!")
+                data['form_is_valid'] = False
+                data['bom_error']="نام گروه تکراری"
         else:
             data['form_is_valid'] = False
 

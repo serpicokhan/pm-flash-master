@@ -130,7 +130,7 @@ class BOMGroup(models.Model):
         return '{}:{}'.format(self.BOMGroupName)
     def getPartNUM(self):
         return BOMGroupPart.objects.filter(BOMGroupPartBOMGroup=self).count()
-    BOMGroupName=models.CharField("نام گروه BOM",max_length=50)
+    BOMGroupName=models.CharField("نام گروه BOM",max_length=50,unique=True)
     class Meta:
 
         db_table="bomgroup"

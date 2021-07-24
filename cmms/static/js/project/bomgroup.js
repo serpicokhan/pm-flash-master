@@ -80,8 +80,9 @@ var saveForm= function () {
        }
        else {
 
-         $("#company-table tbody").html(data.html_bomgroup_list);
-         $("#modal-company .modal-content").html(data.html_bomgroup_form);
+        if(data.bom_error){
+          toastr.error(data.bom_error);
+        }
        }
      }
    });
