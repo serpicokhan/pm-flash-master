@@ -30,7 +30,7 @@ class Tasks(models.Model):
 
     )
     taskTypes=models.IntegerField("انتخاب نوع فعالیت", choices=TaskType1,null=True,blank=True)
-    taskMetrics=models.IntegerField("", choices=Metric,null=True,blank=True)
+    taskMetrics=models.ForeignKey("MeterCode",verbose_name="واحد اندازه گیری",null=True,blank=True,on_delete=models.CASCADE)
     taskDescription=models.CharField("توضیحات",max_length = 100,null=True,blank=True)
 
     #result related to asset and measured according to Asset
@@ -45,7 +45,7 @@ class Tasks(models.Model):
     taskTimeCompleted = models.TimeField("زمان پایان",default=datetime.now,null=True, blank=True)
     taskTimeSpent=models.FloatField("زمان صرف شده",null=True,blank=True)
     taskCompletionNote=models.CharField("یادداشت تکمیلی",max_length = 100,null=True,blank=True)
-    workOrder = models.ForeignKey('WorkOrder',on_delete=models.SET_NULL,null=True,blank=True,related_name="CompleteUserTask")
+    workOrder = models.ForeignKey('WorkOrder',on_delete=models.CASCADE,null=True,blank=True,related_name="CompleteUserTask")
     #woId=models.FloatField(null=True,blank=True)
     class Meta:
       db_table = "tasks"

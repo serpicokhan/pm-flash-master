@@ -29,7 +29,7 @@ class StopCode(models.Model):
         db_table="stopcode"
 class MeterCode(models.Model):
     def __str__(self):
-        return self.stopDescription
+        return self.meterDescription
     meterCode=models.CharField("کد",max_length = 100,null=True,blank=True,unique=True)
     meterDescription=models.CharField("َرح",max_length = 100,null=True,blank=True)
     # problemIsActive=models.BooleanField("فعال",default=True,blank=True)
