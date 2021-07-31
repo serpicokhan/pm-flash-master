@@ -1,0 +1,61 @@
+<!--pip install django-widget-tweaks-->
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>کدهای هزینه</h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive" >
+                                <table class="table table-striped" id="miscCostCode-table" >
+                                    <thead>
+                                    <tr>
+                                      <th>کد</th>
+                                      <th>شرح</th>
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_miscCostCode'>
+                                            {% include 'cmms/settingpages/misccost_code/partialMiscCostCodeList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-miscCostCode"
+                                  data-url="{% url 'miscCostCode_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                            </div>
+                          </div>
+
+                    </div>
+                    <div class="modal fade" id="modal-miscCostCode">
+                     <div class="modal-dialog">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+                </div>
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/settingpages/misccostcode.js' %}"></script>
+{% endblock %}

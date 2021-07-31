@@ -31,10 +31,18 @@ class MeterCode(models.Model):
     def __str__(self):
         return self.meterDescription
     meterCode=models.CharField("کد",max_length = 100,null=True,blank=True,unique=True)
-    meterDescription=models.CharField("َرح",max_length = 100,null=True,blank=True)
+    meterDescription=models.CharField("َشرح",max_length = 100,null=True,blank=True)
     # problemIsActive=models.BooleanField("فعال",default=True,blank=True)
     class Meta:
         db_table="metercode"
+class MiscCostCode(models.Model):
+    def __str__(self):
+        return self.meterDescription
+    miscCostCode=models.CharField("کد",max_length = 100,null=True,blank=True,unique=True)
+    miscCostDescription=models.CharField("َشرح",max_length = 100,null=True,blank=True)
+    # problemIsActive=models.BooleanField("فعال",default=True,blank=True)
+    class Meta:
+        db_table="misccostcode"
 
 ###########################################
 class ProblemCode(models.Model):
@@ -329,14 +337,15 @@ class WorkorderMeterReading(models.Model):
 
     woMeterReadingLocation=models.ForeignKey(Asset,on_delete=models.CASCADE,blank=True,null=True,verbose_name="دارایی")
     woMeterReadingMeterReading=models.FloatField("meter reading",default=0.00)
-    woMeterReadingMeterReadingUnit=models.IntegerField("واحد اندازه گیری",choices=Metric,null=True,blank=True)
+    woMeterReadingMeterReadingUnit=models.ForeignKey("MeterCode",verbose_name="واحد اندازه گیری",on_delete=models.CASCADE,null=True,blank=True,related_name="woMeterReadingMeterReadingUnit")
     timestamp=models.DateField(default=datetime.now, blank=True)
     class Meta:
         db_table="workordermeterreading"
 ########################################################
 class MiscCost(models.Model):
     miscCoastWorkorder=models.ForeignKey(WorkOrder,on_delete=models.CASCADE)
-    miscCoastType=models.IntegerField("نوع",choices=CoastType,null=True,blank=True)
+    miscCoastType=models.ForeignKey("MiscCostCode",verbose_name="نوع",on_delete=mdoels.CASCADE,null=True,blank=True,related_name="miscCoastWorkorder")
+    miscCoastIndividual=models.ForeignKey("Business",verbose_name="پیمانکار",on_delete=mdoels.CASCADE,null=True,blank=True,related_name="miscCoastIndividuals")
     miscCoastdescription=models.CharField("توضیحات",max_length = 100,null=True,blank=True)
     estimatedQnty=models.FloatField("مقدار تخمینی",default=0.0,blank=True,null=True)
     estimatedUnitCoast=models.FloatField("هزینه تخمینی بازای واحد",default=0.0,blank=True,null=True)

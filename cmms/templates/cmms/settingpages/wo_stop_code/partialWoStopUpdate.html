@@ -33,7 +33,7 @@
                       //alert("12321");
                       //$( "#myselect option:selected" ).text();
                       var mydata="";
-                      var mydata="";
+
                       mydata=myformat('{"stopCode":"{0}"\
                       ,"stopDescription":"{1}"}',
                       $("#id_stopCode").val(),
@@ -42,17 +42,13 @@
                     );
 
                       var form = $(this).parent().parent();
-                       //console.log(form.attr("action"));
-                       //alert($("#id_metrics").val());
-                       console.log($(this));
+
                        $.ajax({
                          url: form.attr("data-url"),
                          type: "POST",
                          data:mydata,
                          dataType: 'json',
                          beforeSend: function () {
-                           //alert(btn.attr("data-url"));
-                      //     console.log($("#id_businessPartisDefault").is(':checked'));
 
                          },
                          success: function (data) {
@@ -62,7 +58,7 @@
 
                              $("#tbody_woStop").html(data.html_woStop_list);
                              $("#modal-woStop").modal("hide");
-                             console.log(data.html_woStop_list);
+
                            }
                            else {
 

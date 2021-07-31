@@ -44,7 +44,7 @@
                       var form = $(this).parent().parent();
                        //console.log(form.attr("action"));
                        //alert($("#id_metrics").val());
-                       console.log($(this));
+
                        $.ajax({
                          url: form.attr("data-url"),
                          type: "POST",
@@ -62,7 +62,7 @@
 
                              $("#tbody_woCause").html(data.html_woCause_list);
                              $("#modal-woCause").modal("hide");
-                             console.log(data.html_woCause_list);
+
                            }
                            else {
 

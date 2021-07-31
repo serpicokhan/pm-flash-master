@@ -26,21 +26,21 @@ from django.utils.decorators import method_decorator
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
-from cmms.forms import MeterCodeForm
+from cmms.forms import MiscCostCodeForm
 
 ###################################################################
-def list_meterCode(request,id=None):
-    books = MeterCode.objects.all()
-    return render(request, 'cmms/part_purchase/meterCodeList.html', {'meterCodes': books})
+def list_miscCostCode(request,id=None):
+    books = MiscCostCode.objects.all()
+    return render(request, 'cmms/part_purchase/miscCostCodeList.html', {'miscCostCodes': books})
 
 
 ###################################################################
-def js_list_meterCode(request):
+def js_list_miscCostCode(request):
     data=dict()
-    books=MeterCode.objects.filter()
+    books=MiscCostCode.objects.filter()
 
-    data['html_meterCode_list']= render_to_string('cmms/settingpages/meter_code/partialMeterCodeList.html', {
-        'meterCodes': books
+    data['html_miscCostCode_list']= render_to_string('cmms/settingpages/miscCost_code/partialMiscCostCodeList.html', {
+        'miscCostCodes': books
     })
     data['form_is_valid']=True
     return JsonResponse(data)
@@ -48,7 +48,7 @@ def js_list_meterCode(request):
 
 ###################################################################    ###################################################################
 @csrf_exempt
-def save_meterCode_form(request, form, template_name):
+def save_miscCostCode_form(request, form, template_name):
         data = dict()
         if (request.method == 'POST'):
               if form.is_valid():
@@ -58,9 +58,9 @@ def save_meterCode_form(request, form, template_name):
                 lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
                 logging.basicConfig(format=fmt, level=lvl)
                 # logging.debug( woId)
-                books = MeterCode.objects.all()
-                data['html_meterCode_list'] = render_to_string('cmms/settingpages/meter_code/partialMeterCodeList.html', {
-                    'meterCodes': books
+                books = MiscCostCode.objects.all()
+                data['html_miscCostCode_list'] = render_to_string('cmms/settingpages/miscCost_code/partialMiscCostCodeList.html', {
+                    'miscCostCodes': books
                 })
               else:
                   fmt = getattr(settings, 'LOG_FORMAT', None)
@@ -69,26 +69,26 @@ def save_meterCode_form(request, form, template_name):
                   logging.debug(form.errors)
 
         context = {'form': form}
-        data['html_meterCode_form'] = render_to_string(template_name, context, request=request)
+        data['html_miscCostCode_form'] = render_to_string(template_name, context, request=request)
         return JsonResponse(data)
 
 ###################################################################
 
 
-def meterCode_delete(request, id):
-    comp1 = get_object_or_404(MeterCode, id=id)
+def miscCostCode_delete(request, id):
+    comp1 = get_object_or_404(MiscCostCode, id=id)
     data = dict()
 
     comp1.delete()
     data['form_is_valid'] = True  # This is just to play along with the existing code
-    companies = MeterCode.objects.all()
-    data['html_meterCode_list'] = render_to_string('cmms/settingpages/meter_code/partialMeterCodeList.html', {
-        'meterCodes': companies
+    companies = MiscCostCode.objects.all()
+    data['html_miscCostCode_list'] = render_to_string('cmms/settingpages/miscCost_code/partialMiscCostCodeList.html', {
+        'miscCostCodes': companies
     })
     return JsonResponse(data)
 ###################################################################
 @csrf_exempt
-def meterCode_create(request):
+def miscCostCode_create(request):
     woId=-1
     print("enter:")
     if (request.method == 'POST'):
@@ -96,19 +96,19 @@ def meterCode_create(request):
         body = json.loads(body_unicode)
 
         data = request.POST.dict()
-        data['meterCode']=body['meterCode']
-        data['meterDescription']=body['meterDescription']
+        data['miscCostCode']=body['miscCostCode']
+        data['miscCostDescription']=body['miscCostDescription']
 
-        form = MeterCodeForm(data)
+        form = MiscCostCodeForm(data)
     else:
-        form = MeterCodeForm()
+        form = MiscCostCodeForm()
 
-    return save_meterCode_form(request, form, 'cmms/settingpages/meter_code/partialMeterCodeCreate.html')
+    return save_miscCostCode_form(request, form, 'cmms/settingpages/miscCost_code/partialMiscCostCodeCreate.html')
 ###################################################################
 
 @csrf_exempt
-def meterCode_update(request, id):
-    company= get_object_or_404(MeterCode, id=id)
+def miscCostCode_update(request, id):
+    company= get_object_or_404(MiscCostCode, id=id)
     # woId=company.purchasePartId
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')
@@ -116,11 +116,11 @@ def meterCode_update(request, id):
 
 
         data = request.POST.dict()
-        data['meterCode']=body['actionCode']
-        data['meterDescription']=body['actionDescription']
+        data['miscCostCode']=body['actionCode']
+        data['miscCostDescription']=body['actionDescription']
 
 
-        form = MeterCodeForm(data, instance=company)
+        form = MiscCostCodeForm(data, instance=company)
     else:
-        form = MeterCodeForm(instance=company)
-    return save_meterCode_form(request, form, 'cmms/settingpages/meter_code/partialMeterCodeUpdate.html')
+        form = MiscCostCodeForm(instance=company)
+    return save_miscCostCode_form(request, form, 'cmms/settingpages/miscCost_code/partialMiscCostCodeUpdate.html')

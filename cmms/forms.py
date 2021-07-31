@@ -351,6 +351,7 @@ class WoMiscForm(forms.ModelForm):
                 qnty=cleaned_data.get('qnty','')
                 actualUnitCoast=cleaned_data.get('actualUnitCoast','')
                 actualTotlaCoast=cleaned_data.get('actualTotlaCoast','')
+                miscCoastIndividual=cleaned_data.get('miscCoastIndividual','')
 
                 return cleaned_data
 
@@ -1242,6 +1243,17 @@ class MeterCodeForm(forms.ModelForm):
                 cleaned_data=super(MeterCodeForm, self).clean()
                 meterCode=cleaned_data.get('meterCode','')
                 meterDescription=cleaned_data.get('meterDescription','')
+
+                return cleaned_data
+    class Meta:
+         model = MeterCode
+         fields = '__all__'
+class MiscCostCodeForm(forms.ModelForm):
+    def clean(self):
+                self.is_valid()
+                cleaned_data=super(MiscCostCodeForm, self).clean()
+                miscCostCode=cleaned_data.get('miscCostCode','')
+                miscCostDescription=cleaned_data.get('miscCostDescription','')
 
                 return cleaned_data
     class Meta:

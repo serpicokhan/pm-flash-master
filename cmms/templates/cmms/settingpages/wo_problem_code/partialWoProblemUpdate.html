@@ -42,17 +42,15 @@
                     );
 
                       var form = $(this).parent().parent();
-                       //console.log(form.attr("action"));
-                       //alert($("#id_metrics").val());
-                       console.log($(this));
+
+
                        $.ajax({
                          url: form.attr("data-url"),
                          type: "POST",
                          data:mydata,
                          dataType: 'json',
                          beforeSend: function () {
-                           //alert(btn.attr("data-url"));
-                      //     console.log($("#id_businessPartisDefault").is(':checked'));
+
 
                          },
                          success: function (data) {
@@ -62,7 +60,7 @@
 
                              $("#tbody_woProblem").html(data.html_woProblem_list);
                              $("#modal-woProblem").modal("hide");
-                             console.log(data.html_woProblem_list);
+
                            }
                            else {
 
