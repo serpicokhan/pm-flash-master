@@ -78,6 +78,52 @@ var saveMeterCodeForm= function () {
   }
     return false;
   };
+  var deleteMeterCode=function(id){
+    $.ajax({
+      async: true,
+      url: '/SettingPage/MeterCode/'+id+'/Delete/',
+
+      type: 'get',
+      dataType: 'json',
+      success: function (data) {
+
+        if (data.form_is_valid) {
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+          $("#tbody_meterCode").empty();
+          $("#tbody_meterCode").html(data.html_meterCode_list);
+          $("#modal-meterCode").modal("hide");
+          //console.log(data.html_wo_list);
+        }
+        else {
+
+
+        }
+      }
+    });
+
+    return false;
+  }
+  $('#meterCode-table').on('click','.js-delete-meterCode', function () {
+  const dashassetid=($(this).attr('data-url'));
+
+
+    swal({
+      title: "حذف",
+      text: "حذف",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "بلی",
+      cancelButtonText: "خیر",
+      closeOnConfirm: true
+     }, function () {
+         // cancelform();
+         deleteMeterCode(dashassetid);
+
+     });
+
+    // do something…
+  });
 
  // Create book
 $(".js-create-meterCode").click(loadMeterCodeForm);
@@ -89,7 +135,7 @@ $("#meterCode-table").on("click", ".js-update-meterCode", loadMeterCodeForm);
 
 $("#modal-meterCode").on("click", ".js-meterCode-update-form", saveMeterCodeForm);
 // Delete book
-$("#meterCode-table").on("click", ".js-delete-meterCode", loadMeterCodeForm);
-$("#modal-meterCode").on("click", ".js-meterCode-delete-form", deleteMeterCodeForm);
+// $("#meterCode-table").on("click", ".js-delete-meterCode", loadMeterCodeForm);
+// $("#modal-meterCode").on("click", ".js-meterCode-delete-form", deleteMeterCodeForm);
 
 });

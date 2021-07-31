@@ -212,7 +212,7 @@ var initDashAssetLoad=function(){
         //alert(data.html_woCause_list);  // <-- This is just a placeholder for now for testing
         $("#tbody_dashAsset").empty();
         $("#tbody_dashAsset").html(data.html_dashAsset_list);
-        console.log(data);
+
         $("#modal-dashAsset").modal("hide");
         //console.log(data.html_wo_list);
       }
@@ -253,6 +253,33 @@ var initUserGroupLoad=function(){
   });
 return false;
 };
+var initMeterCodeLoad=function(){
+
+  $.ajax({
+
+    url: '/SettingPage/MeterCode/listMeterCode',
+
+
+
+    success: function (data) {
+        //alert($("#lastWorkOrderid").val());
+      if (data.form_is_valid) {
+
+
+        //alert(data.html_woCause_list);  // <-- This is just a placeholder for now for testing
+        $("#tbody_meterCode").empty();
+        $("#tbody_meterCode").html(data.html_meterCode_list);
+        $("#modal-meterCode").modal("hide");
+        //console.log(data.html_wo_list);
+      }
+      else {
+
+
+      }
+    }
+  });
+return false;
+};
 initWoProblemLoad();
 initWoCauseLoad();
 initWoActionLoad();
@@ -262,4 +289,5 @@ initUserGroupLoad();
 initWoStopLoad();
 initWoPertLoad();
 initDashAssetLoad();
+initMeterCodeLoad();
 });

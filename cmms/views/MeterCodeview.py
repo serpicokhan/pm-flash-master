@@ -30,14 +30,14 @@ from cmms.forms import MeterCodeForm
 
 ###################################################################
 def list_meterCode(request,id=None):
-    books = ActionCode.objects.all()
+    books = MeterCode.objects.all()
     return render(request, 'cmms/part_purchase/meterCodeList.html', {'meterCodes': books})
 
 
 ###################################################################
 def js_list_meterCode(request):
     data=dict()
-    books=ActionCode.objects.filter()
+    books=MeterCode.objects.filter()
 
     data['html_meterCode_list']= render_to_string('cmms/settingpages/meter_code/partialMeterCodelist.html', {
         'meterCodes': books
@@ -58,7 +58,7 @@ def save_meterCode_form(request, form, template_name):
                 lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
                 logging.basicConfig(format=fmt, level=lvl)
                 # logging.debug( woId)
-                books = ActionCode.objects.all()
+                books = MeterCode.objects.all()
                 data['html_meterCode_list'] = render_to_string('cmms/settingpages/meter_code/partialMeterCodelist.html', {
                     'meterCodes': books
                 })
@@ -76,22 +76,15 @@ def save_meterCode_form(request, form, template_name):
 
 
 def meterCode_delete(request, id):
-    comp1 = get_object_or_404(ActionCode, id=id)
+    comp1 = get_object_or_404(MeterCode, id=id)
     data = dict()
 
-    if (request.method == 'POST'):
-        comp1.delete()
-        data['form_is_valid'] = True  # This is just to play along with the existing code
-        companies = ActionCode.objects.all()
-        data['html_meterCode_list'] = render_to_string('cmms/settingpages/meter_code/partialMeterCodelist.html', {
-            'meterCode': companies
-        })
-    else:
-        context = {'meterCode': comp1}
-        data['html_meterCode_form'] = render_to_string('cmms/settingpages/meter_code/partialMeterCodeDelete.html',
-            context,
-            request=request,
-        )
+    comp1.delete()
+    data['form_is_valid'] = True  # This is just to play along with the existing code
+    companies = MeterCode.objects.all()
+    data['html_meterCode_list'] = render_to_string('cmms/settingpages/meter_code/partialMeterCodeList.html', {
+        'meterCodes': companies
+    })
     return JsonResponse(data)
 ###################################################################
 @csrf_exempt
@@ -115,7 +108,7 @@ def meterCode_create(request):
 
 @csrf_exempt
 def meterCode_update(request, id):
-    company= get_object_or_404(ActionCode, id=id)
+    company= get_object_or_404(MeterCode, id=id)
     # woId=company.purchasePartId
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')

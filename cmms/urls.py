@@ -524,6 +524,10 @@ urlpatterns = [
            url(r'^SettingPage/UserGroup/create/$', userGroup_create, name='userGroup_create'),
            url(r'^SettingPage/UserGroup/(?P<id>\d+)/delete/$', userGroup_delete, name='userGroup_delete'),
            url(r'^SettingPage/UserGroup/(?P<id>\d+)/update/$', userGroup_update, name='userGroup_update'),
+           url(r'^SettingPage/MeterCode/listMeterCode$',js_list_meterCode,name='js_list_meterCode'),
+           url(r'^SettingPage/MeterCode/create/$', meterCode_create, name='meterCode_create'),
+           url(r'^SettingPage/MeterCode/(?P<id>\d+)/Delete/$', meterCode_delete, name='meterCode_delete'),
+           url(r'^SettingPage/MeterCode/(?P<id>\d+)/update/$', meterCode_update, name='meterCode_update'),
 
 
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetRequestedWo/$', GetRequestedWo, name='GetRequestedWo'),
