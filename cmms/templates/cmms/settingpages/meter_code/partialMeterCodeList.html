@@ -1,10 +1,10 @@
 
-{% for c in woActions %}
+{% for c in meterCodes %}
 
 <tr>
 
-<td>{{c.actionCode}}</td>
-<td>{{c.actionDescription}}</td>
+<td>{{c.meterCode}}</td>
+<td>{{c.meterDescription}}</td>
 
 
 
@@ -13,13 +13,13 @@
 
 
  <td><button type="button"
-              class="btn btn-warning btn-sm js-update-woAction"
-              data-url="{% url 'woAction_update' c.id %}">
+              class="btn btn-warning btn-sm js-update-meterCode"
+              data-url="{% url 'meterCode_update' c.id %}">
 
       </button>
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-woAction"
-                   data-url="{% url 'woAction_delete' c.id %}">
+                   class="btn btn-danger btn-sm js-delete-meterCode"
+                   data-url="{% url 'meterCode_delete' c.id %}">
 
            </button>
     </td>

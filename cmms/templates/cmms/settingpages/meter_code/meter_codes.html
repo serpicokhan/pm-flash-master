@@ -10,7 +10,7 @@
                         <div class="ibox-content">
 
                             <div class="table-responsive" >
-                                <table class="table table-striped" id="woAction-table" >
+                                <table class="table table-striped" id="meterCode-table" >
                                     <thead>
                                     <tr>
                                       <th>کد</th>
@@ -21,14 +21,14 @@
                                     </tr>
 
                                     </thead>
-                                    <tbody id='tbody_woAction'>
-                                            {% include 'cmms/settingpages/wo_action_code/partialWoActionlist.html' %}
+                                    <tbody id='tbody_meterCode'>
+                                            {% include 'cmms/settingpages/meter_code/partialMeterCodeList.html' %}
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                 <p>
-                                  <button type="button" class="btn btn-primary js-create-woAction"
-                                  data-url="{% url 'woAction_create' %}"                                  >
+                                  <button type="button" class="btn btn-primary js-create-meterCode"
+                                  data-url="{% url 'meterCode_create' %}"                                  >
                                     <span class="glyphicon glyphicon-plus"
 
 
@@ -41,7 +41,7 @@
                           </div>
 
                     </div>
-                    <div class="modal fade" id="modal-woAction">
+                    <div class="modal fade" id="modal-meterCode">
                      <div class="modal-dialog">
 
                        <div class="modal-content ">
@@ -57,5 +57,5 @@
 {% load static %}
 
 {% block javascript %}
-  <script src="{% static '/js/project/settingpages/woaction.js' %}"></script>
+  <script src="{% static '/js/project/settingpages/metercode.js' %}"></script>
 {% endblock %}

@@ -26,21 +26,21 @@ from django.utils.decorators import method_decorator
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
-from cmms.forms import ActionCodeForm
+from cmms.forms import MeterCodeForm
 
 ###################################################################
-def list_woAction(request,id=None):
+def list_meterCode(request,id=None):
     books = ActionCode.objects.all()
-    return render(request, 'cmms/part_purchase/woActionList.html', {'woActions': books})
+    return render(request, 'cmms/part_purchase/meterCodeList.html', {'meterCodes': books})
 
 
 ###################################################################
-def js_list_woAction(request):
+def js_list_meterCode(request):
     data=dict()
     books=ActionCode.objects.filter()
 
-    data['html_woAction_list']= render_to_string('cmms/settingpages/wo_action_code/partialWoActionList.html', {
-        'woActions': books
+    data['html_meterCode_list']= render_to_string('cmms/settingpages/meter_code/partialMeterCodelist.html', {
+        'meterCodes': books
     })
     data['form_is_valid']=True
     return JsonResponse(data)
@@ -48,7 +48,7 @@ def js_list_woAction(request):
 
 ###################################################################    ###################################################################
 @csrf_exempt
-def save_woAction_form(request, form, template_name):
+def save_meterCode_form(request, form, template_name):
         data = dict()
         if (request.method == 'POST'):
               if form.is_valid():
@@ -59,8 +59,8 @@ def save_woAction_form(request, form, template_name):
                 logging.basicConfig(format=fmt, level=lvl)
                 # logging.debug( woId)
                 books = ActionCode.objects.all()
-                data['html_woAction_list'] = render_to_string('cmms/settingpages/wo_action_code/partialWoActionList.html', {
-                    'woActions': books
+                data['html_meterCode_list'] = render_to_string('cmms/settingpages/meter_code/partialMeterCodelist.html', {
+                    'meterCodes': books
                 })
               else:
                   fmt = getattr(settings, 'LOG_FORMAT', None)
@@ -69,13 +69,13 @@ def save_woAction_form(request, form, template_name):
                   logging.debug(form.errors)
 
         context = {'form': form}
-        data['html_woAction_form'] = render_to_string(template_name, context, request=request)
+        data['html_meterCode_form'] = render_to_string(template_name, context, request=request)
         return JsonResponse(data)
 
 ###################################################################
 
 
-def woAction_delete(request, id):
+def meterCode_delete(request, id):
     comp1 = get_object_or_404(ActionCode, id=id)
     data = dict()
 
@@ -83,19 +83,19 @@ def woAction_delete(request, id):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies = ActionCode.objects.all()
-        data['html_woAction_list'] = render_to_string('cmms/settingpages/wo_action_code/partialWoActionList.html', {
-            'woAction': companies
+        data['html_meterCode_list'] = render_to_string('cmms/settingpages/meter_code/partialMeterCodelist.html', {
+            'meterCode': companies
         })
     else:
-        context = {'woAction': comp1}
-        data['html_woAction_form'] = render_to_string('cmms/settingpages/wo_action_code/partialWoActionDelete.html',
+        context = {'meterCode': comp1}
+        data['html_meterCode_form'] = render_to_string('cmms/settingpages/meter_code/partialMeterCodeDelete.html',
             context,
             request=request,
         )
     return JsonResponse(data)
 ###################################################################
 @csrf_exempt
-def woAction_create(request):
+def meterCode_create(request):
     woId=-1
     print("enter:")
     if (request.method == 'POST'):
@@ -103,18 +103,18 @@ def woAction_create(request):
         body = json.loads(body_unicode)
 
         data = request.POST.dict()
-        data['actionCode']=body['actionCode']
-        data['actionDescription']=body['actionDescription']
-        data['actionIsActive']=True if body['actionDescription'] is 'true' else False
-        form = ActionCodeForm(data)
-    else:
-        form = ActionCodeForm()
+        data['meterCode']=body['meterCode']
+        data['meterDescription']=body['meterDescription']
 
-    return save_woAction_form(request, form, 'cmms/settingpages/wo_action_code/partialWoActionCreate.html')
+        form = MeterCodeForm(data)
+    else:
+        form = MeterCodeForm()
+
+    return save_meterCode_form(request, form, 'cmms/settingpages/meter_code/partialMeterCodeCreate.html')
 ###################################################################
 
 @csrf_exempt
-def woAction_update(request, id):
+def meterCode_update(request, id):
     company= get_object_or_404(ActionCode, id=id)
     # woId=company.purchasePartId
     if (request.method == 'POST'):
@@ -123,11 +123,11 @@ def woAction_update(request, id):
 
 
         data = request.POST.dict()
-        data['actionCode']=body['actionCode']
-        data['actionDescription']=body['actionDescription']
+        data['meterCode']=body['actionCode']
+        data['meterDescription']=body['actionDescription']
 
 
-        form = ActionCodeForm(data, instance=company)
+        form = MeterCodeForm(data, instance=company)
     else:
-        form = ActionCodeForm(instance=company)
-    return save_woAction_form(request, form, 'cmms/settingpages/wo_action_code/partialWoActionUpdate.html')
+        form = MeterCodeForm(instance=company)
+    return save_meterCode_form(request, form, 'cmms/settingpages/meter_code/partialMeterCodeUpdate.html')

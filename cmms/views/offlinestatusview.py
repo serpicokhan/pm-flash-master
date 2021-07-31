@@ -39,7 +39,7 @@ def js_list_offlineStatus(request):
     data=dict()
     books=OfflineStatus.objects.filter()
 
-    data['html_offlineStatus_list']= render_to_string('cmms/settingpages/offline_status/partialOfflineStatuslist.html', {
+    data['html_offlineStatus_list']= render_to_string('cmms/settingpages/offline_status/partialOfflineStatusList.html', {
         'offlineStatuss': books
     })
     data['form_is_valid']=True
@@ -59,7 +59,7 @@ def save_offlineStatus_form(request, form, template_name):
                 logging.basicConfig(format=fmt, level=lvl)
                 # logging.debug( woId)
                 books = OfflineStatus.objects.all()
-                data['html_offlineStatus_list'] = render_to_string('cmms/settingpages/offline_status/partialOfflineStatuslist.html', {
+                data['html_offlineStatus_list'] = render_to_string('cmms/settingpages/offline_status/partialOfflineStatusList.html', {
                     'offlineStatuss': books
                 })
               else:
@@ -82,7 +82,7 @@ def offlineStatus_delete(request, id):
     comp1.delete()
     data['form_is_valid'] = True  # This is just to play along with the existing code
     companies = OfflineStatus.objects.all()
-    data['html_offlineStatus_list'] = render_to_string('cmms/settingpages/offline_status/partialOfflineStatuslist.html', {
+    data['html_offlineStatus_list'] = render_to_string('cmms/settingpages/offline_status/partialOfflineStatusList.html', {
         'offlineStatus': companies
     })
     return JsonResponse(data)
