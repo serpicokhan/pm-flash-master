@@ -108,10 +108,21 @@ class WorkOrderForm2(forms.ModelForm):
                 return cleaned_data
 
 
+
     #CustomerId = forms.ModelChoiceField(queryset=Customer.objects.all())
     class Meta:
         model = WorkOrder
         fields = ['unitgroups','datecreated','RequestedUser', 'maintenanceType', 'woAsset','Project','dateCompleted','timeCompleted','summaryofIssue','assignedToUser','woStopCode','completionNotes','woCauseCode','isEM','woStatus']
+class SearchFormSetForm(forms.Form):
+    mainType=MaintenanceType.objects.all()
+
+    # renderformat = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,choices=OPTIONS)
+    maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all())
+    to_date = forms.CharField(label='date 2')
+    from_date = forms.CharField(label='date 1', initial=DateJob.getTodayDate())
+    # MaintenanceType = forms.CharField(label='Your name', max_length=100)
+
+
 class MiniWorkorderForm(forms.ModelForm):
     # def clean(self):
     #             self.is_valid()
@@ -1224,6 +1235,17 @@ class StopCodeForm(forms.ModelForm):
                 return cleaned_data
     class Meta:
          model = StopCode
+         fields = '__all__'
+class MeterCodeForm(forms.ModelForm):
+    def clean(self):
+                self.is_valid()
+                cleaned_data=super(MeterCodeForm, self).clean()
+                meterCode=cleaned_data.get('meterCode','')
+                meterDescription=cleaned_data.get('meterDescription','')
+
+                return cleaned_data
+    class Meta:
+         model = MeterCode
          fields = '__all__'
 class DashAssetForm(forms.ModelForm):
     settingLocation= forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
