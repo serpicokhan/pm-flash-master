@@ -42,9 +42,7 @@
                     );
 
                       var form = $(this).parent().parent();
-                       //console.log(form.attr("action"));
-                       //alert($("#id_metrics").val());
-                       console.log($(this));
+
                        $.ajax({
                          url: form.attr("data-url"),
                          type: "POST",
@@ -62,7 +60,7 @@
 
                              $("#tbody_woPert").html(data.html_woPert_list);
                              $("#modal-woPert").modal("hide");
-                             console.log(data.html_woPert_list);
+
                            }
                            else {
 

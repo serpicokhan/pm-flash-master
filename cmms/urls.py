@@ -528,6 +528,10 @@ urlpatterns = [
            url(r'^SettingPage/MeterCode/create/$', meterCode_create, name='meterCode_create'),
            url(r'^SettingPage/MeterCode/(?P<id>\d+)/Delete/$', meterCode_delete, name='meterCode_delete'),
            url(r'^SettingPage/MeterCode/(?P<id>\d+)/update/$', meterCode_update, name='meterCode_update'),
+           url(r'^SettingPage/MiscCostCode/listMiscCostCode$',js_list_miscCostCode,name='js_list_miscCostCode'),
+           url(r'^SettingPage/MiscCostCode/create/$', miscCostCode_create, name='miscCostCode_create'),
+           url(r'^SettingPage/MiscCostCode/(?P<id>\d+)/Delete/$', miscCostCode_delete, name='miscCostCode_delete'),
+           url(r'^SettingPage/MiscCostCode/(?P<id>\d+)/update/$', miscCostCode_update, name='miscCostCode_update'),
 
 
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetRequestedWo/$', GetRequestedWo, name='GetRequestedWo'),

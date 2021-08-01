@@ -48,9 +48,7 @@
                       ($("#id_userGroupZaribProject").val().length>0)?$("#id_userGroupZaribProject").val():'0');
 
                     var form = $(this).parent().parent();
-                    console.log(form);
-                    console.log("action",form.attr("action"));
-                    //alert($("#id_metrics").val());
+
 
                     $.ajax({
                       url: form.attr("data-url"),
@@ -59,7 +57,7 @@
                       dataType: 'json',
                       beforeSend: function () {
                         //alert(btn.attr("data-url"));
-                        console.log(mydata);
+                    
 
                       },
                       success: function (data) {
@@ -69,7 +67,7 @@
 
                           $("#tbody_userGroup").html(data.html_userGroup_list);
                           $("#modal-userGroup").modal("hide");
-                          console.log(data.html_userGroup_list);
+
                         }
                         else {
 

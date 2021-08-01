@@ -41,8 +41,7 @@
                  );
 
                     var form = $(this).parent().parent();
-                    console.log(form);
-                    console.log("action",form.attr("action"));
+
                     //alert($("#id_metrics").val());
 
                     $.ajax({
@@ -52,7 +51,7 @@
                       dataType: 'json',
                       beforeSend: function () {
                         //alert(btn.attr("data-url"));
-                        console.log(mydata);
+
 
                       },
                       success: function (data) {
@@ -62,7 +61,7 @@
 
                           $("#tbody_offlineStatus").html(data.html_offlineStatus_list);
                           $("#modal-offlineStatus").modal("hide");
-                          console.log(data.html_offlineStatus_list);
+
                         }
                         else {
 

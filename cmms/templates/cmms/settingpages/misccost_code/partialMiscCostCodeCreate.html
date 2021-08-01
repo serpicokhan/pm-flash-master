@@ -1,4 +1,4 @@
-<div  data-url="{% url 'meterCode_create' %}" class="js-meterCode-create-form" >
+<div  data-url="{% url 'miscCostCode_create' %}" class="js-miscCostCode-create-form" >
 
   <div class="modal-header " style="background:#ccc">
     <button type="button" class="close"  aria-label="Close">
@@ -7,11 +7,11 @@
     <h4 class="modal-title">جدید</h4>
   </div>
   <div class="modal-body">
-   {% include 'cmms/settingpages/meter_code/partialMeterCodeForm.html' %}
+   {% include 'cmms/settingpages/misccost_code/partialMiscCostCodeForm.html' %}
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" >انصراف</button>
-    <button type="button" class="btn btn-primary" id="meterCode-submit"  >ذخیره</button>
+    <button type="button" class="btn btn-primary" id="miscCostCode-submit"  >ذخیره</button>
  <script>
   myformat = function() {
   var s = arguments[0];
@@ -26,15 +26,15 @@
       function()
       {
 
-        $("#meterCode-submit").click(function(){
+        $("#miscCostCode-submit").click(function(){
 
                    //alert("12321");
                    //$( "#myselect option:selected" ).text();
                    var mydata="";
-                   mydata=myformat('{"meterCode":"{0}"\
-                   ,"meterDescription":"{1}"}',
-                   $("#id_meterCode").val(),
-                   $("#id_meterDescription").val(),
+                   mydata=myformat('{"miscCostCode":"{0}"\
+                   ,"miscCostDescription":"{1}"}',
+                   $("#id_miscCostCode").val(),
+                   $("#id_miscCostDescription").val(),
 
                  );
 
@@ -55,16 +55,16 @@
                       success: function (data) {
                         if (data.form_is_valid) {
                           //alert("Company created!");  // <-- This is just a placeholder for now for testing
-                          $("#tbody_meterCode").empty();
+                          $("#tbody_miscCostCode").empty();
 
-                          $("#tbody_meterCode").html(data.html_meterCode_list);
-                          $("#modal-meterCode").modal("hide");
+                          $("#tbody_miscCostCode").html(data.html_miscCostCode_list);
+                          $("#modal-miscCostCode").modal("hide");
 
                         }
                         else {
 
-                          $("#meterCode-table tbody").html(data.html_meterCode_list);
-                          $("#modal-meterCode .modal-content").html(data.html_meterCode_form);
+                          $("#miscCostCode-table tbody").html(data.html_miscCostCode_list);
+                          $("#modal-miscCostCode .modal-content").html(data.html_miscCostCode_form);
                         }
                       }
 

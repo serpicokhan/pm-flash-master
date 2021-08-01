@@ -39,9 +39,7 @@
                  );
 
                     var form = $(this).parent().parent();
-                    console.log(form);
-                    console.log("action",form.attr("action"));
-                    //alert($("#id_metrics").val());
+
 
                     $.ajax({
                       url: form.attr("data-url"),
@@ -50,7 +48,7 @@
                       dataType: 'json',
                       beforeSend: function () {
                         //alert(btn.attr("data-url"));
-                        console.log(mydata);
+
 
                       },
                       success: function (data) {
@@ -60,7 +58,7 @@
 
                           $("#tbody_woProblem").html(data.html_woProblem_list);
                           $("#modal-woProblem").modal("hide");
-                          console.log(data.html_woProblem_list);
+
                         }
                         else {
 

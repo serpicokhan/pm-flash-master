@@ -33,13 +33,12 @@
                    var mydata="";
                    mydata=myformat('{"settingEqAsset":{0}}',
                    $("#id_settingEqAsset").val(),
-                   
+
 
                  );
 
                     var form = $(this).parent().parent();
-                    console.log(form);
-                    console.log("action",form.attr("action"));
+
                     //alert($("#id_metrics").val());
 
                     $.ajax({
@@ -49,7 +48,7 @@
                       dataType: 'json',
                       beforeSend: function () {
                         //alert(btn.attr("data-url"));
-                        console.log(mydata);
+
 
                       },
                       success: function (data) {
@@ -59,7 +58,7 @@
 
                           $("#tbody_equipCost").html(data.html_equipCost_list);
                           $("#modal-equipCost").modal("hide");
-                          console.log(data.html_equipCost_list);
+
                         }
                         else {
 

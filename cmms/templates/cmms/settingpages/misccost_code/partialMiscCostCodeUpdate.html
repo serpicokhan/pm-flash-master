@@ -1,4 +1,4 @@
-<div  data-url="{% url 'woAction_update' form.instance.id %}" class="js-woAction-update-form">
+<div  data-url="{% url 'miscCostCode_update' form.instance.id %}" class="js-miscCostCode-update-form">
 
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -7,11 +7,11 @@
     <h4 class="modal-title">ویرایش</h4>
   </div>
   <div class="modal-body">
-    {% include 'cmms/settingpages/wo_action_code/partialWoActionForm.html' %}
+    {% include 'cmms/settingpages/misccost_code/partialWoActionForm.html' %}
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
-    <button type="button" class="btn btn-primary" id="woAction-submit">ویرایش</button>
+    <button type="button" class="btn btn-primary" id="miscCostCode-submit">ویرایش</button>
 
 
     <script>
@@ -28,21 +28,22 @@
          function()
          {
 
-           $("#woAction-submit").click(function(){
+           $("#miscCostCode-submit").click(function(){
 
                       //alert("12321");
                       //$( "#myselect option:selected" ).text();
                       var mydata="";
                       var mydata="";
-                      mydata=myformat('{"actionCode":"{0}"\
-                      ,"actionDescription":"{1}"}',
-                      $("#id_actionCode").val(),
-                      $("#id_actionDescription").val(),
+                      mydata=myformat('{"miscCostCode":"{0}"\
+                      ,"miscCostDescription":"{1}"}',
+                      $("#id_miscCostCode").val(),
+                      $("#id_miscCostDescription").val(),
 
                     );
 
                       var form = $(this).parent().parent();
-
+                       //console.log(form.attr("action"));
+                       //alert($("#id_metrics").val());
 
                        $.ajax({
                          url: form.attr("data-url"),
@@ -54,17 +55,16 @@
                          },
                          success: function (data) {
                            if (data.form_is_valid) {
-                             //alert("Company created!");  // <-- This is just a placeholder for now for testing
-                             $("#tbody_woAction").empty();
+                              $("#tbody_miscCostCode").empty();
 
-                             $("#tbody_woAction").html(data.html_woAction_list);
-                             $("#modal-woAction").modal("hide");
+                             $("#tbody_miscCostCode").html(data.html_miscCostCode_list);
+                             $("#modal-miscCostCode").modal("hide");
 
                            }
                            else {
 
-                             $("#woAction-table tbody").html(data.html_woAction_list);
-                             $("#modal-woAction .modal-content").html(data.html_woAction_form);
+                             $("#miscCostCode-table tbody").html(data.html_miscCostCode_list);
+                             $("#modal-miscCostCode .modal-content").html(data.html_miscCostCode_form);
                            }
                          }
 

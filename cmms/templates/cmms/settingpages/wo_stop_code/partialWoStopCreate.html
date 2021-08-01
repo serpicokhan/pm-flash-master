@@ -28,8 +28,7 @@
 
         $("#woStop-submit").click(function(){
 
-                   //alert("12321");
-                   //$( "#myselect option:selected" ).text();
+
                    var mydata="";
                    mydata=myformat('{"stopCode":"{0}"\
                    ,"stopDescription":"{1}","problemIsActive":true}',
@@ -39,9 +38,7 @@
                  );
 
                     var form = $(this).parent().parent();
-                    // console.log(form);
-                    // console.log("action",form.attr("action"));
-                    //alert($("#id_metrics").val());
+
 
                     $.ajax({
                       url: form.attr("data-url"),

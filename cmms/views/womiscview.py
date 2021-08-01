@@ -130,6 +130,7 @@ def woMisc_create(request):
         data['qnty']=body['qnty']
         data['actualUnitCoast']=body['actualUnitCoast']
         data['actualTotlaCoast']=body['actualTotlaCoast']
+        data['miscCoastIndividual']=body['miscCoastIndividual']
         woId=body['miscCoastWorkorder']
 
 
@@ -159,6 +160,7 @@ def woMisc_update(request, id):
         data['qnty']=body['qnty']
         data['actualUnitCoast']=body['actualUnitCoast']
         data['actualTotlaCoast']=body['actualTotlaCoast']
+        data['miscCoastIndividual']=body['miscCoastIndividual']
         form = WoMiscForm(data, instance=company)
     else:
         form = WoMiscForm(instance=company)

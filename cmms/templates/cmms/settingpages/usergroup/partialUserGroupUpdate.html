@@ -53,7 +53,7 @@
                       var form = $(this).parent().parent();
                        //console.log(form.attr("action"));
                        //alert($("#id_metrics").val());
-                       console.log(mydata);
+
                        $.ajax({
                          url: form.attr("data-url"),
                          type: "POST",
@@ -71,7 +71,7 @@
 
                              $("#tbody_userGroup").html(data.html_userGroup_list);
                              $("#modal-userGroup").modal("hide");
-                             console.log(data.html_userGroup_list);
+
                            }
                            else {
 

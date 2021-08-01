@@ -280,6 +280,33 @@ var initMeterCodeLoad=function(){
   });
 return false;
 };
+var initMiscCostCodeLoad=function(){
+
+  $.ajax({
+
+    url: '/SettingPage/MiscCostCode/listMiscCostCode',
+
+
+
+    success: function (data) {
+        //alert($("#lastWorkOrderid").val());
+      if (data.form_is_valid) {
+
+
+        //alert(data.html_woCause_list);  // <-- This is just a placeholder for now for testing
+        $("#tbody_miscCostCode").empty();
+        $("#tbody_miscCostCode").html(data.html_miscCostCode_list);
+        $("#modal-miscCostCode").modal("hide");
+        //console.log(data.html_wo_list);
+      }
+      else {
+
+
+      }
+    }
+  });
+return false;
+};
 initWoProblemLoad();
 initWoCauseLoad();
 initWoActionLoad();
@@ -290,4 +317,5 @@ initWoStopLoad();
 initWoPertLoad();
 initDashAssetLoad();
 initMeterCodeLoad();
+initMiscCostCodeLoad();
 });
