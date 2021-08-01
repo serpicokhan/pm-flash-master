@@ -135,7 +135,9 @@ class Schedule(models.Model):
     shHasEndDate=models.BooleanField("تاریخ انقضا",blank=True)
 
     shMeterReadingEvreyQnty=models.FloatField("هر",null=True,blank=True,default=0)
-    shMeterReadingMetrics=models.IntegerField("واحد اندازه گیری",choices=Metric,null=True,blank=True)
+    # #############################################
+    shMeterReadingMetrics=models.ForeignKey('MeterCode',verbose_name='واحد اندازه گیری',on_delete=models.CASCADE,null=True,blank=True,related_name='schedule_shMeterReadingMetrics')
+    # ############################################
     shMeterReadingStartAt=models.FloatField("مقدار شروع",null=True,blank=True)
     shMeterReadingEndBy=models.FloatField("مقذار نهایی",null=True,blank=True)
     schMeterReadingIsFixed=models.BooleanField("ثابت",default=True,choices=FixedOrFloating,blank=True)
@@ -145,7 +147,9 @@ class Schedule(models.Model):
 
     shMeterReadingHasTiming=models.BooleanField(default=True)
     shMeterReadingWhenQnty=models.FloatField("زمان",null=True,blank=True)
-    shMeterReadingWhenMetric=models.IntegerField(choices=Metric,null=True,blank=True)
+    #
+    shMeterReadingWhenMetric=models.ForeignKey('MeterCode',on_delete=models.CASCADE,verbose_name="واحد اندازه گیری",null=True,blank=True,related_name='sch_meter_when')
+    #
     shMetricComparison=models.IntegerField(choices=[(0,'بزرگتر از'),(1,'کوچکتر از')],null=True,blank=True)
     schEvent = models.ForeignKey(Events,on_delete=models.CASCADE,null=True,blank=True)
 
