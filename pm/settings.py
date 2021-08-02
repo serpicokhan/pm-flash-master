@@ -30,7 +30,7 @@ SECRET_KEY = 'mihn3y3afcnbb4)%lq5xpss%2mdi^a#60b4i_=@j5c56j9n09-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.16.2.149','127.0.0.1','192.168.1.52','172.20.1.69']
+ALLOWED_HOSTS = ['172.16.2.149','127.0.0.1','192.168.1.52','172.20.1.69','172.16.153.145']
 
 
 # Application definition
@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'mathfilters',
      'rest_framework',
      'django.contrib.humanize',
+         'corsheaders',
+
+
      # 'channels',
      # 'utils_tags',
 
@@ -64,6 +67,28 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
+]
+CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 ]
 
 ROOT_URLCONF = 'pm.urls'

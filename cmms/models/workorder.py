@@ -344,8 +344,8 @@ class WorkorderMeterReading(models.Model):
 ########################################################
 class MiscCost(models.Model):
     miscCoastWorkorder=models.ForeignKey(WorkOrder,on_delete=models.CASCADE)
-    miscCoastType=models.ForeignKey("MiscCostCode",verbose_name="نوع",on_delete=mdoels.CASCADE,null=True,blank=True,related_name="miscCoastWorkorder")
-    miscCoastIndividual=models.ForeignKey("Business",verbose_name="پیمانکار",on_delete=mdoels.CASCADE,null=True,blank=True,related_name="miscCoastIndividuals")
+    miscCoastType=models.ForeignKey("MiscCostCode",verbose_name="نوع",on_delete=models.CASCADE,null=True,blank=True,related_name="miscCoastWorkorder")
+    miscCoastIndividual=models.ForeignKey("Business",verbose_name="پیمانکار",on_delete=models.CASCADE,null=True,blank=True,related_name="miscCoastIndividuals")
     miscCoastdescription=models.CharField("توضیحات",max_length = 100,null=True,blank=True)
     estimatedQnty=models.FloatField("مقدار تخمینی",default=0.0,blank=True,null=True)
     estimatedUnitCoast=models.FloatField("هزینه تخمینی بازای واحد",default=0.0,blank=True,null=True)
