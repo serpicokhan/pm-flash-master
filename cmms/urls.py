@@ -1,15 +1,19 @@
 from django.conf.urls import url
-from django.urls import path
+from django.urls import path, include
 from cmms.views import *
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import LoginView,LogoutView
 
 urlpatterns = [
     url(r'^tasks1/(?P<message>[-\w]+)/$', tasks, name='tasks'),
-    url(r'^login/$', auth_views.login,{'template_name': 'cmms/registration/login.html'}, name='login'),
-    url(r'^logout/$', auth_views.logout, {'template_name': 'cmms/registration/logout.html'}, name='logout'),
+    # url(r'^login/$',LoginView(template_name= 'cmms/registration/login.html'), name='login'),
+    # path(r'^login/$', include('django.contrib.auth.urls')),
+       path(        'login/',        LoginView.as_view(            template_name="cmms/registration/login.html",            ),        name='login'),
+       path(        'logout/',        LoginView.as_view(            template_name="cmms/registration/logout.html",            ),        name='logout'),
+
+    # url(r'^logout/$', LogoutView(template_name= 'cmms/registration/logout.html'), name='logout'),
    #url(r'^$',dashboard,name='dashboard'),
     url(r'^$',list_dashboard,name='list_dashboard'),
     url(r'^not_found/$',not_found,name='not_found'),
