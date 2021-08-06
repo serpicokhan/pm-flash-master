@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cmms.models import WorkOrder,SysUser,Asset,testuser
+from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType
 
 
 class WOSerializer(serializers.ModelSerializer):
@@ -11,6 +11,9 @@ class WOSerializer(serializers.ModelSerializer):
     )
     woAsset = serializers.SlugRelatedField(
         queryset=Asset.objects.all(), slug_field='assetName'
+    )
+    maintenanceType = serializers.SlugRelatedField(
+        queryset=MaintenanceType.objects.all(), slug_field='color'
     )
 
     class Meta:

@@ -794,6 +794,16 @@ def workorder_collection(request):
             # k.datecreated=DateJob.getDate2(k.datecreated)
             k["datecreated"]= str(jdatetime.datetime.fromgregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
         return Response(serializer.data)
+@api_view(['GET'])
+def workorder_api_detail(request,id):
+    if request.method == 'GET':
+        print("!23")
+        posts = WorkOrder.objects.get(id=id)
+        serializer = WOSerializer(posts)
+        # for k in serializer.data:
+            # k.datecreated=DateJob.getDate2(k.datecreated)
+        serializer.data["datecreated"]= str(jdatetime.datetime.fromgregorian(date=datetime.datetime.strptime(serializer.data["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
+        return Response(serializer.data)
 
 
 def wo_filter(request,startHijri,endHijri,wotype,ordercol,ordertype):

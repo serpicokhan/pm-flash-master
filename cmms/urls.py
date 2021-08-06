@@ -615,6 +615,7 @@ urlpatterns = [
            url(r'^Calendar/Update/(?P<mtId>-?\d+)/(?P<gId>-?\d+)/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)$',display_calendar,name='display_calendar'),
            #api_view
            url(r'^api/v1/wos/$',workorder_collection, name='workorder_collection'),
+           url(r'^api/v1/wos_detail/(?P<id>\d+)$',workorder_api_detail, name='workorder_api_detail'),
            url(r'^api/v1/login/$',user_login, name='user_login'),
            url(r'^PurchaseBoard/$',list_purchaseboard,name='list_purchaseboard'),
            url(r'^PurchaseRequest/$',list_purchaseRequest,name='list_purchaseRequest'),
