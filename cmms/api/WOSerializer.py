@@ -18,7 +18,24 @@ class WOSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkOrder
-        fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser')
+        fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser','woStatus','workInstructions','timecreated')
+class WOSerializerDetaile(serializers.ModelSerializer):
+    RequestedUser = serializers.SlugRelatedField(
+        queryset=SysUser.objects.all(), slug_field='fullName'
+    )
+    assignedToUser = serializers.SlugRelatedField(
+        queryset=SysUser.objects.all(), slug_field='fullName'
+    )
+    woAsset = serializers.SlugRelatedField(
+        queryset=Asset.objects.all(), slug_field='assetName'
+    )
+    maintenanceType = serializers.SlugRelatedField(
+        queryset=MaintenanceType.objects.all(), slug_field='name'
+    )
+
+    class Meta:
+        model = WorkOrder
+        fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser','woStatus','workInstructions','timecreated')
 class userSerializer(serializers.ModelSerializer):
 
 
