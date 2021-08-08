@@ -27,6 +27,10 @@ from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.context_processors import PermWrapper
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
+from rest_framework import status
 
 @permission_required('cmms.view_maintenancetype')
 def list_maintenanceType(request,id=None):
@@ -110,3 +114,14 @@ def maintenanceType_update(request, id):
 ##########################################################
 
 ##########################################################
+@api_view(['GET'])
+def maintenanceType_collection(request):
+    if request.method == 'GET':
+        print('main serializer')
+
+        posts = MaintenanceType.objects.all()
+        serializer = MaintenanceTypeSerializer(posts, many=True)
+        # for k in serializer.data:
+        #     # k.datecreated=DateJob.getDate2(k.datecreated)
+        #     k["datecreated"]= str(jdatetime.datetime.fromgregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
+        return Response(serializer.data)

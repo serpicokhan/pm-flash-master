@@ -787,7 +787,7 @@ def formset_bulk_deletion(request,ids):
 @api_view(['GET'])
 def workorder_collection(request):
     if request.method == 'GET':
-        print("!23")
+        # print("!23")
         posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False).order_by('-datecreated')[:100]
         serializer = WOSerializer(posts, many=True)
         for k in serializer.data:

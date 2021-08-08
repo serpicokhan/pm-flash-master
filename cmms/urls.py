@@ -416,6 +416,7 @@ urlpatterns = [
           url(r'^MaintenanceType/create/$', maintenanceType_create, name='maintenanceType_create'),
           url(r'^MaintenanceType/(?P<id>\d+)/delete/$', maintenanceType_delete, name='maintenanceType_delete'),
           url(r'^MaintenanceType/(?P<id>\d+)/update/$', maintenanceType_update, name='maintenanceType_update'),
+          url(r'^api/v1/mt/$',maintenanceType_collection, name='maintenanceType_collection'),
           url(r'^Attendance/$',list_attendance,name='list_attendance'),
           url(r'^Attendance/Mass/$',mass_create,name='mass_create'),
           url(r'^Attendance/$',list_attendance,name='list_attendance'),
