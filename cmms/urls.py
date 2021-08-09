@@ -112,6 +112,7 @@ urlpatterns = [
      url(r'^Task/(?P<id>\d+)/delete/$', task_delete, name='task_delete'),
      url(r'^Task/(?P<woId>\d+)/listTask/$', js_list_task, name='js_list_task'),
      url(r'^Task/(?P<id>\d+)/update/$', task_update, name='task_update'),
+     url(r'^api/v1/Tasks/(?P<id>\d+)/$',task_collection, name='task_collection'),
 
 
      url(r'^Task/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/(?P<t1>[^/]+)/(?P<t2>[^/]+)/TaskWorkHour/$', getTaskWoHour, name='getTaskWoHour'),

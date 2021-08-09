@@ -30,6 +30,9 @@ from cmms.business.DateJob import DateJob
 from cmms.business.taskUtility import TaskUtility
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.context_processors import PermWrapper
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
 ###################################################################
 def list_task(request,id=None):
     books = Tasks.objects.all()
@@ -263,3 +266,11 @@ def getTaskWoHour(request,startHijri,endHijri,t1,t2):
     data=dict()
     data['task_hour_result']=TaskUtility.getTaskHour(start,end)
     return JsonResponse(data)
+@api_view(['GET'])
+def task_collection(request,id):
+    if request.method == 'GET':
+        # print("!23")
+        posts = Tasks.objects.filter(workOrder=id)
+        serializer = TaskSerializer(posts, many=True)
+
+        return Response(serializer.data)
