@@ -269,7 +269,7 @@ def getTaskWoHour(request,startHijri,endHijri,t1,t2):
 @api_view(['GET'])
 def task_collection(request,id):
     if request.method == 'GET':
-        # print("!23")
+        print("reached task")
         posts = Tasks.objects.filter(workOrder=id)
         serializer = TaskSerializer(posts, many=True)
 

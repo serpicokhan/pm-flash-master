@@ -14,15 +14,13 @@ class TaskSerializer(serializers.ModelSerializer):
     taskAssignedToUser = serializers.SlugRelatedField(
         queryset=SysUser.objects.all(), slug_field='fullName'
     )
-    taskAssignedToUser = serializers.SlugRelatedField(
-        queryset=SysUser.objects.all(), slug_field='fullName'
-    )
+
 
 
     class Meta:
         model = Tasks
         fields = '__all__'
-        exculde=('taskMetrics')
+        # exculde=('taskMetrics')
 class PartSerializer(serializers.ModelSerializer):
 
     class Meta:
