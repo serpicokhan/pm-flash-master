@@ -30,6 +30,10 @@ from cmms.business.stockutility import *
 from cmms.utils import *
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.context_processors import PermWrapper
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
+
 ###################################################################
 def list_woPart(request,id=None):
     books = WorkorderPart.objects.all()
@@ -195,3 +199,19 @@ def wP_getPartStock(request,id):
     # response_data = {}
     # response_data['result'] = '[dsadas,dasdasdas]'
     return JsonResponse(x)
+@api_view(['GET'])
+def wopart_collection(request,id):
+    if request.method == 'GET':
+        print("wopart reached")
+        posts = WorkorderPart.objects.filter(woPartWorkorder=id)
+        serializer = woPartSerializer(posts, many=True)
+
+        return Response(serializer.data)
+@api_view(['GET'])
+def wopart_detail_collection(request,id):
+    if request.method == 'GET':
+        # print("!23")
+        posts = WorkorderPart.objects.get(id=id)
+        serializer = woPartSerializer(posts)
+
+        return Response(serializer.data)

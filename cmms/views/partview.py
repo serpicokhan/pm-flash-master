@@ -29,6 +29,9 @@ from cmms.business.PartUtility import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.context_processors import PermWrapper
 from django.db.models import Sum
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
 
 @login_required
 def list_part(request,id=None):
@@ -258,3 +261,19 @@ def getPartPurchasedItem(request,id,num):
         'wos': wos
     })
     return JsonResponse(data)
+@api_view(['GET'])
+def part_collection(request):
+    if request.method == 'GET':
+        # print("!23")
+        posts = Part.objects.all()
+        serializer = PartSerializer(posts, many=True)
+
+        return Response(serializer.data)
+@api_view(['GET'])
+def part_detail_collection(request,id):
+    if request.method == 'GET':
+        # print("!23")
+        posts = Part.objects.get(id=id)
+        serializer = PartSerializer(posts)
+
+        return Response(serializer.data)

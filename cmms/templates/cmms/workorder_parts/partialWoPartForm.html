@@ -12,7 +12,7 @@
             <div class="form-group">
               <label>نام قطعه</label>
               <!-- <input type="text" name="label="mypart" id="mypart" value="" class="form-control advanced2AutoComplete"> -->
-              {% render_field form.mypart class='form-control advanced2AutoComplete' placeholder='جستجو کنید'  %}
+              {% render_field form.mypart class='form-control advanced2AutoComplete' placeholder='جستجو کنید' autocomplete='false'  %}
               {{form.woPartStock.as_hidden}}
               <button type="button" class="js-woPartStock-create-form" name="button">+</button>
 
@@ -33,7 +33,7 @@
 
               {{form.woPartActulaQnty| add_class:"form-control" }}
             </div>
-            
+
 
 
           </div>

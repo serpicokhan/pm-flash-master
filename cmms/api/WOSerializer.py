@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks
+from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock
 import jdatetime
 import datetime
 
@@ -23,6 +23,25 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Tasks
         fields = '__all__'
         exculde=('taskMetrics')
+class PartSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Part
+        fields = '__all__'
+class StockSerializer(serializers.ModelSerializer):
+    stockItem=PartSerializer(read_only=True)
+
+    class Meta:
+        model = Stock
+        fields = '__all__'
+
+class woPartSerializer(serializers.ModelSerializer):
+    woPartStock =StockSerializer(read_only=True)
+
+    class Meta:
+        model = WorkorderPart
+        fields = '__all__'
+
 
 class WOSerializer(serializers.ModelSerializer):
     datecreated = serializers.SerializerMethodField()

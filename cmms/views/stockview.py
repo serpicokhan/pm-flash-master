@@ -27,6 +27,9 @@ import json
 from django.forms.models import model_to_dict
 from cmms.forms import StockForm
 from django.db.models import F
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
 ###################################################################
 def list_stock(request,id=None):
 
@@ -362,3 +365,15 @@ def stockSearch2(request,searchStr):
     # data['html_stock_paginator'] = render_to_string('cmms/stock/partialStockPagination.html', {'wo': wos,'pageType':'stockSearch','pageArgs':searchStr})
     data['form_is_valid'] = True
     return JsonResponse(data)
+@api_view(['GET'])
+def stock_collection(request):
+    if request.method == 'GET':
+        posts = Stock.objects.filter()
+        serializer = StockSerializer(posts, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
+def stock_detail_collection(request,id):
+    if request.method == 'GET':
+        posts = Stock.objects.get(id=id)
+        serializer = StockSerializer(posts)
+        return Response(serializer.data)

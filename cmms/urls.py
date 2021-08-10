@@ -154,6 +154,8 @@ urlpatterns = [
       url(r'^WoPart/GetParts$', wo_getParts, name='wo_getParts'),
       url(r'^WoPart/GetStockParts$', wo_getStockParts, name='wo_getStockParts'),
       url(r'^WoPart/(?P<id>\d+)/GetPartStock/$', wP_getPartStock, name='wP_getPartStock'),
+      url(r'^api/v1/WoParts/(?P<id>\d+)/$',wopart_collection, name='wopart_collection'),
+      url(r'^api/v1/WoPart/(?P<id>\d+)/$',wopart_detail_collection, name='wopart_detail_collection'),
 
       url(r'^WoMeter/$',list_woMeter,name='list_woMeter'),
       url(r'^WoMeter/(?P<id>\d+)/create/$', woMeter_create, name='woMeter_create'),
@@ -332,6 +334,8 @@ urlpatterns = [
         url(r'^Part/(?P<id>\d+)/GetPartUsage/$', partUsage, name='partUsage'),
         url(r'^Part/(?P<id>\d+)/(?P<num>\d+)/GetConsumes/$', getPartConsumedItem, name='get_part_consumed_item'),
         url(r'^Part/(?P<id>\d+)/(?P<num>\d+)/GetPurchases/$', getPartPurchasedItem, name='get_part_purchaseditem'),
+        url(r'^api/v1/Parts/$',part_collection, name='part_collection'),
+        url(r'^api/v1/Part/(?P<id>\d+)/$',part_detail_collection, name='part_detail_collection'),
 
         url(r'^PartStock/$',list_partStock,name='list_partStock'),
         url(r'^PartStock/create/$', partStock_create, name='partStock_create'),
@@ -391,6 +395,9 @@ urlpatterns = [
         url(r'^Stock/(?P<stockId>\d+)/(?P<num>\d+)/GetPurchases/$', getPurchasedItem, name='get_purchaseditem'),
         url(r'^Stock/(?P<searchStr>[-\w]+)/Search/$', stockSearch, name='stockSearch'),
         url(r'^Stock/(?P<searchStr>[-\w]+)/Search2/$', stockSearch2, name='stockSearch2'),
+        url(r'^api/v1/Stocks/$',stock_collection, name='stock_collection'),
+        url(r'^api/v1/Stock/(?P<id>\d+)/$',stock_detail_collection, name='stock_detail_collection'),
+
 
 
          url(r'^Business/$',list_business,name='list_business'),
