@@ -34,13 +34,13 @@ class MeterCode(models.Model):
     meterDescription=models.CharField("َشرح",max_length = 100,null=True,blank=True)
     # problemIsActive=models.BooleanField("فعال",default=True,blank=True)
     class Meta:
-        db_table="metercode2"
+        db_table="metercode"
 class MiscCostCode(models.Model):
     def __str__(self):
         return self.miscCostDescription
     miscCostCode=models.CharField("کد",max_length = 100,null=True,blank=True,unique=True)
     miscCostDescription=models.CharField("َشرح",max_length = 100,null=True,blank=True)
-    
+
     class Meta:
         db_table="misccostcode"
 

@@ -274,3 +274,11 @@ def task_collection(request,id):
         serializer = TaskSerializer(posts, many=True)
 
         return Response(serializer.data)
+@api_view(['GET'])
+def task_detail_collection(request,id):
+    if request.method == 'GET':
+        # print("!23")
+        posts = Tasks.objects.get(id=id)
+        serializer = TaskSerializer(posts)
+
+        return Response(serializer.data)
