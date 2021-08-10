@@ -11,6 +11,12 @@ class MaintenanceTypeSerializer(serializers.ModelSerializer):
         fields = ('id', 'color','name')
 
 class TaskSerializer(serializers.ModelSerializer):
+    taskAssignedToUser = serializers.SlugRelatedField(
+        queryset=SysUser.objects.all(), slug_field='fullName'
+    )
+    taskAssignedToUser = serializers.SlugRelatedField(
+        queryset=SysUser.objects.all(), slug_field='fullName'
+    )
 
 
     class Meta:

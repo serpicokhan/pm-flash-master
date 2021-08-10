@@ -40,7 +40,7 @@ class MiscCostCode(models.Model):
         return self.miscCostDescription
     miscCostCode=models.CharField("کد",max_length = 100,null=True,blank=True,unique=True)
     miscCostDescription=models.CharField("َشرح",max_length = 100,null=True,blank=True)
-    # problemIsActive=models.BooleanField("فعال",default=True,blank=True)
+    
     class Meta:
         db_table="misccostcode"
 
