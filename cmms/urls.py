@@ -187,6 +187,8 @@ urlpatterns = [
 
        url(r'^WoFile/(?P<woId>\d+)/listWoFile/$', js_list_woFile, name='js_list_woFile'),
        url(r'^WoFile/(?P<Id>\d+)/basic-upload/$', WorkOrderUploadView.as_view(), name='workorder_upload'),
+       url(r'^api/v1/WoFiles/(?P<id>\d+)/$',wofile_collection, name='wofile_collection'),
+       url(r'^api/v1/WoFile/(?P<id>\d+)/$',wofile_detail_collection, name='wofile_detail_collection'),
 
        url(r'^WoLog/(?P<woId>\d+)/listWoLog/$', js_list_woLog, name='js_list_woLog'),
 

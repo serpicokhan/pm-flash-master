@@ -30,6 +30,9 @@ from django.views.decorators.http import require_POST
 from django.core.files.storage import default_storage
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.context_processors import PermWrapper
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
 
 ###################################################################
 def list_woFile(request,id=None):
@@ -81,3 +84,19 @@ class WorkOrderUploadView(View):
             data['is_valid']=True
 
         return JsonResponse(data)
+@api_view(['GET'])
+def wofile_collection(request,id):
+    if request.method == 'GET':
+        print("reached task")
+        posts = WorkorderFile.objects.filter(woFileworkorder=id)
+        serializer = WorkorderFileSerializer(posts, many=True)
+
+        return Response(serializer.data)
+@api_view(['GET'])
+def wofile_detail_collection(request,id):
+    if request.method == 'GET':
+        # print("!23")
+        posts = WorkorderFile.objects.get(id=id)
+        serializer = WorkorderFileSerializer(posts)
+
+        return Response(serializer.data)

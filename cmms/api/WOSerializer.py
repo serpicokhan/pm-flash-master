@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock
+from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock,WorkorderFile
 import jdatetime
 import datetime
 
@@ -9,6 +9,12 @@ class MaintenanceTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = MaintenanceType
         fields = ('id', 'color','name')
+class WorkorderFileSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = WorkorderFile
+        fields = '__all__'
 
 class TaskSerializer(serializers.ModelSerializer):
     taskAssignedToUser = serializers.SlugRelatedField(
