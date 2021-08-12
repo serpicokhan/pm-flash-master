@@ -10,13 +10,6 @@ class MaintenanceTypeSerializer(serializers.ModelSerializer):
         model = MaintenanceType
         fields = ('id', 'color','name')
 
-class SubAssetSerializer(serializers.ModelSerializer):
-
-
-
-    class Meta:
-        model = Asset
-        fields = '__all__'
 class AssetCategorySerializer(serializers.ModelSerializer):
 
 
@@ -24,6 +17,16 @@ class AssetCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = AssetCategory
         fields = '__all__'
+
+class SubAssetSerializer(serializers.ModelSerializer):
+    assetCategory=AssetCategorySerializer(read_only=True)
+
+
+
+    class Meta:
+        model = Asset
+        fields = '__all__'
+
 
 class AssetSerializer(serializers.ModelSerializer):
     assetIsPartOf=SubAssetSerializer(read_only=True)

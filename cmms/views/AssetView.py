@@ -578,6 +578,7 @@ def asset_collection(request):
 @api_view(['GET'])
 def asset_detail_collection(request,id):
     if request.method == 'GET':
+        print(id,"id")
         posts = Asset.objects.get(id=id)
         serializer = AssetSerializer(posts)
         return Response(serializer.data)
