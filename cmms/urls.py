@@ -187,8 +187,8 @@ urlpatterns = [
 
        url(r'^WoFile/(?P<woId>\d+)/listWoFile/$', js_list_woFile, name='js_list_woFile'),
        url(r'^WoFile/(?P<Id>\d+)/basic-upload/$', WorkOrderUploadView.as_view(), name='workorder_upload'),
-       url(r'^api/v1/WoFiles/(?P<id>\d+)/$',wofile_collection, name='wofile_collection'),
        url(r'^api/v1/WoFile/(?P<id>\d+)/$',wofile_detail_collection, name='wofile_detail_collection'),
+       url(r'^api/v1/WoFiles/(?P<id>\d+)/$',wofile_collection, name='wofile_collection'),
 
        url(r'^WoLog/(?P<woId>\d+)/listWoLog/$', js_list_woLog, name='js_list_woLog'),
 
@@ -232,6 +232,8 @@ urlpatterns = [
         url(r'^Asset/Category2/$', get_assetCategoryMain, name='get_assetCategoryMain'),
         url(r'^Asset/Category2/(?P<ids>\d+(?:,\d+)*)$', get_assetCategoryMain, name='get_assetCategoryMain'),
         url(r'^Asset/Location/Category$', get_location_by_category, name='get_location_by_category'),
+        url(r'^api/v1/Asset/Category/(?P<id>\d+)/$',assetcategory_detail_collection, name='assetcategory_detail_collection'),
+        url(r'^api/v1/Asset/Category/$',assetcategory_collection, name='assetcategory_collection'),
 
         url(r'^Asset/(?P<id>\d+)/show_Asset_status/$', show_Asset_status, name='show_Asset_status'),
         url(r'^Asset/(?P<id>\d+)/MTTR/$', asset_mttr, name='asset_mttr'),
@@ -239,6 +241,8 @@ urlpatterns = [
         url(r'^Asset/(?P<id>\d+)/WOStatus/$', asset_status, name='asset_status'),
         url(r'^Asset/(?P<id>\d+)/GetAssetOfflineStatus/$', asset_offline_status, name='asset_offline_status'),
         url(r'^Asset/(?P<id>\d+)/Cancel/$', assetCancel, name='assetCancel'),
+         url(r'^api/v1/Asset/(?P<id>\d+)/$',asset_detail_collection, name='asset_detail_collection'),
+         url(r'^api/v1/Assets/$',asset_collection, name='asset_collection'),
 
 
         url(r'^AssetWaranty/$',list_assetWaranty,name='list_assetWaranty'),
@@ -323,6 +327,7 @@ urlpatterns = [
          url(r'^MachineCategory/create/$', machineCategory_create, name='machineCategory_create'),
          url(r'^MachineCategory/(?P<id>\d+)/delete/$', machineCategory_delete, name='machineCategory_delete'),
          url(r'^MachineCategory/(?P<id>\d+)/update/$', machineCategory_update, name='machineCategory_update'),
+
 
         url(r'^Part/$',list_part,name='list_part'),
         url(r'^Part/create/$', part_create, name='part_create'),

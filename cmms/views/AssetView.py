@@ -34,6 +34,10 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.context_processors import PermWrapper
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
+
 @permission_required('cmms.view_assets')
 def list_asset(request,id=None):
 
@@ -565,3 +569,15 @@ def create_woasset(request):
                request=request,
            )
            return JsonResponse(data2)
+@api_view(['GET'])
+def asset_collection(request):
+    if request.method == 'GET':
+        posts = Asset.objects.all()
+        serializer = AssetSerializer(posts, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
+def asset_detail_collection(request,id):
+    if request.method == 'GET':
+        posts = Asset.objects.get(id=id)
+        serializer = AssetSerializer(posts)
+        return Response(serializer.data)

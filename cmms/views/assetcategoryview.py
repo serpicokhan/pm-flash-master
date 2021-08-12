@@ -27,7 +27,9 @@ from django.urls import reverse_lazy
 from django.db import transaction
 from django.db import IntegrityError
 
-
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import AssetCategorySerializer
+from rest_framework.response import Response
 
 def list_assetCategory(request,id=None):
     #
@@ -42,7 +44,6 @@ def save_assetCategory_form(request, form, template_name,id=None):
 
     data = dict()
     if (request.method == 'POST'):
-        print("123")
 
         if form.is_valid():
 
@@ -115,3 +116,15 @@ def assetCategory_update(request, id):
 ##########################################################
 
 ##########################################################
+@api_view(['GET'])
+def assetcategory_collection(request):
+    if request.method == 'GET':
+        posts = AssetCategory.objects.all()
+        serializer = AssetCategorySerializer(posts, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
+def assetcategory_detail_collection(request,id):
+    if request.method == 'GET':
+        posts = AssetCategory.objects.get(id=id)
+        serializer = AssetCategorySerializer(posts)
+        return Response(serializer.data)
