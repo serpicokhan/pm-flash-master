@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock,WorkorderFile,Asset,AssetCategory
+from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock,WorkorderFile,Asset,AssetCategory,AssetPart,AssetFile
 import jdatetime
 import datetime
 
@@ -16,6 +16,20 @@ class AssetCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AssetCategory
+        fields = '__all__'
+class AssetPartSerializer(serializers.ModelSerializer):
+    assetPartPid = serializers.SlugRelatedField(
+        queryset=Part.objects.all(), slug_field='partName'
+    )
+    assetPartAssetid = serializers.SlugRelatedField(
+        queryset=Asset.objects.all(), slug_field='assetName'
+    )
+
+
+
+
+    class Meta:
+        model = AssetPart
         fields = '__all__'
 
 class SubAssetSerializer(serializers.ModelSerializer):
@@ -45,6 +59,13 @@ class WorkorderFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkorderFile
+        fields = '__all__'
+class AssetFileSerializer(serializers.ModelSerializer):
+
+
+
+    class Meta:
+        model = AssetFile
         fields = '__all__'
 
 class TaskSerializer(serializers.ModelSerializer):

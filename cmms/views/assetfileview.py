@@ -28,6 +28,9 @@ from django.forms.models import model_to_dict
 from cmms.forms import AssetFileForm
 from django.views.decorators.http import require_POST
 from django.core.files.storage import default_storage
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
 
 ###################################################################
 def list_assetFile(request,id=None):
@@ -77,3 +80,17 @@ class AssetFileUploadView(View):
             data['is_valid']=True
 
         return JsonResponse(data)
+@api_view(['GET'])
+def assetfile_collection(request,id):
+    if request.method == 'GET':
+        posts = AssetFile.objects.filter(assetFileAssetId=id)
+        serializer = AssetFileSerializer(posts, many=True)
+
+        return Response(serializer.data)
+@api_view(['GET'])
+def assetfile_detail_collection(request,id):
+    if request.method == 'GET':
+        posts = AssetFile.objects.get(id=id)
+        serializer = AssetFileSerializer(posts)
+
+        return Response(serializer.data)

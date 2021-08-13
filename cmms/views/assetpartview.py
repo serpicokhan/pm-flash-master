@@ -25,6 +25,9 @@ from django.utils.decorators import method_decorator
 import json
 from django.forms.models import model_to_dict
 from cmms.forms import AssetPartForm
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
 
 ###################################################################
 def list_assetPart(request,id=None):
@@ -149,3 +152,16 @@ def assetPart_update(request, id):
     else:
         form = AssetPartForm(instance=company,initial={'mypart':company.assetPartPid.partName})
     return save_assetPart_form(request, form, 'cmms/asset_parts/partialAssetPartUpdate.html',woId.id)
+@api_view(['GET'])
+def assetpart_collection(request,id):
+    if request.method == 'GET':
+        posts = AssetPart.objects.filter(assetPartAssetid=id)
+        serializer = AssetPartSerializer(posts, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
+def assetpart_detail_collection(request,id):
+    if request.method == 'GET':
+        print(id,"id")
+        posts = AssetPart.objects.get(id=id)
+        serializer = AssetPartSerializer(posts)
+        return Response(serializer.data)

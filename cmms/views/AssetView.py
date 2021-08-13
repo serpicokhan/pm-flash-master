@@ -576,6 +576,13 @@ def asset_collection(request):
         serializer = AssetSerializer(posts, many=True)
         return Response(serializer.data)
 @api_view(['GET'])
+def assetwo_collection(request,id):
+    if request.method == 'GET':
+        print("asset wo")
+        posts = WorkOrder.objects.filter(woAsset=id)
+        serializer = WOSerializer(posts, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
 def asset_detail_collection(request,id):
     if request.method == 'GET':
         print(id,"id")

@@ -243,6 +243,7 @@ urlpatterns = [
         url(r'^Asset/(?P<id>\d+)/Cancel/$', assetCancel, name='assetCancel'),
          url(r'^api/v1/Asset/(?P<id>\d+)/$',asset_detail_collection, name='asset_detail_collection'),
          url(r'^api/v1/Assets/$',asset_collection, name='asset_collection'),
+         url(r'^api/v1/Asset/Wo/(?P<id>\d+)/$',assetwo_collection, name='assetwo_collection'),
 
 
         url(r'^AssetWaranty/$',list_assetWaranty,name='list_assetWaranty'),
@@ -278,6 +279,8 @@ urlpatterns = [
         url(r'^AssetPart/(?P<id>\d+)/delete/$', assetPart_delete, name='assetPart_delete'),
         url(r'^AssetPart/(?P<id>\d+)/update/$', assetPart_update, name='assetPart_update'),
         url(r'^AssetPart/(?P<woId>\d+)/listAssetPart/$', js_list_assetPart, name='js_list_assetPart'),
+        url(r'^api/v1/Asset/Parts/(?P<id>\d+)/$',assetpart_collection, name='assetpart_collection'),
+        url(r'^api/v1/Asset/Part/(?P<id>\d+)/$',assetpart_detail_collection, name='assetpart_detail_collection'),
 
 
         url(r'^BOMGroupPart/create/$', bomGroupPart_create, name='bomGroupPart_create'),
@@ -317,6 +320,7 @@ urlpatterns = [
 
         url(r'^AssetFile/(?P<woId>\d+)/listAssetFile/$', js_list_assetFile, name='js_list_assetFile'),
         url(r'^AssetFile/(?P<Id>\d+)/basic-upload/$', AssetFileUploadView.as_view(), name='asset_upload'),
+        url(r'^api/v1/Asset/Files/(?P<id>\d+)/$',assetfile_collection, name='assetfile_collection'),
 
          url(r'^AssetCategory/$',list_assetCategory,name='list_assetCategory'),
          url(r'^AssetCategory/create/$', assetCategory_create, name='assetCategory_create'),
