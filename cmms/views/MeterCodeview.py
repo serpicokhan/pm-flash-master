@@ -27,7 +27,9 @@ from django.utils.decorators import method_decorator
 import json
 from django.forms.models import model_to_dict
 from cmms.forms import MeterCodeForm
-
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
 ###################################################################
 def list_meterCode(request,id=None):
     books = MeterCode.objects.all()
@@ -126,3 +128,9 @@ def meterCode_update(request, id):
     else:
         form = MeterCodeForm(instance=company)
     return save_meterCode_form(request, form, 'cmms/settingpages/meter_code/partialMeterCodeUpdate.html')
+@api_view(['GET'])
+def metercode_collection(request):
+    if request.method == 'GET':
+        posts = MeterCode.objects.all()
+        serializer = MeterCodeSerializer(posts, many=True)
+        return Response(serializer.data)

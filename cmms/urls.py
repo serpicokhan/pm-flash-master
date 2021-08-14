@@ -260,6 +260,7 @@ urlpatterns = [
         url(r'^AssetMeter/(?P<woId>\d+)/listAssetMeter/$', js_list_assetMeter, name='js_list_assetMeter'),
         url(r'^api/v1/Asset/Meter/(?P<id>\d+)/$',assetmeter_detail_collection, name='assetmeter_detail_collection'),
         url(r'^api/v1/Asset/Meters/(?P<id>\d+)/$',assetmeter_collection, name='assetmeter_collection'),
+        url(r'^api/v1/Asset/Meters/Add/(?P<id>\d+)/$',assetmeter_collection, name='assetmeter_collection'),
 
 
         url(r'^AssetBusiness/$',list_assetBusiness,name='list_assetBusiness'),
@@ -555,6 +556,7 @@ urlpatterns = [
            url(r'^SettingPage/MeterCode/create/$', meterCode_create, name='meterCode_create'),
            url(r'^SettingPage/MeterCode/(?P<id>\d+)/Delete/$', meterCode_delete, name='meterCode_delete'),
            url(r'^SettingPage/MeterCode/(?P<id>\d+)/update/$', meterCode_update, name='meterCode_update'),
+           url(r'^api/v1/MeterCode/$',metercode_collection, name='metercode_collection'),
            url(r'^SettingPage/MiscCostCode/listMiscCostCode$',js_list_miscCostCode,name='js_list_miscCostCode'),
            url(r'^SettingPage/MiscCostCode/create/$', miscCostCode_create, name='miscCostCode_create'),
            url(r'^SettingPage/MiscCostCode/(?P<id>\d+)/Delete/$', miscCostCode_delete, name='miscCostCode_delete'),
