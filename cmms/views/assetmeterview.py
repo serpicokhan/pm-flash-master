@@ -26,6 +26,9 @@ from django.utils.decorators import method_decorator
 import json
 from django.forms.models import model_to_dict
 from cmms.forms import AssetMeterForm
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
 
 ###################################################################
 def list_assetMeter(request,id=None):
@@ -156,3 +159,19 @@ def assetMeter_update(request, id):
         # form = AssetMeterForm(asset=company.assetMeterLocation,instance=company,initial={'assetWorkorderMeterReading': company.assetWorkorderMeterReading})
         form = AssetMeterForm(asset_id=company.assetMeterLocation.id,instance=company)
     return save_assetMeter_form(request, form, 'cmms/asset_meter/partialAssetMeterUpdate.html',woId)
+@api_view(['GET'])
+def assetmeter_collection(request,id):
+    if request.method == 'GET':
+        print("reached task")
+        posts = AssetMeterReading.objects.filter(assetMeterLocation=id)
+        serializer = AssetMeterReadingSerializer(posts, many=True)
+
+        return Response(serializer.data)
+@api_view(['GET'])
+def assetmeter_detail_collection(request,id):
+    if request.method == 'GET':
+        # print("!23")
+        posts = AssetMeterReading.objects.get(id=id)
+        serializer = AssetMeterReadingSerializer(posts)
+
+        return Response(serializer.data)

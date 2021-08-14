@@ -7,7 +7,7 @@
     <h4 class="modal-title">ویرایش</h4>
   </div>
   <div class="modal-body">
-    {% include 'cmms/settingpages/meter_code/partialWoActionForm.html' %}
+    {% include 'cmms/settingpages/meter_code/partialMeterCodeForm.html' %}
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
@@ -33,16 +33,16 @@
                       //alert("12321");
                       //$( "#myselect option:selected" ).text();
                       var mydata="";
-                      var mydata="";
                       mydata=myformat('{"meterCode":"{0}"\
-                      ,"meterDescription":"{1}"}',
+                      ,"meterDescription":"{1}","meterAbbr":"{2}"}',
                       $("#id_meterCode").val(),
                       $("#id_meterDescription").val(),
+                      $("#id_meterAbbr").val()
 
                     );
 
-                      var form = $(this).parent().parent();
-                       //console.log(form.attr("action"));
+                       var form = $(this).parent().parent();
+
                        //alert($("#id_metrics").val());
 
                        $.ajax({
@@ -50,9 +50,14 @@
                          type: "POST",
                          data:mydata,
                          dataType: 'json',
-                         beforeSend: function () {
+                         beforeSend: function (x,y) {
+                           if($("#id_meterAbbr").val()=='')
+                           {
+                             toastr.error("رعایت اختصار الزامی است");
+                             x.abort();
+                           }
                            //alert(btn.attr("data-url"));
-                      //     console.log($("#id_businessPartisDefault").is(':checked'));
+
 
                          },
                          success: function (data) {

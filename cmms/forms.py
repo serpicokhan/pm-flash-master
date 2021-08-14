@@ -1243,6 +1243,7 @@ class MeterCodeForm(forms.ModelForm):
                 cleaned_data=super(MeterCodeForm, self).clean()
                 meterCode=cleaned_data.get('meterCode','')
                 meterDescription=cleaned_data.get('meterDescription','')
+                meterAbbr=cleaned_data.get('meterAbbr','')
 
                 return cleaned_data
     class Meta:

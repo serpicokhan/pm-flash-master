@@ -99,6 +99,15 @@ $(function () {
         //alert("3123@!");
 
         $("#modal-company .modal-content").html(data.html_asset_form);
+
+          new QRCode(document.getElementById("qrcode"), {
+    text: data.id,
+    width: 128,
+    height: 128,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+});
         // var qrcode = new QRCode(document.getElementById("qrcode"), {
         //   width : 100,
         //   height : 100

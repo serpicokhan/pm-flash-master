@@ -100,6 +100,7 @@ def save_asset_form(request, form, template_name,id=None):
             data['form_is_valid'] = False
     context = {'form': form,'lId':id}
     data['html_asset_form'] = render_to_string(template_name, context, request=request)
+    data['id']=id
     return JsonResponse(data)
 ##########################################################
 

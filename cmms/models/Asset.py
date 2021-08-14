@@ -86,7 +86,7 @@ class Asset(models.Model):
       db_table = "assets"
 class AssetMeterReading(models.Model):
     def getRow(self):
-         return "{}  {}".format(self.get_assetMeterMeterReadingUnit_display(),self.assetMeterMeterReading)
+         return "{} {}".format(self.assetMeterMeterReading,self.assetMeterMeterReadingUnit)
     def getdate(self):
         return jdatetime.date.fromgregorian(date=self.timestamp)
     assetMeterLocation=models.ForeignKey(Asset,on_delete=models.CASCADE,blank=True,null=True,verbose_name="دارایی")

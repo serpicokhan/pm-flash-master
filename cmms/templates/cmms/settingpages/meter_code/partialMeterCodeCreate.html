@@ -32,9 +32,10 @@
                    //$( "#myselect option:selected" ).text();
                    var mydata="";
                    mydata=myformat('{"meterCode":"{0}"\
-                   ,"meterDescription":"{1}"}',
+                   ,"meterDescription":"{1}","meterAbbr":"{2}"}',
                    $("#id_meterCode").val(),
                    $("#id_meterDescription").val(),
+                   $("#id_meterAbbr").val()
 
                  );
 
@@ -47,7 +48,12 @@
                       type: "POST",
                       data:mydata,
                       dataType: 'json',
-                      beforeSend: function () {
+                      beforeSend: function (x,y) {
+                        if($("#id_meterAbbr").val()=='')
+                        {
+                          toastr.error("رعایت اختصار الزامی است");
+                          x.abort();
+                        }
                         //alert(btn.attr("data-url"));
 
 

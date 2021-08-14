@@ -32,6 +32,7 @@ class MeterCode(models.Model):
         return self.meterDescription
     meterCode=models.CharField("کد",max_length = 100,null=True,blank=True,unique=True)
     meterDescription=models.CharField("َشرح",max_length = 100,null=True,blank=True)
+    meterAbbr=models.CharField("اختصار",max_length = 5,null=True,blank=True)
     # problemIsActive=models.BooleanField("فعال",default=True,blank=True)
     class Meta:
         db_table="metercode"
@@ -345,7 +346,7 @@ class WorkorderMeterReading(models.Model):
 class MiscCost(models.Model):
     miscCoastWorkorder=models.ForeignKey(WorkOrder,on_delete=models.CASCADE)
     miscCoastType=models.CharField("توضیحات",max_length = 100,null=True,blank=True)#ForeignKey("MiscCostCode",verbose_name="نوع",on_delete=models.CASCADE,null=True,blank=True,related_name="miscCoastWorkorder")
-    # miscCoastIndividual=models.ForeignKey("Business",verbose_name="پیمانکار",on_delete=models.CASCADE,null=True,blank=True,related_name="miscCoastIndividuals")
+    miscCoastIndividual=models.ForeignKey("Business",verbose_name="پیمانکار",on_delete=models.CASCADE,null=True,blank=True,related_name="miscCoastIndividuals")
     miscCoastdescription=models.CharField("توضیحات",max_length = 100,null=True,blank=True)
     estimatedQnty=models.FloatField("مقدار تخمینی",default=0.0,blank=True,null=True)
     estimatedUnitCoast=models.FloatField("هزینه تخمینی بازای واحد",default=0.0,blank=True,null=True)

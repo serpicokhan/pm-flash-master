@@ -258,6 +258,8 @@ urlpatterns = [
         url(r'^AssetMeter/(?P<id>\d+)/delete/$', assetMeter_delete, name='assetMeter_delete'),
         url(r'^AssetMeter/(?P<id>\d+)/update/$', assetMeter_update, name='assetMeter_update'),
         url(r'^AssetMeter/(?P<woId>\d+)/listAssetMeter/$', js_list_assetMeter, name='js_list_assetMeter'),
+        url(r'^api/v1/Asset/Meter/(?P<id>\d+)/$',assetmeter_detail_collection, name='assetmeter_detail_collection'),
+        url(r'^api/v1/Asset/Meters/(?P<id>\d+)/$',assetmeter_collection, name='assetmeter_collection'),
 
 
         url(r'^AssetBusiness/$',list_assetBusiness,name='list_assetBusiness'),

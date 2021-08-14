@@ -98,6 +98,7 @@ def meterCode_create(request):
         data = request.POST.dict()
         data['meterCode']=body['meterCode']
         data['meterDescription']=body['meterDescription']
+        data['meterAbbr']=body['meterAbbr']
 
         form = MeterCodeForm(data)
     else:
@@ -116,8 +117,9 @@ def meterCode_update(request, id):
 
 
         data = request.POST.dict()
-        data['meterCode']=body['actionCode']
-        data['meterDescription']=body['actionDescription']
+        data['meterCode']=body['meterCode']
+        data['meterDescription']=body['meterDescription']
+        data['meterAbbr']=body['meterAbbr']
 
 
         form = MeterCodeForm(data, instance=company)

@@ -1,19 +1,19 @@
 from rest_framework import serializers
-from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock,WorkorderFile,Asset,AssetCategory,AssetPart,AssetFile
+from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock,WorkorderFile,Asset,AssetCategory,AssetPart,AssetFile,AssetMeterReading,MeterCode
+
 import jdatetime
 import datetime
 
 class MaintenanceTypeSerializer(serializers.ModelSerializer):
-
-
     class Meta:
         model = MaintenanceType
         fields = ('id', 'color','name')
+class MeterCodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MeterCode
+        fields = '__all__'
 
 class AssetCategorySerializer(serializers.ModelSerializer):
-
-
-
     class Meta:
         model = AssetCategory
         fields = '__all__'
@@ -24,24 +24,20 @@ class AssetPartSerializer(serializers.ModelSerializer):
     assetPartAssetid = serializers.SlugRelatedField(
         queryset=Asset.objects.all(), slug_field='assetName'
     )
-
-
-
-
     class Meta:
         model = AssetPart
         fields = '__all__'
-
 class SubAssetSerializer(serializers.ModelSerializer):
     assetCategory=AssetCategorySerializer(read_only=True)
-
-
-
     class Meta:
         model = Asset
         fields = '__all__'
+class AssetMeterReadingSerializer(serializers.ModelSerializer):
+    assetMeterMeterReadingUnit=MeterCodeSerializer(read_only=True)
 
-
+    class Meta:
+        model = AssetMeterReading
+        fields = '__all__'
 class AssetSerializer(serializers.ModelSerializer):
     assetIsPartOf=SubAssetSerializer(read_only=True)
     assetIsLocatedAt=SubAssetSerializer(read_only=True)
