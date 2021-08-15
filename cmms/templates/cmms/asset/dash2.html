@@ -63,49 +63,29 @@
            </div>
          </div>
         </div>
-
-
       </div>
-
     </div>
     <div class="wrapper2">
-
-
-
     {% for i in assets %}
-
     <div class="ibox float-e-margins asset_{{i.2}} myasset">
       <div class="ibox-title">
         <h5>{{i.0}} </h5>
-
       </div>
       <div class="ibox-content" style='background-color:transparent'>
         <div class="row">
-
 {% for k in i.1 %}
-
           <div class="col-lg-3" data-url="{{k.1}}"   style="cursor:help" data-url2="{% url 'asset_update' k.1 %}">
             <div class="ibox float-e-margins">
               <div class="ibox-title">
                 {% if k.2 %}
                 <span class="label label-warning pull-left">
-
-
                   <i class="fa fa-play">
-
                   </i>
-
-
                 </span>
                 {% else %}
                 <span class="label label-danger pull-left">
-
-
-
                 <i class="fa fa-stop">
                 </i>
-
-
                 </span>
                   {% endif %}
 
@@ -113,44 +93,19 @@
                 {{k.0}}</h5>
                 </div>
                 <div class="ibox-content ">
-
                   <img src="{% static 'img/if_industry_50840.png' %}"  class="center-block" / >
-
-
                 </div>
               </div>
             </div>
             {% empty %}
             <script type="text/javascript">
               $(".myasset:last-of-type").remove();
-
             </script>
             {% endfor %}
-
-
-
-
-
-
-
-
-
-
-
-
                       </div>
-
-
                     </div>
-
                   </div>
-
                   {% endfor %}
-
-
-
-
-
                 </div>
               </div>
               </div>
@@ -174,24 +129,8 @@
               }
                   else{
                     $(".myasset").show();
-
-
-
-
-
                 }});
-
-                // x={% autoescape off %}    {{ assets }}{% endautoescape %};
-                // // console.log(x);
-                // for (i in x){
-                //   console.log(i);
-                //   console.log(x[i]);
-                // }
-                // log(x[i]);
               $("#assetloc").change(function(){
-
-
-
                 $.ajax({
                   async: true,
                   url: '/Asset/'+$("#assetloc").val()+'/jslist/',
@@ -220,10 +159,6 @@
                 return false;
               });
 
-
               </script>
-
-
-
               {% endblock %}
               {% endblock %}

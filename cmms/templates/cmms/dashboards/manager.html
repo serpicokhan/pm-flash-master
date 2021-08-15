@@ -66,8 +66,15 @@
 
 </div>
 <div class="row">
+    <script type="text/javascript">
+      var a111=[];
 
+    </script>
     {% for m in dashugroups %}
+    <script type="text/javascript">
+      a111.push({{m.id}});
+
+    </script>
     {% include "cmms/summery/resourceStatus.html" %}
     {% endfor %}
 

@@ -25,7 +25,7 @@ function DrawResourceStatusDonat(element,gid,date1,date2)
     },
 
   };
-
+console.log("gid",gid);
   $('.doughnutChartResourceStatus'+gid).remove(); // this is my <canvas> element
   $('#dchartcontainer'+gid).append('<canvas class="doughnutChartResourceStatus'+gid+'" style="width: 78px; height: 78px;"><canvas>');
   console.log(element);
@@ -99,6 +99,7 @@ function DrawResourceStatusDonat2(element,data,gid)
 //*****************************show categorized completed workorder*******************
 var LoadResource=function(gid,element)
 {
+  // console.log(a111);
   $.ajax({
     url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/'+gid+'/GetResStatus/',
     type: 'get',

@@ -16,10 +16,12 @@ GetRequestedWo();
 LoadEqCost();
 getDueService();
 
+for(var i in a111){
+  LoadResource(a111[i],"doughnutChartResourceStatus"+a111[i]);
+}
 
-LoadResource(3,"doughnutChartResourceStatus3");
-LoadResource(4,"doughnutChartResourceStatus4");
-LoadResource(5,"doughnutChartResourceStatus5");
+// LoadResource(2,"doughnutChartResourceStatus2");
+// LoadResource(5,"doughnutChartResourceStatus5");
 GetEmCount();
 
 
@@ -86,7 +88,7 @@ $(".btn.btn-white.btn-bitbucket").click(function(){
 }
 });
 $("#makans").change(function(){
-  
+
     var ex=$("#makans").val();
     //DrawDonat(100,200,'doughnutChartOnDemand');
     if(ex=='-1')
