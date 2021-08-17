@@ -120,7 +120,7 @@ class AssetFile(models.Model):
     def get_size(self):
         return " MB {0:.2f}".format(self.assetFile.size/1048576)
 
-    assetFile=models.FileField(upload_to='documents/')
+    assetFile=models.FileField(upload_to='documents/',max_length=200)
     assetFileAssetId=models.ForeignKey('Asset',on_delete=models.CASCADE,blank=True,null=True)
     assetFiledateAdded=models.DateTimeField(auto_now_add=True)
     class Meta:

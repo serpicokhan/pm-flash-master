@@ -345,7 +345,7 @@ class WorkorderMeterReading(models.Model):
 ########################################################
 class MiscCost(models.Model):
     miscCoastWorkorder=models.ForeignKey(WorkOrder,on_delete=models.CASCADE)
-    miscCoastType=models.CharField("توضیحات",max_length = 100,null=True,blank=True)#ForeignKey("MiscCostCode",verbose_name="نوع",on_delete=models.CASCADE,null=True,blank=True,related_name="miscCoastWorkorder")
+    miscCoastType=models.ForeignKey("MiscCostCode",verbose_name="نوع",on_delete=models.CASCADE,null=True,blank=True,related_name="miscCoastWorkorder")
     miscCoastIndividual=models.ForeignKey("Business",verbose_name="پیمانکار",on_delete=models.CASCADE,null=True,blank=True,related_name="miscCoastIndividuals")
     miscCoastdescription=models.CharField("توضیحات",max_length = 100,null=True,blank=True)
     estimatedQnty=models.FloatField("مقدار تخمینی",default=0.0,blank=True,null=True)
@@ -411,7 +411,7 @@ class WorkorderFile(models.Model):
     def get_size(self):
         return " MB {0:.2f}".format(self.woFile.size/1048576)
 
-    woFile=models.FileField(upload_to='documents/')
+    woFile=models.FileField(upload_to='documents/',max_length=200)
     woFileworkorder=models.ForeignKey(WorkOrder,on_delete=models.CASCADE,blank=True,null=True)
     woFiledateAdded=models.DateTimeField(auto_now_add=True)
     class Meta:

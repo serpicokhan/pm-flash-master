@@ -89,6 +89,7 @@ def miscCostCode_delete(request, id):
 ###################################################################
 @csrf_exempt
 def miscCostCode_create(request):
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     woId=-1
     print("enter:")
     if (request.method == 'POST'):
@@ -103,7 +104,7 @@ def miscCostCode_create(request):
     else:
         form = MiscCostCodeForm()
 
-    return save_miscCostCode_form(request, form, 'cmms/settingpages/miscCost_code/partialMiscCostCodeCreate.html')
+    return save_miscCostCode_form(request, form, 'cmms/settingpages/misccost_code/partialMiscCostCodeCreate.html')
 ###################################################################
 
 @csrf_exempt
@@ -123,4 +124,4 @@ def miscCostCode_update(request, id):
         form = MiscCostCodeForm(data, instance=company)
     else:
         form = MiscCostCodeForm(instance=company)
-    return save_miscCostCode_form(request, form, 'cmms/settingpages/miscCost_code/partialMiscCostCodeUpdate.html')
+    return save_miscCostCode_form(request, form, 'cmms/settingpages/misccost_code/partialMiscCostCodeUpdate.html')

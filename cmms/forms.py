@@ -1258,7 +1258,7 @@ class MiscCostCodeForm(forms.ModelForm):
 
                 return cleaned_data
     class Meta:
-         model = MeterCode
+         model = MiscCostCode
          fields = '__all__'
 class DashAssetForm(forms.ModelForm):
     settingLocation= forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),

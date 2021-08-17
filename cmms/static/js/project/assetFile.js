@@ -1,4 +1,5 @@
 $(function () {
+  $(".js-upload-assetFiles").unbind();
 
   /* 1. OPEN THE FILE EXPLORER WINDOW */
   $(".js-upload-assetFiles").click(function () {
