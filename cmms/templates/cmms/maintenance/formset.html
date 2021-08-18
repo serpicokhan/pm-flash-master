@@ -350,7 +350,7 @@ $('#id_assignedToUser').selectpicker('refresh');
 
 
 }
-var preloader=$("#preloading");
+// var preloader=$("#preloading");
 function myfuncloader(){
 
   perloader.style.display=none;
@@ -602,7 +602,7 @@ $(".send_form").click(function(){
 
               dataType: 'json',
               beforeSend: function (xhr, opts) {
-                console.log(mydata);
+                // console.log(mydata);
 
 
               },
@@ -670,7 +670,7 @@ $(".send_form").click(function(){
                 }
                 else {
                   console.log(data);
-                   toastr.error(JSON.stringify(data));
+                  toastr.error(JSON.stringify(data));
 
 
 

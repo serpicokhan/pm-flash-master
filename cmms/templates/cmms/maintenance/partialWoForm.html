@@ -149,7 +149,7 @@
                   <div class="col-lg-6">
                     <div class="form-group">
                       <label>{{form.timecreated.label}}</label>
-                      {{form.timecreated| add_class:"form-control" }}
+                      {% render_field form.timecreated class="form-control ltr-input"  data-mask="99:99:99"  %}
                     </div>
 
                   </div>

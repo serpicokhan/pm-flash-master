@@ -65,11 +65,9 @@ def js_list_task(request,woId):
 def save_task_form(request, form, template_name,woId=None):
     data = dict()
     if (request.method == 'POST'):
+          print("here!!!")
           if form.is_valid():
-
-            # validVal=[0,0,0]
-            # validVal=TaskUtility.taskchecker(validVal,taskInstance=form.instance)
-            # err_code,err_msg=TaskUtility.checkErr(*validVal)
+            print("Form is valid")
 
             err_code=0
             err_msg=""
@@ -91,8 +89,8 @@ def save_task_form(request, form, template_name,woId=None):
                     if(wo.isPm==False):
                             data['last_task_date']=str(jdatetime.date.fromgregorian(date=tasks[0].taskDateCompleted))
                             data['last_task_time']=tasks[0].taskTimeCompleted
-                except:
-                    pass
+                except Exceptions as ex:
+                    print(ex)
 
 
 
@@ -114,8 +112,10 @@ def save_task_form(request, form, template_name,woId=None):
                 data['form_is_valid'] = False
                 data['form_err_code'] = err_code
                 data['form_err_msg'] = err_msg
+                print(err_msg)
           else:
-             pass
+             data['form_is_valid'] = False
+             print(form.errors)
     context = {'form': form}
     data['html_task_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
@@ -149,35 +149,41 @@ def task_delete(request, id):
 def task_create(request):
     woId=-1
     print("312321")
-    if (request.method == 'POST'):
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        # print(body)
-        content = body['taskTypes']
-        data = request.POST.dict()
+    try:
+        if (request.method == 'POST'):
+            body_unicode = request.body.decode('utf-8')
+            body = json.loads(body_unicode)
+            # print(body)
+            content = body['taskTypes']
+            data = request.POST.dict()
 
-        data['taskTypes']=body['taskTypes']
-        data['taskDescription']=body['taskDescription']
-        data['taskAssignedToUser']=body['taskAssignedToUser']
-        data['taskMetrics']=body['taskMetrics']
-        data['taskStartDate']=body['taskStartDate']
-        data['taskTimeEstimate']=body['taskTimeEstimate']
-        data['taskCompletedByUser']=body['taskCompletedByUser']
-        data['taskTimeSpent']=body['taskTimeSpent']
-        data['taskDateCompleted']=body['taskDateCompleted']
-        data['taskCompletionNote']=body['taskCompletionNote']
-        data['taskStartTime']=body['taskStartTime']
-        data['taskTimeCompleted']=body['taskTimeCompleted']
-        ####
-        data['workOrder']=body['workOrder']
-        woId=body['workOrder']
-        form = TaskForm(data)
+            data['taskTypes']=body['taskTypes']
+            data['taskDescription']=body['taskDescription']
+            data['taskAssignedToUser']=body['taskAssignedToUser']
+            data['taskMetrics']=body['taskMetrics']
+            data['taskStartDate']=body['taskStartDate']
+            data['taskTimeEstimate']=body['taskTimeEstimate']
+            data['taskCompletedByUser']=body['taskCompletedByUser']
+            data['taskTimeSpent']=body['taskTimeSpent']
+            data['taskDateCompleted']=body['taskDateCompleted']
+            data['taskCompletionNote']=body['taskCompletionNote']
+            data['taskStartTime']=body['taskStartTime']
+            data['taskTimeCompleted']=body['taskTimeCompleted']
+            ####
+            data['workOrder']=body['workOrder']
+            woId=body['workOrder']
+            print("what")
+            print(data['taskMetrics'])
+            form = TaskForm(data)
 
-    else:
-        # if(woid):
-        #     wo=WorkOrder.objects.get(id=woid)
-        #     form = TaskForm(initial={'taskDescription':wo.summaryofIssue,'taskCompletedByUser':wo.completedByUser,'taskAssignedToUser':wo.assignedToUser})
-        form = TaskForm()
+        else:
+            # if(woid):
+            #     wo=WorkOrder.objects.get(id=woid)
+            #     form = TaskForm(initial={'taskDescription':wo.summaryofIssue,'taskCompletedByUser':wo.completedByUser,'taskAssignedToUser':wo.assignedToUser})
+            form = TaskForm()
+    except Exception as ex:
+        print(ex)
+    # form=TaskForm()
     return save_task_form(request, form, 'cmms/tasks/partialTaskCreate.html',woId)
 @csrf_exempt
 def task_create2(request):

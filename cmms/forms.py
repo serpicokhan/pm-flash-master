@@ -157,24 +157,31 @@ class TaskForm(forms.ModelForm):
     taskCompletionNote = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
 
     def clean(self):
+                print("everything is goo")
                 self.is_valid()
                 cleaned_data=super(TaskForm, self).clean()
+
             #if(self.is_valid()):
-                taskDescription=cleaned_data.get('taskDescription','')
-                taskCompletionNote=cleaned_data.get('taskCompletionNote','')
-                taskTypes=cleaned_data.get('taskTypes','')
-                taskMetrics=cleaned_data.get('taskMetrics','')
-                taskAssignedToUser=cleaned_data.get('taskAssignedToUser','')
-                taskStartDate=(cleaned_data.get('taskStartDate',''))
-                taskTimeEstimate=cleaned_data.get('taskTimeEstimate','')
-                taskDateCompleted=cleaned_data.get('taskDateCompleted','')
-                taskCompletedByUser=cleaned_data.get('taskCompletedByUser','')
-                taskTimeSpent=cleaned_data.get('taskTimeSpent','')
-                workOrder=cleaned_data.get('workOrder','')
-                #woId=cleaned_data.get('woId','')
-                #WorkOrder=cleaned_data.get('workOrder','')
-                result="312312"
-                return cleaned_data
+                try:
+                    taskDescription=cleaned_data.get('taskDescription','')
+                    taskCompletionNote=cleaned_data.get('taskCompletionNote','')
+
+                    taskTypes=cleaned_data.get('taskTypes','')
+                    taskMetrics=cleaned_data.get('taskMetrics','')
+                    taskAssignedToUser=cleaned_data.get('taskAssignedToUser','')
+                    taskStartDate=(cleaned_data.get('taskStartDate',''))
+                    taskTimeEstimate=cleaned_data.get('taskTimeEstimate','')
+                    taskDateCompleted=cleaned_data.get('taskDateCompleted','')
+                    taskCompletedByUser=cleaned_data.get('taskCompletedByUser','')
+                    taskTimeSpent=cleaned_data.get('taskTimeSpent','')
+                    workOrder=cleaned_data.get('workOrder','')
+                    #woId=cleaned_data.get('woId','')
+                    #WorkOrder=cleaned_data.get('workOrder','')
+                    result="312312"
+                    print("everything is goo")
+                except :
+                    print("error is here!!")
+                    return cleaned_data
 
     def clean_taskStartDate(self):
         value=DateJob.getTaskDate( self.cleaned_data['taskStartDate'])

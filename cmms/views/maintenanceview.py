@@ -623,6 +623,7 @@ def save_formset(request):
             data['isEM']=body['isEM'] #if body['isEM']=="true" else False
             data['pertTime']=body['pertTime']
             data['timecreated']=body['timecreated']
+            print(data['timecreated'],"timecreated")
 
 
             form = WorkOrderForm2(data)
@@ -631,10 +632,12 @@ def save_formset(request):
 
 
                 form.save(commit=False)
+                form.instance.timecreated=datetime.datetime.strptime(data["timecreated"], '%H:%M:%S').time()
 
                 form.instance.woPriority=3
 
                 f2=form.save()
+                print(f2.timecreated,'fff')
                 LogEntry.objects.log_action(
                     user_id         = request.user.pk,
                     content_type_id = ContentType.objects.get_for_model(form.instance).pk,
@@ -654,29 +657,24 @@ def save_formset(request):
                 if(data['woPart']):
                     for k in list(data['woPart']):
                         stk=Stock.objects.get(id=k)
-
-
-
                         WorkorderPart.objects.create(woPartWorkorder=f2,woPartStock=stk,woPartActulaQnty=qty[i])
                         i=i+1
                 if(data['assignedToUser_1']):
                     for k in list(data['assignedToUser_1']):
                         Tasks.objects.create(taskTypes=1,taskDescription=data['summaryofIssue'],taskAssignedToUser=SysUser.objects.get(id=k),taskStartDate=data['datecreated'],taskStartTime='00:00:00',taskDateCompleted=data['dateCompleted'],taskTimeCompleted=data['timeCompleted'],workOrder=f2)
                 if(data['woStopCode'] and int(data['woStopCode'])!=15):
-                    dd1="{0} {1}".format(f2.datecreated,f2.timecreated)
-                    dd2="{0} {1}".format(f2.dateCompleted,f2.timeCompleted)
-                    d1=datetime.datetime.strptime(dd1, '%Y-%m-%d %H:%M:%S')#datetime.datetime.combine(f2.datecreated,f2.timecreated)
-                    d2=datetime.datetime.strptime(dd2, '%Y-%m-%d %H:%M:%S')#datetime.datetime.combine(f2.datecreated,f2.timecreated)
-                    # d2=datetime.datetime.combine(f2.dateCompleted,f2.timeCompeleted)
-                    product= ((d2-d1).total_seconds()/3600)
-
-
-                    AssetLife.objects.create(assetLifeAssetid=form.instance.woAsset,assetOfflineFrom=form.instance.datecreated,assetOfflineFromTime='00:00:00',assetSetOfflineByUser=SysUser.objects.get(id=data['assignedToUser']),assetStopCode=form.instance.woStopCode,assetWOAssoc=form.instance,assetOnlineFrom=form.instance.dateCompleted,assetOnlineFromTime=form.instance.timeCompleted,assetSetOnlineByUser=form.instance.assignedToUser,assetOnlineProducteHourAffected=product)
-
-
-
-
-
+                    # try:
+                        dd1="{0} {1}".format(f2.datecreated,f2.timecreated)
+                        print(dd1)
+                        dd2="{0} {1}".format(f2.dateCompleted,f2.timeCompleted)
+                        d1=datetime.datetime.strptime(dd1, '%Y-%m-%d %H:%M:%S')#datetime.datetime.combine(f2.datecreated,f2.timecreated)
+                        d2=datetime.datetime.strptime(dd2, '%Y-%m-%d %H:%M:%S')#datetime.datetime.combine(f2.datecreated,f2.timecreated)
+                        # d2=datetime.datetime.combine(f2.dateCompleted,f2.timeCompeleted)
+                        product= ((d2-d1).total_seconds()/3600)
+                        ########Assetlife############
+                        AssetLife.objects.create(assetLifeAssetid=form.instance.woAsset,assetOfflineFrom=form.instance.datecreated,assetOfflineFromTime='00:00:00',assetSetOfflineByUser=SysUser.objects.get(id=data['assignedToUser']),assetStopCode=form.instance.woStopCode,assetWOAssoc=form.instance,assetOnlineFrom=form.instance.dateCompleted,assetOnlineFromTime=form.instance.timeCompleted,assetSetOnlineByUser=form.instance.assignedToUser,assetOnlineProducteHourAffected=product)
+                    # //except Except//ion as ex:
+                        # print(ex)
                 if(request.user.username!="admin"):
                     books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
 
@@ -724,6 +722,7 @@ def save_formset(request):
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(exc_type, fname, exc_tb.tb_lineno)
+            print(e)
     # print(data2)
 
     return JsonResponse(data2)

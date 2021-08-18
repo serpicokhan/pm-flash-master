@@ -275,7 +275,7 @@ class WorkOrder(models.Model):
     completedByUser = models.ForeignKey(SysUser,on_delete=models.CASCADE,verbose_name="تکمیل درخواست توسط کاربر",null=True,blank=True,related_name="completedByUser")
     actualLabor = models.FloatField("ساعت کار واقعی",null=True,blank=True)
     datecreated = models.DateField("تاریخ ایجاد",default=datetime.now, blank=True,null=True)
-    timecreated = models.TimeField("زمان ایجاد",default=datetime.now, blank=True,null=True)
+    timecreated = models.TimeField("زمان ایجاد", blank=True,null=True)
     dateCompleted = models.DateField(" تاریخ تکمیل(تخمینی)", blank=True,null=True)
     timeCompleted = models.TimeField("زمان تکمیل(تخمین",default=datetime.now, blank=True)
     #Cost Tracking ??????
