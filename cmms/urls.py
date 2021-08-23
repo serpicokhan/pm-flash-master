@@ -603,6 +603,7 @@ urlpatterns = [
            url(r'^User/(?P<id>\d+)/Cancel/$', userCancel, name='userCancel'),
            url(r'^api/v1/Users/$',user_collection, name='assetmeter_collection'),
            url(r'^api/v1/Users/(?P<uname>[\w\-]+)/(?P<passwd>[\w\-]+)/$',user_detail_collection, name='user_detail_collection'),
+           url(r'^api/v1/Users/Add/$',save_user_token, name='save_user_token'),
 
            url(r'^UserGroups/(?P<woId>\d+)/listUserGroups/$', js_list_userGroup, name='js_list_userGroup'),
            url(r'^UserGroups/(?P<userId>\d+)/(?P<groupId>\d+)/updateStatus/$', update_usergroup, name='update_usergroup'),

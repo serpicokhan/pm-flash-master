@@ -29,7 +29,6 @@ from cmms.forms import AssetMeterForm
 from rest_framework.decorators import api_view
 from cmms.api.WOSerializer import *
 from rest_framework.response import Response
-from rest_framework import status
 
 ###################################################################
 def list_assetMeter(request,id=None):
@@ -160,30 +159,14 @@ def assetMeter_update(request, id):
         # form = AssetMeterForm(asset=company.assetMeterLocation,instance=company,initial={'assetWorkorderMeterReading': company.assetWorkorderMeterReading})
         form = AssetMeterForm(asset_id=company.assetMeterLocation.id,instance=company)
     return save_assetMeter_form(request, form, 'cmms/asset_meter/partialAssetMeterUpdate.html',woId)
-@api_view(['GET','POST'])
+@api_view(['GET'])
 def assetmeter_collection(request,id):
     if request.method == 'GET':
+        print("reached task")
         posts = AssetMeterReading.objects.filter(assetMeterLocation=id)
         serializer = AssetMeterReadingSerializer(posts, many=True)
+
         return Response(serializer.data)
-    elif request.method=='POST':
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        data = {'assetMeterMeterReading': 1,
-                'assetMeterLocation': 1,
-                'assetMeterMeterReadingUnit': 12,
-
-                }
-        serializer = AssetMeterReadingSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            print("1@#")
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            print(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 @api_view(['GET'])
 def assetmeter_detail_collection(request,id):
     if request.method == 'GET':
