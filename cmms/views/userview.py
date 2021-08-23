@@ -39,6 +39,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from cmms.api.WOSerializer import *
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
 
 import json
 
@@ -338,3 +341,19 @@ def user_login(request):
     t=testuser(id=100,massage="321312321321")
     serializer = userSerializer(t)
     return JsonResponse(serializer.data)
+#############################
+@api_view(['GET'])
+def user_collection(request):
+    if request.method == 'GET':
+        print("reached user")
+        posts = SysUser.objects.all()
+        serializer = UserSerializer(posts, many=True)
+
+        return Response(serializer.data)
+@api_view(['GET'])
+def user_detail_collection(request,uname,passwd):
+
+    if request.method == 'GET':
+        posts = get_object_or_404(SysUser, title=uname,password=passwd)
+        serializer = UserSerializer(posts)
+        return Response(serializer.data)

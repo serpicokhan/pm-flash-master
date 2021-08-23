@@ -12,6 +12,10 @@ class MeterCodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = MeterCode
         fields = '__all__'
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SysUser
+        fields = '__all__'
 
 class AssetCategorySerializer(serializers.ModelSerializer):
     class Meta:
