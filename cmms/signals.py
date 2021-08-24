@@ -4,9 +4,11 @@ from cmms.models import *
 from cmms.business.mail import Mail
 import sys
 from cmms.business.stockutility import *
+from cmms.business.fcm import *
 from django.core.exceptions import ObjectDoesNotExist
 from pprint import pprint
 from datetime import datetime
+
 
 
 def create_wo(unit):
@@ -118,6 +120,8 @@ def save_wo_profile(sender, instance, **kwargs):
 
 
     try:
+
+        print("thats done")
         if(instance==None):
             pass
             # print(created)
@@ -129,15 +133,24 @@ def save_wo_profile(sender, instance, **kwargs):
                 for c in userlist:
                     if(instance.isUpdating==False):
                             Mail.SendNewSysMessage(c,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id,wo=instance)
+                            push_notification.sendpush(settings.API_KEY,'fjvmSqE-QyKp6mufSAp3QS:APA91bFqqR9bSOqY_iPU74qz4g0yM0MzI8M02ufRJu7iBmMgT6ewWD5MxfnPtefzqVgFux7yPAA76Or_ZiHbDVvU7OwPecY2twembPJMf7Jk7_0lfcHc6bRlUeEaqtXE5Mmbs3qg-70_'
+                                                       ,'New Workorder','salame mojadad')
+                            print("thats done")
                             # print("yuha!!!!!!!")
                     else:
                         # print("message is created")
+
 
                         Mail.SendUpdatedSysMessage(c,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id)
 
                 if(instance.assignedToUser):
                     # print(instance.assignedToUser)
                     Mail.SendUpdatedSysMessage(instance.assignedToUser,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id,wo=instance)
+                    user_token=push_notification.find_user_token(instance.assignedToUser.id)
+                    ########################################
+                    if(user_token):
+                        push_notification.send_push(API_KEY,user_token
+                                               ,'دستور کار جدید',instance.summaryofIssue)
 
     except Exception as e1:
          print(e1)

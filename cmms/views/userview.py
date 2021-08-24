@@ -356,10 +356,17 @@ def user_detail_collection(request,uname,passwd):
     if request.method == 'GET':
         posts = get_object_or_404(SysUser, title=uname,password=passwd)
         serializer = UserSerializer(posts)
+        print(serializer.data)
         return Response(serializer.data)
 
 @api_view(['POST'])
 def save_user_token(request):
-    print(request.data['title'])
-    print(request.POST.get('title'))
+    # print(request.data['title'])
+    # print(request.POST.get('title'))
+    if(request.data['id']):
+        id=int(request.data['id'])
+        user_=SysUser.objects.get(pk=id)
+        if(not user.token):
+            user.token=request.data['title']
+            user.save()
     return Response()

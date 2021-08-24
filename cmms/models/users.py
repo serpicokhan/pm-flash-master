@@ -46,6 +46,7 @@ class SysUser(models.Model):
     )
     userId = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True)
     password=models.CharField(max_length=20)
+    token=models.CharField(max_length=20,null=True,blank=True)
     fullName=models.CharField("مشخصات کامل",max_length = 50)
     personalCode=models.CharField("کد پرسنلی",max_length = 50)
     title=models.CharField("عنوان",max_length = 50,null=True,blank=True)
