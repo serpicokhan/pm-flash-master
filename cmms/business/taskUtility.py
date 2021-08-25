@@ -7,34 +7,21 @@ class TaskUtility:
     @staticmethod
     def getTotalWorkHour(start,end):
         return Tasks.objects.raw("select sum(t1.taskTimeSpent * t2.hourlyRate) as id from tasks as t1 join sysusers as t2 on t1.taskAssignedToUser_id=t2.id join workorder as t3 on t1.workorder_id=t3.id where t3.datecreated between '{0}' and '{1}'".format(start,end))
-        #select sum(DATEDIFF(CONCAT(`taskStartDate`,' ',`taskStarttime`),CONCAT(`taskDateCompleted`,' ',`taskTimeCompleted`)) * t2.hourlyRate) from tasks as t1 join sysuser as t2 on t1.taskAssignedToUser_id=t2.id join workorder as t3 on t1.workorder_id=t3.id where t3.datecreated
     @staticmethod
     def getWorkOrderHour(id):
-        #id
-        #n1= Tasks.objects.raw("select format(sum(TIMESTAMPDIFF(SECOND,concat(taskstartdate,' ',taskstarttime),concat(taskDateCompleted,' ',tasktimeCompleted))/3600),0) as id from tasks where workorder_id={}".format(id))
         n1= Tasks.objects.raw("select sum(taskTimeSpent) as id from tasks where workorder_id={}".format(id))
         if(n1[0].id):
             return n1[0].id
         return 0
     @staticmethod
     def getTaskHour(start,end):
-        #n1= Tasks.objects.raw("select format(sum(TIMESTAMPDIFF(SECOND,concat(taskstartdate,' ',taskstarttime),concat(taskDateCompleted,' ',tasktimeCompleted))/3600),0) as id from tasks where id={}".format(id))
-        #n1= Tasks.objects.raw("select sum(taskTimeSpent) as id from tasks where workorder_id={}".format(id))
         diff=end-start
-        # print(start)
-        # print(end)
-        # print(diff.days)
+
         return diff.total_seconds()/3600
     ###################
     #eq Cost
     @staticmethod
     def getAssetTimeCostByResource(assetId,start,end):
-        # print('''select sum(t1.taskTimeSpent * t2.hourlyRate)
-        # as id from tasks as t1 join sysusers as t2 on t1.taskAssignedToUser_id=t2.id
-        #  join workorder as t3 on t1.workorder_id=t3.id where t3.datecreated between '{0}' and '{1}'  and t3.woasset_id={2}'''.format(start,end,assetId))
-        # return Tasks.objects.raw('''select sum(t1.taskTimeSpent * t2.hourlyRate)
-        # as id from tasks as t1 join sysusers as t2 on t1.taskAssignedToUser_id=t2.id
-        # join workorder as t3 on t1.workorder_id=t3.id where t3.datecreated between '{0}' and '{1}'  and t3.woasset_id={2}'''.format(start,end,assetId))
         return Tasks.objects.raw('''select sum(timediff(cast(concat(t1.taskDateCompleted, ' ',
          t1.taskTimeCompleted) as datetime), cast(concat(t1.taskStartDate, ' ', t1.taskStartTime)
          as datetime)) * t2.hourlyRate) as id from tasks as t1 join sysusers as t2 on t1.taskAssignedToUser_id=t2.id join workorder as t3 on t1.workorder_id=t3.id
@@ -66,10 +53,7 @@ class TaskUtility:
     @staticmethod
     #check start < end
     def checkTaskDateRange(taskInstance):
-        print("##################")
-        print(taskInstance.taskStartDate,taskInstance.taskStartTime)
         dt1=datetime.combine(taskInstance.taskStartDate,taskInstance.taskStartTime)
-        print(taskInstance.taskDateCompleted,taskInstance.taskTimeCompleted)
         dt2=datetime.combine(taskInstance.taskDateCompleted,taskInstance.taskTimeCompleted)
         if(dt1<=dt2):
             return 1
@@ -92,7 +76,6 @@ class TaskUtility:
 
     @staticmethod
     def checkErr(*kerr):
-        print(kerr)
         err_msg=''
         err_code=0
         if(kerr[0]==-1):

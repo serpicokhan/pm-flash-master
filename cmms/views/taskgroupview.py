@@ -153,10 +153,7 @@ def registerTaskGroup(request,tid,woid):
     books = Tasks.objects.filter(workOrder=woid)
 
 
-    for i in books:
-        print(i.id,"$$$$$$$$$$$$$$$")
-    #books = Tasks.objects.all()
-    #######
+
     data['html_taskgroup_list'] = render_to_string('cmms/tasks/partialTasklist.html', {
         'task': books,
         'perms': PermWrapper(request.user)
@@ -191,7 +188,7 @@ def taskGroupSearch(request,str):
         wos= TaskGroup.objects.filter(taskGroupName__contains=str).order_by('-id')
     else:
         wos=TaskGroup.objects.all().order_by('-id')
-    
+
     data["form_is_valid"]=True
     data['html_taskGroup_list']=render_to_string('cmms/taskgroup/partialTaskGroupListSearch.html', {
         'taskGroup': wos,
@@ -199,12 +196,3 @@ def taskGroupSearch(request,str):
 
     })
     return JsonResponse(data)
-# def search(request,searchStr):
-#     data=dict()
-#     searchStr=searchStr.replace('_',' ')
-#     books=TaskUtility.seach(searchStr).order_by('taskGroupName')
-#     wos=TaskUtility.doPaging(request,list(books))
-#     data['html_task_search_tag_list'] = render_to_string('cmms/taskgroup/partialTaskGroupList.html', {               'taskGroup': wos                       })
-#     # data['html_part_paginator'] = render_to_string('cmms/taskgroup/partialWoPagination.html', {
-#     #       'wo': wos,'pageType':'part_searchPart','ptr':searchStr})
-#     data['form_is_valid'] = True

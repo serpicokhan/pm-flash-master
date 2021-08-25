@@ -112,12 +112,7 @@ def taskTemplate_create(request):
         data['taskTemplateMetrics']=body['taskTemplateMetrics']
         # data['taskTemplateStartDate']=body['taskTemplateStartDate']
         data['taskTemplateTimeEstimate']=body['taskTemplateTimeEstimate']
-        # data['taskTemplateCompletedByUser']=body['taskTemplateCompletedByUser']
-        # data['taskTemplateTimeSpent']=body['taskTemplateTimeSpent']
-        # data['taskTemplateDateCompleted']=body['taskTemplateDateCompleted']
-        # data['taskTemplateCompletionNote']=body['taskTemplateCompletionNote']
-        # data['taskTemplateStartTime']=body['taskTemplateStartTime']
-        # data['taskTemplateTimeCompleted']=body['taskTemplateTimeCompleted']
+
         ####
         data['taskTemplateTaskGroup']=body['taskTemplateTaskGroup']
         woId=body['taskTemplateTaskGroup']
@@ -147,12 +142,7 @@ def taskTemplate_update(request, id):
         data['taskTemplateMetrics']=body['taskTemplateMetrics']
         # data['taskTemplateStartDate']=body['taskTemplateStartDate']
         data['taskTemplateTimeEstimate']=body['taskTemplateTimeEstimate']
-        # data['taskTemplateCompletedByUser']=body['taskTemplateCompletedByUser']
-        # data['taskTemplateTimeSpent']=body['taskTemplateTimeSpent']
-        # data['taskTemplateDateCompleted']=body['taskTemplateDateCompleted']
-        # data['taskTemplateCompletionNote']=body['taskTemplateCompletionNote']
-        # data['taskTemplateStartTime']=body['taskTemplateStartTime']
-        # data['taskTemplateTimeCompleted']=body['taskTemplateTimeCompleted']
+    
         data['taskTemplateTaskGroup']=body['taskTemplateTaskGroup']
 
         woId=body['taskTemplateTaskGroup']
