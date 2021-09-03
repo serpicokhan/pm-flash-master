@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from django.urls import reverse_lazy
 # from celery.task.schedules import crontab
 # from celery.schedules import crontab
 import logging.config
@@ -178,6 +179,7 @@ USE_I18N = True
 
 USE_L10N = True
 
+
 USE_TZ = True
 
 
@@ -249,3 +251,7 @@ LOGGING ={
     }
 }
 logging.config.dictConfig(LOGGING)
+
+# ABSOULTE_URL_OVERRIDES={
+#     'auth_user':lambda u:reverse_lazy('user_update',args=[u.id])
+# }
