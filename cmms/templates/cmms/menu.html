@@ -50,18 +50,22 @@
                 <span class="fa arrow">
                 </span>
               </a>
-              <ul class="nav nav-second-level collapse">
-                <li>
+              <ul  {% if section == 'dashboard' %} class="nav nav-second-level collapse in"
+              {% else %}
+              class="nav nav-second-level collapse"
+              {% endif %} >
 
-                  <a href="{% url 'list_dashboard' %}" >داشبورد</a>
+                <li {% if section == 'dashboard' %} class='active'   {% endif %}>
+
+                  <a href="{% url 'list_dashboard' %}"   >داشبورد</a>
                 </li>
 
-                <li>
+                <li {% if section == 'asset_dash' %} class='active'   {% endif %}>
 
 
                   <a href="{% url 'list_asset_dash' %}" ><i class="fa fa-calendar-o"></i>وضعیت دستگاهها</a>
                 </li>
-                <li>
+                <li {% if section == 'list_calendar' %} class='active'   {% endif %}>
                   <a href="{% url 'list_calendar' %}">
                     <i class="fa fa-calendar"></i>
                     تقویم
@@ -93,19 +97,19 @@
           </span>
         </a>
         <ul class="nav nav-second-level collapse">
-          <li>
+          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
 
             <a href="{% url 'list_miniWorkorder' %}" >صدور درخواست</a>
           </li>
-          <li>
+          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
 
             <a href="{% url 'list_wo' %}" >دستور کار موردی</a>
           </li>
-          <li>
+          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
 
             <a href="{% url 'formset_view' %}" >ورود انبوه دستور کار</a>
           </li>
-          <li>
+          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
 
 
             <a href="{% url 'list_swo' %}" >  <i class="fa fa-clock-o">
@@ -113,13 +117,13 @@
             دستور کار دوره ای</a>
 
           </li>
-          <li>
+          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
             <a href="{% url 'list_taskGroup' %}" >فعالیت های  دسته ای</a>
           </li>
-          <li>
+          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
             <a href="{% url 'list_project' %}" >پروژه ها</a>
           </li>
-          <li>
+          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
             <a href="{% url 'list_maintenanceType' %}" >تنظیمات نوع سرویس ها</a>
           </li>
         </ul>
@@ -134,16 +138,16 @@
             </span>
           </a>
           <ul class="nav nav-second-level collapse">
-            <li>
+            <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
 
               <a href="{% url 'list_mail'  %}" >صندوق دریافت</a>
             </li>
-            <li>
+            <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
 
               <a href="{% url 'list_sentmail'  %}" >صندوق ارسال</a>
             </li>
 
-            <li>
+            <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
               <a href="#" >پیامهای سیستم</a>
             </li>
 
@@ -159,11 +163,11 @@
               </span>
             </a>
             <ul class="nav nav-second-level collapse">
-              <li>
+              <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
 
                 <a href="{% url 'list_asset' %}" >کل دارایی</a>
               </li>
-              <li>
+              <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
 
                 <a href="{% url 'list_asset_location' %}" >اماکن</a>
               </li>
@@ -184,7 +188,7 @@
                 <li>
                   <a href="{% url 'list_assetCategory' %}" >دسته بندی اموال</a>
                 </li>
-            
+
 
               </ul>
 
@@ -279,7 +283,7 @@
               </ul>
             </div>
           </nav>
-          <script type="text/javascript">
+          <!-- <script type="text/javascript">
             if(localStorage.getItem('lastclicked')!=null && window.location.pathname+window.location.search.length!=1)
             {
               // $(".navbar-default.nav li").eq(2).css("color", "yellow");
@@ -299,5 +303,5 @@
               }
             });
 
-          </script>
+          </script> -->
           {% endblock %}
