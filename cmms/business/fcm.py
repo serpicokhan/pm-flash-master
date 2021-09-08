@@ -5,7 +5,6 @@ class push_notification:
     @staticmethod
     def send_push(api_token,rec_id,title,body):
         push_service = FCMNotification(api_key=api_token)
-
         # Your api-key can be gotten from:  https://console.firebase.google.com/project/<project-name>/settings/cloudmessaging
 
         registration_id = rec_id
