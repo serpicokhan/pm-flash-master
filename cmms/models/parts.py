@@ -44,7 +44,7 @@ class PartFile(models.Model):
     def get_size(self):
         return " MB {0:.2f}".format(self.partFile.size/1048576)
 
-    partFile=models.FileField(upload_to='documents/')
+    partFile=models.FileField(upload_to='documents/',max_length=200)
     partFilePartId=models.ForeignKey('Part',on_delete=models.CASCADE,blank=True,null=True)
     partFiledateAdded=models.DateTimeField(auto_now_add=True)
     class Meta:
