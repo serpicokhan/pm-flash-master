@@ -100,3 +100,32 @@ def wofile_detail_collection(request,id):
         serializer = WorkorderFileSerializer(posts)
 
         return Response(serializer.data)
+
+@api_view(['POST'])
+def woFile_post(request,Id=None):
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        from django.core.exceptions import ValidationError
+        data=dict()
+        print(request.FILES['woFile'],'$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        # fmt = getattr(settings, 'LOG_FORMAT', None)
+        # lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
+        company= get_object_or_404(WorkOrder, id=Id)
+        # logging.basicConfig(format=fmt, level=lvl)
+
+        # valid_extensions = ['.pdf', '.doc', '.docx', '.jpg', '.png', '.xlsx', '.xls','.gif']
+        # ext = os.path.splitext(request.FILES['woFile'].name)[1]
+        # if not ext.lower() in valid_extensions:
+        #     raise ValidationError(u'Unsupported file extension.')
+        # else:
+        save_path = os.path.join(settings.MEDIA_ROOT,'documents', request.FILES['woFile'].name)
+        path = default_storage.save(save_path, request.FILES['woFile'])
+        document = WorkorderFile.objects.create(woFile='documents/'+request.FILES['woFile'].name, woFileworkorder=company)
+        #data = {'is_valid': True, 'name': document.woFile.name, 'url': document.woFile.url,'ext':ext,'size':" MB {0:.2f}".format(document.woFile.size/1048576)}
+        books = WorkorderFile.objects.filter(woFileworkorder=Id)
+        data['html_woFile_list'] = render_to_string('cmms/workorder_file/partialWoFileList.html', {
+              'woFiles': books})
+        data['is_valid']=True
+
+        print("Ok!!!!!!!!!!!!!!")
+
+        return JsonResponse(data)
