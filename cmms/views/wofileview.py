@@ -69,7 +69,7 @@ class WorkOrderUploadView(View):
         company= get_object_or_404(WorkOrder, id=Id)
         # logging.basicConfig(format=fmt, level=lvl)
         logging.debug( request.FILES)
-        valid_extensions = ['.pdf', '.doc', '.docx', '.jpg', '.png', '.xlsx', '.xls','.gif']
+        valid_extensions = ['.pdf', '.doc', '.docx', '.jpg', '.png', '.xlsx', '.xls','.gif','.aac']
         ext = os.path.splitext(request.FILES['woFile'].name)[1]
         if not ext.lower() in valid_extensions:
             raise ValidationError(u'Unsupported file extension.')
