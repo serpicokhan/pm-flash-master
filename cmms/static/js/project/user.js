@@ -79,7 +79,7 @@ var js_switch_change=function()
     },
     error:function(x,y,z)
     {
-      alert("123");
+      alert("error");
     }
   });
 }
@@ -112,7 +112,7 @@ $("#userStatus").change(function(){
     beforeSend:function()
     {
 
-      alert(getUserStatusUrl($("#userStatus").val()));
+      // alert(getUserStatusUrl($("#userStatus").val()));
     },
     success: function (data) {
 
@@ -222,7 +222,7 @@ var saveForm= function (e) {
       },
       error:function(x,y,z)
       {
-        alert("ddsds");
+        alert("error: "+y);
       }
     });
     return false;
@@ -344,11 +344,11 @@ var userDetails=function(id){
           stRes='<small class="label label-info">'+data.user_all_wo_num_current_year+' , '+data.user_all_wo_num_current_month+'</small>'//+'   ,   <small class="label label-primary">'+data.user_wo_num_ontime_year+'</small>'
         // stRes=data.user_wo_num_ontime_year+","+data.user_wo_num_ontime_year;
         $("#userAllWorkOrderCount").html(stRes);
-        console.log(data);
+        // console.log(data);
 
       }
       else {
-      alert("123321");
+      alert("error");
 
       }
     }

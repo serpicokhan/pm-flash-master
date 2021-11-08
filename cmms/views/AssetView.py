@@ -46,7 +46,7 @@ def list_asset(request,id=None):
     books=[]
     books =Asset.objects.all().order_by('-id')
     wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos})
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset'})
     # else:
     #      return HttpResponseRedirect(reverse('list_dashboard' ))
     #paging
@@ -59,7 +59,7 @@ def list_asset_location(request):
     books=[]
     books =Asset.objects.filter(assetTypes=1).order_by('-assetName')
     wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos})
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_location'})
     # books=Asset.objects.filter(assetTypes=1)
     # return render(request, 'cmms/asset/assetList.html', {'asset': books})
 
@@ -68,14 +68,14 @@ def list_asset_machine(request):
     books=[]
     books =Asset.objects.filter(assetTypes=2).order_by('-assetName')
     wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos})
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_machine'})
 
 @permission_required('cmms.view_assets')
 def list_asset_tool(request):
     books=[]
     books =Asset.objects.filter(assetTypes=3).order_by('-assetName')
     wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos})
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_tool'})
 
 ##########################################################
 

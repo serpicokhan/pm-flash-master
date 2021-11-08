@@ -37,7 +37,7 @@ def list_attendance(request,id=None):
     #
     books = Attendance.objects.all().order_by('-datecreated')
     wos=UserUtility.doPaging(request,books)
-    return render(request, 'cmms/attendance/attendanceList.html', {'attendance': wos})
+    return render(request, 'cmms/attendance/attendanceList.html', {'attendance': wos,'section':'list_attendance'})
 
 
 ##########################################################

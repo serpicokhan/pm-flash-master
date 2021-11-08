@@ -37,7 +37,7 @@ def list_taskGroup(request,id=None):
     #
     books = TaskGroup.objects.all().order_by('-id')
     wos=TaskUtility.doPaging(request,books)
-    return render(request, 'cmms/taskgroup/taskGroupList.html', {'taskGroup': wos})
+    return render(request, 'cmms/taskgroup/taskGroupList.html', {'taskGroup': wos,'section':'list_taskGroup'})
 
 
 ##########################################################

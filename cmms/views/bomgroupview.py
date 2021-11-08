@@ -35,7 +35,7 @@ def list_bomgroup(request,id=None):
     #
     books = BOMGroup.objects.all().order_by('BOMGroupName')
     books=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/bomgroup/bomgroupList.html', {'bomgroup': books})
+    return render(request, 'cmms/bomgroup/bomgroupList.html', {'bomgroup': books,'section':'list_bomgroup'})
 
 
 ##########################################################

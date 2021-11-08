@@ -32,7 +32,7 @@ from django.db import transaction
 def list_event(request,id=None):
     #
     books = Events.objects.all()
-    return render(request, 'cmms/event/eventList.html', {'event': books})
+    return render(request, 'cmms/event/eventList.html', {'event': books,'section':'list_event'})
 
 
 ##########################################################
@@ -85,7 +85,7 @@ def event_delete(request, id):
 def event_create(request):
     if (request.method == 'POST'):
         form = EventForm(request.POST)
-        
+
         return save_event_form(request, form, 'cmms/event/partialEventCreate.html')
 
     else:

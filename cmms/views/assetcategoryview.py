@@ -34,7 +34,7 @@ from rest_framework.response import Response
 def list_assetCategory(request,id=None):
     #
     books = AssetCategory.objects.all()
-    return render(request, 'cmms/assetcategory/assetCategoryList.html', {'assetCategory': books})
+    return render(request, 'cmms/assetcategory/assetCategoryList.html', {'assetCategory': books,'section':'list_assetCategory'})
 
 
 ##########################################################

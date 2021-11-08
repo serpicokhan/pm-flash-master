@@ -96,20 +96,24 @@
           <span class="fa arrow">
           </span>
         </a>
-        <ul class="nav nav-second-level collapse">
+        <ul  {% if section in 'list_miniWorkorder,list_wo,formset_view,list_swo,list_maintenanceType,list_taskGroup,list_project' %} class="nav nav-second-level collapse in"
+        {% else %}
+        class="nav nav-second-level collapse"
+        {% endif %} >
+
           <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
 
             <a href="{% url 'list_miniWorkorder' %}" >صدور درخواست</a>
           </li>
-          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+          <li {% if section == 'list_wo' %} class='active'   {% endif %}>
 
             <a href="{% url 'list_wo' %}" >دستور کار موردی</a>
           </li>
-          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+          <li {% if section == 'formset_view' %} class='active'   {% endif %}>
 
             <a href="{% url 'formset_view' %}" >ورود انبوه دستور کار</a>
           </li>
-          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+          <li {% if section == 'list_swo' %} class='active'   {% endif %}>
 
 
             <a href="{% url 'list_swo' %}" >  <i class="fa fa-clock-o">
@@ -117,13 +121,13 @@
             دستور کار دوره ای</a>
 
           </li>
-          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+          <li {% if section == 'list_taskGroup' %} class='active'   {% endif %}>
             <a href="{% url 'list_taskGroup' %}" >فعالیت های  دسته ای</a>
           </li>
-          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+          <li {% if section == 'list_project' %} class='active'   {% endif %}>
             <a href="{% url 'list_project' %}" >پروژه ها</a>
           </li>
-          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+          <li {% if section == 'list_maintenanceType' %} class='active'   {% endif %}>
             <a href="{% url 'list_maintenanceType' %}" >تنظیمات نوع سرویس ها</a>
           </li>
         </ul>
@@ -137,17 +141,20 @@
             <span class="fa arrow">
             </span>
           </a>
-          <ul class="nav nav-second-level collapse">
-            <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+          <ul  {% if section in 'list_mail,list_wo,list_sentmail,list_sysmail' %} class="nav nav-second-level collapse in"
+          {% else %}
+          class="nav nav-second-level collapse"
+          {% endif %} >
+            <li {% if section == 'list_mail' %} class='active'   {% endif %}>
 
               <a href="{% url 'list_mail'  %}" >صندوق دریافت</a>
             </li>
-            <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+            <li {% if section == 'list_sentmail' %} class='active'   {% endif %}>
 
               <a href="{% url 'list_sentmail'  %}" >صندوق ارسال</a>
             </li>
 
-            <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+            <li {% if section == 'list_sysmail' %} class='active'   {% endif %}>
               <a href="#" >پیامهای سیستم</a>
             </li>
 
@@ -162,20 +169,23 @@
               <span class="fa arrow">
               </span>
             </a>
-            <ul class="nav nav-second-level collapse">
-              <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+            <ul  {% if section in 'list_asset,list_asset_location,list_asset_machine,list_asset_tool,list_assetCategory' %} class="nav nav-second-level collapse in"
+            {% else %}
+            class="nav nav-second-level collapse"
+            {% endif %} >
+              <li {% if section == 'list_asset' %} class='active'   {% endif %}>
 
                 <a href="{% url 'list_asset' %}" >کل دارایی</a>
               </li>
-              <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+              <li {% if section == 'list_asset_location' %} class='active'   {% endif %}>
 
                 <a href="{% url 'list_asset_location' %}" >اماکن</a>
               </li>
 
-              <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+              <li {% if section == 'list_asset_machine' %} class='active'   {% endif %}>
                 <a href="{% url 'list_asset_machine' %}" >تجهیزات</a>
               </li>
-              <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+              <li {% if section == 'list_asset_tool' %} class='active'   {% endif %}>
                 <a href="{% url 'list_asset_tool' %}" >ابزارارآلات</a>
               </li>
               <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
@@ -184,8 +194,12 @@
                 تنظیمات <span class="fa arrow">
                 </span>
               </a>
-              <ul class="nav nav-third-level collapse" style="">
-                <li  {% if section == 'asset_dash' %} class='active'   {% endif %}>
+              <ul  {% if section in 'list_assetCategory' %} class="nav nav-third-level collapse in"
+              {% else %}
+              class="nav nav-third-level collapse"
+              {% endif %} >
+
+                <li  {% if section == 'list_assetCategory' %} class='active'   {% endif %}>
                   <a href="{% url 'list_assetCategory' %}" >دسته بندی اموال</a>
                 </li>
 
@@ -204,21 +218,24 @@
               <span class="fa arrow">
               </span>
             </a>
-            <ul class="nav nav-second-level collapse">
-              <li  {% if section == 'asset_dash' %} class='active'   {% endif %}>
+            <ul  {% if section in 'list_part,list_Stock,list_business,list_bomgroup,list_event' %} class="nav nav-second-level collapse in"
+            {% else %}
+            class="nav nav-second-level collapse"
+            {% endif %} >
+              <li  {% if section == 'list_part' %} class='active'   {% endif %}>
                 <a href="{% url 'list_part'%}" >قطعه</a>
               </li>
 
-              <li  {% if section == 'asset_dash' %} class='active'   {% endif %}>
+              <li  {% if section == 'list_Stock' %} class='active'   {% endif %}>
                 <a href="{% url 'list_stock'%}" >موجودی انبار</a>
               </li>
-              <li {% if section == 'asset_dash' %} class='active'   {% endif %}>
+              <li {% if section == 'list_business' %} class='active'   {% endif %}>
                 <a href="{% url 'list_business'%}" >کسب وکار</a>
               </li>
-              <li {% if section == 'asset_dash' %} class='active'   {% endif %}>
+              <li {% if section == 'list_bomgroup' %} class='active'   {% endif %}>
                 <a href="{% url 'list_bomgroup'%}" >لیست BOM گروهی</a>
               </li>
-              <li {% if section == 'asset_dash' %} class='active'   {% endif %}>
+              <li {% if section == 'list_event' %} class='active'   {% endif %}>
                 <a href="{% url 'list_event'%}" >رویداد</a>
               </li>
             </ul>
@@ -233,11 +250,14 @@
                 <span class="fa arrow">
                 </span>
               </a>
-              <ul class="nav nav-second-level collapse">
-                <li {% if section == 'asset_dash' %} class='active'   {% endif %}>
+              <ul  {% if section in 'list_user,list_attendance' %} class="nav nav-second-level collapse in"
+              {% else %}
+              class="nav nav-second-level collapse"
+              {% endif %} >
+                <li {% if section == 'list_user' %} class='active'   {% endif %}>
                   <a href="{% url 'list_user'%}" >کاربران</a>
                 </li>
-                <li {% if section == 'asset_dash' %} class='active'   {% endif %}>
+                <li {% if section == 'list_attendance' %} class='active'   {% endif %}>
                   <a href="{% url 'list_attendance'%}" >حضور و غیاب </a>
                 </li>
 
@@ -254,8 +274,11 @@
                   <span class="fa arrow">
                   </span>
                 </a>
-                <ul class="nav nav-second-level collapse">
-                  <li {% if section == 'asset_dash' %} class='active'   {% endif %}>
+                <ul  {% if section in 'list_report' %} class="nav nav-second-level collapse in"
+                {% else %}
+                class="nav nav-second-level collapse"
+                {% endif %} >
+                  <li {% if section == 'list_report' %} class='active'   {% endif %}>
                     <a href="{% url 'list_report'%}" >گزارش گیری</a>
                   </li>
 

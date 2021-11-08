@@ -34,7 +34,7 @@ def list_report(request,id=None):
     books = Report.objects.all()
     Cat=Report.Category
     wos=ReportUtility.doPaging(request,books)
-    return render(request, 'cmms/reports/main.html', {'reports': wos,'cat':Cat})
+    return render(request, 'cmms/reports/main.html', {'reports': wos,'cat':Cat,'section':'list_report'})
 ##########################################################
 def save_report_form(request, form, template_name,id=None):
     data = dict()

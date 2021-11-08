@@ -37,7 +37,7 @@ def list_miniWorkorder(request,id=None):
     books = WorkOrder.objects.all()
     books=filterUser(request,books)
     wos=WOUtility.doPaging(request,list(books))
-    return render(request, 'cmms/miniworkorder/miniWorkorderList.html', {'miniWorkorder': wos})
+    return render(request, 'cmms/miniworkorder/miniWorkorderList.html', {'miniWorkorder': wos,'section':'list_miniWorkorder'})
 
 
 ##########################################################

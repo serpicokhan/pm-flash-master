@@ -15,6 +15,21 @@
   </div>
 </form>
 <!-- SUMMERNOTE -->
+{% load static %}
+    <script src="{% static 'js/plugins/summernote/summernote.min.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
 
 
-  
+            $(document).ready(function() {
+   $('#id_Message').summernote();
+ });
+
+        });
+
+
+    </script>

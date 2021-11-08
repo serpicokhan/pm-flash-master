@@ -45,7 +45,7 @@ def list_part(request,id=None):
     #paging
 
     wos=PartUtility.doPaging(request,books)
-    return render(request, 'cmms/part/partList.html', {'part': wos})
+    return render(request, 'cmms/part/partList.html', {'part': wos,'section':'list_part'})
 
 
 ##########################################################
