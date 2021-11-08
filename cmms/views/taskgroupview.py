@@ -109,11 +109,11 @@ def taskGroup_delete(request, id):
             'perms': PermWrapper(request.user)
         })
     else:
-        context = {'taskGroup': comp1}
+        context = {'taskGroup': comp1,'perms': PermWrapper(request.user)}
         data['html_taskGroup_form'] = render_to_string('cmms/taskgroup/partialTaskGroupDelete.html',
             context,
             request=request,
-        'perms': PermWrapper(request.user)
+
         )
     return JsonResponse(data)
 
