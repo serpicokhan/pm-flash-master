@@ -172,8 +172,8 @@ def task_create(request):
             ####
             data['workOrder']=body['workOrder']
             woId=body['workOrder']
-            print("what")
-            print(data['taskMetrics'])
+            # print("what")
+            # print(data['taskMetrics'])
             form = TaskForm(data)
 
         else:

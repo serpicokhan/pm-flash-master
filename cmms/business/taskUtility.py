@@ -99,6 +99,7 @@ class TaskUtility:
             Tasks.objects.create(taskTypes=c.taskTemplateTypes,taskStartDate=None,taskStartTime=None,taskDateCompleted=None,taskTimeCompleted=None,taskMetrics=c.taskTemplateMetrics,taskDescription=c.taskTemplateDescription,taskTimeEstimate=c.taskTemplateTimeEstimate,workOrder=wo)
         wo.estimatedLabor=esTime
         wo.save()
+        print("its done!")
 
 
     @staticmethod

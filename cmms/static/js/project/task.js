@@ -22,7 +22,7 @@ $(function () {
       },
       success: function (data) {
         //alert("3123@!");
-
+        console.log(data);
          $("#modal-taskGroup .modal-content").html(data.html_taskGroup_list);
 
 
@@ -128,7 +128,7 @@ var saveTaskForm= function () {
 
 
  // Create book
-// $(".js-create-taskGroup").unbind();
+$(".js-create-taskGroup").unbind();
 
 $(".js-create-task").unbind();
 $(".js-create-task").click(loadTaskForm);

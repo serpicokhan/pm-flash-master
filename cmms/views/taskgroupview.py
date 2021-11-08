@@ -42,11 +42,13 @@ def list_taskGroup(request,id=None):
 
 ##########################################################
 def list_taskGroup_js(request,assetId=None):
+    # print("here1212")
     data=dict()
     assetCat=0
     books=0
     assetCat=Asset.objects.get(id=assetId)
-    books=TaskGroup.objects.filter(id__in=TaskGroupAssetCategory.objects.filter(assetCategory=assetCat.assetCategory).values_list('TaskGroup',flat=True))
+    books=TaskGroup.objects.filter(id__in=TaskGroupAssetCategory.objects.
+                                   filter(assetCategory=assetCat.assetCategory).values_list('TaskGroup',flat=True))
     if(len(books)>0):
         pass
     else:
@@ -111,6 +113,7 @@ def taskGroup_delete(request, id):
         data['html_taskGroup_form'] = render_to_string('cmms/taskgroup/partialTaskGroupDelete.html',
             context,
             request=request,
+        'perms': PermWrapper(request.user)
         )
     return JsonResponse(data)
 
@@ -148,6 +151,7 @@ def taskGroup_update(request, id):
 
 ##########################################################
 def registerTaskGroup(request,tid,woid):
+    print("triggerd")
     data=dict()
     TaskUtility.register(tid,woid)
     books = Tasks.objects.filter(workOrder=woid)
