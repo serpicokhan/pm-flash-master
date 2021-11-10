@@ -100,14 +100,14 @@ $(function () {
 
         $("#modal-company .modal-content").html(data.html_asset_form);
 
-          new QRCode(document.getElementById("qrcode"), {
-    text: data.id,
-    width: 128,
-    height: 128,
-    colorDark : "#000000",
-    colorLight : "#ffffff",
-    correctLevel : QRCode.CorrectLevel.H
-});
+//           new QRCode(document.getElementById("qrcode"), {
+//     text: data.id,
+//     width: 128,
+//     height: 128,
+//     colorDark : "#000000",
+//     colorLight : "#ffffff",
+//     correctLevel : QRCode.CorrectLevel.H
+// });
         // var qrcode = new QRCode(document.getElementById("qrcode"), {
         //   width : 100,
         //   height : 100
@@ -186,6 +186,106 @@ $(function () {
 
 
       }
+    });
+
+
+
+};
+  var clone_asset =function () {
+
+
+    matches=[];
+    $(".selection-box:checked").each(function() {
+        matches.push(this.value);
+    });
+    // lo(matches);
+    // console.log(matches);
+
+
+    return $.ajax({
+      url: '/Asset/Clone/'+matches,
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+
+
+
+      },
+      success: function (data) {
+        if(data.form_is_valid)
+        {
+        $("#tbody_company").html(data.html_asset_list);
+        $(".assetPaging").html(data.html_asset_paginator);
+        // $(".assetPaging").html(data.html_asset_paginator);
+
+
+        $("tr").on("click", showAssetDetails);
+        toastr.success("کپی با موفقیت انجام شد")
+      }
+      else
+      {
+        toastr.error("خطا در کپی دارایی");
+      }
+
+
+    }
+    });
+
+
+
+};
+var bulk_delete_pressed=function(){
+  swal({
+       title:"حذف تجهیز بدون کد و مشخصات",
+       text: $("#id_summaryofIssue").val(),
+       type: "warning",
+       showCancelButton: true,
+       confirmButtonColor: "#DD6B55",
+       confirmButtonText: "بلی",
+       cancelButtonText: "خیر",
+       closeOnConfirm: true
+   }, function () {
+       bulk_delete_asset();
+
+   });
+}
+  var bulk_delete_asset =function () {
+
+
+    matches=[];
+    $(".selection-box:checked").each(function() {
+        matches.push(this.value);
+    });
+    // lo(matches);
+    // console.log(matches);
+
+
+    return $.ajax({
+      url: '/Asset/BulkDelete/'+matches,
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+
+
+
+      },
+      success: function (data) {
+        if(data.form_is_valid)
+        {
+        $("#tbody_company").html(data.html_asset_list);
+        $(".assetPaging").html(data.html_asset_paginator);
+
+
+        $("tr").on("click", showAssetDetails);
+        swal("حذف شد!",'', "success");
+      }
+      else
+      {
+        toastr.error("خطا در حذف دسته ای دارایی ها");
+      }
+
+
+    }
     });
 
 
@@ -1166,6 +1266,8 @@ $("#modal-company").on("submit", ".js-asset-delete-form", saveForm);
 // $('#modal-company').on('hidden.bs.modal',cancelForm);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);
 $(".js-bulkasset-category-selector").click(LoadFormAssetSelector);
+$(".js-clone-asset").click(clone_asset);
+$(".js-bulk_delete-asset").click(bulk_delete_pressed);
 $(".js-bulkasset-type-selector").click(showAssetTypeSelector);
 $("#modal-assettype").on("click", ".asset_type_change", change_type);
 

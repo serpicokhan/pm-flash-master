@@ -88,7 +88,7 @@ def save_asset_form(request, form, template_name,id=None):
             form.save()
 
             data['form_is_valid'] = True
-            books = Asset.objects.all().order_by('-assetName')
+            books = Asset.objects.all().order_by('-id')
             page=request.GET.get('page',1)
             wos=AssetUtility.doPaging(request,books)
             data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
@@ -111,7 +111,7 @@ def asset_delete(request, id):
     if (request.method == 'POST'):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        books =Asset.objects.all().order_by('-assetName')
+        books =Asset.objects.all().order_by('-id')
         wos=AssetUtility.doPaging(request,books)
         #Tasks.objects.filter(assetId=id).update(asset=id)
 
@@ -540,6 +540,55 @@ def js_list_assetConsumedPart(request,woId):
     })
     data['form_is_valid']=True
     return JsonResponse(data)
+
+
+
+
+
+@csrf_exempt
+def clone_asset(request,ids):
+    clean_data=[int(i)  for i in ids.split(',')]
+    for id in  clean_data:
+            AssetUtility.clone_asset(id)
+
+    data=dict()
+    books = Asset.objects.all().order_by('-id')
+    page=request.GET.get('page',1)
+    wos=AssetUtility.doPaging(request,books)
+    data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
+        'asset': wos,
+        'perms': PermWrapper(request.user)
+    })
+    data['form_is_valid'] = True
+    print('done')
+    return JsonResponse(data)
+
+@csrf_exempt
+def bulk_delete_asset(request,ids):
+    clean_data=[int(i)  for i in ids.split(',')]
+    foo=Asset.objects.filter(id__in=clean_data)
+    for i in foo:
+        i.delete()
+    data=dict()
+    books = Asset.objects.all().order_by('-id')
+    page=request.GET.get('page',1)
+    wos=AssetUtility.doPaging(request,books)
+    data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
+        'asset': wos,
+        'perms': PermWrapper(request.user)
+    })
+
+    data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination_none.html', {
+                      'asset': wos})
+    data['form_is_valid'] = True
+    # print('done')
+    return JsonResponse(data)
+
+
+
+
+
+
 @csrf_exempt
 def create_woasset(request):
 
