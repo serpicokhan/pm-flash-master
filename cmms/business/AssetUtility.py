@@ -554,3 +554,24 @@ class AssetUtility:
         group by maintenanceType_id
 
          """.format(start,end,assetid))
+
+    @staticmethod
+    def clone_asset(id):
+            foo=Asset.objects.get(pk=id)
+            foo.assetName=foo.assetName+' copy'
+            foo.pk=None
+            foo.save()
+            #############
+            foo_part=AssetPart.objects.filter(assetPartAssetid=id)
+            for i in foo_part:
+                i.pk=None
+                i.assetPartAssetid=foo.id
+                i.save()
+            ####################
+            ###meter reading must not be copied,Because it is unique for it's asset
+            foo_files=AssetFile.objects.filter(assetFileAssetId=id)
+            for foo_file in foo_files:
+                foo_file.pk=None
+                foo_file.assetFileAssetId=foo
+
+                foo_file.save()

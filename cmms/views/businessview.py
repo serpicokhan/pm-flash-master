@@ -35,7 +35,7 @@ def list_business(request,id=None):
     books = Business.objects.all().order_by('name')
     wos=BusinessUtility.doPaging(request,books)
 
-    return render(request, 'cmms/business/businessList.html', {'business': wos})
+    return render(request, 'cmms/business/businessList.html', {'business': wos,'section':'list_business'})
 
 
 ##########################################################

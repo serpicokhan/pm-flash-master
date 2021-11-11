@@ -82,7 +82,7 @@ def list_wo(request,id=None):
         # print(user1)
         # print(user1.profileImage,'$$$$$$$$$$')
         wos=WOUtility.doPaging(request,books)
-        return render(request, 'cmms/maintenance/woList.html', {'wo': wos,'groups':groups,'user2':user1})
+        return render(request, 'cmms/maintenance/woList.html', {'wo': wos,'groups':groups,'user2':user1,'section':'list_wo'})
     except Exception as ex:
         print(ex)
         return render(request, 'cmms/404.html', {'to':123})
@@ -583,6 +583,7 @@ def formset_view(request):
     # Add the formset to context dictionary
     context['form']= form
     context['woList']=wos
+    context['section']='formset_view'
     return render(request, "cmms/maintenance/formset.html", context)
 @csrf_exempt
 def save_formset(request):

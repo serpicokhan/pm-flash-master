@@ -63,7 +63,7 @@ def list_user(request,id=None):
     #paging
 
     users=UserUtility.doPaging(request,books)
-    return render(request, 'cmms/user/userList.html', {'user': users})
+    return render(request, 'cmms/user/userList.html', {'user': users,'section':'list_user'})
 
 ##########################################################
 ##########################################################

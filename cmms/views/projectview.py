@@ -34,7 +34,7 @@ from django.contrib.auth.context_processors import PermWrapper
 def list_project(request,id=None):
     #
     books = Project.objects.all().order_by('-ProjectActualStartDate')
-    return render(request, 'cmms/project/projectList.html', {'projects': books})
+    return render(request, 'cmms/project/projectList.html', {'projects': books,'section':'list_project'})
 
 
 ##########################################################

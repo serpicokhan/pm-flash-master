@@ -146,11 +146,11 @@ def save_wo_profile(sender, instance, **kwargs):
                 if(instance.assignedToUser):
                     # print(instance.assignedToUser)
                     Mail.SendUpdatedSysMessage(instance.assignedToUser,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id,wo=instance)
-                    user_token=push_notification.find_user_token(instance.assignedToUser.id)
+                    # user_token=push_notification.find_user_token(instance.assignedToUser.id)
                     ########################################
-                    if(user_token):
-                        push_notification.send_push(API_KEY,user_token
-                                               ,'دستور کار جدید',instance.summaryofIssue)
+                    # if(user_token):
+                    #     push_notification.send_push(API_KEY,user_token
+                    #                            ,'دستور کار جدید',instance.summaryofIssue)
 
     except Exception as e1:
          print(e1)

@@ -74,7 +74,7 @@ class TaskTemplate(models.Model):
 
     )
     taskTemplateTypes=models.IntegerField("انتخاب نوع فعالیت", choices=TaskType1,null=True,blank=True)
-    taskTemplateMetrics=models.IntegerField("", choices=Metric,null=True,blank=True)
+    taskTemplateMetrics=models.ForeignKey("MeterCode",verbose_name="واحد اندازه گیری",null=True,blank=True,on_delete=models.CASCADE)
     taskTemplateDescription=models.CharField("توضیحات",max_length = 100)
     taskTemplateTimeEstimate=models.FloatField("زمان تقریبی( به ساعت)",null=True,blank=True)
     taskTemplateTaskGroup = models.ForeignKey(TaskGroup,on_delete=models.CASCADE,null=True,blank=True,related_name="taskgroup",verbose_name='متعلق به')

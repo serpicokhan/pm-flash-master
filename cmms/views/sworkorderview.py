@@ -47,7 +47,7 @@ def list_swo(request,id=None):
      #paging
     books=filterUser(request,books).order_by('-running')
     wos=SWOUtility.doPaging(request,books)
-    return render(request, 'cmms/sworkorder/woList.html', {'wo': wos})
+    return render(request, 'cmms/sworkorder/woList.html', {'wo': wos,'section':'list_swo'})
 
 ##########################################################
 ##########################################################

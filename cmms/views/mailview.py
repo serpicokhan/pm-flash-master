@@ -45,18 +45,18 @@ def list_mail(request,id=None):
     books = Message.objects.filter(toUser__userId=request.user).order_by('-id')
     wos=doPaging(request,(books))
 
-    return render(request, 'cmms/mail/mailList.html', {'mails': wos,'title':'صندوق دریافت'})
+    return render(request, 'cmms/mail/mailList.html', {'mails': wos,'title':'صندوق دریافت','section':'list_mail'})
 @login_required
 def list_sentmail(request):
     #
     books = Message.objects.filter(fromUser__userId=request.user).order_by('-id')
     wos=doPaging(request,(books))
-    return render(request, 'cmms/mail/mailList.html', {'mails': wos,'title':'صندوق ارسال'})
+    return render(request, 'cmms/mail/mailList.html', {'mails': wos,'title':'صندوق ارسال','section':'list_sentmail'})
 def list_sysmail(request):
     #
     books = Message.objects.filter(fromUser__fullName="cmms").order_by('-id')
     wos=doPaging(request,(books))
-    return render(request, 'cmms/mail/mailList.html', {'mails': wos,'title':'پیامهای سیستم'})
+    return render(request, 'cmms/mail/mailList.html', {'mails': wos,'title':'پیامهای سیستم','section':'list_sysmail'})
 
 
 ##########################################################

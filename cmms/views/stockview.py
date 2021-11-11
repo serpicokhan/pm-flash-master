@@ -36,7 +36,7 @@ def list_stock(request,id=None):
     books = Stock.objects.all().order_by('stockItem')
     wos=StockUtility.doPaging(request,books)
     q=Asset.objects.filter(assetIsStock=True)
-    return render(request, 'cmms/stock/stockList.html', {'stocks': wos,'anbar':q})
+    return render(request, 'cmms/stock/stockList.html', {'stocks': wos,'anbar':q,'section':'list_Stock'})
 
 ###################################################################
 def list_lowItemStock(request,id=None):

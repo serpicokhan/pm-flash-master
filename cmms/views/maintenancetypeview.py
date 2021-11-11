@@ -36,7 +36,7 @@ from rest_framework import status
 def list_maintenanceType(request,id=None):
     #
     books = MaintenanceType.objects.all()
-    return render(request, 'cmms/maintenancetype/maintenanceTypeList.html', {'maintenanceType': books})
+    return render(request, 'cmms/maintenancetype/maintenanceTypeList.html', {'maintenanceType': books,'section':'list_maintenanceType'})
 
 
 ##########################################################

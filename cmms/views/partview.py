@@ -45,7 +45,7 @@ def list_part(request,id=None):
     #paging
 
     wos=PartUtility.doPaging(request,books)
-    return render(request, 'cmms/part/partList.html', {'part': wos})
+    return render(request, 'cmms/part/partList.html', {'part': wos,'section':'list_part'})
 
 
 ##########################################################
@@ -109,7 +109,8 @@ def part_delete(request, id):
         wos=PartUtility.doPaging(request,list(companies))
         #Tasks.objects.filter(partId=id).update(part=id)
         data['html_part_list'] = render_to_string('cmms/part/partialPartlist.html', {
-            'part': wos
+            'part': wos,
+            'perms': PermWrapper(request.user)
         })
     else:
         context = {'part': comp1}
