@@ -262,6 +262,17 @@ def getPartPurchasedItem(request,id,num):
         'wos': wos
     })
     return JsonResponse(data)
+
+##########################################
+def get_partCategory(request):
+    data=dict()
+    '''render_to_string('cmms/asset/temp.txt')'''
+    m=PartUtility.getCategory()
+
+    m=m.replace('"',"'")
+    data["modalassetcat"]=render_to_string('cmms/part/partcategoryselector.html',{'cat':m,'perms': PermWrapper(request.user)})
+    return JsonResponse(data)
+##########################################
 @api_view(['GET'])
 def part_collection(request):
     if request.method == 'GET':
@@ -278,3 +289,4 @@ def part_detail_collection(request,id):
         serializer = PartSerializer(posts)
 
         return Response(serializer.data)
+##############################

@@ -1,8 +1,10 @@
 from cmms.models import *
 import jdatetime
 import datetime
+import json
 from django.core.paginator import *
 from django.db.models import Count
+from cmms.business.AssetUtility import AssetUtility
 class PartUtility:
     @staticmethod
     def getUsedPartNum(start,end):
@@ -112,3 +114,18 @@ class PartUtility:
     @staticmethod
     def getPurchasedInfo(id,num):
         return PartPurchase.objects.raw("select * from partpurchase where purchasePartId_id={0} order by id limit {1},5 ".format(id,num))
+    @staticmethod
+    def getCategory():
+        a=PartCategory.objects.all()
+        b=[]
+        links=[]
+        for item in a:
+            b.append((item.isPartOf.id if item.isPartOf else -1,item.id,item.name))
+        # print(b)
+        # parents, children = zip(*b)
+        # root_nodes = {x for x in parets if x not in children}
+        # for node in root_nodes:
+        #     links.append(('Root', node))
+
+        tree = AssetUtility.get_nodes((-2,-1,'همه'),b)
+        return json.dumps(tree, indent=4)

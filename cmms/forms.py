@@ -519,6 +519,7 @@ class AssetForm(forms.ModelForm):
 
 class AssetPartForm(forms.ModelForm):
     mypart=forms.CharField(required=False)
+
     def clean(self):
                  self.is_valid()
                  cleaned_data=super(AssetPartForm, self).clean()
@@ -755,6 +756,7 @@ class AssetLifeForm(forms.ModelForm):
 
 ###########################################################################
 class PartForm(forms.ModelForm):
+    partcategorytxt = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
 
     class Meta:
         model = Part

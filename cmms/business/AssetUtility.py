@@ -214,7 +214,7 @@ class AssetUtility:
         links=[]
         for item in a:
             b.append((item.isPartOf.id if item.isPartOf else -1,item.id,item.name))
-        print(b)
+        # print(b)
         # parents, children = zip(*b)
         # root_nodes = {x for x in parets if x not in children}
         # for node in root_nodes:

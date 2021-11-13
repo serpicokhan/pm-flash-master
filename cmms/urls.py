@@ -354,6 +354,7 @@ urlpatterns = [
         url(r'^Part/(?P<id>\d+)/GetPartUsage/$', partUsage, name='partUsage'),
         url(r'^Part/(?P<id>\d+)/(?P<num>\d+)/GetConsumes/$', getPartConsumedItem, name='get_part_consumed_item'),
         url(r'^Part/(?P<id>\d+)/(?P<num>\d+)/GetPurchases/$', getPartPurchasedItem, name='get_part_purchaseditem'),
+        url(r'^Part/Category/$', get_partCategory, name='get_partCategory'),
         url(r'^api/v1/Parts/$',part_collection, name='part_collection'),
         url(r'^api/v1/Part/(?P<id>\d+)/$',part_detail_collection, name='part_detail_collection'),
 

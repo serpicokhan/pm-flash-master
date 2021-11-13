@@ -17,6 +17,7 @@ class Part(models.Model):
     partName=models.CharField("مشخصات",max_length = 100)
     partDescription=models.CharField("توضیحات",max_length = 100)
     partCode=models.CharField("کد",max_length = 50)
+    partCategory=models.ForeignKey('PartCategory',on_delete=models.CASCADE,verbose_name="دسته بندی",null=True,blank=True)
 
     #result related to asset and measured according to Asset
 

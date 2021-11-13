@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <button type="button" class="close closeModal2"  aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h4 class="modal-title">ویرایش</h4>
+</div>
+<div class="modal-body" style='height: 250px;overflow-y: auto;'>
+   <div id="treeview1" class=""></div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default closeModal2" >بستن</button>
+  <button type="button" class="btn btn-primary " >ویرایش</button>
+</div>
+<script type="text/javascript">
+  $(".closeModal2").click(function(){
+      $("#modal-assetcategory").modal("hide");
+  });
+
+{% autoescape off %}
+    var defaultData = [{{cat}}];
+    // console.log(defaultData);
+ {% endautoescape %}
+       $('#treeview1').treeview({
+             data: defaultData,
+             onNodeSelected: function(event, node) {
+              //console.log(node.tags);
+              val=node.tags;
+              $("#id_partCategory").val(val);
+              // console.log($("#id_assetCategory").val());
+              $("#id_partcategorytxt").val(node.text);
+              // console.log($("#id_assetCategory").val());
+              $("#modal-partcategory").modal("hide");
+           },
+           });
+</script>

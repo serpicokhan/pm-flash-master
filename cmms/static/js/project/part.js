@@ -426,7 +426,7 @@ return false;
       success: function (data) {
 
         if (data.form_is_valid) {
-      
+
           $("#tbody_company").empty();
 
           $("#tbody_company").html(data.html_part_search_tag_list);
@@ -655,6 +655,25 @@ function DrawLine(data,element)
   //var myNewChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
 
 }
+var showPartSelector=function(){
+
+
+
+     $.ajax({
+      url: '/Part/Category/',
+      beforeSend: function () {
+
+        $("#modal-partcategory").modal({backdrop: 'static', keyboard: false});
+      },
+      success: function (data) {
+
+        //data.modalassetcat
+         $("#modal-partcategory .modal-content").html(data.modalassetcat);
+      }
+    });
+
+
+}
 function GetConsumeInfo(id){
   $.ajax({
     url: '/Part/'+id+'/'+0+'/GetConsumes/',
@@ -713,6 +732,7 @@ function GetConsumeInfo(id){
 $("tr").on("click", showPartDetails);
 $(".js-create-part").click(myWoLoader);
 $("#modal-company").on("submit", ".js-part-create-form", saveForm);
+$("#modal-company").on("click", "#id_partcategorytxt", showPartSelector);
 
 // Update book
 $("#company-table").on("click", ".js-update-part", myWoLoader);
