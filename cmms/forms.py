@@ -1180,6 +1180,13 @@ class AssetCategoryForm(forms.ModelForm):
         model = AssetCategory
         fields = '__all__'
 ###############################################################
+###############################################################
+class PartCategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = PartCategory
+        fields = '__all__'
+###############################################################
 class MachineCategoryForm(forms.ModelForm):
 
     class Meta:

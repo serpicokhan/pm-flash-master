@@ -218,7 +218,7 @@
               <span class="fa arrow">
               </span>
             </a>
-            <ul  {% if section in 'list_part,list_Stock,list_business,list_bomgroup,list_event' %} class="nav nav-second-level collapse in"
+            <ul  {% if section in 'list_part,list_Stock,list_business,list_bomgroup,list_event,list_partCategory' %} class="nav nav-second-level collapse in"
             {% else %}
             class="nav nav-second-level collapse"
             {% endif %} >
@@ -238,6 +238,25 @@
               <li {% if section == 'list_event' %} class='active'   {% endif %}>
                 <a href="{% url 'list_event'%}" >رویداد</a>
               </li>
+              <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+                <a href="#"><i class="fa fa-list-alt">
+                </i>
+                تنظیمات <span class="fa arrow">
+                </span>
+              </a>
+              <ul  {% if section in 'list_partCategory' %} class="nav nav-third-level collapse in"
+              {% else %}
+              class="nav nav-third-level collapse"
+              {% endif %} >
+
+                <li  {% if section == 'list_partCategory' %} class='active'   {% endif %}>
+                  <a href="{% url 'list_partCategory' %}" >دسته بندی قطعات</a>
+                </li>
+
+
+              </ul>
+
+            </li>
             </ul>
           </li>
           {% if request.user.username == "admin" %}

@@ -61,7 +61,9 @@ def save_part_form(request, form, template_name,id=None):
             books = Part.objects.all().order_by('partName')
             wos=PartUtility.doPaging(request,list(books))
             data['html_part_list'] = render_to_string('cmms/part/partialPartlist.html', {
-                'part': wos
+                'part': wos,
+                'perms': PermWrapper(request.user)
+
             })
         else:
             data['form_is_valid'] = False

@@ -1,0 +1,44 @@
+{% load widget_tweaks %}
+<div class="row">
+<div class="col-sm-12 b-r">
+  <div class="form-group">
+    <label>{{form.name.label}}</label>
+    {% render_field form.name  class='form-control' %}
+
+  </div>
+  <div class="form-group">
+    <label>{{form.code.label}}</label>
+    {% render_field form.code  class='form-control' %}
+
+  </div>
+  <div class="form-group">
+    <label>{{form.description.label}}</label>
+    {% render_field form.description  class='form-control' %}
+
+  </div>
+
+  <div class="form-group">
+
+    <label>{{form.isPartOf.label}}</label>
+      {% render_field form.isPartOf  class='form-control' %}
+
+
+  </div>
+  <div class="form-group">
+
+    <label>{{form.priority.label}}</label>
+      {% render_field form.priority  class='form-control' %}
+
+
+  </div>
+
+
+
+
+
+
+
+</div>
+
+
+</div>

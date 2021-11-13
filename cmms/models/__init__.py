@@ -2,6 +2,7 @@ from cmms.models.workorder import *
 from cmms.models.schedule import *
 from cmms.models.Asset import *
 from cmms.models.assetcategory import *
+
 from cmms.models.machinecategory import *
 
 from cmms.models.users import *

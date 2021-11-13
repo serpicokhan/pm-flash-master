@@ -336,6 +336,12 @@ urlpatterns = [
          url(r'^AssetCategory/(?P<id>\d+)/delete/$', assetCategory_delete, name='assetCategory_delete'),
          url(r'^AssetCategory/(?P<id>\d+)/update/$', assetCategory_update, name='assetCategory_update'),
 
+
+          url(r'^PartCategory/$',list_partCategory,name='list_partCategory'),
+          url(r'^PartCategory/create/$', partCategory_create, name='partCategory_create'),
+          url(r'^PartCategory/(?P<id>\d+)/delete/$', partCategory_delete, name='partCategory_delete'),
+          url(r'^PartCategory/(?P<id>\d+)/update/$', partCategory_update, name='partCategory_update'),
+
          url(r'^MachineCategory/$',list_machineCategory,name='list_machineCategory'),
          url(r'^MachineCategory/create/$', machineCategory_create, name='machineCategory_create'),
          url(r'^MachineCategory/(?P<id>\d+)/delete/$', machineCategory_delete, name='machineCategory_delete'),

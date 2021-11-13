@@ -1,0 +1,89 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+
+<div class="row">
+  <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>دسته بندی اموال </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="company-table">
+                                    <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>نام</th>
+
+                                      <th>توضیح</th>
+
+                                      <th>رنگ</th>
+
+
+
+
+
+
+
+                                        <th></th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody id='tbody_company'>
+                                            {% include 'cmms/partcategory/partialPartCategoryList.html' %}
+                                    </tbody>
+                                </table>
+                                <!-- BUTTON TO TRIGGER THE ACTION -->
+                                <p>
+                                  <button type="button" class="btn btn-primary js-create-partCategory"
+                                  data-url="{% url 'partCategory_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  جدید
+                                  </button>
+                                </p>
+                            </div>
+                          </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-company">
+                 <div class="modal-dialog   ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+
+  <script src="{% static '/js/project/partcategory.js' %}"></script>
+{% endblock %}
+{% endblock %}

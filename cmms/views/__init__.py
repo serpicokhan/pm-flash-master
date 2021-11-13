@@ -48,6 +48,7 @@ from cmms.views.eventview import *
 from cmms.views.maintenancetypeview import *
 from cmms.views.attendanceview import *
 from cmms.views.assetcategoryview import *
+from cmms.views.partcategoryview import *
 from cmms.views.machinecategoryview import *
 from cmms.views.userview import *
 from cmms.views.usergroupsview import *
