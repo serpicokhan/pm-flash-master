@@ -8,7 +8,7 @@
 
      <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
      <h2>
-                          لیست اموال  <br>
+                          گزارش مصرف قطعه  <br>
 
 
                             </h2>
@@ -19,24 +19,19 @@
    <thead>
      <tr>
       <th>نام دارایی</th>
-      <th>کد دارایی</th>
-      <th>گروه</th>
-      <th>ساخت</th>
+      <th>دسته دارایی</th>
       <th>مدل</th>
       <th>شماره سریال</th>
-      <th>وضعیت</th>
+      <th>تعداد قطعه</th>
+      <th>نام قطعه</th>
+
      </tr>
    </thead>
    <tbody>
      {% for c in result1 %}
      <tr>
        <td>{{c.woPartWorkorder__woAsset__assetName}}</td>
-       <td>
-         {{c.part_total|default_if_none:"ندارد"}}
-       </td>
-       <td>
-         {{c.woPartStock__stockItem__partName|default_if_none:"ندارد"}}
-       </td>
+
 
        <td>
          {{c.woPartWorkorder__woAsset__assetCategory__name|default_if_none:"ندارد"}}
@@ -49,17 +44,16 @@
          {{c.assetSerialNumber|default_if_none:"ندارد"}}
        </td>
        <td>
-         {% if c.assetStatus %}
-         روشن
-         {% else %}
-         خاموش
-         {%endif%}
+         {{c.part_total|default_if_none:"ندارد"}}
+       </td>
+       <td>
+         {{c.woPartStock__stockItem__partName|default_if_none:"ندارد"}}
        </td>
 
      </tr>
      {% empty %}
      <tr>
-       <td colspan="7" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+       <td colspan="6" class="text-center bg-warning">هیچ موردی یافت نشد</td>
      </tr>
 
   {% endfor %}
