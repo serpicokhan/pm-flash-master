@@ -619,6 +619,25 @@ def create_woasset(request):
                request=request,
            )
            return JsonResponse(data2)
+
+
+def assetloadinfo(request):
+    data=dict()
+    makan=request.GET.get("makan","")
+
+    if(makan):
+        assets=Asset.objects.none()
+        if(makan== '-1'):
+            assets=Asset.objects.all()
+        else:
+            assets=Asset.objects.filter(assetIsLocatedAt=makan)
+        data["html_assets_dynamics"]=render_to_string('cmms/maintenance/partialWOAssetDynamics.html',
+            {'assets':assets})
+        data["form_is_valid"]=True
+    return JsonResponse(data)
+
+
+           #
 @api_view(['GET'])
 def asset_collection(request):
     if request.method == 'GET':

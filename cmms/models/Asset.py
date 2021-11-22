@@ -18,7 +18,9 @@ from django.db.models import Count
 
 class Asset(models.Model):
     def __str__(self):
-         return "{}".format(self.assetName)
+        if(self.assetIsLocatedAt):
+            return "{}-{}-{}".format(self.assetName,self.assetCode if (self.assetCode != None) else 'فاقد کد',self.assetIsLocatedAt.assetName)
+        return "{}-{}-{}".format(self.assetName,self.assetCode if (self.assetCode != None) else 'فاقد کد',"بدون مکان")
     def get_location(self):
         if(self.assetIsLocatedAt):
 
