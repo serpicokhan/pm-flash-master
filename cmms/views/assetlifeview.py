@@ -108,12 +108,13 @@ def assetLife_create(request,assetId=None):
         data['assetLifeAssetid']=body['assetLifeAssetid']
         data['assetOfflineFrom']=DateJob.getDate2(body['assetOfflineFrom'])
         data['assetSetOfflineByUser']=body['assetSetOfflineByUser']
-        data['assetOfflineStatus']=body['assetOfflineStatus']
+        # data['assetOfflineStatus']=body['assetOfflineStatus']
         data['assetWOAssoc']=body['assetWOAssoc']
         data['assetOfflineAdditionalInfo']=body['assetOfflineAdditionalInfo']
         data['assetEventType']=body['assetEventType']
         data['assetEventDescription']=body['assetEventDescription']
         data['assetCheckEvent']=body['assetCheckEvent']
+        data['assetStopCode']=body['assetStopCode']
 
         data['assetOfflineFromTime']=body['assetOfflineFromTime']
         woId=body['assetLifeAssetid']
@@ -183,12 +184,13 @@ def assetLife_update(request, id):
         data['assetLifeAssetid']=body['assetLifeAssetid']
         data['assetOfflineFrom']=DateJob.getDate2(body['assetOfflineFrom'])#DateJob.getDate(body['assetOfflineFrom'])
         data['assetSetOfflineByUser']=body['assetSetOfflineByUser']
-        data['assetOfflineStatus']=body['assetOfflineStatus']
+        # data['assetOfflineStatus']=body['assetOfflineStatus']
         data['assetWOAssoc']=body['assetWOAssoc']
         data['assetOfflineAdditionalInfo']=body['assetOfflineAdditionalInfo']
         data['assetEventType']=body['assetEventType']
         data['assetEventDescription']=body['assetEventDescription']
         data['assetCheckEvent']=body['assetCheckEvent']
+        data['assetStopCode']=body['assetStopCode']
         data['assetOfflineFromTime']=body['assetOfflineFromTime']
 
         if ("assetOnlineStatus" in body and body['assetOnlineStatus']!=-1):

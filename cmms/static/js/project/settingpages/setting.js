@@ -307,6 +307,34 @@ var initMiscCostCodeLoad=function(){
   });
 return false;
 };
+var initKpiException=function(){
+
+  $.ajax({
+
+    url: '/SettingPage/KpiException/listKpiException',
+
+
+
+    success: function (data) {
+        //alert($("#lastWorkOrderid").val());
+      if (data.form_is_valid) {
+
+
+        //alert(data.html_woCause_list);  // <-- This is just a placeholder for now for testing
+        $("#tbody_kpiException").empty();
+        $("#tbody_kpiException").html(data.html_kpiException_list);
+        $("#modal-kpiException").modal("hide");
+        //console.log(data.html_wo_list);
+      }
+      else {
+
+
+      }
+    }
+  });
+return false;
+};
+initKpiException();
 initWoProblemLoad();
 initWoCauseLoad();
 initWoActionLoad();

@@ -15,6 +15,7 @@ from cmms.models.bom import *
 from cmms.models.event import *
 from cmms.models.parts import *
 from cmms.models.stock import *
+from cmms.models.reportsetting import *
 
 
 from cmms.models.waranty import *
@@ -23,5 +24,6 @@ from cmms.models.project import *
 from cmms.models.adminsetting import *
 from cmms.models.equipsetting import *
 from cmms.models.eqcostsetting import *
+from cmms.models.eqcostsetting import AssetTypeSetting
 from cmms.models.report import *
 from cmms.models.purchaserequest import *

@@ -732,7 +732,8 @@ class AssetLifeForm(forms.ModelForm):
                 assetLifeAssetid=cleaned_data.get('assetLifeAssetid','')
                 assetOfflineFrom=cleaned_data.get('assetOfflineFrom','')
                 assetSetOfflineByUser=cleaned_data.get('assetSetOfflineByUser','')
-                assetOfflineStatus=cleaned_data.get('assetOfflineStatus','')
+                assetStopCode=cleaned_data.get('assetStopCode','')
+                # assetOfflineStatus=cleaned_data.get('assetOfflineStatus','')
                 assetWOAssoc=cleaned_data.get('assetWOAssoc','')
                 assetOfflineAdditionalInfo=cleaned_data.get('assetOfflineAdditionalInfo','')
                 assetEventType=cleaned_data.get('assetEventType','')
@@ -1329,6 +1330,17 @@ class OfflineStatusForm(forms.ModelForm):
                 return cleaned_data
     class Meta:
          model = OfflineStatus
+         fields = '__all__'
+########################################################################
+class KpiExceptionForm(forms.ModelForm):
+    def clean(self):
+                self.is_valid()
+                cleaned_data=super(KpiExceptionForm, self).clean()
+                stopcode=cleaned_data.get('stopcode','')
+
+                return cleaned_data
+    class Meta:
+         model = KpiException
          fields = '__all__'
 ########################################################################
 class CauseCodeForm(forms.ModelForm):

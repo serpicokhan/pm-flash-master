@@ -66,6 +66,7 @@ from cmms.views.eqcostsettingview import *
 from cmms.views.workorderActionview import *
 from cmms.views.workorderCauseview import *
 from cmms.views.offlinestatusview import *
+from cmms.views.kpiexceptionview import *
 from cmms.views.settingview import *
 from cmms.views.simplereportview import *
 from cmms.views.calendar import *

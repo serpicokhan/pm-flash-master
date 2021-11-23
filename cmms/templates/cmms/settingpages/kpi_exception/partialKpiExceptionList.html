@@ -1,0 +1,31 @@
+
+{% for c in kpiExceptions %}
+
+<tr>
+
+<td>{{c.stopcode}}</td>
+
+
+
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-kpiException"
+              data-url="{% url 'kpiException_update' c.id %}">
+
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-kpiException"
+                   data-url="{{c.id }}">
+
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="2" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}

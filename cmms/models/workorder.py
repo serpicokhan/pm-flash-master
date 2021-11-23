@@ -19,6 +19,8 @@ from cmms.models.task import *
 from cmms.utils import *
 from django.utils.timezone import now
 
+
+
 class StopCode(models.Model):
     def __str__(self):
         return self.stopDescription
@@ -33,9 +35,12 @@ class MeterCode(models.Model):
     meterCode=models.CharField("کد",max_length = 100,null=True,blank=True,unique=True)
     meterDescription=models.CharField("َشرح",max_length = 100,null=True,blank=True)
     meterAbbr=models.CharField("اختصار",max_length = 5,null=True,blank=True)
-    # problemIsActive=models.BooleanField("فعال",default=True,blank=True)
+
     class Meta:
+
         db_table="metercode"
+
+
 class MiscCostCode(models.Model):
     def __str__(self):
         return self.miscCostDescription
