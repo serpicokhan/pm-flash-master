@@ -202,6 +202,7 @@ urlpatterns = [
 
 
         url(r'^Asset/$',list_asset,name='list_asset'),
+        url(r'^echo/json/$',get_json_test,name='get_json_test'),
         url(r'^Asset/WoAsset/Create$',create_woasset,name='create_woasset'),
         url(r'^Asset/DASH/$',list_asset_dash,name='list_asset_dash'),
         url(r'^Asset/(?P<locId>\d+)/jslist/$',js_list_asset_dash,name='js_list_asset_dash'),

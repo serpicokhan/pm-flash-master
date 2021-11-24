@@ -46,7 +46,7 @@ def list_asset(request,id=None):
     books=[]
     books =Asset.objects.all().order_by('-id')
     wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset'})
+    return render(request, 'cmms/asset/assettreeList.html', {'asset': wos,'section':'list_asset'})
     # else:
     #      return HttpResponseRedirect(reverse('list_dashboard' ))
     #paging
@@ -658,3 +658,104 @@ def asset_detail_collection(request,id):
         posts = Asset.objects.get(id=id)
         serializer = AssetSerializer(posts)
         return Response(serializer.data)
+
+@csrf_exempt
+def get_json_test(request):
+    jsonData = {
+          "nodeID": {
+            "1": [
+
+               {"ID": "1.1",
+                "childNodeType": "branch",
+                "childData": [
+                  "1.1: column 1",
+                  "1.1: column 2"
+                  ]
+              },
+              {"ID": "1.2",
+                "childNodeType": "leaf",
+                "childData": [
+                  "1.2: column 1",
+                  "1.2: column 2"
+                  ]
+              },
+              {"ID":"1.3",
+                "childNodeType": "leaf",
+                "childData": [
+                  "1.3: column 1",
+                  "1.3: column 2"
+                  ]
+              }
+
+            ],
+            "1.1": [
+
+                {"ID":"1.1.1",
+                  "childNodeType": "leaf",
+                  "childData": [
+                    "1.1.1: column 1",
+                    "1.1.1: column 2"
+                    ]
+                },
+                {"ID":"1.1.2",
+                  "childNodeType": "leaf",
+                  "childData": [
+                    "1.1.2: column 1",
+                    "1.1.2: column 2"
+                    ]
+                }
+
+            ],
+            "2": [
+
+                {"ID":"2.1",
+                  "childNodeType": "leaf",
+                  "childData": [
+                    "2.1: column 1",
+                    "2.1: column 2"
+                    ]
+                },
+                {"ID":"2.2",
+                  "childNodeType": "leaf",
+                  "childData": [
+                    "2.2: column 1",
+                    "2.2: column 2"
+                    ]
+                },
+                {"ID":"2.3",
+                  "childNodeType": "leaf",
+                  "childData": [
+                    "2.3: column 1",
+                    "2.3: column 2"
+                    ]
+                }
+
+            ],
+            "3": [
+
+                {"ID":"3.1",
+                  "childNodeType": "leaf",
+                  "childData": [
+                    "3.1: column 1",
+                    "3.1: column 2"
+                    ]
+                },
+                {"ID":"3.2",
+                  "childNodeType": "leaf",
+                  "childData": [
+                    "3.2: column 1",
+                    "3.2: column 2"
+                    ]
+                },
+                {"ID":"3.3",
+                  "childNodeType": "leaf",
+                  "childData": [
+                    "3.3: column 1",
+                    "3.3: column 2"
+                    ]
+                }
+
+            ]
+          }
+        };
+    return JsonResponse(jsonData)
