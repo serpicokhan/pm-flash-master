@@ -2309,3 +2309,46 @@ class reporttest:
         # print(mtbf_vector)
         asset=Asset.objects.get(id=assetname).assetName
         return render(request, 'cmms/reports/simplereports/mtbfanalysis.html',{'result1':zip(z1,z2),'z1':z1,'z2':z2,'z3':behbood_vec,'z4':alarm_vec,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'asset':asset})
+    def MTBFByAnalythisCauseCode(Self,request):
+        reportType=request.POST.get("reportType","")
+        reportType2=request.POST.get("reportType2","")
+        makan=request.POST.get("makan","")
+        behbood=request.POST.get("behbood","")
+        alarm=request.POST.get("alarm","")
+        causeCode=request.POST.getlist("causeCode","")
+
+        if(len(causeCode) >0 and not causeCode[0]):
+            causeCode.pop(0)
+
+        causeCode=[int(i) for i in causeCode]
+
+        causecode_name=CauseCode.objects.filter(id__in=causeCode)
+
+        assetname=request.POST.get("assetname","")
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","").replace('-','/')
+        # endDate=request.POST.get("endDate","").replace('-','/')
+        #محاسبه سال
+        javab={}
+
+        for i in causecode_name:
+            z1=[]
+            z2=[]
+            mini_javab={}
+            mtbf_vector=MTTR.get_mtbf_asset_mahane_by_cause(assetname,startDate,i.id)
+            mini_javab["main"]=mtbf_vector
+            for j in mtbf_vector:
+                z1.append(j)
+                z2.append(mtbf_vector[j])
+            mini_javab['nemudar']=zip(z1,z2)
+            javab[i.causeDescription]=mini_javab
+
+        # print(reportType2)
+        behbood_vec=[behbood]*12 if reportType2 == '0' else [behbood]*4
+        alarm_vec=[alarm]*12 if reportType2 == '0' else [alarm]*4
+        print(javab)
+
+        # print(mtbf_vector)
+        asset=Asset.objects.get(id=assetname).assetName
+        return render(request, 'cmms/reports/simplereports/MTBFByAnalythisCauseCode.html',{'result1':javab,'z3':behbood_vec,'z4':alarm_vec,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'asset':asset,'casename':causecode_name})

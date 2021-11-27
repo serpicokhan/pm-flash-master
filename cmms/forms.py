@@ -2760,7 +2760,7 @@ class MTBFByAnalythis(forms.Form):
 
         dovre = (
                 (0, "1 ماهه"),
-                (1, "3 ماهه"),
+
 
             )
         reportType2 = forms.MultipleChoiceField(label="دوره",required=False,widget=forms.Select,choices=dovre)
@@ -2776,5 +2776,33 @@ class MTBFByAnalythis(forms.Form):
 
         assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
         widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+        behbood = forms.IntegerField(label='بهبود',required=False)
+        alarm = forms.IntegerField(label='آلارم',required=False)
+class MTBFByAnalythisCauseCode(forms.Form):
+        test=' گزارش mtbf  به همراه آنالیز علت'
+        rcode = 100 #برای استفاده در partialsimplereportform
+        # startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+        startDate = forms.IntegerField(label='سال',required=True)
+
+        dovre = (
+                (0, "1 ماهه"),
+
+
+            )
+        reportType2 = forms.MultipleChoiceField(label="دوره",required=False,widget=forms.Select,choices=dovre)
+
+        OPTIONS = (
+                (0, "pdf"),
+                (1, "EXCEL"),
+
+            )
+        reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
+        makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+        widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+
+        assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
+        widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+        causeCode = forms.ModelChoiceField(label="علت خرابی",queryset=CauseCode.objects.all(),
+        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
         behbood = forms.IntegerField(label='بهبود',required=False)
         alarm = forms.IntegerField(label='آلارم',required=False)

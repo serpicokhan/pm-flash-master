@@ -110,3 +110,17 @@ class MTTR:
         if(end > datetime.datetime.now().date()):
             return 0
         return AssetLife.objects.raw("select mtbf({0},'{1}','{2}') as id".format(assetID,start,end))[0].id
+    @staticmethod
+    def get_mtbf_asset_mahane_by_cause(assetID,dt1,causecode):
+        mtbf_vector={}
+        for i in utilMDate:
+            dt_start=dt1 + '-' + utilMDate[i][0] #eg 1400-01-01
+            dt_end=dt1 + '-' + utilMDate[i][1] #eg 1400-01-31
+            mtbf_vector[i]=MTTR.get_mtbf_date_asset_cause(assetID,DateJob.getDate2(dt_start),DateJob.getDate2(dt_end),causecode)
+        return mtbf_vector
+    @staticmethod
+    def get_mtbf_date_asset_cause(assetID,start,end,cid):
+        # print("select mtbf({0},'{1}','{2}') as id".format(assetID,start,end))
+        if(end > datetime.datetime.now().date()):
+            return 0
+        return AssetLife.objects.raw("select mtbfbycausecode({0},{1},'{2}','{3}') as id".format(assetID,cid,start,end))[0].id
