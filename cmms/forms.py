@@ -739,6 +739,7 @@ class AssetLifeForm(forms.ModelForm):
                 assetEventType=cleaned_data.get('assetEventType','')
                 assetEventDescription=cleaned_data.get('assetEventDescription','')
                 assetCheckEvent=cleaned_data.get('assetCheckEvent','')
+                assetCauseCode=cleaned_data.get('assetCauseCode','')
                 if(cleaned_data.get('assetOnlineStatus','')!='-1'):
                     assetOnlineFrom=cleaned_data.get('assetOnlineFrom','')
                     assetSetOnlineByUser=cleaned_data.get('assetSetOnlineByUser','')
@@ -2751,3 +2752,29 @@ class PartUsageByLocationandPart(forms.Form):
 
     # show_nafar_sat = forms.BooleanField(label="نمایش نفر ساعت",required=False,widget=forms.CheckboxInput(attrs={'class':'check'}))
     # show_sat = forms.BooleanField(label="نمایش ساعت نگهداری",required=False,widget=forms.CheckboxInput(attrs={'class':'check'}))
+class MTBFByAnalythis(forms.Form):
+        test='گزارش شاخص mtbf به صورت پایش دوره ای'
+        rcode = 100 #برای استفاده در partialsimplereportform
+        # startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+        startDate = forms.IntegerField(label='سال',required=True)
+
+        dovre = (
+                (0, "1 ماهه"),
+                (1, "3 ماهه"),
+
+            )
+        reportType2 = forms.MultipleChoiceField(label="دوره",required=False,widget=forms.Select,choices=dovre)
+
+        OPTIONS = (
+                (0, "pdf"),
+                (1, "EXCEL"),
+
+            )
+        reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
+        makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+        widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+
+        assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
+        widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+        behbood = forms.IntegerField(label='بهبود',required=False)
+        alarm = forms.IntegerField(label='آلارم',required=False)

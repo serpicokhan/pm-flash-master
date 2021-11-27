@@ -98,42 +98,43 @@
                       var mydata="";
 
 
-                                           mydata=myformat('{"assetStatus":0\
-                                             ,"assetLifeAssetid":{0}\
-                                           ,"assetOfflineFrom":"{1}"\
-                                           ,"assetSetOfflineByUser":{2}\
-                                           ,"assetOfflineStatus":{3}\
-                                         ,"assetWOAssoc":{4}\
-                                       ,"assetOfflineAdditionalInfo":"{5}"\
-                                     ,"assetEventType":{6}\
-                                   ,"assetEventDescription":"{7}"\
-                                 ,"assetOnlineFrom":"{8}"\
-                               ,"assetSetOnlineByUser":{9}\
-                               ,"assetOnlineStatus":{10}\
-                               ,"assetOnlineAdditionalInfo":"{11}"\
-                             ,"assetOnlineProducteHourAffected":{12},"assetOfflineFromTime":"{13}","assetOnlineFromTime":"{14}","assetCheckEvent":{15},"assetStopCode":{16}}',
-                                           getVal($("#lastAssetid")),
-                                           getStringVal($("#id_assetOfflineFrom")),
-                                           getVal($("#id_assetSetOfflineByUser")),
-                                           1,
-                                           (getVal($("#id_assetWOAssoc")).length>0)?getVal($("#id_assetWOAssoc")).length>0:null,
-                                           getStringVal( $("#id_assetOfflineAdditionalInfo")),
-                                           (getVal($("#id_assetEventType"))=="")?null:$("#id_assetEventType").val(),
-                                           getStringVal($("#id_assetEventDescription")),
+                      mydata=myformat('{"assetStatus":0\
+                        ,"assetLifeAssetid":{0}\
+                      ,"assetOfflineFrom":"{1}"\
+                      ,"assetSetOfflineByUser":{2}\
+                      ,"assetOfflineStatus":{3}\
+                    ,"assetWOAssoc":{4}\
+                  ,"assetOfflineAdditionalInfo":"{5}"\
+                ,"assetEventType":{6}\
+              ,"assetEventDescription":"{7}"\
+            ,"assetOnlineFrom":"{8}"\
+          ,"assetSetOnlineByUser":{9}\
+          ,"assetOnlineStatus":{10}\
+          ,"assetOnlineAdditionalInfo":"{11}"\
+        ,"assetOnlineProducteHourAffected":{12},"assetOfflineFromTime":"{13}","assetOnlineFromTime":"{14}","assetCheckEvent":{15},"assetStopCode":{16},"assetCauseCode":{17}}',
+                      getVal($("#lastAssetid")),
+                      getStringVal($("#id_assetOfflineFrom")),
+                      getVal($("#id_assetSetOfflineByUser")),
+                      1,
+                      (getVal($("#id_assetWOAssoc")).length>0)?getVal($("#id_assetWOAssoc")).length>0:null,
+                      getStringVal( $("#id_assetOfflineAdditionalInfo")),
+                      (getVal($("#id_assetEventType"))=="")?null:$("#id_assetEventType").val(),
+                      getStringVal($("#id_assetEventDescription")),
 
-                                           getStringVal($("#id_assetOnlineFrom")),
-                                           getVal($("#id_assetSetOnlineByUser")),
-                                           getVal($("#id_assetOnlineStatus")),
+                      getStringVal($("#id_assetOnlineFrom")),
+                      getVal($("#id_assetSetOnlineByUser")),
+                      getVal($("#id_assetOnlineStatus")),
 
-                                           getStringVal($("#id_assetOnlineAdditionalInfo")),
-                                           getVal($("#id_assetOnlineProducteHourAffected")),
-                                           getStringVal($("#id_assetOfflineFromTime")),
-                                           getStringVal($("#id_assetOnlineFromTime")),
-                                           $("#id_assetCheckEvent").is(":checked"),
-                                           ($("#id_assetStopCode").val().length>0)?$("#id_assetStopCode").val():'null'
+                      getStringVal($("#id_assetOnlineAdditionalInfo")),
+                      getVal($("#id_assetOnlineProducteHourAffected")),
+                      getStringVal($("#id_assetOfflineFromTime")),
+                      getStringVal($("#id_assetOnlineFromTime")),
+                      $("#id_assetCheckEvent").is(":checked"),
+                      ($("#id_assetStopCode").val().length>0)?$("#id_assetStopCode").val():'null',
+                      getVal($("#id_assetCauseCode")),
 
 
-                                         );
+                    );
 
                        var form = $(this).parent().parent();
                        $.ajax({
@@ -141,8 +142,17 @@
                          type: "POST",
                          data:mydata,
                          dataType: 'json',
-                         beforeSend: function () {
-                           // console.log(mydata);
+                         beforeSend: function(xhr,opt) {
+                           if($("#id_assetStopCode").val().length<1)
+                           {
+                             toastr.error("کد توقف را مشخص نمایید");
+                             xhr.abort();
+                           }
+                           if($("#id_assetCauseCode").val().length<1)
+                           {
+                             toastr.error("کد علت را مشخص کنید");
+                             xhr.abort();
+                           }
 
 
                          },

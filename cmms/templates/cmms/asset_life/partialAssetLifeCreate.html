@@ -77,7 +77,7 @@ catch
 }
 getVal=function(element){
   if(element){
-    console.log(element);
+    // console.log(element);
   if(element.val().length===0)
   {
      switch(element.attr("id"))
@@ -153,7 +153,7 @@ return false;
          ,"assetSetOnlineByUser":{9}\
          ,"assetOnlineStatus":{10}\
          ,"assetOnlineAdditionalInfo":"{11}"\
-       ,"assetOnlineProducteHourAffected":{12},"assetOfflineFromTime":"{13}","assetOnlineFromTime":"{14}","assetCheckEvent":{15},"assetStopCode":{16}}',
+       ,"assetOnlineProducteHourAffected":{12},"assetOfflineFromTime":"{13}","assetOnlineFromTime":"{14}","assetCheckEvent":{15},"assetStopCode":{16},"assetCauseCode":{17}}',
                      getVal($("#lastAssetid")),
                      getStringVal($("#id_assetOfflineFrom")),
                      getVal($("#id_assetSetOfflineByUser")),
@@ -172,7 +172,8 @@ return false;
                      getStringVal($("#id_assetOfflineFromTime")),
                      getStringVal($("#id_assetOnlineFromTime")),
                      $("#id_assetCheckEvent").is(":checked"),
-                     ($("#id_assetStopCode").val().length>0)?$("#id_assetStopCode").val():'null'
+                     ($("#id_assetStopCode").val().length>0)?$("#id_assetStopCode").val():'null',
+                     getVal($("#id_assetCauseCode")),
 
 
                    );
@@ -182,23 +183,24 @@ return false;
 
 
                     var form = $(this).parent().parent();
-                    //console.log(form.attr("action"));
-                    //alert($("#id_metrics").val());
-                    //console.log($(this));
+
                     $.ajax({
                       url: form.attr("data-url"),
                       type: "POST",
                       data:mydata,
                       dataType: 'json',
-                      beforeSend: function (x,h) {
-                        //alert(btn.attr("data-url"));
-                        // if($("#id_assetSetOfflineByUser").val().length==0)
-                        // {
-                        //   toastr.error("کاربر را مشخص کنید");
-                        //   h.abort();
-                        //
-                        // }
-                        // console.log(mydata);
+                      beforeSend: function(xhr,opt) {
+                        console.log(mydata);
+                        if($("#id_assetStopCode").val().length<1)
+                        {
+                          toastr.error("کد توقف را مشخص نمایید");
+                          xhr.abort();
+                        }
+                        if($("#id_assetCauseCode").val().length<1)
+                        {
+                          toastr.error("کد علت را مشخص کنید");
+                          xhr.abort();
+                        }
 
                       },
                       success: function (data) {

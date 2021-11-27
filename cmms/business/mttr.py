@@ -1,4 +1,5 @@
 from cmms.models.workorder import *
+from cmms.business.DateJob import *
 
 class MTTR:
     @staticmethod
@@ -87,3 +88,25 @@ class MTTR:
     @staticmethod
     def getTotalMTBF(id):
         return AssetLife.objects.raw('select total_mtbf({0}) as id'.format(id))
+    # @staticmethod
+    # def get_mtbf_asset_period(assetID,priod,dt1):
+    #     #priod:1 =>1 mahe 2=>3 mahe
+    #     if(priod==1):
+    #         return MTTR.get_mtbf_asset_mahane(assetID,dt1)
+    #     # else:
+    #     #     return MTTR.get_mtbf_asset_3mahe(assetID,dt1)
+    #     return None
+    @staticmethod
+    def get_mtbf_asset_mahane(assetID,dt1):
+        mtbf_vector={}
+        for i in utilMDate:
+            dt_start=dt1 + '-' + utilMDate[i][0] #eg 1400-01-01
+            dt_end=dt1 + '-' + utilMDate[i][1] #eg 1400-01-31
+            mtbf_vector[i]=MTTR.get_mtbf_date_asset(assetID,DateJob.getDate2(dt_start),DateJob.getDate2(dt_end))
+        return mtbf_vector
+    @staticmethod
+    def get_mtbf_date_asset(assetID,start,end):
+        # print("select mtbf({0},'{1}','{2}') as id".format(assetID,start,end))
+        if(end > datetime.datetime.now().date()):
+            return 0
+        return AssetLife.objects.raw("select mtbf({0},'{1}','{2}') as id".format(assetID,start,end))[0].id

@@ -120,6 +120,7 @@ def assetLife_create(request,assetId=None):
         woId=body['assetLifeAssetid']
         data['assetOnlineFrom']=data['assetOfflineFrom']
         data['assetOnlineFromTime']=data['assetOfflineFromTime']
+        data['assetCauseCode']=body['assetCauseCode']
 
         # print("dsadsadsa%%%%%%%"+str(body['assetOnlineStatus']))
         # asset1=Asset.objects.get(pk=int(woId))
@@ -192,6 +193,7 @@ def assetLife_update(request, id):
         data['assetCheckEvent']=body['assetCheckEvent']
         data['assetStopCode']=body['assetStopCode']
         data['assetOfflineFromTime']=body['assetOfflineFromTime']
+        data['assetCauseCode']=body['assetCauseCode']
 
         if ("assetOnlineStatus" in body and body['assetOnlineStatus']!=-1):
             data['assetOnlineFrom']=DateJob.getDate2(body['assetOnlineFrom'])#DateJob.getDate(body['assetOnlineFrom'])

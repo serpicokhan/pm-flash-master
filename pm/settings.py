@@ -140,7 +140,7 @@ WSGI_APPLICATION = 'pm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmms',
+        'NAME': 'cmmsuni2',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
@@ -255,3 +255,4 @@ logging.config.dictConfig(LOGGING)
 # ABSOULTE_URL_OVERRIDES={
 #     'auth_user':lambda u:reverse_lazy('user_update',args=[u.id])
 # }
+DEFAULT_AUTO_FIELD='django.db.models.AutoField' 

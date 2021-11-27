@@ -337,7 +337,7 @@ var LoadFormSetEm =function () {
     $(".selection-box:checked").each(function() {
         matches.push(this.value);
     });
-    console.log(matches);
+    // console.log(matches);
 
 
     return $.ajax({

@@ -1541,7 +1541,7 @@ class reporttest:
 
 
         dtset=DateJob.getQDateM(int(SType))#return a range
-        print(causeCode,"$$$$")
+        # print(causeCode,"$$$$")
         mainJavab={}
         label1=CauseCode.objects.filter(id__in=causeCode).values_list('causeDescription',flat=True)
         label=[]
@@ -2284,3 +2284,28 @@ class reporttest:
             k.append(z1)
 
         return render(request, 'cmms/reports/simplereports/PartUsageByLocationandPart.html',{'result1':n1,'result2':k   ,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
+    def MTBFByAnalythis(Self,request):
+        reportType=request.POST.get("reportType","")
+        reportType2=request.POST.get("reportType2","")
+        makan=request.POST.get("makan","")
+        behbood=request.POST.get("behbood","")
+        alarm=request.POST.get("alarm","")
+
+        assetname=request.POST.get("assetname","")
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","").replace('-','/')
+        # endDate=request.POST.get("endDate","").replace('-','/')
+        #محاسبه سال
+        mtbf_vector=MTTR.get_mtbf_asset_mahane(assetname,startDate)
+        z1=[]
+        z2=[]
+        print(reportType2)
+        behbood_vec=[behbood]*12 if reportType2 == '0' else [behbood]*4
+        alarm_vec=[alarm]*12 if reportType2 == '0' else [alarm]*4
+        for i in mtbf_vector:
+            z1.append(i)
+            z2.append(mtbf_vector[i])
+        # print(mtbf_vector)
+        asset=Asset.objects.get(id=assetname).assetName
+        return render(request, 'cmms/reports/simplereports/mtbfanalysis.html',{'result1':zip(z1,z2),'z1':z1,'z2':z2,'z3':behbood_vec,'z4':alarm_vec,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'asset':asset})

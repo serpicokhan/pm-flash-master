@@ -235,5 +235,6 @@ class AssetLife(models.Model):
     assetCheckEvent=models.BooleanField("ایجاد رویداد",default=False)
     assetStopCode=models.ForeignKey('StopCode',on_delete=models.CASCADE,verbose_name="کد توقف",null=True,blank=True,related_name="assetStopCode")
     #assetCheckEvent2=models.BooleanField("ایجاد رویداد",default=False)
+    assetCauseCode = models.ForeignKey('CauseCode',on_delete=models.CASCADE,verbose_name="کد علت",null=True,blank=True,related_name="assetlifeCauseCode")
     class Meta:
         db_table="assetlife"
