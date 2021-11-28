@@ -491,8 +491,10 @@ class AssetUtility:
             AssetLife.objects.create(assetLifeAssetid=wo.woAsset,assetOfflineFrom=wo.datecreated,assetOfflineFromTime=wo.timecreated,assetSetOfflineByUser=wo.assignedToUser,assetWOAssoc=wo,assetOnlineFrom=wo.dateCompleted,assetOnlineFromTime=wo.timeCompleted,assetSetOnlineByUser=wo.assignedToUser,assetOnlineStatus=0,assetStopCode=wo.woStopCode,assetOnlineProducteHourAffected=product,assetCauseCode=wo.woCauseCode)
         else:
             AssetLife.objects.create(assetLifeAssetid=wo.woAsset,assetOfflineFrom=wo.datecreated,assetOfflineFromTime=wo.timecreated,assetSetOfflineByUser=wo.assignedToUser,assetWOAssoc=wo,assetStopCode=wo.woStopCode,assetCauseCode=wo.woCauseCode)
-            wo.woAsset.assetState=False;
-            wo.woAsset.save()
+            # wo.woAsset.assetState=False;
+            wo_ass=wo.woAsset
+            wo_ass.assetState=False;
+            wo_ass.save()
     @staticmethod
     def updateAssetLife(wo):
         assetlife=AssetLife.objects.filter(assetWOAssoc=wo)
@@ -502,11 +504,12 @@ class AssetUtility:
                     dt1=datetime.datetime.combine(wo.datecreated,wo.timecreated)
                     dt2=datetime.datetime.combine(wo.dateCompleted,wo.timeCompleted)
                     product=(dt2-dt1).total_seconds()/3600
-                    AssetLife.objects.create(assetLifeAssetid=wo.woAsset,assetOfflineFrom=wo.datecreated,assetOfflineFromTime=wo.timecreated,assetSetOfflineByUser=wo.assignedToUser,assetWOAssoc=wo,assetOnlineFrom=wo.dateCompleted,assetOnlineFromTime=wo.timeCompleted,assetSetOnlineByUser=wo.assignedToUser,assetOnlineStatus=0,assetStopCode=wo.woStopCode,assetOnlineProducteHourAffected=product)
+                    AssetLife.objects.create(assetLifeAssetid=wo.woAsset,assetOfflineFrom=wo.datecreated,assetOfflineFromTime=wo.timecreated,assetSetOfflineByUser=wo.assignedToUser,assetWOAssoc=wo,assetOnlineFrom=wo.dateCompleted,assetOnlineFromTime=wo.timeCompleted,assetSetOnlineByUser=wo.assignedToUser,assetOnlineStatus=0,assetStopCode=wo.woStopCode,assetOnlineProducteHourAffected=product,assetCauseCode=wo.woCauseCode)
                 else:
-                    AssetLife.objects.create(assetLifeAssetid=wo.woAsset,assetOfflineFrom=wo.datecreated,assetOfflineFromTime=wo.timecreated,assetSetOfflineByUser=wo.assignedToUser,assetWOAssoc=wo,assetStopCode=wo.woStopCode)
-                    wo.woAsset.assetState=False;
-                    wo.woAsset.save()
+                    AssetLife.objects.create(assetLifeAssetid=wo.woAsset,assetOfflineFrom=wo.datecreated,assetOfflineFromTime=wo.timecreated,assetSetOfflineByUser=wo.assignedToUser,assetWOAssoc=wo,assetStopCode=wo.woStopCode,assetCauseCode=wo.woCauseCode)
+                    wo_ass=wo.woAsset
+                    wo_ass.assetState=False;
+                    wo_ass.save()
                 i.delete()
         else:
             if(wo.woStopCode):

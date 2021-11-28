@@ -300,7 +300,7 @@ def asset_offline_status(request,id):
         z1.append('{:.2f}'.format(i.id))
         z2.append(i.month)
     for i in recentBreak:
-        r.append({'elat':str(i.assetOfflineStatus),'start':str(i.assetOfflineFromTime)+' '+str(i.getdate()).replace('-','/'),'end':str(i.assetOnlineFromTime)+' '+str(i.getonlinedate()).replace('-','/')})
+        r.append({'elat':str(i.assetCauseCode),'start':str(i.assetOfflineFromTime)+' '+str(i.getdate()).replace('-','/'),'end':str(i.assetOnlineFromTime)+' '+str(i.getonlinedate()).replace('-','/')})
 
 
     data['html_assetOfflineStatus_list'] ={'woCompletedNum': s1,
