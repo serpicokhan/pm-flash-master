@@ -488,14 +488,14 @@ class AssetUtility:
             dt1=datetime.datetime.combine(wo.datecreated,wo.timecreated)
             dt2=datetime.datetime.combine(wo.dateCompleted,wo.timeCompleted)
             product=(dt2-dt1).total_seconds()/3600
-            AssetLife.objects.create(assetLifeAssetid=wo.woAsset,assetOfflineFrom=wo.datecreated,assetOfflineFromTime=wo.timecreated,assetSetOfflineByUser=wo.assignedToUser,assetWOAssoc=wo,assetOnlineFrom=wo.dateCompleted,assetOnlineFromTime=wo.timeCompleted,assetSetOnlineByUser=wo.assignedToUser,assetOnlineStatus=0,assetStopCode=wo.woStopCode,assetOnlineProducteHourAffected=product)
+            AssetLife.objects.create(assetLifeAssetid=wo.woAsset,assetOfflineFrom=wo.datecreated,assetOfflineFromTime=wo.timecreated,assetSetOfflineByUser=wo.assignedToUser,assetWOAssoc=wo,assetOnlineFrom=wo.dateCompleted,assetOnlineFromTime=wo.timeCompleted,assetSetOnlineByUser=wo.assignedToUser,assetOnlineStatus=0,assetStopCode=wo.woStopCode,assetOnlineProducteHourAffected=product,assetCauseCode=wo.woCauseCode)
         else:
-            AssetLife.objects.create(assetLifeAssetid=wo.woAsset,assetOfflineFrom=wo.datecreated,assetOfflineFromTime=wo.timecreated,assetSetOfflineByUser=wo.assignedToUser,assetWOAssoc=wo,assetStopCode=wo.woStopCode)
+            AssetLife.objects.create(assetLifeAssetid=wo.woAsset,assetOfflineFrom=wo.datecreated,assetOfflineFromTime=wo.timecreated,assetSetOfflineByUser=wo.assignedToUser,assetWOAssoc=wo,assetStopCode=wo.woStopCode,assetCauseCode=wo.woCauseCode)
             wo.woAsset.assetState=False;
             wo.woAsset.save()
     @staticmethod
     def updateAssetLife(wo):
-        assetlife=AssetLife.objects.filter(assetWOAssoc=form.instance)
+        assetlife=AssetLife.objects.filter(assetWOAssoc=wo)
         if(assetlife):
             for i in assetlife:
                 if(wo.woStatus in (7,8,9)):
@@ -508,6 +508,9 @@ class AssetUtility:
                     wo.woAsset.assetState=False;
                     wo.woAsset.save()
                 i.delete()
+        else:
+            if(wo.woStopCode):
+                AssetUtility.createNewAssetStatus(wo)
 
 
     @staticmethod

@@ -199,16 +199,16 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
                     if(form.instance.woStopCode):
                         try:
                             assetlife=AssetLife.objects.none()
-                            if(iscreated):
-                                if(form.instance.woStopCode.stopCode!="nostop"):
+                            if(iscreated==1):
+                                if(form.instance.woStopCode.stopCode):
                                     AssetUtility.createNewAssetStatus(form.instance)
                             else:
                                     AssetUtility.updateAssetLife(form.instance)
-                        except assetlife.DoesNotExist:
-                            pass
+                        except AssetLife.DoesNotExist:
+                            print("error")
 
                         except Exception as e:
-                            pass
+                            print(e)
                     #End of asset life section
                     if(request.user):
                         # print("user",request.user.username)
