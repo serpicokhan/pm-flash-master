@@ -1132,7 +1132,7 @@ function DrawDonat2(data,element)
 function DrawLine(data,element)
 {
 
-  var mydate2=[0,0,0,0,0,0,0];
+  var mydate2=[0,0,0,0,0,0,0,0,0,0,0,0];
   for(x in data.lineminthname)
   {
     mydate2[data.lineminthname[x]-1]=data.lineAssetofflinecount[x];
