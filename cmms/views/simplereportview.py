@@ -2331,7 +2331,7 @@ class reporttest:
         # endDate=request.POST.get("endDate","").replace('-','/')
         #محاسبه سال
         javab={}
-
+        z1=None
         for i in causecode_name:
             z1=[]
             z2=[]
@@ -2352,4 +2352,4 @@ class reporttest:
         # print(mtbf_vector)
         asset=Asset.objects.get(id=assetname).assetName
         print(javab)
-        return render(request, 'cmms/reports/simplereports/MTBFByAnalythisCauseCode.html',{'result1':javab,'z3':behbood_vec,'z4':alarm_vec,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'asset':asset,'casename':causecode_name})
+        return render(request, 'cmms/reports/simplereports/MTBFByAnalythisCauseCode.html',{'result1':javab,'z3':behbood_vec,'z4':alarm_vec,'z1':z1,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'asset':asset,'casename':causecode_name})
