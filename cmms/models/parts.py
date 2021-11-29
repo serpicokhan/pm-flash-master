@@ -17,7 +17,7 @@ class Part(models.Model):
     partName=models.CharField("مشخصات",max_length = 100)
     partDescription=models.CharField("توضیحات",max_length = 100)
     partCode=models.CharField("کد",max_length = 50)
-    partCategory=models.ForeignKey('PartCategory',on_delete=models.CASCADE,verbose_name="دسته بندی",null=True,blank=True)
+    partCategory=models.ForeignKey('PartCategory',on_delete=models.CASCADE,verbose_name="دسته بندی",null=True,blank=True,related_name='dasdadassa')
 
     #result related to asset and measured according to Asset
 
@@ -50,3 +50,16 @@ class PartFile(models.Model):
     partFiledateAdded=models.DateTimeField(auto_now_add=True)
     class Meta:
         db_table="partfile"
+class PartCategory(models.Model):
+    id = models.AutoField(primary_key=True)
+    name=models.CharField("نام",max_length = 50)
+    code=models.CharField("کد",max_length = 50,unique=True)
+    description=models.CharField("توضیحات",max_length = 50)
+    priority=models.IntegerField("اولویت", null=True)
+
+    isPartOf = models.ForeignKey('self',on_delete=models.CASCADE,verbose_name="زیر مجموعه",null=True,blank=True)
+    def __str__(self):
+        return self.name
+
+    class Meta:
+       db_table = "partcategory"

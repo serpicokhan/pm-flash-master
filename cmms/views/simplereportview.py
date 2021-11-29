@@ -2341,7 +2341,7 @@ class reporttest:
             for j in mtbf_vector:
                 z1.append(j)
                 z2.append(mtbf_vector[j])
-            mini_javab['nemudar']=zip(z1,z2)
+            # mini_javab['nemudar']=zip(z1,z2)
             javab[i.causeDescription]=mini_javab
 
         # print(reportType2)
@@ -2351,4 +2351,5 @@ class reporttest:
 
         # print(mtbf_vector)
         asset=Asset.objects.get(id=assetname).assetName
+        print(javab)
         return render(request, 'cmms/reports/simplereports/MTBFByAnalythisCauseCode.html',{'result1':javab,'z3':behbood_vec,'z4':alarm_vec,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'asset':asset,'casename':causecode_name})

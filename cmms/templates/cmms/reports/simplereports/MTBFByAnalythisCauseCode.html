@@ -49,14 +49,24 @@
                                           </tr>
                                         </thead>
                                         <tbody>
-                                          {% for c in result1 %}
+                                          {% for key, value in result1.items %}
                                           <tr>
-                                            <td>{{c}}</td>
+                                            <td>{% for key1, value1 in value.items %}
+                                              <td>{% for key2, value2 in value1.items %}
+                                                  {{value2}}
+                                                  {{key2}}
+
+
+                                                  {% endfor %}
+
+
+                                              </td>
+
+                                                {% endfor %}
+
 
                                             <td>
-                                              {% for d in c %}
-                                              {{d}}
-                                              {% endfor %}
+                                            {{key}}
                                             </td>
                                             <td>
                                               {{c.assetIsLocatedAt}}
@@ -89,10 +99,11 @@
 
    <script>
 
-     omg={% autoescape off %}    {{ z2 }} {% endautoescape %};
-     omg1={% autoescape off %}    {{ z1 }}{% endautoescape %};
-     omg2={% autoescape off %}    {{ z3 }}{% endautoescape %};
-     omg3={% autoescape off %}    {{ z4 }}{% endautoescape %};
+     omg={% autoescape off %}    {{ result1 }} {% endautoescape %};
+     console.log(omg);
+     // omg1={% autoescape off %}    {{ z1 }}{% endautoescape %};
+     // omg2={% autoescape off %}    {{ z3 }}{% endautoescape %};
+     // omg3={% autoescape off %}    {{ z4 }}{% endautoescape %};
 
 
 var COLORS = [
@@ -110,49 +121,50 @@ var MONTHS = [];
 var mdata=[];
 
 X=[];
-// for( i in omg)
-// {
-// // MONTHS.push(i);
-//
-// mdata.push(omg[i]);
-//
-//
-// }
-// mdata=mdata.reverse();
-// X=[];
-//
-// for(i=0;i<omg1.length;i++)
-// {
-// // console.log("omg2[i]"+omg2[i]);
-// X[i]=[]
-// for(j in omg)
-// {
-// // console.log(omg[i]);
-// // X[i].push(omg[j][omg2[i]]);
-// }
-//
-//
-// }
-result=[];
+for( i in omg)
+{
+ MONTHS.push(i);
+
+mdata.push(omg[i]);
+
+
+}
+mdata=mdata.reverse();
+X=[];
+console.log(mdata[0]['main']);
+
 for(i=0;i<omg1.length;i++)
 {
-result.push({
-label: omg1[i],
-lineTension: 0,
-backgroundColor: COLORS[i],
-borderColor: COLORS[i],
-data:omg.reverse(),
-fill: false,
-lineTension: 0,
-});
+// console.log("omg2[i]"+omg2[i]);
+X[i]=[]
+for(j in omg)
+{
+console.log(omg[i]);
+// X[i].push(omg[j][omg2[i]]);
 }
+
+
+}
+result=[];
+// for(i=0;i<omg.length;i++)
+// {
+// result.push({
+// label: omg[i],
+// lineTension: 0,
+// backgroundColor: COLORS[i],
+// borderColor: COLORS[i],
+// data:omg.reverse(),
+// fill: false,
+// lineTension: 0,
+// });
+// }
 
 
 
 var config = {
 type: 'line',
 data: {
-labels: omg1,
+labels: omg,
 datasets:[
 {
 
