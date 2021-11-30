@@ -5,6 +5,7 @@ import json
 from django.core.paginator import *
 from django.db.models import Count
 from cmms.business.AssetUtility import AssetUtility
+import json
 class PartUtility:
     @staticmethod
     def getUsedPartNum(start,end):
@@ -49,7 +50,10 @@ class PartUtility:
         return wos
     @staticmethod
     def getParts(searchStr):
-        return Part.objects.filter(partName__isnull=False).filter(partName__icontains=searchStr).values('id', 'partName')
+        res= Part.objects.filter(partName__isnull=False).filter(partName__icontains=searchStr).values('id', 'partName')
+        return res
+
+
     @staticmethod
     def getPartStock(partId):
         retStr="<select id='id_woPartStock'>"

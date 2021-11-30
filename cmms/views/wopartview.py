@@ -176,6 +176,11 @@ def wo_getParts(request):
     # print(request.GET['q'])
     searchStr= request.GET['qry'] if request.GET['qry'] else ''
     x=list(PartUtility.getParts(searchStr))
+    # if(len(x)==0):
+    #     print("dasdsa")
+    #     x=[{'id':-1,'partName':'قطعه یافت نشد'}]
+
+
     # response_data = {}
     # response_data['result'] = '[dsadas,dasdasdas]'
     return JsonResponse(x, safe=False)

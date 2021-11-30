@@ -14,6 +14,7 @@ $(function () {
         $("#modal-assetPart .modal-content").html(data.html_assetPart_form);
         $('.advanced2AutoComplete').autoComplete({
           resolver: 'custom',
+          noResultsText:'بدون نتیجه',
           formatResult: function (item) {
             return {
               value: item.id,
@@ -31,15 +32,26 @@ $(function () {
                 }
               ).done(function (res) {
                 console.log(res);
+
+
                 callback(res)
               });
             },
 
           }
         });
+
         $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
           $("#id_assetPartPid").val(item.id);
           $('#id_assetPartPid').val(item.id).trigger('change');
+
+          // $('.basicAutoCompleteCustom').html('');
+        });
+        $('.advanced2AutoComplete').on('autocomplete.dd.shown', function (evt, item) {
+          // $("#id_assetPartPid").val(item.id);
+          // $('#id_assetPartPid').val(item.id).trigger('change');
+          console.log(item);
+
           // $('.basicAutoCompleteCustom').html('');
         });
       }
@@ -125,4 +137,5 @@ $("#modal-assetPart").on("submit", ".js-assetPart-update-form", loadAssetPartFor
 $("#assetPart-table").on("click", ".js-delete-assetPart", loadAssetPartForm);
 $("#modal-assetPart").on("submit", ".js-assetPart-delete-form", saveAssetPartForm);
 $("#modal-assetPart").on("click", ".js-assetPart-delete-form", deleteAssetPartForm);
+// $("#modal-assetPart").on("click", "#ml10", function(){alert("!23123123");});
 });
