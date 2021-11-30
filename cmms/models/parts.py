@@ -11,16 +11,11 @@ import os
 class Part(models.Model):
     def __str__(self):
         return "{}".format(self.partName)
-
-
-
     partName=models.CharField("مشخصات",max_length = 100)
     partDescription=models.CharField("توضیحات",max_length = 100)
     partCode=models.CharField("کد",max_length = 50)
     partCategory=models.ForeignKey('PartCategory',on_delete=models.CASCADE,verbose_name="دسته بندی",null=True,blank=True,related_name='dasdadassa')
-
     #result related to asset and measured according to Asset
-
     partMake=models.CharField("ساخته شده توسط",max_length = 100,null=True,blank=True)
     partModel=models.CharField("مدل",max_length = 50,null=True,blank=True)
     partLastPrice=models.FloatField("آخرین قیمت",default=0,null=True,blank=True)

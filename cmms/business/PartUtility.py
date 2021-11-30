@@ -49,7 +49,7 @@ class PartUtility:
         return wos
     @staticmethod
     def getParts(searchStr):
-        return Part.objects.filter(partName__isnull=False).filter(partName__contains=searchStr).values('id', 'partName')
+        return Part.objects.filter(partName__isnull=False).filter(partName__icontains=searchStr).values('id', 'partName')
     @staticmethod
     def getPartStock(partId):
         retStr="<select id='id_woPartStock'>"
@@ -64,7 +64,7 @@ class PartUtility:
          # print("43 partutility$$$$$$$$$$$$$$$$$$$")
          # print("select id from parts where (partname like '%{}%') or (partDescription like '%{}%') or (partcode like '%{}%') or (partModel like '%{}%') order by id desc".format(searchStr,searchStr,searchStr,searchStr))
          if(searchStr != 'empty'):
-             return Part.objects.filter(partName__contains=searchStr)|Part.objects.filter(partCode__contains=searchStr) #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
+             return Part.objects.filter(partName__icontains=searchStr)|Part.objects.filter(partCode__icontains=searchStr) #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
          # return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,woTags__contains=searchStr).order_by('-id')
          else:
              return Part.objects.all()

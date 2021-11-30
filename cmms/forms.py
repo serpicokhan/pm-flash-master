@@ -759,6 +759,7 @@ class AssetLifeForm(forms.ModelForm):
 ###########################################################################
 class PartForm(forms.ModelForm):
     partcategorytxt = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
+    partDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
 
     class Meta:
         model = Part
