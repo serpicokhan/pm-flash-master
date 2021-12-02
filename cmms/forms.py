@@ -516,6 +516,17 @@ class AssetForm(forms.ModelForm):
         # print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
         super(AssetForm, self).__init__(*args, **kwargs)
         # self.fields['assetCategory'].queryset = AssetCategory.objects.filter(id__lte=3)
+# class AssetSubForm(forms.Form):
+#     assetDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
+#     # def clean_assetCategory(self):
+#     #     last_name = self.cleaned_data['assetCategory']
+#     #     print(last_name,"$$$$$$$$$$$$$$$$")
+#     #     return int(last_name)
+#     # asseccategorytxt = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
+#             makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+#             widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+
+
 
 class AssetPartForm(forms.ModelForm):
     mypart=forms.CharField(required=False)

@@ -47,13 +47,13 @@ $(function () {
 
           // $('.basicAutoCompleteCustom').html('');
         });
-        $('.advanced2AutoComplete').on('autocomplete.dd.shown', function (evt, item) {
-          // $("#id_assetPartPid").val(item.id);
-          // $('#id_assetPartPid').val(item.id).trigger('change');
-          console.log(item);
-
-          // $('.basicAutoCompleteCustom').html('');
-        });
+        // $('.advanced2AutoComplete').on('autocomplete.dd.shown', function (evt, item) {
+        //   $("#id_assetPartPid").val(item.id);
+        //   $('#id_assetPartPid').val(item.id).trigger('change');
+        //   // console.log(item);
+        //
+        //   // $('.basicAutoCompleteCustom').html('');
+        // });
       }
     });
 

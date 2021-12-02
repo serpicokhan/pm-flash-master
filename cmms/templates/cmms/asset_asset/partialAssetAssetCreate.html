@@ -1,0 +1,98 @@
+<div  data-url="{% url 'assetAsset_create' %}" class="js-assetAsset-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close cl-part"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/asset_asset/partialAssetAssetForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-part btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="assetAsset-submit"  >ذخیره</button>
+ <script>
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+        $(".cl-part").click(function()
+        {
+          $("#modal-assetAsset").modal("hide");
+          //$("#{modal-company}").css("background-color", "yellow");
+
+
+        });
+
+
+        $("#assetAsset-submit").click(function(){
+
+                   //alert("12321");
+                    var form = $(this).parent().parent();
+                    //console.log(form.attr("action"));
+                    //alert($("#id_metrics").val());
+                    // console.log(form.attr('class'));
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:myformat('{"AssetAssetAssetId":{0}\
+                      ,"AssetAssetEventId":{1}\
+                      ,"AssetAssetAdditionalDescription":"{2}"}',
+                      $("#lastAssetid").val(),
+                      $("#id_AssetAssetEventId").val(),
+                      $("#id_AssetAssetAdditionalDescription").val()),
+
+
+
+
+                      dataType: 'json',
+                      beforeSend: function () {
+                        //alert(btn.attr("data-url"));
+                        // console.log(myformat('{"AssetAssetAssetId":{0}\
+                        // ,"AssetAssetEventId":{1}\
+                        // ,"AssetAssetAdditionalDescription":"{2}"}',
+                        // $("#lastAssetid").val(),
+                        // $("#id_AssetAssetEventId").val(),
+                        // $("#id_AssetAssetAdditionalDescription").val()));
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_assetAsset").empty();
+
+                          $("#tbody_assetAsset").html(data.html_assetAsset_list);
+                          $("#modal-assetAsset").modal("hide");
+                          // console.log(data.html_assetAsset_list);
+                        }
+                        else {
+
+                          $("#assetAsset-table tbody").html(data.html_assetAsset_list);
+                          $("#modal-assetAsset .modal-content").html(data.html_assetAsset_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>
