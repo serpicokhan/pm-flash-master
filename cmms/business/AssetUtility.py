@@ -581,3 +581,7 @@ class AssetUtility:
                 foo_file.assetFileAssetId=foo
 
                 foo_file.save()
+    @staticmethod
+    def getAssets(searchStr):
+        res= Asset.objects.filter(assetName__isnull=False).filter(assetName__icontains=searchStr).values('id', 'assetName')
+        return res

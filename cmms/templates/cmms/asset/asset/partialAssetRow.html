@@ -8,8 +8,8 @@
      {% endif %}
        {% if perms.cmms.view_assets %}
      <button type="button"
-                  class="btn btn-danger btn-sm js-delete-swo"
-                  data-url="">
+                  class="btn btn-danger btn-sm js-delete-assetAsset"
+                  data-url="{% url 'assetAsset_delete' i.get_assetid 4 %}">
             <span class="glyphicon glyphicon-trash"></span> حذف
           </button>
       {% endif %}
@@ -21,13 +21,13 @@
   <td>
       {% if perms.cmms.view_assets %}
     <button type="button"
-               class="btn btn-warning btn-sm js-update-swo"
-               data-url="">
+               class="btn btn-warning btn-sm js-update-assetAsset"
+               data-url="{% url 'assetAsset_craete' %}">
          <span class="glyphicon glyphicon-pencil"></span>مشاهده     </button>
        {% endif %}
          {% if perms.cmms.view_assets %}
        <button type="button"
-                    class="btn btn-danger btn-sm js-delete-swo"
+                    class="btn btn-danger btn-sm js-delete-assetasset"
                     data-url="">
               <span class="glyphicon glyphicon-trash"></span> حذف
             </button>
