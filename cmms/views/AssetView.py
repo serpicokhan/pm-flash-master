@@ -37,7 +37,7 @@ from django.contrib.auth.context_processors import PermWrapper
 from rest_framework.decorators import api_view
 from cmms.api.WOSerializer import *
 from rest_framework.response import Response
-
+from django.db.models import Q
 @permission_required('cmms.view_assets')
 def list_asset(request,id=None):
 
@@ -537,6 +537,17 @@ def js_list_assetConsumedPart(request,woId):
 
     data['html_assetConsumedPart_list']= render_to_string('cmms/asset_consumed_part/partialAssetWoList.html', {
         'assetwos': books
+    })
+    data['form_is_valid']=True
+    return JsonResponse(data)
+@csrf_exempt
+def create_rowasset(request,wo):
+    data=dict()
+    books=Asset.objects.filter(Q(assetIsLocatedAt=wo)|Q(assetIsPartOf=wo))
+
+    data['html_assetAsset_list']= render_to_string('cmms/asset/asset/partialAssetRow.html', {
+        'assetwos': books,
+        'perms': PermWrapper(request.user)
     })
     data['form_is_valid']=True
     return JsonResponse(data)

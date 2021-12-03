@@ -1,0 +1,36 @@
+{% for i in assetwos %}
+<tr><td><input name="my123" class="form-control advanced2AutoComplete my123" value={{i}} /></td><td><span name="smy123" style="display:none" class="smy123"><span/></td><td>
+    {% if perms.cmms.view_assets %}
+  <button type="button"
+             class="btn btn-warning btn-sm js-update-swo"
+             data-url="">
+       <span class="glyphicon glyphicon-pencil"></span>مشاهده     </button>
+     {% endif %}
+       {% if perms.cmms.view_assets %}
+     <button type="button"
+                  class="btn btn-danger btn-sm js-delete-swo"
+                  data-url="">
+            <span class="glyphicon glyphicon-trash"></span> حذف
+          </button>
+      {% endif %}
+   </td>
+</tr>
+{% endfor %}
+<tr><td><input name="my123" class="form-control advanced2AutoComplete my123"/></td><td><span name="smy123" style="display:none" class="smy123"><span/></td>
+
+  <td>
+      {% if perms.cmms.view_assets %}
+    <button type="button"
+               class="btn btn-warning btn-sm js-update-swo"
+               data-url="">
+         <span class="glyphicon glyphicon-pencil"></span>مشاهده     </button>
+       {% endif %}
+         {% if perms.cmms.view_assets %}
+       <button type="button"
+                    class="btn btn-danger btn-sm js-delete-swo"
+                    data-url="">
+              <span class="glyphicon glyphicon-trash"></span> حذف
+            </button>
+        {% endif %}
+     </td>
+ </tr>

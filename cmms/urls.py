@@ -202,8 +202,9 @@ urlpatterns = [
 
 
         url(r'^Asset/$',list_asset,name='list_asset'),
-        url(r'^echo/json/$',get_json_test,name='get_json_test'),
+        url(r'^Asset/echo/json/$',get_json_test,name='get_json_test'),
         url(r'^Asset/WoAsset/Create$',create_woasset,name='create_woasset'),
+        url(r'^Asset/Make_Row/(?P<wo>\d+)$',create_rowasset,name='create_rowasset'),
         url(r'^Asset/DASH/$',list_asset_dash,name='list_asset_dash'),
         url(r'^Asset/(?P<locId>\d+)/jslist/$',js_list_asset_dash,name='js_list_asset_dash'),
         url(r'^Asset/Location/$',list_asset_location,name='list_asset_location'),

@@ -31,7 +31,7 @@ $(function () {
                   data: { 'qry': qry}
                 }
               ).done(function (res) {
-                console.log(res);
+                // console.log(res);
 
 
                 callback(res)

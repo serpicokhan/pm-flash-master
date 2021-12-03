@@ -80,37 +80,74 @@ var saveAssetAssetForm= function () {
   }
     return false;
   };
-  var addrow=function(){
-    var i=0;
-    $('#assetAsset-table').append('<tr><td><input class="form-control advanced2AutoComplete"/></td><td>Record2</td></tr>');
-    $('.advanced2AutoComplete').autoComplete({
-      resolver: 'custom',
-      noResultsText:'بدون نتیجه',
-      formatResult: function (item) {
-        return {
-          value: item.id,
-          text: "[" + item.id + "] " + item.partName,
+  var make_row=function(val){
+    $.ajax({
+      async: true,
+      url: '/Asset/Make_Row/'+val,
 
-        };
-      },
-      events: {
-        search: function (qry, callback) {
-          // let's do a custom ajax call
-          $.ajax(
-            '/WoPart/GetParts',
-            {
-              data: { 'qry': qry}
+      type: 'post',
+      dataType: 'json',
+      success: function (data) {
+        if (data.form_is_valid) {
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+          $("#tbody_assetAsset").empty();
+          $("#tbody_assetAsset").html(data.html_assetAsset_list);
+          $('.advanced2AutoComplete').autoComplete({
+            resolver: 'custom',
+            noResultsText:'بدون نتیجه',
+            formatResult: function (item) {
+              return {
+                value: item.id,
+                text: "[" + item.id + "] " + item.partName,
+
+              };
+            },
+            events: {
+              search: function (qry, callback) {
+                // let's do a custom ajax call
+                $.ajax(
+                  '/WoPart/GetParts',
+                  {
+                    data: { 'qry': qry}
+                  }
+                ).done(function (res) {
+                  // console.log(res);
+
+
+                  callback(res)
+                });
+              },
+
             }
-          ).done(function (res) {
-            console.log(res);
-
-
-            callback(res)
           });
-        },
 
+
+
+          //console.log(data.html_wo_list);
+        }
+        else {
+          //
+          // $("#task-table tbody").html(data.html_task_list);
+          // $("#modal-task .modal-content").html(data.html_task_form);
+        }
       }
     });
+  }
+  $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
+
+    alert("123");
+
+     //   $(this).closest('tr').find('td:nth-child(2) .smy123').html($(this).val());
+     // // console.log($(this).val());
+     // $(this).closest('tr').find('td:nth-child(2) .smy123').show();
+     // $(this).parent().hide();
+    // $('.basicAutoCompleteCustom').html('');
+  });
+  var addrow=function(){
+    val=$("#lastAssetid").val();
+    make_row(val);
+
+
   }
 
 
