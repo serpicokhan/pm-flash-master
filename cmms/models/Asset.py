@@ -37,6 +37,7 @@ class Asset(models.Model):
                  else:
                      return "<i class='fa fa-stop'></i>"
     def get_assetid(self):
+                    
                  return self.assetIsLocatedAt.id
 
     Location=1

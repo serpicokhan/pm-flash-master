@@ -1,4 +1,4 @@
-<div  data-url="{% url 'assetAsset_create' %}" class="js-assetAsset-create-form" >
+<div  data-url="{% url 'assetAsset_craete' %}" class="js-assetAsset-create-form" >
 
   <div class="modal-header " style="background:#ccc">
     <button type="button" class="close cl-part"  aria-label="Close">
@@ -40,16 +40,14 @@
                     var form = $(this).parent().parent();
                     //console.log(form.attr("action"));
                     //alert($("#id_metrics").val());
-                    // console.log(form.attr('class'));
+                    // console.log(form.attr(''));
                     $.ajax({
                       url: form.attr("data-url"),
                       type: "POST",
-                      data:myformat('{"AssetAssetAssetId":{0}\
-                      ,"AssetAssetEventId":{1}\
-                      ,"AssetAssetAdditionalDescription":"{2}"}',
+                      data:myformat('{"lastAssetid":{0}\
+                      ,"assetAssetId":{1}}',
                       $("#lastAssetid").val(),
-                      $("#id_AssetAssetEventId").val(),
-                      $("#id_AssetAssetAdditionalDescription").val()),
+                      $("#hiddentajhiz").val()),
 
 
 

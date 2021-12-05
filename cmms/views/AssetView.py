@@ -551,34 +551,9 @@ def create_rowasset(request,wo):
     })
     data['form_is_valid']=True
     return JsonResponse(data)
-
-def asset_getAssets(request):
-    # print(request.GET['q'])
-    searchStr= request.GET['qry'] if request.GET['qry'] else ''
-    x=list(AssetUtility.getAssets(searchStr))
-    # if(len(x)==0):
-    #     print("dasdsa")
-    #     x=[{'id':-1,'partName':'قطعه یافت نشد'}]
-
-
-    # response_data = {}
-    # response_data['result'] = '[dsadas,dasdasdas]'
-    return JsonResponse(x, safe=False)
-@csrf_exempt
-def assetAsset_craete(request):
-    # print(request.GET['q'])
-    child_asset_id= request.GET['child'] if request.GET['child'] else ''
-    main_asset_id= request.GET['main'] if request.GET['main'] else ''
-    main_asset=Asset.objects.get(id=main_asset_id)
-    child_asset=Asset.objects.get(id=child_asset_id)
-    if(main_asset.assetTypes==1):
-        child_asset.assetIsLocatedAt=main_asset
-        child_asset.save()
-    else:
-        child_asset.assetIsPartOf=main_asset
-        child_asset.save()
+def list_assetAsset(request,id):
     data=dict()
-    books=Asset.objects.filter(Q(assetIsLocatedAt=main_asset))
+    books=Asset.objects.filter(Q(assetIsLocatedAt=id)|Q(assetIsPartOf=id))
 
     data['html_assetAsset_list']= render_to_string('cmms/asset/asset/partialAssetRow.html', {
         'assetwos': books,
@@ -588,6 +563,35 @@ def assetAsset_craete(request):
     return JsonResponse(data)
 
 
+def asset_getAssets(request):
+    searchStr= request.GET['qry'] if request.GET['qry'] else ''
+    x=list(AssetUtility.getAssets(searchStr))
+    return JsonResponse(x, safe=False)
+@csrf_exempt
+def assetAsset_craete(request):
+    # # print(request.GET['q'])
+    # child_asset_id= request.GET['child'] if request.GET['child'] else ''
+    # main_asset_id= request.GET['main'] if request.GET['main'] else ''
+    # main_asset=Asset.objects.get(id=main_asset_id)
+    # child_asset=Asset.objects.get(id=child_asset_id)
+    # if(main_asset.assetTypes==1):
+    #     child_asset.assetIsLocatedAt=main_asset
+    #     child_asset.save()
+    # else:
+    #     child_asset.assetIsPartOf=main_asset
+    #     child_asset.save()
+    # data=dict()
+    # books=Asset.objects.filter(Q(assetIsLocatedAt=main_asset))
+    #
+    # data['html_assetAsset_list']= render_to_string('cmms/asset/asset/partialAssetRow.html', {
+    #     'assetwos': books,
+    #     'perms': PermWrapper(request.user)
+    # })
+    # data['form_is_valid']=True
+    # return JsonResponse(data)
+
+
+
     # if(len(x)==0):
     #     print("dasdsa")
     #     x=[{'id':-1,'partName':'قطعه یافت نشد'}]
@@ -595,21 +599,61 @@ def assetAsset_craete(request):
 
     # response_data = {}
     # response_data['result'] = '[dsadas,dasdasdas]'
-    return JsonResponse(x, safe=False)
+    # child_asset_id= request.GET['child'] if request.GET['child'] else ''
+    # main_asset_id= request.GET['main'] if request.GET['main'] else ''
+    if (request.method == 'POST'):
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+
+
+        data = request.POST.dict()
+        data['main']=body['lastAssetid']
+        data['child']=body['assetAssetId']
+        form = data
+        child_asset_id= data['child']
+        main_asset_id= data['main']
+        main_asset=Asset.objects.get(id=main_asset_id)
+        print(main_asset)
+        child_asset=Asset.objects.get(id=child_asset_id)
+        if(main_asset.assetTypes==1):
+            print("hrere")
+            child_asset.assetIsLocatedAt=main_asset
+            child_asset.save()
+        else:
+            child_asset.assetIsPartOf=main_asset
+            child_asset.save()
+        data=dict()
+        books=Asset.objects.filter(Q(assetIsLocatedAt=main_asset))
+        data['html_assetAsset_list']= render_to_string('cmms/asset/asset/partialAssetRow.html', {
+            'assetwos': books,
+            'perms': PermWrapper(request.user)
+        })
+        data['form_is_valid']=True
+        return JsonResponse(data)
+
+    else:
+        form = None
+        data=dict()
+        data['html_assetAsset_form']= render_to_string('cmms/asset_asset/partialAssetAssetCreate.html', {
+
+        })
+
+        return JsonResponse(data)
 @csrf_exempt
-def assetAsset_delete(request,id,ch_id):
+def assetAsset_delete(request,id,child):
     # print(request.GET['q'])
 
     main_asset=Asset.objects.get(id=id)
     child_asset=Asset.objects.get(id=ch_id)
-    if(main_asset.assetTypes==1):
+    # if(main_asset.assetTypes==1):
+    if(child_asset.assetIsLocatedAt==main_asset):
         child_asset.assetIsLocatedAt=None
         child_asset.save()
     else:
         child_asset.assetIsPartOf=None
         child_asset.save()
     data=dict()
-    books=Asset.objects.filter(Q(assetIsLocatedAt=main_asset))
+    books=Asset.objects.filter(Q(assetIsLocatedAt=main_asset)|Q(assetIsPartOf=main_asset))
 
     data['html_assetAsset_list']= render_to_string('cmms/asset/asset/partialAssetRow.html', {
         'assetwos': books,

@@ -25,18 +25,16 @@
 
                                     </thead>
                                     <tbody id='tbody_assetAsset'>
-                                            {% include 'cmms/asset_asset/partialAssetAssetList.html' %}
+                                    {% include 'cmms/asset_asset/partialAssetAssetList.html' %}
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                 <p>
                                   <button type="button" class="btn btn-primary js-create-assetAsset"
-                                  data-url="#"                                  >
-                                    <span class="glyphicon glyphicon-plus"
+                                  data-url="{% url 'assetAsset_craete'  %}"                                  >
+                                    <span class="glyphicon glyphicon-plus">
 
-
-
-                                    ></span>
+                                    </span>
                                   جدید
                                   </button>
                                 </p>

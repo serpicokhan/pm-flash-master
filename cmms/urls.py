@@ -239,6 +239,7 @@ urlpatterns = [
         url(r'^Asset/BulkDelete/(?P<ids>\d+(?:,\d+)*)$', bulk_delete_asset, name='bulk_delete_asset'),
         url(r'^Asset/GetAssets$', asset_getAssets, name='asset_getAssets'),
         url(r'^Asset/Asset/create$', assetAsset_craete, name='assetAsset_craete'),
+        url(r'^Asset/Asset/(?P<id>\d+)/listAssetAsset$', list_assetAsset, name='list_assetAsset'),
         url(r'^Asset/Asset/(?P<id>\d+)/delete/(?P<ch_id>\d+)$', assetAsset_delete, name='assetAsset_delete'),
 
         url(r'^api/v1/Asset/Category/(?P<id>\d+)/$',assetcategory_detail_collection, name='assetcategory_detail_collection'),
