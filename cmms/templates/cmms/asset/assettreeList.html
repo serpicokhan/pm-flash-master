@@ -1,6 +1,7 @@
 <!--pip install django-widget-tweaks-->
 {% extends 'cmms/mainTheme.html' %}
 
+
  {% block content %}
 
 
@@ -58,11 +59,13 @@
                                     <thead>
                                     <tr>
                                       <th></th>
-                                      <th>مکان</th>
+                                      <th></th>
+
                                       <th>نام</th>
                                       <th>کد</th>
                                       <th>وضعیت</th>
                                       <th>دسته</th>
+                                      <th>مکان</th>
 
 
 
@@ -74,21 +77,9 @@
 
                                     </thead>
                                     <tbody id='tbody_company'>
-                                      <tr data-tt-id="1" data-tt-branch='true'>
-                                             <td>1: column 1</td>
-                                             <td>1: column 2</td>
-                                            </tr>
+                                                {% include 'cmms/asset/partialAssetTreeList.html' %}
 
-                                            <tr data-tt-id="2" data-tt-branch='true'>
-                                             <td>2: column 1</td>
-                                             <td>2: column 2</td>
-                                            </tr>
-
-                                            <tr data-tt-id="3" data-tt-branch='true'>
-                                             <td>3: column 1</td>
-                                             <td>3: column 2</td>
-                                            </tr>
-                                    </tbody>
+                                  </tbody>
                                 </table>
                                 <div class="assetPaging" >
                                   {% if asset.has_other_pages %}
@@ -156,7 +147,7 @@
                     </div>
                 </div>
 
-{% include 'cmms/asset/partialAssetDetails.html' %}
+
 
 
 
@@ -170,10 +161,10 @@
 
 
 
-  <script src="{% static '/js/project/asset.js' %}"></script>
-  <script src="{% static 'js/plugins/treetable/js/js/jquery.treetable.js' %}"></script>
 
-  <script src="{% static 'js/plugins/treetable/js/js/demo.js' %}"></script>
+  <script src="{% static 'js/plugins/treetable/js/js/jquery.treetable.js' %}"></script>
+  <script src="{% static '/js/project/asset.js' %}"></script>
+
 
 
 {% endblock %}

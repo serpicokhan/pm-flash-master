@@ -15,6 +15,7 @@ from cmms.utils import *
 from cmms.models.purchase import *
 from cmms.models.stock import *
 from django.db.models import Count
+from django.db.models import Q
 
 class Asset(models.Model):
     def __str__(self):
@@ -27,6 +28,8 @@ class Asset(models.Model):
             return "{}".format(self.assetIsLocatedAt)
         else:
             return "-"
+    def get_child(self):
+        return Asset.objects.filter(Q(assetIsLocatedAt=self.id)|Q(assetIsPartOf=self.id))
     def get_name(self):
         if(self.assetName):
             return "{}:{}".format(self.assetName,self.assetCode)
@@ -37,7 +40,7 @@ class Asset(models.Model):
                  else:
                      return "<i class='fa fa-stop'></i>"
     def get_assetid(self):
-                    
+
                  return self.assetIsLocatedAt.id
 
     Location=1

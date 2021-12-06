@@ -44,9 +44,10 @@ def list_asset(request,id=None):
     #print("username {}".format(request.user.username))
     # if(request.user.username=="admin"):
     books=[]
-    books =Asset.objects.all().order_by('-id')
+    # books =Asset.objects.all().order_by('-id')
+    books =Asset.objects.filter(assetIsLocatedAt__isnull=True).order_by('-id')
     wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset'})
+    return render(request, 'cmms/asset/assettreeList.html', {'asset': wos,'section':'list_asset'})
     # else:
     #      return HttpResponseRedirect(reverse('list_dashboard' ))
     #paging
