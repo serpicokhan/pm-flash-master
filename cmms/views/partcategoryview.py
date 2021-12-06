@@ -18,7 +18,7 @@ import django.core.serializers
 import logging
 from django.conf import settings
 
-from cmms.models.assetcategory import *
+from cmms.models.parts import PartCategory
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
