@@ -4,9 +4,9 @@
        {% if perms.cmms.view_assets %}
      <button type="button"
                   class="btn btn-danger btn-sm js-delete-assetAsset"
-                  {% if i.assetIsLocatedAt  %}
+                  {% if i.assetIsLocatedAt > 0  %}
                   data-url="{% url 'assetAsset_delete' i.assetIsLocatedAt i.id %}">
-                  {% elif i.isPartOf %}
+                  {% elif i.isPartOf > 0 %}
 
                   data-url="{% url 'assetAsset_delete' i.isPartOf i.id %}">
 
@@ -17,4 +17,15 @@
       {% endif %}
    </td>
 </tr>
+
+{% empty %}
+<tr>
+ <td colspan="3" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
 {% endfor %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/assetAsset.js' %}"></script>
+{% endblock %}

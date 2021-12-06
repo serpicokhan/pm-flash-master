@@ -18,7 +18,7 @@ $(function () {
           formatResult: function (item) {
             return {
               value: item.id,
-              text: "[" + item.id + "] " + item.assetName,
+              text: "[" + item.assetCode + "] " + item.assetName,
             };
           },
           events: {
