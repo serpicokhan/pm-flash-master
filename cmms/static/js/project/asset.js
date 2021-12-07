@@ -166,25 +166,15 @@ $(function () {
     $(".selection-box:checked").each(function() {
         matches.push(this.value);
     });
-    // lo(matches);
-    // console.log(matches);
-
-
     return $.ajax({
       url: $(this).attr("date-url")+matches,
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
-
         $("#modal-assetcategory2").modal({backdrop: 'static', keyboard: false});
-
       },
       success: function (data) {
-        //alert("3123@!");
-        // alert(1);
         $("#modal-assetcategory2 .modal-content").html(data.modalassetcat);
-
-
       }
     });
 
@@ -198,27 +188,17 @@ $(function () {
     $(".selection-box:checked").each(function() {
         matches.push(this.value);
     });
-    // lo(matches);
-    // console.log(matches);
-
-
     return $.ajax({
       url: '/Asset/Clone/'+matches,
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
-
-
-
       },
       success: function (data) {
         if(data.form_is_valid)
         {
         $("#tbody_company").html(data.html_asset_list);
         $(".assetPaging").html(data.html_asset_paginator);
-        // $(".assetPaging").html(data.html_asset_paginator);
-
-
         $("tr").on("click", showAssetDetails);
         toastr.success("کپی با موفقیت انجام شد")
       }
@@ -226,13 +206,30 @@ $(function () {
       {
         toastr.error("خطا در کپی دارایی");
       }
-
-
     }
     });
 
 
 
+};
+  var duplicate_asset =function () {
+    matches=[];
+    $(".selection-box:checked").each(function() {
+        matches.push(this.value);
+    });
+    if(matches.length==0)
+      return false;
+    return $.ajax({
+      url: '/Asset/duplicate/'+matches[0],
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+          $("#modal-assetcategory2").modal({backdrop: 'static', keyboard: false});
+      },
+      success: function (data) {
+          $("#modal-assetcategory2 .modal-content").html(data.modalassetcat);
+      }
+    });
 };
 var bulk_delete_pressed=function(){
   swal({
@@ -250,8 +247,6 @@ var bulk_delete_pressed=function(){
    });
 }
   var bulk_delete_asset =function () {
-
-
     matches=[];
     $(".selection-box:checked").each(function() {
         matches.push(this.value);
@@ -283,45 +278,32 @@ var bulk_delete_pressed=function(){
       {
         toastr.error("خطا در حذف دسته ای دارایی ها");
       }
-
-
     }
     });
-
-
-
 };
 
 //////////
 ////////////////Search buttom click#############################
 var searchAsset= function (searchStr) {
-
   searchStr=searchStr.replace(' ','__');
    $.ajax({
      url: $(location).attr('pathname')+searchStr+'/Search/',
-
      type: 'GET',
      dataType: 'json',
      beforeSend:function(){
        console.log($(location).attr('pathname')+searchStr+'/Search/');
      },
      success: function (data) {
-
        if (data.form_is_valid) {
-
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_company").empty();
-
          $("#tbody_company").html(data.html_asset_search_tag_list);
          $(".assetPaging").html(data.html_asset_paginator);
-
          $("#modal-company").modal("hide");
          $("tr").on("click", showAssetDetails);
         // console.log(data.html_amar_list);
        }
        else {
-
-
        }
      },
      error: function (jqXHR, exception,err) {
@@ -330,7 +312,6 @@ var searchAsset= function (searchStr) {
      }
    });
    return false;
-
  };
 ///////////
 /////////////////////////////
@@ -502,11 +483,15 @@ var saveForm= function () {
  };
 var saveAssetCatForm= function () {
    var form = $(this);
+   console.log("it happend>");
    $.ajax({
      url: form.attr("action"),
      data: form.serialize(),
      type: form.attr("method"),
      dataType: 'json',
+     beforeSend:function(){
+       // console.log(form.serialize());
+     },
      success: function (data) {
        if (data.form_is_valid) {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
@@ -516,12 +501,10 @@ var saveAssetCatForm= function () {
         $("#modal-assetcategory2").modal("hide");
         $("tr").on("click", showAssetDetails);
 
-        // console.log(data.html_asset_list);
        }
        else {
 
-         $("#company-table tbody").html(data.html_asset_list);
-         $("#modal-assetcategory2 .modal-content").html(data.html_asset_form);
+         toastr.error(data.error);
        }
      }
    });
@@ -1128,6 +1111,7 @@ $(".js-create-asset").click(myWoLoader);
 $("#modal-company").on("submit", ".js-asset-create-form", saveForm);
 
 $("#modal-assetcategory2").on("submit", ".js-bulkasset-selector-form2", saveAssetCatForm);
+$("#modal-assetcategory2").on("submit", ".js-bulkasset-duplicate-form", saveAssetCatForm);
 
 // Update book
 $("#company-table ").on("click", ".js-update-asset", myWoLoader);
@@ -1139,6 +1123,7 @@ $("#modal-company").on("submit", ".js-asset-delete-form", saveForm);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);
 $(".js-bulkasset-category-selector").click(LoadFormAssetSelector);
 $(".js-clone-asset").click(clone_asset);
+$(".js-duplicate-asset").click(duplicate_asset);
 $(".js-bulk_delete-asset").click(bulk_delete_pressed);
 $(".js-bulkasset-type-selector").click(showAssetTypeSelector);
 $("#modal-assettype").on("click", ".asset_type_change", change_type);

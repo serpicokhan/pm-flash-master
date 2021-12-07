@@ -236,6 +236,7 @@ urlpatterns = [
         url(r'^Asset/Category2/(?P<ids>\d+(?:,\d+)*)$', get_assetCategoryMain, name='get_assetCategoryMain'),
         url(r'^Asset/Location/Category$', get_location_by_category, name='get_location_by_category'),
         url(r'^Asset/Clone/(?P<ids>\d+(?:,\d+)*)$', clone_asset, name='clone_asset'),
+        url(r'^Asset/duplicate/(?P<id>\d+)$', duplicate_asset, name='duplicate_asset'),
         url(r'^Asset/BulkDelete/(?P<ids>\d+(?:,\d+)*)$', bulk_delete_asset, name='bulk_delete_asset'),
         url(r'^Asset/GetAssets$', asset_getAssets, name='asset_getAssets'),
         url(r'^Asset/Asset/create$', assetAsset_craete, name='assetAsset_craete'),

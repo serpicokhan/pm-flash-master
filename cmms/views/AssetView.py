@@ -38,6 +38,9 @@ from rest_framework.decorators import api_view
 from cmms.api.WOSerializer import *
 from rest_framework.response import Response
 from django.db.models import Q
+from django.db import  transaction
+
+
 @permission_required('cmms.view_assets')
 def list_asset(request,id=None):
 
@@ -47,7 +50,7 @@ def list_asset(request,id=None):
     # books =Asset.objects.all().order_by('-id')
     books =Asset.objects.filter(assetIsLocatedAt__isnull=True).order_by('-id')
     wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assettreeList.html', {'asset': wos,'section':'list_asset'})
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset'})
     # else:
     #      return HttpResponseRedirect(reverse('list_dashboard' ))
     #paging
@@ -224,7 +227,7 @@ def get_assetCategoryMain(request,ids):
             s.assetCategory=AssetCategory.objects.get(id=int(catId))
             s.save()
         books=[]
-        books =Asset.objects.all().order_by('-assetName')
+        books =Asset.objects.all().order_by('-id')
         wos=AssetUtility.doPaging(request,books)
         data['form_is_valid']=True
         data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
@@ -239,6 +242,43 @@ def get_assetCategoryMain(request,ids):
         m=m.replace('"',"'")
         context={'cat':m,'perms': PermWrapper(request.user),'ids':ids}
         data["modalassetcat"]=render_to_string('cmms/asset/assetcategoryselectorMain.html',
+        context,
+        request=request)
+    return JsonResponse(data)
+def duplicate_asset(request,id):
+    data=dict()
+    '''render_to_string('cmms/asset/temp.txt')'''
+    if (request.method == 'POST'):
+        assetId=request.POST.get("assetID","")
+        tedad=request.POST.get("tedad","")
+        pishvand=request.POST.get("pishvand","")
+        
+        try:
+            with transaction.atomic():
+
+                for i in range(0,int(tedad)):
+                    AssetUtility.duplicate_asset(id,i,pishvand)
+        except Exception as e:
+            data['error']="خطا در ثبت اطلاعات"
+            print(e)
+
+
+
+        books=[]
+        books =Asset.objects.all().order_by('-id')
+        wos=AssetUtility.doPaging(request,books)
+        data['form_is_valid']=True
+        data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
+            'asset': wos,
+            'perms': PermWrapper(request.user)
+        })
+        # list_asset(request)
+
+
+    else:
+        m=Asset.objects.get(id=id)
+        context={'form':m,'perms': PermWrapper(request.user)}
+        data["modalassetcat"]=render_to_string('cmms/asset/assetDuplicateForm.html',
         context,
         request=request)
     return JsonResponse(data)

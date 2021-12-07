@@ -419,12 +419,12 @@ class AssetUtility:
 
              if(aType>0):
                  if(searchStr.isdigit()):
-                     return Asset.objects.filter(Q(assetName__icontains=searchStr,assetTypes=aType)|Q(assetIsLocatedAt__id=int(searchStr))|Q(assetIsPartOf__id=int(searchStr))|Q(assetCode__icontains=searchStr,assetTypes=aType)|Q(id=int(searchStr),assetTypes=aType)|Q(assetCategory__name__icontains(searchStr))).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
+                     return Asset.objects.filter(Q(assetName__icontains=searchStr,assetTypes=aType)|Q(assetCode__icontains=searchStr,assetTypes=aType)|Q(id=int(searchStr),assetTypes=aType)|Q(assetCategory__name__icontains(searchStr))).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
 
                  return Asset.objects.filter(Q(assetName__icontains=searchStr,assetTypes=aType)|Q(assetCode__icontains=searchStr,assetTypes=aType)|Q(assetCategory__name__icontains=searchStr)).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
              else:
                  if(searchStr.isdigit()):
-                      return Asset.objects.filter(Q(assetName__icontains=searchStr)|Q(assetIsLocatedAt__id=int(searchStr))|Q(assetIsPartOf__id=int(searchStr))|Q(assetCode__icontains=searchStr)|Q(id=int(searchStr))).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
+                      return Asset.objects.filter(Q(assetName__icontains=searchStr)|Q(assetCode__icontains=searchStr)|Q(id=int(searchStr))).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
                  return Asset.objects.filter(assetIsPartOf__assetName__icontains=searchStr)|Asset.objects.filter(assetIsLocatedAt__assetName__icontains=searchStr)|Asset.objects.filter(assetName__icontains=searchStr)|Asset.objects.filter(assetCode__icontains=searchStr)|Asset.objects.filter(assetCategory__name__icontains=searchStr).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
 
          # return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,woTags__contains=searchStr).order_by('-id')
@@ -571,7 +571,45 @@ class AssetUtility:
             foo_part=AssetPart.objects.filter(assetPartAssetid=id)
             for i in foo_part:
                 i.pk=None
-                i.assetPartAssetid=foo.id
+                i.assetPartAssetid=foo
+                i.save()
+            #############
+            foo_bom=BOMGroupAsset.objects.filter(BOMGroupAssetAsset=id)
+            for i in foo_bom:
+                i.pk=None
+                i.BOMGroupAssetAsset=foo
+                i.save()
+            ####################
+            ###meter reading must not be copied,Because it is unique for it's asset
+            foo_files=AssetFile.objects.filter(assetFileAssetId=id)
+            for foo_file in foo_files:
+                foo_file.pk=None
+                foo_file.assetFileAssetId=foo
+
+                foo_file.save()
+    @staticmethod
+    def duplicate_asset(id,tedad,pishvand):
+            foo=Asset.objects.get(pk=id)
+            foo.assetName=foo.assetName+' '+str(tedad)
+            foo.assetCode=pishvand+' '+str(tedad)
+            foo.pk=None
+            # این دو خط رو نسبت به clone اضافه تر داره
+            foo.assetIsLocatedAt=None
+            foo.assetIsPartOf=None
+            foo.assetStatus=True
+            foo.save()
+            #############
+            foo_bom=BOMGroupAsset.objects.filter(BOMGroupAssetAsset=id)
+            for i in foo_bom:
+                i.pk=None
+                i.BOMGroupAssetAsset=foo
+                i.save()
+
+            ############
+            foo_part=AssetPart.objects.filter(assetPartAssetid=id)
+            for i in foo_part:
+                i.pk=None
+                i.assetPartAssetid=foo
                 i.save()
             ####################
             ###meter reading must not be copied,Because it is unique for it's asset
