@@ -46,7 +46,9 @@ def list_asset(request,id=None):
     books=[]
     books =Asset.objects.all().order_by('-id')
     wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset'})
+    assetLocation=Asset.objects.filter(assetTypes=1)
+    assetCat=AssetCategory.objects.all()
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'assetLocation':assetLocation,'assetCat':assetCat,'section':'list_asset'})
     # else:
     #      return HttpResponseRedirect(reverse('list_dashboard' ))
     #paging
