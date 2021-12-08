@@ -43,17 +43,10 @@ from django.db import  transaction
 
 @permission_required('cmms.view_assets')
 def list_asset(request,id=None):
-
-    #print("username {}".format(request.user.username))
-    # if(request.user.username=="admin"):
     books=[]
-    # books =Asset.objects.all().order_by('-id')
-    books =Asset.objects.filter(assetIsLocatedAt__isnull=True).order_by('-id')
+    books =Asset.objects.all().order_by('-id')
     wos=AssetUtility.doPaging(request,books)
     return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset'})
-    # else:
-    #      return HttpResponseRedirect(reverse('list_dashboard' ))
-    #paging
 
 
 
@@ -594,7 +587,7 @@ def create_rowasset(request,wo):
     return JsonResponse(data)
 def list_assetAsset(request,id):
     data=dict()
-    books=Asset.objects.filter(Q(assetIsLocatedAt=id)|Q(assetIsPartOf=id))
+    books=Asset.objects.filter(Q(assetIsLocatedAt=id)|Q(assetIsPartOf=id)).order_by('assetName')
 
     data['html_assetAsset_list']= render_to_string('cmms/asset/asset/partialAssetRow.html', {
         'assetwos': books,
