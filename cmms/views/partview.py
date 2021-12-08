@@ -163,7 +163,8 @@ def part_update(request, id):
     if (request.method == 'POST'):
         form = PartForm(request.POST, instance=company)
     else:
-        form = PartForm(instance=company)
+        assetcatText=company.partCategory.name if company.partCategory else ''
+        form = PartForm(instance=company,initial={'partcategorytxt':assetcatText})
     fmt = getattr(settings, 'LOG_FORMAT', None)
     lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
 
