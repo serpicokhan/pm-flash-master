@@ -801,6 +801,17 @@ def assetloadinfo(request):
         data["form_is_valid"]=True
     return JsonResponse(data)
 
+def gen_asset_code(request,id):
+    x=Asset.objects.get(id=id)
+    loc_code=request.GET.get('loc','-1')
+    if(loc_code!= '-1'):
+        loc=Asset.objects.get(id=int(loc_code))
+        code="{}{}-{}".format(loc.get_asset_loc_code(),x.assetCategory.code,10)
+    else:
+        code="{}{}-{}".format(x.get_asset_loc_code(),x.assetCategory.code,10)
+
+    return JsonResponse({'code':code,'form_is_valid':True},safe=False)
+
 
            #
 @api_view(['GET'])

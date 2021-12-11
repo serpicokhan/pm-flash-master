@@ -224,6 +224,7 @@ urlpatterns = [
         url(r'^Asset/Machine/create/$', asset_create_machine, name='asset_create_machine'),
         url(r'^Asset/Tool/create/$', asset_create_tool, name='asset_create_tool'),
         url(r'^Asset/(?P<id>\d+)/delete/$', asset_delete, name='asset_delete'),
+        url(r'^Asset/(?P<id>\d+)/gen_code$', gen_asset_code, name='gen_asset_code'),
         url(r'^Asset/(?P<id>\d+)/update/$', asset_update, name='asset_update'),
         url(r'^Asset/(?P<id>\d+)/listtree/$', show_asset_tree, name='show_asset_tree'),
         url(r'^Asset/(?P<woId>\d+)/listAssetWO/$', js_list_assetWo, name='js_list_assetWo'),

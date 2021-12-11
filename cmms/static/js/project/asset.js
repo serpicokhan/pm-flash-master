@@ -1099,6 +1099,33 @@ $("#assetStatus").change(function(){
 
 
 });
+var gen_code=function(){
+  loc=-1;
+  if($("#id_assetIsLocatedAt").val()>0)
+  {
+    loc=$("#id_assetIsLocatedAt").val();
+  }
+  $.ajax({
+    url: '/Asset/'+$("#lastAssetid").val()+'/gen_code?loc='+loc,
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+
+    },
+    success: function (data) {
+      if (data.form_is_valid) {
+
+        //alert("Company created!");  // <-- This is just a placeholder for now for testing
+      $("#id_assetCode").val(data.code);
+      }
+      else {
+
+
+      }
+
+  }
+});
+}
 //for tr click
 $(".js-create-asset").unbind();
 $("tr").on("click", showAssetDetails);
@@ -1116,6 +1143,7 @@ $("#modal-assetcategory2").on("submit", ".js-bulkasset-duplicate-form", saveAsse
 // Update book
 $("#company-table ").on("click", ".js-update-asset", myWoLoader);
 $("#modal-company").on("submit", ".js-asset-update-form", saveForm);
+$("#modal-company").on("click", ".btn_code_gen", gen_code);
 // Delete book
 $("#company-table").on("click", ".js-delete-asset", loadForm);
 $("#modal-company").on("submit", ".js-asset-delete-form", saveForm);

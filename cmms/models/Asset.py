@@ -30,6 +30,19 @@ class Asset(models.Model):
             return "-"
     def get_child(self):
         return Asset.objects.filter(Q(assetIsLocatedAt=self.id)|Q(assetIsPartOf=self.id))
+    def get_asset_loc_code(self):
+
+        if(self.assetTypes==1):
+            if(self.assetCode):
+                return "{}-".format(self.assetCode)
+
+            else:
+                    return '' #for location
+        else:
+            if(self.assetIsLocatedAt):
+                return "{}-".format(self.assetIsLocatedAt.assetCode)
+            else:
+                return 'NoLoc-'
     def get_name(self):
         if(self.assetName):
             return "{}:{}".format(self.assetName,self.assetCode)
