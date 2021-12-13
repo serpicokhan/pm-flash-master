@@ -245,6 +245,7 @@ def duplicate_asset(request,id):
         assetId=request.POST.get("assetID","")
         tedad=request.POST.get("tedad","")
         pishvand=request.POST.get("pishvand","")
+        # max_pishvand=AssetUtility.fin_max_pishvand(pishvand)
 
         try:
             with transaction.atomic():

@@ -588,11 +588,16 @@ class AssetUtility:
 
                 foo_file.save()
     @staticmethod
+    def find_temp_assetcode(foo,pishvand):
+        max_digit=Asset.objects.filter(assetCode__contains="{}-{}-{}".format(foo.get_asset_loc_code(),foo.assetCategory.code,pishvand)).count()
+        return "{}-{}-{}{}".format(foo.get_asset_loc_code(),foo.assetCategory.code,pishvand,max_digit+1)
+    @staticmethod
     def duplicate_asset(id,tedad,pishvand):
             foo=Asset.objects.get(pk=id)
-            foo.assetName=foo.assetName+' '+str(tedad)
-            foo.assetCode=pishvand+' '+str(tedad)
             foo.pk=None
+            foo.assetName=foo.assetName+' '+str(tedad)
+            # foo.assetCode=pishvand+' '+str(tedad)
+            foo.assetCode=AssetUtility.find_temp_assetcode(foo,pishvand)
             # این دو خط رو نسبت به clone اضافه تر داره
             foo.assetIsLocatedAt=None
             foo.assetIsPartOf=None
@@ -623,3 +628,6 @@ class AssetUtility:
     def getAssets(searchStr):
         res= Asset.objects.filter(assetName__isnull=False).filter(Q(assetName__icontains=searchStr)|Q(assetCode__icontains=searchStr)).values('id', 'assetName','assetCode')
         return res
+    @staticmethod
+    def fin_max_pishvand(pishvand):
+        return 10
