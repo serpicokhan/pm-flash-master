@@ -45,7 +45,7 @@ class Asset(models.Model):
                 return 'NoLoc-'
     def get_name(self):
         if(self.assetName):
-            return "{}:{}".format(self.assetName,self.assetCode)
+            return "{}".format(self.assetName)
         return "مشخص نشده"
     def get_assetStatus(self):
                  if(self.assetStatus==True):
