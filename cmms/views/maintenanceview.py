@@ -346,7 +346,7 @@ def wo_update(request, id):
         form = WorkOrderForm(request.POST, instance=company)
 
     else:
-        form = WorkOrderForm(instance=company,initial={'isUpdating':'True'})
+        form = WorkOrderForm(instance=company,initial={'isUpdating':'True','woasset_':company.woAsset})
 
     return save_wo_form(request, form,'cmms/maintenance/partialWoUpdate.html',id,iscreated=2)
 ##########################################################

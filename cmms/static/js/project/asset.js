@@ -99,6 +99,33 @@ $(function () {
         //alert("3123@!");
 
         $("#modal-company .modal-content").html(data.html_asset_form);
+        $('.advanced2AutoComplete3').autoComplete({
+          resolver: 'custom',
+          noResultsText:'بدون نتیجه',
+          formatResult: function (item) {
+            return {
+              value: item.id,
+              text: "[" + item.assetCode + "] " + item.assetName,
+            };
+          },
+          events: {
+            search: function (qry, callback) {
+              // let's do a custom ajax call
+              $.ajax(
+                '/Asset/GetAssets',
+                {
+                  data: { 'qry': qry}
+                }
+              ).done(function (res) {
+                callback(res);
+              });
+            },
+          }
+        });
+        $('.advanced2AutoComplete3').on('autocomplete.select', function (evt, item) {
+          // alert("!23");
+          $("#id_assetIsPartOf").val(item.id);
+        });
 
 //           new QRCode(document.getElementById("qrcode"), {
 //     text: data.id,
@@ -286,8 +313,9 @@ var bulk_delete_pressed=function(){
 ////////////////Search buttom click#############################
 var searchAsset= function (loc,searchStr) {
   // searchStr=searchStr.replace(' ','__');
+  console.log('/Asset/'+loc+'/Search/?q='+searchStr);
    $.ajax({
-     url: $(location).attr('pathname')+loc+'/Search/?q='+searchStr,
+     url: '/Asset/'+loc+'/Search/?q='+searchStr,
      type: 'GET',
      dataType: 'json',
      beforeSend:function(){
@@ -319,8 +347,18 @@ var searchAsset= function (loc,searchStr) {
 $('#assetSearch').keyup(function(){
 searchStr=$("#assetSearch").val();
 if(searchStr.trim().length>0){
-  if($(location).attr('pathname').split('/').length>3){
-      searchAsset(searchStr);
+  loc_path=$(location).attr('pathname').split('/');
+  if(loc_path.length>3){
+  kvm_=0
+  if(loc_path[2]=='Location')
+      kvm_='1';
+  else if(loc_path[2]='Machine')
+    kvm_='2';
+  else {
+    kvm_='3'
+  }
+
+      searchAsset(kvm_,searchStr);
     }
   else {
     searchAsset('0',searchStr);
@@ -330,8 +368,19 @@ if(searchStr.trim().length>0){
   }
 }
 else {
-  if($(location).attr('pathname').split('/').length>3){
-    searchAsset('empty');
+  loc_path=$(location).attr('pathname').split('/');
+  if(loc_path.length>3){
+    kvm_=0
+    if(loc_path.length>3){
+    kvm_=0
+    if(loc_path[2]=='Location')
+        kvm_='1';
+    else if(loc_path[2]='Machine')
+      kvm_='2';
+    else {
+      kvm_='3'
+    }
+    searchAsset(kvm_,'empty');
 
   }
   else {
@@ -339,6 +388,7 @@ else {
   }
 
 
+}
 }
 });
 ////////////////////////////////////////////////////////////////

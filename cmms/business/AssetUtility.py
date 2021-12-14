@@ -404,35 +404,45 @@ class AssetUtility:
 
 
         aType=0
-        if(assType=='Location'):
+        if(assType=='1'):
             aType=1
-        elif(assType=='Machine'):
+        elif(assType=='2'):
             aType=2
-        elif(assType=='Tool'):
+        elif(assType=='3'):
             aType=3
         else:
             #All type
             aType=0
-         # print("43 partutility$$$$$$$$$$$$$$$$$$$")
-         # print("select id from parts where (partname like '%{}%') or (partDescription like '%{}%') or (partcode like '%{}%') or (partModel like '%{}%') order by id desc".format(searchStr,searchStr,searchStr,searchStr))
+        result=Asset.objects.all()
+
+
         if(searchStr != 'empty'):
+            q=searchStr.split(' ')
+            for qstr in q:
+                if(aType>0):
+                     if(qstr.isdigit()):
+                         result = result.filter(Q(assetName__icontains=qstr,assetTypes=aType)
+                                                |Q(assetCode__icontains=qstr,assetTypes=aType)|Q(id=int(qstr),assetTypes=aType)|Q(assetCategory__name__icontains=qstr,assetTypes=aType)).order_by('-id')
+                     else:
+                        print("here")
 
-             if(aType>0):
-                 if(searchStr.isdigit()):
-                     return Asset.objects.filter(Q(assetName__icontains=searchStr,assetTypes=aType)|Q(assetCode__icontains=searchStr,assetTypes=aType)|Q(id=int(searchStr),assetTypes=aType)|Q(assetCategory__name__icontains(searchStr))).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
+                        result= result.filter(Q(assetName__icontains=qstr,assetTypes=aType)|Q(assetCode__icontains=qstr,assetTypes=aType)
+                                           |Q(assetCategory__name__icontains=qstr,assetTypes=aType)).order_by('-id')
+                else:
+                     if(qstr.isdigit()):
+                          result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(id=int(qstr))).order_by('-id')
+                     else:
+                         result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(assetCategory__name__icontains=qstr)).order_by('-id')
+            return result
 
-                 return Asset.objects.filter(Q(assetName__icontains=searchStr,assetTypes=aType)|Q(assetCode__icontains=searchStr,assetTypes=aType)|Q(assetCategory__name__icontains=searchStr)).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
-             else:
-                 if(searchStr.isdigit()):
-                      return Asset.objects.filter(Q(assetName__icontains=searchStr)|Q(assetCode__icontains=searchStr)|Q(id=int(searchStr))).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
-                 return Asset.objects.filter(assetIsPartOf__assetName__icontains=searchStr)|Asset.objects.filter(assetIsLocatedAt__assetName__icontains=searchStr)|Asset.objects.filter(assetName__icontains=searchStr)|Asset.objects.filter(assetCode__icontains=searchStr)|Asset.objects.filter(assetCategory__name__icontains=searchStr).order_by('-assetName') #raw("select id from parts where (partname like '\%@p\%') or (partDescription like 'p') or (partcode like 'p') or (partModel like 'p') order by id desc")
 
          # return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,woTags__contains=searchStr).order_by('-id')
         else:
              if(aType>0):
-                 return Asset.objects.filter(assetTypes=aType).order_by('-assetName')
+                 print(aType,'$$$$$')
+                 return result.filter(assetTypes=aType).order_by('-id')
              else:
-                 return Asset.objects.all().order_by('-assetName')
+                 return result.order_by('-id')
     @staticmethod
     def getAssetOfflineStatus(id):
         n1=AssetLife.objects.raw(""" select (count(assetlife.id)/total_getdownhits({0}))*100   as id ,b.causeDescription as reason,b.causeCode  from assetlife
@@ -626,7 +636,7 @@ class AssetUtility:
                 foo_file.save()
     @staticmethod
     def getAssets(searchStr):
-        res= Asset.objects.filter(assetName__isnull=False).filter(Q(assetName__icontains=searchStr)|Q(assetCode__icontains=searchStr)).values('id', 'assetName','assetCode')
+        res= Asset.objects.filter(assetName__isnull=False).filter(Q(assetName__icontains=searchStr)|Q(assetCode__icontains=searchStr)).values('id', 'assetName','assetCode')[:10]
         return res
     @staticmethod
     def fin_max_pishvand(pishvand):

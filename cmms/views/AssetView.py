@@ -167,7 +167,7 @@ def asset_update(request, id):
         form = AssetForm(request.POST, instance=company)
     else:
         assetcatText=company.assetCategory.name if company.assetCategory else ''
-        form = AssetForm(instance=company,initial={'asseccategorytxt':assetcatText})
+        form = AssetForm(instance=company,initial={'asseccategorytxt':assetcatText,'assetispart':company.assetIsPartOf})
     if(company.assetTypes==1):
         template="cmms/asset/partialAssetLocationUpdate.html"
     elif(company.assetTypes==2):
@@ -288,9 +288,7 @@ def get_location_by_category(request):
 def asset_search(request,kvm):
     q=request.GET.get("q","")
     data=dict()
-    # print("1232321321")
-    # searchStr=searchStr.replace("__"," ")
-    # print(kvm,"$$$$$$$$$$$$$")
+    print(kvm,'///',q)
     books=AssetUtility.seachAsset(kvm,q)
     wos=AssetUtility.doPaging(request,list(books))
     data['html_asset_search_tag_list'] = render_to_string('cmms/asset/partialAssetList.html', {
@@ -371,7 +369,7 @@ def list_asset_dash(request):
         acat_dict[i.name]={}
         x0.append(i.id)
         x1.append(i.name)
-        assets=Asset.objects.filter(assetCategory=i,assetTypes=2)
+        assets=Asset.objects.filter(assetCategory=i,assetTypes=2,assetIsLocatedAt__isnull=False)
         x2=[]
         x4=[]
         x5=[]
@@ -384,11 +382,22 @@ def list_asset_dash(request):
     final_list=zip(x1,x3,x0)
     a_zip=zip(x1,x0)
 
-    assetloc=Asset.objects.filter(assetIsLocatedAt__isnull=True)
+    assetloc=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
             # acat_dict[i.name][x.id]=x.assetName
         # x1.push(x2)
         # x2=[]
     return render(request, 'cmms/asset/dash2.html', {'assets':final_list,'test':a_zip,'locs':assetloc})
+def tmp_doPaging(request,books):
+        page=request.GET.get('page',1)
+        paginator = Paginator(books, 10)
+        wos=None
+        try:
+            wos=paginator.page(page)
+        except PageNotAnInteger:
+            wos = paginator.page(1)
+        except EmptyPage:
+            wos = paginator.page(paginator.num_pages)
+        return wos
 #################################################################################
 
 def js_list_asset_dash(request,locId):

@@ -23,6 +23,8 @@ class WorkOrderForm(forms.ModelForm):
     workInstructions = forms.CharField( label="دستورالعمل",widget=forms.Textarea(attrs={'rows': 15, 'cols': 100}),required=False )
     completionNotes = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     adminNote = forms.CharField( label="یادداشت مدیر",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
+    woasset_ = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
+
     # RequestedUser = forms.IntegerField( required=False )
     def clean_woTags(self):
         str1= self.cleaned_data['summaryofIssue']
@@ -510,6 +512,7 @@ class AssetForm(forms.ModelForm):
     #     print(last_name,"$$$$$$$$$$$$$$$$")
     #     return int(last_name)
     asseccategorytxt = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
+    assetispart = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
 
     class Meta:
         model = Asset

@@ -97,8 +97,8 @@
                                             </div>
                                             <div class="form-group">
                                             <label>{{form.assetIsPartOf.label}}</label>
-
-                                              {% render_field form.assetIsPartOf class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+                                            {{ form.assetIsPartOf.as_hidden }}
+                                              {% render_field form.assetispart class="form-control advanced2AutoComplete3"  %}
                                             </div>
 
 
