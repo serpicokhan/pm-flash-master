@@ -284,14 +284,14 @@ var bulk_delete_pressed=function(){
 
 //////////
 ////////////////Search buttom click#############################
-var searchAsset= function (searchStr) {
-  searchStr=searchStr.replace(' ','__');
+var searchAsset= function (loc,searchStr) {
+  // searchStr=searchStr.replace(' ','__');
    $.ajax({
-     url: $(location).attr('pathname')+searchStr+'/Search/',
+     url: $(location).attr('pathname')+loc+'/Search/?q='+searchStr,
      type: 'GET',
      dataType: 'json',
      beforeSend:function(){
-       console.log($(location).attr('pathname')+searchStr+'/Search/');
+       // console.log($(location).attr('pathname')+searchStr+'/Search/');
      },
      success: function (data) {
        if (data.form_is_valid) {
@@ -323,7 +323,7 @@ if(searchStr.trim().length>0){
       searchAsset(searchStr);
     }
   else {
-    searchAsset('0/'+searchStr);
+    searchAsset('0',searchStr);
 
 
 
@@ -335,7 +335,7 @@ else {
 
   }
   else {
-    searchAsset('0/empty');
+    searchAsset('0','empty');
   }
 
 

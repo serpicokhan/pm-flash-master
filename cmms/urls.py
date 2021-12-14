@@ -219,7 +219,7 @@ urlpatterns = [
         # url(r'^Asset/Category2/$', get_assetCategoryMain, name='get_assetCategoryMain'),
         # url(r'^Asset/Category2/(?P<ids>\d+(?:,\d+)*)$', get_assetCategoryMain, name='get_assetCategoryMain'),
         url(r'^Asset/Location/create/$', asset_create_location, name='asset_create_location'),
-        url(r'^Asset/(?P<kvm>[\w\s]+)/(?P<searchStr>[-\w]+)/Search/$', asset_search, name='asset_search'),
+        url(r'^Asset/(?P<kvm>[\w\s]+)/Search/$', asset_search, name='asset_search'),
 
         url(r'^Asset/Machine/create/$', asset_create_machine, name='asset_create_machine'),
         url(r'^Asset/Tool/create/$', asset_create_tool, name='asset_create_tool'),

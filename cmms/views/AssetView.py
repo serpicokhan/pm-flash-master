@@ -285,17 +285,18 @@ def get_location_by_category(request):
     data["modalassetcat"]=render_to_string('cmms/asset/locationcategoryselector.html',{'cat':m,'perms': PermWrapper(request.user)})
     return JsonResponse(data)
 #######################Search By tags#####################
-def asset_search(request,kvm,searchStr):
+def asset_search(request,kvm):
+    q=request.GET.get("q","")
     data=dict()
     # print("1232321321")
-    searchStr=searchStr.replace("__"," ")
+    # searchStr=searchStr.replace("__"," ")
     # print(kvm,"$$$$$$$$$$$$$")
-    books=AssetUtility.seachAsset(kvm,searchStr)
+    books=AssetUtility.seachAsset(kvm,q)
     wos=AssetUtility.doPaging(request,list(books))
     data['html_asset_search_tag_list'] = render_to_string('cmms/asset/partialAssetList.html', {
                    'asset': wos                      ,'perms': PermWrapper(request.user) })
     data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination.html', {
-                      'asset': wos,'pageType':'asset_search','ptr':kvm,'pt2':searchStr})
+                      'asset': wos,'pageType':'asset_search','ptr':kvm})
     data['form_is_valid'] = True
     return JsonResponse(data)
 #######################Search#####################
