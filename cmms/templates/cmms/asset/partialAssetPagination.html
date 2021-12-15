@@ -2,7 +2,7 @@
 {% if asset.has_other_pages %}
 <ul class="pagination">
 {% if asset.has_previous %}
-<li><a href="#" data-url="{% url pageType ptr %}?page={{ asset.previous_page_number }}" class="asset_month_paginator2">
+<li><a href="#" data-url="{% url pageType ptr %}?page={{ asset.previous_page_number }}&q={{ q }}" class="asset_month_paginator2">
   &laquo;</a></li>
 {% else %}
 <li class="disabled"><span>&laquo;</span></li>
