@@ -291,12 +291,13 @@ def asset_search(request,kvm):
     print(kvm,'///',q)
     books=AssetUtility.seachAsset(kvm,q)
     wos=AssetUtility.doPaging(request,list(books))
-    data['html_asset_search_tag_list'] = render_to_string('cmms/asset/partialAssetList.html', {
-                   'asset': wos                      ,'perms': PermWrapper(request.user) })
-    data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination.html', {
-                      'asset': wos,'pageType':'asset_search','ptr':kvm})
-    data['form_is_valid'] = True
-    return JsonResponse(data)
+    # data['html_asset_search_tag_list'] = render_to_string('cmms/asset/partialAssetList.html', {
+    #                'asset': wos                      ,'perms': PermWrapper(request.user) })
+    # data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination.html', {
+    #                   'asset': wos,'pageType':'asset_search','ptr':kvm})
+    # data['form_is_valid'] = True
+    # return JsonResponse(data)
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset'})
 #######################Search#####################
 def asset_mttr(request,id):
     data=dict()
