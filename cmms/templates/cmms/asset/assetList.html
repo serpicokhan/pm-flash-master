@@ -85,11 +85,8 @@
                                   {% else %}
                                   <li class="disabled"><span>&laquo;</span></li>
                                   {% endif %}
-                                  {% for i in asset.paginator.page_range %}
-                                  {% if asset.number == i %}
-                                  <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                                  {% else %}
-                                  <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                  <li class="active"><span>{{ asset.number }} از {{ part.paginator.num_pages }} <span class="sr-only">(current)</span></span></li>
+
                                   {% endif %}
                                   {% endfor %}
                                   {% if asset.has_next %}

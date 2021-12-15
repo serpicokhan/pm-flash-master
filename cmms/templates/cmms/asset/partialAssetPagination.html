@@ -7,13 +7,7 @@
 {% else %}
 <li class="disabled"><span>&laquo;</span></li>
 {% endif %}
-{% for i in asset.paginator.page_range %}
-{% if asset.number == i %}
-<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-{% else %}
-<li><a href="#" data-url="{% url pageType ptr  %}?page={{ i }}&q={{ q }}" class="asset_month_paginator2">{{ i }}</a></li>
-{% endif %}
-{% endfor %}
+  <li class="active"><span>{{ asset.number }} از {{ asset.paginator.num_pages }} <span class="sr-only">(current)</span></span></li>
 {% if asset.has_next %}
 <li><a href="#" data-url="{% url pageType ptr %}?page={{ asset.next_page_number }}&q={{ q }}" class="asset_month_paginator2"">&raquo;</a></li>
 {% else %}
