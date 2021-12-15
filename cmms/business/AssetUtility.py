@@ -417,7 +417,7 @@ class AssetUtility:
 
 
         if(searchStr != 'empty'):
-            q=searchStr.split(' ')
+            q=searchStr
             for qstr in q:
                 if(aType>0):
                      if(qstr.isdigit()):
@@ -433,7 +433,7 @@ class AssetUtility:
                           result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(id=int(qstr))).order_by('-id')
                      else:
                          result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(assetCategory__name__icontains=qstr)).order_by('-id')
-            return result
+            return result.extra(select={'length':'Length(assetName)'}).order_by('length')
 
 
          # return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,woTags__contains=searchStr).order_by('-id')
@@ -442,7 +442,7 @@ class AssetUtility:
                  print(aType,'$$$$$')
                  return result.filter(assetTypes=aType).order_by('-id')
              else:
-                 return result.order_by('-id')
+                 return result.extra(select={'length':'Length(assetName)'}).order_by('length')
     @staticmethod
     def getAssetOfflineStatus(id):
         n1=AssetLife.objects.raw(""" select (count(assetlife.id)/total_getdownhits({0}))*100   as id ,b.causeDescription as reason,b.causeCode  from assetlife

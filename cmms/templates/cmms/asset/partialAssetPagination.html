@@ -1,6 +1,5 @@
 
 {% if asset.has_other_pages %}
-
 <ul class="pagination">
 {% if asset.has_previous %}
 <li><a href="#" data-url="{% url pageType ptr %}?page={{ asset.previous_page_number }}" class="asset_month_paginator2">
@@ -12,11 +11,11 @@
 {% if asset.number == i %}
 <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
 {% else %}
-<li><a href="#" data-url="{% url pageType ptr  %}?page={{ i }}" class="asset_month_paginator2">{{ i }}</a></li>
+<li><a href="#" data-url="{% url pageType ptr  %}?page={{ i }}&q={{ q }}" class="asset_month_paginator2">{{ i }}</a></li>
 {% endif %}
 {% endfor %}
 {% if asset.has_next %}
-<li><a href="#" data-url="{% url pageType ptr %}?page={{ asset.next_page_number }}" class="asset_month_paginator2"">&raquo;</a></li>
+<li><a href="#" data-url="{% url pageType ptr %}?page={{ asset.next_page_number }}&q={{ q }}" class="asset_month_paginator2"">&raquo;</a></li>
 {% else %}
 <li class="disabled"><span>&raquo;</span></li>
 {% endif %}
