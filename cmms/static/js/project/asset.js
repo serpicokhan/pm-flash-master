@@ -177,7 +177,7 @@ $(function () {
 
         });
           $('.selectpicker').selectpicker();
-            $("tr").on("click", showAssetDetails);
+            // $("tr").on("click", showAssetDetails);
 
 
 
@@ -226,7 +226,7 @@ $(function () {
         {
         $("#tbody_company").html(data.html_asset_list);
         $(".assetPaging").html(data.html_asset_paginator);
-        $("tr").on("click", showAssetDetails);
+        // $("tr").on("click", showAssetDetails);
         toastr.success("کپی با موفقیت انجام شد")
       }
       else
@@ -298,7 +298,7 @@ var bulk_delete_pressed=function(){
         $(".assetPaging").html(data.html_asset_paginator);
 
 
-        $("tr").on("click", showAssetDetails);
+        // $("tr").on("click", showAssetDetails);
         swal("حذف شد!",'', "success");
       }
       else
@@ -328,7 +328,7 @@ var searchAsset= function (loc,searchStr) {
          $("#tbody_company").html(data.html_asset_search_tag_list);
          $(".assetPaging").html(data.html_asset_paginator);
          $("#modal-company").modal("hide");
-         $("tr").on("click", showAssetDetails);
+         // $("tr").on("click", showAssetDetails);
         // console.log(data.html_amar_list);
        }
        else {
@@ -518,7 +518,7 @@ var saveForm= function () {
          $("#tbody_company").empty();
          $("#tbody_company").html(data.html_asset_list);
          $("#modal-company").modal("hide");
-           $("tr").on("click", showAssetDetails);
+           // $("tr").on("click", showAssetDetails);
             $("#issavechanged").val("1");
         // console.log(data.html_asset_list);
        }
@@ -549,7 +549,7 @@ var saveAssetCatForm= function () {
          $("#tbody_company").html(data.html_asset_list);
          // alert("!23");
         $("#modal-assetcategory2").modal("hide");
-        $("tr").on("click", showAssetDetails);
+        // $("tr").on("click", showAssetDetails);
 
        }
        else {
@@ -905,7 +905,7 @@ var showAssetTypeSelector=function(){
 var showAssetDetails=function()
 {
   $(".detail").show();
-  $("#p_assetdetails").html($(this).find("td:eq(2)").text());
+  $("#p_assetdetails").html($(this).find("td:eq(1)").text());
   showMTTR($(this).attr('date-url'));
   showMTBF($(this).attr('date-url'));
   showAssetWoStatus($(this).attr('date-url'));
@@ -1136,7 +1136,7 @@ $("#assetStatus").change(function(){
         $(".assetPaging").html(data.html_asset_paginator);
 
         $("#modal-company").modal("hide");
-        $("tr").on("click", showAssetDetails);
+        // $("tr").on("click", showAssetDetails);
        // console.log(data.html_amar_list);
       }
       else {
@@ -1178,7 +1178,7 @@ var gen_code=function(){
 }
 //for tr click
 $(".js-create-asset").unbind();
-$("tr").on("click", showAssetDetails);
+// $("tr").on("click", showAssetDetails);
 
 $("#modal-company").on("click", "#id_asseccategorytxt", showAssetSelector);
 //
@@ -1196,6 +1196,7 @@ $("#modal-company").on("submit", ".js-asset-update-form", saveForm);
 $("#modal-company").on("click", ".btn_code_gen", gen_code);
 // Delete book
 $("#company-table").on("click", ".js-delete-asset", loadForm);
+$("#company-table").on("click", "tr", showAssetDetails);
 $("#modal-company").on("submit", ".js-asset-delete-form", saveForm);
 // $('#modal-company').on('hidden.bs.modal',cancelForm);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);

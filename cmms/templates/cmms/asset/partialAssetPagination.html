@@ -51,192 +51,192 @@
 
   });
 
-  var showAssetDetails=function()
-  {
-    $(".detail").show();
-    $("#p_assetdetails").html($(this).find("td:eq(2)").text());
-    showMTTR($(this).attr('date-url'));
-    showMTBF($(this).attr('date-url'));
-    showAssetWoStatus($(this).attr('date-url'));
-    loadAssetOfflineStatus($(this).attr('date-url'));
-    // console.log($(this).attr('date-url'));
-  }
-  var showMTTR=function(id)
-  {
-    $.ajax({
-     url: '/Asset/'+id+'/MTTR/',
-     beforeSend: function () {
-
-       // $("#modal-assetcategory").modal({backdrop: 'static', keyboard: false});
-     },
-     success: function (data) {
-       // console.log(data);
-
-       //data.modalassetcat
-        $(".mttr").html((data.asset_mttr!=null)?data.asset_mttr:'0');
-     }
-   });
-  }
-  var showMTBF=function(id)
-  {
-    $.ajax({
-     url: '/Asset/'+id+'/MTBF/',
-     beforeSend: function () {
-
-       // $("#modal-assetcategory").modal({backdrop: 'static', keyboard: false});
-     },
-     success: function (data) {
-       // console.log(data);
-
-       //data.modalassetcat
-        $(".mtbf").html((data.asset_mtbf!=null)?data.asset_mtbf:'0');
-     }
-   });
-  }
-  var showAssetWoStatus=function(id)
-  {
-    urlStr='';
-
-    $.ajax({
-     url: '/Asset/'+id+'/WOStatus/',
-     beforeSend: function () {
-
-       // $("#modal-assetcategory").modal({backdrop: 'static', keyboard: false});
-     },
-     success: function (data) {
-       // console.log(data);
-
-       //data.modalassetcat
-        $(".overdue").html((data.asset_overdue!=null)?data.asset_overdue:'0');
-        $(".openwo").html((data.asset_openwo!=null)?data.asset_openwo:'0');
-        $(".wait4part").html((data.asset_wait4part!=null)?data.asset_wait4part:'0');
-     }
-   });
-
-  }
-  ////////////////////////////////
-  var loadAssetOfflineStatus=function(id)
-  {
-    $.ajax({
-      url: '/Asset/'+id+'/GetAssetOfflineStatus/',
-      type: 'get',
-      dataType: 'json',
-      beforeSend: function () {
-
-      },
-      success: function (data) {
-     //console.log(data);
-
-      DrawDonat2(data.html_assetOfflineStatus_list,'assetOfflinePie');
-      DrawLine(data.html_assetOfflineStatus_list,'assetOfflineLine');
-      // alert(data.html_assetOfflineStatus_list.lastbreak);
-      $(".lastbreak").html(data.html_assetOfflineStatus_list.lastbreak);
-      $("#vertical-timeline").html(data.html_assetOffline_recent);
-      // $('#onDemWoComOnTimedh4').text(data.html_dashwoCompleted_list.woCompletedOnTimeNum);
-      // $('#onDemWoComh4').text(data.html_dashwoCompleted_list.woCompletedNum);
-    }
-  });
-  }
-  function DrawDonat2(data,element)
-  {
-
-
-    var doughnutData =
-    {
-
-          labels: data.woCompletedAssetId,
-          datasets: [
-            {
-              label: "علل خرابی",
-              backgroundColor: ["#3d5a80", "#98c1d9","#e0fbfc","#ee6c4d","#293241"],
-              data:data.woCompletedNum,
-            }
-          ]
-        };
-
-    var doughnutOptions = {
-
-        title: {
-          display: true,
-          text: ''
-        },
-        legend: {
-          display: true,
-          position: 'right'
-      },
-
-    };
-
-    $('#'+element).remove(); // this is my <canvas> element
-    $('#'+element+'-container').append('<canvas id="'+element+'" ></canvas>');
-    var ctx = document.getElementById(element).getContext("2d");
-    // ctx.clearRect(0, 0, element.width, element.height);
-
-
-
-      var myNewChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: doughnutData,
-        options: doughnutOptions
-    });
-
-    //var myNewChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
-
-  }
-  function DrawLine(data,element)
-  {
-
-    var mydate2=[0,0,0,0,0,0,0];
-    for(x in data.lineminthname)
-    {
-      mydate2[data.lineminthname[x]-1]=data.lineAssetofflinecount[x];
-    }
-    var lineData =
-    {
-
-            labels:  ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر","آبان","آذز","دی","بهمن","اسفند"],
-          datasets: [
-            {
-              label: "علل خرابی",
-              backgroundColor: ["#3d5a80", "#98c1d9","#e0fbfc","#ee6c4d","#293241"],
-              data:mydate2,
-            }
-          ]
-        };
-
-    var lineOptions = {
-
-        title: {
-          display: true,
-          text: ''
-        },
-        legend: {
-          display: false,
-          position: 'right'
-      },
-      scales: {
-          yAxes: [{
-              ticks: {
-                  beginAtZero: true
-              }
-          }]
-      }
-
-    };
-
-    $('#'+element).remove(); // this is my <canvas> element
-    $('#'+element+'-container').append('<canvas id="'+element+'"></canvas>');
-    var ctx = document.getElementById(element).getContext("2d");
-    // ctx.clearRect(0, 0, element.width, element.height);
-
-
-      var myNewChart = new Chart(ctx, {
-        type: 'line',
-        data: lineData,
-        options: lineOptions
-    });
-
-    //var myNewChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
-
-  }
+  // var showAssetDetails=function()
+  // {
+  //   $(".detail").show();
+  //   $("#p_assetdetails").html($(this).find("td:eq(2)").text());
+  //   showMTTR($(this).attr('date-url'));
+  //   showMTBF($(this).attr('date-url'));
+  //   showAssetWoStatus($(this).attr('date-url'));
+  //   loadAssetOfflineStatus($(this).attr('date-url'));
+  //   // console.log($(this).attr('date-url'));
+  // }
+  // var showMTTR=function(id)
+  // {
+  //   $.ajax({
+  //    url: '/Asset/'+id+'/MTTR/',
+  //    beforeSend: function () {
+  //
+  //      // $("#modal-assetcategory").modal({backdrop: 'static', keyboard: false});
+  //    },
+  //    success: function (data) {
+  //      // console.log(data);
+  //
+  //      //data.modalassetcat
+  //       $(".mttr").html((data.asset_mttr!=null)?data.asset_mttr:'0');
+  //    }
+  //  });
+  // }
+  // var showMTBF=function(id)
+  // {
+  //   $.ajax({
+  //    url: '/Asset/'+id+'/MTBF/',
+  //    beforeSend: function () {
+  //
+  //      // $("#modal-assetcategory").modal({backdrop: 'static', keyboard: false});
+  //    },
+  //    success: function (data) {
+  //      // console.log(data);
+  //
+  //      //data.modalassetcat
+  //       $(".mtbf").html((data.asset_mtbf!=null)?data.asset_mtbf:'0');
+  //    }
+  //  });
+  // }
+  // var showAssetWoStatus=function(id)
+  // {
+  //   urlStr='';
+  //
+  //   $.ajax({
+  //    url: '/Asset/'+id+'/WOStatus/',
+  //    beforeSend: function () {
+  //
+  //      // $("#modal-assetcategory").modal({backdrop: 'static', keyboard: false});
+  //    },
+  //    success: function (data) {
+  //      // console.log(data);
+  //
+  //      //data.modalassetcat
+  //       $(".overdue").html((data.asset_overdue!=null)?data.asset_overdue:'0');
+  //       $(".openwo").html((data.asset_openwo!=null)?data.asset_openwo:'0');
+  //       $(".wait4part").html((data.asset_wait4part!=null)?data.asset_wait4part:'0');
+  //    }
+  //  });
+  //
+  // }
+  // ////////////////////////////////
+  // var loadAssetOfflineStatus=function(id)
+  // {
+  //   $.ajax({
+  //     url: '/Asset/'+id+'/GetAssetOfflineStatus/',
+  //     type: 'get',
+  //     dataType: 'json',
+  //     beforeSend: function () {
+  //
+  //     },
+  //     success: function (data) {
+  //    //console.log(data);
+  //
+  //     DrawDonat2(data.html_assetOfflineStatus_list,'assetOfflinePie');
+  //     DrawLine(data.html_assetOfflineStatus_list,'assetOfflineLine');
+  //     // alert(data.html_assetOfflineStatus_list.lastbreak);
+  //     $(".lastbreak").html(data.html_assetOfflineStatus_list.lastbreak);
+  //     $("#vertical-timeline").html(data.html_assetOffline_recent);
+  //     // $('#onDemWoComOnTimedh4').text(data.html_dashwoCompleted_list.woCompletedOnTimeNum);
+  //     // $('#onDemWoComh4').text(data.html_dashwoCompleted_list.woCompletedNum);
+  //   }
+  // });
+  // }
+  // function DrawDonat2(data,element)
+  // {
+  //
+  //
+  //   var doughnutData =
+  //   {
+  //
+  //         labels: data.woCompletedAssetId,
+  //         datasets: [
+  //           {
+  //             label: "علل خرابی",
+  //             backgroundColor: ["#3d5a80", "#98c1d9","#e0fbfc","#ee6c4d","#293241"],
+  //             data:data.woCompletedNum,
+  //           }
+  //         ]
+  //       };
+  //
+  //   var doughnutOptions = {
+  //
+  //       title: {
+  //         display: true,
+  //         text: ''
+  //       },
+  //       legend: {
+  //         display: true,
+  //         position: 'right'
+  //     },
+  //
+  //   };
+  //
+  //   $('#'+element).remove(); // this is my <canvas> element
+  //   $('#'+element+'-container').append('<canvas id="'+element+'" ></canvas>');
+  //   var ctx = document.getElementById(element).getContext("2d");
+  //   // ctx.clearRect(0, 0, element.width, element.height);
+  //
+  //
+  //
+  //     var myNewChart = new Chart(ctx, {
+  //       type: 'doughnut',
+  //       data: doughnutData,
+  //       options: doughnutOptions
+  //   });
+  //
+  //   //var myNewChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
+  //
+  // }
+  // function DrawLine(data,element)
+  // {
+  //
+  //   var mydate2=[0,0,0,0,0,0,0];
+  //   for(x in data.lineminthname)
+  //   {
+  //     mydate2[data.lineminthname[x]-1]=data.lineAssetofflinecount[x];
+  //   }
+  //   var lineData =
+  //   {
+  //
+  //           labels:  ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر","آبان","آذز","دی","بهمن","اسفند"],
+  //         datasets: [
+  //           {
+  //             label: "علل خرابی",
+  //             backgroundColor: ["#3d5a80", "#98c1d9","#e0fbfc","#ee6c4d","#293241"],
+  //             data:mydate2,
+  //           }
+  //         ]
+  //       };
+  //
+  //   var lineOptions = {
+  //
+  //       title: {
+  //         display: true,
+  //         text: ''
+  //       },
+  //       legend: {
+  //         display: false,
+  //         position: 'right'
+  //     },
+  //     scales: {
+  //         yAxes: [{
+  //             ticks: {
+  //                 beginAtZero: true
+  //             }
+  //         }]
+  //     }
+  //
+  //   };
+  //
+  //   $('#'+element).remove(); // this is my <canvas> element
+  //   $('#'+element+'-container').append('<canvas id="'+element+'"></canvas>');
+  //   var ctx = document.getElementById(element).getContext("2d");
+  //   // ctx.clearRect(0, 0, element.width, element.height);
+  //
+  //
+  //     var myNewChart = new Chart(ctx, {
+  //       type: 'line',
+  //       data: lineData,
+  //       options: lineOptions
+  //   });
+  //
+  //   //var myNewChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
+  //
+  // }
 </script>
