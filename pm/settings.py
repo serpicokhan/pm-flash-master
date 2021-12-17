@@ -16,6 +16,45 @@ from django.urls import reverse_lazy
 # from celery.schedules import crontab
 import logging.config
 LOGGING_CONFIG = None
+from .celery import app
+from celery.schedules import crontab
+from datetime import timedelta
+import threading
+import time
+import schedule
+import queue
+# def job():
+#     print("I'm working")
+#
+#
+# def worker_main():
+#     while 1:
+#         job_func = jobqueue.get()
+#         job_func()
+#         jobqueue.task_done()
+#
+# jobqueue = queue.Queue()
+#
+# schedule.every(1000).seconds.do(jobqueue.put, job)
+# # schedule.every(1000).seconds.do(jobqueue.put, job)
+# # schedule.every(1012).seconds.do(jobqueue.put, job)
+# # schedule.every(1011).seconds.do(jobqueue.put, job)
+# # schedule.every(101).seconds.do(jobqueue.put, job)
+#
+# worker_thread = threading.Thread(target=worker_main)
+# worker_thread.start()
+#
+# while 1:
+#     schedule.run_pending()
+#     time.sleep(1)
+
+# @repeat(every(1).seconds)
+# def job():
+#     print("I am a scheduled job")
+#
+# while True:
+#     run_pending()
+#     time.sleep(1)
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -52,7 +91,7 @@ INSTALLED_APPS = [
     'mathfilters',
      'rest_framework',
      'django.contrib.humanize',
-         'corsheaders',
+     'corsheaders',
 
 
      # 'channels',
@@ -173,14 +212,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
-USE_I18N = True
-
-USE_L10N = True
-
-
-USE_TZ = True
+# USE_I18N = True
+#
+# USE_L10N = True
+#
+#
+# USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -192,33 +231,30 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = 'list_dashboard'
 LOGIN_URL='login'
 # CELERY STUFF
-BROKER_URL = 'redis://192.168.183.130:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Tehran'
-TIME_ZONE = 'Asia/Tehran'
+
+CELERY_BEAT_SCHEDULE = {
+ 'send-summary-every-hour': {
+       'task': 'summary',
+        # There are 4 ways we can handle time, read further
+       'schedule': 4.0,
+        # If you're using any arguments
+       'args': ("‘We don’t need any’,"),
+    },
+    # Executes every Friday at 4pm
+    'send-notification-on-friday-afternoon': {
+         'task': 'cmms.tasks.send_notification',
+         'schedule':  crontab( minute="*/1"),
+        },
+}
 
 
-# CELERY_ROUTES = {
-#     'cmms.tasks.test.test_celery2': {'queue': 'long_queue'},
-#     # 'cmms.tasks.test2.createWO_celery3': {'queue': 'short_queue'},
-#     }
 
-# CELERY_BEAT_SCHEDULE = {
-#     'task-number-one': {
-#         'task': 'cmms.tasks.test.createWO_celery3',
-#         'schedule': crontab(hour='*/1'),
-#         'options': {'queue': 'short_queue'}
-#     },
-#     # 'task-number-two': {
-#     #     'task': 'cmms.tasks.test2.createWO_celery2',
-#     #     'schedule': crontab(minute='*/1'),
-#     #     'options': {'queue': 'long_queue'}
-#     # },
-#
-# }
 LOGGING ={
     'version': 1,
     'disable_existing_loggers': False,
@@ -255,3 +291,14 @@ logging.config.dictConfig(LOGGING)
 # ABSOULTE_URL_OVERRIDES={
 #     'auth_user':lambda u:reverse_lazy('user_update',args=[u.id])
 # }
+<<<<<<< Updated upstream
+=======
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+
+
+
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_TIMEZONE = 'Europe/Warsaw'
+# Let's make things happen
+>>>>>>> Stashed changes

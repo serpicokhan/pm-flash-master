@@ -2,7 +2,8 @@ import jdatetime
 import datetime
 from datetime import datetime
 
-from datetime import timedelta,date,timezone
+from datetime import timedelta,date
+from django.utils import timezone
 import pytz
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.forms.models import model_to_dict
@@ -34,7 +35,9 @@ class ScheduleUtility:
 
                 if(Newsch.schHowOften==1):
                     d=Newsch.schHourRep
-                    Newsch.schnextTime=datetime.now()+timedelta(hours=d)
+                    print("d:",d)
+                    print(timezone.now())
+                    Newsch.schnextTime=timezone.now()+timedelta(hours=d)
                 elif(Newsch.schHowOften==2):
                     d=Newsch.schDailyRep
                     Newsch.schnextTime=datetime.now()+timedelta(d)
@@ -246,7 +249,7 @@ class ScheduleUtility:
                 Newsch.schnextTime=cd
 
             else:
-                
+
                 cd+=timedelta((Newsch.schWeeklyRep-1)*7)
                 Newsch.schnextTime=cd
             print(cd,"@@@@@@@@@@@@")

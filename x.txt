@@ -1,0 +1,2 @@
+celery beat v4.2.0 (windowlicker) is starting.
+celery beat v4.2.0 (windowlicker) is starting.

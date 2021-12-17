@@ -11,3 +11,13 @@
 # # pickle the object when using Windows.
 # app.config_from_object('django.conf:settings')
 # app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+
+import os
+from celery import Celery
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pm.settings')
+# Set default Django settings os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'proj.settings')
+app = Celery('pm')
+# Celery will apply all configuration keys with defined namespace  app.config_from_object('django.conf:settings', namespace='CELERY')
+# Load tasks from all registered apps
+# app.autodiscover_tasks()
+app.config_from_object('django.conf:settings')

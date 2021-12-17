@@ -17,7 +17,6 @@ from django.views.decorators import csrf
 import django.core.serializers
 import logging
 from django.conf import settings
-from cmms.tasks.test import *
 
 from cmms.models.event import *
 #from django.core import serializers

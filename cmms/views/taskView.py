@@ -89,7 +89,7 @@ def save_task_form(request, form, template_name,woId=None):
                     if(wo.isPm==False):
                             data['last_task_date']=str(jdatetime.date.fromgregorian(date=tasks[0].taskDateCompleted))
                             data['last_task_time']=tasks[0].taskTimeCompleted
-                except Exceptions as ex:
+                except Exception as ex:
                     print(ex)
 
 
