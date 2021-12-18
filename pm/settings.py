@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cmms.apps.CmmsConfig',
     'widget_tweaks',
-	'background_task',
+	
     'mathfilters',
      'rest_framework',
      'django.contrib.humanize',

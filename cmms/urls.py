@@ -7,7 +7,6 @@ from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView,LogoutView
 
 urlpatterns = [
-    url(r'^tasks1/(?P<message>[-\w]+)/$', tasks, name='tasks'),
     # url(r'^login/$',LoginView(template_name= 'cmms/registration/login.html'), name='login'),
     # path(r'^login/$', include('django.contrib.auth.urls')),
        path(        'login/',        LoginView.as_view(            template_name="cmms/registration/login.html",            ),        name='login'),

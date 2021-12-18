@@ -1,4 +1,3 @@
-from background_task import background
 from logging import getLogger
 logger = getLogger(__name__)
 

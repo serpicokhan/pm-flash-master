@@ -43,7 +43,6 @@ from cmms.views.projectfileview import *
 
 
 
-from cmms.views.tasks import *
 from cmms.views.eventview import *
 from cmms.views.maintenancetypeview import *
 from cmms.views.attendanceview import *
