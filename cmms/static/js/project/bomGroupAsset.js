@@ -26,7 +26,7 @@ $(function () {
             search: function (qry, callback) {
               // let's do a custom ajax call
               $.ajax(
-                '/WoPart/GetAssets',
+                '/Asset/GetAssets',
                 {
                   data: { 'qry': qry}
                 }
@@ -39,8 +39,8 @@ $(function () {
           }
         });
         $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
-          $("#id_bomGroupAssetPid").val(item.id);
-          $('#id_bomGroupAssetPid').val(item.id).trigger('change');
+          $("#id_BOMGroupAssetAsset").val(item.id);
+          $('#id_BOMGroupAssetAsset').val(item.id).trigger('change');
           // $('.basicAutoCompleteCustom').html('');
         });
       }
