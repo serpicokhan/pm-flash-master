@@ -19,9 +19,10 @@
             </div>
             <div class="form-group">
               <label>{{form.BOMGroupAssetAsset.label}}</label>
+              {{ form.BOMGroupAssetAsset.as_hidden }}
 
               <!-- <input type="text"  id="mypart" value="" class="form-control advanced2AutoComplete" value='{{form.bomGroupAssetPid.value}}' /> -->
-              {% render_field form.BOMGroupAssetAsset class='form-control selectpicker' data-show-subtext='true' data-live-search='true'  %}
+              {% render_field form.BOMGroupAssetAsset class='form-control advanced2AutoComplete'  %}
 
             </div>
 

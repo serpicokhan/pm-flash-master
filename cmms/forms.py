@@ -566,7 +566,7 @@ class BOMGroupPartForm(forms.ModelForm):
         model = BOMGroupPart
         fields = '__all__'
 class BOMGroupAssetForm(forms.ModelForm):
-    # mypart=forms.CharField(required=False)
+    my_asset=forms.CharField(required=False)
     def clean(self):
                  self.is_valid()
                  cleaned_data=super(BOMGroupAssetForm, self).clean()

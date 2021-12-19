@@ -12,13 +12,13 @@ $(function () {
       },
       success: function (data) {
         $("#modal-bomGroupAsset .modal-content").html(data.html_bomGroupAsset_form);
-        $('.selectpicker').selectpicker();
+        // $('.selectpicker').selectpicker();
         $('.advanced2AutoComplete').autoComplete({
           resolver: 'custom',
           formatResult: function (item) {
             return {
               value: item.id,
-              text: "[" + item.id + "] " + item.partName,
+              text: "[" + item.assetCode + "] " + item.assetName,
 
             };
           },
@@ -26,7 +26,7 @@ $(function () {
             search: function (qry, callback) {
               // let's do a custom ajax call
               $.ajax(
-                '/WoPart/GetParts',
+                '/WoPart/GetAssets',
                 {
                   data: { 'qry': qry}
                 }

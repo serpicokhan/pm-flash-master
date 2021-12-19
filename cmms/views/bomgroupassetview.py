@@ -133,5 +133,5 @@ def bomGroupAsset_update(request, id):
 
         form = BOMGroupAssetForm(data, instance=company)
     else:
-        form = BOMGroupAssetForm(instance=company,initial={'myasset':company.BOMGroupAssetAsset.assetName})
+        form = BOMGroupAssetForm(instance=company,initial={'my_asset':company.BOMGroupAssetAsset.assetName})
     return save_bomGroupAsset_form(request, form, 'cmms/bomgroup_assets/partialBOMGroupAssetUpdate.html',woId.id)
