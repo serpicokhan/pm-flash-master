@@ -38,7 +38,7 @@ $(function () {
 					formatResult: function (item) {
 						return {
 							value: item.id,
-							text: "[" + item.id + "] " + item.stockItem__partName,
+							text: "[" + item.stockItem__partCode + "] " + item.stockItem__partName,
 
 						};
 					},
