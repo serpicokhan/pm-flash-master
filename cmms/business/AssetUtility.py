@@ -636,8 +636,19 @@ class AssetUtility:
                 foo_file.save()
     @staticmethod
     def getAssets(searchStr):
-        res= Asset.objects.filter(assetName__isnull=False).filter(Q(assetName__icontains=searchStr)|Q(assetCode__icontains=searchStr)).values('id', 'assetName','assetCode')[:10]
-        return res
+        result=Asset.objects.all()
+        q=searchStr
+        for qstr in q:
+                 if(qstr.isdigit()):
+                     result = result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(id=int(qstr))|Q(assetCategory__name__icontains=qstr)).order_by('-id')
+                 else:
+                    result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)
+                                       |Q(assetCategory__name__icontains=qstr)).order_by('-id')
+        # (Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(assetCategory__name__icontains=qstr))).order_by('-id')
+        result=result.extra(select={'length':'Length(assetName)'}).order_by('length').values('id', 'assetName','assetCode')[:10]
+        return result
+    # res= Asset.objects.filter(assetName__isnull=False).filter(Q(assetName__icontains=searchStr)|Q(assetCode__icontains=searchStr)).values('id', 'assetName','assetCode')[:10]
+    #     return res
     @staticmethod
     def fin_max_pishvand(pishvand):
         return 10
