@@ -330,7 +330,8 @@ def swo_copy(request,ids=None):
         wos=AssetUtility.doPaging(request,assets)
         form=CopyAssetForm()
         q=request.GET.get('q','')
-        data["modalcopyasset"]=render_to_string('cmms/sworkorder/assetcopy.html',{'asset':wos,'asset_cat':asset_cat,'asset_loc':asset_loc,'perms': PermWrapper(request.user),'form':form,'ids':ids})
+        data["modalcopyasset"]=render_to_string('cmms/sworkorder/assetcopy.html',{'asset':wos,'asset_cat':asset_cat,
+        'asset_loc':asset_loc,'perms': PermWrapper(request.user),'form':form,'ids':ids})
         data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination_swo.html', {
                           'asset': wos,'pageType':'swo_copy','ptr':0,'q':q})
         data['form_is_valid']=True
@@ -351,3 +352,18 @@ def swo_copy(request,ids=None):
         })
         data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination2.html', {'wo': wos           })
         return JsonResponse(data)
+def swo_asset_Search(request):
+    data=dict()
+    q=request.GET.get("q","")
+    asset_loc=request.GET.get("asset_loc","0")
+    asset_cat=request.GET.get("asset_cat","0")
+    assets=AssetUtility.seachAsset2(q)
+    wos=AssetUtility.doPaging(request,assets)
+    form=CopyAssetForm()
+    q=request.GET.get('q','')
+    data["modalcopyasset"]=render_to_string('cmms/asset/partialAssetList_swo.html',{'asset':wos,'asset_cat':asset_cat,
+    'asset_loc':asset_loc,'perms': PermWrapper(request.user),'form':form})
+    data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination_swo_search.html', {
+                      'asset': wos,'pageType':'swo_asset_Search','ptr':0,'q':q})
+    data['form_is_valid']=True
+    return JsonResponse(data)

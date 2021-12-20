@@ -1,6 +1,5 @@
 {% load widget_tweaks %}
-<f
-  <div class="modal-header">
+  <div class="modal-header bg-primary">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -22,7 +21,7 @@
                                     </select>
                                     </div>
                                     <div class="col-sm-4 m-b-xs">
-                                      <select class="input-sm form-control input-s-sm inline">
+                                      <select class="input-sm form-control input-s-sm inline" id='asset_loc'>
                                         <option value="0">همه</option>
                                       {% for i in asset_loc %}
                                       <option value="{{i.id}}">{{i}}</option>
@@ -31,7 +30,7 @@
 
                                     </div>
                                     <div class="col-sm-3 m-b-xs">
-                                      <select class="input-sm form-control input-s-sm inline">
+                                      <select class="input-sm form-control input-s-sm inline" id='asset_cat'>
                                         <option value="0">همه</option>
                                       {% for i in asset_cat %}
                                       <option value="{{i.id}}">{{i}}</option>
@@ -40,7 +39,7 @@
 
                                     </div>
                                     <div class="col-sm-3">
-                                        <div class="input-group"><input type="text" placeholder="جستجو" id="assetSearch" class="input-sm form-control"> <span class="input-group-btn">
+                                        <div class="input-group"><input type="text" placeholder="جستجو" id="assetSearch" class="input-sm form-control assetSearch"> <span class="input-group-btn">
                                             <button type="button" class="btn btn-sm btn-primary"> برو!</button> </span></div>
                                     </div>
                                 </div>
@@ -74,20 +73,7 @@
 
                                     </div>
                                     <!-- BUTTON TO TRIGGER THE ACTION -->
-                                    {% if perms.cmms.add_assets %}
-                                    <p>
-                                      <button type="button" class="btn btn-primary js-select-asset-type"
-                                      data-url="{% url 'asset_type_selector' %}"                                  >
-                                        <span class="glyphicon glyphicon-plus"
 
-
-
-                                        ></span>
-                                      جدید
-                                      </button>
-
-                                    </p>
-                                    {% endif %}
                                 </div>
                               </div>
 

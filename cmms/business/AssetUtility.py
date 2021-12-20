@@ -444,6 +444,50 @@ class AssetUtility:
              else:
                  return result.extra(select={'length':'Length(assetName)'}).order_by('length')
     @staticmethod
+    def seachAsset2(searchStr,asset_loc=0,asset_cat=0):
+
+
+        aType=0
+        assType=0
+        if(assType=='1'):
+            aType=1
+        elif(assType=='2'):
+            aType=2
+        elif(assType=='3'):
+            aType=3
+        else:
+            #All type
+            aType=0
+        result=Asset.objects.all()
+
+
+        if(searchStr != ''):
+            q=searchStr
+            for qstr in q:
+                if(aType>0):
+                     if(qstr.isdigit()):
+                         result = result.filter(Q(assetName__icontains=qstr,assetTypes=aType)
+                                                |Q(assetCode__icontains=qstr,assetTypes=aType)|Q(id=int(qstr),assetTypes=aType)|Q(assetCategory__name__icontains=qstr,assetTypes=aType)).order_by('-id')
+                     else:
+
+                        result= result.filter(Q(assetName__icontains=qstr,assetTypes=aType)|Q(assetCode__icontains=qstr,assetTypes=aType)
+                                           |Q(assetCategory__name__icontains=qstr,assetTypes=aType)).order_by('-id')
+                else:
+                     if(qstr.isdigit()):
+                          result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(id=int(qstr))).order_by('-id')
+                     else:
+                         result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(assetCategory__name__icontains=qstr)).order_by('-id')
+            return result.extra(select={'length':'Length(assetName)'}).order_by('length')
+
+
+         # return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,woTags__contains=searchStr).order_by('-id')
+        else:
+             if(aType>0):
+                 print(aType,'$$$$$')
+                 return result.filter(assetTypes=aType).order_by('-id')
+             else:
+                 return result.extra(select={'length':'Length(assetName)'}).order_by('length')
+    @staticmethod
     def getAssetOfflineStatus(id):
         n1=AssetLife.objects.raw(""" select (count(assetlife.id)/total_getdownhits({0}))*100   as id ,b.causeDescription as reason,b.causeCode  from assetlife
          left join workorder wo on assetlife.assetWOAssoc_id=wo.id

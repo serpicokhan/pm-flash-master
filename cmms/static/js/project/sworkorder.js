@@ -37,7 +37,10 @@ $(function () {
         //alert("3123@!");
 
         $("#modal-copy .modal-content").html(data.modalcopyasset);
-        $(".assetPaging").html(data.html_asset_paginator);
+          $(".assetPaging").html(data.html_asset_paginator);
+          $(".assetSearch").on("input",searchAsset);
+
+
 
 
       }
@@ -46,6 +49,33 @@ $(function () {
 
 
 };
+var searchAsset=function(){
+
+
+  $.ajax({
+    url: '/SWorkOrder/copy/AssetSearch?q='+$("#assetSearch").val()+"&asset_loc="+$("#asset_loc").val()+"&asset_cat="+$("#asset_cat").val(),
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+
+      // $("#modal-copy").modal({backdrop: 'static', keyboard: false});
+
+    },
+    success: function (data) {
+      //alert("3123@!");
+
+      $("#tbody_company2").html(data.modalcopyasset);
+      $(".assetPaging").html(data.html_asset_paginator);
+
+        // $(".assetSearch").on("input",searchAsset);
+
+
+
+    },error:function(){
+    }
+  });
+
+}
 
   var loadForm =function (btn1) {
     var btn=0;
@@ -685,6 +715,7 @@ $("#modal-copy").on("submit", ".js-swo-copy-2", saveCopy);
 // Delete book
 $("#company-table").on("click", ".js-delete-swo", loadForm);
 $("#modal-company").on("submit", ".js-swo-delete-form", saveForm);
+// $("#modal-copy").on("change", "#assetSearch", alert("11"));
 // $('#modal-company').on('hidden.bs.modal',cancelform);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);
 
