@@ -37,6 +37,7 @@ $(function () {
         //alert("3123@!");
 
         $("#modal-copy .modal-content").html(data.modalcopyasset);
+        $(".assetPaging").html(data.html_asset_paginator);
 
 
       }
@@ -643,7 +644,7 @@ return false;
 
  //////////////
  $('#modal-company').on('click','.woclose', function () {
-   
+
 
 
 

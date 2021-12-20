@@ -33,6 +33,7 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.context_processors import PermWrapper
 from django.contrib.admin.models import LogEntry, ADDITION,CHANGE,DELETION
 from django.contrib.contenttypes.models import ContentType
+from cmms.business.AssetUtility import AssetUtility
 
 def filterUser(request,books):
     if(request.user.username!="admin"):
@@ -323,9 +324,16 @@ def swo_detail(request,id=None):
 def swo_copy(request,ids=None):
     if(request.method=='GET'):
         data=dict()
-        assets=Asset.objects.all()
+        assets=Asset.objects.all().order_by('-id')
+        asset_loc=Asset.objects.filter(assetTypes=1)
+        asset_cat=AssetCategory.objects.all()
+        wos=AssetUtility.doPaging(request,assets)
         form=CopyAssetForm()
-        data["modalcopyasset"]=render_to_string('cmms/sworkorder/assetcopy.html',{'asset':assets,'perms': PermWrapper(request.user),'form':form,'ids':ids})
+        q=request.GET.get('q','')
+        data["modalcopyasset"]=render_to_string('cmms/sworkorder/assetcopy.html',{'asset':wos,'asset_cat':asset_cat,'asset_loc':asset_loc,'perms': PermWrapper(request.user),'form':form,'ids':ids})
+        data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination_swo.html', {
+                          'asset': wos,'pageType':'swo_copy','ptr':0,'q':q})
+        data['form_is_valid']=True
         return JsonResponse(data)
     else:
         data=dict()
