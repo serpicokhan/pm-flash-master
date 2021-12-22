@@ -4,3 +4,4 @@ tmp/Debug.log
 tmp/Debug.log
 tmp/Debug.log
 celerybeat-schedule.dat
+*.pyc
