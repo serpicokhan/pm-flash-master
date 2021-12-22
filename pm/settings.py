@@ -15,6 +15,11 @@ from django.urls import reverse_lazy
 # from celery.task.schedules import crontab
 # from celery.schedules import crontab
 import logging.config
+from celery.schedules import crontab
+
+import cmms.tasks
+
+
 LOGGING_CONFIG = None
 
 
@@ -220,6 +225,12 @@ TIME_ZONE = 'Asia/Tehran'
 #     # },
 #
 # }
+CELERY_BEAT_SCHEDULE = {
+    "sample_task": {
+        "task": "cmms.tasks.test.sample_task",
+        "schedule": crontab(minute="*/1"),
+    },
+}
 LOGGING ={
     'version': 1,
     'disable_existing_loggers': False,
