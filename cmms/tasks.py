@@ -1,6 +1,6 @@
 # Create your tasks here
 
-from cmms.models import WorkOrder
+from .models import WorkOrder
 
 from celery import shared_task
 
