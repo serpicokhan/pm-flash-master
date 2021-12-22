@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'asset_update' lId  %}" class="js-asset-create-form">
+<form method="post" action="{% url 'asset_update' lId  %}" class="js-asset-create-form" autocomplete="off">
   {% csrf_token %}
   <div class="modal-header " style="background:#ccc">
     <button type="button" class="close assetclose" data-dismiss="modal" aria-label="Close">

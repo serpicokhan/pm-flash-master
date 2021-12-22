@@ -176,5 +176,28 @@
 
 
    </script>
+   <script type="text/javascript">
+   $(document).keydown(function(e) {
+  var code = e.keyCode || e.which;
+  // if (code == 27) $("#modal-company").modal("hide");
+  // if (code == 27) $("#modal-taskGroup").modal("hide");
+  if (code == 27){
+    flag=0;
+    $(document).find(".modal").each(function (i, el) {
+      if(i>0) {
+        $(this).modal("hide");
+        // console.log($(this).attr('class'));
+        flag=1;
+      }
+
+    });
+
+    // $(e[1]).modal("hide");
+   // $(document).modal("hide");
+ }
+});
+
+
+   </script>
 
 </html>

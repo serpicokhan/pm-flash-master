@@ -27,7 +27,7 @@ humanize==3.13.1
 idna==3.2
 jdatetime==3.6.2
 kombu==5.2.2
-mysqlclient @ file:///C:/Users/Administrator/Downloads/mysqlclient-2.0.3-cp39-cp39-win_amd64.whl
+mysqlclient
 nltk==3.3
 Pillow==8.2.0
 prometheus-client==0.12.0

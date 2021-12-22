@@ -142,8 +142,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cmmsuni2',
         'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'PASSWORD': 'docker-root',
+        'HOST': '192.168.183.129',
         'PORT': '3306',
     }
 }
