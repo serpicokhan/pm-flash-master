@@ -23,6 +23,6 @@ def xsum(numbers):
 @shared_task
 def send_email_report():
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    # wos=schedule.objects.all()
-    # print(wos.schNextWo)
-    # print(wos.schnextTime)
+    wos=schedule.objects.all()
+    print(wos.schNextWo)
+    print(wos.schnextTime)
