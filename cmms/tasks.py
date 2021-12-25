@@ -25,8 +25,9 @@ def xsum(numbers):
 def send_email_report():
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     wos=Schedule.objects.all()
-    print(wos.schNextWo)
-    print(wos.schnextTime)
+    for i in wos:
+        print(i.schNextWo)
+        print(i.schnextTime)
     LogEntry.objects.log_action(
         user_id         = 1,
         content_type_id = 1,
