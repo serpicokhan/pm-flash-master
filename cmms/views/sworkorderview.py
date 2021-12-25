@@ -100,7 +100,7 @@ def save_swo_form(request, form, template_name,id=None):
                 )
 
 
-            data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWolist.html', {
+            data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
                 'wo': wos,
                 'perms': PermWrapper(request.user)
             })
@@ -125,7 +125,7 @@ def swo_delete(request, id):
         companies=filterUser(request,companies)
         wos=SWOUtility.doPaging(request,companies)
         #Tasks.objects.filter(woId=id).update(workorder=id)
-        data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWolist.html', {
+        data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
             'wo': wos,
             'perms': PermWrapper(request.user)
         })
@@ -251,7 +251,7 @@ def swo_cancel(request,id):
             # # page=request.GET.get('page',1)
             # wos=WOUtility.doPaging(request,companies)
             # #Tasks.objects.filter(woId=id).update(workorder=id)
-            # data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWolist.html', {
+            # data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
             #     'wo': wos
             # })
 
@@ -346,7 +346,7 @@ def swo_copy(request,ids=None):
         books=filterUser(request,books)
         wos=SWOUtility.doPaging(request,books)
 
-        data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWolist.html', {
+        data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
             'wo': wos,
             'perms': PermWrapper(request.user)
         })
