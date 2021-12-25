@@ -15,10 +15,10 @@ from cmms.models.event import *
 class Schedule(models.Model):
     def get_nextTime_jalali(self):
         if(self.schnextTime):
-            return jdatetime.datetime.fromgregorian(date=self.schnextTime).strftime("%d-%m-%Y %H:%M:%S")
+            return jdatetime.datetime.fromgregorian(date=self.schnextTime).strftime("%Y-%m-%d %H:%M:%S")
     def get_timestamp_jalali(self):
         if(self.schTimestamp):
-            return jdatetime.datetime.fromgregorian(date=self.schTimestamp).strftime("%d-%m-%Y %H:%M:%S")
+            return jdatetime.datetime.fromgregorian(date=self.schTimestamp).strftime("%Y-%m-%d %H:%M:%S")
     def get_tekrar(self):
         if(self.schChoices==0):
             if(self.schHowOften==1):
