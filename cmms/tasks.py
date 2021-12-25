@@ -1,7 +1,7 @@
 # Create your tasks here
 
 from celery import shared_task
-from cmms.models import *
+from .models import *
 
 
 @shared_task
