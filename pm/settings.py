@@ -198,17 +198,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = 'list_dashboard'
 LOGIN_URL='login'
 # CELERY STUFF
-CELERY_BROKER_URL = 'amqp://192.168.183.129'
-
-# BROKER_URL = 'redis://192.168.183.129:6379'
-BROKER_URL = 'amqp://{user}:{password}@{hostname}/{vhost}/'.format(
-        user=os.environ.get('RABBIT_ENV_USER', 'admin'),
-        password=os.environ.get('RABBIT_ENV_RABBITMQ_PASS', 'mypass'),
-        hostname='192.168.183.129',
-        vhost=os.environ.get('RABBIT_ENV_VHOST', ''))
-broker_url = BROKER_URL
+# CELERY_BROKER_URL = 'amqp://192.168.183.129'
+#
+# # BROKER_URL = 'redis://192.168.183.129:6379'
+# BROKER_URL = 'amqp://{user}:{password}@{hostname}/{vhost}/'.format(
+#         user=os.environ.get('RABBIT_ENV_USER', 'admin'),
+#         password=os.environ.get('RABBIT_ENV_RABBITMQ_PASS', 'mypass'),
+#         hostname='192.168.183.129',
+#         vhost=os.environ.get('RABBIT_ENV_VHOST', ''))
+# broker_url = BROKER_URL
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 # CELERY_RESULT_BACKEND = 'ampq://localhost:6379'
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+CELERY_RESULT_BACKEND = 'db+sqlite:///results.db'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
