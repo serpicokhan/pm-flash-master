@@ -1,7 +1,7 @@
 # Create your tasks here
 
 from celery import shared_task
-from .models import *
+# from .models import *
 
 
 @shared_task
@@ -23,6 +23,6 @@ def xsum(numbers):
 @shared_task
 def send_email_report():
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    wos=schedule.objects.all()
-    print(wos.schNextWo)
-    print(wos.schnextTime)
+    # wos=schedule.objects.all()
+    # print(wos.schNextWo)
+    # print(wos.schnextTime)
