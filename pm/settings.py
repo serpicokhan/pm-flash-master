@@ -17,7 +17,7 @@ from django.urls import reverse_lazy
 import logging.config
 from celery.schedules import crontab
 
-import cmms.tasks
+# import cmms.tasks
 
 
 LOGGING_CONFIG = None
