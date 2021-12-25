@@ -71,7 +71,7 @@ def save_schedule_form(request, form, template_name,woId=None):
                      ScheduleUtility.CreateNewWO(newItem.id)
                      data['form_is_valid'] = True
                      books = Schedule.objects.filter(workOrder=woId).order_by('id')
-                     data['html_schedule_list'] = render_to_string('cmms/schedule/partialSchedulelist.html', {
+                     data['html_schedule_list'] = render_to_string('cmms/schedule/partialScheduleList.html', {
                          'schedules': books,
                          'perms': PermWrapper(request.user)
                      })
@@ -103,7 +103,7 @@ def schedule_delete(request, id):
             comp1.delete()
             data['form_is_valid'] = True  # This is just to play along with the existing code
             companies = Schedule.objects.filter(workOrder=woId)
-            data['html_schedule_list'] = render_to_string('cmms/schedule/partialSchedulelist.html', {
+            data['html_schedule_list'] = render_to_string('cmms/schedule/partialScheduleList.html', {
                 'schedules': companies,
                 'perms': PermWrapper(request.user)
             })
