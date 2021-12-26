@@ -641,8 +641,12 @@ class AssetUtility:
                 foo_file.assetFileAssetId=foo
 
                 foo_file.save()
+    # @staticmethod
+    # def find_temp_assetcode(foo,pishvand):
+    #     max_digit=Asset.objects.filter(assetCode__contains="{}-{}-{}".format(foo.get_asset_loc_code(),foo.assetCategory.code,pishvand)).count()
+    #     return "{}-{}-{}{}".format(foo.get_asset_loc_code(),foo.assetCategory.code,pishvand,max_digit+1)
     @staticmethod
-    def find_temp_assetcode(foo,pishvand):
+    def find_suggested_assetcode(foo,pishvand):
         max_digit=Asset.objects.filter(assetCode__contains="{}-{}-{}".format(foo.get_asset_loc_code(),foo.assetCategory.code,pishvand)).count()
         return "{}-{}-{}{}".format(foo.get_asset_loc_code(),foo.assetCategory.code,pishvand,max_digit+1)
     @staticmethod

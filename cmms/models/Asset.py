@@ -34,15 +34,15 @@ class Asset(models.Model):
 
         if(self.assetTypes==1):
             if(self.assetCode):
-                return "{}-".format(self.assetCode)
+                return "{}".format(self.assetCode)
 
             else:
-                    return '' #for location
+                    return 'NoLoc' #for location
         else:
             if(self.assetIsLocatedAt):
-                return "{}-".format(self.assetIsLocatedAt.assetCode)
+                return "{}".format(self.assetIsLocatedAt.assetCode)
             else:
-                return 'NoLoc-'
+                return 'NoLoc'
     def get_name(self):
         if(self.assetName):
             return "{}".format(self.assetName)

@@ -815,11 +815,19 @@ def assetloadinfo(request):
 def gen_asset_code(request,id):
     x=Asset.objects.get(id=id)
     loc_code=request.GET.get('loc','-1')
-    if(loc_code!= '-1'):
+    pishvand=request.GET.get('pishvand','')
+    if(loc_code!= '-1' and len(pishvand)>0):
         loc=Asset.objects.get(id=int(loc_code))
-        code="{}{}-{}".format(loc.get_asset_loc_code(),x.assetCategory.code,10)
+        max_digit=Asset.objects.filter(assetCode__contains="{}-{}-{}".format(loc.get_asset_loc_code(),x.assetCategory.code,pishvand)).count()
+        code="{}-{}-{}{}".format(loc.get_asset_loc_code(),x.assetCategory.code,pishvand,max_digit+1)
+    elif(loc_code!= '-1' and len(pishvand)==0):
+        loc=Asset.objects.get(id=int(loc_code))
+        max_digit=Asset.objects.filter(assetCode__contains="{}-{}".format(loc.get_asset_loc_code(),x.assetCategory.code)).count()
+        code="{}-{}-{}".format(loc.get_asset_loc_code(),x.assetCategory.code,max_digit+1)
+
     else:
-        code="{}{}-{}".format(x.get_asset_loc_code(),x.assetCategory.code,10)
+        max_digit=Asset.objects.filter(assetCode__contains="{}-{}".format(x.get_asset_loc_code(),x.assetCategory.code)).count()
+        code="{}-{}-{}".format(x.get_asset_loc_code(),x.assetCategory.code,max_digit+1)
 
     return JsonResponse({'code':code,'form_is_valid':True},safe=False)
 

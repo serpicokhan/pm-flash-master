@@ -1156,7 +1156,7 @@ var gen_code=function(){
     loc=$("#id_assetIsLocatedAt").val();
   }
   $.ajax({
-    url: '/Asset/'+$("#lastAssetid").val()+'/gen_code?loc='+loc,
+    url: '/Asset/'+$("#lastAssetid").val()+'/gen_code?loc='+loc+'&pishvand='+$("#id_assetCode").val(),
     type: 'get',
     dataType: 'json',
     beforeSend: function () {
