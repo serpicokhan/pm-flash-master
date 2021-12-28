@@ -176,7 +176,7 @@
                           $("#lastWorkOrderid").val(),
                           $("#id_shStartDate").val(),
                           $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"));
-                          console.log(mydata);
+                          // console.log(mydata);
                          }//end of if
 
 
@@ -232,7 +232,7 @@
                          dataType: 'json',
                          beforeSend: function () {
                            //alert(btn.attr("data-url"));
-                           console.log(mydata);
+                           // console.log(mydata);
                          },
                          success: function (data) {
                            if (data.form_is_valid) {

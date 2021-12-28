@@ -2,7 +2,7 @@ $(function () {
 
   var loadScheduleForm =function () {
     var btn=$(this);
-    $.ajax({
+    return $.ajax({
       url: btn.attr("data-url"),
       type: 'get',
       dataType: 'json',
@@ -63,7 +63,8 @@ var saveScheduleForm= function () {
    });
    return false;
  };
- var deleteSchedule= function () {
+ var deleteSchedule2= function (event) {
+   if(event.target.className=="btn btn-danger"){
 
     var form = $(this);
     $.ajax({
@@ -89,6 +90,7 @@ var saveScheduleForm= function () {
         }
       }
     });
+  }
     return false;
   };
 
@@ -104,6 +106,6 @@ $("#schedule-table").on("click", ".js-update-schedule", loadScheduleForm);
 //$("#modal-schedule").on("submit", ".js-schedule-update-form", loadScheduleForm);
 // Delete book
 $("#schedule-table").on("click", ".js-delete-schedule", loadScheduleForm);
-$("#modal-schedule").on("click", ".js-schedule-delete-form",deleteSchedule);
+$("#modal-schedule").on("click", ".js-schedule2-delete-form",deleteSchedule2);
 
 });

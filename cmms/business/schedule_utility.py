@@ -34,13 +34,14 @@ class ScheduleUtility:
 
                 if(Newsch.schHowOften==1):
                     d=Newsch.schHourRep
-                    Newsch.schnextTime=datetime.now()+timedelta(hours=d)
+                    Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=0,minute=0,second=0)+timedelta(hours=d)
+                    print(Newsch.schnextTime)
                 elif(Newsch.schHowOften==2):
                     d=Newsch.schDailyRep
-                    Newsch.schnextTime=datetime.now()+timedelta(d)
+                    Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=0,minute=0,second=0)+timedelta(d)
                 elif(Newsch.schHowOften==3):
                     dtList=[0,0,0,0,0,0,0]
-                    cd=datetime.now()
+                    cd=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=0,minute=0,second=0)
                     if(Newsch.isSunday==True):
                         print("Sunday: is True")
                         dtList[6]=1
@@ -77,25 +78,33 @@ class ScheduleUtility:
                         cd+=timedelta((Newsch.schWeeklyRep-1)*7)
                         Newsch.schnextTime=cd
                 elif(Newsch.schHowOften==4):
-                    xxx=datetime.now()
+                    ddd=datetime.now()
+                    xxx=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=0,minute=0,second=0)
+                    # print(Newsch.shStartDate)
+                    print(Newsch.schDayofMonthlyRep,'!!!!!!')
                     cd=jdatetime.date.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year)#datetime.now()
                     t1=jdatetime.date.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year)#datetime.now()# t1=jdatetime.date.fromgregorian(date=datetime.now())
-                    while cd.day!=Newsch.schDayofMonthlyRep:
-                        cd+=timedelta(1)
+                    # while cd.day!=Newsch.schDayofMonthlyRep:
+                    #     cd+=timedelta(1)
 
-                    if(cd.month==t1.month):
-
-                            # kdate=jdatetime.date.fromgregorian(
-                            # if(cd.month+Newsch.schMonthlyRep>12)
-                            # cd=jdatetime.date(cd.year,((cd.month+(Newsch.schMonthlyRep)%12),cd.day)
-                            xxx=cd.togregorian()+relativedelta(months=+Newsch.schMonthlyRep)
-                            print("l1")
+                    if(cd>ddd):
+                    #
+                    #         # kdate=jdatetime.date.fromgregorian(
+                    #         # if(cd.month+Newsch.schMonthlyRep>12)
+                    #         # cd=jdatetime.date(cd.year,((cd.month+(Newsch.schMonthlyRep)%12),cd.day)
+                            xxx=cd.togregorian() #+relativedelta(months=+Newsch.schMonthlyRep)
+                    #         print("l1")
                     else:
-                        xxx=cd.togregorian()+relativedelta(months=+(Newsch.schMonthlyRep-1))
-                        print("l2")
+                        xxx=cd.togregorian()+relativedelta(months=+(Newsch.schMonthlyRep))
+                    # print("l2")
                             #ss+=relativedelta(months=+sch.schMonthlyRep-1)
 
-                    Newsch.schnextTime=datetime.combine(xxx,datetime.now().time())
+                    z=jdatetime.date.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year)#datetime.now()
+
+
+
+                    Newsch.schnextTime=datetime.combine(jdatetime.date(z.year,z.month,Newsch.schDayofMonthlyRep).togregorian(),datetime.now().time())
+
 
                 elif(Newsch.schHowOften==5):
                     xxx=datetime.now()
@@ -246,7 +255,7 @@ class ScheduleUtility:
                 Newsch.schnextTime=cd
 
             else:
-                
+
                 cd+=timedelta((Newsch.schWeeklyRep-1)*7)
                 Newsch.schnextTime=cd
             print(cd,"@@@@@@@@@@@@")

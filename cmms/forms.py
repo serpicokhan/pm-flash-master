@@ -493,12 +493,12 @@ class ScheduleForm(forms.ModelForm):
                 #schHourRep=1
                 #schHourIsFixed=True
                 return cleaned_data
-    def clean_shStartDate(self):
-        #nexttime=shStartDate+timedelta(days=1)
-        value=DateJob.getDateTime2( self.cleaned_data['shStartDate'])
-
-
-        return value
+    # def clean_shStartDate(self):
+    #     #nexttime=shStartDate+timedelta(days=1)
+    #     value=DateJob.getDateTime3(self.cleaned_data['shStartDate'])
+    #
+    #
+    #     return value
 
     class Meta:
          model = Schedule

@@ -93,13 +93,17 @@ def save_schedule_form(request, form, template_name,woId=None):
 
 @csrf_exempt
 def schedule_delete(request, id):
-    try:
+        print("test")
+    # try:
         comp1 = get_object_or_404(Schedule, id=id)
         woId=comp1.workOrder
+
 
         data = dict()
 
         if (request.method == 'POST'):
+            if(comp1.schNextWo):
+                comp1.schNextWo.delete()
             comp1.delete()
             data['form_is_valid'] = True  # This is just to play along with the existing code
             companies = Schedule.objects.filter(workOrder=woId)
@@ -114,9 +118,9 @@ def schedule_delete(request, id):
                 request=request,
             )
         return JsonResponse(data)
-    except Exception as e:
-        print(e)
-        print("error in schedule deleting")
+    # except Exception as e:
+        # print(e)
+        # print("error in schedule deleting")
 
 
 ###################################################################
@@ -131,7 +135,9 @@ def schedule_create(request):
             data['workOrder']=body['workOrder']
             woId=data['workOrder']
             if(int(data['schChoices']==0)):
-                data['shStartDate']=(body['shStartDate'])
+                # data['shStartDate']=(body['shStartDate'])
+                data['shStartDate']=DateJob.getDate2(body['shStartDate'])
+                # print(data['shStartDate'],'!!!!!!!!!!!!!!!!!')
                 data['shHasEndDate']=True if body['shHasEndDate']==True else False
                 # data['schNextWo']=body['schNextWo']
                 if(data['shHasEndDate']==True):
@@ -251,7 +257,8 @@ def schedule_update(request, id):
         woId=data['workOrder']
         if(int(data['schChoices']==0)):
             # print(body['shHasEndDate'],"##################")
-            data['shStartDate']=(body['shStartDate'])
+            # data['shStartDate']=(body['shStartDate'])
+            data['shStartDate']=DateJob.getDate2(body['shStartDate'])
             data['shHasEndDate']=True if body['shHasEndDate']==True else False
             # data['schNextWo']=body['schNextWo']
             if(data['shHasEndDate']==True):

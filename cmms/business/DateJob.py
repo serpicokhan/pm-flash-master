@@ -105,10 +105,12 @@ class DateJob:
     #for schedule form only
     @staticmethod
     def getDate2(dt1):
+        print(dt1)
         # print(dt1,"#@#@#@")
 
         if(not dt1):
-            #print("###################$$$$$$$$$$$$$$$$$$$$$$$")
+
+            print("###################$$$$$$$$$$$$$$$$$$$$$$$")
             return datetime.date.today()
 
 
@@ -116,6 +118,7 @@ class DateJob:
         y=None
         y=str(dt1).split("-")
         if(len(y)==3):
+            print("ln3")
             year=int(y[0])
             month=int(y[1])
             day=int(y[2])
@@ -123,6 +126,30 @@ class DateJob:
             # print(jdatetime.date(year,month,day).togregorian(),"$$$#$#$#$#################")
             return jdatetime.date(year,month,day).togregorian()
         else:
+            print("else")
+            return datetime.date.today()
+    @staticmethod
+    def getDate3(dt1):
+        print(dt1)
+        print(dt1,"#@#@#@")
+
+        if(not dt1):
+            return datetime.date.today()
+
+
+
+        y=None
+        y=str(dt1).split("/")
+        if(len(y)==3):
+            year=int(y[0])
+            month=int(y[1])
+            day=int(y[2])
+            print(jdatetime.date(year,month,day).togregorian())
+            # print("###############43####$$$$$$$$$$$$$$$$$$$$$$$")
+            # print(jdatetime.date(year,month,day).togregorian(),"$$$#$#$#$#################")
+            return jdatetime.date(year,month,day).togregorian()
+        else:
+            print("else")
             return datetime.date.today()
 
 

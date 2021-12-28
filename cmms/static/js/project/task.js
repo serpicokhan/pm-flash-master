@@ -91,7 +91,7 @@ var saveTaskForm= function () {
  };
 
  var deleteTaskForm= function (event) {
-   console.log(event.target.className);
+
    if(event.target.className=="btn btn-danger")
    {
 
