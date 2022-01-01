@@ -161,6 +161,7 @@ class Schedule(models.Model):
     schNextWo=models.ForeignKey('WorkOrder',on_delete=models.CASCADE,null=True,blank=True,related_name="schnextWo")
 
     schTimestamp=models.DateTimeField(auto_now_add=True)
+    schTriggerTime=models.IntegerField('زمان راه اندازی',blank=True,null=True)
     #shStartTime2=models.TimeField()
 
 

@@ -135,6 +135,7 @@ def schedule_create(request):
             data['workOrder']=body['workOrder']
             woId=data['workOrder']
             if(int(data['schChoices']==0)):
+                data['schTriggerTime']=(body['schTriggerTime'])
                 # data['shStartDate']=(body['shStartDate'])
                 data['shStartDate']=DateJob.getDate2(body['shStartDate'])
                 # print(data['shStartDate'],'!!!!!!!!!!!!!!!!!')
@@ -259,6 +260,7 @@ def schedule_update(request, id):
             # print(body['shHasEndDate'],"##################")
             # data['shStartDate']=(body['shStartDate'])
             data['shStartDate']=DateJob.getDate2(body['shStartDate'])
+            data['schTriggerTime']=(body['schTriggerTime'])
             data['shHasEndDate']=True if body['shHasEndDate']==True else False
             # data['schNextWo']=body['schNextWo']
             if(data['shHasEndDate']==True):

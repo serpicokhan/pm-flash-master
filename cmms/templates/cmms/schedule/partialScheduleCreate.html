@@ -79,7 +79,8 @@
                            "workOrder":{4},\
                            "shStartDate":"{5}",\
                            "shEndDate":"{6}",\
-                          "shHasEndDate":{7}}'
+                           "shHasEndDate":{7},\
+                          "schTriggerTime":{8}}'
                            ,$('#id_schHourRep').val(),
                            $('input[name=schHowOften]:checked').val(),
                            $('input[name=schHourIsFixed]:checked').val(),
@@ -88,7 +89,9 @@
                            $("#id_shStartDate").val(),
                            $("#id_shEndDate").val(),
 
-                           $("#id_shHasEndDate").is(":checked"));
+                           $("#id_shHasEndDate").is(":checked"),
+                           $("#id_schTriggerTime").val(),
+                         );
                          }
                          else if($('input[name=schHowOften]:checked').val()=='2')
                          {
@@ -98,14 +101,14 @@
                           "schChoices":{3},\
                           "workOrder":{4},\
                           "shStartDate":"{5}",\
-                          "shEndDate":"{6}" ,"shHasEndDate":"{7}" }',
+                          "shEndDate":"{6}" ,"shHasEndDate":"{7}","schTriggerTime":{8} }',
                           $('#id_schDailyRep').val(),
                           $('input[name=schHowOften]:checked').val(),
                           $('input[name=schDayIsFixed]:checked').val(),
                           $('input[name=schChoices]:checked').val(),
                           $("#lastWorkOrderid").val(),
                           $("#id_shStartDate").val(),
-                          $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"));
+                          $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"),$("#id_schTriggerTime").val());
                          }//end of if
                          else if($('input[name=schHowOften]:checked').val()=='3')
                          {
@@ -121,7 +124,7 @@
                          "schChoices":{9},\
                          "workOrder":{10},\
                          "shStartDate":"{11}",\
-                         "shEndDate":"{12}", "shHasEndDate":{13}}',
+                         "shEndDate":"{12}", "shHasEndDate":{13},"schTriggerTime":{14}}',
                          $('#id_schWeeklyRep').val(),
                          $('input[name=schHowOften]:checked').val(),
                          $('#id_isSaturday').prop('checked'),
@@ -134,7 +137,7 @@
                          $('input[name=schChoices]:checked').val(),
                          $("#lastWorkOrderid").val(),
                          $("#id_shStartDate").val(),
-                         $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"));
+                         $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"),$("#id_schTriggerTime").val());
                          }//end of if
                          else if($('input[name=schHowOften]:checked').val()=='4')
                          {
@@ -146,14 +149,14 @@
                            "schChoices":{4},\
                            "workOrder":{5},\
                            "shStartDate":"{6}",\
-                           "shEndDate":"{7}","shHasEndDate":{8}}',
+                           "shEndDate":"{7}","shHasEndDate":{8},"schTriggerTime":{9}}',
                            $('#id_schDayofMonthlyRep').val(),
                            $('#id_schMonthlyRep').val(),
                            $('input[name=schHowOften]:checked').val(),
                            $('input[name=schMonthIsFixed]:checked').val(),
                            $('input[name=schChoices]:checked').val(),
                            $("#lastWorkOrderid").val(),$("#id_shStartDate").val(),
-                           $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"));
+                           $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"),$("#id_schTriggerTime").val());
 
                          }//end of if
                          else if($('input[name=schHowOften]:checked').val()=='5')
@@ -166,7 +169,7 @@
                           "schChoices":{5},\
                           "workOrder":{6},\
                           "shStartDate":"{7}",\
-                          "shEndDate":"{8}","shHasEndDate":{9}}',
+                          "shEndDate":"{8}","shHasEndDate":{9},"schTriggerTime":{10}}',
                           $('#id_schYearlyRep').val(),
                           $('#id_schMonthOfYearRep').val(),
                           $('#id_schDayOfMonthOfYearRep').val(),
@@ -175,7 +178,7 @@
                           $('input[name=schChoices]:checked').val(),
                           $("#lastWorkOrderid").val(),
                           $("#id_shStartDate").val(),
-                          $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"));
+                          $("#id_shEndDate").val(),$("#id_shHasEndDate").is(":checked"),$("#id_schTriggerTime").val());
                           // console.log(mydata);
                          }//end of if
 

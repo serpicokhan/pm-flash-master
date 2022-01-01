@@ -424,6 +424,8 @@ TimeCHOICES=[
        (3,'هفتگی'),
        (4,'ماهانه'),
        (5,'سالانه'),]
+timeSchedulingChoices=[(0,'12:00 AM'),(1,'1:00 AM'),(2,'2:00 AM'),(3,'3:00 AM'),(4,'4:00 AM'),(5,'5:00 AM'),(6,'6:00 AM'),(7,'7:00 AM'),(8,'8:00 AM'),(9,'9:00 AM'),(10,'10:00 AM'),(11,'11:00 AM'),(12,'12:00 PM'),
+                      (13,'1:00 PM'),(14,'2:00 PM'),(15,'3:00 PM'),(16,'4:00 PM'),(17,'5:00 PM'),(18,'6:00 PM'),(19,'7:00 PM'),(20,'8:00 PM'),(21,'9:00 PM'),(22,'10:00 PM'),(23,'11:00 PM')]
 FixedOrFloating=[(True,'ثابت'),
                 (False,'شناور')]
 HasEnded=[(0,'نامحدود'),
@@ -432,7 +434,7 @@ HasEnded=[(0,'نامحدود'),
 class ScheduleForm(forms.ModelForm):
     #schnextTime=forms.DateTimeField(required=False)
     #workOrder=forms.IntegerField(required=False)
-
+    schTriggerTime=forms.ChoiceField(choices=timeSchedulingChoices,required=False)
     schChoices=forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(),required=False)
     schHowOften=forms.ChoiceField(choices=TimeCHOICES, widget=forms.RadioSelect(),required=False)
     schHourIsFixed=forms.ChoiceField(choices=FixedOrFloating, widget=forms.RadioSelect(),required=False)
@@ -488,6 +490,7 @@ class ScheduleForm(forms.ModelForm):
                 #shStartTime2=cleaned_data.get('shStartTime2')
                 shReadingHasEndDate=0
                 schNextWo=cleaned_data.get('schNextWo','')
+                schTriggerTime=cleaned_data.get('schTriggerTime','')
                 #schChoices=1
                 #schHowOften=1
                 #schHourRep=1
