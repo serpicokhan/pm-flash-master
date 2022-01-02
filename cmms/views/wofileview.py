@@ -68,7 +68,7 @@ class WorkOrderUploadView(View):
         # lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
         company= get_object_or_404(WorkOrder, id=Id)
         # logging.basicConfig(format=fmt, level=lvl)
-        logging.debug( request.FILES)
+        # logging.debug( request.FILES)
         valid_extensions = ['.pdf', '.doc', '.docx', '.jpg', '.png', '.xlsx', '.xls','.gif','.aac']
         ext = os.path.splitext(request.FILES['woFile'].name)[1]
         if not ext.lower() in valid_extensions:
@@ -84,6 +84,12 @@ class WorkOrderUploadView(View):
             data['is_valid']=True
 
         return JsonResponse(data)
+
+
+
+
+
+
 @api_view(['GET'])
 def wofile_collection(request,id):
     if request.method == 'GET':
