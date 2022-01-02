@@ -56,9 +56,11 @@ class AssetFileUploadView(View):
     def get(self, request,*args, **kwargs):
         try:
         # books = AssetFile.objects.all()
-            return render(request, 'cmms/asset_file/assetFileList.html', {'assetFiles': []})
+            # return render(request, 'cmms/asset_file/assetFileList.html', {'assetFiles': []})
+            return HttpResponse("Created :)")
         except:
-            return render(request, 'cmms/asset_file/assetFileList.html', {'assetFiles': []})
+            # return render(request, 'cmms/asset_file/assetFileList.html', {'assetFiles': []})
+            return HttpResponse("Created :)")
 
 
     def post(self, request,Id=None):
