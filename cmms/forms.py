@@ -297,6 +297,8 @@ class WoPartForm(forms.ModelForm):
                 woPartPlannedQnty=cleaned_data.get('woPartPlannedQnty','')
                 woPartActulaQnty=cleaned_data.get('woPartActulaQnty','')
                 woPartStock=cleaned_data.get('woPartStock','')
+                # if woPartStock and WorkorderPart.objects.get(woPartWorkorder=woPartWorkorder,woPartStock=woPartStock):
+                #         raise forms.ValidationError("not unique")
                 return cleaned_data
 
 
@@ -490,7 +492,8 @@ class ScheduleForm(forms.ModelForm):
                 #shStartTime2=cleaned_data.get('shStartTime2')
                 shReadingHasEndDate=0
                 schNextWo=cleaned_data.get('schNextWo','')
-                schTriggerTime=cleaned_data.get('schTriggerTime','')
+                schTriggerTime=cleaned_data.get('schTriggerTime',0)
+                schCreateOnStartDate=cleaned_data.get('schTriggerTime',False)
                 #schChoices=1
                 #schHowOften=1
                 #schHourRep=1

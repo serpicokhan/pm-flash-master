@@ -31,17 +31,23 @@ class ScheduleUtility:
                     stableWo=Newsch.schNextWo
                     schIsNewFlag=False
                 oldWo=WorkOrder.objects.get(id=Newsch.workOrder_id)
-
+                s=Newsch.schTriggerTime
                 if(Newsch.schHowOften==1):
-                    d=Newsch.schHourRep
-                    Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=0,minute=0,second=0)+timedelta(hours=d)
+                    # d=Newsch.schHourRep
+                    d=0#از همین ساعت شروع شود
+
+                    # print(s,"!!!!!!!!!!!!!")
+                    Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
                     print(Newsch.schnextTime)
                 elif(Newsch.schHowOften==2):
-                    d=Newsch.schDailyRep
-                    Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=0,minute=0,second=0)+timedelta(d)
+                    d=0
+                    # print(Newsch.schCreateOnStartDate)
+                    if(not Newsch.schCreateOnStartDate):
+                        d=Newsch.schDailyRep
+                    Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(d)
                 elif(Newsch.schHowOften==3):
                     dtList=[0,0,0,0,0,0,0]
-                    cd=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=0,minute=0,second=0)
+                    cd=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)
                     if(Newsch.isSunday==True):
                         print("Sunday: is True")
                         dtList[6]=1
@@ -69,33 +75,54 @@ class ScheduleUtility:
                     if(Newsch.isSaturday==True):
                         print("saturday: is True")
                         dtList[5]=1
+                    if(Newsch.schCreateOnStartDate):
+                        key1=True
+                        while(key1):
+                            while(dtList[cd.weekday()]!=1):
+                                cd+=timedelta(1)
+                            # print(cd.isocalendar()[1],date.today().isocalendar()[1])
+                            # if(cd.isocalendar()[1]==date.today().isocalendar()[1]):
+                            if(cd>datetime.now()):
+                                    Newsch.schnextTime=cd
+                                    key1=False
+                            else:
+                                    cd+=timedelta(days=1)
 
-                    while(dtList[cd.weekday()]!=1):
-                        cd+=timedelta(1)
-                    if(cd.isocalendar()[1]==date.today().isocalendar()[1]):
-                        Newsch.schnextTime=cd
+                            print(cd)
                     else:
-                        cd+=timedelta((Newsch.schWeeklyRep-1)*7)
-                        Newsch.schnextTime=cd
+                            cd+=timedelta((Newsch.schWeeklyRep)*7)
+                            while(cd.weekday()!=5):
+                                cd-=timedelta(1)
+                            while(dtList[cd.weekday()]!=1):
+                                cd+=timedelta(1)
+                            Newsch.schnextTime=cd
+
+
                 elif(Newsch.schHowOften==4):
                     ddd=datetime.now()
-                    xxx=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=0,minute=0,second=0)
+                    xxx=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)
                     # print(Newsch.shStartDate)
-                    print(Newsch.schDayofMonthlyRep,'!!!!!!')
+                    # print(Newsch.schDayofMonthlyRep,'!!!!!!')
                     cd=jdatetime.date.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year)#datetime.now()
-                    t1=jdatetime.date.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year)#datetime.now()# t1=jdatetime.date.fromgregorian(date=datetime.now())
+                    t1=jdatetime.date(cd.year,cd.month,Newsch.schDayofMonthlyRep)# jdatetime.date.fromgregorian(day=Newsch.schDayofMonthlyRep,month=xxx.month,year=xxx.year)#datetime.now()# t1=jdatetime.date.fromgregorian(date=datetime.now())
+                    print(t1)
                     # while cd.day!=Newsch.schDayofMonthlyRep:
                     #     cd+=timedelta(1)
-
-                    if(cd>ddd):
-                    #
-                    #         # kdate=jdatetime.date.fromgregorian(
-                    #         # if(cd.month+Newsch.schMonthlyRep>12)
-                    #         # cd=jdatetime.date(cd.year,((cd.month+(Newsch.schMonthlyRep)%12),cd.day)
-                            xxx=cd.togregorian() #+relativedelta(months=+Newsch.schMonthlyRep)
-                    #         print("l1")
+                    if(Newsch.schCreateOnStartDate):
+                        t3=t1.togregorian()
+                        ttt=datetime(year=t3.year,month=t3.month,day=t3.day,hour=s,minute=0,second=0)
+                        if(t1>cd and ttt>=ddd):
+                        #
+                        #         # kdate=jdatetime.date.fromgregorian(
+                        #         # if(cd.month+Newsch.schMonthlyRep>12)
+                        #         # cd=jdatetime.date(cd.year,((cd.month+(Newsch.schMonthlyRep)%12),cd.day)
+                                xxx=t1.togregorian() #+relativedelta(months=+Newsch.schMonthlyRep)
+                        #         print("l1")
+                        else:
+                            xxx=t1.togregorian()+relativedelta(months=+(Newsch.schMonthlyRep))
                     else:
-                        xxx=cd.togregorian()+relativedelta(months=+(Newsch.schMonthlyRep))
+                        xxx=t1.togregorian()+relativedelta(months=+(Newsch.schMonthlyRep))
+
                     # print("l2")
                             #ss+=relativedelta(months=+sch.schMonthlyRep-1)
 

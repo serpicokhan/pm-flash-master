@@ -108,4 +108,4 @@ class StockUtility:
             return WOPartMsg.Pass
     @staticmethod
     def getStockParts(searchStr):
-        return Stock.objects.filter(Q(stockItem__partName__isnull=False,stockItem__partName__contains=searchStr)|Q(stockItem__partName__isnull=False,stockItem__partCode__contains=searchStr)).values('stockItem__partCode', 'stockItem__partName')
+        return Stock.objects.filter(Q(stockItem__partName__isnull=False,stockItem__partName__icontains=searchStr)|Q(stockItem__partName__isnull=False,stockItem__partCode__icontains=searchStr)).values('stockItem__partCode', 'stockItem__partName','id')

@@ -74,14 +74,14 @@ def save_purchasepart_profile(sender, instance, **kwargs):
             stock.qtyOnHand-=oldVal.purchaseQuantityReceived
             stock.qtyOnHand+=instance.purchaseQuantityReceived
             stock.save()
-        except Stock.DoesNotExist:
+        except ObjectDoesNotExist:
             stock.create(stockItem=instance.purchasePartId,location=instance.purchaseStock,minQty=0,aisle=0,row=0,bin=0,qtyOnHand=instance.purchaseQuantityReceived)
     else:
         try:
             stock=Stock.objects.get(stockItem=instance.purchasePartId,location=instance.purchaseStock)
             stock.qtyOnHand+=instance.purchaseQuantityReceived
             stock.save()
-        except Stock.DoesNotExist:
+        except ObjectDoesNotExist:
             stock.create(stockItem=instance.purchasePartId,location=instance.purchaseStock,minQty=0,aisle=0,row=0,bin=0,qtyOnHand=instance.purchaseQuantityReceived)
 
 #besiar mohem
@@ -99,7 +99,7 @@ def save_WorkorderPart_profile(sender, instance, **kwargs):
             woassetpart.create(assetPartAssetid=wo.woAsset,assetPartPid=instance.woPartStock.stockItem,assetPartQnty=instance.woPartActulaQnty)
 
         #check bomgroup
-    except woassetpart.DoesNotExist:
+    except ObjectDoesNotExist:
         try:
             # bomAsset=BOMGroupAsset.objects.filter(BOMGroupAssetAsset=wo.woAsset)
             print("123!!!!!!!!!!!!!!!!!!!!")

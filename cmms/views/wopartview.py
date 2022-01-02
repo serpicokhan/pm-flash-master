@@ -33,6 +33,7 @@ from django.contrib.auth.context_processors import PermWrapper
 from rest_framework.decorators import api_view
 from cmms.api.WOSerializer import *
 from rest_framework.response import Response
+from django.db import IntegrityError
 
 ###################################################################
 def list_woPart(request,id=None):
@@ -89,6 +90,8 @@ def save_woPart_form(request, form, template_name,woId=None):
               lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
               logging.basicConfig(format=fmt, level=lvl)
               logging.debug( form.errors)
+              if("not unique" in form.errors):
+                      data["html_woPart_list_error"]="قطعه تکراری"
 
     context = {'form': form}
     data['html_woPart_form'] = render_to_string(template_name, context, request=request)

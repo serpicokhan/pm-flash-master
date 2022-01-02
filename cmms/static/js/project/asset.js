@@ -91,6 +91,7 @@ $(function () {
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
+        $("#modal-company .modal-content").html('');
 
         $("#modal-company").modal({backdrop: 'static', keyboard: false});
 

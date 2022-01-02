@@ -94,6 +94,7 @@ var searchAsset=function(){
       beforeSend: function () {
         //alert(btn.attr("data-url"));
         //alert("321321");
+        $("#modal-company .modal-content").html('');
        $("#modal-company").modal({backdrop: 'static', keyboard: false});
       },
       success: function (data) {
@@ -144,6 +145,42 @@ var searchAsset=function(){
         initWoNotifyLoad();
         initWoFileLoad();
         initWoLogLoad();
+        $('.advanced2AutoComplete5').autoComplete({
+          resolver: 'custom',
+          noResultsText:'بدون نتیجه',
+          formatResult: function (item) {
+            return {
+              value: item.id,
+              text: "[" + item.assetCode + "] " + item.assetName,
+            };
+          },
+          events: {
+            search: function (qry, callback) {
+              // let's do a custom ajax call
+              $.ajax(
+                '/Asset/GetAssets',
+                {
+                  data: { 'qry': qry}
+                }
+              ).done(function (res) {
+                callback(res);
+              });
+            },
+          }
+        });
+        $('.advanced2AutoComplete5').on('autocomplete.select', function (evt, item) {
+          // alert("!23");
+          $("#id_woAsset").val(item.id);
+          $.ajax({
+            url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
+            type:'get',
+            dataType: 'json',
+            success: function (data) {
+              // console.log("hahaha");
+
+            }
+          });
+        });
 
       }
     });

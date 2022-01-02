@@ -40,9 +40,15 @@
 </div>
 <div class="col-sm-4 b-r">
   <div class="form-group">
+
+
+
+
     <label>{{form.woAsset.label}}</label>
-      {% render_field form.woAsset class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
-    </div>
+    {{ form.woAsset.as_hidden }}
+
+    {% render_field form.woasset_ class="form-control advanced2AutoComplete5" %}
+  </div>
     <div class="form-group">
     <label>{{form.Project.label}}</label>
     {% render_field form.Project class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}

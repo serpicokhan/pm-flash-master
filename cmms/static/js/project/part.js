@@ -20,6 +20,7 @@ $(function () {
         //alert(btn.attr("data-url"));
         //alert("321321");
         // /$("#modal-part").modal("hide");
+        $("#modal-company .modal-content").html('');
         $("#modal-company").modal({backdrop: 'static', keyboard: false});
       },
       success: function (data) {

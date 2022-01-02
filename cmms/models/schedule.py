@@ -162,6 +162,7 @@ class Schedule(models.Model):
 
     schTimestamp=models.DateTimeField(auto_now_add=True)
     schTriggerTime=models.IntegerField('زمان راه اندازی',blank=True,null=True)
+    schCreateOnStartDate=models.BooleanField("ساختن در زمان شروع",default=False)
     #shStartTime2=models.TimeField()
 
 
