@@ -241,7 +241,7 @@ def schedule_create(request):
 
     else:
         print("#$#$#$#$#")
-        form = ScheduleForm({'schDayIsFixed':'True','schHourIsFixed':'True','schMonthIsFixed':'True','schHowOften':'1','schChoices':'0','shMeterReadingHasTiming':True})
+        form = ScheduleForm({'schDayIsFixed':'True','schHourIsFixed':'True','schMonthIsFixed':'True','schHowOften':'1','schChoices':'0','schTriggerTime':1,'shMeterReadingHasTiming':True})
 
     return save_schedule_form(request, form, 'cmms/schedule/partialScheduleCreate.html',woId)
 ###################################################################
