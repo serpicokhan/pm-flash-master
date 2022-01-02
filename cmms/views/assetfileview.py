@@ -79,7 +79,7 @@ class AssetFileUploadView(View):
             document = AssetFile.objects.create(assetFile=r'documents/'+request.FILES['assetFile'].name, assetFileAssetId=company)
             #data = {'is_valid': True, 'name': document.assetFile.name, 'url': document.assetFile.url,'ext':ext,'size':" MB {0:.2f}".format(document.assetFile.size/1048576)}
             books = AssetFile.objects.filter(assetFileAssetId=Id)
-            data['html_assetFile_list'] = render_to_string('cmms/asset_file/partialAssetFilelist.html', {
+            data['html_assetFile_list'] = render_to_string('cmms/asset_file/partialAssetFileList.html', {
                   'assetFiles': books})
             data['is_valid']=True
 

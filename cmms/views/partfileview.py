@@ -60,7 +60,7 @@ def save_partFile_form(request, form, template_name,woId=None):
             logging.basicConfig(format=fmt, level=lvl)
             logging.debug( woId)
             books = WorkorderFile.objects.filter(partFilePartId=woId)
-            data['html_partFile_list'] = render_to_string('cmms/workorder_file/partialPartFilelist.html', {
+            data['html_partFile_list'] = render_to_string('cmms/workorder_file/partialPartFileList.html', {
                 'partFiles': books
             })
           else:
@@ -83,7 +83,7 @@ def partFile_delete(request, id):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies = WorkorderFile.objects.all()
-        data['html_partFile_list'] = render_to_string('cmms/workorder_file/partialPartFilelist.html', {
+        data['html_partFile_list'] = render_to_string('cmms/workorder_file/partialPartFileList.html', {
             'partFile': companies
         })
     else:
@@ -178,7 +178,7 @@ class PartFileUploadView(View):
             document = PartFile.objects.create(partFile=r'documents/'+request.FILES['partFile'].name, partFilePartId=company)
             #data = {'is_valid': True, 'name': document.partFile.name, 'url': document.partFile.url,'ext':ext,'size':" MB {0:.2f}".format(document.partFile.size/1048576)}
             books = PartFile.objects.filter(partFilePartId=Id)
-            data['html_partFile_list'] = render_to_string('cmms/part_file/partialPartFilelist.html', {
+            data['html_partFile_list'] = render_to_string('cmms/part_file/partialPartFileList.html', {
                   'partFiles': books})
             data['is_valid']=True
 

@@ -10,7 +10,7 @@ $(function () {
   $("#assetFileupload").fileupload({
     dataType: 'json',
     done: function (e, data) {  /* 3. PROCESS THE RESPONSE FROM THE SERVER */
-      console.log(data);
+      // console.log(data);
       if (data.result.is_valid) {
         $("#tbody_assetFile").html(
           data.result.html_assetFile_list
