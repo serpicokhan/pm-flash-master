@@ -138,13 +138,16 @@ class ScheduleUtility:
                     cd=jdatetime.datetime.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year)#datetime.now()
                     #cd=jdatetime.date.fromgregorian(date=datetime.now())
                     dt1=jdatetime.datetime(year=cd.year,month=Newsch.schMonthOfYearRep,day=Newsch.schDayOfMonthOfYearRep)
-                    print(dt1)
                     xdt=dt1.togregorian()
-                    if(dt1<cd.togregorian()):
-                        # dt1=jdatetime.date().year,Newsch.schMonthOfYearRep,Newsch.schDayOfMonthOfYearRep)
-                        xdt=xdt+relativedelta(years=+Newsch.schYearlyRep)
+                    if(Newsch.schCreateOnStartDate):
+                        if(dt1<cd.togregorian()):
+                            # dt1=jdatetime.date().year,Newsch.schMonthOfYearRep,Newsch.schDayOfMonthOfYearRep)
+                            xdt=xdt+relativedelta(years=+Newsch.schYearlyRep)
+                        else:
+                            xdt=xdt+relativedelta(years=+(Newsch.schYearlyRep-1))
                     else:
-                        xdt=xdt+relativedelta(years=+(Newsch.schYearlyRep-1))
+                        xdt=xdt+relativedelta(years=+(Newsch.schYearlyRep))
+
 
 
 
