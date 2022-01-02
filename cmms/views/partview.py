@@ -60,7 +60,7 @@ def save_part_form(request, form, template_name,id=None):
             data['form_is_valid'] = True
             books = Part.objects.all().order_by('partName')
             wos=PartUtility.doPaging(request,list(books))
-            data['html_part_list'] = render_to_string('cmms/part/partialPartlist.html', {
+            data['html_part_list'] = render_to_string('cmms/part/partialPartList.html', {
                 'part': wos,
                 'perms': PermWrapper(request.user)
 
@@ -110,7 +110,7 @@ def part_delete(request, id):
         companies =  Part.objects.all().order_by('partName')
         wos=PartUtility.doPaging(request,list(companies))
         #Tasks.objects.filter(partId=id).update(part=id)
-        data['html_part_list'] = render_to_string('cmms/part/partialPartlist.html', {
+        data['html_part_list'] = render_to_string('cmms/part/partialPartList.html', {
             'part': wos,
             'perms': PermWrapper(request.user)
         })
@@ -201,7 +201,7 @@ def partCancel(request,id):
                     companies =  Part.objects.all().order_by('partName')
                     wos=PartUtility.doPaging(request,companies)
                     #Tasks.objects.filter(taskGroupId=id).update(taskGroup=id)
-                    data['html_part_list'] = render_to_string('cmms/part/partialPartlist.html', {
+                    data['html_part_list'] = render_to_string('cmms/part/partialPartList.html', {
                         'part': wos
                     })
 

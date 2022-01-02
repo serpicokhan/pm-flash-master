@@ -152,7 +152,7 @@ def partFile_update(request, id):
 
 
 class PartFileUploadView(View):
-    def get(self, request):
+    def get(self, request,Id=None):
         books = PartFile.objects.all()
         return render(request, 'cmms/part_file/partFileList.html', {'partFiles': books})
 

@@ -53,7 +53,7 @@ def js_list_assetFile(request,woId):
 
 
 class AssetFileUploadView(View):
-    def get(self, request,id=None):
+    def get(self, request,Id=None):
         books = AssetFile.objects.all()
         return render(request, 'cmms/asset_file/assetFileList.html', {'assetFiles': books})
 
