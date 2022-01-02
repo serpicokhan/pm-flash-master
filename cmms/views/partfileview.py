@@ -152,12 +152,14 @@ def partFile_update(request, id):
 
 
 class PartFileUploadView(View):
-    def get(self, request):
+    def get(self, request,*args, **kwargs):
         try:
-            # books = PartFile.objects.all()
-            return render(request, 'cmms/part_file/partFileList.html', {'partFiles': 1})
+        # books = AssetFile.objects.all()
+            # return render(request, 'cmms/asset_file/assetFileList.html', {'assetFiles': []})
+            return HttpResponse("Created :)")
         except:
-            return render(request, 'cmms/part_file/partFileList.html', {'partFiles': 1})
+            # return render(request, 'cmms/asset_file/assetFileList.html', {'assetFiles': []})
+            return HttpResponse("Created :)")
 
 
     def post(self, request,Id=None):
