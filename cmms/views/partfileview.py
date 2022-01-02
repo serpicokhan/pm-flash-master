@@ -155,9 +155,9 @@ class PartFileUploadView(View):
     def get(self, request):
         try:
             # books = PartFile.objects.all()
-            return render(request, 'cmms/part_file/partFileList.html', {'partFiles': {}})
+            return render(request, 'cmms/part_file/partFileList.html', {'partFiles': 1)
         except:
-            return render(request, 'cmms/part_file/partFileList.html', {'partFiles': {}}})
+            return render(request, 'cmms/part_file/partFileList.html', {'partFiles': 1})
 
 
     def post(self, request,Id=None):
