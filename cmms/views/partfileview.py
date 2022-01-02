@@ -152,9 +152,13 @@ def partFile_update(request, id):
 
 
 class PartFileUploadView(View):
-    def get(self, request,Id=None):
-        books = PartFile.objects.all()
-        return render(request, 'cmms/part_file/partFileList.html', {'partFiles': books})
+    def get(self, request):
+        try:
+            # books = PartFile.objects.all()
+            return render(request, 'cmms/part_file/partFileList.html', {'partFiles': {}})
+        except:
+            return render(request, 'cmms/part_file/partFileList.html', {'partFiles': {}}})
+
 
     def post(self, request,Id=None):
         from django.core.exceptions import ValidationError
