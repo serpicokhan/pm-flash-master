@@ -49,11 +49,11 @@
                          type: "POST",
                          data:myformat('{"assetPartPid":{0},\
                          "assetPartQnty":{1},\
-                         "lastAssetid":{2}}',
+                         "lastAssetid":{2},"assetPartDescription":"{3}"}',
                          $("#id_assetPartPid").val(),
                          $("#id_assetPartQnty").val(),
 
-                         $("#lastAssetid").val()),
+                         $("#lastAssetid").val(),($("#id_assetPartDescription").val().length>0)?$("#id_assetPartDescription").val():''),
 
 
 

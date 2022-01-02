@@ -126,6 +126,7 @@ def assetPart_create(request):
         data['assetPartAssetid']=body['lastAssetid']
         data['assetPartPid']=body['assetPartPid']
         data['assetPartQnty']=body['assetPartQnty']
+        data['assetPartDescription']=body['assetPartDescription']
 
         woId=body['lastAssetid']
 
@@ -148,6 +149,7 @@ def assetPart_update(request, id):
         data['assetPartAssetid']=body['lastAssetid']
         data['assetPartPid']=body['assetPartPid']
         data['assetPartQnty']=body['assetPartQnty']
+        data['assetPartDescription']=body['assetPartDescription']
         form = AssetPartForm(data, instance=company)
     else:
         form = AssetPartForm(instance=company,initial={'mypart':company.assetPartPid.partName})

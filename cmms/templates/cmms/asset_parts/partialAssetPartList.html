@@ -5,6 +5,7 @@
  <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
 <td>{{c.assetPartPid}}</td>
  <td>{{c.assetPartQnty}}</td>
+ <td>{{c.assetPartDescription}}</td>
 
 
 
@@ -26,7 +27,7 @@
 </tr>
 {% empty %}
 <tr>
- <td colspan="4" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+ <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
 </tr>
 
 {% endfor %}
@@ -36,6 +37,7 @@
  <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
 <td>{{c.BOMGroupPartPart}}</td>
  <td>{{c.BOMGroupPartQnty}}</td>
+ <td></td>
 
 
 
@@ -48,7 +50,7 @@
 </tr>
 {% empty %}
 <tr>
- <td colspan="4" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+ <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
 </tr>
 
 {% endfor %}

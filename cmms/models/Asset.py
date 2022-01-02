@@ -184,6 +184,7 @@ class AssetPart(models.Model):
     assetPartQnty=models.IntegerField("تعداد",blank=True,null=True)
     # assetPartStock=models.ForeignKey(Stock,on_delete=models.CASCADE,null=True,blank=True,verbose_name="انبار",related_name='cc2')
     # timeStamp=models.DateTimeField(auto_now_add=True)
+    assetPartDescription=models.CharField("توضیح",max_length=50,blank=True,null=True)
     class Meta:
 
         db_table="assetpart"

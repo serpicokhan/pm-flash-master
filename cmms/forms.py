@@ -545,6 +545,7 @@ class AssetPartForm(forms.ModelForm):
                  assetPartAssetid=cleaned_data.get('assetPartAssetid','')
                  assetPartPid=cleaned_data.get('assetPartPid','')
                  assetPartQnty=cleaned_data.get('assetPartQnty','')
+                 assetPartDescription=cleaned_data.get('assetPartDescription','')
 
 
 
