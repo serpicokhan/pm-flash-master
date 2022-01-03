@@ -3,7 +3,7 @@
 from celery import shared_task
 from cmms.models import *
 from django.contrib.admin.models import LogEntry, ADDITION,CHANGE,DELETION
-from __future__ import absolute_import, unicode_literals
+
 # from celery.task.schedules import crontab
 from celery.schedules import crontab
 # from celery import task
