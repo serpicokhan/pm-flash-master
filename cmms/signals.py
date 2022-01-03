@@ -59,7 +59,7 @@ def create_wo(unit):
                 wn.woNotifWorkorder=stableWo
                 wn.save()
         except:
-            print("error")
+            print("error wonotif")
     except Exception as ex:
         print(ex)
 #
@@ -166,6 +166,7 @@ def save_wo_profile(sender, instance, **kwargs):
 @receiver(post_save, sender=AssetMeterReading )
 def save_assetmeter(sender, instance, **kwargs):
           try:
+              print("somthing happen")
 
               ##### چک کردن فعال بودن swo ????????????
 
@@ -175,7 +176,9 @@ def save_assetmeter(sender, instance, **kwargs):
                  if(unit.shMeterNextVal!=None):
                          if(instance.assetMeterMeterReading>=unit.shMeterNextVal  and unit.workOrder.running==True):
                           #and instance.assetMeterMeterReading<=unit.shMeterReadingEndBy
+
                           unit.shMeterNextVal=unit.shMeterReadingEvreyQnty+instance.assetMeterMeterReading
+                          # unit.shMeterReadingStartAt=
                           create_wo(unit)
                           print("Hello")
                           unit.save()

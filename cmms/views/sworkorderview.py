@@ -159,7 +159,7 @@ def swo_create(request):
 ##########################################################
 def swo_update(request, id):
     company= get_object_or_404(WorkOrder, id=id)
-    print(company)
+    # print(company)
     if (request.method == 'POST'):
         form = WorkOrderForm(request.POST, instance=company)
         LogEntry.objects.log_action(
@@ -170,7 +170,7 @@ def swo_update(request, id):
         action_flag     = CHANGE
     )
     else:
-        form = WorkOrderForm(instance=company)
+        form = WorkOrderForm(instance=company,initial={'woasset_':company.woAsset})
 
     return save_swo_form(request, form,'cmms/sworkorder/partialWoUpdate.html',id)
 ##########################################################

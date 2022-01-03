@@ -192,6 +192,8 @@ def schedule_create(request):
                          data['schYearIsFixed']=True if body['schYearIsFixed']=='True' else False
                          form = ScheduleForm(data)
             elif(int(data['schChoices']==1)):
+                data['schTriggerTime']=0
+                data['schCreateOnStartDate']=False
                 data['schHourIsFixed']=False
                 data['schDayIsFixed']=False
                 data['schMonthIsFixed']=False
@@ -218,6 +220,8 @@ def schedule_create(request):
                 form = ScheduleForm(data)
 
             else:
+                data['schTriggerTime']=0
+                data['schCreateOnStartDate']=False
                 print("event")
                 data['schAsset']=body['schAsset']
                 data['schHourIsFixed']=False
@@ -272,6 +276,8 @@ def schedule_update(request, id):
                 data['shEndDate']=None
             data['schHowOften']=body['schHowOften']
             if(int(data['schHowOften'])==1):
+                data['shStartDate']=DateJob.getDate2(body['shStartDate'])
+                data['schTriggerTime']=0
                 data['schHourRep']=body['schHourRep']
                 data['schHourIsFixed']=True if body['schHourIsFixed']=='True' else False
                 data['schDayIsFixed']=False
@@ -318,6 +324,8 @@ def schedule_update(request, id):
                      data['schYearIsFixed']=True if body['schYearIsFixed']=='True' else False
                      form = ScheduleForm(data,instance=company)
         elif(int(data['schChoices']==1)):
+                 data['schTriggerTime']=0
+                 data['schCreateOnStartDate']=False
                  data['schHourIsFixed']=False
                  data['schDayIsFixed']=False
                  data['schMonthIsFixed']=False
@@ -342,6 +350,8 @@ def schedule_update(request, id):
                  # print("line 324 sch ",company.schNextWo)
                  form = ScheduleForm(data,instance=company)
         else:
+            data['schTriggerTime']=0
+            data['schCreateOnStartDate']=False
             print("event")
             data['schAsset']=body['schAsset']
             data['schHourIsFixed']=False

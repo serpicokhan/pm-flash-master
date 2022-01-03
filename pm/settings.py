@@ -238,8 +238,8 @@ TIME_ZONE = 'Asia/Tehran'
 # }
 CELERY_BEAT_SCHEDULE = {
     "sample_task": {
-        "task": "cmms.tasks.send_email_report",
-        "schedule": crontab(minute="*/1"),
+        "task": "cmms.tasks.createWO_celery2",
+        "schedule": crontab(hour="*/1"),
     },
 }
 LOGGING ={
