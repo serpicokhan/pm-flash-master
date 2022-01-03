@@ -35,9 +35,19 @@ class ScheduleUtility:
                 if(Newsch.schHowOften==1):
                     # d=Newsch.schHourRep
                     d=0#از همین ساعت شروع شود
-
+                    if(Newsch.schCreateOnStartDate):
                     # print(s,"!!!!!!!!!!!!!")
-                    Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+                        Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+                    else:
+                        xxx=datetime.now()
+                        sch_must_run_at=datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=s,minute=0,second=0)
+                        if(xxx>sch_must_run_at):
+                            d=Newsch.schHourRep
+                            Newsch.schnextTime=datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+                        else:
+                            d=0
+                            Newsch.schnextTime=datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+
                     print(Newsch.schnextTime)
                 elif(Newsch.schHowOften==2):
                     d=0
