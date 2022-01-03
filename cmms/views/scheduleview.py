@@ -277,7 +277,7 @@ def schedule_update(request, id):
             data['schHowOften']=body['schHowOften']
             if(int(data['schHowOften'])==1):
                 data['shStartDate']=DateJob.getDate2(body['shStartDate'])
-                data['schTriggerTime']=0
+                # data['schTriggerTime']=0
                 data['schHourRep']=body['schHourRep']
                 data['schHourIsFixed']=True if body['schHourIsFixed']=='True' else False
                 data['schDayIsFixed']=False
