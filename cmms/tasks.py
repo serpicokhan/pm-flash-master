@@ -32,6 +32,14 @@ def xsum(numbers):
 
 @shared_task
 def createWO_celery2():
+        LogEntry.objects.log_action(
+        user_id         = 1,
+        content_type_id = 1,
+        object_id       = 1,
+        object_repr     = 'celery',
+        action_flag     = ADDITION,
+        change_message= '1221'
+        )
         #SELECT * FROM schedule INNER JOIN workorder ON schedule.workOrder_id=workorder.id
         #WHERE workorder.running=1 and nexttime=currenttime')
 
