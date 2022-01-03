@@ -44,7 +44,7 @@ def createWO_celery2():
         #WHERE workorder.running=1 and nexttime=currenttime')
 
 
-        logger.info("create object")
+        # logger.info("create object")
         todoes=Schedule.objects.filter(schnextTime__contains=datetime.now().date())
         try:
             for sch in todoes:
