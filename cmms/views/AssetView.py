@@ -240,7 +240,6 @@ def get_assetCategoryMain(request,ids):
     return JsonResponse(data)
 def duplicate_asset(request,id):
     data=dict()
-    '''render_to_string('cmms/asset/temp.txt')'''
     if (request.method == 'POST'):
         assetId=request.POST.get("assetID","")
         tedad=request.POST.get("tedad","")
