@@ -36,6 +36,9 @@ class Asset(models.Model):
             if(self.assetCode):
                 return "{}".format(self.assetCode)
 
+            elif(self.assetIsLocatedAt):
+                return "{}".format(self.assetIsLocatedAt.assetCode)
+
             else:
                     return 'NoLoc' #for location
         else:
