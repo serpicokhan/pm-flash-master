@@ -1,4 +1,7 @@
 {% load widget_tweaks %}
+<form method="get" action="{% url 'save_swo_copy'  %}" class="js-swo-copy2-2" autocomplete="off">
+
+  <input type=hidden name='cpswoid' id='cpswoid' value='{{id}}'/>
   <div class="modal-header bg-primary">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -30,7 +33,7 @@
 
                                     </div>
                                     <div class="col-sm-3 m-b-xs">
-                                      <select class="input-sm form-control input-s-sm inline" id='asset_cat'>
+                                      <select class="input-sm form-control input-s-sm " id='asset_cat'>
                                         <option value="0">همه</option>
                                       {% for i in asset_cat %}
                                       <option value="{{i.id}}">{{i}}</option>
@@ -102,6 +105,7 @@
   });
 
 
- $("#id_assetname2").selectpicker();
+ // $("#asset_loc").selectpicker();
+ // $("#asset_loc").hide();
 
 </script>

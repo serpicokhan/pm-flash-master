@@ -1,5 +1,7 @@
 $(function () {
   var loadForm =function (btn1) {
+
+
     var btn=0;
     //console.log(btn1);
     if($(btn1).attr("type")=="click")
@@ -22,7 +24,6 @@ $(function () {
       },
       success: function (data) {
         //alert("3123@!");
-        console.log(data);
          $("#modal-taskGroup .modal-content").html(data.html_taskGroup_list);
 
 
@@ -38,6 +39,7 @@ $(function () {
 };
 
   var loadTaskForm =function () {
+      console.log("1");
     var btn=$(this);
     $.ajax({
       url: btn.attr("data-url"),
@@ -131,6 +133,7 @@ var saveTaskForm= function () {
 $(".js-create-taskGroup").unbind();
 
 $(".js-create-task").unbind();
+$(".js-update-task").unbind();
 $(".js-create-task").click(loadTaskForm);
 $(".js-create-taskGroup").click(loadForm);
 $("#task-table").on("click", ".js-update-task", loadTaskForm);

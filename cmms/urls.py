@@ -102,6 +102,7 @@ urlpatterns = [
     url(r'^SWorkOrder/(?P<id>-?\d+)/details$', swo_detail, name='swo_detail'),
     url(r'^SWorkOrder/copy/AssetSearch$', swo_asset_Search, name='swo_asset_Search'),
     url(r'^WorkOrder/Copy/$', swo_copy, name='swo_copy'),
+    url(r'^WorkOrder/save_copy/$', save_swo_copy, name='save_swo_copy'),
     url(r'^WorkOrder/Copy/(?P<ids>\d+(?:,\d+)*)$', swo_copy, name='swo_copy'),
 
 

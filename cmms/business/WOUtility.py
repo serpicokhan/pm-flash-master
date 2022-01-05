@@ -235,13 +235,13 @@ class WOUtility:
     def GetHighPriorityWO(start,end):
         # print("!!!!","select count(id) as id from workorder where wopriority IN (1,2) and wostatus IN (1,4,5,6,9) and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end))
 
-        n1 = WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9)).count()
+        n1 = WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False,visibile=True, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9)).count()
         return n1
     @staticmethod
     def GetHighPriorityWO2(start,end,loc):
         # print("!!!!","select count(id) as id from workorder where wopriority IN (1,2) and wostatus IN (1,4,5,6,9) and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end))
 
-        n1 = WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9),woAsset__assetIsLocatedAt__id=loc).count()
+        n1 = WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False,visibile=True, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9),woAsset__assetIsLocatedAt__id=loc).count()
         return n1
     ##############################
     # @staticmethod

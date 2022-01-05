@@ -1,6 +1,7 @@
 $(function () {
 
   var loadScheduleForm =function () {
+    console.log("1");
     var btn=$(this);
     return $.ajax({
       url: btn.attr("data-url"),

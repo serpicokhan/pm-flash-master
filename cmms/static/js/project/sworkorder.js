@@ -25,7 +25,7 @@ $(function () {
 
 
     return $.ajax({
-      url: $(this).attr("data-url")+matches,
+      url: $(this).attr("data-url")+'?id='+matches,
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
@@ -733,7 +733,41 @@ return false;
 
    // do something…
  });
+ var clone_asset_swo2 =function () {
 
+
+
+   // matches=[];
+   // $(".selection-box2:checked").each(function() {
+   //     matches.push(this.value);
+   // });
+   console.log("test")
+   var form = $(this);
+   return $.ajax({
+     url: form.attr("action"),
+     data: form.serialize(),
+     type: form.attr("method"),
+     dataType: 'json',
+     beforeSend: function () {
+     },
+     success: function (data) {
+       if(data.form_is_valid)
+       {
+       $("#tbody_company").html(data.html_asset_list);
+       $(".assetPaging").html(data.html_asset_paginator);
+       // $("tr").on("click", showAssetDetails);
+       toastr.success("کپی با موفقیت انجام شد")
+     }
+     else
+     {
+       toastr.error("خطا در کپی دارایی");
+     }
+   }
+   });
+return false;
+
+
+ };
 
 
  /////////////
@@ -748,7 +782,8 @@ $("#modal-company").on("submit", ".js-swo-create-form", saveForm);
 $("#company-table").on("click", ".js-update-swo", myWoLoader);
 $("#company-table").on("click", ".selection-box", chkselection);
 $("#modal-company").on("submit", ".js-swo-update-form", saveForm);
-$("#modal-copy").on("submit", ".js-swo-copy-2", saveCopy);
+// $("#modal-company").on("submit", ".js-swo-update-form", saveForm);
+$("#modal-copy").on("submit", ".js-swo-copy2-2", clone_asset_swo2);
 // Delete book
 $("#company-table").on("click", ".js-delete-swo", loadForm);
 $("#modal-company").on("submit", ".js-swo-delete-form", saveForm);

@@ -21,6 +21,7 @@ import django.core.serializers
 import logging
 from django.conf import settings
 from cmms.models.schedule import *
+from cmms.models.workorder import *
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
@@ -61,14 +62,18 @@ def js_list_schedule(request,woId):
 
 ###################################################################    ###################################################################
 @csrf_exempt
-def save_schedule_form(request, form, template_name,woId=None):
+def save_schedule_form(request, form, template_name,woId=None,is_update=None):
     data = dict()
     if (request.method == 'POST'):
           #if form.is_valid():
              try:
+                 # print(form.clean().get('schNextWo',''),"!!!!!!!!!!!!!!!!!!!!!!")
                  if form.is_valid():
+                     print(form.instance.schNextWo,"ln 71!!!!!!")
                      newItem=form.save()
+                     print(newItem.schNextWo,"ln 72")
                      ScheduleUtility.CreateNewWO(newItem.id)
+
                      data['form_is_valid'] = True
                      books = Schedule.objects.filter(workOrder=woId).order_by('id')
                      data['html_schedule_list'] = render_to_string('cmms/schedule/partialScheduleList.html', {
@@ -102,8 +107,10 @@ def schedule_delete(request, id):
         data = dict()
 
         if (request.method == 'POST'):
-            if(comp1.schNextWo):
-                comp1.schNextWo.delete()
+            if(comp1.workOrder):
+
+                if(comp1.schNextWo):
+                    comp1.schNextWo.delete()
             comp1.delete()
             data['form_is_valid'] = True  # This is just to play along with the existing code
             companies = Schedule.objects.filter(workOrder=woId)
@@ -253,7 +260,9 @@ def schedule_create(request):
 @csrf_exempt
 def schedule_update(request, id):
     company= get_object_or_404(Schedule, id=id)
+    print(company.schNextWo)
     if (request.method == 'POST'):
+        print("post")
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
         data = request.POST.dict()
@@ -266,9 +275,9 @@ def schedule_update(request, id):
             # data['shStartDate']=(body['shStartDate'])
             data['shStartDate']=DateJob.getDate2(body['shStartDate'])
             data['schTriggerTime']=(body['schTriggerTime'])
+            data['schNextWo']=(body['schNextWo'])
             data['schCreateOnStartDate']=(body['schCreateOnStartDate'])
             data['shHasEndDate']=True if body['shHasEndDate']==True else False
-            # data['schNextWo']=body['schNextWo']
             if(data['shHasEndDate']==True):
 
                 data['shEndDate']=DateJob.getDate2(body['shEndDate'])
@@ -307,7 +316,6 @@ def schedule_update(request, id):
                  data['isWednenday']=True if body['isWednenday']=='true' else False
                  data['isThursday']=True if body['isThursday']=='true' else False
                  data['isFriday']=True if body['isFriday']=='true' else False
-                 print("line 324 sch ",company.schNextWo)
                  form = ScheduleForm(data,instance=company)
             elif(int(data['schHowOften']==4)):
                      data['schDayofMonthlyRep']=body['schDayofMonthlyRep']
@@ -347,7 +355,6 @@ def schedule_update(request, id):
                      data['shMeterReadingWhenMetric']=body['shMeterReadingWhenMetric']
                      data['shMetricComparison']=body['shMetricComparison']
                      data['shMeterReadingWhenQnty']=body['shMeterReadingWhenQnty']
-                 # print("line 324 sch ",company.schNextWo)
                  form = ScheduleForm(data,instance=company)
         else:
             data['schTriggerTime']=0
@@ -361,6 +368,6 @@ def schedule_update(request, id):
             data["schEvent"]=body["schEvent"]
             form = ScheduleForm(data,instance=company)
     else:
+
         form = ScheduleForm(instance=company)
-    # print("line 338 sch ",company.schNextWo)
-    return save_schedule_form(request, form, 'cmms/schedule/partialScheduleUpdate.html',company.workOrder)
+    return save_schedule_form(request, form, 'cmms/schedule/partialScheduleUpdate.html',company.workOrder,True)

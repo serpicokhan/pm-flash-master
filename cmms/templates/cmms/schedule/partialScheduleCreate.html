@@ -64,6 +64,7 @@
            });
 
            $("#schedule-submit").click(function(){
+                      console.log("1");
 
 
                        var form = $(this).parent().parent();
@@ -80,7 +81,7 @@
                            "shStartDate":"{5}",\
                            "shEndDate":"{6}",\
                            "shHasEndDate":{7},\
-                          "schTriggerTime":{8},"schCreateOnStartDate":{9}}'
+                          "schTriggerTime":{8},"schCreateOnStartDate":{9},"schNextWo":{10}}'
                            ,$('#id_schHourRep').val(),
                            $('input[name=schHowOften]:checked').val(),
                            $('input[name=schHourIsFixed]:checked').val(),
@@ -92,7 +93,9 @@
                            $("#id_shHasEndDate").is(":checked"),
                            $("#id_schTriggerTime").val(),
                            $("#id_schCreateOnStartDate").is(":checked"),
+                           ($("#id_schNextWo").val().length>0)?$("#id_schNextWo").val():null,
                          );
+                         console.log(mydata);
                          }
                          else if($('input[name=schHowOften]:checked').val()=='2')
                          {

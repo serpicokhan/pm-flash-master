@@ -9,7 +9,7 @@ from django.forms.models import model_to_dict
 from dateutil.relativedelta import *
 
 import sys
-from cmms.models import WorkOrder,Schedule,WorkorderTask,WorkorderFile,WorkorderPart,WorkorderUserNotification
+from cmms.models import WorkOrder,Schedule,WorkorderTask,WorkorderFile,WorkorderPart,WorkorderUserNotification,Tasks
 class ScheduleUtility:
     @staticmethod
     # make new work order accoring to it's schedule
@@ -27,6 +27,7 @@ class ScheduleUtility:
                     print("line 20 sch schenext is noen")
                     stableWo=WorkOrder.objects.get(id=Newsch.workOrder_id)
                     stableWo.pk=None
+                    print("line 20 sch_utility")
                 else:
                     stableWo=Newsch.schNextWo
                     schIsNewFlag=False
@@ -172,25 +173,45 @@ class ScheduleUtility:
 
 
                 stableWo.save()
+                print(schIsNewFlag)
                 if(schIsNewFlag):
+                    print(stableWo,"line 183")
                     Newsch.schNextWo=stableWo
+                    Newsch.save()
                 Newsch.save()
                 #################
-                wt=WorkorderTask.objects.filter(workorder=oldWo)
+                wt=Tasks.objects.filter(workOrder=oldWo)
+                wt2=Tasks.objects.filter(workOrder=stableWo)
+                if(wt2!=None):
+                    print("workOrder")
+                    for f in wt2:
+                        f.delete()
+
                 if(wt!=None):
+                    print("workOrder")
                     for f in wt:
+                        print(f)
                         f.pk=None
-                        f.workorder=stableWo
+                        f.workOrder=stableWo
                         f.save()
                 ##############
                 wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)
+                wp2=WorkorderPart.objects.filter(woPartWorkorder=stableWo)
+                if(wp2!=None):
+                    for f in wp2:
+                        f.delete()
                 if(wp!=None):
                     for f in wp:
                         f.pk=None
                         f.woPartWorkorder=stableWo
                         f.save()
-                ###############
+            #     ###############
                 wf=WorkorderFile.objects.filter(woFileworkorder=oldWo)
+                wf2=WorkorderFile.objects.filter(woFileworkorder=stableWo)
+                if(wf2!=None):
+
+                    for f in wf2:
+                        f.delete()
                 if(wf!=None):
 
                     for f in wf:
@@ -198,19 +219,19 @@ class ScheduleUtility:
                         f.woFileworkorder=stableWo
                         f.save()
 
-                ################
-                # try:
-                #     wn=get_object_or_404(WorkorderUserNotification,woNotifWorkorder=oldWo)
-                #     if(wn):
-                #         wn.pk=None
-                #         wn.woNotifWorkorder=stableWo
-                #         wn.save()
-                # except Exception as error:
-                #     print(error)
-
-
-
-                    #dt2=jdatetime.date(cd.year+sch.schMonthOfYearRep,sch.schMonthOfYearRep,sch.schDayOfMonthOfYearRep)
+            #     ################
+            #     # try:
+            #     #     wn=get_object_or_404(WorkorderUserNotification,woNotifWorkorder=oldWo)
+            #     #     if(wn):
+            #     #         wn.pk=None
+            #     #         wn.woNotifWorkorder=stableWo
+            #     #         wn.save()
+            #     # except Exception as error:
+            #     #     print(error)
+            #
+            #
+            #
+            #         #dt2=jdatetime.date(cd.year+sch.schMonthOfYearRep,sch.schMonthOfYearRep,sch.schDayOfMonthOfYearRep)
             elif(Newsch.schChoices==1):
                 if(Newsch.shMeterReadingHasTiming==True):
                     Newsch.shMeterNextVal=Newsch.shMeterReadingStartAt+Newsch.shMeterReadingEvreyQnty

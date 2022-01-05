@@ -320,9 +320,10 @@ def swo_detail(request,id=None):
     except Exception as ex:
         print(ex)
         return render(request, 'cmms/404.html', {'to':123})
-@csrf_exempt
+
 def swo_copy(request,ids=None):
     if(request.method=='GET'):
+        print("1")
         data=dict()
         assets=Asset.objects.all().order_by('-id')
         asset_loc=Asset.objects.filter(assetTypes=1)
@@ -330,27 +331,42 @@ def swo_copy(request,ids=None):
         wos=AssetUtility.doPaging(request,assets)
         form=CopyAssetForm()
         q=request.GET.get('q','')
+        id=request.GET.get('id','')
+        print(id,':id!!!!!!!!!')
         data["modalcopyasset"]=render_to_string('cmms/sworkorder/assetcopy.html',{'asset':wos,'asset_cat':asset_cat,
-        'asset_loc':asset_loc,'perms': PermWrapper(request.user),'form':form,'ids':ids})
+        'asset_loc':asset_loc,'perms': PermWrapper(request.user),'form':form,'id':id})
         data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination_swo.html', {
                           'asset': wos,'pageType':'swo_copy','ptr':0,'q':q})
         data['form_is_valid']=True
         return JsonResponse(data)
-    else:
-        data=dict()
-        assetlist=request.POST.getlist("assetname2", "")
-        SWOUtility.copy(ids,assetlist)
-        # print(request.POST.getlist("assetname2", ""))
-        data['form_is_valid'] = True
-        books = WorkOrder.objects.filter(isScheduling=True)
-        books=filterUser(request,books)
-        wos=SWOUtility.doPaging(request,books)
+@csrf_exempt
+def save_swo_copy(request):
 
-        data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
-            'wo': wos,
-            'perms': PermWrapper(request.user)
-        })
-        data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination2.html', {'wo': wos           })
+        data=dict()
+        LogEntry.objects.log_action(
+            user_id         = 1,
+            content_type_id = 1,
+            object_id       = 1,
+            object_repr     = 'swo',
+            action_flag     = ADDITION,
+            change_message= 'swo copy'
+            )
+        # assetlist=request.POST.getlist("assetname2", "")
+        # print(request.GET.get('q','?'))
+        print(request.POST.get('cpswoid','matches'),'dsdsdsds')
+        print('1')
+        # SWOUtility.copy(ids,assetlist)
+        # # print(request.POST.getlist("assetname2", ""))
+        # data['form_is_valid'] = True
+        # books = WorkOrder.objects.filter(isScheduling=True)
+        # books=filterUser(request,books)
+        # wos=SWOUtility.doPaging(request,books)
+        #
+        # data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
+        #     'wo': wos,
+        #     'perms': PermWrapper(request.user)
+        # })
+        # data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination2.html', {'wo': wos           })
         return JsonResponse(data)
 def swo_asset_Search(request):
     data=dict()

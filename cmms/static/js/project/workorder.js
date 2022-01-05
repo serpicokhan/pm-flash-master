@@ -4,6 +4,7 @@ $(function () {
 
 
   var loadForm =function (btn1) {
+
     var btn=0;
     //console.log(btn1);
     if($(btn1).attr("type")=="click")
@@ -448,7 +449,7 @@ var saveForm= function () {
    var form = $(this);
 
 
-   $.ajax({
+   return $.ajax({
      url: form.attr("action"),
      data: form.serialize(),
      type: form.attr("method"),

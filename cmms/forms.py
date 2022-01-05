@@ -492,6 +492,7 @@ class ScheduleForm(forms.ModelForm):
                 #shStartTime2=cleaned_data.get('shStartTime2')
                 shReadingHasEndDate=0
                 schNextWo=cleaned_data.get('schNextWo','')
+                print(schNextWo,'FFFFFFFFFFFFFFFFFFFFFFFF')
                 schTriggerTime=cleaned_data.get('schTriggerTime',0)
                 schCreateOnStartDate=cleaned_data.get('schTriggerTime',False)
                 #schChoices=1
