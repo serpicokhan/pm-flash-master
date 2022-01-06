@@ -175,7 +175,7 @@ def createWO_celery2():
                     if(wt!=None):
                         for f in wt:
                             f.pk=None
-                            f.workorder=stableWo
+                            f.workOrder=stableWo
                             f.save()
                     #######Copy Parts#######
                     wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)
