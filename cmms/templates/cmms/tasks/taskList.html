@@ -32,6 +32,7 @@
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                 {% if perms.cmms.add_tasks %}
                                 <p>
+
                                   {% if not ispm %}
                                   <button type="button" class="btn btn-primary js-create-task"
                                   data-url="{% url 'task_create'  %}"                                  >

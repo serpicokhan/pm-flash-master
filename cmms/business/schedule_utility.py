@@ -38,7 +38,12 @@ class ScheduleUtility:
                     d=0#از همین ساعت شروع شود
                     if(Newsch.schCreateOnStartDate):
                     # print(s,"!!!!!!!!!!!!!")
-                        Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+                        xxx=datetime.now()
+                        next_t=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+                        if(next_t>=xxx):
+                            Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+                        else:
+                            datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=xxx.hour,minute=0,second=0)+timedelta(hours=Newsch.schHourRep)
                     else:
                         xxx=datetime.now()
                         sch_must_run_at=datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=s,minute=0,second=0)
@@ -171,7 +176,7 @@ class ScheduleUtility:
                 stableWo.isPartOf=Newsch.workOrder
                 # Newsch.schNextWo=WorkOrder.objects.create(datecreated=Newsch.schnextTime.date(),timecreated=Newsch.schnextTime.time(),visibile=False,isScheduling=False,isPartOf=Newsch.workOrder)
 
-
+                stableWo.isPm=True
                 stableWo.save()
                 print(schIsNewFlag)
                 if(schIsNewFlag):

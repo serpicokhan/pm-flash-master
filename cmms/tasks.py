@@ -58,7 +58,10 @@ def createWO_celery2():
                     sch.schNextWo.save()
                     #####how to find next date
 
-                    if(sch.schHowOften==2):
+                    if(sch.schHowOften==1):
+                        d=sch.schHourRep
+                        sch.schnextTime=sch.schnextTime+timedelta(hours=d)
+                    elif(sch.schHowOften==2):
                         d=sch.schDailyRep
                         sch.schnextTime=sch.schnextTime+timedelta(d)
                     elif(sch.schHowOften==3):

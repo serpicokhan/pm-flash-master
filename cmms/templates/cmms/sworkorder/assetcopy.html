@@ -1,5 +1,5 @@
 {% load widget_tweaks %}
-<form method="get" action="{% url 'save_swo_copy'  %}" class="js-swo-copy2-2" autocomplete="off">
+
 
   <input type=hidden name='cpswoid' id='cpswoid' value='{{id}}'/>
   <div class="modal-header bg-primary">
@@ -93,10 +93,10 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-success">کپی</button>
+    <button type="button" class="btn btn-success btn-save-copy" >کپی</button>
     <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
   </div>
-</form>
+
 
 
 <script type="text/javascript">

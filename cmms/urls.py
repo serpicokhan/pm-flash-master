@@ -95,7 +95,7 @@ urlpatterns = [
 
     url(r'^SWorkOrder/(?P<id>\d+)/Running/$', SWOupdateRunning, name='SWOupdateRunning'),
     url(r'^SWorkOrder/(?P<wid>\d+)/(?P<aid>\d+)/setAsset/$', swo_setAsset, name='swo_setAsset'),
-    url(r'^SWorkOrder/(?P<searchStr>[^/]+)/Search/$', swo_searchworkOrderByTags, name='swo_searchworkOrderByTags'),
+    url(r'^SWorkOrder/Search/$', swo_searchworkOrderByTags, name='swo_searchworkOrderByTags'),
     url(r'^SWorkOrder/(?P<id>\d+)/cancel/$', swo_cancel, name='swo_cancel'),
     url(r'^SWorkOrder/(?P<status>\d+)/swo_show_swo_by_type/$', swo_show_swo_by_type, name='swo_show_swo_by_type'),
     url(r'^SWorkOrder/(?P<status>\d+)/swo_show_swo_by_schedule_type/$', swo_show_swo_by_schedule_type, name='swo_show_swo_by_schedule_type'),

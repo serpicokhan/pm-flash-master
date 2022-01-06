@@ -43,15 +43,20 @@ def list_task(request,id=None):
 @permission_required('cmms.view_tasks')
 def js_list_task(request,woId):
     data=dict()
-
-
     ####
     books = Tasks.objects.filter(workOrder=woId)
+    wo_Id=WorkOrder.objects.get(id=woId)
     if(books.count()>0):
         data["is_not_empty"]=True
     else:
         data["is_not_empty"]=False
 
+    if(wo_Id.isPartOf):
+        data['html_task_list']= render_to_string('cmms/tasks/partialTaskList.html', {
+            'task': books,
+            'perms': PermWrapper(request.user),
+            ispm:True
+        })
     data['html_task_list']= render_to_string('cmms/tasks/partialTaskList.html', {
         'task': books,
         'perms': PermWrapper(request.user)
@@ -215,6 +220,7 @@ def task_update(request, id):
     company=get_object_or_404(Tasks, id=id)
 
     woId=-1
+    print("common")
     print(woId)
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')
@@ -248,6 +254,7 @@ def task_update2(request, id):
     company=get_object_or_404(Tasks, id=id)
 
     woId=-1
+    print("this is a")
     print(woId)
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')

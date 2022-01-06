@@ -35,7 +35,7 @@ $(function () {
       },
       success: function (data) {
         //alert("3123@!");
-
+        console.log("!");
         $("#modal-copy .modal-content").html(data.modalcopyasset);
           $(".assetPaging").html(data.html_asset_paginator);
           $(".assetSearch").on("input",searchAsset);
@@ -262,6 +262,9 @@ var saveForm= function () {
          $("#modal-company").modal("hide");
          toastr.success("دستور کار زمانبندی شده با موفقیت  ایجاد شد");
          $("#issavechanged").val("1");
+        
+
+
 
         // console.log(data.html_wo_list);
        }
@@ -389,7 +392,7 @@ var saveCopy= function () {
     // searchStr='empty_'
     // searchStr=searchStr.replace(' ','_')
      $.ajax({
-       url: '/SWorkOrder/'+searchStr+'/Search/',
+       url: '/SWorkOrder/Search/?q='+searchStr,
 
        type: 'GET',
        dataType: 'json',
@@ -421,9 +424,9 @@ var saveCopy= function () {
    /////////////////////////////
    $('#swoSearch').on('input',function(){
      strTag=$("#swoSearch").val();
-      if(strTag.length==0)
-      strTag='empty_';
-      strTag=strTag.replace(' ','_');
+      // if(strTag.length==0)
+      // strTag='empty_';
+      // strTag=strTag.replace(' ','_');
 
       searchSWorkorderByTags(strTag);
      //alert("salam");
@@ -737,24 +740,27 @@ return false;
 
 
 
-   // matches=[];
-   // $(".selection-box2:checked").each(function() {
-   //     matches.push(this.value);
-   // });
-   console.log("test")
-   var form = $(this);
+   matches=[];
+   $(".selection-box2:checked").each(function() {
+       matches.push(this.value);
+   });
+   console.log(matches);
+
+   // var form = $(this);
+
    return $.ajax({
-     url: form.attr("action"),
-     data: form.serialize(),
-     type: form.attr("method"),
+     url: '/WorkOrder/save_copy/?q='+matches+'&id='+$("#cpswoid").val(),
+
+     type: 'get',
      dataType: 'json',
      beforeSend: function () {
      },
      success: function (data) {
        if(data.form_is_valid)
        {
-       $("#tbody_company").html(data.html_asset_list);
-       $(".assetPaging").html(data.html_asset_paginator);
+         $("#modal-copy").modal("hide");
+       $("#tbody_company").html(data.html_swo_list);
+       $(".assetPaging").html(data.html_swo_paginator);
        // $("tr").on("click", showAssetDetails);
        toastr.success("کپی با موفقیت انجام شد")
      }
@@ -783,7 +789,7 @@ $("#company-table").on("click", ".js-update-swo", myWoLoader);
 $("#company-table").on("click", ".selection-box", chkselection);
 $("#modal-company").on("submit", ".js-swo-update-form", saveForm);
 // $("#modal-company").on("submit", ".js-swo-update-form", saveForm);
-$("#modal-copy").on("submit", ".js-swo-copy2-2", clone_asset_swo2);
+$("#modal-copy").on("click", ".btn-save-copy", clone_asset_swo2);
 // Delete book
 $("#company-table").on("click", ".js-delete-swo", loadForm);
 $("#modal-company").on("submit", ".js-swo-delete-form", saveForm);

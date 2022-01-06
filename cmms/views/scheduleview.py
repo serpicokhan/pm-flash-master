@@ -278,6 +278,7 @@ def schedule_update(request, id):
             data['schNextWo']=(body['schNextWo'])
             data['schCreateOnStartDate']=(body['schCreateOnStartDate'])
             data['shHasEndDate']=True if body['shHasEndDate']==True else False
+            print(data['shHasEndDate'],"enddate")
             if(data['shHasEndDate']==True):
 
                 data['shEndDate']=DateJob.getDate2(body['shEndDate'])
@@ -293,7 +294,7 @@ def schedule_update(request, id):
                 data['schMonthIsFixed']=False
                 data['schMonthIsFixed']=False
                 data['schMeterReadingIsFixed']=False
-                data['shHasEndDate']=True if body['schHourIsFixed']=='True' else False
+                data['schHourIsFixed']=True if body['schHourIsFixed']=='True' else False
                 form = ScheduleForm(data,instance=company)
             elif(int(data['schHowOften']==2)):
                  data['schDailyRep']=body['schDailyRep']

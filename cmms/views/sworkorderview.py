@@ -129,6 +129,7 @@ def swo_delete(request, id):
             'wo': wos,
             'perms': PermWrapper(request.user)
         })
+        data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination.html', {'wo': wos,'pageType':'list_swo','pageArgs':'1'            })
     else:
         context = {'wo': comp1}
         data['html_wo_form'] = render_to_string('cmms/sworkorder/partialWoDelete.html',
@@ -220,11 +221,14 @@ def swo_setAsset(request,wid,aid):
 
     return JsonResponse(data)
 #######################Search By tags#####################
-def swo_searchworkOrderByTags(request,searchStr):
+def swo_searchworkOrderByTags(request):
     data=dict()
 
-    searchStr=searchStr.replace('empty_','')
-    searchStr=searchStr.replace('_',' ')
+    # searchStr=searchStr.replace('empty_','')
+
+    # searchStr=searchStr.replace('_',' ')
+
+    searchStr=request.GET.get('q','')
     books=(SWOUtility.seachSWoByTags(searchStr))
     books=filterUser(request,books)
 
@@ -325,14 +329,17 @@ def swo_copy(request,ids=None):
     if(request.method=='GET'):
         print("1")
         data=dict()
-        assets=Asset.objects.all().order_by('-id')
+        id=request.GET.get('id','')
+        print(id,':id!!!!!!!!!')
+        wo_asset1=WorkOrder.objects.get(id=id).woAsset
+        assets=Asset.objects.filter(assetCategory=wo_asset1.assetCategory).order_by('-id')
+        # assets=Asset.objects.all().order_by('-id')
         asset_loc=Asset.objects.filter(assetTypes=1)
         asset_cat=AssetCategory.objects.all()
         wos=AssetUtility.doPaging(request,assets)
         form=CopyAssetForm()
         q=request.GET.get('q','')
-        id=request.GET.get('id','')
-        print(id,':id!!!!!!!!!')
+
         data["modalcopyasset"]=render_to_string('cmms/sworkorder/assetcopy.html',{'asset':wos,'asset_cat':asset_cat,
         'asset_loc':asset_loc,'perms': PermWrapper(request.user),'form':form,'id':id})
         data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination_swo.html', {
@@ -341,32 +348,27 @@ def swo_copy(request,ids=None):
         return JsonResponse(data)
 @csrf_exempt
 def save_swo_copy(request):
-
         data=dict()
-        LogEntry.objects.log_action(
-            user_id         = 1,
-            content_type_id = 1,
-            object_id       = 1,
-            object_repr     = 'swo',
-            action_flag     = ADDITION,
-            change_message= 'swo copy'
-            )
-        # assetlist=request.POST.getlist("assetname2", "")
-        # print(request.GET.get('q','?'))
-        print(request.POST.get('cpswoid','matches'),'dsdsdsds')
-        print('1')
-        # SWOUtility.copy(ids,assetlist)
+        data['form_is_valid']=True
+        assetlist=request.GET.get("q", "")
+        assetlist=[int(i) for i in assetlist.split(',') ]
+        ids=request.GET.get('id','?')
+        print(assetlist,'assetlist')
+        # print(request.GET.get('id','matches'),'dsdsdsds')
+        # print(request.GET.get('q','matches'),'qqq')
+        # request for using user pk
+        SWOUtility.copy(int(ids),assetlist,request)
         # # print(request.POST.getlist("assetname2", ""))
         # data['form_is_valid'] = True
-        # books = WorkOrder.objects.filter(isScheduling=True)
-        # books=filterUser(request,books)
-        # wos=SWOUtility.doPaging(request,books)
-        #
-        # data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
-        #     'wo': wos,
-        #     'perms': PermWrapper(request.user)
-        # })
-        # data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination2.html', {'wo': wos           })
+        books = WorkOrder.objects.filter(isScheduling=True)
+        books=filterUser(request,books)
+        wos=SWOUtility.doPaging(request,books)
+
+        data['html_swo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
+            'wo': wos,
+            'perms': PermWrapper(request.user)
+        })
+        data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination2.html', {'wo': wos           })
         return JsonResponse(data)
 def swo_asset_Search(request):
     data=dict()
