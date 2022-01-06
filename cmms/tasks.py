@@ -45,7 +45,7 @@ def createWO_celery2():
 
 
         # logger.info("create object")
-        todoes=Schedule.objects.filter(schnextTime__contains=datetime.now().date())
+        todoes=Schedule.objects.filter(schnextTime__contains=datetime.now().date(),schnextTime__hour=datetime.now().hour)
         try:
             for sch in todoes:
                 if(sch.schNextWo.visibile==False and sch.workOrder.running==True and sch.schChoices==0):
@@ -159,8 +159,10 @@ def createWO_celery2():
                     stableWo=WorkOrder.objects.get(id=sch.workOrder_id)
                     oldWo=WorkOrder.objects.get(id=sch.workOrder_id)
                     stableWo.pk=None
-                    stableWo.datecreated=sch.schnextTime.date()
-                    stableWo.timecreated=sch.schnextTime.time()
+                    # stableWo.datecreated=sch.schnextTime.date()
+                    # stableWo.timecreated=sch.schnextTime.time()
+                    stableWo.datecreated=datetime.now().date()
+                    stableWo.timecreated=datetime.now().time()
                     stableWo.visibile=False
                     stableWo.isScheduling=False
                     stableWo.isPartOf=sch.workOrder
