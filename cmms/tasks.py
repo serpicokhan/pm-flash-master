@@ -171,7 +171,7 @@ def createWO_celery2():
                     sch.save()
                     #######Copy Tasks#########
                     #wt=WorkorderTask.objects.filter(workorder=oldWo)
-                    wt=Tasks.objects.filter(workorder=oldWo)
+                    wt=Tasks.objects.filter(workOrder=oldWo)
                     if(wt!=None):
                         for f in wt:
                             f.pk=None
