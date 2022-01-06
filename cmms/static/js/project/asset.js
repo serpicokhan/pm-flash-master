@@ -346,6 +346,7 @@ var searchAsset= function (loc,searchStr) {
 /////////////////////////////
 
 $('#assetSearch').keyup(function(){
+
 searchStr=$("#assetSearch").val();
 if(searchStr.trim().length>0){
   loc_path=$(location).attr('pathname').split('/');
@@ -369,6 +370,7 @@ if(searchStr.trim().length>0){
   }
 }
 else {
+
   loc_path=$(location).attr('pathname').split('/');
   if(loc_path.length>3){
     kvm_=0
@@ -381,15 +383,18 @@ else {
     else {
       kvm_='3'
     }
-    searchAsset(kvm_,'empty');
+    searchAsset(kvm_,'');
 
   }
-  else {
-    searchAsset('0','empty');
-  }
+
+
 
 
 }
+else {
+  searchAsset('0','');
+}
+
 }
 });
 ////////////////////////////////////////////////////////////////

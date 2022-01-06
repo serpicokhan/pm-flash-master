@@ -178,8 +178,13 @@ def part_update(request, id):
 #######################Search By tags#####################
 def part_searchPart(request,searchStr):
     data=dict()
+
     searchStr=searchStr.replace('_',' ')
-    books=PartUtility.seachPart(searchStr).order_by('partName')
+    books=None
+    if(len(searchStr)==0):
+        books=Parts.objects.all().order_by('partName')
+    else:
+        books=PartUtility.seachPart(searchStr).order_by('partName')
     wos=PartUtility.doPaging(request,list(books))
     data['html_part_search_tag_list'] = render_to_string('cmms/part/partialPartList.html', {               'part': wos  ,'perms': PermWrapper(request.user)                       })
     data['html_part_paginator'] = render_to_string('cmms/part/partialWoPagination.html', {

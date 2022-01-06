@@ -133,7 +133,7 @@ var saveTaskForm= function () {
 $(".js-create-taskGroup").unbind();
 
 $(".js-create-task").unbind();
-$(".js-update-task").unbind();
+
 $(".js-create-task").click(loadTaskForm);
 $(".js-create-taskGroup").click(loadForm);
 $("#task-table").on("click", ".js-update-task", loadTaskForm);

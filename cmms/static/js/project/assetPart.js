@@ -124,7 +124,7 @@ var saveAssetPartForm= function () {
     return false;
   };
  // Create book
-$(".js-create-assetPart").unbind();
+
 $(".js-create-assetPart").click(loadAssetPartForm);
 //$("#task-submit").on("", ".js-task-create-form", saveTaskForm);
 //s$("#task-submit").on("click",function(){alert("32132");});

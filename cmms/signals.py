@@ -1,4 +1,4 @@
-from django.db.models.signals import pre_save,post_save
+from django.db.models.signals import pre_save,post_save,pre_delete
 from django.dispatch import receiver
 from cmms.models import *
 from cmms.business.mail import Mail
@@ -248,3 +248,13 @@ def save_asset_event(sender, instance, **kwargs):
 def save_BusinessPart_event(sender, instance, **kwargs):
     if(instance.businessPartisDefault):
         BusinessPart.objects.filter(BusinessPartPart=instance.BusinessPartPart,businessPartisDefault=True).update(businessPartisDefault=False)
+@receiver(pre_delete, sender=Tasks)
+def delete_related(sender, instance, **kwargs):
+    wo = instance.workOrder # instance is your Purchase instance that is
+    if(wo.isScheduling==True):
+        wos=WorkOrder.objects.filter(isPartOf=wo,visibile=False)
+        tasks=Tasks.objects.filter(worOrder__in=wos)
+        for i in tasks:
+            i.delete()
+
+    # about to be deleted

@@ -126,6 +126,7 @@ def taskGroup_create(request):
         return save_taskGroup_form(request, form, 'cmms/taskgroup/partialTaskGroupCreate.html')
     else:
         taskGroupInstance=TaskGroup.objects.create()
+        print("somthing")
         form = TaskGroupForm(instance=taskGroupInstance)
         return save_taskGroup_form(request, form, 'cmms/taskgroup/partialTaskGroupCreate.html',taskGroupInstance.id)
 

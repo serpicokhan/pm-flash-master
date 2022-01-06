@@ -449,7 +449,7 @@ var saveForm= function () {
    var form = $(this);
 
 
-   return $.ajax({
+    $.ajax({
      url: form.attr("action"),
      data: form.serialize(),
      type: form.attr("method"),

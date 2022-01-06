@@ -46,7 +46,7 @@ def js_list_assetPart(request,woId):
     books2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
     BOMGroupAsset.objects.filter(BOMGroupAssetAsset=woId).values_list('BOMGroupAssetBOMGroup',flat=True))
 
-    books=AssetPart.objects.filter(assetPartAssetid=woId)
+    books=AssetPart.objects.filter(assetPartAssetid=woId).order_by('-id')
 
     data['html_assetPart_list']= render_to_string('cmms/asset_parts/partialAssetPartList.html', {
         'assetParts': books,
@@ -64,23 +64,27 @@ def save_assetPart_form(request, form, template_name,woId=None):
           if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            fmt = getattr(settings, 'LOG_FORMAT', None)
-            lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-            logging.basicConfig(format=fmt, level=lvl)
-            logging.debug( woId)
-            query="select id as id,assetPartAssetid_id,sum(assetPartQnty) as assetPartQnty from assetpart where  assetPartAssetid_id={} group by assetPartAssetid_id,AssetPartPid_id".format(woId)
+            # fmt = getattr(settings, 'LOG_FORMAT', None)
+            # lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
+            # logging.basicConfig(format=fmt, level=lvl)
+            # logging.debug( woId)
+            # query="select id as id,assetPartAssetid_id,sum(assetPartQnty) as assetPartQnty from assetpart where  assetPartAssetid_id={} group by assetPartAssetid_id,AssetPartPid_id order by id desc".format(woId)
+            books=AssetPart.objects.filter(assetPartAssetid=woId).order_by('-id')
 
-            books=AssetPart.objects.raw(query)
-
+            # books=AssetPart.objects.raw(query)
+            books2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
+            BOMGroupAsset.objects.filter(BOMGroupAssetAsset=woId).values_list('BOMGroupAssetBOMGroup',flat=True))
             data['html_assetPart_list'] = render_to_string('cmms/asset_parts/partialAssetPartList.html', {
-                'assetParts': books
+                'assetParts': books,
+                'bomlist':books2
             })
           else:
-              fmt = getattr(settings, 'LOG_FORMAT', None)
-              lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-              logging.basicConfig(format=fmt, level=lvl)
-              logging.debug( form.errors)
-
+              pass
+              # fmt = getattr(settings, 'LOG_FORMAT', None)
+              # lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
+              # logging.basicConfig(format=fmt, level=lvl)
+              # logging.debug( form.errors)
+    print('2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     context = {'form': form}
     data['html_assetPart_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
@@ -88,27 +92,48 @@ def save_assetPart_form(request, form, template_name,woId=None):
 
 @csrf_exempt
 def assetPart_delete(request, id):
-    comp1 = get_object_or_404(AssetPart, id=id)
-    data = dict()
-    woId=comp1.assetPartAssetid
+    try:
+        comp1 = get_object_or_404(AssetPart, id=id)
+        data = dict()
+        woId=comp1.assetPartAssetid
 
-    if (request.method == 'POST'):
-        comp1.delete()
-        data['form_is_valid'] = True  # This is just to play along with the existing code
-        query="select id as id,assetPartAssetid_id,sum(assetPartQnty) as assetPartQnty from assetpart where  assetPartAssetid_id={} group by assetPartAssetid_id,AssetPartPid_id".format(woId)
+        if (request.method == 'POST'):
+            comp1.delete()
+            data['form_is_valid'] = True  # This is just to play along with the existing code
+            query="select id as id,assetPartAssetid_id,sum(assetPartQnty) as assetPartQnty from assetpart where  assetPartAssetid_id={} group by assetPartAssetid_id,AssetPartPid_id".format(woId)
 
-        books=AssetPart.objects.raw(query)
+            books=AssetPart.objects.raw(query)
 
-        data['html_assetPart_list'] = render_to_string('cmms/asset_parts/partialAssetPartList.html', {
-            'assetParts': books
-        })
-    else:
-        context = {'assetPart': comp1}
-        data['html_assetPart_form'] = render_to_string('cmms/asset_parts/partialAssetPartDelete.html',
-            context,
-            request=request,
-        )
-    return JsonResponse(data)
+            data['html_assetPart_list'] = render_to_string('cmms/asset_parts/partialAssetPartList.html', {
+                'assetParts': books
+            })
+        else:
+            print("1")
+            context = {'assetPart': comp1}
+            data['html_assetPart_form'] = render_to_string('cmms/asset_parts/partialAssetPartDelete.html',
+                context,
+                request=request,
+            )
+        return JsonResponse(data)
+    except:
+        data = dict()
+        data['form_is_valid'] = True
+        if (request.method == 'POST'):
+            data['form_is_valid'] = True  # This is just to play along with the existing code
+            # query="select id as id,assetPartAssetid_id,sum(assetPartQnty) as assetPartQnty from assetpart where  assetPartAssetid_id={} group by assetPartAssetid_id,AssetPartPid_id".format(woId)
+
+            books=AssetPart.objects.filter(assetPartAssetid=woId).order_by('-id')
+
+            # books=AssetPart.objects.raw(query)
+            books2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
+            BOMGroupAsset.objects.filter(BOMGroupAssetAsset=woId).values_list('BOMGroupAssetBOMGroup',flat=True))
+            data['html_assetPart_list'] = render_to_string('cmms/asset_parts/partialAssetPartList.html', {
+                'assetParts': books,
+                'bomlist':books2
+            })
+
+        
+        return JsonResponse(data)
 ###################################################################
 @csrf_exempt
 def assetPart_create(request):

@@ -57,5 +57,9 @@
 {% load static %}
 
 {% block javascript %}
+<script type="text/javascript">
+$(".js-create-assetPart").unbind();
+
+</script>
   <script src="{% static '/js/project/assetPart.js' %}"></script>
 {% endblock %}

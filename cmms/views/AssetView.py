@@ -95,6 +95,7 @@ def save_asset_form(request, form, template_name,id=None):
         else:
             print(form.errors)
             data['form_is_valid'] = False
+    print(2)
     context = {'form': form,'lId':id}
     data['html_asset_form'] = render_to_string(template_name, context, request=request)
     data['id']=id
