@@ -262,7 +262,7 @@ var saveForm= function () {
          $("#modal-company").modal("hide");
          toastr.success("دستور کار زمانبندی شده با موفقیت  ایجاد شد");
          $("#issavechanged").val("1");
-        
+
 
 
 
@@ -748,7 +748,7 @@ return false;
 
    // var form = $(this);
 
-   return $.ajax({
+    $.ajax({
      url: '/WorkOrder/save_copy/?q='+matches+'&id='+$("#cpswoid").val(),
 
      type: 'get',
@@ -777,6 +777,41 @@ return false;
 
 
  /////////////
+var updatetaskuser=function(){
+  // alert(1000);
+  // alert($("#id_assignedToUser").val());
+  user_id=$("#id_assignedToUser").val();
+  // alert(user_id.length);
+  // console.log(user_id,user_id.length);
+
+
+  return $.ajax({
+    url: '/SWorkOrder/'+$("#lastWorkOrderid").val()+'/Task/'+user_id+'/Update_Task_User/',
+
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+    },
+    success: function (data) {
+      if(data.form_is_valid)
+      {
+      // $("#modal-copy").modal("hide");
+      $("#tbody_task").html(data.html_data_tasks);
+      // $(".assetPaging").html(data.html_swo_paginator);
+      // $("tr").on("click", showAssetDetails);
+      toastr.success("کاربر با موفقیت بروز شد");
+    }
+    else
+    {
+      toastr.error("خطا در بروز رسانی کاربر در کپی دارایی");
+    }
+  }
+  });
+return false;
+
+}
+
+ //////////////
 
 
 $(".js-create-swo").click(loadForm);
@@ -793,6 +828,7 @@ $("#modal-copy").on("click", ".btn-save-copy", clone_asset_swo2);
 // Delete book
 $("#company-table").on("click", ".js-delete-swo", loadForm);
 $("#modal-company").on("submit", ".js-swo-delete-form", saveForm);
+$("#modal-company").on("change",'.user-assignment',updatetaskuser)
 // $("#modal-copy").on("change", "#assetSearch", alert("11"));
 // $('#modal-company').on('hidden.bs.modal',cancelform);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);

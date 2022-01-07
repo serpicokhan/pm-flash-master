@@ -41,6 +41,8 @@ urlpatterns = [
     url(r'^WorkOrder/(?P<id>\d+)/cancel/$', wo_cancel, name='wo_cancel'),
     url(r'^WorkOrder/(?P<id>\d+)/delete/$', wo_delete, name='wo_delete'),
 
+
+
     url(r'^WorkOrder/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/(?P<wotype>\d+)/(?P<ordercol>\d+)/filter/(?P<ordertype>\d+)$', wo_filter, name='wo_filter'),
 
 
@@ -92,7 +94,7 @@ urlpatterns = [
     url(r'^SWorkOrder/(?P<id>\d+)/delete/$', swo_delete, name='swo_delete'),
 
     url(r'^SWorkOrder/(?P<id>\d+)/deleteChildren$', swo_deleteChildren, name='swo_deleteChildren'),
-
+    url(r'^SWorkOrder/(?P<woid>\d+)/Task/(?P<uid>\d+)/Update_Task_User/$', swo_Update_Task_User, name='swo_Update_Task_User'),
     url(r'^SWorkOrder/(?P<id>\d+)/Running/$', SWOupdateRunning, name='SWOupdateRunning'),
     url(r'^SWorkOrder/(?P<wid>\d+)/(?P<aid>\d+)/setAsset/$', swo_setAsset, name='swo_setAsset'),
     url(r'^SWorkOrder/Search/$', swo_searchworkOrderByTags, name='swo_searchworkOrderByTags'),
@@ -113,6 +115,7 @@ urlpatterns = [
      url(r'^Task/(?P<id>\d+)/delete/$', task_delete, name='task_delete'),
      url(r'^Task/(?P<woId>\d+)/listTask/$', js_list_task, name='js_list_task'),
      url(r'^Task/(?P<id>\d+)/update/$', task_update, name='task_update'),
+     url(r'^Task/(?P<id>\d+)/update2/$', task_update2, name='task_update2'),
      url(r'^api/v1/Tasks/(?P<id>\d+)/$',task_collection, name='task_collection'),
      url(r'^api/v1/Task/(?P<id>\d+)/$',task_detail_collection, name='task_detail_collection'),
 

@@ -51,7 +51,8 @@ def js_list_task(request,woId):
     else:
         data["is_not_empty"]=False
 
-    if(wo_Id.isPartOf):
+    if(wo_Id.isScheduling):
+        print("here")
         data['html_task_list']= render_to_string('cmms/tasks/partialTaskList.html', {
             'task': books,
             'perms': PermWrapper(request.user),

@@ -16,7 +16,7 @@
  <td>
   {% if perms.cmms.view_tasks %}
 
-  {% if not ispm %}
+  {% if ispm == False %}
    <button type="button"
               class="btn btn-warning btn-sm js-update-task"
               data-url="{% url 'task_update' c.id %}">
@@ -24,8 +24,8 @@
       </button>
   {% else %}
   <button type="button"
-             class="btn btn-warning btn-sm js-update-task2"
-             data-url="{% url 'task_update' c.id %}">
+             class="btn btn-warning btn-sm js-update-task"
+             data-url="{% url 'task_update2' c.id %}">
        <span class="glyphicon glyphicon-pencil"></span> مشاهده
      </button>
   {% endif %}

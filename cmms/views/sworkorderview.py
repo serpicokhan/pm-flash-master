@@ -385,3 +385,20 @@ def swo_asset_Search(request):
                       'asset': wos,'pageType':'swo_asset_Search','ptr':0,'q':q})
     data['form_is_valid']=True
     return JsonResponse(data)
+def swo_Update_Task_User(request,woid,uid):
+    data=dict()
+    tasks=Tasks.objects.filter(workOrder=woid)
+    for t in tasks:
+        t.taskAssignedToUser=SysUser.objects.get(pk=uid)
+        t.save()
+    tasks2=Tasks.objects.filter(workOrder__in=WorkOrder.objects.filter(isScheduling=False,visibile=False,isPartOf=woid))
+    for t in tasks2:
+            t.taskAssignedToUser=SysUser.objects.get(pk=uid)
+            t.save()
+    data['html_data_tasks']=data['html_task_list']= render_to_string('cmms/tasks/partialTaskList.html', {
+        'task': tasks,
+        'perms': PermWrapper(request.user),
+        'ispm':True
+        })
+    data['form_is_valid']=True
+    return JsonResponse(data)

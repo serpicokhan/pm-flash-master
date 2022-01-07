@@ -9,8 +9,8 @@
                         </div>
                         <div class="ibox-content">
 
-                            <div class="table-responsive" style="position: relative;height: 300px;overflow: auto;display:block">
-                                <table class="table table-striped" id="task-table">
+                            <div class="table-responsive" >
+                                <table class="table table-striped" id="task-table" style="position: relative;height: 300px;overflow: auto;display:block">
                                     <thead>
                                     <tr>
                                       <th></th>
@@ -26,6 +26,7 @@
 
                                     </thead>
                                     <tbody id='tbody_task'>
+                                      {{ispm}}
                                             {% include 'cmms/tasks/partialTaskList.html' %}
                                     </tbody>
                                 </table>
@@ -70,8 +71,12 @@
 
                     </div>
                 </div>
-                <div class="modal fade" id="modal-task" style="overflow-y: scroll">
-                 <div class="modal-dialog ">
+                <div class="modal fade" id="modal-task" style="overflow-y: scroll;overflow-x: scroll">
+              {% if ispm == True%}
+                 <div class="modal-dialog">
+              {% else %}
+                 <div class="modal-dialog modal-lg">
+                  {% endif %}
 
                    <div class="modal-content ">
                    </div>

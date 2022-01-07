@@ -1,10 +1,10 @@
 <div  data-url="{% url 'task_update' form.instance.id %}" class="js-task-update-form">
 
-  <div class="modal-header">
+  <div class="modal-header bg-info">
     <button type="button" class="close cl-task"  aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="modal-title">ویرایش</h4>
+    <h4 class="modal-title">ویرایش فعالیت</h4>
   </div>
   <div class="modal-body">
     {% include 'cmms/tasks/partialTaskForm.html' %}
