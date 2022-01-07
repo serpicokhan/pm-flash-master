@@ -88,6 +88,7 @@ else {
 
 });
 ////////////////////////////////////////////////////////////////
+
 var cancelForm=function(){
 
   $.ajax({
@@ -96,27 +97,74 @@ var cancelForm=function(){
     type: 'post',
     dataType: 'json',
     success: function (data) {
-      if (data.form_is_valid) {
-        //alert("taskGroup created!");  // <-- This is just a placeholder for now for testing
 
-        $("#tbody_company").empty();
-        $("#tbody_company").html(data.html_taskGroup_list);
-        // $("#modal-taskGroup").modal("hide");
-       // console.log(data.html_taskGroup_list);
+      console.log(data.form_is_valid);
+      if(data.form_is_valid)
+      {
+        swal("حذف شد!", $("#id_taskGroupName").val(), "success");
+
+
+
+
       }
       else {
 
-
       }
-    },
-    error:function(){
-      alert(11);
+
     }
+
   });
-  return false;
+
+
 
 
 };
+var check_task_num=function(id){
+  var result=0;
+  $.ajax({
+    url: '/TaskGroup/'+$("#lastTaskGroupid").val()+'/check_task_num/',
+
+    type: 'post',
+    dataType: 'json',
+    success: function (data) {
+      // console.log(data);
+      if(data.form_is_valid)
+      {
+        result=data.result
+
+
+
+      }
+      else {
+        result=0;
+      }
+
+    }
+
+  });
+return result;
+
+
+}
+$('#modal-taskGroup').on('click','.tclose', function () {
+  if(check_task_num($("#lastTaskGroupid").val())==0 && $("#id_taskGroupName").val()=="" ){
+  swal({
+       title: "حذف فعالیت دسته ای بدوون فعالیت",
+       text: $("#id_taskGroupName").val(),
+       type: "warning",
+       showCancelButton: true,
+       confirmButtonColor: "#DD6B55",
+       confirmButtonText: "بلی",
+       cancelButtonText: "خیر",
+       closeOnConfirm: true
+   }, function () {
+
+       cancelForm();
+
+   });
+ }
+  // do something…
+});
 //$("#modal-taskGroup").on("submit", ".js-taskGroup-create-form",
 var saveForm= function () {
    var form = $(this);
@@ -132,6 +180,7 @@ var saveForm= function () {
          $("#tbody_company").empty();
          $("#tbody_company").html(data.html_taskGroup_list);
          $("#modal-taskGroup").modal("hide");
+         $("#issavechanged").val("1");
         // console.log(data.html_taskGroup_list);
        }
        else {
@@ -278,7 +327,7 @@ var saveForm= function () {
 
 $(".js-create-taskGroup").click(myWoLoader);
 // $(".cancel").on('click',cancelForm);
-$('#modal-taskGroup').on('hidden.bs.modal',cancelForm);
+// $('#modal-taskGroup').on('hidden.bs.modal',cancelForm);
 $("#modal-taskGroup").on("submit", ".js-taskGroup-create-form", saveForm);
 
 

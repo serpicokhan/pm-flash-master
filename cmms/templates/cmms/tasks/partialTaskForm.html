@@ -1,181 +1,197 @@
 {% load widget_tweaks %}
 
 <div class="row">
-  <div class="col-lg-6">
-    <div class="panel panel-info">
-         <div class="panel-heading">
-             <i class="fa fa-info-circle"></i> جزییات وظیفه
-         </div>
-         <div class="panel-body">
-             <div class="row">
-               <div class="col-lg-6">
-
-                 <label>{{form.taskTypes.label}}</label>
-
-                 </div>
-
-               <div class="col-lg-6">
-                 {{form.taskTypes| add_class:"form-control" }}
-               </div>
-             </div>
-             <div class="row">
-               <div class="col-lg-6">
-
-                 <label>{{form.taskMetrics.label}}</label>
-
-                 </div>
-
-               <div class="col-lg-6">
-                 {{form.taskMetrics| add_class:"form-control" }}
-               </div>
-             </div>
-             <div class="row">
-               <div class="col-lg-12">
-
-                 <label>{{form.taskDescription.label}}</label>
-
-
-                 {{form.taskDescription| add_class:"form-control" }}
-               </div>
-             </div>
-             <div class="row" style="margin-top: 20px">
-               <div class="col-lg-6">
-
-                 <label>{{form.taskAssignedToUser.label}}</label>
-
-                 </div>
-
-               <div class="col-lg-6">
-
-                   {% render_field form.taskAssignedToUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
-               </div>
-             </div>
-             <div class="row" >
-               <div class="col-lg-6">
-                 <label style="margin-top: 5px;">{{form.taskStartDate.label}}</label>
-
-               </div>
-               <div class="col-lg-6">
-
-                  <div class="input-group date">
-                                      {{form.taskStartDate| add_class:"form-control" }}
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-calendar">
-                                            </i>
-                                        </span>
-                                    </div>
-
-               </div>
-
-             </div>
-             <div class="row" >
-               <div class="col-lg-6">
-                 <label style="margin-top: 5px;">{{form.taskStartTime.label}}</label>
-
-               </div>
-               <div class="col-lg-6">
-                  {{form.taskStartTime| add_class:"form-control" }}
-
-               </div>
-
-
-           </div>
-             <div class="row" style="margin-top:20px">
-               <div class="col-lg-6">
-
-                 <label>{{form.taskTimeEstimate.label}}</label>
-
-                 </div>
-
-               <div class="col-lg-6">
-                 {{form.taskTimeEstimate| add_class:"form-control" }}
-               </div>
-             </div>
-         </div>
-
-    </div>
-
-</div>
-<div class="col-lg-6">
-  <div class="panel panel-info">
-       <div class="panel-heading">
-           <i class="fa fa-info-circle"></i> جزییات تکمیل
-       </div>
-       <div class="panel-body">
-           <div class="row">
-             <div class="col-lg-6">
-
-               <label>{{form.taskCompletedByUser.label}}</label>
-
-               </div>
-
-             <div class="col-lg-6">
-
-                  {% render_field form.taskCompletedByUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
-             </div>
-           </div>
-           <div class="row">
-             <div class="col-lg-6">
-
-               <label>{{form.taskDateCompleted.label}}</label>
-
-               </div>
-
-             <div class="col-lg-6">
-               <div class="input-group date">
-                                          {{form.taskDateCompleted| add_class:"form-control" }}
-                                          <span class="input-group-addon">
-                                              <i class="fa fa-calendar">
-                                              </i>
-                                          </span>
-                                      </div>
-
-             </div>
-
-
-           </div>
-           <div class="row">
-             <div class="col-lg-6">
-
-               <label>{{form.taskTimeCompleted.label}}</label>
-
-               </div>
-
-             <div class="col-lg-6">
-               {{form.taskTimeCompleted| add_class:"form-control" }}
-             </div>
-
-
-           </div>
-
-
-           <div class="row">
-             <div class="col-lg-6">
-
-               <label>{{form.taskTimeSpent.label}}</label>
-
-               </div>
-
-             <div class="col-lg-6">
-               {{form.taskTimeSpent| add_class:"form-control" }}
-             </div>
-           </div>
-
-           <div class="row">
-             <div class="col-lg-12">
-
-               <label>{{form.taskCompletionNote.label}}</label>
-
-
-               {{form.taskCompletionNote| add_class:"form-control" }}
-             </div>
-       </div>
-
-  </div>
+  <div class="col-lg-12">
+    <div class="tabs-container">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tab-22" aria-expanded="true">اطلاعات عمومی</a></li>
+            <li><a data-toggle="tab" href="#tab-23" aria-expanded="true"> جزییات تکمیل</a></li>
 
 
 
 
+        </ul>
+        <div class="tab-content ">
+            <div id="tab-22" class="tab-pane active">
+              <div class="panel panel-info">
+
+                   <div class="panel-body">
+                       <div class="row">
+                         <div class="col-lg-6">
+
+                           <label>{{form.taskTypes.label}}</label>
+
+                           </div>
+
+                         <div class="col-lg-6">
+                           {{form.taskTypes| add_class:"form-control" }}
+                         </div>
+                       </div>
+                       <div class="row taskmetricrow" >
+                         <div class="col-lg-6">
+
+                           <label>{{form.taskMetrics.label}}</label>
+
+                           </div>
+
+                         <div class="col-lg-6">
+                           {{form.taskMetrics| add_class:"form-control" }}
+                         </div>
+                       </div>
+                       <div class="row">
+                         <div class="col-lg-12">
+
+                           <label>{{form.taskDescription.label}}</label>
+
+
+                           {{form.taskDescription| add_class:"form-control" }}
+                         </div>
+                       </div>
+                       <div class="row" style="margin-top: 20px">
+                         <div class="col-lg-6">
+
+                           <label>{{form.taskAssignedToUser.label}}</label>
+
+                           </div>
+
+                         <div class="col-lg-6">
+
+                             {% render_field form.taskAssignedToUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+                         </div>
+                       </div>
+                       <div class="row" >
+                         <div class="col-lg-6">
+                           <label style="margin-top: 5px;">{{form.taskStartDate.label}}</label>
+
+                         </div>
+                         <div class="col-lg-6">
+
+                            <div class="input-group date">
+                                                {{form.taskStartDate| add_class:"form-control" }}
+                                                  <span class="input-group-addon">
+                                                      <i class="fa fa-calendar">
+                                                      </i>
+                                                  </span>
+                                              </div>
+
+                         </div>
+
+                       </div>
+                       <div class="row" >
+                         <div class="col-lg-6">
+                           <label style="margin-top: 5px;">{{form.taskStartTime.label}}</label>
+
+                         </div>
+                         <div class="col-lg-6">
+                            {{form.taskStartTime| add_class:"form-control" }}
+
+                         </div>
+
+
+                     </div>
+                       <div class="row" style="margin-top:20px">
+                         <div class="col-lg-6">
+
+                           <label>{{form.taskTimeEstimate.label}}</label>
+
+                           </div>
+
+                         <div class="col-lg-6">
+                           {{form.taskTimeEstimate| add_class:"form-control" }}
+                         </div>
+                       </div>
+                   </div>
+
+              </div>
+
+                </div>
+                <div id="tab-23" class="tab-pane ">
+
+                    <div class="panel panel-info">
+
+                         <div class="panel-body">
+                             <div class="row">
+                               <div class="col-lg-6">
+
+                                 <label>{{form.taskCompletedByUser.label}}</label>
+
+                                 </div>
+
+                               <div class="col-lg-6">
+
+                                    {% render_field form.taskCompletedByUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+                               </div>
+                             </div>
+                             <div class="row">
+                               <div class="col-lg-6">
+
+                                 <label>{{form.taskDateCompleted.label}}</label>
+
+                                 </div>
+
+                               <div class="col-lg-6">
+                                 <div class="input-group date">
+                                                            {{form.taskDateCompleted| add_class:"form-control" }}
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar">
+                                                                </i>
+                                                            </span>
+                                                        </div>
+
+                               </div>
+
+
+                             </div>
+                             <div class="row">
+                               <div class="col-lg-6">
+
+                                 <label>{{form.taskTimeCompleted.label}}</label>
+
+                                 </div>
+
+                               <div class="col-lg-6">
+                                 {{form.taskTimeCompleted| add_class:"form-control" }}
+                               </div>
+
+
+                             </div>
+
+
+                             <div class="row">
+                               <div class="col-lg-6">
+
+                                 <label>{{form.taskTimeSpent.label}}</label>
+
+                                 </div>
+
+                               <div class="col-lg-6">
+                                 {{form.taskTimeSpent| add_class:"form-control" }}
+                               </div>
+                             </div>
+
+                             <div class="row">
+                               <div class="col-lg-12">
+
+                                 <label>{{form.taskCompletionNote.label}}</label>
+
+
+                                 {{form.taskCompletionNote| add_class:"form-control" }}
+                               </div>
+                         </div>
+
+                    </div>
+
+
+
+
+
+
+
+
+                  </div>
+
+                    </div>
+          </div>
 
 
 </div>

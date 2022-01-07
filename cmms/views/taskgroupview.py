@@ -156,13 +156,21 @@ def registerTaskGroup(request,tid,woid):
     data=dict()
     TaskUtility.register(tid,woid)
     books = Tasks.objects.filter(workOrder=woid)
+    wos_=WorkOrder.objects.get(id=woid)
+    if(wos_.isScheduling):
+        data['html_taskgroup_list'] = render_to_string('cmms/tasks/partialTasklist.html', {
+            'task': books,
+            'perms': PermWrapper(request.user),
+            'ispm':True
 
+        })
+    else:
+        data['html_taskgroup_list'] = render_to_string('cmms/tasks/partialTasklist.html', {
+            'task': books,
+            'perms': PermWrapper(request.user),
+            'ispm':False
 
-
-    data['html_taskgroup_list'] = render_to_string('cmms/tasks/partialTasklist.html', {
-        'task': books,
-        'perms': PermWrapper(request.user)
-    })
+        })
     return JsonResponse(data)
 
 # ***********************
@@ -173,7 +181,7 @@ def taskGroupCancel(request,id):
 
         tg=TaskGroup.objects.get(id=id)
         if(tg):
-            if(not tg.taskGroupName):
+
                 tg.delete()
                 data['form_is_valid'] = True  # This is just to play along with the existing code
                 companies =  TaskGroup.objects.all().order_by('taskGroupName')
@@ -182,6 +190,23 @@ def taskGroupCancel(request,id):
                 data['html_taskGroup_list'] = render_to_string('cmms/taskgroup/partialTaskGroupList.html', {
                     'taskGroup': wos
                 })
+        else:
+            data['form_is_valid'] = True
+            print("else")
+
+    return JsonResponse(data)
+# ***********************
+@csrf_exempt
+def task_check_task_num(request,id):
+    data=dict()
+
+    tg=TaskTemplate.objects.filter(taskTemplateTaskGroup=id)
+    data['form_is_valid']=True
+    data['result']=tg.count()
+
+
+
+
     return JsonResponse(data)
 def taskGroupSearch(request,str):
 

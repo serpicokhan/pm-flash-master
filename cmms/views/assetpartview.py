@@ -100,7 +100,7 @@ def assetPart_delete(request, id):
         if (request.method == 'POST'):
             comp1.delete()
             data['form_is_valid'] = True  # This is just to play along with the existing code
-            query="select id as id,assetPartAssetid_id,sum(assetPartQnty) as assetPartQnty from assetpart where  assetPartAssetid_id={} group by assetPartAssetid_id,AssetPartPid_id".format(woId)
+            query="select id as id,assetPartAssetid_id,sum(assetPartQnty) as assetPartQnty from assetpart where  assetPartAssetid_id={} group by assetPartAssetid_id,AssetPartPid_id order by id desc".format(woId)
 
             books=AssetPart.objects.raw(query)
 
@@ -132,7 +132,7 @@ def assetPart_delete(request, id):
                 'bomlist':books2
             })
 
-        
+
         return JsonResponse(data)
 ###################################################################
 @csrf_exempt

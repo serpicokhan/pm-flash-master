@@ -77,7 +77,7 @@ var saveTaskForm= function () {
          $("#tbody_task").empty();
          $("#tbody_task").html(data.html_task_list);
          $('#modal-task').modal('hide');
-         alert("123");
+         // alert("123");
          //console.log(data.html_wo_list);
        }
        else {

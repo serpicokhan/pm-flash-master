@@ -1,16 +1,17 @@
 {% load widget_tweaks %}
 <div class="row">
-<div class="col-sm-6 b-r">
+<div class="col-sm-2 b-r">
   {% load static %}
   <img src="{% static 'img/tasklist.jpg' %}" width="128px" height="128px" / >
   <input type=hidden name='lastTaskGroupid' id='lastTaskGroupid' value='{{lId}}'/>
+  <input type=hidden name='issavechanged' id='issavechanged' value='-1'/>
 
 
 
 
 
 </div>
-<div class="col-sm-6 b-r">
+<div class="col-sm-10 b-r">
   <div class="form-group">
   <label>{{form.taskGroupName.label}}</label>
   {{form.taskGroupName| add_class:"form-control" }}
@@ -25,9 +26,7 @@
                     <div class="tabs-container">
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">اطلاعات عمومی</a></li>
-                            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">اطلاعات مکانی</a></li>
 
-                            <!-- <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">پیوست ها</a></li> -->
 
 
 
@@ -65,73 +64,6 @@
                                 </div>
                                 </div>
 
-                            <div id="tab-2" class="tab-pane">
-                                <div class="panel-body">
-                                  <div class='row'>
-                                    <div class='col-lg-12'>
-                                      <div class="panel panel-info">
-                                           <div class="panel-heading">
-                                               <i class="fa fa-info-circle"></i> اطلاعات مکانی
-                                           </div>
-                                           <div class="panel-body">
-                                               <div class="row">
-                                                 <div class="col-lg-12">
-                                                    {% include 'cmms/taskgroup_assetcategory/taskGroupAssetCategoryList.html' %}
-
-
-                                                 </div>
-
-                                               </div>
-                                           </div>
-
-                                      </div>
-
-
-
-
-                                    </div>
-                                  </div>
-
-                                   </div>
-
-                            </div>
-                            <div id="tab-3" class="tab-pane">
-                                <div class="panel-body">
-
-                                    <div class='row'>
-                                      <div class='col-lg-12'>
-                                        <div class="panel panel-info">
-                                             <div class="panel-heading">
-                                                 <i class="fa fa-info-circle"></i> پیوست ها
-                                             </div>
-                                             <div class="panel-body">
-                                                 <div class="row">
-                                                   <div class="col-lg-12">
-                                                     <div class="panel panel-info">
-
-                                                       <div class="panel-body">
-                                                    {% include 'cmms/taskgroup_file/taskGroupFileList.html' %}
-
-                                                       </div>
-
-                                                     </div>
-
-
-
-
-                                                   </div>
-
-                                                 </div>
-                                             </div>
-
-
-                                      </div>
-                                    </div>
-
-
-
-                                </div>
-                            </div>
                           </div>
 
 

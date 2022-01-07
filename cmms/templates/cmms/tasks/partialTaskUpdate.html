@@ -68,7 +68,7 @@
            }
          );
            if($( "#id_taskTypes" ).val()<3)
-            $("#id_taskMetrics").hide();
+            $(".taskmetricrow").hide();
            $("#id_taskTypes").change(
              function()
              {
@@ -76,10 +76,10 @@
                switch ( $( "#id_taskTypes" ).val()) {
                  case "1":
                  case "2":
-                   $("#id_taskMetrics").hide();
+                   $(".taskmetricrow").hide();
                    break;
                  case "3":
-                 $("#id_taskMetrics").show();
+                 $(".taskmetricrow").show();
                  break;
 
                  default:
