@@ -259,7 +259,7 @@ def swo_cancel(request,id):
         companies = WorkOrder.objects.filter(isScheduling=True).order_by('-id')
         companies=filterUser(request,companies)
         page=request.GET.get('page',1)
-        wos=WOUtility.doPaging(request,companies)
+        wos=SWOUtility.doPaging(request,companies)
         # #Tasks.objects.filter(woId=id).update(workorder=id)
         data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
             'wo': wos,
