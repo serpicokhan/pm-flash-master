@@ -51,7 +51,7 @@ def js_list_task(request,woId):
     else:
         data["is_not_empty"]=False
 
-    if(wo_Id.isScheduling):
+    if(wo_Id.isScheduling==True):
         print("here")
         data['html_task_list']= render_to_string('cmms/tasks/partialTaskList.html', {
             'task': books,
@@ -111,10 +111,20 @@ def save_task_form(request, form, template_name,woId=None):
                 books = Tasks.objects.filter(workOrder=woId)
                 #books = Tasks.objects.all()
                 #######
-                data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
-                    'task': books,
-                    'perms': PermWrapper(request.user)
-                })
+                if(wo.isScheduling==False):
+                    data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
+                        'task': books,
+                        'perms': PermWrapper(request.user),
+                        'ispm':False
+                    })
+                else:
+                        data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
+                            'task': books,
+                            'perms': PermWrapper(request.user),
+                            'ispm':True
+                        })
+
+
             else:
                 data['form_is_valid'] = False
                 data['form_err_code'] = err_code
@@ -140,10 +150,20 @@ def task_delete(request, id):
         data['form_is_valid'] = True  # This is just to play along with the existing code
         #companies = WorkorderTask.objects.filter(workorder=woId)
         companies = Tasks.objects.filter(workOrder=woId)
-        data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
-            'task': companies,
-            'perms': PermWrapper(request.user)
-        })
+        wo_Id=WorkOrder.objects.get(id=woId)
+        if(wo_Id.isScheduling==False):
+            data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
+                'task': companies,
+                'perms': PermWrapper(request.user),
+                'ispm':False
+            })
+        else:
+            data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
+                'task': companies,
+                'perms': PermWrapper(request.user),
+                'ispm':True
+            })
+
     else:
         context = {'task': comp1}
         data['html_task_form'] = render_to_string('cmms/tasks/partialTaskDelete.html',
