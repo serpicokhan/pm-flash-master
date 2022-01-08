@@ -332,7 +332,7 @@ def swo_copy(request,ids=None):
         id=request.GET.get('id','')
         print(id,':id!!!!!!!!!')
         wo_asset1=WorkOrder.objects.get(id=id).woAsset
-        assets=Asset.objects.filter(assetCategory=wo_asset1.assetCategory).order_by('-id')
+        assets=Asset.objects.all(assetCategory=wo_asset1.assetCategory).order_by('-id')
         # assets=Asset.objects.all().order_by('-id')
         asset_loc=Asset.objects.filter(assetTypes=1)
         asset_cat=AssetCategory.objects.all()
