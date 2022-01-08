@@ -317,7 +317,7 @@ var saveForm= function () {
 
 
    //$.when(loadForm(btn)).done(initLoad,initWoTaskGroupLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
-   $.when(loadForm(btn)).done(initTaskGroupFileLoad,initTaskGroupAssetCategoryLoad,initTaskGroupTemplateLoad );
+   $.when(loadForm(btn)).done(initTaskGroupTemplateLoad );
    //loadForm(btn);
 
    //initLoad();
