@@ -368,13 +368,13 @@ def list_asset_dash(request):
         acat_dict[i.name]={}
         x0.append(i.id)
         x1.append(i.name)
-        assets=Asset.objects.filter(assetCategory=i,assetTypes=2,assetIsLocatedAt__isnull=False)
+        assets=Asset.objects.filter(assetCategory=i,assetTypes=2,assetIsLocatedAt__isnull=False).order_by('assetName')
         x2=[]
         x4=[]
         x5=[]
         for x in assets:
 
-            x2.append(x.assetName)
+            x2.append('{}:{}',x.assetCode,x.assetName)
             x4.append(x.id)
             x5.append(x.assetStatus)
         x3.append(zip(x2,x4,x5))
