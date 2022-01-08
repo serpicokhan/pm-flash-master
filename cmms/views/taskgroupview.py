@@ -64,7 +64,7 @@ def list_taskGroup_js(request,assetId=None):
     ####
 
 
-    data['html_taskGroup_list']= render_to_string('cmms/taskgroup/partialtaskGroupList2.html', {
+    data['html_taskGroup_list']= render_to_string('cmms/taskgroup/partialTaskGroupList2.html', {
         'taskGroup': bookp
     })
 
