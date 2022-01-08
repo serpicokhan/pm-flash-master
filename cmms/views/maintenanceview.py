@@ -542,22 +542,21 @@ def wo_cancel(request,id):
     data=dict()
     if(request.method=='POST'):
 
-        wo=WorkOrder.objects.get(pk=id)
-
-
-        if(not wo.summaryofIssue):
-
+        try:
+            wo=WorkOrder.objects.get(pk=id)
             wo.delete()
-            data['form_is_valid'] = True  # This is just to play along with the existing code
-            companies = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True)
-            companies=filterUser(request,companies)
-            # # page=request.GET.get('page',1)
-            wos=WOUtility.doPaging(request,companies)
-            #Tasks.objects.filter(woId=id).update(workorder=id)
-            data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
-                'wo': wos,
-                'perms': PermWrapper(request.user),
-            })
+        except:
+            pass
+        data['form_is_valid'] = True  # This is just to play along with the existing code
+        companies = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True)
+        companies=filterUser(request,companies)
+        # # page=request.GET.get('page',1)
+        wos=WOUtility.doPaging(request,companies)
+        #Tasks.objects.filter(woId=id).update(workorder=id)
+        data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
+            'wo': wos,
+            'perms': PermWrapper(request.user),
+        })
 
     return JsonResponse(data)
 @csrf_exempt

@@ -244,11 +244,17 @@ def swo_searchworkOrderByTags(request):
 def swo_cancel(request,id):
     data=dict()
     if(request.method=='POST'):
-        wo=WorkOrder.objects.get(pk=id)
+
 
 
         # print(wo)
-        wo.delete()
+        try:
+            wo=WorkOrder.objects.get(pk=id)
+            wo.delete()
+        except:
+            pass
+
+
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies = WorkOrder.objects.filter(isScheduling=True).order_by('-id')
         companies=filterUser(request,companies)
