@@ -20,7 +20,7 @@ from cmms.utils import *
 from django.utils.timezone import now
 
 class KpiException(models.Model):
-    stopcode = models.ForeignKey('StopCode',on_delete=models.CASCADE,unique=True,verbose_name='کد توقف')
+    # stopcode = models.ForeignKey('StopCode',on_delete=models.CASCADE,unique=True,verbose_name='کد توقف')
     # stopCode1=models.CharField("کد توقف",max_length = 100,null=True,blank=True,unique=True)
 
     def __str__(self):
