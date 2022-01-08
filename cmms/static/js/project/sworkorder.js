@@ -206,8 +206,8 @@ var cancelform=function(){
         {
 
 swal("حذف شد!", $("#id_summaryofIssue").val(), "success");
-          // $("#tbody_company").empty();
-          // $("#tbody_company").html(data.html_wo_list);
+          $("#tbody_company").empty();
+          $("#tbody_company").html(data.html_wo_list);
          // $("#modal-company").modal("hide");
 
         }

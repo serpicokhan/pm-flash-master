@@ -246,18 +246,19 @@ def swo_cancel(request,id):
     if(request.method=='POST'):
         wo=WorkOrder.objects.get(pk=id)
 
-        if(not wo.summaryofIssue):
-            # print(wo)
-            wo.delete()
-            data['form_is_valid'] = True  # This is just to play along with the existing code
-            # companies = WorkOrder.objects.filter(isScheduling=True)
-            # companies=filterUser(request,companies)
-            # # page=request.GET.get('page',1)
-            # wos=WOUtility.doPaging(request,companies)
-            # #Tasks.objects.filter(woId=id).update(workorder=id)
-            # data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
-            #     'wo': wos
-            # })
+
+        # print(wo)
+        wo.delete()
+        data['form_is_valid'] = True  # This is just to play along with the existing code
+        companies = WorkOrder.objects.filter(isScheduling=True).order_by('-id')
+        companies=filterUser(request,companies)
+        page=request.GET.get('page',1)
+        wos=WOUtility.doPaging(request,companies)
+        # #Tasks.objects.filter(woId=id).update(workorder=id)
+        data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
+            'wo': wos,
+            'perms': PermWrapper(request.user),
+        })
 
     return JsonResponse(data)
 ##########################

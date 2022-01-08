@@ -512,7 +512,7 @@ class ScheduleForm(forms.ModelForm):
          fields = '__all__'
 class AssetForm(forms.ModelForm):
     assetDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
-    assetIsLocatedAt = forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetTypes=1),
+    assetIsLocatedAt = forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
     # def clean_assetCategory(self):
     #     last_name = self.cleaned_data['assetCategory']

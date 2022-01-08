@@ -429,6 +429,8 @@ var cancelform=function(){
         if(data.form_is_valid)
         {
           swal("حذف شد!", $("#id_summaryofIssue").val(), "success");
+          $("#tbody_company").empty();
+          $("#tbody_company").html(data.html_wo_list);
 
 
 
