@@ -62,7 +62,7 @@ def save_taskTemplate_form(request, form, template_name,woId=None):
             books = TaskTemplate.objects.filter(taskTemplateTaskGroup=woId)
             #books = TaskTemplate.objects.all()
             #######
-            data['html_taskTemplate_list'] = render_to_string('cmms/tasktemplate/partialTaskTemplatelist.html', {
+            data['html_taskTemplate_list'] = render_to_string('cmms/tasktemplate/partialTaskTemplateList.html', {
                 'taskTemplate': books
             })
 
@@ -85,7 +85,7 @@ def taskTemplate_delete(request, id):
         data['form_is_valid'] = True  # This is just to play along with the existing code
         #companies = WorkorderTaskTemplate.objects.filter(workorder=woId)
         companies = TaskTemplate.objects.filter(taskTemplateTaskGroup=woId)
-        data['html_taskTemplate_list'] = render_to_string('cmms/tasktemplate/partialTaskTemplatelist.html', {
+        data['html_taskTemplate_list'] = render_to_string('cmms/tasktemplate/partialTaskTemplateList.html', {
             'taskTemplate': companies
         })
     else:
@@ -142,7 +142,7 @@ def taskTemplate_update(request, id):
         data['taskTemplateMetrics']=body['taskTemplateMetrics']
         # data['taskTemplateStartDate']=body['taskTemplateStartDate']
         data['taskTemplateTimeEstimate']=body['taskTemplateTimeEstimate']
-    
+
         data['taskTemplateTaskGroup']=body['taskTemplateTaskGroup']
 
         woId=body['taskTemplateTaskGroup']
