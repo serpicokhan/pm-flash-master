@@ -158,14 +158,14 @@ def registerTaskGroup(request,tid,woid):
     books = Tasks.objects.filter(workOrder=woid)
     wos_=WorkOrder.objects.get(id=woid)
     if(wos_.isScheduling):
-        data['html_taskgroup_list'] = render_to_string('cmms/tasks/partialTasklist.html', {
+        data['html_taskgroup_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
             'task': books,
             'perms': PermWrapper(request.user),
             'ispm':True
 
         })
     else:
-        data['html_taskgroup_list'] = render_to_string('cmms/tasks/partialTasklist.html', {
+        data['html_taskgroup_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
             'task': books,
             'perms': PermWrapper(request.user),
             'ispm':False
