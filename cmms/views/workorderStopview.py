@@ -39,7 +39,7 @@ def js_list_woStop(request):
     data=dict()
     books=StopCode.objects.filter()
 
-    data['html_woStop_list']= render_to_string('cmms/settingpages/wo_stop_code/partialWoStopList.html', {
+    data['html_woStop_list']= render_to_string('cmms/settingpages/wo_stop_code/partialWoStoplist.html', {
         'woStops': books
     })
     data['form_is_valid']=True
@@ -59,7 +59,7 @@ def save_woStop_form(request, form, template_name):
                 logging.basicConfig(format=fmt, level=lvl)
                 # logging.debug( woId)
                 books = StopCode.objects.all()
-                data['html_woStop_list'] = render_to_string('cmms/settingpages/wo_stop_code/partialWoStopList.html', {
+                data['html_woStop_list'] = render_to_string('cmms/settingpages/wo_stop_code/partialWoStoplist.html', {
                     'woStops': books
                 })
               else:
@@ -83,7 +83,7 @@ def woStop_delete(request, id):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies = StopCode.objects.all()
-        data['html_woStop_list'] = render_to_string('cmms/settingpages/wo_stop_code/partialWoStopList.html', {
+        data['html_woStop_list'] = render_to_string('cmms/settingpages/wo_stop_code/partialWoStoplist.html', {
             'woStop': companies
         })
     else:

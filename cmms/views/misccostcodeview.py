@@ -39,7 +39,7 @@ def js_list_miscCostCode(request):
     data=dict()
     books=MiscCostCode.objects.filter()
 
-    data['html_miscCostCode_list']= render_to_string('cmms/settingpages/miscCost_code/partialMiscCostCodeList.html', {
+    data['html_miscCostCode_list']= render_to_string('cmms/settingpages/misccost_code/partialMiscCostCodeList.html', {
         'miscCostCodes': books
     })
     data['form_is_valid']=True
@@ -59,7 +59,7 @@ def save_miscCostCode_form(request, form, template_name):
                 logging.basicConfig(format=fmt, level=lvl)
                 # logging.debug( woId)
                 books = MiscCostCode.objects.all()
-                data['html_miscCostCode_list'] = render_to_string('cmms/settingpages/miscCost_code/partialMiscCostCodeList.html', {
+                data['html_miscCostCode_list'] = render_to_string('cmms/settingpages/misccost_code/partialMiscCostCodeList.html', {
                     'miscCostCodes': books
                 })
               else:
@@ -82,7 +82,7 @@ def miscCostCode_delete(request, id):
     comp1.delete()
     data['form_is_valid'] = True  # This is just to play along with the existing code
     companies = MiscCostCode.objects.all()
-    data['html_miscCostCode_list'] = render_to_string('cmms/settingpages/miscCost_code/partialMiscCostCodeList.html', {
+    data['html_miscCostCode_list'] = render_to_string('cmms/settingpages/misccost_code/partialMiscCostCodeList.html', {
         'miscCostCodes': companies
     })
     return JsonResponse(data)

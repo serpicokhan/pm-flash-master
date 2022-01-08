@@ -39,7 +39,7 @@ def js_list_woCause(request):
     data=dict()
     books=CauseCode.objects.filter()
 
-    data['html_woCause_list']= render_to_string('cmms/settingpages/wo_cause_code/partialWoCauseList.html', {
+    data['html_woCause_list']= render_to_string('cmms/settingpages/wo_cause_code/partialWoCauselist.html', {
         'woCauses': books
     })
     data['form_is_valid']=True
@@ -59,7 +59,7 @@ def save_woCause_form(request, form, template_name):
                 logging.basicConfig(format=fmt, level=lvl)
                 # logging.debug( woId)
                 books = CauseCode.objects.all()
-                data['html_woCause_list'] = render_to_string('cmms/settingpages/wo_cause_code/partialWoCauseList.html', {
+                data['html_woCause_list'] = render_to_string('cmms/settingpages/wo_cause_code/partialWoCauselist.html', {
                     'woCauses': books
                 })
               else:
@@ -82,7 +82,7 @@ def woCause_delete(request, id):
     comp1.delete()
     data['form_is_valid'] = True  # This is just to play along with the existing code
     companies = CauseCode.objects.all()
-    data['html_woCause_list'] = render_to_string('cmms/settingpages/wo_cause_code/partialWoCauseList.html', {
+    data['html_woCause_list'] = render_to_string('cmms/settingpages/wo_cause_code/partialWoCauselist.html', {
         'woCause': companies
     })
     return JsonResponse(data)

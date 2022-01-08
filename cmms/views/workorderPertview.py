@@ -39,7 +39,7 @@ def js_list_workorderPert(request):
     data=dict()
     books=PertCode.objects.filter()
 
-    data['html_woPert_list']= render_to_string('cmms/settingpages/wo_pert_code/partialWoPertList.html', {
+    data['html_woPert_list']= render_to_string('cmms/settingpages/wo_pert_code/partialWoPertlist.html', {
         'woPerts': books
     })
     data['form_is_valid']=True
@@ -59,7 +59,7 @@ def save_workorderPert_form(request, form, template_name):
                 logging.basicConfig(format=fmt, level=lvl)
                 # logging.debug( woId)
                 books = PertCode.objects.all()
-                data['html_woPert_list'] = render_to_string('cmms/settingpages/wo_pert_code/partialWoPertList.html', {
+                data['html_woPert_list'] = render_to_string('cmms/settingpages/wo_pert_code/partialWoPertlist.html', {
                     'woPerts': books
                 })
               else:
@@ -83,7 +83,7 @@ def workorderPert_delete(request, id):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies = PertCode.objects.all()
-        data['html_woPert_list'] = render_to_string('cmms/settingpages/wo_pert_code/partialWoPertList.html', {
+        data['html_woPert_list'] = render_to_string('cmms/settingpages/wo_pert_code/partialWoPertlist.html', {
             'woPert': companies
         })
     else:

@@ -39,7 +39,7 @@ def js_list_woProblem(request):
     data=dict()
     books=ProblemCode.objects.filter()
 
-    data['html_woProblem_list']= render_to_string('cmms/settingpages/wo_problem_code/partialWoProblemList.html', {
+    data['html_woProblem_list']= render_to_string('cmms/settingpages/wo_problem_code/partialWoProblemlist.html', {
         'woProblems': books
     })
     data['form_is_valid']=True
@@ -59,7 +59,7 @@ def save_woProblem_form(request, form, template_name):
                 logging.basicConfig(format=fmt, level=lvl)
                 # logging.debug( woId)
                 books = ProblemCode.objects.all()
-                data['html_woProblem_list'] = render_to_string('cmms/settingpages/wo_problem_code/partialWoProblemList.html', {
+                data['html_woProblem_list'] = render_to_string('cmms/settingpages/wo_problem_code/partialWoProblemlist.html', {
                     'woProblems': books
                 })
               else:
@@ -83,7 +83,7 @@ def woProblem_delete(request, id):
     comp1.delete()
     data['form_is_valid'] = True  # This is just to play along with the existing code
     companies = ProblemCode.objects.all()
-    data['html_woProblem_list'] = render_to_string('cmms/settingpages/wo_problem_code/partialWoProblemList.html', {
+    data['html_woProblem_list'] = render_to_string('cmms/settingpages/wo_problem_code/partialWoProblemlist.html', {
         'woProblem': companies
     })
     return JsonResponse(data)

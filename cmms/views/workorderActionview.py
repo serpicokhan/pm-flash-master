@@ -39,7 +39,7 @@ def js_list_woAction(request):
     data=dict()
     books=ActionCode.objects.filter()
 
-    data['html_woAction_list']= render_to_string('cmms/settingpages/wo_action_code/partialWoActionList.html', {
+    data['html_woAction_list']= render_to_string('cmms/settingpages/wo_action_code/partialWoActionlist.html', {
         'woActions': books
     })
     data['form_is_valid']=True
@@ -59,7 +59,7 @@ def save_woAction_form(request, form, template_name):
                 logging.basicConfig(format=fmt, level=lvl)
                 # logging.debug( woId)
                 books = ActionCode.objects.all()
-                data['html_woAction_list'] = render_to_string('cmms/settingpages/wo_action_code/partialWoActionList.html', {
+                data['html_woAction_list'] = render_to_string('cmms/settingpages/wo_action_code/partialWoActionlist.html', {
                     'woActions': books
                 })
               else:
@@ -83,7 +83,7 @@ def woAction_delete(request, id):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies = ActionCode.objects.all()
-        data['html_woAction_list'] = render_to_string('cmms/settingpages/wo_action_code/partialWoActionList.html', {
+        data['html_woAction_list'] = render_to_string('cmms/settingpages/wo_action_code/partialWoActionlist.html', {
             'woAction': companies
         })
     else:

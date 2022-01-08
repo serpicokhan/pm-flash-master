@@ -39,9 +39,10 @@ def js_list_equipCost(request):
     data=dict()
     books=EquipmentCostSetting.objects.filter()
 
-    data['html_equipCost_list']= render_to_string('cmms/settingpages/equip_cost/partialEquipCostList.html', {
+    data['html_equipCost_list']= render_to_string('cmms/settingpages/equip_cost/partialEquipCostlist.html', {
         'equipCosts': books
     })
+    
     data['form_is_valid']=True
     return JsonResponse(data)
 
@@ -55,7 +56,7 @@ def save_equipCost_form(request, form, template_name):
                 form.save()
 
                 books = EquipmentCostSetting.objects.all()
-                data['html_equipCost_list'] = render_to_string('cmms/settingpages/equip_cost/partialEquipCostList.html', {
+                data['html_equipCost_list'] = render_to_string('cmms/settingpages/equip_cost/partialEquipCostlist.html', {
                     'equipCosts': books
                 })
                 data['form_is_valid']=True
@@ -77,7 +78,7 @@ def equipCost_delete(request, id):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies = EquipmentCostSetting.objects.all()
-        data['html_equipCost_list'] = render_to_string('cmms/settingpages/equip_cost/partialEquipCostList.html', {
+        data['html_equipCost_list'] = render_to_string('cmms/settingpages/equip_cost/partialEquipCostlist.html', {
             'equipCost': companies
         })
     else:
