@@ -324,6 +324,12 @@ urlpatterns = [
         url(r'^AssetEvent/(?P<id>\d+)/update/$', assetEvent_update, name='assetEvent_update'),
         url(r'^AssetEvent/(?P<woId>\d+)/listAssetEvent/$', js_list_assetEvent, name='js_list_assetEvent'),
 
+        url(r'^AssetMeterTemplate/$',list_assetMeterTemplate,name='list_assetMeterTemplate'),
+        url(r'^AssetMeterTemplate/create/$', assetMeterTemplate_create, name='assetMeterTemplate_create'),
+        url(r'^AssetMeterTemplate/(?P<id>\d+)/delete/$', assetMeterTemplate_delete, name='assetMeterTemplate_delete'),
+        url(r'^AssetMeterTemplate/(?P<id>\d+)/update/$', assetMeterTemplate_update, name='assetMeterTemplate_update'),
+        url(r'^AssetMeterTemplate/(?P<woId>\d+)/listAssetMeterTemplate/$', js_list_assetMeterTemplate, name='js_list_assetMeterTemplate'),
+
 
         url(r'^AssetLife/$',list_assetLife,name='list_assetLife'),
         url(r'^AssetLife/(?P<assetId>\d+)/create/$', assetLife_create, name='assetLife_create'),

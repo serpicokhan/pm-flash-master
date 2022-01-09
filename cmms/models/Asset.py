@@ -261,3 +261,10 @@ class AssetLife(models.Model):
     assetCauseCode = models.ForeignKey('CauseCode',on_delete=models.CASCADE,verbose_name="کد علت",null=True,blank=True,related_name="assetlifeCauseCode")
     class Meta:
         db_table="assetlife"
+class AssetMeterTemplate(models.Model):
+        assetMeterTemplateAsset=models.ForeignKey(Asset,verbose_name="نام دارایی",on_delete=models.CASCADE)
+        assetMeterTemplateMeter=models.ForeignKey("MeterCode",verbose_name="کمیت اندازه گیری",on_delete=models.CASCADE)
+        assetMeterTemplateDesc=models.CharField("شرح",max_length=50,blank=True,null=True)
+        # timestamp=models.DateTimeField(auto_now_add=True)
+        class Meta:
+            db_table="Assetmetertemplate"

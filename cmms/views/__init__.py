@@ -15,6 +15,7 @@ from cmms.views.AssetView import *
 from cmms.views.assetpartview    import *
 from cmms.views.assetmeterview    import *
 from cmms.views.asseteventview    import *
+from cmms.views.assetmetertemplateview    import *
 from cmms.views.assetuserview    import *
 from cmms.views.assetfileview import *
 from cmms.views.assetlifeview import *

@@ -650,6 +650,25 @@ class AssetEventForm(forms.ModelForm):
 
 
 ##############################################################################
+class AssetMeterTemplateForm(forms.ModelForm):
+
+    def clean(self):
+                self.is_valid()
+                cleaned_data=super(AssetMeterTemplateForm, self).clean()
+                assetMeterTemplateAsset=cleaned_data.get('assetMeterTemplateAsset','')
+                assetMeterTemplateMeter=cleaned_data.get('assetMeterTemplateMeter','')
+                assetMeterTemplateDesc=cleaned_data.get('assetMeterTemplateDesc','')
+
+
+                return cleaned_data
+
+
+    class Meta:
+         model = AssetMeterTemplate
+         fields = '__all__'
+
+
+##############################################################################
 class AssetUserForm(forms.ModelForm):
 
     def clean(self):

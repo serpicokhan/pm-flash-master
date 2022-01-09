@@ -618,6 +618,29 @@ return false;
    });
 return false;
  };
+ var initAssetMeterTemplateLoad=function(){
+
+   $.ajax({
+
+     url: '/AssetMeterTemplate/'+$("#lastAssetid").val()+'/listAssetMeterTemplate',
+
+
+
+     success: function (data) {
+       if (data.form_is_valid) {
+         $("#tbody_assetMeterTemplate").empty();
+         $("#tbody_assetMeterTemplate").html(data.html_assetMeterTemplate_list);
+         $("#modal-assetMeterTemplate").modal("hide");
+       }
+       else {
+
+         $("#assetMeterTemplate-table tbody").html(data.html_assetMeterTemplate_list);
+         $("#modal-assetMeterTemplate .modal-content").html(data.html_assetMeterTemplate_form);
+       }
+     }
+   });
+return false;
+ };
  var initAssetEventLoad=function(){
    $.ajax({
      url: '/AssetEvent/'+$("#lastAssetid").val()+'/listAssetEvent',
@@ -871,7 +894,7 @@ return false;
     // //////////////////////////////////////
  var myWoLoader= function(){
    btn=$(this);
-   $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad,initAssetTreeInit,initAssetWoLoad,initAssetCloseWoLoad,initAssetConsumedPartLoad,initAssetSWoLoad,initAssetAssetLoad);
+   $.when(loadForm(btn)).done(initAssetPartLoad,initAssetMeterLoad,initAssetEventLoad,initAssetUserLoad,initAssetFileLoad,initAssetWarantyLoad,initAssetBusinessLoad,initAssetPurchaseLoad,initAssetLifeLoad,initAssetTreeInit,initAssetWoLoad,initAssetCloseWoLoad,initAssetConsumedPartLoad,initAssetSWoLoad,initAssetAssetLoad,initAssetMeterTemplateLoad);
  }
 var showAssetSelector=function(){
      $.ajax({
