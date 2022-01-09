@@ -155,6 +155,23 @@ class MiniWorkorderForm(forms.ModelForm):
 
 
 class TaskForm(forms.ModelForm):
+    def __init__(self,workorder=None,*args,**kwargs):
+
+        super (TaskForm,self ).__init__(*args,**kwargs) # populates the post
+        print("here!!!!!!!!!2222")
+        try:
+            print(workorder)
+            if(workorder):
+                print("!!!!!!!!!!!!!!!!!")
+                self.fields['taskMetrics'].queryset = AssetMeterTemplate.objects.filter(assetMeterTemplateAsset=WorkOrder.objects.get(id=workorder).woAsset)
+            else:
+                self.fields['taskMetrics'].queryset = AssetMeterTemplate.objects.none()
+            print("non!!!!!!!!!!!!!!!")
+        except Exception as ex:
+            print(ex)
+
+
+
     taskDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     taskCompletionNote = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
 

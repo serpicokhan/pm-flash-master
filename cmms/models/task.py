@@ -30,7 +30,7 @@ class Tasks(models.Model):
 
     )
     taskTypes=models.IntegerField("انتخاب نوع فعالیت", choices=TaskType1,null=True,blank=True)
-    taskMetrics=models.ForeignKey("MeterCode",verbose_name="واحد اندازه گیری",null=True,blank=True,on_delete=models.CASCADE)
+    taskMetrics=models.ForeignKey("AssetMeterTemplate",verbose_name="واحد اندازه گیری",null=True,blank=True,on_delete=models.CASCADE)
     taskDescription=models.CharField("توضیحات",max_length = 100,null=True,blank=True)
 
     #result related to asset and measured according to Asset

@@ -175,7 +175,7 @@ def task_delete(request, id):
 @csrf_exempt
 def task_create(request):
     woId=-1
-    print("312321")
+    ww=request.GET.get("q","!!!!")
     try:
         if (request.method == 'POST'):
             body_unicode = request.body.decode('utf-8')
@@ -199,15 +199,16 @@ def task_create(request):
             ####
             data['workOrder']=body['workOrder']
             woId=body['workOrder']
+            print("here!!!!!!!!!!!!!!!")
             # print("what")
             # print(data['taskMetrics'])
-            form = TaskForm(data)
+            form = TaskForm(int(woId),data)
 
         else:
             # if(woid):
             #     wo=WorkOrder.objects.get(id=woid)
             #     form = TaskForm(initial={'taskDescription':wo.summaryofIssue,'taskCompletedByUser':wo.completedByUser,'taskAssignedToUser':wo.assignedToUser})
-            form = TaskForm()
+            form = TaskForm(workorder=int(ww))
     except Exception as ex:
         print(ex)
     # form=TaskForm()
@@ -265,9 +266,10 @@ def task_update(request, id):
         data['workOrder']=body['workOrder']
 
         woId=body['workOrder']
-        form = TaskForm(data, instance=company)
+        form = TaskForm(int(woId),data, instance=company)
     else:
-        form = TaskForm(instance=company)
+        ww=request.GET.get("q","1")
+        form = TaskForm(instance=company,workorder=int(ww))
     return save_task_form(request, form, 'cmms/tasks/partialTaskUpdate.html',woId)
 @csrf_exempt
 def task_update2(request, id):

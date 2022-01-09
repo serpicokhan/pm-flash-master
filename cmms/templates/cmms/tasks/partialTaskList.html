@@ -16,16 +16,17 @@
  <td>
   {% if perms.cmms.view_tasks %}
 
+
   {% if ispm == False %}
    <button type="button"
               class="btn btn-warning btn-sm js-update-task"
-              data-url="{% url 'task_update' c.id %}">
+              data-url="{% url 'task_update' c.id %}?q={{c.workOrder.id}}">
         <span class="glyphicon glyphicon-pencil"></span> مشاهده
       </button>
   {% else %}
   <button type="button"
              class="btn btn-warning btn-sm js-update-task"
-             data-url="{% url 'task_update2' c.id %}">
+             data-url="{% url 'task_update2' c.id %}?q={{c.workOrder.id}}">
        <span class="glyphicon glyphicon-pencil"></span> مشاهده
      </button>
   {% endif %}
