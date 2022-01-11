@@ -1,31 +1,42 @@
+
 $(function () {
 
-  var loadAssetMeterTemplateForm =function () {
-    var btn=$(this);
-    $.ajax({
+
+  var loadForm =function (btn1) {
+    var btn=0;
+    //console.log(btn1);
+    if($(btn1).attr("type")=="click")
+     btn=$(this);
+    else {
+      btn=btn1;
+    }
+    //console.log($(btn).attr("type"));
+    //console.log($(btn).attr("data-url"));
+    return $.ajax({
       url: btn.attr("data-url"),
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
         //alert(btn.attr("data-url"));
-        $("#modal-assetMeterTemplate").modal({backdrop: 'static', keyboard: false});
+        //alert("321321");
+        // /$("#modal-assetMeterTemplate").modal("hide");
+        $("#modal-company").modal("show");
       },
       success: function (data) {
-        $("#modal-assetMeterTemplate .modal-content").html(data.html_assetMeterTemplate_form);
+        //alert("3123@!");
+        $("#modal-company .modal-content").html(data.html_assetMeterTemplate_form);
+
       }
     });
 
 
 
-
 };
-
 //$("#modal-company").on("submit", ".js-company-create-form",
-var saveAssetMeterTemplateForm= function () {
+var saveForm= function () {
+   var form = $(this);
 
-   var form = $(this).parent();
    $.ajax({
-     async: true,
      url: form.attr("action"),
      data: form.serialize(),
      type: form.attr("method"),
@@ -33,63 +44,75 @@ var saveAssetMeterTemplateForm= function () {
      success: function (data) {
        if (data.form_is_valid) {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
-         $("#tbody_assetMeterTemplate").empty();
-         $("#tbody_assetMeterTemplate").html(data.html_assetMeterTemplate_list);
-         $("#modal-assetMeterTemplate").modal("hide");
-         //console.log(data.html_wo_list);
+         $("#tbody_company").empty();
+         $("#tbody_company").html(data.html_assetMeterTemplate_list);
+         $("#modal-company").modal("hide");
+        // console.log(data.html_assetMeterTemplate_list);
        }
        else {
 
-         $("#assetMeterTemplate-table tbody").html(data.html_assetMeterTemplate_list);
-         $("#modal-assetMeterTemplate .modal-content").html(data.html_assetMeterTemplate_form);
+         $("#company-table tbody").html(data.html_assetMeterTemplate_list);
+         $("#modal-company .modal-content").html(data.html_assetMeterTemplate_form);
        }
      }
    });
    return false;
  };
- var deleteAssetMeterTemplateForm= function (event) {
-   // console.log(event.target.className);
-   if(event.target.className=="btn btn-danger")
-   {
-
-    var form = $(this);
-
-
-    $.ajax({
-      async: true,
-      url: form.attr("data-url"),
-      data: form.serialize(),
-      type: 'post',
-      dataType: 'json',
-      success: function (data) {
-        if (data.form_is_valid) {
-          //alert("Company created!");  // <-- This is just a placeholder for now for testing
-          $("#tbody_assetMeterTemplate").empty();
-          $("#tbody_assetMeterTemplate").html(data.html_assetMeterTemplate_list);
-          $('#modal-assetMeterTemplate').modal('hide');
-
-          //console.log(data.html_wo_list);
-        }
-        else {
-          //
-          // $("#task-table tbody").html(data.html_task_list);
-          // $("#modal-task .modal-content").html(data.html_task_form);
-        }
-      }
-    });
-  }
-    return false;
-  };
+/*
+ $('#modal-company').on('hidden.bs.modal', function () {
+   alert("321321");
+   console.log($("#lastWorkOrderid").val());
+   $.ajax({
+     url: '/WorkOrder/'+$("#lastWorkOrderid").val()+'/deleteChildren',
 
 
 
+     success: function (data) {
+       if (data.form_is_valid) {
+         //alert("Company created!");  // <-- This is just a placeholder for now for testing
+         //$("#tbody_company").empty();
+         //$("#tbody_company").html(data.html_wo_list);
+         //$("#modal-company").modal("hide");
+         //console.log(data.html_wo_list);
+       }
+       else {
+
+         $("#company-table tbody").html(data.html_wo_list);
+         $("#modal-company .modal-content").html(data.html_form);
+       }
+     }
+   });
+
+
+  // do something…
+});
+*/
+ //alert("321312");
  // Create book
-$(".js-create-assetMeterTemplate").unbind();
-$(".js-create-assetMeterTemplate").click(loadAssetMeterTemplateForm);
-$("#assetMeterTemplate-table").on("click", ".js-update-assetMeterTemplate", loadAssetMeterTemplateForm);
-$("#modal-assetMeterTemplate").on("submit", ".js-assetMeterTemplate-update-form", loadAssetMeterTemplateForm);
-// Delete book
-$("#assetMeterTemplate-table").on("click", ".js-delete-assetMeterTemplate", loadAssetMeterTemplateForm);
-$("#modal-assetMeterTemplate").on("click", ".js-assetMeterTemplate-delete-form", deleteAssetMeterTemplateForm);
 
+
+ var myWoLoader= function(){
+   btn=$(this);
+
+
+
+   //$.when(loadForm(btn)).done(initLoad,initWoAssetMeterTemplateLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
+   //$.when(loadForm(btn)).done(initAssetMeterTemplateFileLoad,initAssetMeterTemplateAssetLoad,initAssetMeterTemplatePartLoad );
+   loadForm(btn);
+
+   //initLoad();
+ }
+
+
+
+$(".js-create-assetMeterTemplate").click(myWoLoader);
+$("#modal-company").on("submit", ".js-assetMeterTemplate-create-form", saveForm);
+
+// Update book
+$("#company-table").on("click", ".js-update-assetMeterTemplate", myWoLoader);
+$("#modal-company").on("submit", ".js-assetMeterTemplate-update-form", saveForm);
+// Delete book
+$("#company-table").on("click", ".js-delete-assetMeterTemplate", loadForm);
+$("#modal-company").on("submit", ".js-assetMeterTemplate-delete-form", saveForm);
+//$("#company-table").on("click", ".js-update-wo", initxLoad);
 });

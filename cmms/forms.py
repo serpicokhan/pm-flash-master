@@ -672,7 +672,7 @@ class AssetMeterTemplateForm(forms.ModelForm):
     def clean(self):
                 self.is_valid()
                 cleaned_data=super(AssetMeterTemplateForm, self).clean()
-                assetMeterTemplateAsset=cleaned_data.get('assetMeterTemplateAsset','')
+                # assetMeterTemplateAsset=cleaned_data.get('assetMeterTemplateAsset','')
                 assetMeterTemplateMeter=cleaned_data.get('assetMeterTemplateMeter','')
                 assetMeterTemplateDesc=cleaned_data.get('assetMeterTemplateDesc','')
 
@@ -1084,6 +1084,11 @@ class BOMGroupForm(forms.ModelForm):
 
     class Meta:
         model = BOMGroup
+        fields = '__all__'
+class BatchMeterGroupForm(forms.ModelForm):
+
+    class Meta:
+        model = BatchMeterGroup
         fields = '__all__'
 class BusinessFileForm(forms.ModelForm):
 

@@ -461,6 +461,12 @@ urlpatterns = [
          url(r'^BOMGroup/(?P<id>\d+)/update/$', bomgroup_update, name='bomgroup_update'),
          url(r'^BOMGroup/(?P<searchStr>[-\w]+)/Search/$', BOM_search, name='BOM_search'),
 
+         url(r'^BatchMeterGroup/$',list_batchMeterGroup,name='list_batchMeterGroup'),
+         url(r'^BatchMeterGroup/create/$', batchMeterGroup_create, name='batchMeterGroup_create'),
+         url(r'^BatchMeterGroup/(?P<id>\d+)/delete/$', batchMeterGroup_delete, name='batchMeterGroup_delete'),
+         url(r'^BatchMeterGroup/(?P<id>\d+)/update/$', batchMeterGroup_update, name='batchMeterGroup_update'),
+         url(r'^BatchMeterGroup/(?P<searchStr>[-\w]+)/Search/$', BOM_search, name='BOM_search'),
+
 
          # url(r'^BOMGroup/(?P<id>\d+)/Cancel/$', bomgroupCancel, name='bomgroupCancel'),
 

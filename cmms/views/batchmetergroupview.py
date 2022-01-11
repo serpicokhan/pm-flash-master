@@ -3,7 +3,7 @@
  lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
 
  logging.basicConfig(format=fmt, level=lvl)
- logging.debug(nebomgroupbject.OrderId.id)
+ logging.debug(nebatchMeterGroupbject.OrderId.id)
  '''
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
@@ -23,7 +23,7 @@ from cmms.models.Asset import *
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
-from cmms.forms import BOMGroupForm
+from cmms.forms import BatchMeterGroupForm
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib.auth.context_processors import PermWrapper
@@ -31,16 +31,16 @@ from django.db import IntegrityError
 
 
 
-def list_bomgroup(request,id=None):
+def list_batchMeterGroup(request,id=None):
     #
-    books = BOMGroup.objects.all().order_by('BOMGroupName')
+    books = BatchMeterGroup.objects.all().order_by('BatchMeterGroupName')
     books=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/bomgroup/bomgroupList.html', {'bomgroup': books,'section':'list_bomgroup'})
+    return render(request, 'cmms/batch_meter_group/batchMeterGroupList.html', {'batchMeterGroup': books,'section':'list_batchMeterGroup'})
 
 
 ##########################################################
 
-def save_bomgroup_form(request, form, template_name,id=None):
+def save_batchMeterGroup_form(request, form, template_name,id=None):
 
 
     data = dict()
@@ -55,10 +55,10 @@ def save_bomgroup_form(request, form, template_name,id=None):
 
                 form.save()
                 data['form_is_valid'] = True
-                books = BOMGroup.objects.all().order_by('BOMGroupName')
+                books = BatchMeterGroup.objects.all().order_by('BatchMeterGroupName')
                 books=AssetUtility.doPaging(request,books)
-                data['html_bomgroup_list'] = render_to_string('cmms/bomgroup/partialBOMGroupList.html', {
-                    'bomgroup': books,
+                data['html_batchMeterGroup_list'] = render_to_string('cmms/batch_meter_group/partialBatchMeterGroupList.html', {
+                    'batchMeterGroup': books,
                     'perms': PermWrapper(request.user)
                 })
 
@@ -75,27 +75,27 @@ def save_bomgroup_form(request, form, template_name,id=None):
     context = {'form': form,'lId':id}
 
 
-    data['html_bomgroup_form'] = render_to_string(template_name, context, request=request)
+    data['html_batchMeterGroup_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
 ##########################################################
 
 
-def bomgroup_delete(request, id):
-    comp1 = get_object_or_404(BOMGroup, id=id)
+def batchMeterGroup_delete(request, id):
+    comp1 = get_object_or_404(BatchMeterGroup, id=id)
     data = dict()
     if (request.method == 'POST'):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        companies =  BOMGroup.objects.all().order_by('BOMGroupName')
+        companies =  BatchMeterGroup.objects.all().order_by('BatchMeterGroupName')
         companies=AssetUtility.doPaging(request,companies)
-        #Tasks.objects.filter(bomgroupId=id).update(bomgroup=id)
-        data['html_bomgroup_list'] = render_to_string('cmms/bomgroup/partialBOMGroupList.html', {
-            'bomgroup': companies,
+        #Tasks.objects.filter(batchMeterGroupId=id).update(batchMeterGroup=id)
+        data['html_batchMeterGroup_list'] = render_to_string('cmms/batch_meter_group/partialBatchMeterGroupList.html', {
+            'batchMeterGroup': companies,
             'perms': PermWrapper(request.user)
         })
     else:
-        context = {'bomgroup': comp1}
-        data['html_bomgroup_form'] = render_to_string('cmms/bomgroup/partialBOMGroupDelete.html',
+        context = {'batchMeterGroup': comp1}
+        data['html_batchMeterGroup_form'] = render_to_string('cmms/batch_meter_group/partialBatchMeterGroupDelete.html',
             context,
             request=request,
         )
@@ -104,53 +104,53 @@ def bomgroup_delete(request, id):
 ##########################################################
 
 ##########################################################
-def bomgroup_create(request):
+def batchMeterGroup_create(request):
     if (request.method == 'POST'):
-        form = BOMGroupForm(request.POST)
-        return save_bomgroup_form(request, form, 'cmms/bomgroup/partialBOMGroupCreate.html')
+        form = BatchMeterGroupForm(request.POST)
+        return save_batchMeterGroup_form(request, form, 'cmms/batch_meter_group/partialBatchMeterGroupCreate.html')
     else:
-        bomgroupInstance=BOMGroup.objects.create()
-        form = BOMGroupForm(instance=bomgroupInstance)
-        return save_bomgroup_form(request, form, 'cmms/bomgroup/partialBOMGroupCreate.html',bomgroupInstance.id)
+        batchMeterGroupInstance=BatchMeterGroup.objects.create()
+        form = BatchMeterGroupForm(instance=batchMeterGroupInstance)
+        return save_batchMeterGroup_form(request, form, 'cmms/batch_meter_group/partialBatchMeterGroupCreate.html',batchMeterGroupInstance.id)
 
 
 
 
 ##########################################################
-def bomgroup_update(request, id):
-    company= get_object_or_404(BOMGroup, id=id)
+def batchMeterGroup_update(request, id):
+    company= get_object_or_404(BatchMeterGroup, id=id)
     template=""
     if (request.method == 'POST'):
-        form = BOMGroupForm(request.POST, instance=company)
+        form = BatchMeterGroupForm(request.POST, instance=company)
     else:
-        form = BOMGroupForm(instance=company)
-    return save_bomgroup_form(request, form,"cmms/bomgroup/partialBOMGroupUpdate.html",id)
+        form = BatchMeterGroupForm(instance=company)
+    return save_batchMeterGroup_form(request, form,"cmms/batch_meter_group/partialBatchMeterGroupUpdate.html",id)
 ##########################################################
 
 ##########################################################
-def bomgroupCancel(request,id):
+def batchMeterGroupCancel(request,id):
     data=dict()
-    tg=BOMGroup.objects.get(id=id)
+    tg=BatchMeterGroup.objects.get(id=id)
     if(tg):
-        if(not tg.BOMGroupName):
+        if(not tg.BatchMeterGroupName):
             tg.delete()
             data['form_is_valid'] = True  # This is just to play along with the existing code
-            companies =  BOMGroup.objects.all().order_by('BOMGroupName')
+            companies =  BatchMeterGroup.objects.all().order_by('BatchMeterGroupName')
             companies=AssetUtility.doPaging(request,companies)
             #Tasks.objects.filter(taskGroupId=id).update(taskGroup=id)
-            data['html_bomgroup_list'] = render_to_string('cmms/bomgroup/partialBOMGroupList.html', {
-                'bomgroup': companies
+            data['html_batchMeterGroup_list'] = render_to_string('cmms/batch_meter_group/partialBatchMeterGroupList.html', {
+                'batchMeterGroup': companies
             })
 
     return JsonResponse(data)
 ##############
 #####################
-def BOM_search(request,searchStr):
+def batchMeterGroup_search(request,searchStr):
     data=dict()
     searchStr=searchStr.replace('_',' ')
     books=TaskUtility.seachBOM(searchStr).order_by('name')
     wos=AssetUtility.doPaging(request,list(books))
-    data['html_html_bomgroup_list_search_tag_list'] = render_to_string('cmms/business/partialBusinessList.html', {               'business': wos  ,'perms': PermWrapper(request.user)                       })
+    data['html_html_batchMeterGroup_list_search_tag_list'] = render_to_string('cmms/business/partialBusinessList.html', {               'business': wos  ,'perms': PermWrapper(request.user)                       })
     # data['html_business_paginator'] = render_to_string('cmms/business/partialBusinessPagination.html', {
     #       'business': wos,'pageType':'business_search','ptr':searchStr})
     data['form_is_valid'] = True

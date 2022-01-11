@@ -1,0 +1,33 @@
+{% for c in batchMeterGroup %}
+
+<tr>
+  <td><input type="checkbox" name="action" value=""></td>
+<td>{{c.BatchMeterGroupName}}</td>
+<td>{{c.getPartNUM2}}</td>
+
+
+
+
+
+{% if perms.cmms.view_batchMeterGroup %}
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-batchMeterGroup"
+              data-url="{% url 'batchMeterGroup_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      {% endif %}
+      {% if perms.cmms.view_batchMeterGroup %}
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-batchMeterGroup"
+                   data-url="{% url 'batchMeterGroup_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+           {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="4" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

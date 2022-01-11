@@ -158,6 +158,15 @@ class BOMGroup(models.Model):
     class Meta:
 
         db_table="bomgroup"
+class BatchMeterGroup(models.Model):
+    def __str__(self):
+        return '{}:{}'.format(self.BOMGroupName)
+    def getMeterNUM(self):
+        # return BatchMeterGroup.objects.filter(BOMGroupPartBOMGroup=self).count()
+        raise Exception("not implemented")
+    BatchMeterGroupName=models.CharField("نام گروه اندازه گیری",max_length=50,unique=True)
+    class Meta:
+        db_table="batchmetergroup"
 class BOMGroupPart(models.Model):
     def __str__(self):
         return '{}:{}'.format(self.BOMGroupPartBOMGroup)
@@ -168,6 +177,16 @@ class BOMGroupPart(models.Model):
 
         db_table="bomgrouppart"
         unique_together = ('BOMGroupPartPart', 'BOMGroupPartBOMGroup')
+# class BatchMeterGroupMeterTemplate(models.Model):
+#     def __str__(self):
+#         return '{}:{}'.format(self.BOMGroupPartBOMGroup)
+#     BOMGroupPartPart=models.ForeignKey('AssetMeterTemplate',verbose_name="قطعه",on_delete=models.CASCADE,blank=True,null=True)
+#     BOMGroupPartBOMGroup=models.ForeignKey('BatchMeterGroup',verbose_name="گروه",on_delete=models.CASCADE,blank=True,null=True)
+#     BOMGroupPartQnty=models.IntegerField("تعداد",blank=True,null=True)
+#     class Meta:
+#
+#         db_table="bomgrouppart"
+#         unique_together = ('BOMGroupPartPart', 'BOMGroupPartBOMGroup')
 class BOMGroupAsset(models.Model):
     def __str__(self):
         return '{}:{}'.format(self.BOMGroupName)
@@ -262,11 +281,11 @@ class AssetLife(models.Model):
     class Meta:
         db_table="assetlife"
 class AssetMeterTemplate(models.Model):
-        assetMeterTemplateAsset=models.ForeignKey(Asset,verbose_name="نام دارایی",on_delete=models.CASCADE)
+        # assetMeterTemplateAsset=models.ForeignKey(Asset,verbose_name="نام دارایی",on_delete=models.CASCADE)
         assetMeterTemplateMeter=models.ForeignKey("MeterCode",verbose_name="کمیت اندازه گیری",on_delete=models.CASCADE)
         assetMeterTemplateDesc=models.CharField("شرح",max_length=50,blank=True,null=True)
         # timestamp=models.DateTimeField(auto_now_add=True)
         def __str__(self):
             return "{}({})".format(self.assetMeterTemplateDesc,self.assetMeterTemplateMeter)
         class Meta:
-            db_table="assetmetertemplate"
+            db_table="Assetmetertemplate"

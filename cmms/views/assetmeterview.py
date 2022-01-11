@@ -51,7 +51,7 @@ def js_list_assetMeter(request,woId):
 
 
 ###################################################################    ###################################################################
-@csrf_exempt
+
 def save_assetMeter_form(request, form, template_name,woId=None):
     data = dict()
     if (request.method == 'POST'):

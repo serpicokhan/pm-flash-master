@@ -1,0 +1,102 @@
+<div  data-url="{% url 'assetMeterTemplate_create' %}" class="js-assetMeterTemplate-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close cl-part"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/asset_meter_template/partialAssetMeterTemplateForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-part btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="assetMeterTemplate-submit"  >ذخیره</button>
+ <script>
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+        $(".cl-part").click(function()
+        {
+          $("#modal-assetMeterTemplate").modal("hide");
+          //$("#{modal-company}").css("background-color", "yellow");
+
+
+        });
+
+
+        $("#assetMeterTemplate-submit").click(function(){
+
+                   //alert("12321");
+                    var form = $(this).parent().parent();
+                    //console.log(form.attr("action"));
+                    //alert($("#id_metrics").val());
+                    // console.log(form.attr('class'));
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:myformat('{"assetMeterTemplateAsset":{0}\
+                      ,"assetMeterTemplateMeter":{1}\
+                      ,"assetMeterTemplateDesc":"{2}"}',
+                      $("#lastAssetid").val(),
+                      $("#id_assetMeterTemplateMeter").val(),
+                      $("#id_assetMeterTemplateDesc").val()),
+
+
+
+
+                      dataType: 'json',
+                      beforeSend: function () {
+                        // validated=true;
+                        // if($("#id_")){
+                        //
+                        // }
+                        //alert(btn.attr("data-url"));
+                        // console.log(myformat('{"AssetMeterTemplateAssetId":{0}\
+                        // ,"AssetMeterTemplateEventId":{1}\
+                        // ,"AssetMeterTemplateAdditionalDescription":"{2}"}',
+                        // $("#lastAssetid").val(),
+                        // $("#id_AssetMeterTemplateEventId").val(),
+                        // $("#id_AssetMeterTemplateAdditionalDescription").val()));
+
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_assetMeterTemplate").empty();
+
+                          $("#tbody_assetMeterTemplate").html(data.html_assetMeterTemplate_list);
+                          $("#modal-assetMeterTemplate").modal("hide");
+                          // console.log(data.html_assetMeterTemplate_list);
+                        }
+                        else {
+
+                          $("#assetMeterTemplate-table tbody").html(data.html_assetMeterTemplate_list);
+                          $("#modal-assetMeterTemplate .modal-content").html(data.html_assetMeterTemplate_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>
