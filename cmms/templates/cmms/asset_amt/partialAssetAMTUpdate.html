@@ -1,4 +1,4 @@
-<div  data-url="{% url 'assetMeterTemplate_update' form.instance.id %}" class="js-assetMeterTemplate-update-form">
+<div  data-url="{% url 'assetAMT_update' form.instance.id %}" class="js-assetAMT-update-form">
 
   <div class="modal-header">
     <button type="button" class="close cl-part"  aria-label="Close">
@@ -11,7 +11,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="cl-part btn btn-default" >بستن</button>
-    <button type="button" class="btn btn-primary" id="assetMeterTemplate-submit">ویرایش</button>
+    <button type="button" class="btn btn-primary" id="assetAMT-submit">ویرایش</button>
 
 
     <script>
@@ -29,14 +29,14 @@
          {
            $(".cl-part").click(function()
            {
-             $("#modal-assetMeterTemplate").modal("hide");
+             $("#modal-assetAMT").modal("hide");
              //$("#{modal-company}").css("background-color", "yellow");
 
 
            });
 
 
-     $("#assetMeterTemplate-submit").click(function(){
+     $("#assetAMT-submit").click(function(){
 
                 //alert("12321");
                  var form = $(this).parent().parent();
@@ -45,12 +45,12 @@
                  $.ajax({
                    url: form.attr("data-url"),
                    type: "POST",
-                   data:myformat('{"assetMeterTemplateAsset":{0}\
-                   ,"assetMeterTemplateMeter":{1}\
-                   ,"assetMeterTemplateDesc":"{2}"}',
+                   data:myformat('{"assetAMTAsset":{0}\
+                   ,"assetAMTMeter":{1}\
+                   ,"assetAMTDesc":"{2}"}',
                    $("#lastAssetid").val(),
-                   $("#id_assetMeterTemplateMeter").val(),
-                   $("#id_assetMeterTemplateDesc").val()),
+                   $("#id_assetAMTMeter").val(),
+                   $("#id_assetAMTDesc").val()),
 
 
 
@@ -58,21 +58,21 @@
                    dataType: 'json',
                    beforeSend: function () {
                      //alert(btn.attr("data-url"));
-                    // console.log(myformat('{"assetMeterTemplatePart":{0},"assetMeterTemplatePlannedQnty":{1},"assetMeterTemplateActulaQnty":{2},"assetMeterTemplateWorkorder":{3}}',$("#id_assetMeterTemplatePart").val(),$("#id_assetMeterTemplatePlannedQnty").val(),$("#id_assetMeterTemplateActulaQnty").val(),$("#id_assetMeterTemplateWorkorder").val()));
+                    // console.log(myformat('{"assetAMTPart":{0},"assetAMTPlannedQnty":{1},"assetAMTActulaQnty":{2},"assetAMTWorkorder":{3}}',$("#id_assetAMTPart").val(),$("#id_assetAMTPlannedQnty").val(),$("#id_assetAMTActulaQnty").val(),$("#id_assetAMTWorkorder").val()));
 
                    },
                    success: function (data) {
                      if (data.form_is_valid) {
                        //alert("Company created!");  // <-- This is just a placeholder for now for testing
-                       $("#tbody_assetMeterTemplate").empty();
-                       $("#tbody_assetMeterTemplate").html(data.html_assetMeterTemplate_list);
-                       $("#modal-assetMeterTemplate").modal("hide");
+                       $("#tbody_assetAMT").empty();
+                       $("#tbody_assetAMT").html(data.html_assetAMT_list);
+                       $("#modal-assetAMT").modal("hide");
                        //console.log(data.html_wo_list);
                      }
                      else {
 
-                       $("#assetMeterTemplate-table tbody").html(data.html_assetMeterTemplate_list);
-                       $("#modal-assetMeterTemplate .modal-content").html(data.html_assetMeterTemplate_form);
+                       $("#assetAMT-table tbody").html(data.html_assetAMT_list);
+                       $("#modal-assetAMT .modal-content").html(data.html_assetAMT_form);
                      }
                    }
 

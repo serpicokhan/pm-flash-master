@@ -1,10 +1,10 @@
 
-{% for c in assetMeterTemplates %}
+{% for c in assetAMTs %}
 
 <tr>
  <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
-<td>{{c.assetMeterTemplateDesc}}</td>
- <td>{{c.assetMeterTemplateMeter.meterAbbr}}</td>
+<td>{{c.assetAMTDesc}}</td>
+ <td>{{c.assetAMTMeter.meterAbbr}}</td>
 
 
 
@@ -14,13 +14,13 @@
 
 
  <td><button type="button"
-              class="btn btn-warning btn-sm js-update-assetMeterTemplate"
-              data-url="{% url 'assetMeterTemplate_update' c.id %}">
+              class="btn btn-warning btn-sm js-update-assetAMT"
+              data-url="{% url 'assetAMT_update' c.id %}">
         <span class="glyphicon glyphicon-pencil"></span> ویرایش
       </button>
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-assetMeterTemplate"
-                   data-url="{% url 'assetMeterTemplate_delete' c.id %}">
+                   class="btn btn-danger btn-sm js-delete-assetAMT"
+                   data-url="{% url 'assetAMT_delete' c.id %}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>
     </td>
@@ -33,5 +33,5 @@
 {% load static %}
 
 {% block javascript %}
-  <script src="{% static '/js/project/assetMeterTemplate.js' %}"></script>
+  <script src="{% static '/js/project/assetAMT.js' %}"></script>
 {% endblock %}

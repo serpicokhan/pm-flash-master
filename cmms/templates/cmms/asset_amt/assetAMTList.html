@@ -10,7 +10,7 @@
                         <div class="ibox-content">
 
                             <div class="table-responsive" style="position: relative;height: 200px;overflow: auto;display:block">
-                                <table class="table table-striped" id="assetMeterTemplate-table">
+                                <table class="table table-striped" id="assetAMT-table">
                                     <thead>
                                     <tr>
                                       <th></th>
@@ -24,14 +24,14 @@
                                     </tr>
 
                                     </thead>
-                                    <tbody id='tbody_assetMeterTemplate'>
+                                    <tbody id='tbody_assetAMT'>
                                             {% include 'cmms/asset_meter_template/partialAssetMeterTemplateList.html' %}
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                 <p>
-                                  <button type="button" class="btn btn-primary js-create-assetMeterTemplate"
-                                  data-url="{% url 'assetMeterTemplate_create' %}"                                  >
+                                  <button type="button" class="btn btn-primary js-create-assetAMT"
+                                  data-url="{% url 'assetAMT_create' %}"                                  >
                                     <span class="glyphicon glyphicon-plus"
 
 
@@ -45,7 +45,7 @@
 
                     </div>
                 </div>
-                <div class="modal fade" id="modal-assetMeterTemplate" data-backdrop="static" data-keyboard="false" style="top:28%">
+                <div class="modal fade" id="modal-assetAMT" data-backdrop="static" data-keyboard="false" style="top:28%">
                  <div class="modal-dialog ">
 
                    <div class="modal-content ">
