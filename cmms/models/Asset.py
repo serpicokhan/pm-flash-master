@@ -269,4 +269,4 @@ class AssetMeterTemplate(models.Model):
         def __str__(self):
             return "{}({})".format(self.assetMeterTemplateDesc,self.assetMeterTemplateMeter)
         class Meta:
-            db_table="Assetmetertemplate"
+            db_table="assetmetertemplate"
