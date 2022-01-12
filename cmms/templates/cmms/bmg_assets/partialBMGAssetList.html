@@ -1,0 +1,37 @@
+
+{% for c in bmgAssets %}
+
+<tr>
+ <td><input type="checkbox" name="actoin" value=""></td>
+<td>{{c.BMGAsset}}</td>
+
+
+
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-bmgAsset"
+              data-url="{% url 'bmgAsset_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-bmgAsset"
+                   data-url="{% url 'bmgAsset_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="4" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static '/js/project/bmgAsset.js' %}"></script>
+{% endblock %}

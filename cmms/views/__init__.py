@@ -10,6 +10,7 @@ from cmms.views.womiscview import *
 from cmms.views.wonotifyview import *
 from cmms.views.bomgroupview import *
 from cmms.views.bmg_templateview import *
+from cmms.views.bmgassetview import *
 from cmms.views.batchmetergroupview import *
 from cmms.views.wofileview import *
 from cmms.views.scheduleview import *

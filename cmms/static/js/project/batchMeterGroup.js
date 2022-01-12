@@ -92,12 +92,12 @@ var saveForm= function () {
    });
    return false;
  };
- var initBatchMeterGroupPart=function(){
+ var initBatchMeterGroupAsset=function(){
 
 
    $.ajax({
 
-     url: '/BatchMeterGroupPart/'+$("#lastBatchMeterGroupid").val()+'/listBatchMeterGroupPart',
+     url: '/BMGAsset/'+$("#lastBatchMeterGroupid").val()+'/listBMGAsset',
 
 
 
@@ -106,15 +106,15 @@ var saveForm= function () {
        if (data.form_is_valid) {
          //alert("response");
          //alert(data.html_bomGroupPart_list);  // <-- This is just a placeholder for now for testing
-         $("#tbody_bomGroupPart").empty();
-         $("#tbody_bomGroupPart").html(data.html_bomGroupPart_list);
-         $("#modal-bomGroupPart").modal("hide");
+         $("#tbody_bmgAsset").empty();
+         $("#tbody_bmgAsset").html(data.html_bmgAsset_list);
+         $("#modal-bmgAsset").modal("hide");
          //console.log(data.html_wo_list);
        }
        else {
 
-         $("#bomGroupPart-table tbody").html(data.html_bomGroupPart_list);
-         $("#modal-bomGroupPart .modal-content").html(data.html_bomGroupPart_form);
+         $("#bmgAsset-table tbody").html(data.html_bmgAsset_list);
+         $("#modal-bmgAsset .modal-content").html(data.html_bmgAsset_form);
        }
      }
    });
@@ -159,7 +159,7 @@ return false;
 
 
    //$.when(loadForm(btn)).done(initLoad,initWoBatchMeterGroupLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
-   $.when(loadForm(btn)).done(initBatchMeterGroupTemplate );
+   $.when(loadForm(btn)).done(initBatchMeterGroupTemplate,initBatchMeterGroupAsset );
    // loadForm(btn);
 
    //initLoad();

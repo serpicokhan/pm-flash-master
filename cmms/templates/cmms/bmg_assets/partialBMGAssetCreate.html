@@ -1,4 +1,4 @@
-<div  data-url="{% url 'bomGroupAsset_create' %}" class="js-bomGroupAsset-create-form" >
+<div  data-url="{% url 'bmgAsset_create' %}" class="js-bmgAsset-create-form" >
 
   <div class="modal-header " style="background:#ccc">
     <button type="button" class="close cl-part"  aria-label="Close">
@@ -7,11 +7,11 @@
     <h4 class="modal-title">جدید</h4>
   </div>
   <div class="modal-body">
-   {% include 'cmms/bomgroup_assets/partialBOMGroupAssetForm.html' %}
+   {% include 'cmms/bmg_assets/partialBMGAssetForm.html' %}
   </div>
   <div class="modal-footer">
     <button type="button" class="cl-part btn btn-default " >انصراف</button>
-    <button type="button" class="btn btn-primary" id="bomGroupAsset-submit"  >ذخیره</button>
+    <button type="button" class="btn btn-primary" id="bmgAsset-submit"  >ذخیره</button>
  <script>
 
   myformat = function() {
@@ -28,14 +28,14 @@
       {
         $(".cl-part").click(function()
         {
-          $("#modal-bomGroupAsset").modal("hide");
+          $("#modal-bmgAsset").modal("hide");
           //$("#{modal-company}").css("background-color", "yellow");
 
 
         }
        );
 
-        $("#bomGroupAsset-submit").click(function(){
+        $("#bmgAsset-submit").click(function(){
 
                    //alert("12321");
                     var form = $(this).parent().parent();
@@ -45,16 +45,16 @@
                     $.ajax({
                       url: form.attr("data-url"),
                       type: "POST",
-                      data:myformat('{"BOMGroupAssetAsset":{0},"BOMGroupAssetBOMGroup":{1}}',$("#id_BOMGroupAssetAsset").val(), $("#lastBOMGroupid").val()),
+                      data:myformat('{"BMGAsset":{0},"BMGGroup":{1}}',$("#id_BMGAsset").val(), $("#lastBatchMeterGroupid").val()),
 
 
 
 
                       dataType: 'json',
                       beforeSend: function (x,y) {
-                        if($("#id_BOMGroupAssetAsset").val()=="")
+                        if($("#id_BMGAsset").val()=="")
                         {
-                          toastr.error("نام دارایی را مشخص نمایید");
+                          toastr.error("نام دارایی را مشخص کنید");
                           x.abort();
                           return;
                         }
@@ -62,17 +62,17 @@
                       success: function (data) {
                         if (data.form_is_valid) {
                           //alert("Company created!");  // <-- This is just a placeholder for now for testing
-                          $("#tbody_bomGroupAsset").empty();
+                          $("#tbody_bmgAsset").empty();
 
-                          $("#tbody_bomGroupAsset").html(data.html_bomGroupAsset_list);
-                          $("#modal-bomGroupAsset").modal("hide");
-                          // console.log(data.html_bomGroupAsset_list);
+                          $("#tbody_bmgAsset").html(data.html_bmgAsset_list);
+                          $("#modal-bmgAsset").modal("hide");
+                          // console.log(data.html_bmgAsset_list);
                         }
                         else {
                           toastr.error('ورودیها را کنترل نمایید!');
 
-                          $("#bomGroupAsset-table tbody").html(data.html_bomGroupAsset_list);
-                          $("#modal-bomGroupAsset .modal-content").html(data.html_bomGroupAsset_form);
+                          $("#bmgAsset-table tbody").html(data.html_bmgAsset_list);
+                          $("#modal-bmgAsset .modal-content").html(data.html_bmgAsset_form);
                         }
                       }
 

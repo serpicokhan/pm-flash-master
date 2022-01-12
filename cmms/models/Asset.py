@@ -203,7 +203,7 @@ class BMGAsset(models.Model):
     BMGAsset=models.ForeignKey('Asset',verbose_name="دارایی",on_delete=models.CASCADE,blank=True,null=True)
     BMGGroup=models.ForeignKey('BatchMeterGroup',verbose_name="گروه",on_delete=models.CASCADE,blank=True,null=True)
     class Meta:
-        db_table="bgmasset"
+        db_table="bmgasset"
         unique_together = ('BMGAsset', 'BMGGroup')
 
 class AssetPart(models.Model):

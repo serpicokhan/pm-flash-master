@@ -12,16 +12,16 @@
             <div class="form-group">
               <label>نام گروه</label>
 
-              <input type=text id='id_assetpartjq2' class="form-control" readonly/>
+              <input type=text id='id_bomassetjq2' class="form-control" readonly/>
               <script type="text/javascript">
-              $("#id_assetpartjq2").val($("#id_BOMGroupName").val());
+              $("#id_bomassetjq2").val($("#id_BatchMeterGroupName").val());
               </script>
             </div>
             <div class="form-group">
-              <label>{{form.BOMGroupAssetAsset.label}}</label>
-              {{ form.BOMGroupAssetAsset.as_hidden }}
+              <label>{{form.BMGAsset.label}}</label>
+              {{ form.BMGAsset.as_hidden }}
 
-              <!-- <input type="text"  id="mypart" value="" class="form-control advanced2AutoComplete" value='{{form.bomGroupAssetPid.value}}' /> -->
+              <!-- <input type="text"  id="mypart" value="" class="form-control advanced2AutoComplete" value='{{form.bmgAssetPid.value}}' /> -->
               {% render_field form.my_asset class='form-control advanced2AutoComplete'  %}
 
             </div>
