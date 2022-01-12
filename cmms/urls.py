@@ -312,6 +312,11 @@ urlpatterns = [
         url(r'^BOMGroupPart/(?P<id>\d+)/update/$', bomGroupPart_update, name='bomGroupPart_update'),
         url(r'^BOMGroupPart/(?P<woId>\d+)/listBOMGroupPart/$', js_list_bomGroupPart, name='js_list_bomGroupPart'),
 
+        url(r'^BMGTemplate/create/$', bmgTemplate_create, name='bmgTemplate_create'),
+        url(r'^BMGTemplate/(?P<id>\d+)/delete/$', bmgTemplate_delete, name='bmgTemplate_delete'),
+        url(r'^BMGTemplate/(?P<id>\d+)/update/$', bmgTemplate_update, name='bmgTemplate_update'),
+        url(r'^BMGTemplate/(?P<woId>\d+)/listBMGTemplate/$', js_list_bmgTemplate, name='js_list_bmgTemplate'),
+
         url(r'^BOMGroupAsset/create/$', bomGroupAsset_create, name='bomGroupAsset_create'),
         url(r'^BOMGroupAsset/(?P<id>\d+)/delete/$', bomGroupAsset_delete, name='bomGroupAsset_delete'),
         url(r'^BOMGroupAsset/(?P<id>\d+)/update/$', bomGroupAsset_update, name='bomGroupAsset_update'),
@@ -329,6 +334,7 @@ urlpatterns = [
         url(r'^AssetMeterTemplate/(?P<id>\d+)/delete/$', assetMeterTemplate_delete, name='assetMeterTemplate_delete'),
         url(r'^AssetMeterTemplate/(?P<id>\d+)/update/$', assetMeterTemplate_update, name='assetMeterTemplate_update'),
         url(r'^AssetMeterTemplate/(?P<woId>\d+)/listAssetMeterTemplate/$', js_list_assetMeterTemplate, name='js_list_assetMeterTemplate'),
+        url(r'^AssetMeterTemplate/GetAssetMeterTemplates$', GetAssetMeterTemplates, name='GetAssetMeterTemplates'),
 
 
         url(r'^AssetLife/$',list_assetLife,name='list_assetLife'),

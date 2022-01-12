@@ -4,25 +4,28 @@
   <div class="col-lg-12">
     <div class="panel panel-info">
       <div class="panel-heading">
-        <i class="fa fa-info-circle"></i>  تجهیز
+        <i class="fa fa-info-circle"></i>  قطعه مصرفی
       </div>
       <div class="panel-body">
         <div class="row">
           <div class="col-lg-12">
             <div class="form-group">
-              <label>نام دارایی</label>
+              <label>{{form.BMGGroup.label}}</label>
 
-              <input type=text id='id_assetAssetsubjq2' class="form-control" readonly/>
+              <input type=text id='id_bomtemplatejq' class="form-control" readonly/>
               <script type="text/javascript">
-              $("#id_assetAssetsubjq2").val($("#id_assetName").val());
+              $("#id_bomtemplatejq").val($("#id_BatchMeterGroupName").val());
               </script>
             </div>
             <div class="form-group">
-              <label>نام تجهیز</label>
+              <label>{{form.BMGTemplate.label}}</label>
 
-              <input type="text" name="" value="" class="form-control advanced2AutoComplete2 " id="txttajhiz">
-              <input type="hidden" name="" value="" id="hiddentajhiz">
+
+              {% render_field form.mypart class='form-control advanced2AutoComplete' autocomplete='off'  %}
+              {{form.BMGTemplate.as_hidden}}
             </div>
+      
+
 
 
 

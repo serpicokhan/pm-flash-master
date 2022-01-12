@@ -4,18 +4,17 @@
   <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>رویدادها </h5>
+                            <h5>مترینگ ها </h5>
 
                         </div>
                         <div class="ibox-content">
-                          <input type="hidden" name="lastassetasset" id="id_lastassetasset" value="">
 
-                            <div class="table-responsive" style="position: relative;height: 200px;overflow: auto;display:block">
-                                <table class="table table-striped tblassetasset" id="assetAsset-table">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="bmgTemplate-table">
                                     <thead>
                                     <tr>
                                       <th></th>
-                                      <th>نام دارایی</th>
+                                      <th>مترینگ</th>
 
 
 
@@ -24,17 +23,19 @@
                                     </tr>
 
                                     </thead>
-                                    <tbody id='tbody_assetAsset'>
-                                    {% include 'cmms/asset_asset/partialAssetAssetList.html' %}
+                                    <tbody id='tbody_bmgTemplate'>
+                                            {% include 'cmms/bmgroup_meter_template/partialBMGTemplateList.html' %}
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                 <p>
-                                  <button type="button" class="btn btn-primary js-create-assetAsset"
-                                  data-url="{% url 'assetAsset_craete'  %}"                                  >
-                                    <span class="glyphicon glyphicon-plus">
+                                  <button type="button" class="btn btn-primary js-create-bmgTemplate"
+                                  data-url="{% url 'bmgTemplate_create' %}"                                  >
+                                    <span class="glyphicon glyphicon-plus"
 
-                                    </span>
+
+
+                                    ></span>
                                   جدید
                                   </button>
                                 </p>
@@ -43,7 +44,7 @@
 
                     </div>
                 </div>
-                <div class="modal fade" id="modal-assetAsset" data-backdrop="static" data-keyboard="false">
+                <div class="modal fade" id="modal-bmgTemplate" data-backdrop="static" data-keyboard="false">
                  <div class="modal-dialog ">
 
                    <div class="modal-content ">
@@ -57,5 +58,5 @@
 {% load static %}
 
 {% block javascript %}
-  <script src="{% static '/js/project/assetAsset.js' %}"></script>
+  <script src="{% static '/js/project/bmgTemplate.js' %}"></script>
 {% endblock %}

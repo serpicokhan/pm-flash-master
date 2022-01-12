@@ -177,16 +177,18 @@ class BOMGroupPart(models.Model):
 
         db_table="bomgrouppart"
         unique_together = ('BOMGroupPartPart', 'BOMGroupPartBOMGroup')
-# class BatchMeterGroupMeterTemplate(models.Model):
-#     def __str__(self):
-#         return '{}:{}'.format(self.BOMGroupPartBOMGroup)
-#     BOMGroupPartPart=models.ForeignKey('AssetMeterTemplate',verbose_name="قطعه",on_delete=models.CASCADE,blank=True,null=True)
-#     BOMGroupPartBOMGroup=models.ForeignKey('BatchMeterGroup',verbose_name="گروه",on_delete=models.CASCADE,blank=True,null=True)
-#     BOMGroupPartQnty=models.IntegerField("تعداد",blank=True,null=True)
-#     class Meta:
-#
-#         db_table="bomgrouppart"
-#         unique_together = ('BOMGroupPartPart', 'BOMGroupPartBOMGroup')
+# class BatchMeterGrouMeterTemplate(models.Model):
+class BMGTemplate(models.Model):
+    def __str__(self):
+        return '{}:{}'.format(self.BGMGroup.BatchMeterGroupName,self.BGMTemplate)
+    BMGTemplate=models.ForeignKey('AssetMeterTemplate',verbose_name="مترینگ",on_delete=models.CASCADE,blank=True,null=True)
+    BMGGroup=models.ForeignKey('BatchMeterGroup',verbose_name="گروه",on_delete=models.CASCADE,blank=True,null=True)
+
+    class Meta:
+
+        db_table="bmgtemplate"
+        unique_together = ('BMGTemplate', 'BMGGroup')
+
 class BOMGroupAsset(models.Model):
     def __str__(self):
         return '{}:{}'.format(self.BOMGroupName)
@@ -195,6 +197,14 @@ class BOMGroupAsset(models.Model):
     class Meta:
         db_table="bomgroupasset"
         unique_together = ('BOMGroupAssetAsset', 'BOMGroupAssetBOMGroup')
+class BMGAsset(models.Model):
+    def __str__(self):
+        return '{}:{}'.format(self.BOMGroupName)
+    BMGAsset=models.ForeignKey('Asset',verbose_name="دارایی",on_delete=models.CASCADE,blank=True,null=True)
+    BMGGroup=models.ForeignKey('BatchMeterGroup',verbose_name="گروه",on_delete=models.CASCADE,blank=True,null=True)
+    class Meta:
+        db_table="bgmasset"
+        unique_together = ('BMGAsset', 'BMGGroup')
 
 class AssetPart(models.Model):
     #for knowing which asset is consist of what parts

@@ -1,0 +1,101 @@
+<div  data-url="{% url 'bmgTemplate_create' %}" class="js-bmgTemplate-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close cl-part"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/bmgroup_meter_template/partialBMGTemplateForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-part btn btn-default " >انصراف</button>
+    <button type="button" class="btn btn-primary" id="bmgTemplate-submit"  >ذخیره</button>
+ <script>
+
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+        $(".cl-part").click(function()
+        {
+          $("#modal-bmgTemplate").modal("hide");
+          //$("#{modal-company}").css("background-color", "yellow");
+
+
+        }
+       );
+
+        $("#bmgTemplate-submit").click(function(){
+
+
+                    var form = $(this).parent().parent();
+                    console.log(myformat('{"BMGTemplate":{0},\
+                    "BMGGroup":{1}}',
+                    $("#id_BMGTemplate").val(),
+                    $("#lastBatchMeterGroupid").val()));
+
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:myformat('{"BMGTemplate":{0},\
+                      "BMGGroup":{1}}',
+                      $("#id_BMGTemplate").val(),
+                      $("#lastBatchMeterGroupid").val()),
+
+
+
+
+                      dataType: 'json',
+                      beforeSend: function (x,y) {
+                        if($("#id_BMGTemplate").val()=="")
+                        {
+                          toastr.error("مترینگ را مشخص کنید");
+                          x.abort();
+                          return;
+                        }
+
+
+                       // console.log(myformat('{"BMGTemplatePart":{0},"BMGTemplateQnty":{1},"BMGTemplateBOMGroup":{2}}',$("#id_BMGTemplatePart").val(), $("#id_BMGTemplateQnty").val(),$("#lastBOMGroupid").val()));
+                      },
+                      success: function (data) {
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_bmgTemplate").empty();
+
+                          $("#tbody_bmgTemplate").html(data.html_bmgTemplate_list);
+                          $("#modal-bmgTemplate").modal("hide");
+                          // console.log(data.html_bmgTemplate_list);
+                        }
+                        else {
+                          toastr.error('ورودیها را کنترل نمایید!');
+
+                          $("#bmgTemplate-table tbody").html(data.html_bmgTemplate_list);
+                          $("#modal-bmgTemplate .modal-content").html(data.html_bmgTemplate_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

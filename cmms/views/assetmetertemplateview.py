@@ -117,3 +117,17 @@ def assetMeterTemplate_update(request, id):
     else:
         form = AssetMeterTemplateForm(instance=company)
     return save_assetMeterTemplate_form(request, form, 'cmms/asset_meter_template/partialAssetMeterTemplateUpdate.html')
+##########################
+def GetAssetMeterTemplates(request):
+
+    # print(request.GET['q'])
+    searchStr= request.GET['qry'] if request.GET['qry'] else ''
+    x=AssetMeterTemplate.objects.filter(assetMeterTemplateDesc__icontains=searchStr).order_by('-id').values('id', 'assetMeterTemplateDesc','assetMeterTemplateMeter')
+    # if(len(x)==0):
+    #     print("dasdsa")
+    #     x=[{'id':-1,'partName':'قطعه یافت نشد'}]
+
+
+    # response_data = {}
+    # response_data['result'] = '[dsadas,dasdasdas]'
+    return JsonResponse(list(x), safe=False)

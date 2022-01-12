@@ -121,12 +121,12 @@ var saveForm= function () {
 return false;
  };
 
- var initBatchMeterGroupAsset=function(){
+ var initBatchMeterGroupTemplate=function(){
 
 
    $.ajax({
 
-     url: '/BatchMeterGroupAsset/'+$("#lastBatchMeterGroupid").val()+'/listBatchMeterGroupAsset',
+     url: '/BMGTemplate/'+$("#lastBatchMeterGroupid").val()+'/listBMGTemplate',
 
 
 
@@ -134,16 +134,16 @@ return false;
          //alert($("#lastWorkOrderid").val());
        if (data.form_is_valid) {
          //alert("response");
-         //alert(data.html_bomGroupAsset_list);  // <-- This is just a placeholder for now for testing
-         $("#tbody_bomGroupAsset").empty();
-         $("#tbody_bomGroupAsset").html(data.html_bomGroupAsset_list);
-         $("#modal-bomGroupAsset").modal("hide");
+         //alert(data.html_bmgTemplate_list);  // <-- This is just a placeholder for now for testing
+         $("#tbody_bmgTemplate").empty();
+         $("#tbody_bmgTemplate").html(data.html_bmgTemplate_list);
+         $("#modal-bmgTemplate").modal("hide");
          //console.log(data.html_wo_list);
        }
        else {
 
-         $("#bomGroupAsset-table tbody").html(data.html_bomGroupAsset_list);
-         $("#modal-bomGroupAsset .modal-content").html(data.html_bomGroupAsset_form);
+         $("#bmgTemplate-table tbody").html(data.html_bmgTemplate_list);
+         $("#modal-bmgTemplate .modal-content").html(data.html_bmgTemplate_form);
        }
      }
    });
@@ -159,8 +159,8 @@ return false;
 
 
    //$.when(loadForm(btn)).done(initLoad,initWoBatchMeterGroupLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
-   // $.when(loadForm(btn)).done(initBatchMeterGroupPart,initBatchMeterGroupAsset );
-   loadForm(btn);
+   $.when(loadForm(btn)).done(initBatchMeterGroupTemplate );
+   // loadForm(btn);
 
    //initLoad();
  }

@@ -590,6 +590,21 @@ class BOMGroupPartForm(forms.ModelForm):
     class Meta:
         model = BOMGroupPart
         fields = '__all__'
+class BMGTemplateForm(forms.ModelForm):
+    mypart=forms.CharField(required=False)
+    def clean(self):
+                 self.is_valid()
+                 cleaned_data=super(BMGTemplateForm, self).clean()
+                 BMGTemplate=cleaned_data.get('BMGTemplate','')
+                 BMGroup=cleaned_data.get('BMGroup','')
+
+
+
+
+                 return cleaned_data
+    class Meta:
+        model = BMGTemplate
+        fields = '__all__'
 class BOMGroupAssetForm(forms.ModelForm):
     my_asset=forms.CharField(required=False)
     def clean(self):
