@@ -16,7 +16,7 @@ $(function () {
       url: '/TaskGroup/'+(($("#id_woAsset").val().length)?$("#id_woAsset").val():-1)+'/js/',
       type: 'get',
       dataType: 'json',
-      beforeSend: function () {
+      beforeSend: function (xhr,opts) {
         //alert(btn.attr("data-url"));
         //alert("321321");
         // /$("#modal-taskGroup").modal("hide");
@@ -53,7 +53,7 @@ $(function () {
       url: btn.attr("data-url"),
       type: 'get',
       dataType: 'json',
-      beforeSend: function () {
+      beforeSend: function (xhr,opts) {
         //alert(btn.attr("data-url"));
         if($("#id_woAsset").val()!='')
         {
@@ -149,6 +149,8 @@ var saveTaskForm= function () {
 
  // Create book
 $(".js-create-taskGroup").unbind();
+$(".js-delete-task").unbind();
+$(".js-update-task").unbind();
 
 $(".js-create-task").unbind();
 

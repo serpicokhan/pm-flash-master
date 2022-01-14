@@ -32,9 +32,7 @@ class Tasks(models.Model):
     taskTypes=models.IntegerField("انتخاب نوع فعالیت", choices=TaskType1,null=True,blank=True)
     taskMetrics=models.ForeignKey("AssetMeterTemplate",verbose_name="واحد اندازه گیری",null=True,blank=True,on_delete=models.CASCADE)
     taskDescription=models.CharField("توضیحات",max_length = 100,null=True,blank=True)
-
     #result related to asset and measured according to Asset
-
     taskResult=models.CharField("توضیحات",max_length = 50,null=True,blank=True)
     taskAssignedToUser = models.ForeignKey(SysUser,on_delete=models.CASCADE,verbose_name="اختصاص به کاربر",null=True,blank=True,related_name="assignedToUserTask")
     taskStartDate = models.DateField(" تاریخ شروع",null=True, blank=True)
@@ -74,7 +72,7 @@ class TaskTemplate(models.Model):
 
     )
     taskTemplateTypes=models.IntegerField("انتخاب نوع فعالیت", choices=TaskType1,null=True,blank=True)
-    taskTemplateMetrics=models.ForeignKey("MeterCode",verbose_name="واحد اندازه گیری",null=True,blank=True,on_delete=models.CASCADE)
+    taskTemplateMetrics=models.ForeignKey("AssetMeterTemplate",verbose_name="واحد اندازه گیری",null=True,blank=True,on_delete=models.CASCADE)
     taskTemplateDescription=models.CharField("توضیحات",max_length = 100)
     taskTemplateTimeEstimate=models.FloatField("زمان تقریبی( به ساعت)",null=True,blank=True)
     taskTemplateTaskGroup = models.ForeignKey(TaskGroup,on_delete=models.CASCADE,null=True,blank=True,related_name="taskgroup",verbose_name='متعلق به')

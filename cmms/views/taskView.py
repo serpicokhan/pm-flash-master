@@ -140,37 +140,62 @@ def save_task_form(request, form, template_name,woId=None):
 
 @csrf_exempt
 def task_delete(request, id):
-    comp1 = get_object_or_404(Tasks, id=id)
-    woId=comp1.workOrder
-    data = dict()
-    print(request.method)
+    try:
+        comp1 = get_object_or_404(Tasks, id=id)
+        woId=comp1.workOrder
+        data = dict()
+        print(request.method)
 
-    if (request.method == 'POST'):
-        comp1.delete()
-        data['form_is_valid'] = True  # This is just to play along with the existing code
-        #companies = WorkorderTask.objects.filter(workorder=woId)
-        companies = Tasks.objects.filter(workOrder=woId)
-        wo_Id=WorkOrder.objects.get(id=woId)
-        if(wo_Id.isScheduling==False):
-            data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
-                'task': companies,
-                'perms': PermWrapper(request.user),
-                'ispm':False
-            })
+        if (request.method == 'POST'):
+            comp1.delete()
+            data['form_is_valid'] = True  # This is just to play along with the existing code
+            #companies = WorkorderTask.objects.filter(workorder=woId)
+            companies = Tasks.objects.filter(workOrder=woId)
+            wo_Id=WorkOrder.objects.get(id=woId.id)
+            if(wo_Id.isScheduling==False):
+                data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
+                    'task': companies,
+                    'perms': PermWrapper(request.user),
+                    'ispm':False
+                })
+            else:
+                data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
+                    'task': companies,
+                    'perms': PermWrapper(request.user),
+                    'ispm':True
+                })
+
         else:
-            data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
-                'task': companies,
-                'perms': PermWrapper(request.user),
-                'ispm':True
-            })
+            context = {'task': comp1}
+            data['html_task_form'] = render_to_string('cmms/tasks/partialTaskDelete.html',
+                context,
+                request=request,
+            )
+        return JsonResponse(data)
+    except:
+        data = dict()
+        data['form_is_valid'] = True
+        if (request.method == 'POST'):
+            data['form_is_valid'] = True  # This is just to play along with the existing code
+            # query="select id as id,assetPartAssetid_id,sum(assetPartQnty) as assetPartQnty from assetpart where  assetPartAssetid_id={} group by assetPartAssetid_id,AssetPartPid_id".format(woId)
 
-    else:
-        context = {'task': comp1}
-        data['html_task_form'] = render_to_string('cmms/tasks/partialTaskDelete.html',
-            context,
-            request=request,
-        )
-    return JsonResponse(data)
+            companies = Tasks.objects.filter(workOrder=woId)
+            wo_Id=WorkOrder.objects.get(id=woId)
+            if(wo_Id.isScheduling==False):
+                data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
+                    'task': companies,
+                    'perms': PermWrapper(request.user),
+                    'ispm':False
+                })
+            else:
+                data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
+                    'task': companies,
+                    'perms': PermWrapper(request.user),
+                    'ispm':True
+                })
+
+
+        return JsonResponse(data)
 ###################################################################
 @csrf_exempt
 def task_create(request):

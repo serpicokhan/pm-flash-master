@@ -110,7 +110,7 @@
               ,"taskStartTime":"{13}"\
               ,"result":"123"}',
               getVal($("#id_taskTypes")),
-              getVal($("#id_taskMetrics")),
+              ($("#id_taskMetrics").val()=='')?null:$("#id_taskMetrics").val(),
               getStringVal($("#id_taskDescription").val()),
               getVal($("#id_taskAssignedToUser")),
               getStringVal($("#id_taskStartDate").val()),
