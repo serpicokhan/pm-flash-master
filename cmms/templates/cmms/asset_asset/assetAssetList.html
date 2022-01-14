@@ -4,19 +4,18 @@
   <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>قرائت ها </h5>
+                            <h5>تجهیزات </h5>
 
                         </div>
                         <div class="ibox-content">
+                          <input type="hidden" name="lastassetasset" id="id_lastassetasset" value="">
 
                             <div class="table-responsive" style="position: relative;height: 200px;overflow: auto;display:block">
-                                <table class="table table-striped" id="assetMeter-table">
+                                <table class="table table-striped tblassetasset" id="assetAsset-table">
                                     <thead>
                                     <tr>
                                       <th></th>
-                                      <th>کمیت</th>
-                                      <th>درخواست</th>
-                                      <th>تاریخ</th>
+                                      <th>نام دارایی</th>
 
 
 
@@ -25,19 +24,17 @@
                                     </tr>
 
                                     </thead>
-                                    <tbody id='tbody_assetMeter'>
-                                            {% include 'cmms/asset_meter/partialAssetMeterList.html' %}
+                                    <tbody id='tbody_assetAsset'>
+                                    {% include 'cmms/asset_asset/partialAssetAssetList.html' %}
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                 <p>
-                                  <button type="button" class="btn btn-primary js-create-assetMeter"
-                                  data-url="{% url 'assetMeter_create' lId %}"                                  >
-                                    <span class="glyphicon glyphicon-plus"
+                                  <button type="button" class="btn btn-primary js-create-assetAsset"
+                                  data-url="{% url 'assetAsset_craete'  %}"                                  >
+                                    <span class="glyphicon glyphicon-plus">
 
-
-
-                                    ></span>
+                                    </span>
                                   جدید
                                   </button>
                                 </p>
@@ -46,7 +43,7 @@
 
                     </div>
                 </div>
-                <div class="modal fade" id="modal-assetMeter" data-backdrop="static" data-keyboard="false">
+                <div class="modal fade" id="modal-assetAsset" data-backdrop="static" data-keyboard="false">
                  <div class="modal-dialog ">
 
                    <div class="modal-content ">
@@ -60,5 +57,5 @@
 {% load static %}
 
 {% block javascript %}
-  <script src="{% static '/js/project/assetMeter.js' %}"></script>
+  <script src="{% static '/js/project/assetAsset.js' %}"></script>
 {% endblock %}

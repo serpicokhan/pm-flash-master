@@ -55,6 +55,12 @@
 
                       dataType: 'json',
                       beforeSend: function (xhr,opts) {
+                        if($('#id_assetMeterMeterReadingUnit option').size()==1 )
+                        {
+                          //سایز 1 برای اینگه افزونه select اگه خالی باشه سایزش یکه
+                          toastr.error("کمیتی تعریف نشده است <br/> برای تعریف کمیت به قسمت تنظیمات مراجعه کنید");
+                          xhr.abort();
+                        }
 
 
                         if( $("#id_assetMeterMeterReading").val().length==0 ||  $("#id_assetMeterMeterReading").val()==0)

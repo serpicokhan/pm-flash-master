@@ -4,7 +4,7 @@
   <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>رویدادها </h5>
+                            <h5>کمیت </h5>
 
                         </div>
                         <div class="ibox-content">
@@ -19,27 +19,16 @@
 
 
 
-                                        <th></th>
 
                                     </tr>
 
                                     </thead>
                                     <tbody id='tbody_assetAMT'>
-                                            {% include 'cmms/asset_meter_template/partialAssetMeterTemplateList.html' %}
+                                            {% include 'cmms/asset_amt/partialAssetAMTList.html' %}
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
-                                <p>
-                                  <button type="button" class="btn btn-primary js-create-assetAMT"
-                                  data-url="{% url 'assetAMT_create' %}"                                  >
-                                    <span class="glyphicon glyphicon-plus"
 
-
-
-                                    ></span>
-                                  جدید
-                                  </button>
-                                </p>
                             </div>
                           </div>
 
@@ -54,10 +43,3 @@
                 </div>
 
 </div>
-
-
-{% load static %}
-
-{% block javascript %}
-  <script src="{% static '/js/project/assetAMT.js' %}"></script>
-{% endblock %}

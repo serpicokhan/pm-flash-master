@@ -169,7 +169,7 @@
               <span class="fa arrow">
               </span>
             </a>
-            <ul  {% if section in 'list_asset,list_asset_location,list_asset_machine,list_asset_tool,list_assetCategory' %} class="nav nav-second-level collapse in"
+            <ul  {% if section in 'list_asset,list_asset_location,list_asset_machine,list_asset_tool,list_assetCategory,list_assetMeterTemplate,list_batchMeterGroup' %} class="nav nav-second-level collapse in"
             {% else %}
             class="nav nav-second-level collapse"
             {% endif %} >
@@ -194,13 +194,19 @@
                 تنظیمات <span class="fa arrow">
                 </span>
               </a>
-              <ul  {% if section in 'list_assetCategory' %} class="nav nav-third-level collapse in"
+              <ul  {% if section in 'list_assetCategory,list_assetMeterTemplate,list_batchMeterGroup' %} class="nav nav-third-level collapse in"
               {% else %}
               class="nav nav-third-level collapse"
               {% endif %} >
 
                 <li  {% if section == 'list_assetCategory' %} class='active'   {% endif %}>
                   <a href="{% url 'list_assetCategory' %}" >دسته بندی اموال</a>
+                </li>
+                <li  {% if section == 'list_assetMeterTemplate' %} class='active'   {% endif %}>
+                  <a href="{% url 'list_assetMeterTemplate' %}" >تعریف کمیت</a>
+                </li>
+                <li  {% if section == 'list_batchMeterGroup' %} class='active'   {% endif %}>
+                  <a href="{% url 'list_batchMeterGroup' %}" >انتساب کمیت</a>
                 </li>
 
 

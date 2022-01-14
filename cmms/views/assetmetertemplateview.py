@@ -30,19 +30,29 @@ from cmms.forms import AssetMeterTemplateForm
 ###################################################################
 def list_assetMeterTemplate(request,id=None):
     books = AssetMeterTemplate.objects.all()
-    return render(request, 'cmms/asset_meter_template/assetMeterTemplateList.html', {'assetMeterTemplates': books})
+    return render(request, 'cmms/asset_meter_template/assetMeterTemplateList.html', {'assetMeterTemplates': books,'section':'list_assetMeterTemplate'})
 
 
 ###################################################################
 def js_list_assetMeterTemplate(request,woId):
-    data=dict()
+    # data=dict()
     # books=AssetMeterTemplate.objects.filter(assetMeterTemplateAsset=woId).order_by('-id')
+    #
+    # data['html_assetMeterTemplate_list']= render_to_string('cmms/asset_meter_template/partialAssetMeterTemplateList.html', {
+    #     'assetMeterTemplates': books
+    # })
+    # data['form_is_valid']=True
+    # return JsonResponse(data)
+        data=dict()
+        bg_groups=BMGAsset.objects.filter(BMGAsset__id=woId).values_list('BMGGroup',flat=True)
+        tmp_=BMGTemplate.objects.filter(BMGGroup__in=bg_groups).values_list('BMGTemplate',flat=True)
+        books=AssetMeterTemplate.objects.filter(id__in=tmp_).order_by('-id')
 
-    data['html_assetMeterTemplate_list']= render_to_string('cmms/asset_meter_template/partialAssetMeterTemplateList.html', {
-        'assetMeterTemplates': books
-    })
-    data['form_is_valid']=True
-    return JsonResponse(data)
+        data['html_assetMeterTemplate_list']= render_to_string('cmms/asset_amt/partialAssetAMTList.html', {
+            'assetAMTs': books
+        })
+        data['form_is_valid']=True
+        return JsonResponse(data)
 
 
 ###################################################################    ###################################################################

@@ -114,8 +114,8 @@ class AssetMeterReading(models.Model):
     def getdate(self):
         return jdatetime.date.fromgregorian(date=self.timestamp)
     assetMeterLocation=models.ForeignKey(Asset,on_delete=models.CASCADE,blank=True,null=True,verbose_name="دارایی")
-    assetMeterMeterReading=models.FloatField("meter reading",default=0.00)
-    assetMeterMeterReadingUnit=models.ForeignKey("MeterCode",verbose_name="واحد اندازه گیری",on_delete=models.CASCADE,null=True,blank=True)
+    assetMeterMeterReading=models.FloatField("مقدار",default=0.00)
+    assetMeterMeterReadingUnit=models.ForeignKey("AssetMeterTemplate",verbose_name="واحد اندازه گیری",on_delete=models.CASCADE,null=True,blank=True)
     assetWorkorderMeterReading=models.ForeignKey("WorkOrder",on_delete=models.CASCADE,blank=True,null=True,verbose_name="درخواست")
     timestamp=models.DateTimeField(auto_now_add=True)
     class Meta:

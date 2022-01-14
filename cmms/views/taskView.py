@@ -216,6 +216,7 @@ def task_create(request):
 @csrf_exempt
 def task_create2(request):
     woId=-1
+    ww=request.GET.get("q","2121221")
 
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')
@@ -229,10 +230,10 @@ def task_create2(request):
         data['taskTimeEstimate']=body['taskTimeEstimate']
         data['workOrder']=body['workOrder']
         woId=body['workOrder']
-        form = TaskForm2(data)
+        form = TaskForm2(int(woId),data)
 
     else:
-        form = TaskForm2()
+        form = TaskForm2(workorder=int(ww))
     return save_task_form(request, form, 'cmms/tasks/partialTaskCreate2.html',woId)
 ###################################################################
 
@@ -292,9 +293,10 @@ def task_update2(request, id):
         data['taskTimeEstimate']=body['taskTimeEstimate']
         data['workOrder']=body['workOrder']
         woId=body['workOrder']
-        form = TaskForm2(data, instance=company)
+        form = TaskForm2(int(woId),data, instance=company)
     else:
-        form = TaskForm2(instance=company)
+        ww=request.GET.get("q","1")
+        form = TaskForm2(instance=company,workorder=int(ww))
     return save_task_form(request, form, 'cmms/tasks/partialTaskUpdate2.html',woId)
 def getTaskWoHour(request,startHijri,endHijri,t1,t2):
     start1,end1=DateJob.convert2Date(startHijri,endHijri)

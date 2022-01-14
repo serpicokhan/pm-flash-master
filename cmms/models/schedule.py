@@ -16,7 +16,7 @@ class Schedule(models.Model):
     def get_nextTime_jalali(self):
         if(self.schnextTime):
             return jdatetime.datetime.fromgregorian(date=self.schnextTime).strftime("%H:%M %Y-%m-%d")
-    
+
     def get_timestamp_jalali(self):
         if(self.schTimestamp):
             return jdatetime.datetime.fromgregorian(date=self.schTimestamp).strftime("%H:%M %Y-%m-%d")
@@ -140,7 +140,7 @@ class Schedule(models.Model):
 
     shMeterReadingEvreyQnty=models.FloatField("هر",null=True,blank=True,default=0)
     # #############################################
-    shMeterReadingMetrics=models.ForeignKey('MeterCode',verbose_name='واحد اندازه گیری',on_delete=models.CASCADE,null=True,blank=True,related_name='schedule_shMeterReadingMetrics')
+    shMeterReadingMetrics=models.ForeignKey('AssetMeterTemplate',verbose_name='واحد اندازه گیری',on_delete=models.CASCADE,null=True,blank=True,related_name='schedule_shMeterReadingMetrics')
     # ############################################
     shMeterReadingStartAt=models.FloatField("مقدار شروع",null=True,blank=True)
     shMeterReadingEndBy=models.FloatField("مقذار نهایی",null=True,blank=True)
@@ -152,7 +152,7 @@ class Schedule(models.Model):
     shMeterReadingHasTiming=models.BooleanField(default=True)
     shMeterReadingWhenQnty=models.FloatField("زمان",null=True,blank=True)
     #
-    shMeterReadingWhenMetric=models.ForeignKey('MeterCode',on_delete=models.CASCADE,verbose_name="واحد اندازه گیری",null=True,blank=True,related_name='sch_meter_when')
+    shMeterReadingWhenMetric=models.ForeignKey('AssetMeterTemplate',on_delete=models.CASCADE,verbose_name="واحد اندازه گیری",null=True,blank=True,related_name='sch_meter_when')
     #
     shMetricComparison=models.IntegerField(choices=[(0,'بزرگتر از'),(1,'کوچکتر از')],null=True,blank=True)
     schEvent = models.ForeignKey(Events,on_delete=models.CASCADE,null=True,blank=True)

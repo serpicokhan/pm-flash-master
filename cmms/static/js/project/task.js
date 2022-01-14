@@ -20,7 +20,16 @@ $(function () {
         //alert(btn.attr("data-url"));
         //alert("321321");
         // /$("#modal-taskGroup").modal("hide");
-        $("#modal-taskGroup").modal({backdrop: 'static', keyboard: false});
+        if($("#id_woAsset").val()!='')
+        {
+          $("#modal-taskGroup").modal({backdrop: 'static', keyboard: false});
+        }
+        else
+        {
+          toastr.error("مشخص کردن دارایی الزامی است");
+          xhr.abort();
+        }
+
       },
       success: function (data) {
         //alert("3123@!");
@@ -39,7 +48,6 @@ $(function () {
 };
 
   var loadTaskForm =function () {
-      console.log("1");
     var btn=$(this);
     $.ajax({
       url: btn.attr("data-url"),
@@ -47,9 +55,19 @@ $(function () {
       dataType: 'json',
       beforeSend: function () {
         //alert(btn.attr("data-url"));
-        $("#modal-task").modal({backdrop: 'static', keyboard: false});
+        if($("#id_woAsset").val()!='')
+        {
+          $("#modal-task").modal({backdrop: 'static', keyboard: false});
+        }
+        else
+        {
+          toastr.error("مشخص کردن دارایی الزامی است");
+          xhr.abort();
+        }
+
 
       },
+
       success: function (data) {
         $("#modal-task .modal-content").html(data.html_task_form);
         $(".selectpicker").selectpicker();

@@ -65,6 +65,7 @@
                             <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">عمومی</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">قطعات</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">قرائت</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-31" aria-expanded="false">تعریف اندازه گیری</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-34" aria-expanded="false">رویداد</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">کاربران</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">پیوست ها</a></li>
@@ -269,6 +270,44 @@
                                 </div>
                             </div>
                           </div>
+                          <div id="tab-31" class="tab-pane">
+                              <div class="panel-body">
+
+                                  <div class='row'>
+                                    <div class='col-lg-12'>
+                                      <div class="panel panel-info">
+                                           <div class="panel-heading">
+                                               <i class="fa fa-info-circle"></i>کمیت
+                                           </div>
+                                           <div class="panel-body">
+                                               <div class="row">
+                                                 <div class="col-lg-12">
+                                                   <div class="panel panel-info">
+
+                                                     <div class="panel-body">
+                                                       {% include 'cmms/asset_amt/assetAMTList.html' %}
+
+                                                     </div>
+
+                                                   </div>
+
+
+
+
+                                                 </div>
+
+                                               </div>
+                                           </div>
+
+
+                                    </div>
+                                  </div>
+
+
+
+                              </div>
+                          </div>
+                        </div>
                           <div id="tab-34" class="tab-pane">
                               <div class="panel-body">
 
@@ -378,7 +417,7 @@
                                              <div class="row">
                                                <div class="col-lg-12">
 
-                                                  {% include 'cmms/asset_asset/assetAssetList.html' %}
+                                                  {% include 'cmms/asset_amt/assetAMTList.html' %}
 
                                                </div>
 

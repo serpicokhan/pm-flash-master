@@ -1,10 +1,10 @@
 
-{% for c in assetMeters %}
+{% for c in assetAssets %}
 
 <tr>
  <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
-<td>{{c.getRow}}</td>
-<td>{{c.assetWorkorderMeterReading|default_if_none:"مشخص نشده"}}</td>
+<td>{{c.AssetAssetAssetId}}</td>
+ <td>{{c.AssetAssetAdditionalDescription}}</td>
  <td>{{c.getdate}}</td>
 
 
@@ -14,13 +14,13 @@
 
 
  <td><button type="button"
-              class="btn btn-warning btn-sm js-update-assetMeter"
-              data-url="{% url 'assetMeter_update' c.id %}">
+              class="btn btn-warning btn-sm js-update-assetAsset"
+              data-url="{% url 'assetAsset_update' c.id %}">
         <span class="glyphicon glyphicon-pencil"></span> ویرایش
       </button>
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-assetMeter"
-                   data-url="{% url 'assetMeter_delete' c.id %}">
+                   class="btn btn-danger btn-sm js-delete-assetAsset"
+                   data-url="{% url 'assetAsset_delete' c.id %}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>
     </td>
@@ -30,9 +30,8 @@
  <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
 </tr>
 {% endfor %}
-
 {% load static %}
 
 {% block javascript %}
-  <script src="{% static '/js/project/assetMeter.js' %}"></script>
+  <script src="{% static '/js/project/assetAsset.js' %}"></script>
 {% endblock %}

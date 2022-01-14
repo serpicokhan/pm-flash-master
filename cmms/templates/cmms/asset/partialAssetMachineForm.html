@@ -65,6 +65,7 @@
                             <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">عمومی</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">قطعات</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">قرائت</a></li>
+                              <li class=""><a data-toggle="tab" href="#tab-11" aria-expanded="false">تعریف اندازه گیری</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-34" aria-expanded="false">رویداد</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">کاربران</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">گارانتی</a></li>
@@ -72,7 +73,7 @@
                             <li  class=""><a data-toggle="tab" href="#tab-7" aria-expanded="false">اطلاعات خرید</a></li>
                             <li  class=""><a data-toggle="tab" href="#tab-9" aria-expanded="false">درختواره</a></li>
                             <li class=""><a data-toggle="tab" href="#tab-10" aria-expanded="false">تجهیزات</a></li>
-                            <li class=""><a data-toggle="tab" href="#tab-11" aria-expanded="false">تعریف اندازه گیری</a></li>
+
 
                             <li class=""><a data-toggle="tab" href="#tab-8" aria-expanded="false">پیوست ها</a></li>
                                 <li id='li_assetlife' class=""><a data-toggle="tab" href="#tab-assetlife" aria-expanded="false">سوابق</a></li>
@@ -523,13 +524,42 @@
                                 <div class='col-lg-12'>
                                   <div class="panel panel-info">
                                        <div class="panel-heading">
-                                           <i class="fa fa-info-circle"></i>پیوستها
+                                           <i class="fa fa-info-circle"></i>کمیت ها
                                        </div>
                                        <div class="panel-body">
                                            <div class="row">
                                              <div class="col-lg-12">
 
-                                                {% include 'cmms/asset_meter_template/assetMeterTemplateList.html' %}
+                                                {% include 'cmms/asset_amt/assetAMTList.html' %}
+
+                                             </div>
+
+                                           </div>
+                                       </div>
+
+
+                                </div>
+                              </div>
+
+                               </div>
+
+
+                      </div>
+                    </div>
+                      <div id="tab-10" class="tab-pane">
+                          <div class="panel-body">
+
+                              <div class='row'>
+                                <div class='col-lg-12'>
+                                  <div class="panel panel-info">
+                                       <div class="panel-heading">
+                                           <i class="fa fa-info-circle"></i>تجهیزات
+                                       </div>
+                                       <div class="panel-body">
+                                           <div class="row">
+                                             <div class="col-lg-12">
+
+                                                {% include 'cmms/asset_asset/assetAssetList.html' %}
 
                                              </div>
 

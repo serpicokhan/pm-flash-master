@@ -163,10 +163,12 @@ class TaskForm(forms.ModelForm):
             print(workorder)
             if(workorder):
                 print("!!!!!!!!!!!!!!!!!")
-                self.fields['taskMetrics'].queryset = AssetMeterTemplate.objects.filter(assetMeterTemplateAsset=WorkOrder.objects.get(id=workorder).woAsset)
+                bg_groups=BMGAsset.objects.filter(BMGAsset=WorkOrder.objects.get(id=workorder).woAsset).values_list('BMGGroup',flat=True)
+                tmp_=BMGTemplate.objects.filter(BMGGroup__in=bg_groups).values_list('BMGTemplate',flat=True)
+                books=AssetMeterTemplate.objects.filter(id__in=tmp_).order_by('-id')
+                self.fields['taskMetrics'].queryset = books #AssetMeterTemplate.objects.filter(assetMeterTemplateAsset=WorkOrder.objects.get(id=workorder).woAsset)
             else:
                 self.fields['taskMetrics'].queryset = AssetMeterTemplate.objects.none()
-            print("non!!!!!!!!!!!!!!!")
         except Exception as ex:
             print(ex)
 
@@ -216,6 +218,21 @@ class TaskForm(forms.ModelForm):
 
 
 class TaskForm2(forms.ModelForm):
+    def __init__(self,workorder=None,*args,**kwargs):
+        super (TaskForm2,self ).__init__(*args,**kwargs) # populates the post
+        print("here!!!!!!!!!2222")
+        try:
+            print(workorder)
+            if(workorder):
+                print("!!!!!!!!!!!!!!!!!")
+                bg_groups=BMGAsset.objects.filter(BMGAsset=WorkOrder.objects.get(id=workorder).woAsset).values_list('BMGGroup',flat=True)
+                tmp_=BMGTemplate.objects.filter(BMGGroup__in=bg_groups).values_list('BMGTemplate',flat=True)
+                books=AssetMeterTemplate.objects.filter(id__in=tmp_).order_by('-id')
+                self.fields['taskMetrics'].queryset = books #AssetMeterTemplate.objects.filter(assetMeterTemplateAsset=WorkOrder.objects.get(id=workorder).woAsset)
+            else:
+                self.fields['taskMetrics'].queryset = AssetMeterTemplate.objects.none()
+        except Exception as ex:
+            print(ex)
     taskDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     def clean(self):
                 self.is_valid()
@@ -453,7 +470,7 @@ HasEnded=[(0,'نامحدود'),
 class ScheduleForm(forms.ModelForm):
     #schnextTime=forms.DateTimeField(required=False)
     #workOrder=forms.IntegerField(required=False)
-    schTriggerTime=forms.ChoiceField(choices=timeSchedulingChoices,required=False)
+    schTriggerTime=forms.ChoiceField(choices=timeSchedulingChoices,required=False,label="زمان راه اندازی")
     schChoices=forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(),required=False)
     schHowOften=forms.ChoiceField(choices=TimeCHOICES, widget=forms.RadioSelect(),required=False)
     schHourIsFixed=forms.ChoiceField(choices=FixedOrFloating, widget=forms.RadioSelect(),required=False)
@@ -633,10 +650,15 @@ class BMGAssetForm(forms.ModelForm):
 class AssetMeterForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
 
+
              self.asset_id = kwargs.pop('asset_id')
              print("######",self.asset_id)
              super(AssetMeterForm,self).__init__(*args,**kwargs)
+             bg_groups=BMGAsset.objects.filter(BMGAsset__id=self.asset_id).values_list('BMGGroup',flat=True)
+             tmp_=BMGTemplate.objects.filter(BMGGroup__in=bg_groups).values_list('BMGTemplate',flat=True)
+             books=AssetMeterTemplate.objects.filter(id__in=tmp_).order_by('-id')
              self.fields['assetWorkorderMeterReading'] = forms.ModelChoiceField(label="دستور کاری",queryset=WorkOrder.objects.filter(woAsset=self.asset_id,isScheduling=False),widget=forms.Select(attrs={'class':'selectpicker', 'data-live-search':'true'}),required=False)
+             self.fields['assetMeterMeterReadingUnit'] = forms.ModelChoiceField(label="کمیت",queryset=books,widget=forms.Select(attrs={'class':'selectpicker', 'data-live-search':'true'}),required=False)
      # assetWOAssoc = forms.CharField()
     #populate and filter select according to its workorder
     # def __init__(self,asset=None,*args,**kwargs):

@@ -628,14 +628,14 @@ return false;
 
      success: function (data) {
        if (data.form_is_valid) {
-         $("#tbody_assetMeterTemplate").empty();
-         $("#tbody_assetMeterTemplate").html(data.html_assetMeterTemplate_list);
-         $("#modal-assetMeterTemplate").modal("hide");
+         $("#tbody_assetAMT").empty();
+         $("#tbody_assetAMT").html(data.html_assetMeterTemplate_list);
+         $("#modal-assetAMT").modal("hide");
        }
        else {
 
-         $("#assetMeterTemplate-table tbody").html(data.html_assetMeterTemplate_list);
-         $("#modal-assetMeterTemplate .modal-content").html(data.html_assetMeterTemplate_form);
+         $("#assetAMT-table tbody").html(data.html_assetMeterTemplate_list);
+         $("#modal-assetAMT .modal-content").html(data.html_assetMeterTemplate_form);
        }
      }
    });
