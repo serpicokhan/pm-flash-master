@@ -98,7 +98,7 @@
                  ,"taskTemplateTimeEstimate":{3}\
                  ,"taskTemplateTaskGroup":{4}}',
                  getVal($("#id_taskTemplateTypes")),
-                 getVal($("#id_taskTemplateMetrics")),
+                 ($("#id_taskTemplateMetrics").val()=='')?null:$("#id_taskTemplateMetrics").val(),
                  getStringVal($("#id_taskTemplateDescription").val()),
                  getVal($("#id_taskTemplateTimeEstimate")),getVal($("#lastTaskGroupid")));
 
