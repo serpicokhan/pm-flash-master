@@ -101,7 +101,7 @@ var searchAsset=function(){
         //alert("3123@!");
         $("#modal-company .modal-content").html(data.html_wo_form);
         var elem = document.querySelector('.js-switch');
-        // var init = new Switchery(elem);
+        var init = new Switchery(elem);
         $("#id_running").change(function(){
           $.ajax({
             url: $("#lastWorkOrderid").val()+'/Running/',
