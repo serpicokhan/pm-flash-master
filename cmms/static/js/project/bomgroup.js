@@ -218,8 +218,62 @@ return false;
     // alert("salam");
 
  });
- ////////////////////////////////////////////////////////////////
 
+ ////////////////////////////////////////////////////////////////
+ $('#modal-company').on('click','.woclose', function () {
+
+
+
+
+   if($("#id_is_new").val()=="1"  ){
+   swal({
+        title: "حذف bom",
+        text: $("#id_BOMGroupName").val(),
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "بلی",
+        cancelButtonText: "خیر",
+        closeOnConfirm: false
+    }, function () {
+        cancelform();
+
+    });
+  }
+
+   // do something…
+ });
+
+var cancelform=function(){
+  return $.ajax({
+    url: '/BOMGroup/'+$("#lastBOMGroupid").val()+'/cancel/',
+    type: 'post',
+    dataType: 'json',
+    beforeSend: function () {
+      //alert(btn.attr("data-url"));
+      // alert("321321");
+
+
+    },
+    success: function (data) {
+      // console.log(data);
+      if(data.form_is_valid)
+      {
+
+        swal("حذف شد!", $("#id_BOMGroupName").val(), "success");
+        $("#tbody_company").empty();
+        $("#tbody_company").html(data.html_bomgroup_list);
+       // $("#modal-company").modal("hide");
+
+      }
+      else {
+
+      }
+
+    }
+
+  });
+}
 
 $(".js-create-bomgroup").unbind();
 $(".js-create-bomgroup").click(myWoLoader);

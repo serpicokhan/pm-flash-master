@@ -28,6 +28,7 @@ from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib.auth.context_processors import PermWrapper
 from django.db import IntegrityError
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -109,12 +110,13 @@ def bomgroup_create(request):
         form = BOMGroupForm(request.POST)
         return save_bomgroup_form(request, form, 'cmms/bomgroup/partialBOMGroupCreate.html')
     else:
-        bomgroupInstance=BOMGroup.objects.create()
-        form = BOMGroupForm(instance=bomgroupInstance)
+        bomgroupInstance=BOMGroup.objects.create(BOMGroupName="گروه {}".format(find_max_bom_id()))
+        form = BOMGroupForm(instance=bomgroupInstance,initial={'is_new':1})
         return save_bomgroup_form(request, form, 'cmms/bomgroup/partialBOMGroupCreate.html',bomgroupInstance.id)
 
 
-
+def find_max_bom_id():
+    return BOMGroup.objects.all().count() + 1
 
 ##########################################################
 def bomgroup_update(request, id):
@@ -154,4 +156,20 @@ def BOM_search(request,searchStr):
     # data['html_business_paginator'] = render_to_string('cmms/business/partialBusinessPagination.html', {
     #       'business': wos,'pageType':'business_search','ptr':searchStr})
     data['form_is_valid'] = True
+    return JsonResponse(data)
+@csrf_exempt
+def bomgroup_cancel(request,id):
+    comp1 = get_object_or_404(BOMGroup, id=id)
+    data = dict()
+    comp1.delete()
+    data['form_is_valid'] = True  # This is just to play along with the existing code
+    companies =  BOMGroup.objects.all().order_by('BOMGroupName')
+    companies=AssetUtility.doPaging(request,companies)
+
+    #Tasks.objects.filter(bomgroupId=id).update(bomgroup=id)
+    data['html_bomgroup_list'] = render_to_string('cmms/bomgroup/partialBOMGroupList.html', {
+        'bomgroup': companies,
+        'perms': PermWrapper(request.user)
+    })
+
     return JsonResponse(data)

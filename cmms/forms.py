@@ -1129,6 +1129,7 @@ class BusinessForm(forms.ModelForm):
         model = Business
         fields = '__all__'
 class BOMGroupForm(forms.ModelForm):
+    is_new=forms.IntegerField(label="مقدار قبلی",required=False)
 
     class Meta:
         model = BOMGroup
