@@ -119,8 +119,8 @@ class ScheduleUtility:
                     xxx=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)
                     # print(Newsch.shStartDate)
                     # print(Newsch.schDayofMonthlyRep,'!!!!!!')
-                    cd=jdatetime.date.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year)#datetime.now()
-                    t1=jdatetime.date(cd.year,cd.month,Newsch.schDayofMonthlyRep)# jdatetime.date.fromgregorian(day=Newsch.schDayofMonthlyRep,month=xxx.month,year=xxx.year)#datetime.now()# t1=jdatetime.date.fromgregorian(date=datetime.now())
+                    cd=jdatetime.date.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year,hour=s,minute=0,second=0)#datetime.now()
+                    t1=jdatetime.date(cd.year,cd.month,Newsch.schDayofMonthlyRep,hour=s,minute=0,second=0)# jdatetime.date.fromgregorian(day=Newsch.schDayofMonthlyRep,month=xxx.month,year=xxx.year)#datetime.now()# t1=jdatetime.date.fromgregorian(date=datetime.now())
                     print(t1)
                     # while cd.day!=Newsch.schDayofMonthlyRep:
                     #     cd+=timedelta(1)
@@ -142,11 +142,11 @@ class ScheduleUtility:
                     # print("l2")
                             #ss+=relativedelta(months=+sch.schMonthlyRep-1)
 
-                    z=jdatetime.date.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year)#datetime.now()
+                    z=jdatetime.date.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year,hour=s,minute=0,second=0)#datetime.now()
 
+                    # time = datetime.time(1, 30)
 
-
-                    Newsch.schnextTime=datetime.combine(jdatetime.date(z.year,z.month,Newsch.schDayofMonthlyRep).togregorian(),datetime.now().time())
+                    Newsch.schnextTime=datetime.combine(jdatetime.date(z.year,z.month,Newsch.schDayofMonthlyRep).togregorian(),datetime.strptime("{}0".format(s),"%H%M").time())
 
 
                 elif(Newsch.schHowOften==5):

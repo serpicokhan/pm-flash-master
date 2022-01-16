@@ -16,7 +16,6 @@
  <td>
   {% if perms.cmms.view_tasks %}
 
-
   {% if ispm == False %}
    <button type="button"
               class="btn btn-warning btn-sm js-update-task"
@@ -52,8 +51,3 @@
 
 
 {% endfor %}
-{% load static %}
-
-{% block javascript %}
-  <script src="{% static '/js/project/task.js' %}"></script>
-{% endblock %}

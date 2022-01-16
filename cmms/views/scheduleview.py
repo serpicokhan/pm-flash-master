@@ -73,6 +73,7 @@ def save_schedule_form(request, form, template_name,woId=None,is_update=None):
                      newItem=form.save()
                      print(newItem.schNextWo,"ln 72")
                      ScheduleUtility.CreateNewWO(newItem.id)
+                     print("here again")
 
                      data['form_is_valid'] = True
                      books = Schedule.objects.filter(workOrder=woId).order_by('id')
@@ -260,7 +261,7 @@ def schedule_create(request):
 @csrf_exempt
 def schedule_update(request, id):
     company= get_object_or_404(Schedule, id=id)
-    print(company.schNextWo)
+    print("1")
     if (request.method == 'POST'):
         print("post")
         body_unicode = request.body.decode('utf-8')

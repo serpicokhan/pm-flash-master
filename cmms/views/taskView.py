@@ -58,11 +58,12 @@ def js_list_task(request,woId):
             'perms': PermWrapper(request.user),
             'ispm':True
         })
-    data['html_task_list']= render_to_string('cmms/tasks/partialTaskList.html', {
-        'task': books,
-        'perms': PermWrapper(request.user),
-        'ispm':False
-    })
+    else:
+        data['html_task_list']= render_to_string('cmms/tasks/partialTaskList.html', {
+            'task': books,
+            'perms': PermWrapper(request.user),
+            'ispm':False
+        })
     data["form_is_valid"]=True
     return JsonResponse(data)
 

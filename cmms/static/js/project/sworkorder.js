@@ -321,7 +321,7 @@ var saveCopy= function () {
 
 
     $.ajax({
-      url: '/SWorkOrder/'+n+'/swo_show_swo_by_type/',
+      url: '/SWorkOrder/swo_show_swo_by_type/?q='+n,
 
       type: 'GET',
       dataType: 'json',

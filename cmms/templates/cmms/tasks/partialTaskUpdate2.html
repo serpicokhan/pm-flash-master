@@ -1,4 +1,4 @@
-<div  data-url="{% url 'task_update' form.instance.id %}" class="js-task-update-form">
+<div  data-url="{% url 'task_update2' form.instance.id %}" class="js-task-update-form">
 
   <div class="modal-header">
     <button type="button" class="close cl-task"  aria-label="Close">
@@ -94,6 +94,7 @@
 
                 //alert("12321");
                  var form = $(this).parent().parent();
+                 console.log(form.attr("data-url"));
 
                  var mydata=myformat('{"taskTypes":{0}\
                  ,"taskMetrics":{1}\

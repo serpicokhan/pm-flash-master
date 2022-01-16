@@ -39,7 +39,7 @@ def js_list_userCertification(request,woId):
     data=dict()
     books=UserCertification.objects.filter(userCertificationUser=woId)
     #print(books[0].userCertificationUser)
-    data['html_userCertification_list']= render_to_string('cmms/user_certificate/partialUserCertlist.html', {
+    data['html_userCertification_list']= render_to_string('cmms/user_certificate/partialUserCertList.html', {
         'userCertifications': books
     })
     data['form_is_valid']=True
@@ -58,7 +58,7 @@ def save_userCertification_form(request, form, template_name,woId=None):
                 form.save()
                 data['form_is_valid'] = True
                 books = UserCertification.objects.filter(userCertificationUser=woId)
-                data['html_userCertification_list'] = render_to_string('cmms/user_certificate/partialUserCertlist.html', {
+                data['html_userCertification_list'] = render_to_string('cmms/user_certificate/partialUserCertList.html', {
                     'userCertifications': books
                 })
               else:
@@ -83,7 +83,7 @@ def userCertification_delete(request, id):
         data['form_is_valid'] = True  # This is just to play along with the existing code
         print(woId.id)
         companies = UserCertification.objects.filter(userCertificationUser=woId)
-        data['html_userCertification_list'] = render_to_string('cmms/user_certificate/partialUserCertlist.html', {
+        data['html_userCertification_list'] = render_to_string('cmms/user_certificate/partialUserCertList.html', {
             'userCertifications': companies
         })
     else:

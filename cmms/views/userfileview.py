@@ -40,7 +40,7 @@ def js_list_userFile(request,id):
     data=dict()
     books=UserFile.objects.filter(userFileUser=id)
 
-    data['html_userFile_list']= render_to_string('cmms/user_file/partialUserFilelist.html', {
+    data['html_userFile_list']= render_to_string('cmms/user_file/partialUserFileList.html', {
         'userFiles': books
     })
     data['form_is_valid']=True
@@ -50,9 +50,14 @@ def js_list_userFile(request,id):
 ###################################################################    ###################################################################
 
 class UserFileUploadView(View):
-    def get(self, request):
-        books = UserFile.objects.all()
-        return render(request, 'cmms/user_file/userFileList.html', {'userFiles': books})
+    def getget(self, request,*args, **kwargs):
+        try:
+        # books = AssetFile.objects.all()
+            # return render(request, 'cmms/asset_file/assetFileList.html', {'assetFiles': []})
+            return HttpResponse("Created :)")
+        except:
+            # return render(request, 'cmms/asset_file/assetFileList.html', {'assetFiles': []})
+            return HttpResponse("Created :)")
 
     def post(self, request,Id=None):
         from django.core.exceptions import ValidationError

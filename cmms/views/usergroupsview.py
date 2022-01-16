@@ -42,7 +42,7 @@ def js_list_userGroup(request,woId):
 
     book=UserGroup.objects.exclude(id__in=[o.groupUserGroups_id for o in books ])
 
-    data['html_userGroup_list']= render_to_string('cmms/user_group/partialUserGrouplist.html', {
+    data['html_userGroup_list']= render_to_string('cmms/user_group/partialUserGroupList.html', {
         'userGroups': books,
         'userGroup':book
     })

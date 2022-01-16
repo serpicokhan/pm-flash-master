@@ -269,9 +269,10 @@ def swo_cancel(request,id):
     return JsonResponse(data)
 ##########################
 #########show runnign swo in woList
-def swo_show_swo_by_type(request,status):
+def swo_show_swo_by_type(request):
     data=dict()
     books=WorkOrder.objects.none()
+    status=request.GET.get("q","1")
     if(status=='1'):
         books=WorkOrder.objects.filter(running=True,isScheduling=True).order_by('-id')
     elif(status=='2'):
@@ -281,7 +282,7 @@ def swo_show_swo_by_type(request,status):
     books=filterUser(request,books).order_by('-running')
     wos=SWOUtility.doPaging(request,books)
     data['html_swo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {'wo': wos, 'perms': PermWrapper(request.user)   })
-    data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination.html', {'wo': wos,'pageType':'swo_show_swo_by_type','pageArgs':status            })
+    data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination.html', {'wo': wos,'pageType':'swo_show_swo_by_type','q':status            })
     data['form_is_valid'] = True
     return JsonResponse(data)
 ###############################################

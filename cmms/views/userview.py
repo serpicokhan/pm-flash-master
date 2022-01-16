@@ -102,7 +102,7 @@ def save_user_form(request, form, template_name,id=None,NewUser=None):
             books = SysUser.objects.filter(userStatus=True)
             page=request.GET.get('page',1)
             users=UserUtility.doPaging(request,books)
-            data['html_user_list'] = render_to_string('cmms/user/partialUserlist.html', {
+            data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
                 'user': users
             })
         else:
@@ -132,7 +132,7 @@ def user_delete(request, id):
         page=request.GET.get('page',1)
         users=UserUtility.doPaging(request,companies)
         #Tasks.objects.filter(userId=id).update(userrkorder=id)
-        data['html_user_list'] = render_to_string('cmms/user/partialUserlist.html', {
+        data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
             'user': users
         })
     else:
@@ -202,7 +202,7 @@ def listUser(request,statusCode):
                 books = SysUser.objects.filter(userStatus=True)
                 page=request.GET.get('page',1)
                 users=UserUtility.doPaging(request,books)
-                data['html_user_list'] = render_to_string('cmms/user/partialUserlist.html', {
+                data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
                     'user': users
                 })
             elif(statusCode=="1"):
@@ -210,7 +210,7 @@ def listUser(request,statusCode):
                 books = SysUser.objects.all()
                 page=request.GET.get('page',1)
                 users=UserUtility.doPaging(request,books)
-                data['html_user_list'] = render_to_string('cmms/user/partialUserlist.html', {
+                data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
                     'user': users
                 })
             else:
@@ -218,7 +218,7 @@ def listUser(request,statusCode):
                 books = SysUser.objects.filter(userStatus=False)
                 page=request.GET.get('page',1)
                 users=UserUtility.doPaging(request,books)
-                data['html_user_list'] = render_to_string('cmms/user/partialUserlist.html', {
+                data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
                     'user': users
                 })
 
@@ -236,7 +236,7 @@ def list_active_user(request):
         books = SysUser.objects.filter(userStatus=True)
         page=request.GET.get('page',1)
         users=UserUtility.doPaging(request,books)
-        data['html_user_list'] = render_to_string('cmms/user/partialUserlist.html', {
+        data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
             'user': users
         })
         data['html_user_paginator'] = render_to_string('cmms/user/partialUserPagination.html', {'user': users,'pageType':'list_active_user'})
@@ -253,7 +253,7 @@ def list_inactive_user(request):
         books = SysUser.objects.filter(userStatus=False)
         page=request.GET.get('page',1)
         users=UserUtility.doPaging(request,books)
-        data['html_user_list'] = render_to_string('cmms/user/partialUserlist.html', {
+        data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
             'user': users
         })
         data['html_user_paginator'] = render_to_string('cmms/user/partialUserPagination.html', {'user': users,'pageType':'list_inactive_user'})
@@ -270,7 +270,7 @@ def list_all_user(request):
         books = SysUser.objects.all()
         page=request.GET.get('page',1)
         users=UserUtility.doPaging(request,books)
-        data['html_user_list'] = render_to_string('cmms/user/partialUserlist.html', {
+        data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
             'user': users
         })
         # data['html_user_paginator'] = render_to_string('cmms/user/partialUserPagination.html', {'user': users,'pageType':'list_all_user'})
@@ -311,7 +311,7 @@ def userCancel(request,id):
                 data['form_is_valid'] = True  # This is just to play along with the existing code
                 companies =  SysUser.objects.all()
                 #Tasks.objects.filter(taskGroupId=id).update(taskGroup=id)
-                data['html_user_list'] = render_to_string('cmms/user/partialUserlist.html', {
+                data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
                    'user': companies
                 })
 
@@ -326,7 +326,7 @@ def searchUser(request,name):
     else:
         user=SysUser.objects.filter(fullName__contains=name)
     user=SysUser.objects.filter(fullName__contains=name)
-    data['html_user_list'] = render_to_string('cmms/user/partialUserlist.html', {
+    data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
        'user': user
     })
     return JsonResponse(data)

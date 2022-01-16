@@ -6,7 +6,7 @@
     <input type="checkbox" name="action" value={{c.id}} class="selection-box">
   </td>
 
-<td>{{c.get_dateCreated_jalali|default_if_none:"-"}}</td>
+<td>{{c.get_dateCreated_jalali|default_if_none:"-"}}<br/>{{c.timecreated|time:"H:i"}}</td>
  <td>{{c.summaryofIssue|default_if_none:"-"}}</td>
 
  <td>{{c.get_woPriority_display|default_if_none:"-"}}</td>
