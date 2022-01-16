@@ -70,7 +70,7 @@ def list_wo(request,id=None):
             groups=UserGroup.objects.filter(id__in=UserGroups.objects.filter(userUserGroups__id=usid.id).values_list('groupUserGroups',flat=True))
 
         else:
-            books = WorkOrder.objects.filter(isScheduling=False,visibile=True).order_by('-id','-timecreated')
+            books = WorkOrder.objects.filter(isScheduling=False,visibile=True).order_by('-datecreated','-timecreated','-id')
             groups=UserGroup.objects.all()
         #paging
         # books = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True)#.order_by('-datecreated','-timecreated')
