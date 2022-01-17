@@ -165,10 +165,11 @@ def createWO_celery2():
                     stableWo=WorkOrder.objects.get(id=sch.workOrder_id)
                     oldWo=WorkOrder.objects.get(id=sch.workOrder_id)
                     stableWo.pk=None
-                    # stableWo.datecreated=sch.schnextTime.date()
-                    # stableWo.timecreated=sch.schnextTime.time()
-                    stableWo.datecreated=datetime.now().date()
-                    stableWo.timecreated=datetime.now().time()
+                    stableWo.datecreated=sch.schnextTime.date()
+                    stableWo.timecreated=sch.schnextTime.time()
+                    # stableWo.datecreated=datetime.now().date()
+                    stableWo.requiredCompletionDate=stableWo.datecreated+timedelta(stableWo.estimatedCompilation)
+                    # stableWo.timecreated=datetime.now().time()
                     stableWo.visibile=False
                     stableWo.isScheduling=False
                     stableWo.isPartOf=sch.workOrder

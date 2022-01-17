@@ -164,14 +164,11 @@ class ScheduleUtility:
                             xdt=xdt+relativedelta(years=+(Newsch.schYearlyRep-1))
                     else:
                         xdt=xdt+relativedelta(years=+(Newsch.schYearlyRep))
-
-
-
-
-
                     Newsch.schnextTime=datetime.combine(xdt,datetime.now().time())
+
                 stableWo.datecreated=Newsch.schnextTime.date()
                 stableWo.timecreated=Newsch.schnextTime.time()
+                stableWo.requiredCompletionDate=stableWo.datecreated+timedelta(stableWo.estimatedCompilation)
                 stableWo.visibile=False
                 stableWo.isScheduling=False
                 stableWo.isPartOf=Newsch.workOrder
