@@ -130,7 +130,8 @@ def createWO_celery2():
                     elif(sch.schHowOften==4):
                         cd=jdatetime.date.fromgregorian(date=datetime.now())#datetime.now()
                         # t1=jdatetime.date.fromgregorian(date=datetime.now())
-                        cd=jdatetime.date(cd.year,((cd.month+sch.schMonthlyRep)%13)+1,sch.schDayofMonthlyRep)
+                        cd=jdatetime.date(cd.year,cd.month+sch.schMonthlyRep,sch.schDayofMonthlyRep)
+                        z=datetime.combine(cd.togregorian(),datetime.strptime("{}0".format(sch.schnextTime.hour),"%H%M").time())
                         # while cd.day!=sch.schDayofMonthlyRep:
                         #     cd+=timedelta(1)
 
