@@ -148,7 +148,7 @@ DATABASES = {
         'NAME': 'cmmsuni2',
         'USER': 'root',
         'PASSWORD': 'docker-root',
-        'HOST': '172.16.2.149',
+        'HOST': '192.168.1.7',
         'PORT': '3306',
     }
 }
