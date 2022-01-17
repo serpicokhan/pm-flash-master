@@ -282,7 +282,7 @@ class WorkOrder(models.Model):
     datecreated = models.DateField("تاریخ ایجاد",default=datetime.now, blank=True,null=True)
     timecreated = models.TimeField("زمان ایجاد", blank=True,null=True)
     dateCompleted = models.DateField(" تاریخ تکمیل(تخمینی)", blank=True,null=True)
-    timeCompleted = models.TimeField("زمان تکمیل(تخمین",default=datetime.now, blank=True)
+    timeCompleted = models.TimeField("زمان تکمیل(تخمین",default=datetime.now, blank=True,null=True)
     #Cost Tracking ??????
     account = models.CharField("حساب",max_length = 50,null=True,blank=True)
     chargeDepartment = models.CharField("دپارتمان مسوول",max_length = 50,null=True,blank=True)

@@ -36,21 +36,45 @@ $(function () {
                         autoClose: true,
                         initialValueType: 'gregorian'
                     });
+               console.log($('#id_datecreated').val().length);
+               if($('#id_datecreated').val().length>0)
+                {
+                    console.log($('#id_datecreated').val());
                     $('#id_datecreated').pDatepicker({
                       format: 'YYYY-MM-DD',
                       initialValueType: 'gregorian',
                       autoClose:true
 
 
-                  });//id_dateCompleted
-                  //console.log($('#id_dateCompleted').val()+":dsadsa");
+                  });
+                }//id_dateCompleted
+                else {
+                  console.log("empty")
+                  $('#id_datecreated').pDatepicker({
+                    format: 'YYYY-MM-DD',
+                    initialValueType: 'gregorian',
+                    autoClose:true
 
+
+                }).val('');
+                }
+                  //console.log($('#id_dateCompleted').val()+":dsadsa");
+                                 if($('#id_dateCompleted').val().length>0){
                                 $('#id_dateCompleted').pDatepicker({
                                   format: 'YYYY-MM-DD',
 
                                   autoClose:true,
                                   initialValueType: 'gregorian'
                                             });//id_dateCompleted
+                                          }
+                                        else {
+                                          $('#id_dateCompleted').pDatepicker({
+                                            format: 'YYYY-MM-DD',
+
+                                            autoClose:true,
+                                            initialValueType: 'gregorian'
+                                          }).val('');//id_dateCompleted
+                                        }
 
                   //id_completedByUser
 
@@ -1099,6 +1123,40 @@ var loadPdate=function()
     });
    return false;
   };
+  /////////////
+ var updatetaskuser=function(){
+   // alert(1000);
+   // alert($("#id_assignedToUser").val());
+   user_id=$("#id_assignedToUser").val();
+   // alert(user_id.length);
+   // console.log(user_id,user_id.length);
+
+
+   return $.ajax({
+     url: '/WorkOrder/'+$("#lastWorkOrderid").val()+'/Task/'+user_id+'/Update_Task_User/',
+
+     type: 'get',
+     dataType: 'json',
+     beforeSend: function () {
+     },
+     success: function (data) {
+       if(data.form_is_valid)
+       {
+       // $("#modal-copy").modal("hide");
+       $("#tbody_task").html(data.html_data_tasks);
+       // $(".assetPaging").html(data.html_swo_paginator);
+       // $("tr").on("click", showAssetDetails);
+       toastr.success("کاربر با موفقیت بروز شد");
+     }
+     else
+     {
+       toastr.error("خطا در بروز رسانی کاربر در کپی دارایی");
+     }
+   }
+   });
+ return false;
+
+ }
 
 
 $(".js-create-wo").unbind();
@@ -1118,6 +1176,7 @@ $("#company-table").on("click", ".js-delete-wo2", loadForm);
 $("#modal-company").on("submit", ".js-wo2-delete-form", saveForm);
 $("#modal-company").on("submit", ".js-formset-delete-form", saveFormsetForm);
 $("#modal-woEm").on("submit", ".js-bulkem-selector-form2", saveWoEmForm);
+$("#modal-company").on("change",'.user-assignment',updatetaskuser);
 
 $(".wo-filter").on("click",filter);
 

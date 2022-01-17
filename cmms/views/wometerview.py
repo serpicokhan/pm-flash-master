@@ -117,7 +117,7 @@ def woMeter_create(request,id=None):
 
     else:
         a_id=WorkOrder.objects.get(id=id)
-        form = AssetMeterForm(asset_id=a_id.woAsset)
+        form = AssetMeterForm(asset_id=a_id.woAsset.id)
     return save_woMeter_form(request, form, 'cmms/wo_meter/partialWoMeterCreate.html',woId)
 ###################################################################
 
@@ -138,5 +138,5 @@ def woMeter_update(request, id):
         woId=body['woMeterReadingworkorder']
         form = AssetMeterForm(data, instance=company,asset_id=company.assetMeterLocation)
     else:
-        form = AssetMeterForm(instance=company,asset_id=company.assetMeterLocation)
+        form = AssetMeterForm(instance=company,asset_id=company.assetMeterLocation.id)
     return save_woMeter_form(request, form, 'cmms/wo_meter/partialWoMeterUpdate.html',woId)

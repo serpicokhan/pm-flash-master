@@ -828,7 +828,7 @@ $("#modal-copy").on("click", ".btn-save-copy", clone_asset_swo2);
 // Delete book
 $("#company-table").on("click", ".js-delete-swo", loadForm);
 $("#modal-company").on("submit", ".js-swo-delete-form", saveForm);
-$("#modal-company").on("change",'.user-assignment',updatetaskuser)
+$("#modal-company").on("change",'.user-assignment',updatetaskuser);
 // $("#modal-copy").on("change", "#assetSearch", alert("11"));
 // $('#modal-company').on('hidden.bs.modal',cancelform);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);

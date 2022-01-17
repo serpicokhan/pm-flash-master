@@ -219,7 +219,7 @@ class WOUtility:
         return WorkOrder.objects.raw(""" select count(id) as id from workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and datecreated between '{0}' and '{1}'  and isScheduling=0 and ((curdate()>requiredCompletionDate and dateCompleted is null) or (datecompleted> requiredCompletionDate))""".format(start,end))
     @staticmethod
     def getOverDueWoDetail(start,end):
-        return WorkOrder.objects.raw(""" select * from workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and datecreated between '{0}' and '{1}'  and isScheduling=0 and  isPartOf_id is not null and ((curdate()>requiredCompletionDate and dateCompleted is null) or (datecompleted> requiredCompletionDate))""".format(start,end))
+        return WorkOrder.objects.raw(""" select * from workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and visibile=1  and datecreated between '{0}' and '{1}'  and isScheduling=0 and  isPartOf_id is not null and ((curdate()>requiredCompletionDate ) or (datecompleted> requiredCompletionDate))""".format(start,end))
 
     ##########################Pue chart for completed wo by assets
     @staticmethod

@@ -191,7 +191,7 @@ def GetCloseWoReqNum(request,startHijri,endHijri):
 def GetOverdueWoReqNum(request,startHijri,endHijri):
      data=dict()
      start,end=DateJob.convert2Date(startHijri,endHijri)
-     n1=WorkOrder.objects.raw("SELECT  count(id) as id  fr om workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and current_date>requiredCompletionDate and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end))
+     n1=WorkOrder.objects.raw("SELECT  count(id) as id  from workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and current_date>requiredCompletionDate and isScheduling=0 and visibile=1 and datecreated between '{0}' and '{1}'".format(start,end))
      #n2=WorkOrder.objects.raw("SELECT  count(id) as id  fr om workorder where pmonth(timeStamp) =pmonth(CURRENT_DATE - INTERVAL 1 MONTH) and woStatus=5")
      data['html_overdueworeqnumrep_list'] = render_to_string('cmms/summery/partialoverdueworequest.html', {
                  'x1': n1,
@@ -230,7 +230,7 @@ def GetdueWoNum(request,startHijri,endHijri):
              #
              # })
      no=datetime.datetime.now().date()
-     n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,datecreated__range=(no,F('requiredCompletionDate'))).count()
+     n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,visibile=True,datecreated__range=(no,F('requiredCompletionDate'))).count()
      data['html_dueservice_list']=n1
      data['html_is_valid']=True
 

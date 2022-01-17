@@ -45,8 +45,12 @@ class WorkOrderForm(forms.ModelForm):
          value=DateJob.getTaskDate( self.cleaned_data['datecreated'])
          return value
     def clean_dateCompleted(self):
-         value=DateJob.getDate2( self.cleaned_data['dateCompleted'])
-         return value
+        if(self.cleaned_data['dateCompleted']):
+             print(self.cleaned_data['dateCompleted'],'datecompleted')
+             value=DateJob.getDate2( self.cleaned_data['dateCompleted'])
+             return value
+        else:
+            return None
     def clean_summaryofIssue(self):
          value= self.cleaned_data['summaryofIssue']
          return value

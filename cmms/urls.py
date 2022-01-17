@@ -95,6 +95,7 @@ urlpatterns = [
 
     url(r'^SWorkOrder/(?P<id>\d+)/deleteChildren$', swo_deleteChildren, name='swo_deleteChildren'),
     url(r'^SWorkOrder/(?P<woid>\d+)/Task/(?P<uid>\d+)/Update_Task_User/$', swo_Update_Task_User, name='swo_Update_Task_User'),
+    url(r'^WorkOrder/(?P<woid>\d+)/Task/(?P<uid>\d+)/Update_Task_User/$', wo_Update_Task_User, name='wo_Update_Task_User'),
     url(r'^SWorkOrder/(?P<id>\d+)/Running/$', SWOupdateRunning, name='SWOupdateRunning'),
     url(r'^SWorkOrder/(?P<wid>\d+)/(?P<aid>\d+)/setAsset/$', swo_setAsset, name='swo_setAsset'),
     url(r'^SWorkOrder/Search/$', swo_searchworkOrderByTags, name='swo_searchworkOrderByTags'),
