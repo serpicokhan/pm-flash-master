@@ -121,13 +121,14 @@ class ScheduleUtility:
                     # print(Newsch.schDayofMonthlyRep,'!!!!!!')
                     cd=jdatetime.date.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year,hour=s,minute=0,second=0)#datetime.now()
                     t1=jdatetime.date(cd.year,cd.month,Newsch.schDayofMonthlyRep,hour=s,minute=0,second=0)# jdatetime.date.fromgregorian(day=Newsch.schDayofMonthlyRep,month=xxx.month,year=xxx.year)#datetime.now()# t1=jdatetime.date.fromgregorian(date=datetime.now())
+                    print("t1,cd",t1,cd)
                     print(t1)
                     # while cd.day!=Newsch.schDayofMonthlyRep:
                     #     cd+=timedelta(1)
                     if(Newsch.schCreateOnStartDate):
                         t3=t1.togregorian()
                         ttt=datetime(year=t3.year,month=t3.month,day=t3.day,hour=s,minute=0,second=0)
-                        if(t1>cd and ttt>=ddd):
+                        if(ttt>=ddd):
                         #
                         #         # kdate=jdatetime.date.fromgregorian(
                         #         # if(cd.month+Newsch.schMonthlyRep>12)

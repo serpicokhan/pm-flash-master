@@ -29,10 +29,13 @@ def mul(x, y):
 def xsum(numbers):
     return sum(numbers)
 
+def createWO_celery23():
 
+        print("1")
 @shared_task
 def createWO_celery2():
 
+        print("1")
         #SELECT * FROM schedule INNER JOIN workorder ON schedule.workOrder_id=workorder.id
         #WHERE workorder.running=1 and nexttime=currenttime')
 
@@ -42,14 +45,14 @@ def createWO_celery2():
         try:
             for sch in todoes:
                 if(sch.schNextWo.visibile==False and sch.workOrder.running==True and sch.schChoices==0):
-                    LogEntry.objects.log_action(
-                    user_id         = 1,
-                    content_type_id = sch.schChoices,
-                    object_id       = sch.schNextWo.id,
-                    object_repr     = 'celery',
-                    action_flag     = ADDITION,
-                    change_message= sch.schNextWo.summaryofIssue
-                    )
+                    # LogEntry.objects.log_action(
+                    # user_id         = 1,
+                    # content_type_id = sch.schChoices,
+                    # object_id       = sch.schNextWo.id,
+                    # object_repr     = 'celery',
+                    # action_flag     = ADDITION,
+                    # change_message= sch.schNextWo.summaryofIssue
+                    # )
                     h=0
                     d=0
                     m=0
@@ -132,6 +135,7 @@ def createWO_celery2():
                         # t1=jdatetime.date.fromgregorian(date=datetime.now())
                         cd=jdatetime.date(cd.year,cd.month+sch.schMonthlyRep,sch.schDayofMonthlyRep)
                         z=datetime.combine(cd.togregorian(),datetime.strptime("{}0".format(sch.schnextTime.hour),"%H%M").time())
+                        print("z:",z)
                         # while cd.day!=sch.schDayofMonthlyRep:
                         #     cd+=timedelta(1)
 
@@ -141,7 +145,7 @@ def createWO_celery2():
                         #     cd=jdatetime.date(cd.year,((cd.month+sch.schMonthlyRep-1)%13)+1,cd.day)
                         #         #ss+=relativedelta(months=+sch.schMonthlyRep-1)
                         # logger.info(cd)
-                        sch.schnextTime=cd.togregorian()
+                        sch.schnextTime=z
                     elif(sch.schHowOften==5):
                         cd=jdatetime.date.fromgregorian(date=datetime.now())
                         cd=jdatetime.date(cd.year+sch.schMonthOfYearRep,sch.schMonthOfYearRep,sch.schDayOfMonthOfYearRep)
