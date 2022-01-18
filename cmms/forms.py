@@ -199,6 +199,7 @@ class TaskForm(forms.ModelForm):
                     taskDateCompleted=cleaned_data.get('taskDateCompleted','')
                     taskCompletedByUser=cleaned_data.get('taskCompletedByUser','')
                     taskTimeSpent=cleaned_data.get('taskTimeSpent','')
+                    taskResult=cleaned_data.get('taskResult','')
                     workOrder=cleaned_data.get('workOrder','')
                     #woId=cleaned_data.get('woId','')
                     #WorkOrder=cleaned_data.get('workOrder','')
@@ -216,7 +217,7 @@ class TaskForm(forms.ModelForm):
              value=DateJob.getTaskDate( self.cleaned_data['taskDateCompleted'])
              return value
         else:
-            return None  
+            return None
 
     class Meta:
          model = Tasks

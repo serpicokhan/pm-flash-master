@@ -374,7 +374,7 @@ def list_asset_dash(request):
         x5=[]
         for x in assets:
 
-            x2.append('{}:{}',x.assetCode,x.assetName)
+            x2.append('{}:{}'.format(x.assetCode,x.assetName))
             x4.append(x.id)
             x5.append(x.assetStatus)
         x3.append(zip(x2,x4,x5))

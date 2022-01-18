@@ -222,6 +222,7 @@ def task_create(request):
             data['taskCompletionNote']=body['taskCompletionNote']
             data['taskStartTime']=body['taskStartTime']
             data['taskTimeCompleted']=body['taskTimeCompleted']
+            data['taskResult']=body['taskResult']
             ####
             data['workOrder']=body['workOrder']
             woId=body['workOrder']
@@ -291,6 +292,7 @@ def task_update(request, id):
         data['taskStartTime']=body['taskStartTime']
         data['taskTimeCompleted']=body['taskTimeCompleted']
         data['workOrder']=body['workOrder']
+        data['taskResult']=body['taskResult']
 
         woId=body['workOrder']
         form = TaskForm(int(woId),data, instance=company)
