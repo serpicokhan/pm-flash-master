@@ -125,6 +125,18 @@
                              <div class="row">
                                <div class="col-lg-6">
 
+                                 <label>{{form.taskResult.label}}</label>
+
+                                 </div>
+
+                               <div class="col-lg-6">
+
+                                    {% render_field form.taskResult class="form-control "  %}
+                               </div>
+                             </div>
+                             <div class="row">
+                               <div class="col-lg-6">
+
                                  <label>{{form.taskDateCompleted.label}}</label>
 
                                  </div>
@@ -204,11 +216,24 @@ $('#id_taskStartDate').pDatepicker({
                 autoClose: true,
                 initialValueType: 'gregorian'
             });
-            $('#id_taskDateCompleted').pDatepicker({
-                            format: 'YYYY-MM-DD',
-                            autoClose: true,
-                            initialValueType: 'gregorian'
-                        });
+
+            if($('#id_taskDateCompleted').val().length>0)
+            {
+              $('#id_taskDateCompleted').pDatepicker({
+                              format: 'YYYY-MM-DD',
+                              autoClose: true,
+                              initialValueType: 'gregorian'
+                          });
+            }
+            else{
+              $('#id_taskDateCompleted').pDatepicker({
+                              format: 'YYYY-MM-DD',
+                              autoClose: true,
+                              initialValueType: 'gregorian'
+                          }).val('');
+            }
+
+
 
                       $("#id_taskDateCompleted").change(function(){
                         $.ajax({

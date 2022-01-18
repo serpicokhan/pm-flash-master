@@ -168,6 +168,7 @@ class ScheduleUtility:
 
                 stableWo.datecreated=Newsch.schnextTime.date()
                 stableWo.timecreated=Newsch.schnextTime.time()
+                stableWo.dateCompleted=None
                 stableWo.requiredCompletionDate=stableWo.datecreated+timedelta(stableWo.estimatedCompilation)
                 stableWo.visibile=False
                 stableWo.isScheduling=False
