@@ -356,6 +356,14 @@ def task_create_meter_reading(t):
         else:
             AssetMeterReading.objects.create(assetWorkorderMeterReading=wo,assetMeterMeterReadingUnit=task.taskMetrics,assetMeterLocation=wo_Asset,assetMeterMeterReading=task.taskResult)
 
+    else:
+        if(asset_meter.count()>0):
+            asset_meter1=asset_meter[0]
+            asset_meter1.delete()
+
+
+
+
 
 
 def getTaskWoHour(request,startHijri,endHijri,t1,t2):
