@@ -45,6 +45,8 @@ def createWO_celery2():
         try:
             for sch in todoes:
                 if(sch.schNextWo.visibile==False and sch.workOrder.running==True and sch.schChoices==0):
+                    print("wo",sch.schNextWo)
+                    print("current nexttime",sch.schnextTime)
                     # LogEntry.objects.log_action(
                     # user_id         = 1,
                     # content_type_id = sch.schChoices,
@@ -57,9 +59,9 @@ def createWO_celery2():
                     d=0
                     m=0
                     y=0
-
-                    sch.schNextWo.visibile=True
-                    sch.schNextWo.save()
+                    nxt_wo=WorkOrder.objects.get(id=sch.schNextWo.id)
+                    nxt_wo.visibile=True
+                    nxt_wo.save()
                     #####how to find next date
 
                     if(sch.schHowOften==1):

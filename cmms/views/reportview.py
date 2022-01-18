@@ -44,7 +44,7 @@ def save_report_form(request, form, template_name,id=None):
             data['form_is_valid'] = True
             books = Report.objects.all()
             wos=ReportUtility.doPaging(request,books)
-            data['html_report_list'] = render_to_string('cmms/reports/partialReportlist.html', {
+            data['html_report_list'] = render_to_string('cmms/reports/partialReportList.html', {
                 'reports': wos
             })
             data['form_is_valid'] = True
@@ -67,7 +67,7 @@ def report_delete(request, id):
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies =  Report.objects.all()
         #Tasks.objects.filter(reportId=id).update(report=id)
-        data['html_report_list'] = render_to_string('cmms/report/partialReportlist.html', {
+        data['html_report_list'] = render_to_string('cmms/report/partialReportList.html', {
             'report': companies
         })
     else:
@@ -120,7 +120,7 @@ def reportSearch(request,str):
         books = Report.objects.filter(Q(reportName__contains=str)|Q(reportDetails__contains=str))
     print(books)
     wos=ReportUtility.doPaging(request,books)
-    data['html_report_list'] = render_to_string('cmms/reports/partialReportlist.html', {
+    data['html_report_list'] = render_to_string('cmms/reports/partialReportList.html', {
          'reports': wos
      })
     data['html_report_paginator'] = render_to_string('cmms/reports/partialReportPagination.html', {'reports': wos,'pageType':'reportSearch' ,'pageArg':str })
@@ -135,7 +135,7 @@ def FilterReportCategory(request,id):
     else:
          books = Report.objects.filter(reportCategory=id)
     wos=ReportUtility.doPaging(request,books)
-    data['html_report_list'] = render_to_string('cmms/reports/partialReportlist.html', {
+    data['html_report_list'] = render_to_string('cmms/reports/partialReportList.html', {
          'reports': wos
      })
     # print(wos)
@@ -158,7 +158,7 @@ def show_fav_reports(request,id):
     else:
          books = Report.objects.all()
     wos=ReportUtility.doPaging(request,books)
-    data['html_report_list'] = render_to_string('cmms/reports/partialReportlist.html', {
+    data['html_report_list'] = render_to_string('cmms/reports/partialReportList.html', {
          'reports': wos
      })
     # print(wos)
