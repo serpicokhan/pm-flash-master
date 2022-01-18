@@ -84,6 +84,7 @@ def save_task_form(request, form, template_name,woId=None):
             if(err_code==0):
 
                 newTask=form.save()
+
                 task_create_meter_reading(newTask.id)
                 data['form_is_valid'] = True
                 wo=WorkOrder.objects.get(id=woId)
@@ -347,12 +348,13 @@ def task_create_meter_reading(t):
     wo=task.workOrder
     wo_Asset=wo.woAsset
     asset_meter=AssetMeterReading.objects.filter(assetWorkorderMeterReading=wo,assetMeterMeterReadingUnit=task.taskMetrics)
-    if(asset_meter.count()>0):
-        asset_meter1=asset_meter[0]
-        asset_meter1.assetMeterMeterReading=task.taskResult
-        asset_meter1.save()
-    else:
-        AssetMeterReading.objects.create(assetWorkorderMeterReading=wo,assetMeterMeterReadingUnit=task.taskMetrics,assetMeterLocation=wo_Asset,assetMeterMeterReading=task.taskResult)
+    if(tas.taskResult):
+        if(asset_meter.count()>0):
+            asset_meter1=asset_meter[0]
+            asset_meter1.assetMeterMeterReading=task.taskResult
+            asset_meter1.save()
+        else:
+            AssetMeterReading.objects.create(assetWorkorderMeterReading=wo,assetMeterMeterReadingUnit=task.taskMetrics,assetMeterLocation=wo_Asset,assetMeterMeterReading=task.taskResult)
 
 
 
