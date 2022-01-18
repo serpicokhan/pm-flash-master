@@ -348,7 +348,7 @@ def task_create_meter_reading(t):
     wo=task.workOrder
     wo_Asset=wo.woAsset
     asset_meter=AssetMeterReading.objects.filter(assetWorkorderMeterReading=wo,assetMeterMeterReadingUnit=task.taskMetrics)
-    if(tas.taskResult):
+    if(task.taskResult):
         if(asset_meter.count()>0):
             asset_meter1=asset_meter[0]
             asset_meter1.assetMeterMeterReading=task.taskResult
