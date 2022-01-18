@@ -19,6 +19,7 @@ import logging
 from django.conf import settings
 from cmms.models.task import *
 from cmms.models.workorder import *
+from cmms.models.Asset import *
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from django.utils.decorators import method_decorator
 
@@ -83,6 +84,7 @@ def save_task_form(request, form, template_name,woId=None):
             if(err_code==0):
 
                 newTask=form.save()
+                task_create_meter_reading(newTask.id)
                 data['form_is_valid'] = True
                 wo=WorkOrder.objects.get(id=woId)
                 #only for none pm workorder
@@ -134,7 +136,9 @@ def save_task_form(request, form, template_name,woId=None):
           else:
              data['form_is_valid'] = False
              print(form.errors)
+
     context = {'form': form}
+    print(form.instance.taskDateCompleted)
     data['html_task_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
 ###################################################################
@@ -293,6 +297,7 @@ def task_update(request, id):
         data['taskTimeCompleted']=body['taskTimeCompleted']
         data['workOrder']=body['workOrder']
         data['taskResult']=body['taskResult']
+        print("taskResult",data['taskResult'])
 
         woId=body['workOrder']
         form = TaskForm(int(woId),data, instance=company)
@@ -326,6 +331,31 @@ def task_update2(request, id):
         ww=request.GET.get("q","1")
         form = TaskForm2(instance=company,workorder=int(ww))
     return save_task_form(request, form, 'cmms/tasks/partialTaskUpdate2.html',woId)
+
+
+def set_task_result(request,id):
+    task=Tasks.objects.get(id=id)
+    task.taskResult=float(request.GET.get('q','0'))
+    task.save()
+    data=dict()
+    data['form_is_valid']=True
+    data["result"]=task.taskResult
+    task_create_meter_reading(task.id)
+    return JsonResponse(data)
+def task_create_meter_reading(t):
+    task=Tasks.objects.get(id=t)
+    wo=task.workOrder
+    wo_Asset=wo.woAsset
+    asset_meter=AssetMeterReading.objects.filter(assetWorkorderMeterReading=wo,assetMeterMeterReadingUnit=task.taskMetrics)
+    if(asset_meter.count()>0):
+        asset_meter1=asset_meter[0]
+        asset_meter1.assetMeterMeterReading=task.taskResult
+        asset_meter1.save()
+    else:
+        AssetMeterReading.objects.create(assetWorkorderMeterReading=wo,assetMeterMeterReadingUnit=task.taskMetrics,assetMeterLocation=wo_Asset,assetMeterMeterReading=task.taskResult)
+
+
+
 def getTaskWoHour(request,startHijri,endHijri,t1,t2):
     start1,end1=DateJob.convert2Date(startHijri,endHijri)
     start=DateJob.combine(start1,t1)

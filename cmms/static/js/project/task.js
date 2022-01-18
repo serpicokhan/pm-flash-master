@@ -143,7 +143,31 @@ var saveTaskForm= function () {
   }
     return false;
   };
+var set_task_result=function(){
+  e=$(this).parent();
+  if($(this).val().length>0){
+  $.ajax({
+    async: true,
+    url: '/Task/'+$(this).attr("data-url")+'/set_task_result/?q='+$(this).val(),
 
+    type: 'get',
+    dataType: 'json',
+    success: function (data) {
+      if (data.form_is_valid) {
+        // e=$(this).parent();
+        e.html('');
+        e.html('<span>'+data.result+'</span>');
+
+
+      }
+
+
+    }
+  });
+}
+return false;
+
+};
 
 
 
@@ -161,5 +185,6 @@ $("#task-table").on("click", ".js-update-task", loadTaskForm);
 // Delete book
 $("#task-table").on("click", ".js-delete-task", loadTaskForm);
 $("#modal-task").on("click", ".js-task-delete-form", deleteTaskForm);
+$("#task-table").on("focusout", ".task-result", set_task_result );
 
 });

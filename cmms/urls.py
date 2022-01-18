@@ -116,7 +116,8 @@ urlpatterns = [
      url(r'^Task/(?P<id>\d+)/delete/$', task_delete, name='task_delete'),
      url(r'^Task/(?P<woId>\d+)/listTask/$', js_list_task, name='js_list_task'),
      url(r'^Task/(?P<id>\d+)/update/$', task_update, name='task_update'),
-     url(r'^Task/(?P<id>\d+)/update2/$', task_update2, name='task_update2'),
+     url(r'^Task/(?P<id>\d+)/update/$', task_update, name='task_update'),
+     url(r'^Task/(?P<id>\d+)/set_task_result/$', set_task_result, name='set_task_result'),
      url(r'^api/v1/Tasks/(?P<id>\d+)/$',task_collection, name='task_collection'),
      url(r'^api/v1/Task/(?P<id>\d+)/$',task_detail_collection, name='task_detail_collection'),
 

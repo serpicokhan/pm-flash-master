@@ -900,7 +900,7 @@ class WOUtility:
         return WorkOrder.objects.raw(""" select count(workorder.id) as id from workorder inner join assets on assets.id=workorder.woasset_id where ( woasset_id={0} or assets.assetIsLocatedAt_id={0} or assets.assetIsPartOf_id={0}) and (woStatus IN (9 ) or woStatus is NULL )  and isScheduling=0 """.format(AID))
     @staticmethod
     def getRequestedWo(start,end):
-        n1=WorkOrder.objects.filter(woStatus=1,datecreated__range=(start,end),isScheduling=False).count();
+        n1=WorkOrder.objects.filter(woStatus=1,datecreated__range=(start,end),isScheduling=False,visibile=True).count();
         return n1
     @staticmethod
     def getDashCauseCount(start,end):

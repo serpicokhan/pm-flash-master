@@ -42,7 +42,7 @@ def js_list_assetMeter(request,woId):
     #books=AssetMeterReading.objects.filter(assetMeterLocation=woId)
     # print("select a.id, a.assetMeterMeterReading,a.assetMeterMeterReadingUnit,a.timestamp,a.assetMeterLocation_id from assetmeterreading a INNER JOIN ( select id,assetMeterMeterReadingUnit,assetMeterLocation_id,max(id) as maxid from assetmeterreading where assetMeterLocation_id="+woId+"  GROUP BY assetMeterLocation_id,assetMeterMeterReadingUnit ) b on b.maxid=a.id")
     # books=AssetMeterReading.objects.raw("select a.id, a.assetMeterMeterReading,a.assetMeterMeterReadingUnit,a.timestamp,a.assetMeterLocation_id from assetmeterreading a INNER JOIN ( select id,assetMeterMeterReadingUnit,assetMeterLocation_id,max(id) as maxid from assetmeterreading where assetMeterLocation_id="+woId+"  GROUP BY assetMeterLocation_id,assetMeterMeterReadingUnit ) b on b.maxid=a.id")
-    books=AssetMeterReading.objects.filter(assetMeterLocation=woId).order_by('-id')
+    books=AssetMeterReading.objects.filter(assetMeterLocation=woId).order_by('-id')[:20]
     data['html_assetMeter_list']= render_to_string('cmms/asset_meter/partialAssetMeterList.html', {
         'assetMeters': books
     })

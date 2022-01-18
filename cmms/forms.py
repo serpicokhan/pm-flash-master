@@ -214,6 +214,7 @@ class TaskForm(forms.ModelForm):
         return value
     def clean_taskDateCompleted(self):
         if(self.cleaned_data['taskDateCompleted']):
+             print(self.cleaned_data['taskDateCompleted'],'12211221')
              value=DateJob.getTaskDate( self.cleaned_data['taskDateCompleted'])
              return value
         else:
