@@ -185,6 +185,8 @@ def createWO_celery2():
                         for f in wt:
                             f.pk=None
                             f.workOrder=stableWo
+                            f.taskStartDate=sch.schnextTime.date()
+                            f.taskStartTime=sch.schnextTime.time()
                             f.save()
                     #######Copy Parts#######
                     wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)

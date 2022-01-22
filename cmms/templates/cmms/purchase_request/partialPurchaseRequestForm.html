@@ -7,15 +7,7 @@
       {% load static %}
       <img src="{% static 'img/pr.png' %}" width="50%" height="50%" / >
       <input type=hidden name='lastPurchaseRequestid' id='lastPurchaseRequestid' />
-      {% if title %}
-      <div class="form-group">
 
-      <label>{{form.PurchaseRequestRequestedUser.label}}</label>
-
-      <input type="text" name="" value="{{title}}" disabled>
-
-      </div>
-      {% endif %}
 
 
 
@@ -28,6 +20,15 @@
       {{form.PurchaseRequestPartName.as_hidden }}
       {% render_field form.mypart class='form-control advanced2AutoComplete' placeholder='جستجو کنید' autocomplete='off'  %}
       </div>
+      {% if is_manager %}
+      <div class="form-group">
+
+      <label>{{form.PurchaseRequestStatus.label}}</label>
+
+      {{form.PurchaseRequestStatus | add_class:"form-control"}}
+
+      </div>
+      {% endif %}
     </div>
     <div class="col-sm-4">
       <div class="form-group">
@@ -65,8 +66,10 @@
                      <div class="row">
                        <div class="col-lg-6">
                                            <div class="form-group">
+                                             {{form.PurchaseRequestAssetNot }}
                                              <label>{{form.PurchaseRequestAssetNot.label}}</label>
-                                             {{form.PurchaseRequestAssetNot| add_class:"form-control" }}
+
+
                                            </div>
                                            <div class="form-group">
                                              <label>{{form.PurchaseRequestWO.label}}</label>
@@ -85,12 +88,12 @@
                        <div class="col-lg-6">
 
                          <div class="form-group">
-                           <label>{{form.makan.label}}</label>
-                            {% render_field form.makan class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+                           <label>{{form.PurchaseRequestAssetMakan.label}}</label>
+                            {% render_field form.PurchaseRequestAssetMakan class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
                          </div>
                          <div class="form-group">
                            <label>{{form.PurchaseRequestAsset.label}}</label>
-                             {% render_field form.PurchaseRequestAsset class="form-control " data-show-subtext="true" data-live-search="true"  %}
+                             {% render_field form.PurchaseRequestAsset class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
                          </div>
                          <div class="form-group">
                            <label>{{form.PurchaseRequestDateTo.label}}</label>

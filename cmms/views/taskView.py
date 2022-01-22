@@ -74,9 +74,7 @@ def js_list_task(request,woId):
 def save_task_form(request, form, template_name,woId=None):
     data = dict()
     if (request.method == 'POST'):
-          print("here!!!")
           if form.is_valid():
-            print("Form is valid")
 
             err_code=0
             err_msg=""
@@ -102,16 +100,6 @@ def save_task_form(request, form, template_name,woId=None):
                             data['last_task_time']=tasks[0].taskTimeCompleted
                 except Exception as ex:
                     print(ex)
-
-
-
-
-
-
-
-
-
-
                 books = Tasks.objects.filter(workOrder=woId)
                 #books = Tasks.objects.all()
                 #######
@@ -139,7 +127,6 @@ def save_task_form(request, form, template_name,woId=None):
              print(form.errors)
 
     context = {'form': form}
-    print(form.instance.taskDateCompleted)
     data['html_task_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
 ###################################################################

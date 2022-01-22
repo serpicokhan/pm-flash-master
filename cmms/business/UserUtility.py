@@ -56,3 +56,7 @@ class UserUtility:
                  tasks.taskDateCompleted between '{1}' and '{2}' and workorder.assignedToUser_id={0}
                  and workorder.isScheduling=0 and workorder.visibile=1
                  group by m.id """.format(uid,dt1,dt2))
+    @staticmethod
+    def is_manager(uid):
+        user1=SysUser.objects.get(userId=uid)
+        return (user1.userId.groups.filter(name= 'manager').exists())

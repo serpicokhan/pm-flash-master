@@ -197,6 +197,8 @@ class ScheduleUtility:
                         print(f)
                         f.pk=None
                         f.workOrder=stableWo
+                        f.taskStartDate=Newsch.schnextTime.date()
+                        f.taskStartTime=Newsch.schnextTime.time()
                         f.save()
                 ##############
                 wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)

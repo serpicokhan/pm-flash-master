@@ -38,7 +38,6 @@ $(function () {
                     });
                if($('#id_datecreated').val().length>0)
                 {
-                    console.log($('#id_datecreated').val());
                     $('#id_datecreated').pDatepicker({
                       format: 'YYYY-MM-DD',
                       initialValueType: 'gregorian',
@@ -48,7 +47,7 @@ $(function () {
                   });
                 }//id_dateCompleted
                 else {
-                
+
                   $('#id_datecreated').pDatepicker({
                     format: 'YYYY-MM-DD',
                     initialValueType: 'gregorian',

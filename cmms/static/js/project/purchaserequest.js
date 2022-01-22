@@ -25,7 +25,8 @@ $(function () {
 
         $("#modal-purchaseRequest .modal-content").html(data.html_purchaseRequest_form);
         $('.selectpicker').selectpicker();
-      
+
+
         $('.advanced2AutoComplete').autoComplete({
           resolver: 'custom',
           minChars:1,
@@ -56,6 +57,15 @@ $(function () {
           $('#id_PurchaseRequestPartName').val(item.id).trigger('change');
           // $('.basicAutoCompleteCustom').html('');
         });
+
+
+        $('#id_PurchaseRequestDateTo').pDatepicker({
+          format: 'YYYY-MM-DD',
+          initialValueType: 'gregorian',
+          autoClose:true
+
+
+      });
 
 
       }
@@ -108,16 +118,7 @@ var saveForm= function () {
          $("#tbody_purchaseRequest").empty();
          $("#tbody_purchaseRequest").html(data.html_purchaseRequest_list);
          $("#modal-purchaseRequest").modal("hide");
-         swal({
-              title: "درخواست با موفقیت ارسال شد",
-              text:"",
-              type: "success",
-
-              confirmButtonColor: "#DD6B55",
-              confirmButtonText: "تایید",
-
-              closeOnConfirm: true
-          }, function () {});
+        toastr.success("درخواست با موفقیت ذخیره شد");
        }
        else {
 
@@ -172,14 +173,14 @@ return false;
    //initLoad();
  }
 var loadRelatedAsset=function(){
-  asset_id=$("#id_makan").val();
+  asset_id=$("#id_PurchaseRequestAssetMakan").val();
   if(asset_id)
   {
     $.ajax({
 
       url: '/Asset/'+asset_id+'/listRelatedAsset',
       error:function(x,y,z){
-        console.log(x,y,z)
+        // console.log(x,y,z)
 
       },
 
@@ -213,7 +214,7 @@ $("#modal-purchaseRequest").on("submit", ".js-purchaseRequest-create-form", save
 // Update book
 $("#purchaseRequest-table").on("click", ".js-update-purchaseRequest", myprLoader);
 $("#modal-purchaseRequest").on("submit", ".js-purchaseRequest-update-form", saveForm);
-$("#modal-purchaseRequest").on("change", "#id_makan",loadRelatedAsset);
+$("#modal-purchaseRequest").on("change", "#id_PurchaseRequestAssetMakan",loadRelatedAsset);
 // Delete book
 $("#purchaseRequest-table").on("click", ".js-delete-purchaseRequest", loadForm);
 $("#modal-purchaseRequest").on("submit", ".js-purchaseRequest-delete-form", saveForm);

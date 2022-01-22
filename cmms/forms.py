@@ -1510,18 +1510,57 @@ class AdSetForm(forms.ModelForm):
          fields = '__all__'
 #########################################
 class PurchaseRequestForm(forms.ModelForm):
+    def __init__(self,userid=None,*args,**kwargs):
+
+        super (PurchaseRequestForm,self ).__init__(*args,**kwargs) # populates the post
+        try:
+            self.fields['PurchaseRequestAsset'].queryset=Asset.objects.none()
+            print(self.data)
+            if 'PurchaseRequestAssetMakan' in self.data:
+                    try:
+                        country_id = int(self.data.get('PurchaseRequestAssetMakan'))
+                        self.fields['PurchaseRequestAsset'].queryset = Asset.objects.filter(assetIsLocatedAt=country_id).order_by('-id')
+                    except (ValueError, TypeError):
+                        pass  # invalid input from the client; ignore and fallback to empty City queryset
+            elif self.instance.pk:
+                    self.fields['PurchaseRequestAsset'].queryset = Asset.objects.filter(assetIsLocatedAt=self.instance.PurchaseRequestAssetMakan)
+
+
+            if(userid):
+                user=SysUser.objects.get(userId=userid)
+                print(user)
+                if(user.userId.username =="admin"):
+                    print("not admin")
+                    self.fields['PurchaseRequestRequestedUser'].queryset = SysUser.objects.filter(userStatus=True)#books #AssetMeterTemplate.objects.filter(assetMeterTemplateAsset=WorkOrder.objects.get(id=workorder).woAsset)
+                else:
+                    print(" is admin")
+                    self.fields['PurchaseRequestRequestedUser'].queryset = SysUser.objects.filter(userId=userid)
+
+            else:
+                self.fields['PurchaseRequestRequestedUser'].queryset = SysUser.objects.none()
+        except Exception as ex:
+            print(ex)
     mypart=forms.CharField(required=False)
     mywo=forms.CharField(required=False)
-    makan= forms.ModelChoiceField(label="نام مکان",required=False,queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+    PurchaseRequestAssetMakan= forms.ModelChoiceField(label="نام مکان",required=False,queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
-    PurchaseRequestAsset= forms.ModelChoiceField(required=False,label="دارایی ",queryset=Asset.objects.none(),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    # PurchaseRequestAsset= forms.ModelChoiceField(required=False,label="دارایی ",queryset=Asset.objects.all(),
+    # widget=forms.Select())
     # PurchaseRequestAssetNotInInventory = forms.CharField( label="ناموجود در انبار؟ اطلاعات بیشتری شرح دهید",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     PurchaseRequestMoreInfo = forms.CharField( label="اطلاعات بیشتر",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
+
+    def clean_PurchaseRequestDateTo(self):
+        if(self.cleaned_data['PurchaseRequestDateTo']):
+             # print(self.cleaned_data['PurchaseRequestDateTo'],'datecompleted')
+             value=DateJob.getDate2( self.cleaned_data['PurchaseRequestDateTo'])
+             return value
+        else:
+            return None
 
     class Meta:
         model = PurchaseRequest
         exclude = ('PurchaseRequestNotInList',)
+
 
 ##########################################
 class ReportForm(forms.ModelForm):
