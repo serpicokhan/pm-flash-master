@@ -1,30 +1,32 @@
 {% load widget_tweaks %}
 <div class="row">
-<div class="col-sm-2 b-r">
-  {% load static %}
-  <img src="{% static 'img/pr.png' %}" width="50%" height="50%" / >
-  <input type=hidden name='lastPurchaseRequestid' id='lastPurchaseRequestid' value='{{lId}}'/>
-  {% if title %}
-  <div class="form-group">
 
-  <label>{{form.PurchaseRequestRequestedUser.label}}</label>
-
-  <input type="text" name="" value="{{title}}" disabled>
-
-  </div>
-  {% endif %}
-
-
-
-
-</div>
-<div class="col-sm-10 b-r">
-  <div class="row exist">
-    <div class="col-sm-8">
+<div class="col-sm-12 b-r">
+  <div class="row">
+    <div class="col-sm-2 b-r">
+      {% load static %}
+      <img src="{% static 'img/pr.png' %}" width="50%" height="50%" / >
+      <input type=hidden name='lastPurchaseRequestid' id='lastPurchaseRequestid' />
+      {% if title %}
       <div class="form-group">
-        <input type="radio" name="n1" value="1">
-      <label>{{form.PurchaseRequestAssetName.label}}</label>
-      {{form.PurchaseRequestAssetName| add_class:"form-control" }}
+
+      <label>{{form.PurchaseRequestRequestedUser.label}}</label>
+
+      <input type="text" name="" value="{{title}}" disabled>
+
+      </div>
+      {% endif %}
+
+
+
+
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+
+      <label>{{form.PurchaseRequestPartName.label}}</label>
+      {{form.PurchaseRequestPartName.as_hidden }}
+      {% render_field form.mypart class='form-control advanced2AutoComplete' placeholder='جستجو کنید' autocomplete='off'  %}
       </div>
     </div>
     <div class="col-sm-4">
@@ -36,35 +38,20 @@
     </div>
 
   </div>
+  <hr>
   <div class="row exist">
     <div class="col-sm-12">
       <div class="form-group">
 
 
-      <label>{{form.PurchaseRequestMoreInfo.label}}</label>
+      <label>اطلاعات بیشتر</label>
       {{form.PurchaseRequestMoreInfo| add_class:"form-control" }}
       </div>
 
     </div>
 
   </div>
-  <div class="row notexist">
-    <div class="col-sm-8">
-      <div class="form-group">
-          <input type="radio" name="n1" value="">
-      <label>{{form.PurchaseRequestAssetNotInInventory.label}}</label>
-      {{form.PurchaseRequestAssetNotInInventory| add_class:"form-control" }}
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="form-group">
-      <label>{{form.PurchaseRequestAssetQtyNot.label}}</label>
-      {{form.PurchaseRequestAssetQtyNot| add_class:"form-control" }}
-      </div>
 
-    </div>
-
-  </div>
   <div class="row">
     <div class="col-lg-12">
       <div class="panel-body">
@@ -83,7 +70,12 @@
                                            </div>
                                            <div class="form-group">
                                              <label>{{form.PurchaseRequestWO.label}}</label>
-                                             {{form.PurchaseRequestWO| add_class:"form-control" }}
+                                             {{form.PurchaseRequestWO.as_hidden }}
+                                             {{form.mywo| add_class:"form-control" }}
+                                           </div>
+                                           <div class="form-group">
+                                             <label>{{form.PurchaseRequestWO.label}}</label>
+                                             {% render_field form.PurchaseRequestRequestedUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
                                            </div>
 
 
@@ -91,9 +83,14 @@
 
                        </div>
                        <div class="col-lg-6">
+
+                         <div class="form-group">
+                           <label>{{form.makan.label}}</label>
+                            {% render_field form.makan class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+                         </div>
                          <div class="form-group">
                            <label>{{form.PurchaseRequestAsset.label}}</label>
-                           {{form.PurchaseRequestAsset| add_class:"form-control" }}
+                             {% render_field form.PurchaseRequestAsset class="form-control " data-show-subtext="true" data-live-search="true"  %}
                          </div>
                          <div class="form-group">
                            <label>{{form.PurchaseRequestDateTo.label}}</label>
@@ -123,23 +120,5 @@
 
 
 </div>
-<script type="text/javascript">
-  $('input[type=radio][name=n1]').change(function() {
-    if($(this).val()=="1")
-    {
-  $(".exist").css('background-color','red');
-  $(".notexist").css('background-color','white');
 
-}
-else {
-  $(".exist").css('background-color','white');
-
-  $(".notexist").css('background-color','red');
-
-
-
-}
-});
-
-</script>
 </div>

@@ -33,19 +33,19 @@ class PurchaseRequest(models.Model):
 
      )
     PurchaseRequestStatus=models.IntegerField("وضعیت درخواست", choices=Status,null=True,blank=True)
-    PurchaseRequestAssetName=models.CharField("مشخصات",max_length = 100,null=True,blank=True)
+    PurchaseRequestPartName=models.ForeignKey("Part",on_delete=models.CASCADE,null=True,blank=True,related_name="RequestedPart",verbose_name="مشخصات قطعه")
     PurchaseRequestMoreInfo=models.CharField("اطلاعات بیشتر",max_length = 100,null=True,blank=True)
     PurchaseRequestAssetNotInInventory=models.CharField("ناموجود در انبار؟ اطلاعات بیشتری شرح دهید",max_length = 100,null=True,blank=True)
     #not in inventory qty
-    PurchaseRequestAssetQty=models.FloatField("تعداد",null=True,blank=True)
+    PurchaseRequestAssetQty=models.FloatField("تعداد",blank=True)
     PurchaseRequestAssetQtyNot=models.FloatField("کمیت",null=True,blank=True)
     PurchaseRequestAssetNot=models.BooleanField("در صورت عدم تهیه تولید دچار وقفه میشود",default=False)
-    PurchaseRequestNotInList=models.BooleanField(default=False)
+    PurchaseRequestNotInList=models.BooleanField(default=False,null=True)
 
 
 
 
-    PurchaseRequestWO = models.ForeignKey('WorkOrder',on_delete=models.CASCADE,null=True,blank=True,related_name="ImpactedWO")
+    PurchaseRequestWO = models.ForeignKey('WorkOrder',on_delete=models.CASCADE,null=True,blank=True,related_name="ImpactedWO",verbose_name="درخواست مربوطه")
     PurchaseRequestAsset = models.ForeignKey('Asset',on_delete=models.CASCADE,null=True,blank=True,related_name="ImpactedAsset")
     PurchaseRequestDateTo = models.DateField("مهلت تا تاریخ",default=datetime.now, blank=True,null=True)
     PurchaseRequestDateFrom = models.DateField("تاریخ درخواست",default=datetime.now, blank=True,null=True)

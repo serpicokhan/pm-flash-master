@@ -36,7 +36,6 @@ $(function () {
                         autoClose: true,
                         initialValueType: 'gregorian'
                     });
-               console.log($('#id_datecreated').val().length);
                if($('#id_datecreated').val().length>0)
                 {
                     console.log($('#id_datecreated').val());
@@ -49,7 +48,7 @@ $(function () {
                   });
                 }//id_dateCompleted
                 else {
-                  console.log("empty")
+                
                   $('#id_datecreated').pDatepicker({
                     format: 'YYYY-MM-DD',
                     initialValueType: 'gregorian',

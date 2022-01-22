@@ -831,7 +831,14 @@ def gen_asset_code(request,id):
     return JsonResponse({'code':code,'form_is_valid':True},safe=False)
 
 
-           #
+def getRelatedAsset(request,id):
+    data=dict()
+    assets=Asset.objects.filter(assetIsLocatedAt__id=id)
+    data["pval"]=render_to_string('cmms/maintenance/partialWOAssetDynamics.html',
+        {'assets':assets})
+    data["form_is_valid"]=True
+    return JsonResponse(data)
+
 @api_view(['GET'])
 def asset_collection(request):
     if request.method == 'GET':

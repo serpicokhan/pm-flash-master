@@ -44,7 +44,7 @@ def save_purchaseRequest_form(request, form, template_name,id=None):
     if (request.method == 'POST'):
         if form.is_valid():
             form.save(commit=False)
-            form.instance.PurchaseRequestRequestedUser=SysUser.objects.get(userId=request.user)
+            # form.instance.PurchaseRequestRequestedUser=SysUser.objects.get(userId=request.user)
             form.save()
             data['form_is_valid'] = True
             books = PurchaseRequest.objects.all()
@@ -55,7 +55,7 @@ def save_purchaseRequest_form(request, form, template_name,id=None):
             data['form_is_valid'] = False
     title=None
     if(form.instance.PurchaseRequestRequestedUser):
-            title=form.instance.PurchaseRequestRequestedUser.title
+            title=form.instance.PurchaseRequestRequestedUser
 
     context = {'form': form,'title':title}
 

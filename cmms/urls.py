@@ -262,6 +262,7 @@ urlpatterns = [
         url(r'^Asset/(?P<id>\d+)/WOStatus/$', asset_status, name='asset_status'),
         url(r'^Asset/(?P<id>\d+)/GetAssetOfflineStatus/$', asset_offline_status, name='asset_offline_status'),
         url(r'^Asset/(?P<id>\d+)/Cancel/$', assetCancel, name='assetCancel'),
+        url(r'^Asset/(?P<id>\d+)/listRelatedAsset/$', getRelatedAsset, name='getRelatedAsset'),
         url(r'^Asset/Info', assetloadinfo, name='assetloadinfo'),
 
          url(r'^api/v1/Asset/(?P<id>\d+)/$',asset_detail_collection, name='asset_detail_collection'),

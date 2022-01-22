@@ -1510,8 +1510,14 @@ class AdSetForm(forms.ModelForm):
          fields = '__all__'
 #########################################
 class PurchaseRequestForm(forms.ModelForm):
-    PurchaseRequestAssetNotInInventory = forms.CharField( label="ناموجود در انبار؟ اطلاعات بیشتری شرح دهید",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
-    PurchaseRequestMoreInfo = forms.CharField( label="اطلاعات بیشت",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
+    mypart=forms.CharField(required=False)
+    mywo=forms.CharField(required=False)
+    makan= forms.ModelChoiceField(label="نام مکان",required=False,queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    PurchaseRequestAsset= forms.ModelChoiceField(required=False,label="دارایی ",queryset=Asset.objects.none(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    # PurchaseRequestAssetNotInInventory = forms.CharField( label="ناموجود در انبار؟ اطلاعات بیشتری شرح دهید",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
+    PurchaseRequestMoreInfo = forms.CharField( label="اطلاعات بیشتر",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
 
     class Meta:
         model = PurchaseRequest
