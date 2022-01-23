@@ -28,6 +28,7 @@ from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib.auth.context_processors import PermWrapper
 from django.db import IntegrityError
+from django.core.paginator import *
 
 
 
@@ -46,17 +47,11 @@ def save_batchMeterGroup_form(request, form, template_name,id=None):
     data = dict()
     if (request.method == 'POST'):
         try:
-
             if form.is_valid():
-
-
-
-
-
                 form.save()
                 data['form_is_valid'] = True
-                books = BatchMeterGroup.objects.all().order_by('BatchMeterGroupName')
-                books=AssetUtility.doPaging(request,books)
+                books1 = BatchMeterGroup.objects.all().order_by('BatchMeterGroupName')
+                books=AssetUtility.doPaging(request,books1)
                 data['html_batchMeterGroup_list'] = render_to_string('cmms/batch_meter_group/partialBatchMeterGroupList.html', {
                     'batchMeterGroup': books,
                     'perms': PermWrapper(request.user)
@@ -86,8 +81,8 @@ def batchMeterGroup_delete(request, id):
     if (request.method == 'POST'):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        companies =  BatchMeterGroup.objects.all().order_by('BatchMeterGroupName')
-        companies=AssetUtility.doPaging(request,companies)
+        companies1 =  BatchMeterGroup.objects.all().order_by('BatchMeterGroupName')
+        companies=AssetUtility.doPaging(request,companies1)
         #Tasks.objects.filter(batchMeterGroupId=id).update(batchMeterGroup=id)
         data['html_batchMeterGroup_list'] = render_to_string('cmms/batch_meter_group/partialBatchMeterGroupList.html', {
             'batchMeterGroup': companies,
@@ -135,8 +130,8 @@ def batchMeterGroupCancel(request,id):
         if(not tg.BatchMeterGroupName):
             tg.delete()
             data['form_is_valid'] = True  # This is just to play along with the existing code
-            companies =  BatchMeterGroup.objects.all().order_by('BatchMeterGroupName')
-            companies=AssetUtility.doPaging(request,companies)
+            companies1 =  BatchMeterGroup.objects.all().order_by('BatchMeterGroupName')
+            companies=AssetUtility.doPaging(request,companies1)
             #Tasks.objects.filter(taskGroupId=id).update(taskGroup=id)
             data['html_batchMeterGroup_list'] = render_to_string('cmms/batch_meter_group/partialBatchMeterGroupList.html', {
                 'batchMeterGroup': companies

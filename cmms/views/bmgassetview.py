@@ -49,21 +49,26 @@ def save_bmgAsset_form(request, form, template_name,woId=None):
     data = dict()
     if (request.method == 'POST'):
           if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-
-
-            books=BMGAsset.objects.filter(BMGGroup=woId)
-
-            data['html_bmgAsset_list'] = render_to_string('cmms/bmg_assets/partialBMGAssetList.html', {
-                'bmgAssets': books
-            })
+            form.save(commit=False)
+            #check asset never add twice
+            books=BMGAsset.objects.filter(BMGGroup=woId,BMGAsset=form.instance.BMGAsset)
+            if(books.count()>0):
+                data['form_is_valid'] = False
+                data['form-error']="تجهیز تکراری برای این گروه"
+            else:
+                form.save()
+                books=BMGAsset.objects.filter(BMGGroup=woId)
+                data['form_is_valid'] = True
+                data['html_bmgAsset_list'] = render_to_string('cmms/bmg_assets/partialBMGAssetList.html', {
+                    'bmgAssets': books
+                })
           else:
               fmt = getattr(settings, 'LOG_FORMAT', None)
               lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
               logging.basicConfig(format=fmt, level=lvl)
               logging.debug( form.errors)
               data['form_is_valid'] = False
+              # data['form-error']=form.error
 
     context = {'form': form}
     data['html_bmgAsset_form'] = render_to_string(template_name, context, request=request)
