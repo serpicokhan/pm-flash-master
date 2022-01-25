@@ -29,7 +29,7 @@ class Asset(models.Model):
         else:
             return "-"
     def get_child(self):
-        return Asset.objects.filter(Q(assetIsLocatedAt=self.id)|Q(assetIsPartOf=self.id))
+        return Asset.objects.filter(Q(assetIsLocatedAt=self.id)|Q(assetIsPartOf=self.id)).filter(assetTypes=1)
     def get_asset_loc_code(self):
 
         if(self.assetTypes==1):

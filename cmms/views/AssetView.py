@@ -41,10 +41,25 @@ from django.db.models import Q
 from django.db import  transaction
 
 
+def filterUser(request):
+    books=Asset.objects.none()
+    if(request.user.username!="admin"):
+        books = Asset.objects.filter(Q(id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
+    else:
+        books=Asset.objects.all().order_by('-id')
+    return books
+def filterUserByResult(request,books):
+    # books=Asset.objects.none()
+    if(request.user.username!="admin"):
+        books = books.filter(Q(id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
+    else:
+        pass
+    return books
+
 @permission_required('cmms.view_assets')
 def list_asset(request,id=None):
     books=[]
-    books =Asset.objects.all().order_by('-id')
+    books =filterUser(request)
     wos=AssetUtility.doPaging(request,books)
     return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset'})
 
@@ -54,7 +69,7 @@ def list_asset(request,id=None):
 @permission_required('cmms.view_assets')
 def list_asset_location(request):
     books=[]
-    books =Asset.objects.filter(assetTypes=1).order_by('-assetName')
+    books =filterUser(request).filter(assetTypes=1).order_by('-assetName')
     wos=AssetUtility.doPaging(request,books)
     return render(request, 'cmms/asset/assettreeList.html', {'asset': wos,'section':'list_asset_location'})
     # books=Asset.objects.filter(assetTypes=1)
@@ -63,14 +78,14 @@ def list_asset_location(request):
 @permission_required('cmms.view_assets')
 def list_asset_machine(request):
     books=[]
-    books =Asset.objects.filter(assetTypes=2).order_by('-assetName')
+    books =filterUser(request).filter(assetTypes=2).order_by('-assetName')
     wos=AssetUtility.doPaging(request,books)
     return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_machine'})
 
 @permission_required('cmms.view_assets')
 def list_asset_tool(request):
     books=[]
-    books =Asset.objects.filter(assetTypes=3).order_by('-assetName')
+    books =filterUser(request).filter(assetTypes=3).order_by('-assetName')
     wos=AssetUtility.doPaging(request,books)
     return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_tool'})
 
@@ -85,7 +100,8 @@ def save_asset_form(request, form, template_name,id=None):
             form.save()
 
             data['form_is_valid'] = True
-            books = Asset.objects.all().order_by('-id')
+
+            books = filterUser(request)
             page=request.GET.get('page',1)
             wos=AssetUtility.doPaging(request,books)
             data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
@@ -109,7 +125,7 @@ def asset_delete(request, id):
     if (request.method == 'POST'):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        books =Asset.objects.all().order_by('-id')
+        books =filterUser(request)
         wos=AssetUtility.doPaging(request,books)
         #Tasks.objects.filter(assetId=id).update(asset=id)
 
@@ -289,6 +305,7 @@ def asset_search(request,kvm):
     data=dict()
     print(kvm,'///',q)
     books=AssetUtility.seachAsset(kvm,q)
+    books=filterUserByResult(request,books)
     wos=AssetUtility.doPaging(request,list(books))
     data['html_asset_search_tag_list'] = render_to_string('cmms/asset/partialAssetList.html', {
                    'asset': wos                      ,'perms': PermWrapper(request.user) })

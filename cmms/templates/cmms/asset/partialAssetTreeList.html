@@ -24,15 +24,25 @@
    <button type="button"
               class="btn btn-warning btn-sm js-update-asset"
               data-url="{% url 'asset_update' c.id %}">
-        <span class="glyphicon glyphicon-pencil"></span>مشاهده
+        <span class="glyphicon glyphicon-pencil"></span>
       </button>
       {% endif %}
       {% if perms.cmms.delete_assets %}
       <button type="button"
                    class="btn btn-danger btn-sm js-delete-asset"
                    data-url="{% url 'asset_delete' c.id %}">
-             <span class="glyphicon glyphicon-trash"></span> حذف
+             <span class="glyphicon glyphicon-trash"></span>
            </button>
+        <div class="dropdown" style="display: inline-block">
+           <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+          <i class="fa fa-ellipsis-v"></i></button>
+           <ul class="dropdown-menu">
+             <li><a href="#">HTML</a></li>
+             <li><a href="#">CSS</a></li>
+             <li><a href="#">JavaScript</a></li>
+           </ul>
+         </div>
+
            {% endif %}
     </td>
 </tr>
@@ -50,7 +60,7 @@
  <td>{{i.assetCode|default_if_none:"مشخص نشده"}}</td>
  <td>{% autoescape off %}{{i.get_assetStatus}}{% endautoescape %}</td>
  <td>{{i.assetCategory|default_if_none:'بدون دسته بندی'}}</td>
- <td>{{i.get_location|default_if_none:0}}</td>
+ <td>{{i.get_location|default_if_none:0|truncatechars:9}}</td>
 
 
 
@@ -60,15 +70,24 @@
    <button type="button"
               class="btn btn-warning btn-sm js-update-asset"
               data-url="{% url 'asset_update' i.id %}">
-        <span class="glyphicon glyphicon-pencil"></span>مشاهده
+        <span class="glyphicon glyphicon-pencil"></span>
       </button>
       {% endif %}
       {% if perms.cmms.delete_assets %}
       <button type="button"
                    class="btn btn-danger btn-sm js-delete-asset"
                    data-url="{% url 'asset_delete' i.id %}">
-             <span class="glyphicon glyphicon-trash"></span> حذف
+             <span class="glyphicon glyphicon-trash"></span>
            </button>
+           <div class="dropdown" style="display: inline-block;">
+              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+             <i class="fa fa-ellipsis-v"></i></button>
+              <ul class="dropdown-menu">
+                <li><a href="#">HTML</a></li>
+                <li><a href="#">CSS</a></li>
+                <li><a href="#">JavaScript</a></li>
+              </ul>
+            </div>
            {% endif %}
     </td>
 </tr>
@@ -79,3 +98,7 @@
 </tr>
 
 {% endfor %}
+<script type="text/javascript">
+$('#example-basic').treetable({ expandable: true });
+
+</script>

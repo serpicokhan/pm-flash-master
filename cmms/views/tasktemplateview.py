@@ -40,7 +40,7 @@ def js_list_taskTemplate(request,woId):
 
     ####
     books = TaskTemplate.objects.filter(taskTemplateTaskGroup=woId)
-    data['html_taskTemplate_list']= render_to_string('cmms/tasktemplate/partialtaskTemplateList.html', {
+    data['html_taskTemplate_list']= render_to_string('cmms/tasktemplate/partialTaskTemplateList.html', {
         'taskTemplate': books
     })
     return JsonResponse(data)
