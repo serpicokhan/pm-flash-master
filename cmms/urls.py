@@ -467,7 +467,7 @@ urlpatterns = [
          url(r'^Business/(?P<id>\d+)/delete/$', business_delete, name='business_delete'),
          url(r'^Business/(?P<id>\d+)/update/$', business_update, name='business_update'),
          url(r'^Business/(?P<id>\d+)/Cancel/$', businessCancel, name='businessCancel'),
-         url(r'^Business/(?P<searchStr>[-\w]+)/Search/$', business_search, name='business_search'),
+         url(r'^Business/Search/$', business_search, name='business_search'),
 
          url(r'^BOMGroup/$',list_bomgroup,name='list_bomgroup'),
          url(r'^BOMGroup/create/$', bomgroup_create, name='bomgroup_create'),

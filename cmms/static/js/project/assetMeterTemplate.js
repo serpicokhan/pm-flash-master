@@ -51,8 +51,7 @@ var saveForm= function () {
        }
        else {
 
-         $("#company-table tbody").html(data.html_assetMeterTemplate_list);
-         $("#modal-company .modal-content").html(data.html_assetMeterTemplate_form);
+         toastr.error(data.error);
        }
      }
    });

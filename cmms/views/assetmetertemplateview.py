@@ -26,11 +26,12 @@ from django.utils.decorators import method_decorator
 import json
 from django.forms.models import model_to_dict
 from cmms.forms import AssetMeterTemplateForm
-
+from cmms.business.AssetUtility import *
 ###################################################################
 def list_assetMeterTemplate(request,id=None):
     books = AssetMeterTemplate.objects.all()
-    return render(request, 'cmms/asset_meter_template/assetMeterTemplateList.html', {'assetMeterTemplates': books,'section':'list_assetMeterTemplate'})
+    companies=AssetUtility.doPaging(request,books)
+    return render(request, 'cmms/asset_meter_template/assetMeterTemplateList.html', {'assetMeterTemplates': companies,'section':'list_assetMeterTemplate'})
 
 
 ###################################################################
@@ -47,9 +48,10 @@ def js_list_assetMeterTemplate(request,woId):
         bg_groups=BMGAsset.objects.filter(BMGAsset__id=woId).values_list('BMGGroup',flat=True)
         tmp_=BMGTemplate.objects.filter(BMGGroup__in=bg_groups).values_list('BMGTemplate',flat=True)
         books=AssetMeterTemplate.objects.filter(id__in=tmp_).order_by('-id')
+        companies=AssetUtility.doPaging(request,books)
 
         data['html_assetMeterTemplate_list']= render_to_string('cmms/asset_amt/partialAssetAMTList.html', {
-            'assetAMTs': books
+            'assetAMTs': companies
         })
         data['form_is_valid']=True
         return JsonResponse(data)
@@ -60,21 +62,29 @@ def save_assetMeterTemplate_form(request, form, template_name,woId=None):
     data = dict()
     if (request.method == 'POST'):
           if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-            fmt = getattr(settings, 'LOG_FORMAT', None)
-            lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-            logging.basicConfig(format=fmt, level=lvl)
-            logging.debug( woId)
-            books = AssetMeterTemplate.objects.all().order_by('-id')
-            data['html_assetMeterTemplate_list'] = render_to_string('cmms/asset_meter_template/partialAssetMeterTemplateList.html', {
-                'assetMeterTemplates': books
-            })
+            form.save(commit=False)
+            name=(AssetMeterTemplate.objects.filter(assetMeterTemplateDesc=form.instance.assetMeterTemplateDesc).count() > 0 )
+            if(name ==0):
+                form.save()
+                data['form_is_valid'] = True
+                books = AssetMeterTemplate.objects.all().order_by('-id')
+                companies=AssetUtility.doPaging(request,books)
+                data['html_assetMeterTemplate_list'] = render_to_string('cmms/asset_meter_template/partialAssetMeterTemplateList.html', {
+                    'assetMeterTemplates': companies
+                })
+            else:
+                data['error']="این نام قبلا استفاده شده است"
+                data['form-is-valid']=False
+
+
+
+
           else:
-              fmt = getattr(settings, 'LOG_FORMAT', None)
-              lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-              logging.basicConfig(format=fmt, level=lvl)
-              logging.debug( form.errors)
+              pass
+              # fmt = getattr(settings, 'LOG_FORMAT', None)
+              # lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
+              # logging.basicConfig(format=fmt, level=lvl)
+              # logging.debug( form.errors)
 
     context = {'form': form}
     data['html_assetMeterTemplate_form'] = render_to_string(template_name, context, request=request)

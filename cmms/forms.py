@@ -2911,6 +2911,25 @@ class PartUsageByLocationandPart(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
     partName=forms.CharField(label='نام قطعه',required=False,widget=forms.TextInput(attrs={'class':'partselector','autocomplete':'off'}))
     part=forms.CharField(widget=forms.HiddenInput(),required=False)
+class AssetMeterLocation(forms.Form):
+    test='گزارش مصرف قطعه بر اساس تجهیز و قطعه'
+    rcode = 100 #برای استفاده در partialsimplereportform
+    startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    OPTIONS = (
+        (0, "pdf"),
+        (1, "EXCEL"),
+
+        )
+    reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    assetType= forms.ModelChoiceField(empty_label=None,label="نوع دارایی",queryset=AssetCategory.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
+    assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
+
+
 
 
 

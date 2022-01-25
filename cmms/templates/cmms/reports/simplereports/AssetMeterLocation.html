@@ -1,0 +1,61 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h2>
+                          گزارش  قرایت های انجام شده <br>
+                          تاریخ صدور گزارش:{{currentdate}}
+
+
+                            </h2>
+                            <h2>{{names}}</h2>
+
+                           </div>
+
+ <table class="table table-bordered">
+   <thead>
+     <tr>
+      <th>نام دارایی</th>
+      <th>واحد اندازه گیری</th>
+      <th>مقدار</th>
+      <th>دستور کار مربوطه</th>
+      <th>تاریخ ثبت</th>
+
+     </tr>
+   </thead>
+   <tbody>
+     {% for c in result1 %}
+     <tr>
+       <td>{{c.assetMeterLocation}}</td>
+
+
+       <td>
+         {{c.assetMeterMeterReadingUnit|default_if_none:"ندارد"}}
+       </td>
+
+       <td>
+         {{c.assetMeterMeterReading|default_if_none:"ندارد"}}
+       </td>
+       <td>
+         {{c.assetWorkorderMeterReading|default_if_none:"ندارد"}}
+       </td>
+       <td>
+         {{c.getdate|default_if_none:"ندارد"}}
+       </td>
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+ {% endblock %}

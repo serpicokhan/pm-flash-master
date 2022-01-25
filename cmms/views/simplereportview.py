@@ -2351,5 +2351,17 @@ class reporttest:
 
         # print(mtbf_vector)
         asset=Asset.objects.get(id=assetname).assetName
-        print(javab)
         return render(request, 'cmms/reports/simplereports/MTBFByAnalythisCauseCode.html',{'result1':javab,'z3':behbood_vec,'z4':alarm_vec,'z1':z1,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'asset':asset,'casename':causecode_name})
+
+    def AssetMeterLocation(Self,request):
+        assets=request.POST.getlist("assetname","")
+        # print(request.POST.getlist("assetname",""))
+        asset_meter=AssetMeterReading.objects.none()
+        asset_names=''
+        if("null" in assets):
+            pass
+        else:
+            asset_names=Asset.objects.filter(id__in=[int(i)  for i in assets]).values_list('assetName',flat=False)
+            print(asset_names.count(),"length")
+            asset_meter=AssetMeterReading.objects.filter(assetMeterLocation__in=[int(i)  for i in assets])
+        return render(request, 'cmms/reports/simplereports/AssetMeterLocation.html',{'result1':asset_meter,'names':list(asset_names),'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
