@@ -56,7 +56,7 @@ def list_asset_location(request):
     books=[]
     books =Asset.objects.filter(assetTypes=1).order_by('-assetName')
     wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_location'})
+    return render(request, 'cmms/asset/assettreeList.html', {'asset': wos,'section':'list_asset_location'})
     # books=Asset.objects.filter(assetTypes=1)
     # return render(request, 'cmms/asset/assetList.html', {'asset': books})
 

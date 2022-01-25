@@ -141,11 +141,11 @@ def taskGroup_update(request, id):
         form = TaskGroupForm(request.POST, instance=company)
     else:
         form = TaskGroupForm(instance=company)
-    fmt = getattr(settings, 'LOG_FORMAT', None)
-    lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-
-    logging.basicConfig(format=fmt, level=lvl)
-    logging.debug(id)
+    # fmt = getattr(settings, 'LOG_FORMAT', None)
+    # lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
+    #
+    # logging.basicConfig(format=fmt, level=lvl)
+    # logging.debug(id)
 
     return save_taskGroup_form(request, form,"cmms/taskgroup/partialTaskGroupUpdate.html",id)
 ##########################################################
