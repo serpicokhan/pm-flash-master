@@ -2355,6 +2355,10 @@ class reporttest:
 
     def AssetMeterLocation(Self,request):
         assets=request.POST.getlist("assetname","")
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","").replace('-','/')
+        # endDate=request.POST.get("endDate","").replace('-','/')
         # print(request.POST.getlist("assetname",""))
         asset_meter=AssetMeterReading.objects.none()
         asset_names=''
@@ -2362,6 +2366,6 @@ class reporttest:
             pass
         else:
             asset_names=Asset.objects.filter(id__in=[int(i)  for i in assets]).values_list('assetName',flat=False)
-            print(asset_names.count(),"length")
-            asset_meter=AssetMeterReading.objects.filter(assetMeterLocation__in=[int(i)  for i in assets])
+            # print(asset_names.count(),"length")
+            asset_meter=AssetMeterReading.objects.filter(assetMeterLocation__in=[int(i)  for i in assets],timestamp__range=(date1,date2)).order_by('timestamp')
         return render(request, 'cmms/reports/simplereports/AssetMeterLocation.html',{'result1':asset_meter,'names':list(asset_names),'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
