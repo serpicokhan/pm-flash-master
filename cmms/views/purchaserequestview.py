@@ -28,6 +28,7 @@ from django.urls import reverse_lazy
 from django.db import transaction
 from django.core.paginator import *
 from cmms.business.UserUtility import *
+from cmms.utils import *
 
 
 
@@ -43,7 +44,8 @@ def list_purchaseRequest(request,id=None):
     #
     books1 = filter_user(request)
     books=doPaging(request,books1)
-    return render(request, 'cmms/purchase_request/purchaseRequestList.html', {'rfq': books})
+
+    return render(request, 'cmms/purchase_request/purchaseRequestList.html', {'rfq': books,'status':Status})
 
 def save_purchaseRequest_form(request, form, template_name,id=None):
 
@@ -144,3 +146,10 @@ def doPaging(request,books):
     except EmptyPage:
         wos = paginator.page(paginator.num_pages)
     return wos
+def purchaseRequest_filter(request):
+    q=request.GET.get("q",None)
+    if(q):
+        books1 = filter_user(request)
+        books1=books1.filter(PurchaseRequestStatus=int(q))
+        books=doPaging(request,books1)
+        return render(request, 'cmms/purchase_request/purchaseRequestList.html', {'rfq': books,'status':Status,'selected':int(q)})

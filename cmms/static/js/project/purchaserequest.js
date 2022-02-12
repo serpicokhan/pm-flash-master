@@ -204,10 +204,15 @@ var loadRelatedAsset=function(){
     });
  return false;
   };
+
+}
+var filter=function(){
+  // alert("!23");
+  window.location.replace("/PurchaseRequest/filter/"+"?q="+$("#p-status").val());
 }
 
 
-
+$("#p-status").on("change",filter);
 $(".js-create-purchaseRequest").click(myprLoader);
 $("#modal-purchaseRequest").on("submit", ".js-purchaseRequest-create-form", saveForm);
 

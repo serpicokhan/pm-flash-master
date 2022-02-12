@@ -711,6 +711,7 @@ urlpatterns = [
             url(r'^PurchaseRequest/(?P<id>\d+)/update/$', purchaseRequest_update, name='purchaseRequest_update'),
             # url(r'^PurchaseRequest/(?P<name>[-\w]+)/Search/$', searchPurchaseRequest, name='searchPurchaseRequest'),
             url(r'^PurchaseRequest/(?P<id>\d+)/delete/$', purchaseRequest_delete, name='purchaseRequest_delete'),
+            url(r'^PurchaseRequest/filter/$', purchaseRequest_filter, name='purchaseRequest_filter'),
 
 
 

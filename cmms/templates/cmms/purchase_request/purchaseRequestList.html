@@ -28,7 +28,15 @@
                         </div>
                         <div class="ibox-content">
                             <div class="row">
-                                <div class="col-sm-5 m-b-xs"><select class="input-sm form-control input-s-sm inline">
+                                <div class="col-sm-5 m-b-xs">
+                                  <select class="input-sm form-control input-s-sm inline p-status" id='p-status'>
+                                    {% for i in status %}
+                                    {% if i.0 == selected %}
+                                    <option value="{{i.0}}" selected>{{i.1}}</option>
+                                    {% else %}
+                                    <option value="{{i.0}}">{{i.1}}</option>
+                                    {% endif %}
+                                    {% endfor %}
 
                                 </select>
                                 </div>
