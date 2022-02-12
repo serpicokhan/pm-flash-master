@@ -34,7 +34,7 @@ from cmms.business.WOUtility import *
 @permission_required('cmms.view_miniworkorder')
 def list_miniWorkorder(request,id=None):
     #
-    books = WorkOrder.objects.all()
+    books = WorkOrder.objects.filter(isScheduling=False,visibile=True)
     books=filterUser(request,books)
     wos=WOUtility.doPaging(request,list(books))
     return render(request, 'cmms/miniworkorder/miniWorkorderList.html', {'miniWorkorder': wos,'section':'list_miniWorkorder'})
@@ -79,7 +79,7 @@ def save_miniWorkorder_form(request, form, template_name,id=None):
                     change_message= request.META.get('REMOTE_ADDR')
                 )
             data['form_is_valid'] = True
-            books = WorkOrder.objects.all()
+            books = WorkOrder.objects.filter(isScheduling=False,visibile=True)
             books=filterUser(request,books)
             wos=WOUtility.doPaging(request,list(books))
             data['html_miniWorkorder_list'] = render_to_string('cmms/miniworkorder/partialMiniWorkorderlist.html', {
@@ -104,7 +104,7 @@ def miniWorkorder_delete(request, id):
     if (request.method == 'POST'):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        companies =  WorkOrder.objects.all()
+        companies =  WorkOrder.objects.filter(isScheduling=False,visibile=True)
         companies=filterUser(request,companies)
         wos=WOUtility.doPaging(request,list(companies))
         #Tasks.objects.filter(miniWorkorderId=id).update(miniWorkorder=id)

@@ -48,7 +48,7 @@
 
                  </div>
 
-                 <div class="col-sm-2">
+                 <div class="col-sm-1">
                    <select class="form-control" name="ordertype" id="ordertype">
                      <option value="0" selected>صعودی</option>
                      <option value="1">نزولی</option>
@@ -57,7 +57,7 @@
 
 
                  </div>
-                 <div class="col-sm-2">
+                 <div class="col-sm-1">
                    <div class="input-group m-b">
 
 
@@ -70,7 +70,18 @@
                                               <option value="3">وضعیت</option>
 
                                             </select>
+
+
                                            </div>
+
+                 </div>
+                 <div class="col-sm-2">
+                   <select class="chosen-select chosen-rtl" name="" id='status-selector' multiple>
+                     {% for i in status %}
+                     <option value="{{i.0}}">{{i.1}}</option>
+                     {% endfor %}
+
+                   </select>
 
                  </div>
                  <div class="col-sm-2">
@@ -299,6 +310,7 @@
 {% block javascript %}
 
   <script src="{% static '/js/project/workorder.js' %}"></script>
+
 
 
 

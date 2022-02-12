@@ -60,3 +60,32 @@ utilMDate['آذر']=('09-01','09-30')
 utilMDate['دی']=('10-01','10-30')
 utilMDate['بهمن']=('11-01','11-30')
 utilMDate['اسفند']=('12-01','12-29')
+
+
+
+Requested=1
+onHold=2
+Draft=3
+Assigned=4
+Open=5
+workInProgress=6
+closedComplete=7
+closedIncomplete=8
+waitingForPart=9
+invisible=-1
+Highest=1
+High=2
+Medium=3
+Low=4
+Lowest=5
+Status=(
+     (Requested,'درخواست شده')  ,
+     (onHold,'متوقف'),
+     (Assigned,'تخصیص داده شده'),
+     (Open,'باز'),
+     (workInProgress,'در حال پیشرفت'),
+     (closedComplete,'بسته شده کامل'),
+     (closedIncomplete,'بسته شده، ناقص'),
+     (waitingForPart,'در انتظار قطعه'),
+
+ )

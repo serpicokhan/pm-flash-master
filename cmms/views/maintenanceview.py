@@ -48,6 +48,7 @@ from rest_framework.decorators import api_view
 from cmms.api.WOSerializer import *
 from rest_framework.response import Response
 from rest_framework import status
+from cmms.utils import *
 
 def filterUser(request,books):
     if(request.user.username!="admin"):
@@ -57,6 +58,7 @@ def filterUser(request,books):
     return books
 ##########################################################
 # @login_require
+
 @permission_required('cmms.view_workorder',login_url='/not_found')
 def list_wo(request,id=None):
     try:
@@ -82,7 +84,7 @@ def list_wo(request,id=None):
         # print(user1)
         # print(user1.profileImage,'$$$$$$$$$$')
         wos=WOUtility.doPaging(request,books)
-        return render(request, 'cmms/maintenance/woList.html', {'wo': wos,'groups':groups,'user2':user1,'section':'list_wo'})
+        return render(request, 'cmms/maintenance/woList.html', {'wo': wos,'groups':groups,'user2':user1,'section':'list_wo','status':Status})
     except Exception as ex:
         print(ex)
         return render(request, 'cmms/404.html', {'to':123})
@@ -815,6 +817,7 @@ def wo_filter(request,startHijri,endHijri,wotype,ordercol,ordertype):
             # print(WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9)).query)
             books=None
             ordercode=None
+            filter_wo=request.GET.getlist("q")
             if(ordertype == "0"):
                 ordercode={"0":"id","1":"datecreated","2":"woAsset","3":"woStatus"}
             else:
@@ -825,6 +828,12 @@ def wo_filter(request,startHijri,endHijri,wotype,ordercol,ordertype):
                 books = WorkOrder.objects.filter(isScheduling=False,visibile=True, datecreated__range=(start, end))
             else:
                 books = WorkOrder.objects.filter(isScheduling=True, datecreated__range=(start, end))
+            if(filter_wo):
+
+                filter_wo=','.join([str(i) for i in filter_wo])
+                filter_wo=filter_wo.split(',')
+                books=books.filter(woStatus__in=filter_wo)
+
 
             # if(request.user.username!="admin"):
             #     books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated')

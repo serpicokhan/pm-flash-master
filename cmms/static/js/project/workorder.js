@@ -666,14 +666,13 @@ var searchWorkorderByTags= function (searchStr) {
 
 
     $.ajax({
-      url: '/WorkOrder/'+$("#wodt1").val()+'/'+$("#wodt2").val()+'/0/'+$("#ordercol").val()+'/filter/'+$('#ordertype').val(),
+      url: '/WorkOrder/'+$("#wodt1").val()+'/'+$("#wodt2").val()+'/0/'+$("#ordercol").val()+'/filter/'+$('#ordertype').val()+'?q='+$("#status-selector").val(),
 
       type: 'GET',
       dataType: 'json',
       success: function (data) {
 
         if (data.form_is_valid) {
-          console.log(data);
           //alert("Company created!");  // <-- This is just a placeholder for now for testing
           $("#tbody_company").empty();
 
