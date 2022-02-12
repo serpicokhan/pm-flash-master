@@ -30,6 +30,24 @@
                                             {% include 'cmms/asset_meter_template/partialAssetMeterTemplateList.html' %}
                                     </tbody>
                                 </table>
+                                <div class="woPaging" >
+                                  {% if assetMeterTemplates.has_other_pages %}
+                                  <ul class="pagination">
+                                  {% if assetMeterTemplates.has_previous %}
+                                  <li><a href="?page={{ assetMeterTemplates.previous_page_number }}">&laquo;</a></li>
+                                  {% else %}
+                                  <li class="disabled"><span>&laquo;</span></li>
+                                  {% endif %}
+                                <li ><span>{{ assetMeterTemplates.number }} از {{ assetMeterTemplates.paginator.num_pages }} <span class="sr-only">(current)</span></span></li>
+                                  {% if assetMeterTemplates.has_next %}
+                                  <li><a href="?page={{ assetMeterTemplates.next_page_number }}">&raquo;</a></li>
+                                  {% else %}
+                                  <li class="disabled"><span>&raquo;</span></li>
+                                  {% endif %}
+                                  </ul>
+                                  {% endif %}
+
+                                </div>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                 <p>
                                   <button type="button" class="btn btn-primary js-create-assetMeterTemplate"

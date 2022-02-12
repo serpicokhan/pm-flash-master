@@ -364,10 +364,10 @@ return false;
 
  ////////////////Search buttom click#############################
  var searchBusiness= function (searchStr) {
-
+   console.log("ye chizi");
 
     $.ajax({
-      url: '/Business/'+searchStr+'/Search/',
+      url: '/Business/Search/?q='+searchStr,
 
       type: 'GET',
       dataType: 'json',
@@ -403,16 +403,9 @@ return false;
 
    searchStr=$("#businessSearch").val();
 
-   searchStr=searchStr.replace(' ','_');
+   // searchStr=searchStr.replace(' ','_');
 
-   if(searchStr.trim().length>0){
-   searchBusiness(searchStr);
- }
- else {
-   searchBusiness('empty');
-
-
- }
+searchBusiness(searchStr);
     // alert("salam");
 
  });

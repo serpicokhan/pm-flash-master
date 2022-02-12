@@ -49,8 +49,9 @@ def save_business_form(request, form, template_name,id=None):
             form.save()
             data['form_is_valid'] = True
             books = Business.objects.all().order_by('name')
-            data['html_business_list'] = render_to_string('cmms/business/partialBusinesslist.html', {
-                'business': books
+            wos=BusinessUtility.doPaging(request,books)
+            data['html_business_list'] = render_to_string('cmms/business/partialBusinessList.html', {
+                'business': wos
             })
         else:
             data['form_is_valid'] = False
@@ -71,7 +72,7 @@ def business_delete(request, id):
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies =  Business.objects.all().order_by('name')
         #Tasks.objects.filter(businessId=id).update(business=id)
-        data['html_business_list'] = render_to_string('cmms/business/partialBusinesslist.html', {
+        data['html_business_list'] = render_to_string('cmms/business/partialBusinessList.html', {
             'business': companies
         })
     else:
@@ -124,15 +125,16 @@ def businessCancel(request,id):
     #         data['form_is_valid'] = True  # This is just to play along with the existing code
     #         companies =  Business.objects.all().order_by('name')
     #         #Tasks.objects.filter(taskGroupId=id).update(taskGroup=id)
-    #         data['html_business_list'] = render_to_string('cmms/business/partialBusinesslist.html', {
+    #         data['html_business_list'] = render_to_string('cmms/business/partialBusinessList.html', {
     #             'business': companies
     #         })
 
     return JsonResponse(data)
 #####################
-def business_search(request,searchStr):
+def business_search(request):
     data=dict()
-    searchStr=searchStr.replace('_',' ')
+
+    searchStr=request.GET.get("q","")
     books=BusinessUtility.seachBusiness(searchStr).order_by('name')
     wos=BusinessUtility.doPaging(request,list(books))
     data['html_business_search_tag_list'] = render_to_string('cmms/business/partialBusinessList.html', {               'business': wos  ,'perms': PermWrapper(request.user)                       })

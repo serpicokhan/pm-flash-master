@@ -816,6 +816,7 @@ def create_woasset(request):
 def assetloadinfo(request):
     data=dict()
     makan=request.GET.get("makan","")
+    noe=request.GET.get("noe","")
 
     if(makan):
         assets=Asset.objects.none()
@@ -823,6 +824,11 @@ def assetloadinfo(request):
             assets=Asset.objects.all()
         else:
             assets=Asset.objects.filter(assetIsLocatedAt=makan)
+        if(len(noe)==0  or( "null" in noe and len(noe)==1)):
+            pass
+        else:
+            print(len(noe),noe)
+            assets=assets.filter(assetCategory__in=[int(i)  for i in noe.split(',')])
         data["html_assets_dynamics"]=render_to_string('cmms/maintenance/partialWOAssetDynamics.html',
             {'assets':assets})
         data["form_is_valid"]=True

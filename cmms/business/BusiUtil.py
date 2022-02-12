@@ -16,7 +16,7 @@ class BusinessUtility:
     @staticmethod
     def seachBusiness(searchStr):
 
-             if(searchStr != 'empty'):
+             if(searchStr):
                  return Business.objects.filter(name__contains=searchStr)|Business.objects.filter(code__contains=searchStr)|Business.objects.filter(primaryContact__contains=searchStr)
 
              else:
