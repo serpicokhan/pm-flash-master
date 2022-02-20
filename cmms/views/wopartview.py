@@ -34,6 +34,7 @@ from rest_framework.decorators import api_view
 from cmms.api.WOSerializer import *
 from rest_framework.response import Response
 from django.db import IntegrityError
+from cmms.models.Asset import *
 
 ###################################################################
 def list_woPart(request,id=None):
@@ -207,6 +208,48 @@ def wP_getPartStock(request,id):
     # response_data = {}
     # response_data['result'] = '[dsadas,dasdasdas]'
     return JsonResponse(x)
+
+def wo_AssetPartList(request,id):
+    #id is wo id
+    if(request.method=='GET'):
+        # woPart=WorkOrderPart.objects.filter(woPartWorkorder=id)
+        data=dict()
+        woId=WorkOrder.objects.get(id=id).woAsset
+        # print(woId)
+        # print("here!!!!!!!!!!!!!")
+        #books=AssetPart.objects.filter(assetPartAssetid=woId)
+        # query="select id as id,assetPartAssetid_id,sum(assetPartQnty) as assetPartQnty from assetpart where  assetPartAssetid_id={} group by assetPartAssetid_id,AssetPartPid_id".format(woId)
+        # query="select * from assetpart where assetPartAssetid_id={0}".format(woId)
+        books2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
+        BOMGroupAsset.objects.filter(BOMGroupAssetAsset=woId).values_list('BOMGroupAssetBOMGroup',flat=True)).order_by('BOMGroupPartPart__partName')
+
+        books=AssetPart.objects.filter(assetPartAssetid=woId).order_by('assetPartPid__partName')
+
+        data['html_part_form']= render_to_string('cmms/workorder_parts/assetPartList.html', {
+            'assetParts': books,
+            'bomlist':books2,
+            'wo':woId.id
+        })
+        data['form_is_valid']=True
+        return JsonResponse(data)
+
+def create_by_wo_part(request,wo,pid):
+    if (request.method == 'POST'):
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        data = request.POST.dict()
+        data['woPartWorkorder']=body['woPartWorkorder']
+        # data['woPartPart']=body['woPartPart']
+        data['woPartPlannedQnty']=body['woPartPlannedQnty']
+        data['woPartActulaQnty']=body['woPartActulaQnty']
+        data['woPartStock']=body['woPartStock']
+        woId=body['woPartWorkorder']
+        form = WoPartForm(data=data)
+    else:
+        form = WoPartForm(initial={'mypart':'100'})
+    return save_woPart_form(request, form, 'cmms/workorder_parts/partialWoPartCreate.html',wo)
+
+
 @api_view(['GET'])
 def wopart_collection(request,id):
     if request.method == 'GET':

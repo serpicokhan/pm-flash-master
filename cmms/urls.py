@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^WorkOrder/(?P<id>\d+)/update/$', wo_update, name='wo_update'),
     url(r'^WorkOrder/(?P<id>\d+)/cancel/$', wo_cancel, name='wo_cancel'),
     url(r'^WorkOrder/(?P<id>\d+)/delete/$', wo_delete, name='wo_delete'),
+    url(r'^WorkOrder/AssetPart/(?P<id>\d+)/List/$', wo_AssetPartList, name='wo_AssetPartList'),
 
 
 
@@ -152,6 +153,7 @@ urlpatterns = [
 
 
       url(r'^WoPart/$',list_woPart,name='list_woPart'),
+      url(r'^WoPart/CreateByWo/(?P<wo>\d+)/(?P<pid>\d+)$',create_by_wo_part,name='create_by_wo_part'),
       url(r'^WoPart/create/$', woPart_create, name='woPart_create'),
       url(r'^WoPart/(?P<id>\d+)/create/$', woPart_create, name='woPart_create'),
       url(r'^WoPart/(?P<id>\d+)/delete/$', woPart_delete, name='woPart_delete'),

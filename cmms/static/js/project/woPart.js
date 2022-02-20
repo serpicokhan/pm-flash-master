@@ -13,23 +13,7 @@ $(function () {
       },
       success: function (data) {
         $("#modal-woPart .modal-content").html(data.html_woPart_form);
-      //   $("#id_woPartPart").change(function(){
-      //
-      //   $.ajax({
-      //     async: true,
-      //     url: '/WoPart/'+$('#id_woPartPart').val()+'/GetPartStock/',
-      //     type: 'get',
-      //     dataType: 'json',
-      //     success: function (data) {
-      //       console.log(data);
-      //       // $("#id_woPartStock").html(data.result.result);
-      //       // $('.selectpicker').selectpicker('render');
-      //       // $('.selectpicker').selectpicker('refresh');
-      //
-      //
-      //     }
-      //   });
-      // });
+
 
         // $('.selectpicker').selectpicker();
         $('.advanced2AutoComplete').autoComplete({
@@ -111,7 +95,7 @@ var LoadStockForm=function(){
      {
          text: 'Test',
          'data-url':'/Stock/listStockModal/',
-         click: function () { alert('hi'); },
+         click: function () { },
 
      });
    $.ajax({
@@ -144,7 +128,7 @@ var LoadStockNewForm=function(){
      {
          text: 'Test',
          'data-url':'/Stock/create2/',
-         click: function () { alert('hi'); },
+         click: function () {  },
 
      });
    $.ajax({
@@ -188,8 +172,6 @@ var LoadStockNewForm=function(){
          }
        });
        $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
-         console.log("here Start");
-         console.log(item);
          $("#id_stockItem").val(item.id);
          $('#id_stockItem').val(item.id).trigger('change');
          // $('.basicAutoCompleteCustom').html('');
@@ -212,7 +194,7 @@ var LoadPartNewForm=function(){
      {
          text: 'Test',
          'data-url':'/Part/create2/',
-         click: function () { alert('hi'); },
+         click: function () {  },
 
      });
    $.ajax({
@@ -227,6 +209,39 @@ var LoadPartNewForm=function(){
      success: function (data) {
        // console.log(data);
        $("#modal-woPartPartNew .modal-content").html(data.html_part_form);
+
+
+       // $('.selectpicker').selectpicker();
+
+      }
+    });
+
+
+
+
+
+};
+var LoadAssetPartForm=function(){
+   // $("#modal-woPartStock").modal("show");
+   var btn = $('<button/>',
+     {
+         text: 'Test',
+         'data-url':'/WorkOrder/AssetPart/'+$("#lastWorkOrderid").val()+'/List',
+         click: function () {  },
+
+     });
+   $.ajax({
+     url: btn.attr("data-url"),
+     type: 'get',
+       async: true,
+     dataType: 'json',
+     beforeSend: function () {
+       //alert(btn.attr("data-url"));
+       $("#modal-woAssetPart").modal('show');
+     },
+     success: function (data) {
+       // console.log(data);
+       $("#modal-woAssetPart .modal-content").html(data.html_part_form);
 
 
        // $('.selectpicker').selectpicker();
@@ -285,8 +300,9 @@ var selectStockItem=function(){
 
 }
  // Create book
-$(".js-create-woPart").unbind();
+// $(".js-create-woPart").unbind();
 $(".js-create-woPart").click(loadWoPartForm);
+$(".js-create-woAssetPart").click(LoadAssetPartForm);
 //$("#task-submit").on("", ".js-task-create-form", saveTaskForm);
 //s$("#task-submit").on("click",function(){alert("32132");});
 //$("#task-table").on("load",initLoad);
@@ -302,5 +318,6 @@ $("#modal-woPart").on("click", ".js-woPartStock-create-form", LoadStockForm);
   $("#modal-woPartStock").on("keyup", ".stockSearch",stSearch);
   $("#modal-woPartStockNew").on("click", ".js-add-new-part",LoadPartNewForm);
   $("#modal-woPartStock").on("click", ".js-select-stock",selectStockItem);
+  $("#modal-woAssetPart").on("click",".js-select-assetPart",loadWoPartForm)
 
 });

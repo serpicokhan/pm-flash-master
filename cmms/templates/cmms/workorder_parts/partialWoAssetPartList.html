@@ -1,0 +1,62 @@
+
+{% for c in assetParts %}
+
+<tr>
+<td>{{c.assetPartPid}}</td>
+ <td>{{c.assetPartQnty}}</td>
+ <td>{{c.assetPartDescription|default_if_none:"مشخص نشده"}}</td>
+
+<td><button type="button"
+             class="btn btn-warning btn-sm js-select-assetPart"
+             data-url="/WoPart/CreateByWo/{{wo}}/{{c.assetPartPid.id}}">
+        مصرف
+     </button></td>
+
+
+
+
+
+
+</tr>
+{% empty %}
+<tr>
+ <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}
+{% for c in bomlist %}
+
+<tr>
+  <td></td>
+<td>{{c.BOMGroupPartPart}}</td>
+ <td>{{c.BOMGroupPartQnty}}</td>
+
+
+
+
+
+
+
+ <td>
+   <button type="button"
+                class="btn btn-warning btn-sm js-select-assetPart"
+                data-url="">
+          <span class="glyphicon glyphicon-pencil"></span> ویرایش
+        </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}
+{% load static %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(".js-create-assetPart").unbind();
+
+</script>
+  <script src="{% static '/js/project/assetPart.js' %}"></script>
+{% endblock %}
