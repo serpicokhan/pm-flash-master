@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/(?P<gid>\d+)/GetResStatus2/(?P<loc>\d+)$', dash_getDashResourceStatus2, name='dash_getDashResourceStatus2'),
     ###################################
     url(r'^WorkOrder/$',list_wo,name='list_wo'),
+    url(r'^WorkOrder/list_wo_by_status/(?P<woStatus>\d+)$',list_wo_by_status,name='list_wo_by_status'),
 
     url(r'^formset$',formset_view,name='formset_view'),
     url(r'^formset/remove/(?P<ids>\d+(?:,\d+)*)$',formset_bulk_deletion,name='formset_bulk_deletion'),
