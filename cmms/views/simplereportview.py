@@ -2369,3 +2369,13 @@ class reporttest:
             # print(asset_names.count(),"length")
             asset_meter=AssetMeterReading.objects.filter(assetMeterLocation__in=[int(i)  for i in assets],timestamp__range=(date1,date2)).order_by('timestamp')
         return render(request, 'cmms/reports/simplereports/AssetMeterLocation.html',{'result1':asset_meter,'names':list(asset_names),'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
+    def UpCommingServiceByUserAndDate(Self,request):
+        user=request.POST.get("user","")
+        user_name=SysUser.objects.get(id=user).title
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+        tasks=Tasks.objects.filter(taskAssignedToUser=user,workOrder__datecreated__range=[date1,date2],workOrder__isScheduling=False,workOrder__visibile=False)
+        return render(request, 'cmms/reports/simplereports/UpCommingServiceByUserAndDate.html',{'result1':tasks,'names':user_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})

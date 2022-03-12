@@ -47,6 +47,7 @@ class Tasks(models.Model):
     #woId=models.FloatField(null=True,blank=True)
     class Meta:
       db_table = "tasks"
+      ordering=("taskDescription",)
 class WorkorderTask(models.Model):
     task=models.ForeignKey(Tasks,on_delete=models.SET_NULL,null=True,related_name="worordertaskrelated")
     workorder=models.ForeignKey('WorkOrder',on_delete=models.CASCADE,related_name="worordertaskwordrelated")
