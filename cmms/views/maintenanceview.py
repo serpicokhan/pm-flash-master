@@ -88,6 +88,32 @@ def list_wo(request,id=None):
     except Exception as ex:
         print(ex)
         return render(request, 'cmms/404.html', {'to':123})
+@permission_required('cmms.view_workorder',login_url='/not_found')
+def list_wo_by_status(request,woStatus):
+    try:
+        books=[]
+        groups=[]
+
+        if(request.user.username!="admin"):
+            books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
+            usid=SysUser.objects.get(userId=request.user.id)
+
+            groups=UserGroup.objects.filter(id__in=UserGroups.objects.filter(userUserGroups__id=usid.id).values_list('groupUserGroups',flat=True))
+
+        else:
+            books = WorkOrder.objects.filter(isScheduling=False,visibile=True).order_by('-datecreated','-timecreated','-id')
+            groups=UserGroup.objects.all()
+        if(int(woStatus)<1000):
+            books=books.filter(woStatus=int(woStatus))
+
+        user1=SysUser.objects.get(userId=request.user)
+
+        wos=WOUtility.doPaging(request,books)
+        return render(request, 'cmms/maintenance/woList.html', {'wo': wos,'groups':groups,'user2':user1,
+        'section':'list_wo','status':Status,'selected_status':int(woStatus)})
+    except Exception as ex:
+        print(ex)
+        return render(request, 'cmms/404.html', {'to':123})
 
 
 ##########################################################

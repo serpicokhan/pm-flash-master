@@ -1154,7 +1154,9 @@ var loadPdate=function()
  return false;
 
  }
-
+var filter_by_woStatus=function(){
+  window.location.replace("/WorkOrder/list_wo_by_status/"+$("#status-selector2").val());
+}
 
 $(".js-create-wo").unbind();
 
@@ -1176,6 +1178,7 @@ $("#modal-woEm").on("submit", ".js-bulkem-selector-form2", saveWoEmForm);
 $("#modal-company").on("change",'.user-assignment',updatetaskuser);
 
 $(".wo-filter").on("click",filter);
+$("#status-selector2").on("change",filter_by_woStatus);
 
 $(document).ready(function(){
 
