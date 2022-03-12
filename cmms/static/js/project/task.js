@@ -1,4 +1,5 @@
 $(function () {
+
   var loadForm =function (btn1) {
 
 
@@ -168,6 +169,30 @@ var set_task_result=function(){
 return false;
 
 };
+//بدست آودن مدت زمان مجموع کاری یک کاربر در یک تاریخ
+var get_task_user_time=function(){
+
+  $.ajax({
+    async: true,
+    url: '/Task/GetTotalEstimatedUserTime/'+$("#lastWorkOrderid").val()+'/'+$("#id_taskAssignedToUser").val(),
+
+    type: 'get',
+    dataType: 'json',
+    success: function (data) {
+      if (data.form_is_valid) {
+        if(data.result.taskTimeEstimate__sum)
+          $("#assnamelabel").text("زمان تقریبی"+data.result.taskTimeEstimate__sum);
+
+
+      }
+
+
+    }
+  });
+
+return false;
+
+};
 
 
 
@@ -185,6 +210,7 @@ $("#task-table").on("click", ".js-update-task", loadTaskForm);
 // Delete book
 $("#task-table").on("click", ".js-delete-task", loadTaskForm);
 $("#modal-task").on("click", ".js-task-delete-form", deleteTaskForm);
+$("#modal-task").on("change", ".ttttt", get_task_user_time);
 $("#task-table").on("focusout", ".task-result", set_task_result );
 
 });

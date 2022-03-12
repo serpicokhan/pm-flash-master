@@ -2,6 +2,7 @@ from cmms.models.task import *
 from cmms.models.workorder import *
 from datetime import datetime
 from django.core.paginator import *
+from django.db.models import Sum
 class TaskUtility:
     #get cost of a task by human cost between 2 date
     @staticmethod
@@ -160,3 +161,8 @@ class TaskUtility:
     @staticmethod
     def search(searchStr):
         return TaskGroup.objects.filter(taskGroupName__contais=searchStr)
+    @staticmethod
+    def GetTotalEstimatedUserTime(uid,time_):
+        print(Tasks.objects.filter(taskAssignedToUser__id=uid,workOrder__datecreated=time_.date(),workOrder__visibile=False).query)
+        t=Tasks.objects.filter(taskAssignedToUser__id=uid,workOrder__datecreated=time_.date(),workOrder__visibile=False).aggregate(Sum('taskTimeEstimate'))
+        return t

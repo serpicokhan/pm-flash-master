@@ -350,6 +350,15 @@ def task_create_meter_reading(t):
 
 
 
+def getTotalUserActivityEstimatedTimeBySWO(request,wo,uid):
+    swo=Schedule.objects.get(workOrder=wo)
+    time_=swo.schnextTime
+    
+    total_time=TaskUtility.GetTotalEstimatedUserTime(uid,time_)
+    data=dict()
+    data["form_is_valid"]=True
+    data["result"]=total_time
+    return JsonResponse(data)
 
 
 

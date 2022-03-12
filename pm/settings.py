@@ -145,10 +145,10 @@ WSGI_APPLICATION = 'pm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmmsuni222',
+        'NAME': 'cmmsuni2',
         'USER': 'root',
         'PASSWORD': 'docker-root',
-        'HOST': '192.168.1.5',
+        'HOST': '172.16.2.149',
         'PORT': '3306',
     }
 }
