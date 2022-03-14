@@ -71,6 +71,7 @@ def save_schedule_form(request, form, template_name,woId=None,is_update=None):
                  if form.is_valid():
                      print(form.instance.schNextWo,"ln 71!!!!!!")
                      newItem=form.save()
+                     print("sch id",newItem.id)
                      print(newItem.schNextWo,"ln 72")
                      ScheduleUtility.CreateNewWO(newItem.id)
                      print("here again")

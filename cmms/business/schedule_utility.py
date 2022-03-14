@@ -26,8 +26,9 @@ class ScheduleUtility:
                 if(Newsch.schNextWo is None):
                     print("line 20 sch schenext is noen")
                     stableWo=WorkOrder.objects.get(id=Newsch.workOrder_id)
+                    # print("line 20 sch_utility",stableWo)
                     stableWo.pk=None
-                    print("line 20 sch_utility")
+                    print("line 20 sch_utility",stableWo)
                 else:
                     stableWo=Newsch.schNextWo
                     schIsNewFlag=False
@@ -40,10 +41,15 @@ class ScheduleUtility:
                     # print(s,"!!!!!!!!!!!!!")
                         xxx=datetime.now()
                         next_t=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+                        print(next_t,"   !!nextt")
                         if(next_t>=xxx):
+                            print("!")
                             Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
                         else:
-                            datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=xxx.hour,minute=0,second=0)+timedelta(hours=Newsch.schHourRep)
+
+                            Newsch.schnextTime=datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=xxx.hour,minute=0,second=0)+timedelta(hours=Newsch.schHourRep)
+                            print("2",Newsch.schnextTime)
+
                     else:
                         xxx=datetime.now()
                         sch_must_run_at=datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=s,minute=0,second=0)
@@ -169,7 +175,11 @@ class ScheduleUtility:
                 stableWo.datecreated=Newsch.schnextTime.date()
                 stableWo.timecreated=Newsch.schnextTime.time()
                 stableWo.dateCompleted=None
-                stableWo.requiredCompletionDate=stableWo.datecreated+timedelta(stableWo.estimatedCompilation)
+                if(stableWo.estimatedCompilation):
+                    stableWo.requiredCompletionDate=stableWo.datecreated+timedelta(stableWo.estimatedCompilation)
+                else:
+                    stableWo.requiredCompletionDate=stableWo.datecreated+timedelta(1)
+
                 stableWo.visibile=False
                 stableWo.isScheduling=False
                 stableWo.isPartOf=Newsch.workOrder
