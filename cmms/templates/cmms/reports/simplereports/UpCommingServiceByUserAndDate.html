@@ -40,7 +40,7 @@
      {% for c in result1 %}
 
      <tr>
-        <td  ><a href="/WorkOrder/{{c.id}}/details" target="_blank">{{c.id}}</a></td>
+        <td  ><a href="/WorkOrder/{{c.workOrder.id}}/details" target="_blank">{{c.id}}</a></td>
        <td  >
          {{c.workOrder.summaryofIssue|default_if_none:"نامشخص"}}
        </td>
