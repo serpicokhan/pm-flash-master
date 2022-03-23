@@ -9,7 +9,7 @@ from celery.schedules import crontab
 # from celery import task
 # from celery.decorators import periodic_task
 from celery.utils.log import get_task_logger
-from datetime import datetime
+from datetime import datetime as mydt1
 from datetime import timedelta,date,time
 from dateutil.relativedelta import *
 import sys
@@ -41,7 +41,7 @@ def createWO_celery2():
 
 
         # logger.info("create object")
-        todoes=Schedule.objects.filter(schnextTime__contains=datetime.now().date(),schnextTime__hour=datetime.now().hour)
+        todoes=Schedule.objects.filter(schnextTime__contains=mydt1.now().date(),schnextTime__hour=mydt1.now().hour)
         try:
             for sch in todoes:
                 if(sch.schNextWo.visibile==False and sch.workOrder.running==True and sch.schChoices==0):
@@ -73,7 +73,7 @@ def createWO_celery2():
                         sch.schnextTime=sch.schnextTime+timedelta(d)
                     elif(sch.schHowOften==3):
                         # logger.info("here")
-                        cd=datetime.now()
+                        cd=mydt1.now()
                         if(sch.isSunday==True):
                             while cd.weekday()!=6:
                                 cd+=timedelta(1)
@@ -134,19 +134,19 @@ def createWO_celery2():
                                 cd+=timedelta((sch.schWeeklyRep-1)*7)
                             sch.schnextTime=cd
                     elif(sch.schHowOften==4):
-                        cd=jdatetime.date.fromgregorian(date=datetime.now())#datetime.now()
+                        cd=jdatetime.date.fromgregorian(date=mydt1.now())#datetime.now()
                         # t1=jdatetime.date.fromgregorian(date=datetime.now())
                         cd=cd+ relativedelta(months=sch.schMonthlyRep)
                         cd=jdatetime.date(cd.year,cd.month,sch.schDayofMonthlyRep)
-                        z=datetime.combine(cd.togregorian(),datetime.strptime("{}0".format(sch.schnextTime.hour),"%H%M").time())
+                        z=mydt1.combine(cd.togregorian(),mydt1.strptime("{}0".format(sch.schnextTime.hour),"%H%M").time())
                         print("z:",z)
                         sch.schnextTime=z
                     elif(sch.schHowOften==5):
-                        cd=jdatetime.date.fromgregorian(date=datetime.now())
+                        cd=jdatetime.date.fromgregorian(date=mydt1.now())
                         cd=cd+relativedelta(years=sch.schYearlyRep)
                         cd=jdatetime.date(cd.year,sch.schMonthOfYearRep,sch.schDayOfMonthOfYearRep)
                         # sch.schnextTime=cd.togregorian()
-                        sch.schnextTime=datetime.combine(cd.togregorian(),datetime.time(s,0,0))
+                        sch.schnextTime=mydt1.combine(cd.togregorian(),datetime.time(s,0,0))
 
 #
 #

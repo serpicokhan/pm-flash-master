@@ -1,6 +1,6 @@
 import jdatetime
 import datetime
-from datetime import datetime
+from datetime import datetime  as mydt1
 
 from datetime import timedelta,date,timezone
 import pytz
@@ -39,26 +39,26 @@ class ScheduleUtility:
                     d=0#از همین ساعت شروع شود
                     if(Newsch.schCreateOnStartDate):
                     # print(s,"!!!!!!!!!!!!!")
-                        xxx=datetime.now()
-                        next_t=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+                        xxx=mydt1.now()
+                        next_t=mydt1(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
                         print(next_t,"   !!nextt")
                         if(next_t>=xxx):
                             print("!")
-                            Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+                            Newsch.schnextTime=mydt1(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(hours=d)
                         else:
 
-                            Newsch.schnextTime=datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=xxx.hour,minute=0,second=0)+timedelta(hours=Newsch.schHourRep)
+                            Newsch.schnextTime=mydt1(year=xxx.year,month=xxx.month,day=xxx.day,hour=xxx.hour,minute=0,second=0)+timedelta(hours=Newsch.schHourRep)
                             print("2",Newsch.schnextTime)
 
                     else:
-                        xxx=datetime.now()
-                        sch_must_run_at=datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=s,minute=0,second=0)
+                        xxx=mydt1.now()
+                        sch_must_run_at=mydt1(year=xxx.year,month=xxx.month,day=xxx.day,hour=s,minute=0,second=0)
                         if(xxx>sch_must_run_at):
                             d=Newsch.schHourRep
-                            Newsch.schnextTime=datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+                            Newsch.schnextTime=mydt1(year=xxx.year,month=xxx.month,day=xxx.day,hour=s,minute=0,second=0)+timedelta(hours=d)
                         else:
                             d=0
-                            Newsch.schnextTime=datetime(year=xxx.year,month=xxx.month,day=xxx.day,hour=s,minute=0,second=0)+timedelta(hours=d)
+                            Newsch.schnextTime=mydt1(year=xxx.year,month=xxx.month,day=xxx.day,hour=s,minute=0,second=0)+timedelta(hours=d)
 
                     print(Newsch.schnextTime)
                 elif(Newsch.schHowOften==2):
@@ -66,10 +66,10 @@ class ScheduleUtility:
                     # print(Newsch.schCreateOnStartDate)
                     if(not Newsch.schCreateOnStartDate):
                         d=Newsch.schDailyRep
-                    Newsch.schnextTime=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(d)
+                    Newsch.schnextTime=mydt1(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)+timedelta(d)
                 elif(Newsch.schHowOften==3):
                     dtList=[0,0,0,0,0,0,0]
-                    cd=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)
+                    cd=mydt1(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)
                     if(Newsch.isSunday==True):
                         print("Sunday: is True")
                         dtList[6]=1
@@ -104,7 +104,7 @@ class ScheduleUtility:
                                 cd+=timedelta(1)
                             # print(cd.isocalendar()[1],date.today().isocalendar()[1])
                             # if(cd.isocalendar()[1]==date.today().isocalendar()[1]):
-                            if(cd>datetime.now()):
+                            if(cd>mydt1.now()):
                                     Newsch.schnextTime=cd
                                     key1=False
                             else:
@@ -121,8 +121,8 @@ class ScheduleUtility:
 
 
                 elif(Newsch.schHowOften==4):
-                    ddd=datetime.now()
-                    xxx=datetime(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)
+                    ddd=mydt1.now()
+                    xxx=mydt1(year=Newsch.shStartDate.year,month=Newsch.shStartDate.month,day=Newsch.shStartDate.day,hour=s,minute=0,second=0)
                     # print(Newsch.shStartDate)
                     # print(Newsch.schDayofMonthlyRep,'!!!!!!')
                     cd=jdatetime.date.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year,hour=s,minute=0,second=0)#datetime.now()
@@ -133,7 +133,7 @@ class ScheduleUtility:
                     #     cd+=timedelta(1)
                     if(Newsch.schCreateOnStartDate):
                         t3=t1.togregorian()
-                        ttt=datetime(year=t3.year,month=t3.month,day=t3.day,hour=s,minute=0,second=0)
+                        ttt=mydt1(year=t3.year,month=t3.month,day=t3.day,hour=s,minute=0,second=0)
                         if(ttt>=ddd):
                         #
                         #         # kdate=jdatetime.date.fromgregorian(
@@ -153,11 +153,11 @@ class ScheduleUtility:
 
                     # time = datetime.time(1, 30)
 
-                    Newsch.schnextTime=datetime.combine(jdatetime.date(z.year,z.month,Newsch.schDayofMonthlyRep).togregorian(),datetime.strptime("{}0".format(s),"%H%M").time())
+                    Newsch.schnextTime=mydt1.combine(jdatetime.date(z.year,z.month,Newsch.schDayofMonthlyRep).togregorian(),mydt1.strptime("{}0".format(s),"%H%M").time())
 
 
                 elif(Newsch.schHowOften==5):
-                    xxx=datetime.now()
+                    xxx=mydt1.now()
                     cd=jdatetime.datetime.fromgregorian(day=xxx.day,month=xxx.month,year=xxx.year)#datetime.now()
                     #cd=jdatetime.date.fromgregorian(date=datetime.now())
                     dt1=jdatetime.datetime(year=cd.year,month=Newsch.schMonthOfYearRep,day=Newsch.schDayOfMonthOfYearRep)
@@ -170,7 +170,7 @@ class ScheduleUtility:
                             xdt=xdt+relativedelta(years=+(Newsch.schYearlyRep-1))
                     else:
                         xdt=xdt+relativedelta(years=+(Newsch.schYearlyRep))
-                    Newsch.schnextTime=datetime.combine(xdt,datetime.now().time())
+                    Newsch.schnextTime=mydt1.combine(xdt,datetime.time(s,0,0))
 
                 stableWo.datecreated=Newsch.schnextTime.date()
                 stableWo.timecreated=Newsch.schnextTime.time()
@@ -269,9 +269,9 @@ class ScheduleUtility:
     def ForecastGeneratedWOParts():
         utc=pytz.UTC
         parts=dict()
-        three_months =utc.localize( datetime.now() + relativedelta(months=+13))
+        three_months =utc.localize( mydt1.now() + relativedelta(months=+13))
         #در زمان حرکت می کند
-        time_bar=datetime.now()
+        time_bar=mydt1.now()
 
         wos=WorkOrder.objects.filter(running=True,isScheduling=True)
         sch=Schedule.objects.filter(workOrder__in=wos)
@@ -355,7 +355,7 @@ class ScheduleUtility:
             print(cd)
 
 
-            Newsch.schnextTime=datetime.combine(cd.togregorian(),datetime.now().time())
+            Newsch.schnextTime=mydt1.combine(cd.togregorian(),datetime.now().time())
         elif(Newsch.schHowOften==5):
             #cd=jdatetime.date.fromgregorian(date=datetime.now())
             # dt1=jdatetime.date(Newsch.schnextTime.year,Newsch.schnextTime.month,Newsch.schnextTime.day)
@@ -387,9 +387,9 @@ class ScheduleUtility:
         if(len(maintenanceType)>0):
                 wos=wos.filter(maintenanceType_id__in=maintenanceType)
 
-        three_months = enddate if enddate else datetime.now(timezone.utc) + relativedelta(months=+40)
+        three_months = enddate if enddate else mydt1.now(timezone.utc) + relativedelta(months=+40)
         #در زمان حرکت می کند
-        time_bar=datetime.now()
+        time_bar=mydt1.now()
         sch=Schedule.objects.filter(workOrder__in=wos)
         # print("#####",sch)
 
@@ -423,9 +423,9 @@ class ScheduleUtility:
             wos=WorkOrder.objects.filter(isScheduling=True,running=True)
 
 
-        three_months = enddate if enddate else datetime.now(timezone.utc) + relativedelta(months=+40)
+        three_months = enddate if enddate else mydt1.now(timezone.utc) + relativedelta(months=+40)
         #در زمان حرکت می کند
-        time_bar=datetime.now()
+        time_bar=mydt1.now()
         sch=Schedule.objects.filter(workOrder__in=wos)
         # print("#####",sch)
 
