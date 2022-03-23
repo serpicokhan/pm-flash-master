@@ -47,6 +47,7 @@ def createWO_celery2():
                 if(sch.schNextWo.visibile==False and sch.workOrder.running==True and sch.schChoices==0):
                     print("wo",sch.schNextWo)
                     print("current nexttime",sch.schnextTime)
+                    s=sch.schTriggerTime
                     # LogEntry.objects.log_action(
                     # user_id         = 1,
                     # content_type_id = sch.schChoices,
@@ -135,23 +136,18 @@ def createWO_celery2():
                     elif(sch.schHowOften==4):
                         cd=jdatetime.date.fromgregorian(date=datetime.now())#datetime.now()
                         # t1=jdatetime.date.fromgregorian(date=datetime.now())
-                        cd=jdatetime.date(cd.year,cd.month+sch.schMonthlyRep,sch.schDayofMonthlyRep)
+                        cd=cd+ relativedelta(months=sch.schMonthlyRep)
+                        cd=jdatetime.date(cd.year,cd.month,sch.schDayofMonthlyRep)
                         z=datetime.combine(cd.togregorian(),datetime.strptime("{}0".format(sch.schnextTime.hour),"%H%M").time())
                         print("z:",z)
-                        # while cd.day!=sch.schDayofMonthlyRep:
-                        #     cd+=timedelta(1)
-
-                        # if(cd.month==t1.month):
-                        #         cd=jdatetime.date(cd.year,((cd.month+sch.schMonthlyRep)%13)+1,sch.schDayofMonthlyRep)
-                        # else:
-                        #     cd=jdatetime.date(cd.year,((cd.month+sch.schMonthlyRep-1)%13)+1,cd.day)
-                        #         #ss+=relativedelta(months=+sch.schMonthlyRep-1)
-                        # logger.info(cd)
                         sch.schnextTime=z
                     elif(sch.schHowOften==5):
                         cd=jdatetime.date.fromgregorian(date=datetime.now())
-                        cd=jdatetime.date(cd.year+sch.schMonthOfYearRep,sch.schMonthOfYearRep,sch.schDayOfMonthOfYearRep)
+                        cd=cd+relativedelta(years=sch.schYearlyRep)
+                        cd=jdatetime.date(cd.year,sch.schMonthOfYearRep,sch.schDayOfMonthOfYearRep)
                         sch.schnextTime=cd.togregorian()
+                        sch.schnextTime=datetime.combine(cd.togregorian(),datetime.time(s,0,0))
+
 #
 #
 #
@@ -167,6 +163,8 @@ def createWO_celery2():
                     stableWo=WorkOrder.objects.get(id=sch.workOrder_id)
                     oldWo=WorkOrder.objects.get(id=sch.workOrder_id)
                     stableWo.pk=None
+                    stableWo.isPm=True
+
                     stableWo.datecreated=sch.schnextTime.date()
                     stableWo.timecreated=sch.schnextTime.time()
                     # stableWo.datecreated=datetime.now().date()
