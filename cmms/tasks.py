@@ -145,7 +145,7 @@ def createWO_celery2():
                         cd=jdatetime.date.fromgregorian(date=datetime.now())
                         cd=cd+relativedelta(years=sch.schYearlyRep)
                         cd=jdatetime.date(cd.year,sch.schMonthOfYearRep,sch.schDayOfMonthOfYearRep)
-                        sch.schnextTime=cd.togregorian()
+                        # sch.schnextTime=cd.togregorian()
                         sch.schnextTime=datetime.combine(cd.togregorian(),datetime.time(s,0,0))
 
 #
@@ -172,9 +172,9 @@ def createWO_celery2():
                     # stableWo.timecreated=datetime.now().time()
                     stableWo.visibile=False
                     stableWo.isScheduling=False
-                    stableWo.isPartOf=sch.workOrder
+                    stableWo.isPartOf=WorkOrder.objects.get(id=sch.workOrder_id)
                     stableWo.save()
-                    sch.schNextWo=stableWo
+                    sch.schNextWo=WorkOrder.objects.get(id=sch.stableWo)
                     sch.save()
                     #######Copy Tasks#########
                     #wt=WorkorderTask.objects.filter(workorder=oldWo)
@@ -182,7 +182,7 @@ def createWO_celery2():
                     if(wt!=None):
                         for f in wt:
                             f.pk=None
-                            f.workOrder=stableWo
+                            f.workOrder=WorkOrder.objects.get(id=stableWo.id)
                             f.taskStartDate=sch.schnextTime.date()
                             f.taskStartTime=sch.schnextTime.time()
                             f.save()
