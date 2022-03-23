@@ -143,8 +143,8 @@ def createWO_celery2():
                         sch.schnextTime=z
                     elif(sch.schHowOften==5):
                         cd=jdatetime.date.fromgregorian(date=mydt1.now())
-                        cd=cd+relativedelta(years=sch.schYearlyRep)
-                        cd=jdatetime.date(cd.year,sch.schMonthOfYearRep,sch.schDayOfMonthOfYearRep)
+                        # cd=cd+relativedelta(years=sch.schYearlyRep)
+                        cd=jdatetime.date(cd.year+sch.schYearlyRep,sch.schMonthOfYearRep,sch.schDayOfMonthOfYearRep)
                         # sch.schnextTime=cd.togregorian()
                         sch.schnextTime=mydt1.combine(cd.togregorian(),datetime.time(s,0,0))
 
