@@ -208,6 +208,17 @@ def wP_getPartStock(request,id):
     # response_data = {}
     # response_data['result'] = '[dsadas,dasdasdas]'
     return JsonResponse(x)
+def WoPart_search_form_set(request):
+    q=request.GET.get("q",'')
+    data=dict()
+    if(len(q)>1):
+        res=Stock.objects.filter(stockItem__partName__icontains=q)
+        data['result']=render_to_string('cmms/workorder_parts/partialWoPartSearchResult.html', {
+            'woParts': res
+        })
+
+    return JsonResponse(data)
+
 
 def wo_AssetPartList(request,id):
     #id is wo id

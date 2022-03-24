@@ -318,6 +318,19 @@
   <script type="text/javascript">
 
   $(document).ready(function(){
+    $(".input-block-level").keyup(function(){
+
+      $.ajax({
+            url: "/WoPart/search_form_set?q="+$(this).val(),
+            type: 'get',
+            success: function(data){
+              console.log(data);
+            $("#id_woPart").empty();
+            $("#id_woPart").html(data.result);
+            $("#id_woPart").selectpicker('refresh'); // without the []
+    }
+});
+    });
 
       $('.basicAutoComplete').autoComplete();
       $('.advanced2AutoComplete').autoComplete({
@@ -326,7 +339,7 @@
         formatResult: function (item) {
           return {
             value: item.id,
-            text: "[" + item.partCode + "] " + item.partName,
+            text: "[" + item.assetCode + "] " + item.assetName,
 
           };
         },

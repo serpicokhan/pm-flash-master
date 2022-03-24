@@ -65,10 +65,12 @@ class WorkOrderForm2(forms.ModelForm):
     # completionNotes = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     pertTime = forms.FloatField(required=False)
     myAsset = forms.CharField(label="نام قطعه",required=False,widget=forms.TextInput())
+    woPart =  forms.ModelChoiceField(label="نام کاربر",queryset=Stock.objects.none(),
+        widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 
     # RequestedUser = forms.IntegerField( required=False )
     unitgroups = forms.ModelMultipleChoiceField(queryset=UserGroup.objects.all(),required=False)
-    woPart = forms.ModelMultipleChoiceField(queryset=Stock.objects.all(),required=False)
+    # woPart = forms.ModelMultipleChoiceField(queryset=Stock.objects.all(),required=False)
     # assignedToUser=forms.ModelMultipleChoiceField(queryset=SysUser.objects.filter(userStatus=True),required=False)
     assignedToUser = forms.ModelChoiceField(label="گروه کاری",queryset=SysUser.objects.filter(userStatus=True),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))

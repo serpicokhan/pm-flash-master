@@ -156,6 +156,7 @@ urlpatterns = [
       url(r'^WoPart/CreateByWo/(?P<wo>\d+)/(?P<pid>\d+)$',create_by_wo_part,name='create_by_wo_part'),
       url(r'^WoPart/create/$', woPart_create, name='woPart_create'),
       url(r'^WoPart/(?P<id>\d+)/create/$', woPart_create, name='woPart_create'),
+      url(r'^WoPart/search_form_set$', WoPart_search_form_set, name='WoPart_search_form_set'),
       url(r'^WoPart/(?P<id>\d+)/delete/$', woPart_delete, name='woPart_delete'),
       url(r'^WoPart/(?P<id>\d+)/update/$', woPart_update, name='woPart_update'),
       url(r'^WoPart/(?P<name>\w+)/search/$', woPart_Seach, name='woPart_Seach'),
