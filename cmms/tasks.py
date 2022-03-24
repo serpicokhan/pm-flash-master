@@ -12,6 +12,7 @@ from celery.utils.log import get_task_logger
 from datetime import datetime as mydt1
 from datetime import timedelta,date,time
 from dateutil.relativedelta import *
+from django.db import transaction
 import sys
 import locale
 
@@ -46,6 +47,7 @@ def createWO_celery2():
             for sch in todoes:
                 if(sch.schNextWo.visibile==False and sch.workOrder.running==True and sch.schChoices==0):
                     print("wo",sch.schNextWo)
+                    print("swo",sch.workOrder)
                     print("current nexttime",sch.schnextTime)
                     s=sch.schTriggerTime
                     # LogEntry.objects.log_action(
@@ -160,22 +162,23 @@ def createWO_celery2():
 
                     #sch.schnextTime=datetime.combine(sch.schnextTime,datetime.now().time())+timedelta(days=sch.schDailyRep)
                     #sch.schnextTime=sch.schnextTime+timedelta(days=sch.schDailyRep)
-                    stableWo=WorkOrder.objects.get(id=sch.workOrder_id)
-                    oldWo=WorkOrder.objects.get(id=sch.workOrder_id)
-                    stableWo.pk=None
-                    stableWo.isPm=True
+                    with transaction.atomic():
+                        stableWo=WorkOrder.objects.get(id=sch.workOrder_id)
+                        oldWo=WorkOrder.objects.get(id=sch.workOrder_id)
+                        stableWo.pk=None
+                        stableWo.isPm=True
 
-                    stableWo.datecreated=sch.schnextTime.date()
-                    stableWo.timecreated=sch.schnextTime.time()
-                    # stableWo.datecreated=datetime.now().date()
-                    stableWo.requiredCompletionDate=stableWo.datecreated+timedelta(stableWo.estimatedCompilation)
-                    # stableWo.timecreated=datetime.now().time()
-                    stableWo.visibile=False
-                    stableWo.isScheduling=False
-                    stableWo.isPartOf=WorkOrder.objects.get(id=sch.workOrder_id)
-                    stableWo.save()
-                    sch.schNextWo=WorkOrder.objects.get(id=sch.stableWo)
-                    sch.save()
+                        stableWo.datecreated=sch.schnextTime.date()
+                        stableWo.timecreated=sch.schnextTime.time()
+                        # stableWo.datecreated=datetime.now().date()
+                        stableWo.requiredCompletionDate=stableWo.datecreated+timedelta(stableWo.estimatedCompilation)
+                        # stableWo.timecreated=datetime.now().time()
+                        stableWo.visibile=False
+                        stableWo.isScheduling=False
+                        stableWo.isPartOf=WorkOrder.objects.get(id=sch.workOrder_id)
+                        stableWo.save()
+                        sch.schNextWo=WorkOrder.objects.get(id=sch.stableWo)
+                        sch.save()
                     #######Copy Tasks#########
                     #wt=WorkorderTask.objects.filter(workorder=oldWo)
                     wt=Tasks.objects.filter(workOrder=oldWo)

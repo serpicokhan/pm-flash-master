@@ -64,6 +64,7 @@ class WorkOrderForm2(forms.ModelForm):
     # workInstructions = forms.CharField( label="دستورالعمل",widget=forms.Textarea(attrs={'rows': 15, 'cols': 100}),required=False )
     # completionNotes = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     pertTime = forms.FloatField(required=False)
+    myAsset = forms.CharField(label="نام قطعه",required=False,widget=forms.TextInput())
 
     # RequestedUser = forms.IntegerField( required=False )
     unitgroups = forms.ModelMultipleChoiceField(queryset=UserGroup.objects.all(),required=False)

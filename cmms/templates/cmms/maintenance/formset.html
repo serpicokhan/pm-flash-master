@@ -196,7 +196,8 @@
                                 </td>
 
                                 <td>
-                                    {% render_field form.woAsset class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+                                    {% render_field form.myAsset class="form-control advanced2AutoComplete" %}
+                                    {{ form.woAsset.as_hidden }}
                                 </td>
                                 <td>
                                   {% render_field form.summaryofIssue class="form-control basicAutoComplete" autocomplete="off" data-url='/WorkOrder/GetProblems' %}
@@ -319,6 +320,41 @@
   $(document).ready(function(){
 
       $('.basicAutoComplete').autoComplete();
+      $('.advanced2AutoComplete').autoComplete({
+        resolver: 'custom',
+        noResultsText:'بدون نتیجه',
+        formatResult: function (item) {
+          return {
+            value: item.id,
+            text: "[" + item.partCode + "] " + item.partName,
+
+          };
+        },
+        events: {
+          search: function (qry, callback) {
+            // let's do a custom ajax call
+            $.ajax(
+              '/Asset/GetAssets',
+              {
+                data: { 'qry': qry}
+              }
+            ).done(function (res) {
+              // console.log(res);
+
+
+              callback(res)
+            });
+          },
+
+        }
+      });
+
+      $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
+          $("#id_woAsset").val(item.id);
+          $('#id_woAsset').val(item.id).trigger('change');
+
+        // $('.basicAutoCompleteCustom').html('');
+      });
 
 
 
