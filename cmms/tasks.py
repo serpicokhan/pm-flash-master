@@ -178,7 +178,7 @@ def createWO_celery2():
                         stableWo.isScheduling=False
                         stableWo.isPartOf=WorkOrder.objects.get(id=sch.workOrder_id)
                         stableWo.save()
-                        sch.schNextWo=WorkOrder.objects.get(id=sch.stableWo)
+                        sch.schNextWo=WorkOrder.objects.get(id=stableWo)
                         sch.save()
                     #######Copy Tasks#########
                     #wt=WorkorderTask.objects.filter(workorder=oldWo)
