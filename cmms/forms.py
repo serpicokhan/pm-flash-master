@@ -14,6 +14,7 @@ import hazm
 from hazm import stopwords_list
 from hazm import word_tokenize, sent_tokenize
 from cmms.component.field import *
+import os
 class CopyAssetForm(forms.Form):
     assetname2= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
@@ -61,11 +62,19 @@ class WorkOrderForm(forms.ModelForm):
         fields = '__all__'
 
 class WorkOrderForm2(forms.ModelForm):
+    # def __init__(self,*args,**kwargs):
+    #
+    #     super (WorkOrderForm2,self ).__init__(*args,**kwargs) # populates the post
+    #     try:
+    #             self.fields['woPart'].queryset = Stock.objects.none() #AssetMeterTemplate.objects.filter(assetMeterTemplateAsset=WorkOrder.objects.get(id=workorder).woAsset)
+    #     except Exception as ex:
+    #         print(ex)
     # workInstructions = forms.CharField( label="دستورالعمل",widget=forms.Textarea(attrs={'rows': 15, 'cols': 100}),required=False )
     # completionNotes = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     pertTime = forms.FloatField(required=False)
     myAsset = forms.CharField(label="نام قطعه",required=False,widget=forms.TextInput())
     woPart =  forms.ModelChoiceField(label="نام کاربر",queryset=Stock.objects.none(),required=False)
+
 
 
     # RequestedUser = forms.IntegerField( required=False )
@@ -77,10 +86,12 @@ class WorkOrderForm2(forms.ModelForm):
     woPartQty=forms.CharField(max_length=50,required=False)
     timecreated=forms.TimeField(required=False)
     def clean(self):
-                self.is_valid()
-                cleaned_data=super(WorkOrderForm2, self).clean()
+
+            self.is_valid()
+            cleaned_data=super(WorkOrderForm2, self).clean()
 
             #if(self.is_valid()):
+            try:
                 datecreated=cleaned_data.get('datecreated','')
                 woStatus=cleaned_data.get('woStatus','')
                 RequestedUser=cleaned_data.get('RequestedUser','')
@@ -98,6 +109,7 @@ class WorkOrderForm2(forms.ModelForm):
                 assignedToUser=cleaned_data.get('assignedToUser','')
                 woStopCode=cleaned_data.get('woStopCode','')
                 woPart=cleaned_data.get('woPart','')
+                print("wopart",woPart)
                 woPartQty=cleaned_data.get('woPartQty','')
                 pertTime=cleaned_data.get('pertTime','')
                 timecreated=cleaned_data.get('timecreated','')
@@ -108,13 +120,20 @@ class WorkOrderForm2(forms.ModelForm):
                 words = [word for word in word_tokenize(summaryofIssue) if word not in stops]
                 woTags= ', '.join(str(e) for e in words)
                 isPm=False
+            except Exception as e:
+                    # data2["error"]=e
+                    # print(e,"!@#!@")
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                    print(exc_type, fname, exc_tb.tb_lineno)
+                    print(e)
 
 
                 #woId=cleaned_data.get('woId','')
                 #WorkOrder=cleaned_data.get('workOrder','')
                 # result="312312"
                 # print("######################",assignedToUser)
-                return cleaned_data
+            return cleaned_data
 
 
 

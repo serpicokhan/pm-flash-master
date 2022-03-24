@@ -640,15 +640,12 @@ def save_formset(request):
             data['Project']=body['Project']
             data['dateCompleted']=DateJob.getDate2(body['dateCompleted'])
             data['timeCompleted']=body['timeCompleted']
-
-
             data['assignedToUser_1']=body['assignedToUser']
             data['assignedToUser']=body['assignedToUser'][0]
             data['woStopCode']=body['woStopCode']
             data['woPart']=body['woPart']
-
+            print("woPart in view",data['woPart'])
             data['woPartQty']=body['woPartQty']
-
             data['isEM']=body['isEM'] #if body['isEM']=="true" else False
             data['pertTime']=body['pertTime']
             data['timecreated']=body['timecreated']
@@ -658,13 +655,9 @@ def save_formset(request):
             form = WorkOrderForm2(data)
 
             if form.is_valid():
-
-
                 form.save(commit=False)
                 form.instance.timecreated=datetime.datetime.strptime(data["timecreated"], '%H:%M:%S').time()
-
                 form.instance.woPriority=3
-
                 f2=form.save()
                 print(f2.timecreated,'fff')
                 LogEntry.objects.log_action(
@@ -678,9 +671,7 @@ def save_formset(request):
 
                 qty=""
                 print(len(str(data['woPartQty']).split(',')),"!@@@@@@@@@@@@@@")
-                # if(len(data['woPartQty'].split(','))>0):
-                #     qty=data['woPartQty'].split(',')
-                #     print("#####",qty)
+
                 i=0
                 # print(data['woPart'],"$$$$$$$$$$$$")
                 if(data['woPart']):
@@ -717,23 +708,12 @@ def save_formset(request):
                         pcode=PertCode.objects.get(pertCode="سایر")
                         if(pcode):
                             WorkorderPert.objects.create(woPertWorkorder=f2,woPertPert=pcode,wpPertTime=data["pertTime"])
-                    #
-                    # except pcode.DoesNotExist:
-                    #     p=PertCode.objects.create(pertCode="سایر")
-                    #     WorkorderPert.object.create(woPertWorkorder=f2,woPertPert=p.id,wpPertTime=data["pertTime"])
+
                     except  Exception as e :
                         print(e)
                 # print(data["pertTime"])
-
-
-
-
-
-
                 page=request.GET.get('page',1)
                 wos=WOUtility.doPaging(request,books)
-
-
 
                 # print("dsadsa")
                 data2['html_formset_list'] = render_to_string('cmms/maintenance/partialFormsetList.html', {'woList': wos,'perms': PermWrapper(request.user)})
