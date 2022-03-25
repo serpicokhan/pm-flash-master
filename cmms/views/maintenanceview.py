@@ -416,7 +416,7 @@ def woGetWoReqNumber(request,startHijri,endHijri,loc=None):
             #     books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated')
             # books=filterUser(request,books)
 
-
+            books=books.order_by('-datecreated','-timecreated')
 
 
             wos=WOUtility.doPaging(request,books)
