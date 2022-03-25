@@ -178,7 +178,7 @@ def createWO_celery2():
                         stableWo.isScheduling=False
                         stableWo.isPartOf=WorkOrder.objects.get(id=sch.workOrder_id)
                         stableWo.save()
-                        sch.schNextWo=WorkOrder.objects.get(id=stableWo)
+                        sch.schNextWo=WorkOrder.objects.get(id=stableWo.id)
                         sch.save()
                     #######Copy Tasks#########
                     #wt=WorkorderTask.objects.filter(workorder=oldWo)
@@ -225,7 +225,7 @@ def createWO_celery2():
            exc_type, exc_obj, tb = sys.exc_info()
 
            print(tb.tb_lineno)
-           print("form not saved")
+           print("next celery sch not saved")
 @shared_task
 def send_email_report():
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
