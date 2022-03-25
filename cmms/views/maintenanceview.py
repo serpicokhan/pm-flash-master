@@ -397,7 +397,7 @@ def woGetHighPriority(request,startHijri,endHijri,loc=None):
 
 
 
-
+            books=books.order_by('-datecreated','-timecreated')
             wos=WOUtility.doPaging(request,books)
             return render(request, 'cmms/maintenance/dash_woList.html', {'wo': wos})
 @login_required
