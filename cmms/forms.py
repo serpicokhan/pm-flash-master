@@ -100,7 +100,7 @@ class WorkOrderForm2(forms.ModelForm):
     pertTime = forms.FloatField(required=False)
     myAsset = forms.CharField(label="نام قطعه",required=False,widget=forms.TextInput())
     # woPart =  forms.ModelChoiceField(label="نام کاربر",queryset=Stock.objects.none(),required=False)
-    woPart =  MyModelChoiceField(label="نام کاربر",queryset=Stock.objects.none(),required=False)
+    woPart =  MyModelChoiceField(label="نام کاربر",queryset=Stock.objects.none(),required=False,empty_label=None)
 
 
 

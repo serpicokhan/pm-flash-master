@@ -668,13 +668,16 @@ $(".send_form").click(function(){
                    toastr.success("دستور کار با موفقیت  ایجاد شد");
                    var elem = document.getElementById("id_datecreated");
                    var elem1 = document.getElementById("id_dateCompleted");
+                   var elem2 = document.getElementById("id_myAsset");
                    v=elem.parentElement;
 
                    // console.log(elem);
                    elem.remove();
                    elem1.remove();
+                   elem2.remove();
                    $('tr#myform td:nth-child(3)').append($('<input type="text" id="id_datecreated" name="datecreated"  class="form-control"/>'));
                    $('tr#myform td:nth-child(14)').append($('<input type="text" id="id_dateCompleted" name="dateCompleted"  class="form-control"/>'));
+                   $('tr#myform td:nth-child(9)').append($('<input type="text" id="id_myAsset" name="myAsset"  class="form-control  advanced2AutoComplete"/><input type="hidden" name="woAsset" id="id_woAsset" >'));
                    // console.log(elem);
                    // elem.parentElement.removeChild(elem);
                    $('#id_datecreated').pDatepicker({
@@ -699,8 +702,10 @@ $(".send_form").click(function(){
                  $("#id_Project").selectpicker("refresh");
                  $("#id_woCauseCode").val('default');
                  $("#id_woCauseCode").selectpicker("refresh");
-                 $("#id_woAsset").val('default');
-                 $("#id_woAsset").selectpicker("refresh");
+
+                 // $("#id_woAsset").val('default');
+                 $("#id_myAsset").val('');
+                 // $("#id_woAsset").selectpicker("refresh");
                  $("#id_maintenanceType").val('default');
                  $("#id_maintenanceType").selectpicker("refresh");
                  $("#id_unitgroups").val('default');
@@ -713,15 +718,16 @@ $(".send_form").click(function(){
                  $("#id_pertTime").val("0");
                  $("#id_woStopCode").val("15");
                  $("#id_woPartQty").val("0");
-                 $("#id_timecreated").val("00:00:00");
-                 $("#id_timeCompleted").val("00:00:00");
+                 var today_time = new Date();
+                 $("#id_timecreated").val(today_time.toLocaleTimeString('en-GB'));
+                 $("#id_timeCompleted").val(today_time.toLocaleTimeString('en-GB'));
                  $(".input-block-level").keyup(function(){
 
                    $.ajax({
                          url: "/WoPart/search_form_set?q="+$(this).val(),
                          type: 'get',
                          success: function(data){
-                           console.log(data);
+                           // console.log(data);
                          $("#id_woPart").empty();
                          $("#id_woPart").html(data.result);
                          $("#id_woPart").selectpicker('refresh'); // without the []

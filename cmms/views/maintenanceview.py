@@ -989,3 +989,23 @@ def wo_Update_Task_User(request,woid,uid):
         })
     data['form_is_valid']=True
     return JsonResponse(data)
+@csrf_exempt
+def bulk_delete_wo(request,ids):
+    clean_data=[int(i)  for i in ids.split(',')]
+    foo=WorkOrder.objects.filter(id__in=clean_data)
+    for i in foo:
+        i.delete()
+    data=dict()
+    # books = WorkOrder.objects.filter(isScheduling=False,visibile=True).order_by('-datecreated','-timecreated')
+    # page=request.GET.get('page',1)
+    # wos=WOUtility.doPaging(request,books)
+    # data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
+    #     'wo': wos,
+    #     'perms': PermWrapper(request.user)
+    # })
+    #
+    # data['html_wo_paginator'] = render_to_string('cmms/maintenance/partialWoPagination.html', {
+    #                   'wo': wos})
+    data['form_is_valid'] = True
+    # print('done')
+    return JsonResponse(data)

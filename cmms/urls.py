@@ -87,6 +87,7 @@ urlpatterns = [
     url(r'^WorkOrder/(?P<id>-?\d+)/details$', wo_detail, name='wo_detail'),
     url(r'^WorkOrder/bulkEm/$', set_wo_to_em, name='set_wo_to_em'),
     url(r'^WorkOrder/bulkEm/(?P<ids>\d+(?:,\d+)*)$', set_wo_to_em, name='set_wo_to_em'),
+    url(r'^WorkOrder/BulkDelete/(?P<ids>\d+(?:,\d+)*)$', bulk_delete_wo, name='bulk_delete_wo'),
 
 
 

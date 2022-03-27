@@ -1158,6 +1158,53 @@ var filter_by_woStatus=function(){
   window.location.replace("/WorkOrder/list_wo_by_status/"+$("#status-selector2").val());
 }
 
+
+var wobulkdeletion_pressed=function(){
+  swal({
+       title:"حذف دستور کار",
+       text: "",
+       type: "warning",
+       showCancelButton: true,
+       confirmButtonColor: "#DD6B55",
+       confirmButtonText: "بلی",
+       cancelButtonText: "خیر",
+       closeOnConfirm: true
+   }, function () {
+       wobulkdeletion();
+
+   });
+}
+  var wobulkdeletion =function () {
+    matches=[];
+    $(".selection-box:checked").each(function() {
+        matches.push(this.value);
+    });
+    // lo(matches);
+    // console.log(matches);
+
+
+    return $.ajax({
+      url: '/WorkOrder/BulkDelete/'+matches,
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+
+
+
+      },
+      success: function (data) {
+        if(data.form_is_valid)
+        {
+      window.location.replace("/WorkOrder/");
+      }
+      else
+      {
+        toastr.error("خطا در حذف دسته ای دستورکار");
+      }
+    }
+    });
+};
+
 $(".js-create-wo").unbind();
 
 $(".js-create-wo").click(loadForm);
@@ -1178,6 +1225,7 @@ $("#modal-woEm").on("submit", ".js-bulkem-selector-form2", saveWoEmForm);
 $("#modal-company").on("change",'.user-assignment',updatetaskuser);
 
 $(".wo-filter").on("click",filter);
+$(".js-bulkwo-selector").on("click", wobulkdeletion_pressed);
 $("#status-selector2").on("change",filter_by_woStatus);
 
 $(document).ready(function(){
