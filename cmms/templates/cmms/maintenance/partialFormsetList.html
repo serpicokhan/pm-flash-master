@@ -30,7 +30,7 @@
     {% if c.maintenanceType %} {{c.maintenanceType}}{% else %} &nbsp; {% endif %}
   </td>
   <td>
-    {% if c.woStatus %} {{c.woStatus}}{% else %} &nbsp; {% endif %}
+    {% if c.woStatus %} {{c.get_woStatus_display}}{% else %} &nbsp; {% endif %}
   </td>
   <td>
   {% if c.woAsset %} {{c.woAsset}} {% else %} &nbsp; {% endif %}

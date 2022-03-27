@@ -50,6 +50,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from cmms.utils import *
 
+
 def filterUser(request,books):
     if(request.user.username!="admin"):
         books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
@@ -649,10 +650,14 @@ def save_formset(request):
             data['isEM']=body['isEM'] #if body['isEM']=="true" else False
             data['pertTime']=body['pertTime']
             data['timecreated']=body['timecreated']
-            print(data['timecreated'],"timecreated")
+            data['woStatus']=body['woStatus']
+            # print(data['timecreated'],"timecreated")
 
 
             form = WorkOrderForm2(data)
+            # form.initial['woPart']=data['woPart']
+            # print(form.data['woPart'],">>wopart")
+
 
             if form.is_valid():
                 form.save(commit=False)
@@ -669,14 +674,16 @@ def save_formset(request):
                     change_message= request.META.get('REMOTE_ADDR')
                 )
 
-                qty=""
+                qty=str(data['woPartQty']).split(',')
                 print(len(str(data['woPartQty']).split(',')),"!@@@@@@@@@@@@@@")
 
                 i=0
-                # print(data['woPart'],"$$$$$$$$$$$$")
+                print(data['woPart'],"$$$$$$$$$$$$")
                 if(data['woPart']):
                     for k in list(data['woPart']):
                         stk=Stock.objects.get(id=k)
+                        print(i,":i")
+                        print(qty)
                         WorkorderPart.objects.create(woPartWorkorder=f2,woPartStock=stk,woPartActulaQnty=qty[i])
                         i=i+1
                 if(data['assignedToUser_1']):

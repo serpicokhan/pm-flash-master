@@ -642,6 +642,7 @@ $(".send_form").click(function(){
             );
             if(validateform())
             {
+              // console.log(mydata);
             $.ajax({
               url: '/formsetcreate',
               type: "POST",
@@ -714,6 +715,56 @@ $(".send_form").click(function(){
                  $("#id_woPartQty").val("0");
                  $("#id_timecreated").val("00:00:00");
                  $("#id_timeCompleted").val("00:00:00");
+                 $(".input-block-level").keyup(function(){
+
+                   $.ajax({
+                         url: "/WoPart/search_form_set?q="+$(this).val(),
+                         type: 'get',
+                         success: function(data){
+                           console.log(data);
+                         $("#id_woPart").empty();
+                         $("#id_woPart").html(data.result);
+                         $("#id_woPart").selectpicker('refresh'); // without the []
+                 }
+             });
+                 });
+
+                   $('.basicAutoComplete').autoComplete();
+                   $('.advanced2AutoComplete').autoComplete({
+                     resolver: 'custom',
+                     noResultsText:'بدون نتیجه',
+                     formatResult: function (item) {
+                       return {
+                         value: item.id,
+                         text: "[" + item.assetCode + "] " + item.assetName,
+
+                       };
+                     },
+                     events: {
+                       search: function (qry, callback) {
+                         // let's do a custom ajax call
+                         $.ajax(
+                           '/Asset/GetAssets',
+                           {
+                             data: { 'qry': qry}
+                           }
+                         ).done(function (res) {
+                           // console.log(res);
+
+
+                           callback(res)
+                         });
+                       },
+
+                     }
+                   });
+
+                   $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
+                       $("#id_woAsset").val(item.id);
+                       $('#id_woAsset').val(item.id).trigger('change');
+
+                     // $('.basicAutoCompleteCustom').html('');
+                   });
 
 
                 }

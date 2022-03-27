@@ -15,6 +15,8 @@ from hazm import stopwords_list
 from hazm import word_tokenize, sent_tokenize
 from cmms.component.field import *
 import os
+import sys
+from django.core.exceptions import ValidationError
 class CopyAssetForm(forms.Form):
     assetname2= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
@@ -61,7 +63,31 @@ class WorkOrderForm(forms.ModelForm):
         model = WorkOrder
         fields = '__all__'
 
+class MyModelChoiceField(ModelChoiceField):
+
+   def to_python(self, value):
+        # try:
+        #     value = super(MyModelChoiceField, self).to_python(value)
+        # except self.queryset.model.DoesNotExist:
+        #     key = self.to_field_name or 'pk'
+        #     value = Stock.objects.filter(**{key: value})
+        #     if not value.exists():
+        #        raise ValidationError(self.error_messages['invalid_choice'], code='invalid_choice')
+        #     else:
+        #        value= value.first()
+
+        return value
 class WorkOrderForm2(forms.ModelForm):
+
+    # def to_python(self, value):
+    #         if value in self.empty_values:
+    #             return None
+    #         try:
+    #             key = self.woPart
+    #             value = self.queryset.get(**{key: value})
+    #         except (ValueError, TypeError, self.queryset.model.DoesNotExist):
+    #             raise ValidationError(self.error_messages['invalid_choice'], code='invalid_choice')
+    #         return value
     # def __init__(self,*args,**kwargs):
     #
     #     super (WorkOrderForm2,self ).__init__(*args,**kwargs) # populates the post
@@ -73,7 +99,8 @@ class WorkOrderForm2(forms.ModelForm):
     # completionNotes = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     pertTime = forms.FloatField(required=False)
     myAsset = forms.CharField(label="نام قطعه",required=False,widget=forms.TextInput())
-    woPart =  forms.ModelChoiceField(label="نام کاربر",queryset=Stock.objects.none(),required=False)
+    # woPart =  forms.ModelChoiceField(label="نام کاربر",queryset=Stock.objects.none(),required=False)
+    woPart =  MyModelChoiceField(label="نام کاربر",queryset=Stock.objects.none(),required=False)
 
 
 
@@ -85,6 +112,7 @@ class WorkOrderForm2(forms.ModelForm):
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     woPartQty=forms.CharField(max_length=50,required=False)
     timecreated=forms.TimeField(required=False)
+
     def clean(self):
 
             self.is_valid()
@@ -108,7 +136,8 @@ class WorkOrderForm2(forms.ModelForm):
                 # print("###############")
                 assignedToUser=cleaned_data.get('assignedToUser','')
                 woStopCode=cleaned_data.get('woStopCode','')
-                woPart=cleaned_data.get('woPart','')
+
+                woPart=self.woPart.to_python(cleaned_data.get('woPart',''))#cleaned_data.get('woPart','')
                 print("wopart",woPart)
                 woPartQty=cleaned_data.get('woPartQty','')
                 pertTime=cleaned_data.get('pertTime','')
@@ -134,6 +163,7 @@ class WorkOrderForm2(forms.ModelForm):
                 # result="312312"
                 # print("######################",assignedToUser)
             return cleaned_data
+
 
 
 
