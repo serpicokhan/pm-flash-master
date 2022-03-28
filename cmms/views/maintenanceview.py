@@ -501,8 +501,9 @@ def wo_getProblem(request):
     # response_data['result'] = '[dsadas,dasdasdas]'
     return JsonResponse(list(books), safe=False)
 #######################Search By tags#####################
-def wo_searchWorkOrderByTags(request,searchStr):
+def wo_searchWorkOrderByTags(request):
     data=dict()
+    searchStr=request.GET.get('q','')
     searchStr=searchStr.replace('empty_','')
     searchStr=searchStr.replace('_',' ')
     books=WOUtility.seachWoByTags(searchStr)
@@ -512,7 +513,7 @@ def wo_searchWorkOrderByTags(request,searchStr):
     # print(searchStr)
     wos=WOUtility.doPaging(request,list(books))
     data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {               'wo': wos,       'perms': PermWrapper(request.user)                })
-    data['html_wo_paginator'] = render_to_string('cmms/maintenance/partialWoPagination.html', {'wo': wos,'pageType':'wo_searchWorkOrderByTags','pageArgs':searchStr})
+    data['html_wo_paginator'] = render_to_string('cmms/maintenance/partialWoPaginationsearch.html', {'wo': wos,'pageType':'wo_searchWorkOrderByTags','pageArgs':searchStr})
     data['form_is_valid'] = True
     return JsonResponse(data)
 
@@ -841,7 +842,8 @@ def wo_filter(request,startHijri,endHijri,wotype,ordercol,ordertype):
                 books = WorkOrder.objects.filter(isScheduling=False,visibile=True, datecreated__range=(start, end))
             else:
                 books = WorkOrder.objects.filter(isScheduling=True, datecreated__range=(start, end))
-            if(filter_wo):
+            if(filter_wo!='null' and filter_wo):
+                print("qqqq",filter_wo)
 
                 filter_wo=','.join([str(i) for i in filter_wo])
                 filter_wo=filter_wo.split(',')

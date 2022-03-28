@@ -633,7 +633,7 @@ var searchWorkorderByTags= function (searchStr) {
 
 
    $.ajax({
-     url: '/WorkOrder/'+searchStr+'/Search/',
+     url: '/WorkOrder/Search/?q='+searchStr,
 
      type: 'GET',
      dataType: 'json',
@@ -655,8 +655,8 @@ var searchWorkorderByTags= function (searchStr) {
        }
      },
      error: function (jqXHR, exception) {
-       alert(exception);
-       console.log(exception)
+       // alert(exception);
+       console.error(exception);
      }
    });
    return false;
@@ -664,9 +664,12 @@ var searchWorkorderByTags= function (searchStr) {
  ///
  var filter= function (searchStr) {
 
+   var status_selector=($("#status-selector").val()!=null)?'?q='+$("#status-selector").val():'';
+   console.log(status_selector);
+
 
     $.ajax({
-      url: '/WorkOrder/'+$("#wodt1").val()+'/'+$("#wodt2").val()+'/0/'+$("#ordercol").val()+'/filter/'+$('#ordertype').val()+'?q='+$("#status-selector").val(),
+      url: '/WorkOrder/'+$("#wodt1").val()+'/'+$("#wodt2").val()+'/0/'+$("#ordercol").val()+'/filter/'+$('#ordertype').val()+status_selector,
 
       type: 'GET',
       dataType: 'json',
@@ -688,8 +691,8 @@ var searchWorkorderByTags= function (searchStr) {
         }
       },
       error: function (jqXHR, exception) {
-        alert(exception);
-        console.log(jqXHR)
+        // alert(exception);
+        console.error(jqXHR)
       }
     });
     return false;
@@ -705,11 +708,11 @@ var searchWorkorderByTags= function (searchStr) {
  $('#woSearch').keyup(function(e){
    // setTimeout(() => {  console.log("World!"); }, 2000);
    // sleep(2000);
-   console.log(e);
+   // console.log(e);
    // e.cancle();
    strTag=$("#woSearch").val();
    if(strTag.length==0)
-    strTag='empty_';
+    strTag='empty_'
   strTag=strTag.replace(' ','_');
 
   searchWorkorderByTags(strTag);
