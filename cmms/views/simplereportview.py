@@ -2396,6 +2396,6 @@ class reporttest:
             tasks=Tasks.objects.filter(workOrder__datecreated__range=[date1,date2],workOrder__isScheduling=False,workOrder__visibile=False).order_by('workOrder__datecreated')
         else:
             asset_name=Asset.objects.filter(id__in=asset_code).values_list('assetName',flat=True)
-            tasks=Tasks.objects.filter(workOrder__datecreated__range=[date1,date2],workOrder__isScheduling=False,workOrder__visibile=False,workOrder__woAsset__in=asset_code).order_by('workOrder__datecreated')
+            tasks=Tasks.objects.filter(workOrder__datecreated__range=[date1,date2],workOrder__isScheduling=False,workOrder__visibile=False,workOrder__woAsset__assetIsLocatedAt__in=asset_code).order_by('workOrder__datecreated')
 
         return render(request, 'cmms/reports/simplereports/UpCommingServiceByDate.html',{'result1':tasks,'assetname':asset_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
