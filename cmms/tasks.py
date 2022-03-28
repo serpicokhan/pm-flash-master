@@ -172,7 +172,11 @@ def createWO_celery2():
                         stableWo.datecreated=sch.schnextTime.date()
                         stableWo.timecreated=sch.schnextTime.time()
                         # stableWo.datecreated=datetime.now().date()
-                        stableWo.requiredCompletionDate=stableWo.datecreated+timedelta(stableWo.estimatedCompilation)
+                        if(stableWo.estimatedCompilation):
+                            stableWo.requiredCompletionDate=stableWo.datecreated+timedelta(stableWo.estimatedCompilation)
+                        else:
+                            stableWo.requiredCompletionDate=stableWo.datecreated+timedelta(days=1)
+
                         # stableWo.timecreated=datetime.now().time()
                         stableWo.visibile=False
                         stableWo.isScheduling=False
