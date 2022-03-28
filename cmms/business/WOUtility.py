@@ -259,7 +259,7 @@ class WOUtility:
             return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,visibile=True).order_by('-id')
         if(searchStr.isdigit()):
             return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False).filter(Q(summaryofIssue__contains=searchStr,visibile=True)|Q(id=int(searchStr))).order_by('-id')
-        return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,visibile=True).filter(Q(summaryofIssue__contains=searchStr)|Q(woAsset__assetName__contains=searchStr)|Q(woAsset__assetCode__contains=searchStr)).order_by('-id')
+        return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,visibile=True).filter(Q(summaryofIssue__contains=searchStr)|Q(woAsset__assetName__contains=searchStr)|Q(woAsset__assetCode__icontains=searchStr)).order_by('-id')
 
     @staticmethod
     def changeWoStatus2Waiting4Part(wo):
