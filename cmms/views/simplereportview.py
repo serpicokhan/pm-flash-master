@@ -2377,5 +2377,25 @@ class reporttest:
 
         startDate=request.POST.get("startDate","").replace('-','/')
         endDate=request.POST.get("endDate","").replace('-','/')
-        tasks=Tasks.objects.filter(taskAssignedToUser=user,workOrder__datecreated__range=[date1,date2],workOrder__isScheduling=False,workOrder__visibile=False)
+        tasks=Tasks.objects.filter(taskAssignedToUser=user,workOrder__datecreated__range=[date1,date2],workOrder__isScheduling=False,workOrder__visibile=False).order_by('workOrder__datecreated')
         return render(request, 'cmms/reports/simplereports/UpCommingServiceByUserAndDate.html',{'result1':tasks,'names':user_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
+    def UpCommingServiceByDate(Self,request):
+
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        asset_code=request.POST.getlist("assetname","")
+        print(asset_code,"sadsa")
+
+
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+        task=Tasks.objects.none()
+        asset_name='بدون نام مکان'
+        if(len(asset_code)==0):
+
+            tasks=Tasks.objects.filter(workOrder__datecreated__range=[date1,date2],workOrder__isScheduling=False,workOrder__visibile=False).order_by('workOrder__datecreated')
+        else:
+            asset_name=Asset.objects.filter(id__in=asset_code).values_list('assetName',flat=True)
+            tasks=Tasks.objects.filter(workOrder__datecreated__range=[date1,date2],workOrder__isScheduling=False,workOrder__visibile=False,workOrder__woAsset__in=asset_code).order_by('workOrder__datecreated')
+
+        return render(request, 'cmms/reports/simplereports/UpCommingServiceByDate.html',{'result1':tasks,'assetname':asset_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})

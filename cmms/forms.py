@@ -3047,7 +3047,7 @@ class MTBFByAnalythisCauseCode(forms.Form):
         behbood = forms.IntegerField(label='بهبود',required=False)
         alarm = forms.IntegerField(label='آلارم',required=False)
 class UpCommingServiceByUserAndDate(forms.Form):
-        test=' گزارش mtbf  به همراه آنالیز علت'
+        test=' سرویس های مربوط به یک کاربر'
         startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
         endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
         # startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
@@ -3059,3 +3059,16 @@ class UpCommingServiceByUserAndDate(forms.Form):
         reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
         user= forms.ModelChoiceField(label="نام کاربر",queryset=SysUser.objects.filter(userStatus=True),
         widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+class UpCommingServiceByDate(forms.Form):
+        test=' سرویس های دورهای پیش رو'
+        startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+        endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+        assetname= forms.ModelChoiceField(label="نام مکان",empty_label=None,queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+        widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':'true'}))
+        # startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+        OPTIONS = (
+                (0, "pdf"),
+                (1, "EXCEL"),
+
+            )
+        reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
