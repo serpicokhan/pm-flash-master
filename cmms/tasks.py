@@ -144,7 +144,7 @@ def createWO_celery2():
                         # cd2=jdatetime.date.fromgregorian(cd)
 
 
-                        z=mydt1.combine(cd.togregorian(),mydt1.strptime("{}0".format(sch.schnextTime.hour),"%H%M").time())
+                        z=mydt1.combine(cd,mydt1.strptime("{}0".format(sch.schnextTime.hour),"%H%M").time())
                         # print("z:",z)
                         sch.schnextTime=z
                     elif(sch.schHowOften==5):
