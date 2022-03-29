@@ -140,9 +140,11 @@ def createWO_celery2():
                         # cd=jdatetime.date.fromgregorian(date=mydt1.now())#datetime.now()
                         # t1=jdatetime.date.fromgregorian(date=datetime.now())
                         cd=mydt1.now()+ relativedelta(months=sch.schMonthlyRep)
-                        cd2=jdatetime.date(cd.year,cd.month,sch.schDayofMonthlyRep)
 
-                        z=mydt1.combine(cd2.togregorian(),mydt1.strptime("{}0".format(sch.schnextTime.hour),"%H%M").time())
+                        # cd2=jdatetime.date.fromgregorian(cd)
+
+
+                        z=mydt1.combine(cd.togregorian(),mydt1.strptime("{}0".format(sch.schnextTime.hour),"%H%M").time())
                         # print("z:",z)
                         sch.schnextTime=z
                     elif(sch.schHowOften==5):
