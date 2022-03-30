@@ -83,7 +83,7 @@
 
                          </div>
                          <div class="col-lg-6">
-                            {{form.taskStartTime| add_class:"form-control" }}
+                            {% render_field form.taskStartTime class="form-control ltr-input"  data-mask="99:99:99"  %}
 
                          </div>
 
@@ -162,8 +162,19 @@
                                  </div>
 
                                <div class="col-lg-6">
-                                 {{form.taskTimeCompleted| add_class:"form-control" }}
+                                 <div class="form-group">
+
+                                   {% render_field form.taskTimeCompleted class="form-control ltr-input"  data-mask="99:99:99"  %}
+
+                                 {% if perms.cmms.delete_tasks %}
+                                 <button type="button"
+                                            class="btn btn-default btn-sm set-auto-completion-time" id="set-auto-completion-time" date-url="{{form.instance.id}}">
+                                      <span class="glyphicon glyphicon-refresh"></span>
+                                    </button>
+                                 {% endif %}
                                </div>
+                                </div>
+
 
 
                              </div>

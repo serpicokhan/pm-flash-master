@@ -22,7 +22,7 @@ from cmms.models.workorder import *
 from cmms.models.Asset import *
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from django.utils.decorators import method_decorator
-
+from datetime import timedelta
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
@@ -85,6 +85,7 @@ def save_task_form(request, form, template_name,woId=None):
 
                 task_create_meter_reading(newTask.id)
                 data['form_is_valid'] = True
+                data['id']=newTask.id
                 wo=WorkOrder.objects.get(id=woId)
                 #only for none pm workorder
                 tasks = Tasks.objects.filter(workOrder=woId).order_by('-taskDateCompleted','-taskTimeCompleted')
@@ -353,11 +354,21 @@ def task_create_meter_reading(t):
 def getTotalUserActivityEstimatedTimeBySWO(request,wo,uid):
     swo=Schedule.objects.get(workOrder=wo)
     time_=swo.schnextTime
-    
+
     total_time=TaskUtility.GetTotalEstimatedUserTime(uid,time_)
     data=dict()
     data["form_is_valid"]=True
     data["result"]=total_time
+    return JsonResponse(data)
+
+def get_auto_completion_time(request,id):
+    task=Tasks.objects.get(id=id)
+    dt_start=datetime.datetime.combine(task.taskStartDate,task.taskStartTime)
+    dt_end=dt_start+timedelta(hours=task.taskTimeEstimate)
+    data=dict()
+    data["date"]=str(jdatetime.date.fromgregorian(date=dt_end.date()))
+    data["time"]=dt_end.time()
+    data["form_is_valid"]=True
     return JsonResponse(data)
 
 
