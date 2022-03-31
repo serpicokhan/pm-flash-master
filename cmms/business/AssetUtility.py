@@ -258,7 +258,7 @@ class AssetUtility:
     @staticmethod
     def getAssetListByNameAndLocation(assetCatListId,LocationListId):
         wos=[]
-        print(assetCatListId,"####################")
+        # print(assetCatListId,"####################")
         if(len(assetCatListId)>0):
             wos=Asset.objects.filter(assetCategory__in=assetCatListId)
         elif(len(LocationListId)):

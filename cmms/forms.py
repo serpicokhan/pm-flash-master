@@ -1829,7 +1829,7 @@ class AssetList(forms.Form):
     # location = forms.ModelChoiceField(label="اموال",queryset=Asset.objects.all(),widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     categoryText = GroupedModelChoiceField(label='دسته دارایی',
         queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
-        choices_groupby='isPartOf',
+        choices_groupby='isPartOf',empty_label=None,
         widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
     )
     # location = forms.CharField(label='مکان',required=False,widget=forms.TextInput(attrs={'class':'assetselector','autocomplete':'off'}))
@@ -2028,14 +2028,14 @@ class OverdueWorkOrdersDetailReport(forms.Form):
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=assetCatOPTIONS)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
-    maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
+    maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),empty_label=None,
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),
+    Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),empty_label=None,
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
-    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),
+    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),empty_label=None,
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    categoryText = GroupedModelChoiceField(label="دسته بندی",
+    categoryText = GroupedModelChoiceField(label="دسته بندی",empty_label=None,
         queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
         choices_groupby='isPartOf',
         widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
