@@ -193,6 +193,34 @@ var get_task_user_time=function(){
 return false;
 
 };
+var set_task_completion_time_auto=function(){
+  if($("#set-auto-completion-time").attr("date-url")!="None")
+  {
+  $.ajax({
+    async: true,
+    url: '/Task/get_auto_completion_time/'+$("#set-auto-completion-time").attr("date-url"),
+
+    type: 'get',
+    dataType: 'json',
+    success: function (data) {
+      if (data.form_is_valid) {
+        $("#id_taskDateCompleted").val(data.date);
+        $("#id_taskTimeCompleted").val(data.time);
+
+
+      }
+
+
+    }
+
+
+  });
+
+return false;
+}
+return;
+
+};
 
 
 
@@ -211,6 +239,7 @@ $("#task-table").on("click", ".js-update-task", loadTaskForm);
 $("#task-table").on("click", ".js-delete-task", loadTaskForm);
 $("#modal-task").on("click", ".js-task-delete-form", deleteTaskForm);
 $("#modal-task").on("change", ".ttttt", get_task_user_time);
+$("#modal-task").on("click", ".set-auto-completion-time", set_task_completion_time_auto);
 $("#task-table").on("focusout", ".task-result", set_task_result );
 
 });

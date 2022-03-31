@@ -122,6 +122,7 @@ urlpatterns = [
      url(r'^Task/(?P<id>\d+)/update2/$', task_update2, name='task_update2'),
      url(r'^Task/(?P<id>\d+)/set_task_result/$', set_task_result, name='set_task_result'),
      url(r'^Task/GetTotalEstimatedUserTime/(?P<wo>\d+)/(?P<uid>\d+)$', getTotalUserActivityEstimatedTimeBySWO, name='getTotalUserActivityEstimatedTimeBySWO'),
+     url(r'^Task/get_auto_completion_time/(?P<id>\d+)$', get_auto_completion_time, name='get_auto_completion_time'),
      url(r'^api/v1/Tasks/(?P<id>\d+)/$',task_collection, name='task_collection'),
      url(r'^api/v1/Task/(?P<id>\d+)/$',task_detail_collection, name='task_detail_collection'),
      url(r'^Task/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/(?P<t1>[^/]+)/(?P<t2>[^/]+)/TaskWorkHour/$', getTaskWoHour, name='getTaskWoHour'),
