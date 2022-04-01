@@ -180,8 +180,10 @@ var get_task_user_time=function(){
     dataType: 'json',
     success: function (data) {
       if (data.form_is_valid) {
-        if(data.result.taskTimeEstimate__sum)
-          $("#assnamelabel").text("زمان تقریبی"+data.result.taskTimeEstimate__sum);
+        // console.log(data.result.taskTimeEstimate__sum);
+        if(data.result.taskTimeEstimate__sum>=0)
+
+          $("#assnamelabel").text(`زمان تقریبی ${data.result.taskTimeEstimate__sum} ساعت`);
 
 
       }

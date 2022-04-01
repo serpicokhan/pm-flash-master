@@ -110,7 +110,7 @@ class WorkOrderForm2(forms.ModelForm):
     # assignedToUser=forms.ModelMultipleChoiceField(queryset=SysUser.objects.filter(userStatus=True),required=False)
     assignedToUser = forms.ModelChoiceField(label="گروه کاری",queryset=SysUser.objects.filter(userStatus=True),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
-    woPartQty=forms.CharField(max_length=50,required=False)
+    woPartQty=forms.FloatField(required=False)
     timecreated=forms.TimeField(required=False)
 
     def clean(self):

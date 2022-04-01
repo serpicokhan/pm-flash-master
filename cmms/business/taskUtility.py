@@ -164,4 +164,8 @@ class TaskUtility:
     @staticmethod
     def GetTotalEstimatedUserTime(uid,time_):
         t=Tasks.objects.filter(taskAssignedToUser__id=uid,workOrder__datecreated=time_.date(),workOrder__visibile=False).aggregate(Sum('taskTimeEstimate'))
+        if( t['taskTimeEstimate__sum'] is None):
+            t['taskTimeEstimate__sum']=0
+
+        print("time is:",t['taskTimeEstimate__sum'])
         return t

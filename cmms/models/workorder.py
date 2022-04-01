@@ -186,12 +186,13 @@ class WorkOrder(models.Model):
 
 
     def get_assoc_user_from_tasks(self):
-        users=Tasks.objects.filter(workOrder=self)
+        users=Tasks.objects.filter(workOrder=self).order_by('taskAssignedToUser__title')
         str=[]
         for k in users:
             if(k.taskAssignedToUser):
-                str.append(k.taskAssignedToUser.title)
-        return ",".join(str)
+                if(not k.taskAssignedToUser.title in str):
+                    str.append(k.taskAssignedToUser.title)
+        return ", ".join(str)
     def get_pertTime(self):
         perts=WorkorderPert.objects.filter(woPertWorkorder=self)
         sum=0

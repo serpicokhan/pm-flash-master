@@ -153,8 +153,8 @@
                                 <th >پروژه</th>
                                 <th >تاریخ انجام</th>
                                 <th >زمان انجام</th>
-                                <th  class="col-md-2">زمان پرت</th>
-                                <th >تعمیرکار</th>
+                                <th  class="col-md-1">زمان پرت</th>
+                                <th style="width: 5%;text-align: justify;" >تعمیرکار</th>
                                 <th >با توقف</th>
                                 <th  style="text-align:center">نام قطعه</th>
                                 <th  style="text-align:center">تعداد</th>
@@ -236,7 +236,8 @@
                                     {% render_field form.woPart class="form-control selectpicker" multiple='true'  data-show-subtext="true" data-live-search="true"   %}
                                 </td>
                                 <td>
-                                  {{form.woPartQty| add_class:"form-control" }}
+
+                                  {% render_field form.woPartQty  data-role="tagsinput" class="form-control"  %}
                                 </td>
 
 

@@ -67,6 +67,7 @@ class SysUser(models.Model):
 
     class Meta:
         db_table="sysusers"
+        ordering = ['title']
 
 class Attendance(models.Model):
     def get_datecreated_jalali(self):
