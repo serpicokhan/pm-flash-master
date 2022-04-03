@@ -19,7 +19,7 @@
                                                   {{c.maintenanceType}}</span></td>
 
  <td>{{c.estimatedLabor|default_if_none:0}}</td>
- <td>{{c.actualLabor|default_if_none:0}}</td>
+ <td>{{c.get_nextTime|default_if_none:0}}</td>
 
 
 

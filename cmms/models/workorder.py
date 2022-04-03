@@ -182,6 +182,13 @@ class WorkOrder(models.Model):
                  else:
                      return "<i class='fa fa-times'>										</i>					"
 
+    def get_nextTime(self):
+        sch=Schedule.objects.filter(workOrder=self)
+        if(sch.count()>0):
+            return sch[0].get_nextTime_jalali()
+        else:
+            return " نامعلوم"
+
 
 
 
