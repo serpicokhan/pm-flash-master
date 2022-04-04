@@ -64,6 +64,7 @@ urlpatterns = [
     url(r'WorkOrder/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/HighPriority/(?P<loc>\d+)$',woGetHighPriority,name='woGetHighPriority'),
     url(r'WorkOrder/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/WoReqNumber/$',woGetWoReqNumber,name='woGetWoReqNumber'),
     url(r'WorkOrder/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/WoReqNumber/(?P<loc>\d+)$',woGetWoReqNumber,name='woGetWoReqNumber'),
+    url(r'WorkOrder/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/WoDueDate/',WoDueDate2,name='WoDueDate2'),
     url(r'WorkOrder/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/OpenWorkOrder/$',woGetOpenWO,name='woGetOpenWO'),
     url(r'WorkOrder/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/CloseWorkOrder/$',woGetCloseWO,name='woGetCloseWO'),
     url(r'WorkOrder/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/OverdueWorkOrder/$',woGetOverdueWO,name='woGetOverdueWO'),

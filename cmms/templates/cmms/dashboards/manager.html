@@ -135,6 +135,10 @@
       var ex3=$("#makans").val();
     $('.woreqnumber').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/WoReqNumber/'+((ex3=='-1')?'':ex3));
   });
+  $('.dueservice2').click(function(){
+      var ex3=$("#makans").val();
+    $('.dueservice2').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/WoDueDate/');//+((ex3=='-1')?'':'?loc='+ex3));
+  });
 
 
 

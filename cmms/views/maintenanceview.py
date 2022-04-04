@@ -49,6 +49,7 @@ from cmms.api.WOSerializer import *
 from rest_framework.response import Response
 from rest_framework import status
 from cmms.utils import *
+from django.db.models import F
 
 
 def filterUser(request,books):
@@ -422,6 +423,33 @@ def woGetWoReqNumber(request,startHijri,endHijri,loc=None):
 
             wos=WOUtility.doPaging(request,books)
             return render(request, 'cmms/maintenance/dash_woList.html', {'wo': wos})
+@login_required
+def WoDueDate2(request,startHijri,endHijri):
+    #paging is ok
+
+            loc=request.GET.get("loc",False)
+
+            start,end=DateJob.convert2Date(startHijri,endHijri)
+            n1=WorkOrder.objects.none()
+            # print(WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9)).query)
+
+            # n1=n1.filter(datecreated__range=(start,F('requiredCompletionDate')))
+
+
+            if(not loc):
+                n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,visibile=True)
+            else:
+                n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,visibile=True,woAsset__assetIsLocatedAt__id=loc)
+            # if(request.user.username!="admin"):
+            #     books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated')
+            # books=filterUser(request,books)
+            n1=n1.filter(datecreated__gte=start,datecreated__lt=F('requiredCompletionDate'))
+
+            books=n1.order_by('-datecreated','-timecreated')
+
+
+            wos=WOUtility.doPaging(request,books)
+            return render(request, 'cmms/maintenance/dash_woList.html', {'wo': wos})
 
 
 
@@ -450,6 +478,7 @@ def woGetCloseWO(request,startHijri,endHijri):
 def woGetOverdueWO(request,startHijri,endHijri):
                 if(request.user.username=="admin"):
                     start,end=DateJob.convert2Date(startHijri,endHijri)
+                    print("SELECT   *  from workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and current_date>requiredCompletionDate and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end))
                     books = list(WorkOrder.objects.raw("SELECT   *  from workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and current_date>requiredCompletionDate and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end)))
                     books=filterUser(request,books)
                     wos=WOUtility.doPaging(request,books)
