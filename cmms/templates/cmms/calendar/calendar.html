@@ -172,7 +172,7 @@
 
 
 {% block javascript %}
-
+<script src="{% static '/js/project/calendar.js' %}"></script>
 <script>
 			$(document).ready(function() {
 					$('.i-checks').iCheck({
@@ -264,10 +264,270 @@
 					isRTL: true,
           eventClick: function(info) {
 
-loadForm(info);
+
+ $.when(loadForm(info)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad,initWoPertLoad);
 }
 
 				});
+        var initLoad=function()
+        {
+          //alert("initload");
+          $.ajax({
+
+            url: '/Task/'+$("#lastWorkOrderid").val()+'/listTask',
+
+
+
+            success: function (data) {
+              if (data.form_is_valid) {
+                //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                $("#tbody_task").empty();
+                $("#tbody_task").html(data.html_task_list);
+                if(data.is_not_empty){
+                  $("#havetasks").val("1");
+                }
+                $("#modal-task").modal("hide");
+                //console.log(data.html_wo_list);
+              }
+              else {
+
+                $("#task-table tbody").html(data.html_task_list);
+                $("#modal-task .modal-content").html(data.html_task_form);
+              }
+            }
+          });
+
+
+          return false;
+        };
+        var initWoPartLoad=function(){
+
+          $.ajax({
+
+            url: '/WoPart/'+$("#lastWorkOrderid").val()+'/listWoPart',
+
+
+
+            success: function (data) {
+                //alert($("#lastWorkOrderid").val());
+              if (data.form_is_valid) {
+                //alert("response");
+                //alert(data.html_woPart_list);  // <-- This is just a placeholder for now for testing
+                $("#tbody_woPart").empty();
+                $("#tbody_woPart").html(data.html_woPart_list);
+                $("#modal-woPart").modal("hide");
+                //console.log(data.html_wo_list);
+              }
+              else {
+
+                $("#woPart-table tbody").html(data.html_woPart_list);
+                $("#modal-woPart .modal-content").html(data.html_woPart_form);
+              }
+            }
+          });
+       return false;
+        };
+        var initWoMeterLoad=function(){
+
+          $.ajax({
+
+            url: '/WoMeter/'+$("#lastWorkOrderid").val()+'/listWoMeter',
+
+
+
+            success: function (data) {
+                //alert($("#lastWorkOrderid").val());
+              if (data.form_is_valid) {
+                //alert("response");
+                //alert(data.html_woMeter_list);  // <-- This is just a placeholder for now for testing
+                $("#tbody_woMeter").empty();
+                $("#tbody_woMeter").html(data.html_woMeter_list);
+                $("#modal-woMeter").modal("hide");
+                //console.log(data.html_wo_list);
+              }
+              else {
+
+                $("#woMeter-table tbody").html(data.html_woMeter_list);
+                $("#modal-woMeter .modal-content").html(data.html_woMeter_form);
+              }
+            }
+          });
+       return false;
+        };
+
+
+        var initWoMiscLoad=function(){
+
+          $.ajax({
+
+            url: '/WoMisc/'+$("#lastWorkOrderid").val()+'/listWoMisc',
+
+
+
+            success: function (data) {
+                //alert($("#lastWorkOrderid").val());
+              if (data.form_is_valid) {
+                //alert("response");
+                //alert(data.html_woMisc_list);  // <-- This is just a placeholder for now for testing
+                $("#tbody_woMisc").empty();
+                $("#tbody_woMisc").html(data.html_woMisc_list);
+                $("#modal-woMisc").modal("hide");
+                //console.log(data.html_wo_list);
+              }
+              else {
+
+                $("#woMisc-table tbody").html(data.html_woMisc_list);
+                $("#modal-woMisc .modal-content").html(data.html_woMisc_form);
+              }
+            }
+          });
+        return false;
+        };
+
+        var initWoNotifyLoad=function(){
+
+          $.ajax({
+
+            url: '/WoNotify/'+$("#lastWorkOrderid").val()+'/listWoNotify',
+
+
+
+            success: function (data) {
+                //alert($("#lastWorkOrderid").val());
+              if (data.form_is_valid) {
+                //alert("response");
+                //alert(data.html_woNotify_list);  // <-- This is just a placeholder for now for testing
+                $("#tbody_woNotify").empty();
+                $("#tbody_woNotify").html(data.html_woNotify_list);
+                $("#modal-woNotify").modal("hide");
+                //console.log(data.html_wo_list);
+              }
+              else {
+
+                $("#woNotify-table tbody").html(data.html_woNotify_list);
+                $("#modal-woNotify .modal-content").html(data.html_woNotify_form);
+              }
+            }
+          });
+        return false;
+        };
+        var initWoPertLoad=function(){
+
+          $.ajax({
+
+            url: '/WoPert/'+$("#lastWorkOrderid").val()+'/listWoPert',
+
+
+
+            success: function (data) {
+                //alert($("#lastWorkOrderid").val());
+              if (data.form_is_valid) {
+                //alert("response");
+                //alert(data.html_woNotify_list);  // <-- This is just a placeholder for now for testing
+                $("#tbody_woPert").empty();
+                $("#tbody_woPert").html(data.html_woPert_list);
+                $("#modal-woPert").modal("hide");
+                //console.log(data.html_wo_list);
+              }
+              else {
+
+                $("#woPert-table tbody").html(data.html_woPert_list);
+                $("#modal-woPert .modal-content").html(data.html_woPert_form);
+              }
+            }
+          });
+        return false;
+        };
+
+
+        var initWoFileLoad=function(){
+
+          $.ajax({
+
+            url: '/WoFile/'+$("#lastWorkOrderid").val()+'/listWoFile',
+
+
+
+            success: function (data) {
+                //alert($("#lastWorkOrderid").val());
+              if (data.form_is_valid) {
+
+
+                //alert(data.html_woFile_list);  // <-- This is just a placeholder for now for testing
+                $("#tbody_woFile").empty();
+                $("#tbody_woFile").html(data.html_woFile_list);
+                $("#modal-woFile").modal("hide");
+                //console.log(data.html_wo_list);
+              }
+              else {
+
+                $("#woFile-table tbody").html(data.html_woFile_list);
+                $("#modal-woFile .modal-content").html(data.html_woFile_form);
+              }
+            }
+          });
+        return false;
+        };
+        var initWoLogLoad=function(){
+
+
+          $.ajax({
+
+            url: '/WoLog/'+$("#lastWorkOrderid").val()+'/listWoLog/',
+
+
+
+            success: function (data) {
+              // console.log(data);
+
+              if (data.form_is_valid) {
+                // alert("!23");
+
+
+                $("#tbody_wolog").empty();
+                $("#tbody_wolog").html(data.html_wolog_list);
+                $("#modal-wolog").modal("hide");
+                //console.log(data.html_wo_list);
+              }
+              else {
+                // alert("fdfds");
+
+                $("#wolog-table tbody").html(data.html_woFile_list);
+                // $("#modal-wolog .modal-content").html(data.html_woFile_form);
+              }
+            }
+          });
+        return false;
+        };
+
+
+       var loadPdate=function()
+       {
+         $('#id_requiredCompletionDate').pDatepicker({
+                         format: 'YYYY-MM-DD',
+                         autoClose: true,
+                         initialValueType: 'gregorian'
+                     });
+                     $('#id_datecreated').pDatepicker({
+                       format: 'YYYY-MM-DD',
+                       timePicker: {
+                           enabled: true
+                       },
+
+                                     autoClose: true,
+                                     initialValueType: 'gregorian'
+                                 });//id_dateCompleted
+                                 $('#id_dateCompleted').pDatepicker({
+                                   format: 'YYYY-MM-DD',
+                                   timePicker: {
+                                       enabled: true
+                                   },
+                                   autoClose:true,
+                                                 initialValueType: 'gregorian'
+                                             });//id_dateCompleted
+
+       }
+
         var loadForm =function (btn1) {
           var btn=btn1;
           //console.log(btn1);
@@ -314,7 +574,7 @@ loadForm(info);
 
                         //id_completedByUser
 
-                
+
                         $('.selectpicker').selectpicker();
                         $('.basicAutoComplete').autoComplete();
 
