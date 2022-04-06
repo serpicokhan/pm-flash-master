@@ -478,7 +478,7 @@ def woGetCloseWO(request,startHijri,endHijri):
 def woGetOverdueWO(request,startHijri,endHijri):
                 if(request.user.username=="admin"):
                     start,end=DateJob.convert2Date(startHijri,endHijri)
-                    print("SELECT   *  from workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and current_date>requiredCompletionDate and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end))
+                    # print("SELECT   *  from workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and current_date>requiredCompletionDate and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end))
                     books = list(WorkOrder.objects.raw("SELECT   *  from workorder where (woStatus IN (1,2,4,5,6,9) or woStatus is NULL ) and current_date>requiredCompletionDate and isScheduling=0 and datecreated between '{0}' and '{1}'".format(start,end)))
                     books=filterUser(request,books)
                     wos=WOUtility.doPaging(request,books)
