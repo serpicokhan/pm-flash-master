@@ -1131,10 +1131,8 @@ $(function () {
     console.log("here!");
     if($("#lastWorkOrderid").val()!="0")
     {
-      console.log("nothing");
     }
     else{
-      console.log("trigger");
       applyForm();
 
     }

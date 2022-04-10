@@ -82,8 +82,8 @@ def save_task_form(request, form, template_name,woId=None):
             if(err_code==0):
 
                 newTask=form.save()
-                data['wo_time']=TaskUtility.check_completion_date(newTask.workOrder)
-                print(data['wo_time'],"!!!!!!!!!!!!")
+                # data['wo_time']=TaskUtility.check_completion_date(newTask.workOrder)
+                # print(data['wo_time'],"!!!!!!!!!!!!")
 
                 task_create_meter_reading(newTask.id)
                 data['form_is_valid'] = True
