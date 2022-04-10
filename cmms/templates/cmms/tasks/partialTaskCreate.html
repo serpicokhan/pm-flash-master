@@ -140,12 +140,13 @@
                     //alert("Company created!");  // <-- This is just a placeholder for now for testing
                     $("#tbody_task").empty();
 
-                    if(data.last_task_date)
-                    {
-                      $("#id_dateCompleted").val(data.last_task_date);
-                      $("#id_timeCompleted").val(data.last_task_time);
+
+                    if(data.wo_time.length>1){
+                      $("#id_dateCompleted").val(data.wo_time[0]);
+                      $("#id_timeCompleted").val(data.wo_time[1]);
 
                     }
+
                     if(data.last_task_workinstraction)
                     {
                       $("#id_workInstructions").val($("#id_workInstructions").val()+'\n'+data.last_task_workinstraction);

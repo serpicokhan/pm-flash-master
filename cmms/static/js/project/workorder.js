@@ -401,7 +401,10 @@ $(function () {
   var applyForm= function () {
 
     var form = $(this).parent().parent();
-    console.log(form);
+    if(!form.attr("action"))
+    {
+      form=$("#js-wo-create-form");
+    }
 
 
     $.ajax({
@@ -422,6 +425,11 @@ $(function () {
             toastr.error("اطلاعات مربوط به خلاصه مشکل را وارد نمایید!");
             xhr.abort();
           }
+          if($("#id_assignedToUser").val().length<1)
+          {
+            toastr.error("کاربر را مشخص کنید");
+            xhr.abort();
+          }
 
 
           if($("#id_timecreated").val()=="")
@@ -437,7 +445,7 @@ $(function () {
 
       },
       success: function (data) {
-        // console.log(data);
+        console.log(data);
         if (data.form_is_valid) {
 
 
@@ -998,26 +1006,6 @@ $(function () {
 
     });
   }
-  ///////////////////////////////////////////////
-
-  // $('#modal-company').on('click','.woclose', function () {
-  //   if($("#issavechanged").val()=="-1" && $("#id_summaryofIssue").val()=="" ){
-  //     swal({
-  //       title: "حذف دستور کار بدون موضوع",
-  //       text: $("#id_summaryofIssue").val(),
-  //       type: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#DD6B55",
-  //       confirmButtonText: "بلی",
-  //       cancelButtonText: "خیر",
-  //       closeOnConfirm: true
-  //     }, function () {
-  //       cancelform();
-  //
-  //     });
-  //   }
-  //   // do something…
-  // });
 
 
 
@@ -1025,7 +1013,6 @@ $(function () {
 
 
   $("#woGroup").change(function(){
-    console.log($("#woGroup").val());
     filterWoGroup($("#woGroup").val());
   });
   var saveWoEmForm= function () {
@@ -1140,8 +1127,21 @@ $(function () {
       }
     });
   };
+  var check_wo_is_new=function(){
+    console.log("here!");
+    if($("#lastWorkOrderid").val()!="0")
+    {
+      console.log("nothing");
+    }
+    else{
+      console.log("trigger");
+      applyForm();
+
+    }
+  }
 
   $(".js-create-wo").unbind();
+  $("#modal-company").on("click",".js-create-task",check_wo_is_new);
 
   $(".js-create-wo").click(loadForm);
   $(".js-bulk-formset-delete-wo").click(LoadFormsetDelete);

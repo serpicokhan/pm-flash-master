@@ -82,6 +82,8 @@ def save_task_form(request, form, template_name,woId=None):
             if(err_code==0):
 
                 newTask=form.save()
+                data['wo_time']=TaskUtility.check_completion_date(newTask.workOrder)
+                print(data['wo_time'],"!!!!!!!!!!!!")
 
                 task_create_meter_reading(newTask.id)
                 data['form_is_valid'] = True
@@ -96,9 +98,9 @@ def save_task_form(request, form, template_name,woId=None):
                         data['last_task_workinstraction']=newTask.taskDescription
                         data['last_task_assignedUser']=newTask.taskAssignedToUser.id
                         data['last_task_completedUser']=newTask.taskCompletedByUser.id
-                    if(wo.isPm==False):
-                            data['last_task_date']=str(jdatetime.date.fromgregorian(date=tasks[0].taskDateCompleted))
-                            data['last_task_time']=tasks[0].taskTimeCompleted
+                    # if(wo.isPm==False):
+                    #         data['last_task_date']=str(jdatetime.date.fromgregorian(date=tasks[0].taskDateCompleted))
+                    #         data['last_task_time']=tasks[0].taskTimeCompleted
                 except Exception as ex:
                     print(ex)
                 books = Tasks.objects.filter(workOrder=woId)
@@ -126,6 +128,7 @@ def save_task_form(request, form, template_name,woId=None):
           else:
              data['form_is_valid'] = False
              print(form.errors)
+
 
     context = {'form': form}
     data['html_task_form'] = render_to_string(template_name, context, request=request)

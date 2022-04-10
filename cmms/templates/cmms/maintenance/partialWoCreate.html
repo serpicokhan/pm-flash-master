@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'wo_create' %}" class="js-wo-create-form" autocomplete="off">
+<form method="post" action="{% url 'wo_create' %}" class="js-wo-create-form" id='js-wo-create-form' autocomplete="off">
   {% csrf_token %}
   <div class="modal-header " style="background:#ccc">
     <button type="button" class="close woclose" data-dismiss="modal" aria-label="Close">
