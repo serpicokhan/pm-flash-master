@@ -1128,7 +1128,6 @@ $(function () {
     });
   };
   var check_wo_is_new=function(){
-    console.log("here!");
     if($("#lastWorkOrderid").val()!="0")
     {
     }
@@ -1137,9 +1136,40 @@ $(function () {
 
     }
   }
+var check_completion_date=function()
+{
+  old_status=$("#id_woStatus").val();
+  if(old_status=="7")
+  {
+    return $.ajax({
+      url: '/WorkOrder/'+$("#lastWorkOrderid").val()+'/ChangeStatus/'+old_status,
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
 
+
+
+      },
+      success: function (data) {
+        if(data.form_is_valid)
+        {
+          $("#id_dateCompleted").val(data.wo_time[0]);
+          $("#id_timeCompleted").val(data.wo_time[1]);
+        }
+        else
+        {
+          // console.log(old_status);
+          $("#id_woStatus").val((data.wo_status));
+          toastr.error("فعالیت باز! دستور کار نمی توناند در این وضعیت قرار بگیرد.")
+        }
+      }
+    });
+  }
+
+}
   $(".js-create-wo").unbind();
   $("#modal-company").on("click",".js-create-task",check_wo_is_new);
+  $("#modal-company").on("change","#id_woStatus",check_completion_date);
 
   $(".js-create-wo").click(loadForm);
   $(".js-bulk-formset-delete-wo").click(LoadFormsetDelete);

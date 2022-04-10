@@ -1037,3 +1037,15 @@ def bulk_delete_wo(request,ids):
     data['form_is_valid'] = True
     # print('done')
     return JsonResponse(data)
+def wo_change_status(request,id,status):
+    data=dict()
+    if(status=="7"):
+        wo=WorkOrder.objects.get(id=id)
+        result=TaskUtility.check_completion_date(wo)
+        if(result):
+            data['form_is_valid']=True
+            data['wo_time']=result
+        else:
+            data['form_is_valid']=False
+            data['wo_status']=wo.woStatus
+    return JsonResponse(data)
