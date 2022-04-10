@@ -54,7 +54,7 @@ $(function () {
 
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveStockForm= function () {
-
+  // alert("1");
    var form = $(this);
    $.ajax({
      async: true,
@@ -62,8 +62,22 @@ var saveStockForm= function () {
      data: form.serialize(),
      type: form.attr("method"),
      dataType: 'json',
-     beforeSend:function()
+     beforeSend:function(xhr,opt)
      {
+         if(!$(this)[0].url.includes('delete'))
+         {
+           if($("#id_stockItem").val().length<1)
+           {
+             toastr.error("قطعه را مشخص کنید!");
+             xhr.abort();
+           }
+           if($("#id_location").val().length<1)
+           {
+             toastr.error("انبار را مشخص کنید");
+             xhr.abort();
+           }
+
+         }
       //
      },
      success: function (data) {

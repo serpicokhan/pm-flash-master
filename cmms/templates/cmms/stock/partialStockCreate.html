@@ -60,9 +60,48 @@
 
 
                       dataType: 'json',
-                      beforeSend: function () {
-                        //alert(btn.attr("data-url"));
+                      beforeSend:function(xhr,opt)
+                      {
+                          if(!$(this)[0].url.includes('delete'))
+                          {
+                            if($("#id_stockItem").val().length<1)
+                            {
+                              toastr.error("قطعه را مشخص کنید!");
+                              xhr.abort();
+                            }
+                            if($("#id_location").val().length<1)
+                            {
+                              toastr.error("انبار را مشخص کنید");
+                              xhr.abort();
+                            }
+                            if($("#id_qtyOnHand").val().length<1)
+                            {
+                              toastr.error("موجودی را مشخص کنید!");
+                              xhr.abort();
+                            }
+                            if($("#id_minQty").val().length<1)
+                            {
+                              toastr.error("حداقل موجودی را معین کنید!");
+                              xhr.abort();
+                            }
+                            if($("#id_aisle").val().length<1)
+                            {
+                              toastr.error("راهرو مشخص نشده است!");
+                              xhr.abort();
+                            }
+                            if($("#id_row").val().length<1)
+                            {
+                              toastr.error("ردیف مشخص نشده است!");
+                              xhr.abort();
+                            }
+                            if($("#id_bin").val().length<1)
+                            {
+                              toastr.error("قفسه مشخص نشده است!");
+                              xhr.abort();
+                            }
 
+                          }
+                       //
                       },
                       success: function (data) {
                         if (data.form_is_valid) {

@@ -62,28 +62,48 @@
 
 
                       dataType: 'json',
-                      beforeSend: function () {
-                        //alert(btn.attr("data-url"));
-                        console.log(myformat('{"stockItem":{0},\
-                        "location":{1},\
-                        "qtyOnHand":{2},\
-                        "minQty":{3},\
-                        "aisle":{4},\
-                        "row":{5},\
-                        "bin":{6}}',
-                        $("#id_stockItem").val(),
-                        $("#id_location").val(),
+                      beforeSend:function(xhr,opt)
+                      {
+                          if(!$(this)[0].url.includes('delete'))
+                          {
+                            if($("#id_stockItem").val().length<1)
+                            {
+                              toastr.error("قطعه را مشخص کنید!");
+                              xhr.abort();
+                            }
+                            if($("#id_location").val().length<1)
+                            {
+                              toastr.error("انبار را مشخص کنید");
+                              xhr.abort();
+                            }
+                            if($("#id_qtyOnHand").val().length<1)
+                            {
+                              toastr.error("موجودی را مشخص کنید!");
+                              xhr.abort();
+                            }
+                            if($("#id_minQty").val().length<1)
+                            {
+                              toastr.error("حداقل موجودی را معین کنید!");
+                              xhr.abort();
+                            }
+                            if($("#id_aisle").val().length<1)
+                            {
+                              toastr.error("راهرو مشخص نشده است!");
+                              xhr.abort();
+                            }
+                            if($("#id_row").val().length<1)
+                            {
+                              toastr.error("ردیف مشخص نشده است!");
+                              xhr.abort();
+                            }
+                            if($("#id_bin").val().length<1)
+                            {
+                              toastr.error("قفسه مشخص نشده است!");
+                              xhr.abort();
+                            }
 
-                        $("#id_qtyOnHand").val(),
-                        $("#id_minQty").val(),
-                        $("#id_aisle").val(),
-                        $("#id_row").val(),
-                        $("#id_bin").val()
-
-
-
-                      ));
-
+                          }
+                       //
                       },
                       success: function (data) {
                         if (data.form_is_valid) {
