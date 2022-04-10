@@ -374,6 +374,7 @@ class AssetUtility:
                                    group by c.id
                                    '''.format(assetList,date1,date2))
     @staticmethod
+
     def getLabourHoursByAsset(date1,date2,assetCategory,mainType):
         #############$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         #add extra function for empty maintype
@@ -384,6 +385,7 @@ class AssetUtility:
         if(len(assetCategory)>0):
             whereConition+=" and  assetCategory_id in {0}".format(str(assetCategory))
         # print(""" select distinct(assets.id),get_task_asset_time_spent2 (assets.id,'{0}','{1}') as timespent from assets {2}  """.format(date1,date2,whereConition))
+        print(""" select distinct(assets.id),get_task_asset_time_spent2 (assets.id,'{0}','{1}') as timespent from assets {2}  """.format(date1,date2,whereConition))
         return Asset.objects.raw(""" select distinct(assets.id),get_task_asset_time_spent2 (assets.id,'{0}','{1}') as timespent from assets {2}  """.format(date1,date2,whereConition))
     @staticmethod
     def getLabourHoursByAssetTop10(date1,date2,assetCategory,mainType):

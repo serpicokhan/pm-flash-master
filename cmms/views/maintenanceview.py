@@ -201,10 +201,8 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
     # try:
         data = dict()
         if (request.method == 'POST'):
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             # print(form.cleaned_data['requiredCompletionDate'],'*******************')
             if form.is_valid():
-                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
                     # validVal=[0,0,0]
                     # validVal[0]=(WOUtility.checkTaskDateRange(form.instance))
@@ -222,7 +220,6 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
                     err_msg="نوع نگهداری را تعیین کنید"
 
                 if(err_code==0):
-                    print("$")
 
                     form.save()
                     #Asset life section
@@ -290,18 +287,13 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
             else:
                 data['form_is_valid'] = False
                 print(form.errors)
-
-        context = {'form': form,'lId':id}
+        # consider id = 0 when you wanna create new wo
+        context = {'form': form,'lId':id if id is not None else 0}
+        if(form.instance):
+            data['id']=form.instance.id
         data['html_wo_form'] = render_to_string(template_name, context, request=request)
         return JsonResponse(data)
-    # except:
-    #     exc_type, exc_obj, tb = sys.exc_info()
-    #     f = tb.tb_frame
-    #     lineno = tb.tb_lineno
-    #     filename = f.f_code.co_filename
-    #     linecache.checkcache(filename)
-    #     line = linecache.getline(filename, lineno, f.f_globals)
-    #     print ('EXCEPTION IN ({}, LINE {} {}): {}'.format(filename, lineno, line.strip(), exc_obj))
+
 
 ##########################################################
 
@@ -345,13 +337,18 @@ def wo_delete(request, id):
 ##########################################################
 def wo_create(request):
     if (request.method == 'POST'):
+
         form = WorkOrderForm(request.POST)
+        print(form.data['lastWorkOrderid'])
+        if(int(form.data['lastWorkOrderid'])>0):
+            return wo_update(request, int(form.data['lastWorkOrderid']))
         return save_wo_form(request, form, 'cmms/maintenance/partialWoCreate.html',iscreated=1)
     else:
-        woInstance=WorkOrder.objects.create(isScheduling=False,creatNewWO=False,woStatus=1,woPriority=2,isPm=False)
-        form = WorkOrderForm(instance=woInstance)
+        # woInstance=WorkOrder.objects.create(isScheduling=False,creatNewWO=False,woStatus=1,woPriority=2,isPm=False)
+        # form = WorkOrderForm(instance=woInstance)
+        form = WorkOrderForm()
         # print(request.user)
-        return save_wo_form(request, form, 'cmms/maintenance/partialWoCreate.html',woInstance.id,iscreated=1)
+        return save_wo_form(request, form, 'cmms/maintenance/partialWoCreate.html',iscreated=1)
 
 
 

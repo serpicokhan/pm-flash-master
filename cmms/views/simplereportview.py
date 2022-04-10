@@ -794,9 +794,7 @@ class reporttest:
         woListDic=zip(projList,wolist)
         return render(request, 'cmms/reports/simplereports/ProjectsReportWithWorkOrderDetails.html',{'woList':woListDic,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'woStatus':list(woStatus),'stdate':startDate,'enddate':endDate})
     #######################################
-    #######################################
-    #######################################
-    ####### Business Metrics###############
+
     def FailureCodeCauseCount(self,request):
         #this report include bar graph
         date1=DateJob.getDate2(request.POST.get("startDate",""))
@@ -1019,6 +1017,7 @@ class reporttest:
         endDate=request.POST.get("endDate","").replace('-','/')
         userLink=request.POST.get("userLink", "")
         user=SysUser.objects.get(id=userLink)
+        # print(user)
         n1=UserUtility.getOveralView(userLink,date1,date2)
         n2=UserUtility.getDetailWoView(userLink,date1,date2)
         return render(request, 'cmms/reports/simplereports/WorkOrderHoursLoggedbyTechnician.html',{'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'n1':list(n1),'n2':list(n2),'stdate':startDate,'enddate':endDate,'user':user.fullName})

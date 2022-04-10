@@ -8,7 +8,7 @@ $(function () {
     var btn=0;
     //console.log(btn1);
     if($(btn1).attr("type")=="click")
-     btn=$(this);
+    btn=$(this);
     else {
       btn=btn1;
     }
@@ -32,155 +32,161 @@ $(function () {
 
         $("#modal-company .modal-content").html(data.html_wo_form);
         $('#id_requiredCompletionDate').pDatepicker({
-                        format: 'YYYY-MM-DD',
-                        autoClose: true,
-                        initialValueType: 'gregorian'
-                    });
-               if($('#id_datecreated').val().length>0)
+          format: 'YYYY-MM-DD',
+          autoClose: true,
+          initialValueType: 'gregorian'
+        });
+        if($('#id_datecreated').val().length>0)
+        {
+          $('#id_datecreated').pDatepicker({
+            format: 'YYYY-MM-DD',
+            initialValueType: 'gregorian',
+            autoClose:true
+
+
+          });
+        }//id_dateCompleted
+        else {
+
+          $('#id_datecreated').pDatepicker({
+            format: 'YYYY-MM-DD',
+            initialValueType: 'gregorian',
+            autoClose:true
+
+
+          }).val('');
+        }
+        if($('#id_timecreated').val().length==0)
+        {
+          $('#id_timecreated').val(new Date().toLocaleTimeString('en-US', { hour12: false }))
+
+        }//id_dateCompleted
+
+        //console.log($('#id_dateCompleted').val()+":dsadsa");
+        if($('#id_dateCompleted').val().length>0){
+          $('#id_dateCompleted').pDatepicker({
+            format: 'YYYY-MM-DD',
+
+            autoClose:true,
+            initialValueType: 'gregorian'
+          });//id_dateCompleted
+        }
+        else {
+          $('#id_dateCompleted').pDatepicker({
+            format: 'YYYY-MM-DD',
+
+            autoClose:true,
+            initialValueType: 'gregorian'
+          }).val('');//id_dateCompleted
+        }
+
+        //id_completedByUser
+
+        $("#id_woAsset").change(function(){
+          if($(this).val()!="-1")
+          {
+            $.ajax({
+              url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
+              type:'get',
+              dataType: 'json',
+              success: function (data) {
+                // console.log("hahaha");
+
+              }
+            });
+          }
+          else {
+            // $('#id_woAsset').val("1982");
+            // $('.selectpicker').selectpicker('refresh')
+            $("#modal-woAsset").modal({backdrop: 'static', keyboard: false});
+            $.ajax({
+              url: '/Asset/WoAsset/Create',
+              type:'get',
+              dataType: 'json',
+              success: function (data) {
+                // console.log("hahaha");
+                $("#modal-woAsset .modal-content").html(data.html_asset_form);
+
+              }
+            });
+
+          }
+
+
+        });
+        $("#id_woAsset option:first").after('<Option value="-1">"<b>اضافه کردن عنوان جدید</b>"</option>');
+        $('.selectpicker').selectpicker();
+        $('.basicAutoComplete').autoComplete();
+        initLoad();
+        initWoPartLoad();
+        initWoMeterLoad();
+        initWoMiscLoad();
+        initWoNotifyLoad();
+        initWoFileLoad();initWoLogLoad();
+        initWoPertLoad();
+        $('#woassetrefresh').click(function(){
+
+          $(this).html('<i class="fa fa-refresh fa-spin"></i>');
+          $.ajax({
+            url: '/WorkOrder/LoadAsset/',
+
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+              if (data.form_is_valid) {
+                //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                $("#id_woAsset").html(data.html_assets_dynamics);
+                $('#woassetrefresh').html('<i class="fa fa-refresh"></i>');
+                $('#id_woAsset').selectpicker('refresh');
+
+                // $("tr").on("click", showAssetDetails);
+
+                // console.log(data.html_asset_list);
+              }
+              else {
+
+                toastr.error("خطایی بوجود آمده لطفا مجددا سعی نمایید");
+              }
+            }
+          });
+
+        });
+        $('.advanced2AutoComplete4').autoComplete({
+          resolver: 'custom',
+          noResultsText:'بدون نتیجه',
+          formatResult: function (item) {
+            return {
+              value: item.id,
+              text: "[" + item.assetCode + "] " + item.assetName,
+            };
+          },
+          events: {
+            search: function (qry, callback) {
+              // let's do a custom ajax call
+              $.ajax(
+                '/Asset/GetAssets',
                 {
-                    $('#id_datecreated').pDatepicker({
-                      format: 'YYYY-MM-DD',
-                      initialValueType: 'gregorian',
-                      autoClose:true
-
-
-                  });
-                }//id_dateCompleted
-                else {
-
-                  $('#id_datecreated').pDatepicker({
-                    format: 'YYYY-MM-DD',
-                    initialValueType: 'gregorian',
-                    autoClose:true
-
-
-                }).val('');
+                  data: { 'qry': qry}
                 }
-                  //console.log($('#id_dateCompleted').val()+":dsadsa");
-                                 if($('#id_dateCompleted').val().length>0){
-                                $('#id_dateCompleted').pDatepicker({
-                                  format: 'YYYY-MM-DD',
+              ).done(function (res) {
+                callback(res);
+              });
+            },
+          }
+        });
+        $('.advanced2AutoComplete4').on('autocomplete.select', function (evt, item) {
+          // alert("!23");
+          $("#id_woAsset").val(item.id);
+          $.ajax({
+            url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
+            type:'get',
+            dataType: 'json',
+            success: function (data) {
+              // console.log("hahaha");
 
-                                  autoClose:true,
-                                  initialValueType: 'gregorian'
-                                            });//id_dateCompleted
-                                          }
-                                        else {
-                                          $('#id_dateCompleted').pDatepicker({
-                                            format: 'YYYY-MM-DD',
-
-                                            autoClose:true,
-                                            initialValueType: 'gregorian'
-                                          }).val('');//id_dateCompleted
-                                        }
-
-                  //id_completedByUser
-
-                  $("#id_woAsset").change(function(){
-                    if($(this).val()!="-1")
-                    {
-                    $.ajax({
-                      url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
-                      type:'get',
-                      dataType: 'json',
-                      success: function (data) {
-                        // console.log("hahaha");
-
-                      }
-                    });
-                  }
-                  else {
-                    // $('#id_woAsset').val("1982");
-                    // $('.selectpicker').selectpicker('refresh')
-                      $("#modal-woAsset").modal({backdrop: 'static', keyboard: false});
-                      $.ajax({
-                        url: '/Asset/WoAsset/Create',
-                        type:'get',
-                        dataType: 'json',
-                        success: function (data) {
-                          // console.log("hahaha");
-                            $("#modal-woAsset .modal-content").html(data.html_asset_form);
-
-                        }
-                      });
-
-                  }
-
-
-                  });
-                  $("#id_woAsset option:first").after('<Option value="-1">"<b>اضافه کردن عنوان جدید</b>"</option>');
-                  $('.selectpicker').selectpicker();
-                  $('.basicAutoComplete').autoComplete();
-                  initLoad();
-                  initWoPartLoad();
-                  initWoMeterLoad();
-                  initWoMiscLoad();
-                  initWoNotifyLoad();
-                  initWoFileLoad();initWoLogLoad();
-                  initWoPertLoad();
-                  $('#woassetrefresh').click(function(){
-
-                    $(this).html('<i class="fa fa-refresh fa-spin"></i>');
-                    $.ajax({
-                      url: '/WorkOrder/LoadAsset/',
-
-                      type: 'get',
-                      dataType: 'json',
-                      success: function (data) {
-                        if (data.form_is_valid) {
-                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
-                        $("#id_woAsset").html(data.html_assets_dynamics);
-                        $('#woassetrefresh').html('<i class="fa fa-refresh"></i>');
-                        $('#id_woAsset').selectpicker('refresh');
-
-                         // $("tr").on("click", showAssetDetails);
-
-                         // console.log(data.html_asset_list);
-                        }
-                        else {
-
-                        toastr.error("خطایی بوجود آمده لطفا مجددا سعی نمایید");
-                        }
-                      }
-                    });
-
-                  });
-                  $('.advanced2AutoComplete4').autoComplete({
-                    resolver: 'custom',
-                    noResultsText:'بدون نتیجه',
-                    formatResult: function (item) {
-                      return {
-                        value: item.id,
-                        text: "[" + item.assetCode + "] " + item.assetName,
-                      };
-                    },
-                    events: {
-                      search: function (qry, callback) {
-                        // let's do a custom ajax call
-                        $.ajax(
-                          '/Asset/GetAssets',
-                          {
-                            data: { 'qry': qry}
-                          }
-                        ).done(function (res) {
-                          callback(res);
-                        });
-                      },
-                    }
-                  });
-                  $('.advanced2AutoComplete4').on('autocomplete.select', function (evt, item) {
-                    // alert("!23");
-                    $("#id_woAsset").val(item.id);
-                    $.ajax({
-                      url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
-                      type:'get',
-                      dataType: 'json',
-                      success: function (data) {
-                        // console.log("hahaha");
-
-                      }
-                    });
-                  });
+            }
+          });
+        });
 
 
 
@@ -188,215 +194,64 @@ $(function () {
       }
 
     });
-   // $("#id_assignedToUser").chosen('.chosen-select-width': {
-     //           width: "95%"
-       //     });
+    // $("#id_assignedToUser").chosen('.chosen-select-width': {
+    //           width: "95%"
+    //     });
 
 
 
-};
-//this load form is created for barch formset update
-// var loadFormNN =function (btn1) {
-//   var btn=0;
-//   //console.log(btn1);
-//   if($(btn1).attr("type")=="click")
-//    btn=$(this);
-//   else {
-//     btn=btn1;
-//   }
-//   //console.log($(btn).attr("type"));
-//   //console.log($(btn).attr("data-url"));
-//   return $.ajax({
-//     url: btn.kk,
-//     type: 'get',
-//     dataType: 'json',
-//     beforeSend: function () {
-//       //alert(btn.attr("data-url"));
-//       //alert("321321");
-//       $("#modal-company").modal({backdrop: 'static', keyboard: false});
-//
-//     },
-//     success: function (data) {
-//
-//       //alert("3123@!");
-//
-//       $("#modal-company .modal-content").html(data.html_wo_form);
-//       $('#id_requiredCompletionDate').pDatepicker({
-//                       format: 'YYYY-MM-DD',
-//                       autoClose: true,
-//                       initialValueType: 'gregorian'
-//                   });
-//                   $('#id_datecreated').pDatepicker({
-//                     format: 'YYYY-MM-DD',
-//                     initialValueType: 'gregorian',
-//                     autoClose:true
-//
-//
-//                 });//id_dateCompleted
-//                 //console.log($('#id_dateCompleted').val()+":dsadsa");
-//
-//                               $('#id_dateCompleted').pDatepicker({
-//                                 format: 'YYYY-MM-DD',
-//
-//                                 autoClose:true,
-//                                 initialValueType: 'gregorian'
-//                                           });//id_dateCompleted
-//
-//                 //id_completedByUser
-//
-//                 $("#id_woAsset").change(function(){
-//                   if($(this).val()!="-1")
-//                   {
-//                   $.ajax({
-//                     url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
-//                     type:'get',
-//                     dataType: 'json',
-//                     success: function (data) {
-//                       // console.log("hahaha");
-//
-//                     }
-//                   });
-//                 }
-//                 else {
-//                   // $('#id_woAsset').val("1982");
-//                   // $('.selectpicker').selectpicker('refresh')
-//                     $("#modal-woAsset").modal({backdrop: 'static', keyboard: false});
-//                     $.ajax({
-//                       url: '/Asset/WoAsset/Create',
-//                       type:'get',
-//                       dataType: 'json',
-//                       success: function (data) {
-//                         // console.log("hahaha");
-//                           $("#modal-woAsset .modal-content").html(data.html_asset_form);
-//
-//                       }
-//                     });
-//
-//                 }
-//
-//
-//                 });
-//                 $("#id_woAsset option:first").after('<Option value="-1">"<b>اضافه کردن عنوان جدید</b>"</option>');
-//                 $('.selectpicker').selectpicker();
-//                 $('.basicAutoComplete').autoComplete();
-//                 initLoad();
-//                 initWoPartLoad();
-//                 initWoMeterLoad();
-//                 initWoMiscLoad();
-//                 initWoNotifyLoad();
-//                 initWoFileLoad();initWoLogLoad();
-//                 initWoPertLoad();
-//                 $('#woassetrefresh').click(function(){
-//
-//                   $(this).html('<i class="fa fa-refresh fa-spin"></i>');
-//                   $.ajax({
-//                     url: '/WorkOrder/LoadAsset/',
-//
-//                     type: 'get',
-//                     dataType: 'json',
-//                     success: function (data) {
-//                       if (data.form_is_valid) {
-//                         //alert("Company created!");  // <-- This is just a placeholder for now for testing
-//                       $("#id_woAsset").html(data.html_assets_dynamics);
-//                       $('#woassetrefresh').html('<i class="fa fa-refresh"></i>');
-//                       $('#id_woAsset').selectpicker('refresh');
-//
-//                        // $("tr").on("click", showAssetDetails);
-//
-//                        // console.log(data.html_asset_list);
-//                       }
-//                       else {
-//
-//                       toastr.error("خطایی بوجود آمده لطفا مجددا سعی نمایید");
-//                       }
-//                     }
-//                   });
-//
-//                 });
-//
-//
-//
-//
-//     }
-//
-//   });
-//  // $("#id_assignedToUser").chosen('.chosen-select-width': {
-//    //           width: "95%"
-//      //     });
-//
-//
-//
-// };
-var LoadFormSetEm =function () {
-  matches=[];
-  $(".selection-box:checked").each(function() {
+  };
+
+  var LoadFormSetEm =function () {
+    matches=[];
+    $(".selection-box:checked").each(function() {
       matches.push(this.value);
-  });
-  // console.log(matches);
+    });
 
+    swal({
+      title: "تبدیل به EM",
+      text:"",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "بلی",
+      cancelButtonText: "خیر",
+      closeOnConfirm: true
+    }, function () {
+      $.ajax({
+        url: '/WorkOrder/bulkEm/'+matches,
+        data: matches,
+        type: 'get',
+        dataType: 'json',
+        success: function (data) {
+          if (data.form_is_valid) {
+            //alert("Company created!");  // <-- This is just a placeholder for now for testing
+            $("#tbody_company").empty();
+            $("#tbody_company").html(data.html_wo_list);
+            // alert("!23");
+            $("#modal-woEM").modal("hide");
+            // $("tr").on("click", showAssetDetails);
 
+            // console.log(data.html_asset_list);
+          }
+          else {
 
-  // return $.ajax({
-  //   url: $(this).attr("date-url")+matches,
-  //   type: 'get',
-  //   dataType: 'json',
-  //   beforeSend: function () {
-  //
-  //     $("#modal-woEM").modal({backdrop: 'static', keyboard: false});
-  //
-  //   },
-  //   success: function (data) {
-  //     //alert("3123@!");
-  //     // alert(1);
-  //     $("#modal-woEM .modal-content").html(data.modalem);
-  //
-  //
-  //   }
-  // });
-  swal({
-       title: "تبدیل به EM",
-       text:"",
-       type: "warning",
-       showCancelButton: true,
-       confirmButtonColor: "#DD6B55",
-       confirmButtonText: "بلی",
-       cancelButtonText: "خیر",
-       closeOnConfirm: true
-   }, function () {
-     $.ajax({
-       url: '/WorkOrder/bulkEm/'+matches,
-       data: matches,
-       type: 'get',
-       dataType: 'json',
-       success: function (data) {
-         if (data.form_is_valid) {
-           //alert("Company created!");  // <-- This is just a placeholder for now for testing
-           $("#tbody_company").empty();
-           $("#tbody_company").html(data.html_wo_list);
-           // alert("!23");
-          $("#modal-woEM").modal("hide");
-          // $("tr").on("click", showAssetDetails);
+            $("#company-table tbody").html(data.html_asset_list);
+            $("#modal-assetcategory .modal-content").html(data.html_asset_form);
+          }
+        }
+      });
 
-          // console.log(data.html_asset_list);
-         }
-         else {
-
-           $("#company-table tbody").html(data.html_asset_list);
-           $("#modal-assetcategory .modal-content").html(data.html_asset_form);
-         }
-       }
-     });
-
-   });
+    });
 
 
 
 
-};
+  };
   var LoadFormsetDelete =function () {
     var matches = [];
     $(".selection-box:checked").each(function() {
-        matches.push(this.value);
+      matches.push(this.value);
     });
     // console.log(matches);
 
@@ -432,9 +287,9 @@ var LoadFormSetEm =function () {
 
 
 
-};
+  };
 
-var cancelform=function(){
+  var cancelform=function(){
 
     return $.ajax({
       url: '/WorkOrder/'+$("#lastWorkOrderid").val()+'/cancel/',
@@ -467,136 +322,214 @@ var cancelform=function(){
 
   }
 
-//$("#modal-company").on("submit", ".js-company-create-form",
-var saveForm= function () {
+  //$("#modal-company").on("submit", ".js-company-create-form",
+  var saveForm= function () {
 
-   var form = $(this);
+    var form = $(this);
 
 
     $.ajax({
-     url: form.attr("action"),
-     data: form.serialize(),
-     type: form.attr("method"),
-     dataType: 'json',
-     beforeSend:function(xhr,opt)
-     {
-      if(!$(this)[0].url.includes('delete')){
-        if($("#id_woAsset").val().length<1)
-        {
-          toastr.error("برای دستور کار، تجهیزی انتخاب نشده است");
-          xhr.abort();
+      url: form.attr("action"),
+      data: form.serialize(),
+      type: form.attr("method"),
+      dataType: 'json',
+      beforeSend:function(xhr,opt)
+      {
+        if(!$(this)[0].url.includes('delete')){
+          if($("#id_woAsset").val().length<1)
+          {
+            toastr.error("برای دستور کار، تجهیزی انتخاب نشده است");
+            xhr.abort();
+          }
+          if($("#id_summaryofIssue").val().length<1)
+          {
+            toastr.error("اطلاعات مربوط به خلاصه مشکل را وارد نمایید!");
+            xhr.abort();
+          }
+
+          if($("#havetasks").val()=="-1")
+          {
+            toastr.error("فعالیتی مشخص نکرده اید!");
+            xhr.abort();
+          }
+          if($("#id_timecreated").val()=="")
+          {
+            toastr.error("زمان ایجاد فعالیت را مشخص نکردیه اید");
+            xhr.abort();
+          }
+
+
+
         }
-        if($("#id_summaryofIssue").val().length<1)
-        {
-          toastr.error("اطلاعات مربوط به خلاصه مشکل را وارد نمایید!");
-          xhr.abort();
+
+
+      },
+      success: function (data) {
+        if (data.form_is_valid) {
+
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+          $("#tbody_company").empty();
+          $("#tbody_company").html(data.html_wo_list);
+          $("#modal-company").modal("hide");
+          toastr.success("دستور کار با موفقیت  ایجاد شد");
+          $("#issavechanged").val("1");
+
+
+          // console.log(data.html_wo_list);
         }
+        else {
 
-        if($("#havetasks").val()=="-1")
-        {
-          toastr.error("فعالیتی مشخص نکرده اید!");
-          xhr.abort();
+
+
+          if(data.form_err_code==1)
+          {
+            toastr.error(data.form_err_msg);
+          }
+          else {
+            $("#company-table tbody").html(data.html_wo_list);
+            $("#modal-company .modal-content").html(data.html_wo_form);
+            toastr.error("خطا در ایجاد دستور کار. لطفا ورودیهای خود را کنترل نمایید.");
+
+
+          }
+
         }
-
-
-
       }
+    });
+    return false;
+  };
+  var applyForm= function () {
+
+    var form = $(this).parent().parent();
+    console.log(form);
 
 
-     },
-     success: function (data) {
-       if (data.form_is_valid) {
-
-         //alert("Company created!");  // <-- This is just a placeholder for now for testing
-         $("#tbody_company").empty();
-         $("#tbody_company").html(data.html_wo_list);
-         $("#modal-company").modal("hide");
-         toastr.success("دستور کار با موفقیت  ایجاد شد");
-         $("#issavechanged").val("1");
-
-
-        // console.log(data.html_wo_list);
-       }
-       else {
-
-
-
-         if(data.form_err_code==1)
-         {
-           toastr.error(data.form_err_msg);
-         }
-         else {
-           $("#company-table tbody").html(data.html_wo_list);
-           $("#modal-company .modal-content").html(data.html_wo_form);
-           toastr.error("خطا در ایجاد دستور کار. لطفا ورودیهای خود را کنترل نمایید.");
+    $.ajax({
+      url: form.attr("action"),
+      data: form.serialize(),
+      type: form.attr("method"),
+      dataType: 'json',
+      beforeSend:function(xhr,opt)
+      {
+        if(!$(this)[0].url.includes('delete')){
+          if($("#id_woAsset").val().length<1)
+          {
+            toastr.error("برای دستور کار، تجهیزی انتخاب نشده است");
+            xhr.abort();
+          }
+          if($("#id_summaryofIssue").val().length<1)
+          {
+            toastr.error("اطلاعات مربوط به خلاصه مشکل را وارد نمایید!");
+            xhr.abort();
+          }
 
 
-         }
-
-       }
-     }
-   });
-   return false;
- };
-var saveFormsetForm= function () {
-
-   var form = $(this);
-
-   $.ajax({
-     url: form.attr("action"),
-     data: form.serialize(),
-     type: form.attr("method"),
-     dataType: 'json',
-     beforeSend:function(xhr,opt)
-     {
+          if($("#id_timecreated").val()=="")
+          {
+            toastr.error("زمان ایجاد فعالیت را مشخص نکردیه اید");
+            xhr.abort();
+          }
 
 
 
-     },
-     success: function (data) {
-       if (data.form_is_valid) {
-         //alert("Company created!");  // <-- This is just a placeholder for now for testing
-         $("table").find("tr:gt(2)").remove();
-         $(data.html_formset_list).insertAfter('table > tbody > tr:nth-child(1)');
+        }
+
+
+      },
+      success: function (data) {
+        // console.log(data);
+        if (data.form_is_valid) {
+
+
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+
+          toastr.success("دستور کار با موفقیت  ایجاد شد");
+          $("#issavechanged").val("1");
+          $("#lastWorkOrderid").val(data.id);
+
+
+          // console.log(data.html_wo_list);
+        }
+        else {
+
+
+
+          if(data.form_err_code==1)
+          {
+            toastr.error(data.form_err_msg);
+          }
+          else {
+            $("#company-table tbody").html(data.html_wo_list);
+            $("#modal-company .modal-content").html(data.html_wo_form);
+            toastr.error("خطا در ایجاد دستور کار. لطفا ورودیهای خود را کنترل نمایید.");
+
+
+          }
+
+        }
+      }
+    });
+    return false;
+  };
+  var saveFormsetForm= function () {
+
+    var form = $(this);
+
+    $.ajax({
+      url: form.attr("action"),
+      data: form.serialize(),
+      type: form.attr("method"),
+      dataType: 'json',
+      beforeSend:function(xhr,opt)
+      {
+
+
+
+      },
+      success: function (data) {
+        if (data.form_is_valid) {
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+          $("table").find("tr:gt(2)").remove();
+          $(data.html_formset_list).insertAfter('table > tbody > tr:nth-child(1)');
           // $("table > tbody").html(data.html_formset_list);
-         $("#modal-company").modal("hide");
-         toastr.success("دستورکارها با موفقیت حذف شدند");
+          $("#modal-company").modal("hide");
+          toastr.success("دستورکارها با موفقیت حذف شدند");
 
 
-        // console.log(data.html_wo_list);
-       }
-       else {
+          // console.log(data.html_wo_list);
+        }
+        else {
 
 
 
-         if(data.form_err_code==1)
-         {
-           toastr.error(data.form_err_msg);
-         }
-         else {
-           $("#company-table tbody").html(data.html_wo_list);
-           $("#modal-company .modal-content").html(data.html_wo_form);
-           toastr.error("خطا در ایجاد دستور کار. لطفا ورودیهای خود را کنترل نمایید.");
+          if(data.form_err_code==1)
+          {
+            toastr.error(data.form_err_msg);
+          }
+          else {
+            $("#company-table tbody").html(data.html_wo_list);
+            $("#modal-company .modal-content").html(data.html_wo_form);
+            toastr.error("خطا در ایجاد دستور کار. لطفا ورودیهای خود را کنترل نمایید.");
 
 
-         }
+          }
 
-       }
-     }
-   });
-   return false;
- };
- //############# Time Change ############################
- var getListWorkorderLastTime= function (n) {
+        }
+      }
+    });
+    return false;
+  };
+  //############# Time Change ############################
+  var getListWorkorderLastTime= function (n) {
 
     myurl="";
     if(n===2)
-      myurl='/WorkOrder/ListCurrentWeek';
+    myurl='/WorkOrder/ListCurrentWeek';
     else if(n===3) {
       myurl='/WorkOrder/ListCurrentMonth';
     }
     else {
-       myurl='/WorkOrder/ListCurrentDay';
+      myurl='/WorkOrder/ListCurrentDay';
     }
 
     $.ajax({
@@ -614,7 +547,7 @@ var saveFormsetForm= function () {
           $(".woPaging").html(data.html_wo_paginator);
 
           $("#modal-company").modal("hide");
-         // console.log(data.html_amar_list);
+          // console.log(data.html_amar_list);
         }
         else {
 
@@ -628,44 +561,44 @@ var saveFormsetForm= function () {
     });
     return false;
   };
-////////////////Search buttom click#############################
-var searchWorkorderByTags= function (searchStr) {
+  ////////////////Search buttom click#############################
+  var searchWorkorderByTags= function (searchStr) {
 
 
-   $.ajax({
-     url: '/WorkOrder/Search/?q='+searchStr,
+    $.ajax({
+      url: '/WorkOrder/Search/?q='+searchStr,
 
-     type: 'GET',
-     dataType: 'json',
-     success: function (data) {
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
 
-       if (data.form_is_valid) {
-         //alert("Company created!");  // <-- This is just a placeholder for now for testing
-         $("#tbody_company").empty();
+        if (data.form_is_valid) {
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+          $("#tbody_company").empty();
 
-         $("#tbody_company").html(data.html_wo_list);
-         $(".woPaging").html(data.html_wo_paginator);
+          $("#tbody_company").html(data.html_wo_list);
+          $(".woPaging").html(data.html_wo_paginator);
 
-         // $("#modal-company").modal("hide");
-        // console.log(data.html_amar_list);
-       }
-       else {
+          // $("#modal-company").modal("hide");
+          // console.log(data.html_amar_list);
+        }
+        else {
 
 
-       }
-     },
-     error: function (jqXHR, exception) {
-       // alert(exception);
-       console.error(exception);
-     }
-   });
-   return false;
- };
- ///
- var filter= function (searchStr) {
+        }
+      },
+      error: function (jqXHR, exception) {
+        // alert(exception);
+        console.error(exception);
+      }
+    });
+    return false;
+  };
+  ///
+  var filter= function (searchStr) {
 
-   var status_selector=($("#status-selector").val()!=null)?'?q='+$("#status-selector").val():'';
-   console.log(status_selector);
+    var status_selector=($("#status-selector").val()!=null)?'?q='+$("#status-selector").val():'';
+    console.log(status_selector);
 
 
     $.ajax({
@@ -683,7 +616,7 @@ var searchWorkorderByTags= function (searchStr) {
           $(".woPaging").html(data.html_wo_paginator);
 
           // $("#modal-company").modal("hide");
-         // console.log(data.html_amar_list);
+          // console.log(data.html_amar_list);
         }
         else {
 
@@ -697,405 +630,405 @@ var searchWorkorderByTags= function (searchStr) {
     });
     return false;
   };
- /////////////////////////////
- function sleep(milliseconds) {
-   const date = Date.now();
-   let currentDate = null;
-   do {
-     currentDate = Date.now();
-   } while (currentDate - date < milliseconds);
- }
- $('#woSearch').keyup(function(e){
-   // setTimeout(() => {  console.log("World!"); }, 2000);
-   // sleep(2000);
-   // console.log(e);
-   // e.cancle();
-   strTag=$("#woSearch").val();
-   if(strTag.length==0)
+  /////////////////////////////
+  function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+  }
+  $('#woSearch').keyup(function(e){
+    // setTimeout(() => {  console.log("World!"); }, 2000);
+    // sleep(2000);
+    // console.log(e);
+    // e.cancle();
+    strTag=$("#woSearch").val();
+    if(strTag.length==0)
     strTag='empty_'
-  strTag=strTag.replace(' ','_');
+    strTag=strTag.replace(' ','_');
 
-  searchWorkorderByTags(strTag);
-   //alert("salam");
+    searchWorkorderByTags(strTag);
+    //alert("salam");
 
-});
-////////////////////////////////////////////////////////////////
+  });
+  ////////////////////////////////////////////////////////////////
   //############# Time Radio Button هفته###################
   $('#option2').change(function(){
 
     getListWorkorderLastTime(2);
-});
-//################### ماه #####################
-$('#option3').change(function(){
+  });
+  //################### ماه #####################
+  $('#option3').change(function(){
 
-  getListWorkorderLastTime(3);
-});
+    getListWorkorderLastTime(3);
+  });
 
-$('#option1').change(function(){
+  $('#option1').change(function(){
 
-  getListWorkorderLastTime(1);
-});
+    getListWorkorderLastTime(1);
+  });
 
- var initLoad=function()
- {
-   //alert("initload");
-   $.ajax({
+  var initLoad=function()
+  {
+    //alert("initload");
+    $.ajax({
 
-     url: '/Task/'+$("#lastWorkOrderid").val()+'/listTask',
+      url: '/Task/'+$("#lastWorkOrderid").val()+'/listTask',
 
 
 
-     success: function (data) {
-       if (data.form_is_valid) {
-         //alert("Company created!");  // <-- This is just a placeholder for now for testing
-         $("#tbody_task").empty();
-         $("#tbody_task").html(data.html_task_list);
-         if(data.is_not_empty){
-           $("#havetasks").val("1");
-         }
-         $("#modal-task").modal("hide");
-         //console.log(data.html_wo_list);
-       }
-       else {
+      success: function (data) {
+        if (data.form_is_valid) {
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+          $("#tbody_task").empty();
+          $("#tbody_task").html(data.html_task_list);
+          if(data.is_not_empty){
+            $("#havetasks").val("1");
+          }
+          $("#modal-task").modal("hide");
+          //console.log(data.html_wo_list);
+        }
+        else {
 
-         $("#task-table tbody").html(data.html_task_list);
-         $("#modal-task .modal-content").html(data.html_task_form);
-       }
-     }
-   });
+          $("#task-table tbody").html(data.html_task_list);
+          $("#modal-task .modal-content").html(data.html_task_form);
+        }
+      }
+    });
 
 
-   return false;
- };
+    return false;
+  };
 
 
- var initWoPartLoad=function(){
+  var initWoPartLoad=function(){
 
-   $.ajax({
+    $.ajax({
 
-     url: '/WoPart/'+$("#lastWorkOrderid").val()+'/listWoPart',
+      url: '/WoPart/'+$("#lastWorkOrderid").val()+'/listWoPart',
 
 
 
-     success: function (data) {
-         //alert($("#lastWorkOrderid").val());
-       if (data.form_is_valid) {
-         //alert("response");
-         //alert(data.html_woPart_list);  // <-- This is just a placeholder for now for testing
-         $("#tbody_woPart").empty();
-         $("#tbody_woPart").html(data.html_woPart_list);
-         $("#modal-woPart").modal("hide");
-         //console.log(data.html_wo_list);
-       }
-       else {
+      success: function (data) {
+        //alert($("#lastWorkOrderid").val());
+        if (data.form_is_valid) {
+          //alert("response");
+          //alert(data.html_woPart_list);  // <-- This is just a placeholder for now for testing
+          $("#tbody_woPart").empty();
+          $("#tbody_woPart").html(data.html_woPart_list);
+          $("#modal-woPart").modal("hide");
+          //console.log(data.html_wo_list);
+        }
+        else {
 
-         $("#woPart-table tbody").html(data.html_woPart_list);
-         $("#modal-woPart .modal-content").html(data.html_woPart_form);
-       }
-     }
-   });
-return false;
- };
- var initWoMeterLoad=function(){
+          $("#woPart-table tbody").html(data.html_woPart_list);
+          $("#modal-woPart .modal-content").html(data.html_woPart_form);
+        }
+      }
+    });
+    return false;
+  };
+  var initWoMeterLoad=function(){
 
-   $.ajax({
+    $.ajax({
 
-     url: '/WoMeter/'+$("#lastWorkOrderid").val()+'/listWoMeter',
+      url: '/WoMeter/'+$("#lastWorkOrderid").val()+'/listWoMeter',
 
 
 
-     success: function (data) {
-         //alert($("#lastWorkOrderid").val());
-       if (data.form_is_valid) {
-         //alert("response");
-         //alert(data.html_woMeter_list);  // <-- This is just a placeholder for now for testing
-         $("#tbody_woMeter").empty();
-         $("#tbody_woMeter").html(data.html_woMeter_list);
-         $("#modal-woMeter").modal("hide");
-         //console.log(data.html_wo_list);
-       }
-       else {
+      success: function (data) {
+        //alert($("#lastWorkOrderid").val());
+        if (data.form_is_valid) {
+          //alert("response");
+          //alert(data.html_woMeter_list);  // <-- This is just a placeholder for now for testing
+          $("#tbody_woMeter").empty();
+          $("#tbody_woMeter").html(data.html_woMeter_list);
+          $("#modal-woMeter").modal("hide");
+          //console.log(data.html_wo_list);
+        }
+        else {
 
-         $("#woMeter-table tbody").html(data.html_woMeter_list);
-         $("#modal-woMeter .modal-content").html(data.html_woMeter_form);
-       }
-     }
-   });
-return false;
- };
+          $("#woMeter-table tbody").html(data.html_woMeter_list);
+          $("#modal-woMeter .modal-content").html(data.html_woMeter_form);
+        }
+      }
+    });
+    return false;
+  };
 
 
- var initWoMiscLoad=function(){
+  var initWoMiscLoad=function(){
 
-   $.ajax({
+    $.ajax({
 
-     url: '/WoMisc/'+$("#lastWorkOrderid").val()+'/listWoMisc',
+      url: '/WoMisc/'+$("#lastWorkOrderid").val()+'/listWoMisc',
 
 
 
-     success: function (data) {
-         //alert($("#lastWorkOrderid").val());
-       if (data.form_is_valid) {
-         //alert("response");
-         //alert(data.html_woMisc_list);  // <-- This is just a placeholder for now for testing
-         $("#tbody_woMisc").empty();
-         $("#tbody_woMisc").html(data.html_woMisc_list);
-         $("#modal-woMisc").modal("hide");
-         //console.log(data.html_wo_list);
-       }
-       else {
+      success: function (data) {
+        //alert($("#lastWorkOrderid").val());
+        if (data.form_is_valid) {
+          //alert("response");
+          //alert(data.html_woMisc_list);  // <-- This is just a placeholder for now for testing
+          $("#tbody_woMisc").empty();
+          $("#tbody_woMisc").html(data.html_woMisc_list);
+          $("#modal-woMisc").modal("hide");
+          //console.log(data.html_wo_list);
+        }
+        else {
 
-         $("#woMisc-table tbody").html(data.html_woMisc_list);
-         $("#modal-woMisc .modal-content").html(data.html_woMisc_form);
-       }
-     }
-   });
- return false;
- };
+          $("#woMisc-table tbody").html(data.html_woMisc_list);
+          $("#modal-woMisc .modal-content").html(data.html_woMisc_form);
+        }
+      }
+    });
+    return false;
+  };
 
- var initWoNotifyLoad=function(){
+  var initWoNotifyLoad=function(){
 
-   $.ajax({
+    $.ajax({
 
-     url: '/WoNotify/'+$("#lastWorkOrderid").val()+'/listWoNotify',
+      url: '/WoNotify/'+$("#lastWorkOrderid").val()+'/listWoNotify',
 
 
 
-     success: function (data) {
-         //alert($("#lastWorkOrderid").val());
-       if (data.form_is_valid) {
-         //alert("response");
-         //alert(data.html_woNotify_list);  // <-- This is just a placeholder for now for testing
-         $("#tbody_woNotify").empty();
-         $("#tbody_woNotify").html(data.html_woNotify_list);
-         $("#modal-woNotify").modal("hide");
-         //console.log(data.html_wo_list);
-       }
-       else {
+      success: function (data) {
+        //alert($("#lastWorkOrderid").val());
+        if (data.form_is_valid) {
+          //alert("response");
+          //alert(data.html_woNotify_list);  // <-- This is just a placeholder for now for testing
+          $("#tbody_woNotify").empty();
+          $("#tbody_woNotify").html(data.html_woNotify_list);
+          $("#modal-woNotify").modal("hide");
+          //console.log(data.html_wo_list);
+        }
+        else {
 
-         $("#woNotify-table tbody").html(data.html_woNotify_list);
-         $("#modal-woNotify .modal-content").html(data.html_woNotify_form);
-       }
-     }
-   });
- return false;
- };
- var initWoPertLoad=function(){
+          $("#woNotify-table tbody").html(data.html_woNotify_list);
+          $("#modal-woNotify .modal-content").html(data.html_woNotify_form);
+        }
+      }
+    });
+    return false;
+  };
+  var initWoPertLoad=function(){
 
-   $.ajax({
+    $.ajax({
 
-     url: '/WoPert/'+$("#lastWorkOrderid").val()+'/listWoPert',
+      url: '/WoPert/'+$("#lastWorkOrderid").val()+'/listWoPert',
 
 
 
-     success: function (data) {
-         //alert($("#lastWorkOrderid").val());
-       if (data.form_is_valid) {
-         //alert("response");
-         //alert(data.html_woNotify_list);  // <-- This is just a placeholder for now for testing
-         $("#tbody_woPert").empty();
-         $("#tbody_woPert").html(data.html_woPert_list);
-         $("#modal-woPert").modal("hide");
-         //console.log(data.html_wo_list);
-       }
-       else {
+      success: function (data) {
+        //alert($("#lastWorkOrderid").val());
+        if (data.form_is_valid) {
+          //alert("response");
+          //alert(data.html_woNotify_list);  // <-- This is just a placeholder for now for testing
+          $("#tbody_woPert").empty();
+          $("#tbody_woPert").html(data.html_woPert_list);
+          $("#modal-woPert").modal("hide");
+          //console.log(data.html_wo_list);
+        }
+        else {
 
-         $("#woPert-table tbody").html(data.html_woPert_list);
-         $("#modal-woPert .modal-content").html(data.html_woPert_form);
-       }
-     }
-   });
- return false;
- };
+          $("#woPert-table tbody").html(data.html_woPert_list);
+          $("#modal-woPert .modal-content").html(data.html_woPert_form);
+        }
+      }
+    });
+    return false;
+  };
 
 
- var initWoFileLoad=function(){
+  var initWoFileLoad=function(){
 
-   $.ajax({
+    $.ajax({
 
-     url: '/WoFile/'+$("#lastWorkOrderid").val()+'/listWoFile',
-
+      url: '/WoFile/'+$("#lastWorkOrderid").val()+'/listWoFile',
+
 
 
-     success: function (data) {
-         //alert($("#lastWorkOrderid").val());
-       if (data.form_is_valid) {
+      success: function (data) {
+        //alert($("#lastWorkOrderid").val());
+        if (data.form_is_valid) {
 
-
-         //alert(data.html_woFile_list);  // <-- This is just a placeholder for now for testing
-         $("#tbody_woFile").empty();
-         $("#tbody_woFile").html(data.html_woFile_list);
-         $("#modal-woFile").modal("hide");
-         //console.log(data.html_wo_list);
-       }
-       else {
+
+          //alert(data.html_woFile_list);  // <-- This is just a placeholder for now for testing
+          $("#tbody_woFile").empty();
+          $("#tbody_woFile").html(data.html_woFile_list);
+          $("#modal-woFile").modal("hide");
+          //console.log(data.html_wo_list);
+        }
+        else {
 
-         $("#woFile-table tbody").html(data.html_woFile_list);
-         $("#modal-woFile .modal-content").html(data.html_woFile_form);
-       }
-     }
-   });
- return false;
- };
- var initWoLogLoad=function(){
+          $("#woFile-table tbody").html(data.html_woFile_list);
+          $("#modal-woFile .modal-content").html(data.html_woFile_form);
+        }
+      }
+    });
+    return false;
+  };
+  var initWoLogLoad=function(){
 
 
-   $.ajax({
-
-     url: '/WoLog/'+$("#lastWorkOrderid").val()+'/listWoLog/',
-
-
-
-     success: function (data) {
-       // console.log(data);
+    $.ajax({
 
-       if (data.form_is_valid) {
-         // alert("!23");
+      url: '/WoLog/'+$("#lastWorkOrderid").val()+'/listWoLog/',
 
 
-         $("#tbody_wolog").empty();
-         $("#tbody_wolog").html(data.html_wolog_list);
-         $("#modal-wolog").modal("hide");
-         //console.log(data.html_wo_list);
-       }
-       else {
-         // alert("fdfds");
 
-         $("#wolog-table tbody").html(data.html_woFile_list);
-         // $("#modal-wolog .modal-content").html(data.html_woFile_form);
-       }
-     }
-   });
- return false;
- };
+      success: function (data) {
+        // console.log(data);
 
+        if (data.form_is_valid) {
+          // alert("!23");
 
-var loadPdate=function()
-{
-  $('#id_requiredCompletionDate').pDatepicker({
-                  format: 'YYYY-MM-DD',
-                  autoClose: true,
-                  initialValueType: 'gregorian'
-              });
-              $('#id_datecreated').pDatepicker({
-                format: 'YYYY-MM-DD',
-                timePicker: {
-                    enabled: true
-                },
-
-                              autoClose: true,
-                              initialValueType: 'gregorian'
-                          });//id_dateCompleted
-                          $('#id_dateCompleted').pDatepicker({
-                            format: 'YYYY-MM-DD',
-                            timePicker: {
-                                enabled: true
-                            },
-                            autoClose:true,
-                                          initialValueType: 'gregorian'
-                                      });//id_dateCompleted
-
-}
-
- var myWoLoader= function(){
-   btn=$(this);
-   //console.log(btn);
-   // $.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad,initWoPertLoad);
-
-   loadForm(btn);
-
-   //initLoad();
- }
- var filterWo=function(id){
-   return $.ajax({
-     url: '/WorkOrder/'+id+'/getType/',
-     type: 'get',
-     dataType: 'json',
-     beforeSend: function () {
-       //alert(btn.attr("data-url"));
-       //alert("321321");
-
-
-     },
-     success: function (data) {
-       console.log(data);
-       if(data.form_is_valid)
-       {
-         // alert("!23");
-
-         $("#tbody_company").empty();
-         $("#tbody_company").html(data.html_wo_list);
-         $(".woPaging").html(data.html_wo_paginator)
-
-       }
-
-     }
-
-   });
- }
-
- $("#woType").change(function(){
-   filterWo($("#woType").val());
- });
- //////////////////////////////////////////////
- var filterWoGroup=function(id){
-   return $.ajax({
-     url: '/WorkOrder/'+id+'/getGroup/',
-     type: 'get',
-     dataType: 'json',
-     beforeSend: function () {
-       //alert(btn.attr("data-url"));
-       //alert("321321");
-
-
-     },
-     success: function (data) {
-
-       if(data.form_is_valid)
-       {
-         // alert("!23");
-
-         $("#tbody_company").empty();
-         $("#tbody_company").html(data.html_wo_list);
-         $(".woPaging").html(data.html_wo_paginator);
-
-       }
-
-     }
-
-   });
- }
- ///////////////////////////////////////////////
-
- $('#modal-company').on('click','.woclose', function () {
-   if($("#issavechanged").val()=="-1" && $("#id_summaryofIssue").val()=="" ){
-   swal({
-        title: "حذف دستور کار بدون موضوع",
-        text: $("#id_summaryofIssue").val(),
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "بلی",
-        cancelButtonText: "خیر",
-        closeOnConfirm: true
-    }, function () {
-        cancelform();
+
+          $("#tbody_wolog").empty();
+          $("#tbody_wolog").html(data.html_wolog_list);
+          $("#modal-wolog").modal("hide");
+          //console.log(data.html_wo_list);
+        }
+        else {
+          // alert("fdfds");
+
+          $("#wolog-table tbody").html(data.html_woFile_list);
+          // $("#modal-wolog .modal-content").html(data.html_woFile_form);
+        }
+      }
+    });
+    return false;
+  };
+
+
+  var loadPdate=function()
+  {
+    $('#id_requiredCompletionDate').pDatepicker({
+      format: 'YYYY-MM-DD',
+      autoClose: true,
+      initialValueType: 'gregorian'
+    });
+    $('#id_datecreated').pDatepicker({
+      format: 'YYYY-MM-DD',
+      timePicker: {
+        enabled: true
+      },
+
+      autoClose: true,
+      initialValueType: 'gregorian'
+    });//id_dateCompleted
+    $('#id_dateCompleted').pDatepicker({
+      format: 'YYYY-MM-DD',
+      timePicker: {
+        enabled: true
+      },
+      autoClose:true,
+      initialValueType: 'gregorian'
+    });//id_dateCompleted
+
+  }
+
+  var myWoLoader= function(){
+    btn=$(this);
+    //console.log(btn);
+    // $.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad,initWoPertLoad);
+
+    loadForm(btn);
+
+    //initLoad();
+  }
+  var filterWo=function(id){
+    return $.ajax({
+      url: '/WorkOrder/'+id+'/getType/',
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        //alert(btn.attr("data-url"));
+        //alert("321321");
+
+
+      },
+      success: function (data) {
+        console.log(data);
+        if(data.form_is_valid)
+        {
+          // alert("!23");
+
+          $("#tbody_company").empty();
+          $("#tbody_company").html(data.html_wo_list);
+          $(".woPaging").html(data.html_wo_paginator)
+
+        }
+
+      }
 
     });
   }
-   // do something…
- });
+
+  $("#woType").change(function(){
+    filterWo($("#woType").val());
+  });
+  //////////////////////////////////////////////
+  var filterWoGroup=function(id){
+    return $.ajax({
+      url: '/WorkOrder/'+id+'/getGroup/',
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        //alert(btn.attr("data-url"));
+        //alert("321321");
+
+
+      },
+      success: function (data) {
+
+        if(data.form_is_valid)
+        {
+          // alert("!23");
+
+          $("#tbody_company").empty();
+          $("#tbody_company").html(data.html_wo_list);
+          $(".woPaging").html(data.html_wo_paginator);
+
+        }
+
+      }
+
+    });
+  }
+  ///////////////////////////////////////////////
+
+  // $('#modal-company').on('click','.woclose', function () {
+  //   if($("#issavechanged").val()=="-1" && $("#id_summaryofIssue").val()=="" ){
+  //     swal({
+  //       title: "حذف دستور کار بدون موضوع",
+  //       text: $("#id_summaryofIssue").val(),
+  //       type: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: "#DD6B55",
+  //       confirmButtonText: "بلی",
+  //       cancelButtonText: "خیر",
+  //       closeOnConfirm: true
+  //     }, function () {
+  //       cancelform();
+  //
+  //     });
+  //   }
+  //   // do something…
+  // });
 
 
 
 
 
 
- $("#woGroup").change(function(){
-   console.log($("#woGroup").val());
-   filterWoGroup($("#woGroup").val());
- });
- var saveWoEmForm= function () {
+  $("#woGroup").change(function(){
+    console.log($("#woGroup").val());
+    filterWoGroup($("#woGroup").val());
+  });
+  var saveWoEmForm= function () {
     var form = $(this);
     $.ajax({
 
@@ -1109,10 +1042,10 @@ var loadPdate=function()
           $("#tbody_company").empty();
           $("#tbody_company").html(data.html_wo_list);
           // alert("!23");
-         $("#modal-woEM").modal("hide");
-         // $("tr").on("click", showAssetDetails);
+          $("#modal-woEM").modal("hide");
+          // $("tr").on("click", showAssetDetails);
 
-         // console.log(data.html_asset_list);
+          // console.log(data.html_asset_list);
         }
         else {
 
@@ -1121,66 +1054,66 @@ var loadPdate=function()
         }
       }
     });
-   return false;
+    return false;
   };
   /////////////
- var updatetaskuser=function(){
-   // alert(1000);
-   // alert($("#id_assignedToUser").val());
-   user_id=$("#id_assignedToUser").val();
-   // alert(user_id.length);
-   // console.log(user_id,user_id.length);
+  var updatetaskuser=function(){
+    // alert(1000);
+    // alert($("#id_assignedToUser").val());
+    user_id=$("#id_assignedToUser").val();
+    // alert(user_id.length);
+    // console.log(user_id,user_id.length);
 
 
-   return $.ajax({
-     url: '/WorkOrder/'+$("#lastWorkOrderid").val()+'/Task/'+user_id+'/Update_Task_User/',
+    return $.ajax({
+      url: '/WorkOrder/'+$("#lastWorkOrderid").val()+'/Task/'+user_id+'/Update_Task_User/',
 
-     type: 'get',
-     dataType: 'json',
-     beforeSend: function () {
-     },
-     success: function (data) {
-       if(data.form_is_valid)
-       {
-       // $("#modal-copy").modal("hide");
-       $("#tbody_task").html(data.html_data_tasks);
-       // $(".assetPaging").html(data.html_swo_paginator);
-       // $("tr").on("click", showAssetDetails);
-       toastr.success("کاربر با موفقیت بروز شد");
-     }
-     else
-     {
-       toastr.error("خطا در بروز رسانی کاربر در کپی دارایی");
-     }
-   }
-   });
- return false;
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+      },
+      success: function (data) {
+        if(data.form_is_valid)
+        {
+          // $("#modal-copy").modal("hide");
+          $("#tbody_task").html(data.html_data_tasks);
+          // $(".assetPaging").html(data.html_swo_paginator);
+          // $("tr").on("click", showAssetDetails);
+          toastr.success("کاربر با موفقیت بروز شد");
+        }
+        else
+        {
+          toastr.error("خطا در بروز رسانی کاربر در کپی دارایی");
+        }
+      }
+    });
+    return false;
 
- }
-var filter_by_woStatus=function(){
-  window.location.replace("/WorkOrder/list_wo_by_status/"+$("#status-selector2").val());
-}
+  }
+  var filter_by_woStatus=function(){
+    window.location.replace("/WorkOrder/list_wo_by_status/"+$("#status-selector2").val());
+  }
 
 
-var wobulkdeletion_pressed=function(){
-  swal({
-       title:"حذف دستور کار",
-       text: "",
-       type: "warning",
-       showCancelButton: true,
-       confirmButtonColor: "#DD6B55",
-       confirmButtonText: "بلی",
-       cancelButtonText: "خیر",
-       closeOnConfirm: true
-   }, function () {
-       wobulkdeletion();
+  var wobulkdeletion_pressed=function(){
+    swal({
+      title:"حذف دستور کار",
+      text: "",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "بلی",
+      cancelButtonText: "خیر",
+      closeOnConfirm: true
+    }, function () {
+      wobulkdeletion();
 
-   });
-}
+    });
+  }
   var wobulkdeletion =function () {
     matches=[];
     $(".selection-box:checked").each(function() {
-        matches.push(this.value);
+      matches.push(this.value);
     });
     // lo(matches);
     // console.log(matches);
@@ -1198,58 +1131,59 @@ var wobulkdeletion_pressed=function(){
       success: function (data) {
         if(data.form_is_valid)
         {
-      window.location.replace("/WorkOrder/");
+          window.location.replace("/WorkOrder/");
+        }
+        else
+        {
+          toastr.error("خطا در حذف دسته ای دستورکار");
+        }
       }
-      else
-      {
-        toastr.error("خطا در حذف دسته ای دستورکار");
-      }
-    }
     });
-};
+  };
 
-$(".js-create-wo").unbind();
+  $(".js-create-wo").unbind();
 
-$(".js-create-wo").click(loadForm);
-$(".js-bulk-formset-delete-wo").click(LoadFormsetDelete);
-$(".js-bulkem-selector").click(LoadFormSetEm);
-$("#modal-company").on("submit", ".js-wo-create-form", saveForm);
-// $("#modal-company").on("click", ".btn-default", cancelform);
-// $('#modal-company').on('hidden.bs.modal',cancelform);
-// Update book
-$("#company-table").on("click", ".js-update-wo", myWoLoader);
-$("#modal-company").on("submit", ".js-wo-update-form", saveForm);
-// Delete book
-$("#company-table").on("click", ".js-delete-wo2", loadForm);
+  $(".js-create-wo").click(loadForm);
+  $(".js-bulk-formset-delete-wo").click(LoadFormsetDelete);
+  $(".js-bulkem-selector").click(LoadFormSetEm);
+  $("#modal-company").on("submit", ".js-wo-create-form", saveForm);
+  $("#modal-company").on("click", ".woapply", applyForm);
+  // $("#modal-company").on("click", ".btn-default", cancelform);
+  // $('#modal-company').on('hidden.bs.modal',cancelform);
+  // Update book
+  $("#company-table").on("click", ".js-update-wo", myWoLoader);
+  $("#modal-company").on("submit", ".js-wo-update-form", saveForm);
+  // Delete book
+  $("#company-table").on("click", ".js-delete-wo2", loadForm);
 
-$("#modal-company").on("submit", ".js-wo2-delete-form", saveForm);
-$("#modal-company").on("submit", ".js-formset-delete-form", saveFormsetForm);
-$("#modal-woEm").on("submit", ".js-bulkem-selector-form2", saveWoEmForm);
-$("#modal-company").on("change",'.user-assignment',updatetaskuser);
+  $("#modal-company").on("submit", ".js-wo2-delete-form", saveForm);
+  $("#modal-company").on("submit", ".js-formset-delete-form", saveFormsetForm);
+  $("#modal-woEm").on("submit", ".js-bulkem-selector-form2", saveWoEmForm);
+  $("#modal-company").on("change",'.user-assignment',updatetaskuser);
 
-$(".wo-filter").on("click",filter);
-$(".js-bulkwo-selector").on("click", wobulkdeletion_pressed);
-$("#status-selector2").on("change",filter_by_woStatus);
+  $(".wo-filter").on("click",filter);
+  $(".js-bulkwo-selector").on("click", wobulkdeletion_pressed);
+  $("#status-selector2").on("change",filter_by_woStatus);
 
-$(document).ready(function(){
+  $(document).ready(function(){
 
 
-  var cururl=window.location.pathname;
-  if(cururl.indexOf('details')>-1)
-  {
+    var cururl=window.location.pathname;
+    if(cururl.indexOf('details')>-1)
+    {
 
-    url_parts=cururl.split('/');
-    var test = $('<button/>',
+      url_parts=cururl.split('/');
+      var test = $('<button/>',
       {
-          text: 'Test',
-          'data-url':'/WorkOrder/'+url_parts[2]+'/update/',
-          click: function () {  },
+        text: 'Test',
+        'data-url':'/WorkOrder/'+url_parts[2]+'/update/',
+        click: function () {  },
 
       });
-    // var btn={'data-url':'/WorkOrder/10/update/'};
-     $.when(loadForm(test)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad,initWoPertLoad);
-  }
-});
+      // var btn={'data-url':'/WorkOrder/10/update/'};
+      $.when(loadForm(test)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad,initWoLogLoad,initWoPertLoad);
+    }
+  });
 
-//$("#company-table").on("click", ".js-update-wo", initxLoad);
+  //$("#company-table").on("click", ".js-update-wo", initxLoad);
 });

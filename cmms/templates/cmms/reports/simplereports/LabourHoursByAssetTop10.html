@@ -114,8 +114,25 @@
                                       {% block javascript %}
                                       <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
                                       <script type="text/javascript">
-                                        var MONTHS = {{s1}};
+                                        var MONTHS = {% autoescape off %} {{s2}} {% endautoescape %};
                                       		var color = Chart.helpers.color;
+                                        mydata2={% autoescape off %} {{s1}} {% endautoescape %};
+                                        idata=[];
+                                        for( x in mydata2){
+                                                var hms = mydata2[x].toString();
+                                                console.log(hms);  // your input string
+                                                var a = hms.split(':'); // split it at the colons
+
+                                                // Hours are worth 60 minutes.
+                                                var minutes = (+a[0]) * 60 + (+a[1]);
+                                                if(minutes)
+                                                  idata.push(minutes);
+                                                else
+                                                idata.push(0);
+
+
+                                        }
+                                        console.log(idata);
                                       		var barChartData = {
                                       			labels: {% autoescape off %} {{s2}} {% endautoescape %},
                                       			datasets: [{
@@ -123,7 +140,7 @@
                                               backgroundColor: ["#3e95cd","#3e95cd","#3e95cd","#3e95cd","#3e95cd","#3e95cd","#3e95cd","#3e95cd","#3e95cd","#3e95cd"],
                                       				borderWidth: 1,
                                       				data:
-                                      					{{s1}}
+                                      					idata
                                       			}]
                                       		};
                                            var ctx = document.getElementById("doughnutChart").getContext("2d");
