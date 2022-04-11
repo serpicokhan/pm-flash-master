@@ -29,6 +29,7 @@ class UserUtility:
     def getDetailWoView(userID,start,end):
         if(userID):
             # print(" select distinct(workorder.id) as id , get_labour_hour_wo({0},workorder.id) as hour from workorder inner join tasks on tasks.workorder_id=workorder.id where datecreated between '{1}' and '{2}' and (tasks.taskAssignedToUser_id={0})".format(userID,start,end))
+            # prin
             return WorkOrder.objects.raw(" select distinct(workorder.id) as id , COALESCE(get_labour_hour_wo({0},workorder.id),0) /60 as hour from workorder inner join tasks on tasks.workorder_id=workorder.id where datecreated between '{1}' and '{2}' and (tasks.taskAssignedToUser_id={0}) and visibile=1".format(userID,start,end))
 
     @staticmethod

@@ -598,14 +598,14 @@ class AssetUtility:
     def GetDowntimeByAsset(start,end,assetid):
         # print("select count(assetlife.id) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by assetStopCode_id".format(start,end,userid))
         # print("select sum(timestampdiff(MINute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ',assetOnlineFromTime) as datetime))) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by assetStopCode_id".format(start,end,userid))
-        return AssetLife.objects.raw("select sum(timestampdiff(MINute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ',assetOnlineFromTime) as datetime))) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetLifeAssetid_id={2} group by assetStopCode_id".format(start,end,assetid))
+        return AssetLife.objects.raw("select sum(timestampdiff(MINute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ',assetOnlineFromTime) as datetime))) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join stopcode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetLifeAssetid_id={2} group by assetStopCode_id".format(start,end,assetid))
     #########################################################################################
     @staticmethod
     def GetDowntimeHitsReasonByAsset(start,end,assetid):
         # print("select count(assetlife.id) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by assetStopCode_id".format(start,end,userid))
         return AssetLife.objects.raw("""select count(assetlife.id) as id,s.causeDescription as d2,s.id from assetlife
          join workorder as wo on wo.id=assetlife.assetWOAssoc_id
-         left join CauseCode as s on wo.woCauseCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetLifeAssetid_id={2} group by s.id""".format(start,end,assetid))
+         left join causecode as s on wo.woCauseCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetLifeAssetid_id={2} group by s.id""".format(start,end,assetid))
     #########################################################################################
     @staticmethod
     def GetAssetWoByMType(start,end,assetid):

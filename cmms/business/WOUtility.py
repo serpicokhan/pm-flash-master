@@ -97,14 +97,14 @@ class WOUtility:
     def GetDowntimeByUser(start,end,userid):
         # print("select count(assetlife.id) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by assetStopCode_id".format(start,end,userid))
         # print("select sum(timestampdiff(MINute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ',assetOnlineFromTime) as datetime))) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by assetStopCode_id".format(start,end,userid))
-        return AssetLife.objects.raw("select sum(timestampdiff(MINute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ',assetOnlineFromTime) as datetime))) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by assetStopCode_id".format(start,end,userid))
+        return AssetLife.objects.raw("select sum(timestampdiff(MINute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ',assetOnlineFromTime) as datetime))) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join stopcode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by assetStopCode_id".format(start,end,userid))
     #########################################################################################
     @staticmethod
     def GetDowntimeHitsReasonByUser(start,end,userid):
         # print("select count(assetlife.id) as id,s.stopDescription as d2,assetStopCode_id from assetlife left join StopCode as s on assetlife.assetStopCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by assetStopCode_id".format(start,end,userid))
         return AssetLife.objects.raw("""select count(assetlife.id) as id,s.causeDescription as d2,s.id from assetlife
          join workorder as wo on wo.id=assetlife.assetWOAssoc_id
-         left join CauseCode as s on wo.woCauseCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by s.id""".format(start,end,userid))
+         left join causecode as s on wo.woCauseCode_id=s.id where  (assetOfflineFrom between '{0}' and '{1}') and assetSetOfflineByUser_id={2} group by s.id""".format(start,end,userid))
     #########################################################################################
     @staticmethod
     def GetUserWoByMType(start,end,userid):
@@ -273,16 +273,17 @@ class WOUtility:
         whereConition="where datecreated between '{0}' and '{1}'  and wostatus in (1,2,4,5,6,9) and isScheduling=0".format(start ,end)
         if(len(assignedUser)>0):
             whereConition+=" and  assignedToUser_id in {0}".format(str(assignedUser))
-        if(len(asset)>0):
-            whereConition+=" and  woAsset_id in {0}".format(str(asset))
+        # if(len(asset)>0):
+        #     whereConition+=" and  woAsset_id in {0}".format(str(asset))
         if(len(assetCategory)>0):
-            whereConition+=" and  woAsset_id in {0}".format(str(assetCategory))
+            whereConition+=" and  assetCategory_id in {0}".format(str(assetCategory))
 
         if(len(maintenanceType)>0):
             whereConition+=" and  maintenanceType_id in {0}".format(maintenanceType)
 
         if(len(priority)>0):
             whereConition+=" and  woPriority in {0}".format(priority)
+
 
 
 
@@ -296,9 +297,10 @@ class WOUtility:
         from workorder
         left join maintenancetype b on workorder.maintenancetype_id=b.id
         left join assets a on workorder.woasset_id=a.id
+        left join assetcategory ac on a.assetCategory_id=ac.id
         {0}
 
-        having t6<t5
+        having t6<now()
 
          order by workorder.id
          """.format(whereConition))
