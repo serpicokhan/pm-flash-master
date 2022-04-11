@@ -339,14 +339,13 @@ def wo_create(request):
     if (request.method == 'POST'):
 
         form = WorkOrderForm(request.POST)
-        print(form.data['lastWorkOrderid'])
         if(int(form.data['lastWorkOrderid'])>0):
             return wo_update(request, int(form.data['lastWorkOrderid']))
         return save_wo_form(request, form, 'cmms/maintenance/partialWoCreate.html',iscreated=1)
     else:
         # woInstance=WorkOrder.objects.create(isScheduling=False,creatNewWO=False,woStatus=1,woPriority=2,isPm=False)
         # form = WorkOrderForm(instance=woInstance)
-        form = WorkOrderForm()
+        form = WorkOrderForm(initial={'isScheduling':False,'creatNewWO':False,'woStatus':1,'woPriority':2,'isPm':False})
         # print(request.user)
         return save_wo_form(request, form, 'cmms/maintenance/partialWoCreate.html',iscreated=1)
 

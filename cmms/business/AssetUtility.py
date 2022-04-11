@@ -125,7 +125,7 @@ class AssetUtility:
                  inner JOIN workorder on tasks.workOrder_id=workorder.id
                  inner join assets on workorder.woAsset_id=assets.id
 
-                 where workorder.maintenanceType_id={0}
+                 where workorder.maintenanceType_id={0} and visibile=1
                  and tasks.taskStartDate between '{1}' and '{2}'
                  and assets.assetCategory_id={3} and workorder.isScheduling=0
                  ;
