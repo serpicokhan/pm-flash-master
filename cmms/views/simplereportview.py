@@ -1589,7 +1589,7 @@ class reporttest:
             inner join maintenancetype on workorder.maintenancetype_id=maintenancetype.id
             where usergroup.id={0}
             and workorder.datecreated between '{1}' and '{2}' and
-             MaintenanceType.name='تعمیر' and workorder.isScheduling=0 """.format(usergroup,DateJob.getDate2(dt[0]),
+             maintenancetype.name='تعمیر' and workorder.isScheduling=0 and visibile=1 """.format(usergroup,DateJob.getDate2(dt[0]),
             DateJob.getDate2(dt[1])))[0].id)
 
 
@@ -1602,7 +1602,7 @@ class reporttest:
                                                                  inner join maintenancetype on workorder.maintenancetype_id=maintenancetype.id
                                                                  where maintenancetype.name='تعمیر' and usergroup.id={0}
                                                                  and tasks.taskDateCompleted between '{1}' and '{2}'
-                                                                 and workorder.isScheduling=0 and isem=1
+                                                                 and workorder.isScheduling=0 and isem=1 and visibile=1
                                                                 """.format(usergroup,DateJob.getDate2(dt[0]),
                                                                 DateJob.getDate2(dt[1])))[0].id)/60
 
