@@ -273,8 +273,8 @@ class WOUtility:
         whereConition="where datecreated between '{0}' and '{1}'  and wostatus in (1,2,4,5,6,9) and isScheduling=0".format(start ,end)
         if(len(assignedUser)>0):
             whereConition+=" and  assignedToUser_id in {0}".format(str(assignedUser))
-        # if(len(asset)>0):
-        #     whereConition+=" and  woAsset_id in {0}".format(str(asset))
+        if(len(asset)>0):
+            whereConition+=" and  woAsset_id in {0}".format(str(asset))
         if(len(assetCategory)>0):
             whereConition+=" and  assetCategory_id in {0}".format(str(assetCategory))
 

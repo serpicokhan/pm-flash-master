@@ -281,7 +281,6 @@ class reporttest:
         priorityType=request.POST.getlist("priorityType", "")
         ##### حذف .... در combobox
         if(len(assignUser) >0 and not assignUser[0]):
-            print(assignUser,"##########################")
             assignUser.pop(0)
         if(len(asset) >0 and not asset[0]):
             asset.pop(0)
@@ -297,6 +296,7 @@ class reporttest:
         categoryText=[int(i) for i in categoryText]
         maintenanceType=[int(i) for i in maintenanceType]
         priorityType=[int(i) for i in priorityType]
+        print(asset," asset!!!!!!!!")
         #از بین بردن کامای اضافی ایجاد شده در تاپل
         if(len(assignUser)==1):
             assignUser.append(-1)
@@ -306,6 +306,8 @@ class reporttest:
             categoryText.append(-1)
         if(len(priorityType)==1):
             priorityType.append(-1)
+        if(len(asset)==1):
+            asset.append(-1)
 
         user1=User.objects.filter(id__in=assignUser).values_list('username', flat=True)
         asset1=Asset.objects.filter(id__in=asset).values_list('assetName', flat=True)
@@ -1242,13 +1244,11 @@ class reporttest:
             mtype=request.POST.getlist("maintenanceType", "")
             ugroup=request.POST.getlist("usergroup", "")
             wos=[]
-            print("######",len(ugroup))
             if(len(location) >0 and not location[0]):
                 location.pop(0)
             if(len(mtype) >0 and not mtype[0]):
                 mtype.pop(0)
             if(len(ugroup) >0 and not ugroup[0]):
-                print("$$$$$$$$$$$$$$$$$$$$$$")
                 ugroup.pop(0)
             #ساخت لیست
             location=[int(i) for i in location]
@@ -1269,7 +1269,6 @@ class reporttest:
                 mtype=MaintenanceType.objects.values_list('id', flat=True)
             if(location[0]==-1):
                 location=Asset.objects.values_list('id',flat=True)
-            print(ugroup,"$$$$$$$$$$$$$$$")
             maint=[]
             for x in ugroup:
 
