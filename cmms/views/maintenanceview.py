@@ -621,7 +621,7 @@ def formset_view(request):
     form = WorkOrderForm2()
 
     # creating a formset and 5 instances of GeeksForm
-    if(request.user.username!="admin" and not request.user.groups.filter(name="operator").exist()):
+    if(request.user.username!="admin" and not request.user.groups.filter(name="operator").exists()):
         books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
         usid=SysUser.objects.get(userId=request.user.id)
 
