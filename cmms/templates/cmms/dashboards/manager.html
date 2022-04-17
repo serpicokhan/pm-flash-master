@@ -8,43 +8,52 @@
 <div class="clear">
 
 </div>
-<div class="row">
-  <div class="col-lg-3">
-    {% include "cmms/summery/worequeted.html" %}
-  </div>
-  <div class="col-lg-3">
-    {% include "cmms/summery/hworequeted.html" %}
-  </div>
-  <div class="col-lg-3">
-    {% include "cmms/summery/dueservice.html" %}
-  </div>
-  <div class="col-lg-3">
-    {% include "cmms/summery/misc.html" %}
-  </div>
 
-</div>
 
 
 
 <div class="row">
-  <div class="col-lg-2">
-    <a href="#" class='dash_tekrar' > {% include "cmms/summery/tekrarha.html" %}</a>
+  <div class="col-lg-12">
+    <div class="row">
+      <div class="col-lg-3">
+        {% include "cmms/summery/worequeted.html" %}
+      </div>
+      <div class="col-lg-3">
+        {% include "cmms/summery/hworequeted.html" %}
+      </div>
+      <div class="col-lg-3">
+        {% include "cmms/summery/dueservice.html" %}
+      </div>
+      <div class="col-lg-3">
+        {% include "cmms/summery/misc.html" %}
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-lg-2">
+        <a href="#" class='dash_tekrar' > {% include "cmms/summery/tekrarha.html" %}</a>
+      </div>
+      <div class="col-lg-2">
+        <a href="#"  class="dash_tavizat"> {% include "cmms/summery/tavizat.html" %}</a>
+      </div>
+      <div class="col-lg-2">
+        <a href="#" class="dash_tavaghof" > {% include "cmms/summery/tavaghofat.html" %}</a>
+      </div>
+      <div class="col-lg-2">
+        <a href="#" class="dash_servicemonghazi"> {% include "cmms/summery/servicemonghazi.html" %}</a>
+      </div>
+      <div class="col-lg-2">
+        <a href="{% url 'list_lowItemStock' %}" > {% include "cmms/summery/hadetajdid.html" %}</a>
+      </div>
+      <div class="col-lg-2">
+        <a href="#" class="dash_newrequest" > {% include "cmms/summery/newrequest.html" %}</a>
+      </div>
+
+    </div>
+
+
   </div>
-  <div class="col-lg-2">
-    <a href="#"  class="dash_tavizat"> {% include "cmms/summery/tavizat.html" %}</a>
-  </div>
-  <div class="col-lg-2">
-    <a href="#" class="dash_tavaghof" > {% include "cmms/summery/tavaghofat.html" %}</a>
-  </div>
-  <div class="col-lg-2">
-    <a href="#" class="dash_servicemonghazi"> {% include "cmms/summery/servicemonghazi.html" %}</a>
-  </div>
-  <div class="col-lg-2">
-    <a href="{% url 'list_lowItemStock' %}" > {% include "cmms/summery/hadetajdid.html" %}</a>
-  </div>
-  <div class="col-lg-2">
-    <a href="#" class="dash_newrequest" > {% include "cmms/summery/newrequest.html" %}</a>
-  </div>
+
 
 </div>
 
@@ -66,17 +75,17 @@
 
 </div>
 <div class="row">
-    <script type="text/javascript">
-      var a111=[];
+  <script type="text/javascript">
+  var a111=[];
 
-    </script>
-    {% for m in dashugroups %}
-    <script type="text/javascript">
-      a111.push({{m.id}});
+  </script>
+  {% for m in dashugroups %}
+  <script type="text/javascript">
+  a111.push({{m.id}});
 
-    </script>
-    {% include "cmms/summery/resourceStatus.html" %}
-    {% endfor %}
+  </script>
+  {% include "cmms/summery/resourceStatus.html" %}
+  {% endfor %}
 
 
 
@@ -90,23 +99,23 @@
 
 {% block javascript %}
 <script type="text/javascript">
-  var ggid={{ggid}};
+var ggid={{ggid}};
 
-  xxxDate1=new persianDate();
+xxxDate1=new persianDate();
 
 
 
-  dt1=xxxDate1.pDate.year.toString()+"-"+("0" + xxxDate1.pDate.month).slice(-2)+"-01";
-  //$("#dashboardt1").val(dt1);
-  $('.dash_tekrar').click(function(){
-    var ex3=$("#makans").val();
-      $('.dash_tekrar').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/EM/'+((ex3=='-1')?'':ex3));
+dt1=xxxDate1.pDate.year.toString()+"-"+("0" + xxxDate1.pDate.month).slice(-2)+"-01";
+//$("#dashboardt1").val(dt1);
+$('.dash_tekrar').click(function(){
+  var ex3=$("#makans").val();
+  $('.dash_tekrar').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/EM/'+((ex3=='-1')?'':ex3));
 
-  });
-  $('.dash_tavizat').click(function(){
-    var ex2=$("#makans").val();
+});
+$('.dash_tavizat').click(function(){
+  var ex2=$("#makans").val();
   if(ex2 =='-1'){
-  $('.dash_tavizat').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/taviz/');
+    $('.dash_tavizat').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/taviz/');
   }
   else
   {
@@ -116,29 +125,29 @@
     });
   }
 
-  });
-  $('.dash_tavaghof').click(function(){
-      var ex3=$("#makans").val();
-    $('.dash_tavaghof').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/tavaghof/'+((ex3=='-1')?'':ex3));
-  });
-  $('.dash_servicemonghazi').click(function(){
-    $('.dash_servicemonghazi').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/overdue/');
-  });
-  $('.dash_newrequest').click(function(){
-    $('.dash_newrequest').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/new/');
-  });
-  $('.highprioritywo').click(function(){
-      var ex3=$("#makans").val();
-    $('.highprioritywo').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/HighPriority/'+((ex3=='-1')?'':ex3));
-  });
-  $('.woreqnumber').click(function(){
-      var ex3=$("#makans").val();
-    $('.woreqnumber').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/WoReqNumber/'+((ex3=='-1')?'':ex3));
-  });
-  $('.dueservice2').click(function(){
-      var ex3=$("#makans").val();
-    $('.dueservice2').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/WoDueDate/');//+((ex3=='-1')?'':'?loc='+ex3));
-  });
+});
+$('.dash_tavaghof').click(function(){
+  var ex3=$("#makans").val();
+  $('.dash_tavaghof').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/tavaghof/'+((ex3=='-1')?'':ex3));
+});
+$('.dash_servicemonghazi').click(function(){
+  $('.dash_servicemonghazi').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/overdue/');
+});
+$('.dash_newrequest').click(function(){
+  $('.dash_newrequest').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/new/');
+});
+$('.highprioritywo').click(function(){
+  var ex3=$("#makans").val();
+  $('.highprioritywo').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/HighPriority/'+((ex3=='-1')?'':ex3));
+});
+$('.woreqnumber').click(function(){
+  var ex3=$("#makans").val();
+  $('.woreqnumber').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/WoReqNumber/'+((ex3=='-1')?'':ex3));
+});
+$('.dueservice2').click(function(){
+  var ex3=$("#makans").val();
+  $('.dueservice2').attr("href", 'WorkOrder/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/WoDueDate/');//+((ex3=='-1')?'':'?loc='+ex3));
+});
 
 
 
@@ -149,12 +158,12 @@
 <script src="{% static '/js/project/dashboard/resourceStatus.js' %}"></script>
 <script src="{% static '/js/project/dashboard/causeBar.js' %}"></script>
 <script src="{% static '/js/project/dashboard/istgahStatus.js' %}"></script>
- <script src="{% static '/js/project/dashboard/info.js' %}"></script>
-  <script src="{% static '/js/project/dashboard/manager.js' %}"></script>
+<script src="{% static '/js/project/dashboard/info.js' %}"></script>
+<script src="{% static '/js/project/dashboard/manager.js' %}"></script>
 <script type="text/javascript">
 
-  LoadCauseBar();
-  LoadIstgahStatusBar();
+LoadCauseBar();
+LoadIstgahStatusBar();
 
 </script>
 

@@ -53,7 +53,7 @@ from django.db.models import F
 
 
 def filterUser(request,books):
-    if(request.user.username!="admin"):
+    if(request.user.username!="admin" or  request.user.groups.filter(name='operator').exists()):
         books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
     else:
         books=books.order_by('-datecreated','-timecreated')

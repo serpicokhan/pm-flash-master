@@ -33,6 +33,7 @@ from django.contrib.auth.models import User, Group
 import json
 from django.http import JsonResponse
 from django.db.models import F
+from django.urls import reverse
 # Create your views here.
 import datetime
 def index(request):
@@ -62,7 +63,8 @@ def list_dashboard(request):
         darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
         return render(request,"cmms/dashboards/manager.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'تکنسین PM','darayee':darayee,'section':'dashboard'})
     else:
-        return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1,'section':'dashboard'})
+        return HttpResponseRedirect(reverse('list_wo'))
+        # return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1,'section':'dashboard'})
     # return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1})
 
 
