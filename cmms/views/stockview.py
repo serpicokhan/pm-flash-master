@@ -30,8 +30,14 @@ from django.db.models import F
 from rest_framework.decorators import api_view
 from cmms.api.WOSerializer import *
 from rest_framework.response import Response
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.context_processors import PermWrapper
+from django.contrib.auth.decorators import permission_required
 ###################################################################
+@login_required
+@permission_required('cmms.view_stocks')
 def list_stock(request,id=None):
+
 
     books = Stock.objects.all().order_by('stockItem')
     wos=StockUtility.doPaging(request,books)

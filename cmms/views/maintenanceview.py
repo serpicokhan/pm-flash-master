@@ -53,7 +53,7 @@ from django.db.models import F
 
 
 def filterUser(request,books):
-    if(request.user.username!="admin" or  request.user.groups.filter(name='operator').exists()):
+    if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
         books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
     else:
         books=books.order_by('-datecreated','-timecreated')
@@ -67,7 +67,7 @@ def list_wo(request,id=None):
         books=[]
         groups=[]
 
-        if(request.user.username!="admin"):
+        if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
             books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
             usid=SysUser.objects.get(userId=request.user.id)
 
@@ -96,7 +96,7 @@ def list_wo_by_status(request,woStatus):
         books=[]
         groups=[]
 
-        if(request.user.username!="admin"):
+        if(request.user.username!="admin" and not request.user.groups.filter(name='operator').exists()):
             books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
             usid=SysUser.objects.get(userId=request.user.id)
 
@@ -125,7 +125,7 @@ def wo_detail(request,id=None):
         books=[]
         groups=[]
 
-        if(request.user.username!="admin"):
+        if(request.user.username!="admin" and not request.user.groups.filter(name='operator').exists()):
             books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
             usid=SysUser.objects.get(userId=request.user.id)
 
@@ -267,7 +267,7 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
                     books=[]
 
 
-                    if(request.user.username!="admin"):
+                    if(request.user.username!="admin" and not request.user.groups.filter(name='operator').exists()):
                         books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
 
                     else:
@@ -313,7 +313,7 @@ def wo_delete(request, id):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies=[]
-        if(request.user.username!="admin"):
+        if(request.user.username!="admin" and not request.user.groups.filter(name='operator').exists()):
             companies = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
 
         else:
@@ -621,7 +621,7 @@ def formset_view(request):
     form = WorkOrderForm2()
 
     # creating a formset and 5 instances of GeeksForm
-    if(request.user.username!="admin"):
+    if(request.user.username!="admin" and not request.user.groups.filter(name="operator").exist()):
         books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
         usid=SysUser.objects.get(userId=request.user.id)
 

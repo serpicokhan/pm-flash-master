@@ -18,7 +18,7 @@
  <td>{{c.get_woStatus_display|default_if_none:"-"}}</td>
  <td><span class="label label-primary" style="background-color:{{c.maintenanceType.color}}; min-width: 55px !important;  display: inline-block !important">
                                                   {{c.maintenanceType}}</span></td>
- <td>{{c.RequestedUser|default_if_none:"-"}}</td>
+ <td>{{c.RequestedUser.fullName|default_if_none:"-"}}</td>
 
  <td>{{c.get_actual_labour2}}</td>
 
