@@ -63,8 +63,8 @@ def list_dashboard(request):
         darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
         return render(request,"cmms/dashboards/manager.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'تکنسین PM','darayee':darayee,'section':'dashboard'})
     else:
-        return HttpResponseRedirect(reverse('list_wo'))
-        # return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1,'section':'dashboard'})
+        # return HttpResponseRedirect(reverse('list_wo'))
+        return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1,'section':'dashboard'})
     # return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1})
 
 
@@ -404,6 +404,7 @@ def dash_getResource(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
     n1=WOUtility.getResources(start,end)
+
     data['html_dashAllResource_list'] =render_to_string('cmms/summery/partialResource.html', {
                 'res': n1,
                 #'x2':n2

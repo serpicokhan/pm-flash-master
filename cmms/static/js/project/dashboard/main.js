@@ -9,6 +9,7 @@ GetMTTR();
 GetMisc();
 
 
+
 /////Donat
 LoadOnDemandDonat();
 LoadPmDonat();
@@ -16,6 +17,7 @@ LoadTotalDonat();
 
 ////getResources
 LoadResources();
+DrawPMPDonat();
 ////
 LoadGroupBar();
 LoadCompletedWorkOrderDonat();

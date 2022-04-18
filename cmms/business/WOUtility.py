@@ -177,23 +177,28 @@ class WOUtility:
                                         FROM ( SELECT count(id) as ontime, workorder.assignedToUser_id as u1
                                                FROM workorder
 
-                                               where workorder.datecreated between '{0}' and '{1}' and workorder.wostatus=7 and workorder.datecompleted <=workorder.requiredCompletionDate
+                                               where workorder.visibile=1 and workorder.datecreated between '{0}' and '{1}' and
+                                                workorder.wostatus=7 and workorder.datecompleted <=workorder.requiredCompletionDate
                                              group by (u1)) AS A
-                                        JOIN ( SELECT count(id) as totalCompleted, workorder.assignedToUser_id as u2
+                                        left JOIN ( SELECT count(id) as totalCompleted, workorder.assignedToUser_id as u2
                                                FROM workorder
 
-                                               where workorder.datecreated between '{0}' and '{1}' and workorder.wostatus=7 group by (u2)) AS B
+                                               where workorder.visibile=1 and workorder.datecreated
+                                               between '{0}' and '{1}' and workorder.wostatus=7 group by (u2)) AS B
 
                                         ON A.u1=B.u2
 
                                         left join (SELECT sum(TIMESTAMPDIFF(HOUR, cast(concat(taskStartDate, ' ', taskStartTime)
                                          as datetime),cast(concat(taskDateCompleted, ' ',
-                                          taskTimeCompleted) as datetime))) as hour,taskAssignedToUser_id as u3 FROM `tasks` group by taskAssignedToUser_id) as C
+                                          taskTimeCompleted) as datetime))) as hour,taskAssignedToUser_id as u3 FROM `tasks`
+                                           group by taskAssignedToUser_id) as C
                                         on A.u1=C.u3
-                                        left join(select count(id) as total ,workorder.assignedToUser_id as u3 from workorder where workorder.datecreated between '{0}' and '{1}'
+                                        left join(select count(id) as total ,workorder.assignedToUser_id as u3 from workorder
+                                         where workorder.datecreated between '{0}' and '{1}' and workorder.visibile=1
                                         group by u3) as D
                                         on A.u1=D.u3
                                         left join sysusers on A.u1=sysusers.id
+
                                         """.format(start,end))
     ##############################Status#######################
     @staticmethod

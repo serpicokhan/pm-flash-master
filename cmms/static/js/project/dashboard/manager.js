@@ -4,6 +4,8 @@ dt1=xxxDate1.pDate.year.toString()+"-"+("0" + xxxDate1.pDate.month).slice(-2)+"-
 $("#dashboardt1").val(dt1);
 /////WOPArt
 GetWoReqNum();
+DrawPMPDonat();
+LoadResources();
 GetWoPartNum();
 GetMTTR();
 GetMisc();

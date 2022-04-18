@@ -10,6 +10,7 @@ var LoadResources=function()
     success: function (data) {
       
 
+
   $("#dash_restbody").html(data.html_dashAllResource_list);
   }
 });
