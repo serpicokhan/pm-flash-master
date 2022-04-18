@@ -1,30 +1,34 @@
-function DrawPMPDonat()
+function DrawPMPDonatAll(data1,data2)
 {
 
 
-  // $('.doughnutChartResourceStatus'+gid).remove(); // this is my <canvas> element
-  // $('#dchartcontainer'+gid).append('<canvas class="doughnutChartResourceStatus'+gid+'" style="width: 78px; height: 78px;"><canvas>');
+  $('#donutpmp').remove(); // this is my <canvas> element
+  $('#pmpholder').append('<canvas id="donutpmp"><canvas>');
   // console.log(element);
   var ctx = document.getElementById("donutpmp");
 
   var myChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: ['OK', 'WARNING', 'CRITICAL', 'UNKNOWN'],
+    labels: ['برنامه ریزی شده','برنامه ریزی نشده'],
     datasets: [{
       label: '# of Tomatoes',
-      data: [12, 19, 3, 5],
+      data: [data1,data2],
       backgroundColor: [
-        'rgba(255, 99, 132, 0.5)',
         'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 99, 132, 0.5)',
+        'rgba(75, 192, 192, 0.2)',
+
         'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)'
+
       ],
       borderColor: [
-        'rgba(255,99,132,1)',
         'rgba(54, 162, 235, 1)',
+        'rgba(255,99,132,1)',
+          'rgba(75, 192, 192, 1)',
+
         'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)'
+
       ],
       borderWidth: 1
     }]
@@ -34,10 +38,28 @@ function DrawPMPDonat()
     responsive: false,
     cutoutPercentage: 70,
     plugins: {
-           legend: false // Hide legend
+           legend: true // Hide legend
        },
 
   }
 });
 
+}
+function GetPmpAll(){
+  $.ajax({
+    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetPMPALL/',
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+
+    },
+    success: function (data) {
+
+    DrawPMPDonatAll(data.pm,data.unpm);
+
+
+
+
+  }
+});
 }

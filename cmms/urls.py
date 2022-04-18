@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCauseCount/$', dash_getDashCauseCount, name='dash_getDashCauseCount'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCauseCount2/(?P<loc>\d+)$', dash_getDashCauseCount2, name='dash_getDashCauseCount2'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/(?P<gid>\d+)/GetResStatus/$', dash_getDashResourceStatus, name='dash_getDashResourceStatus'),
+    url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetPMPALL/$', dash_getDashPMPALL, name='dash_getDashPMPALL'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/(?P<gid>\d+)/GetResStatus2/(?P<loc>\d+)$', dash_getDashResourceStatus2, name='dash_getDashResourceStatus2'),
     ###################################
     url(r'^WorkOrder/$',list_wo,name='list_wo'),

@@ -71,6 +71,17 @@ def list_dashboard(request):
 
 
     ###################################################################
+def dash_getDashPMPALL(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    n1=WorkOrder.objects.raw("select get_numberof_planned_maintenance_hours_all('{0}','{1}') as id ,get_numberof_unplanned_maintenance_hours_all('{0}','{1}') as unpm".format(start,end))
+    data['pm']=n1[0].id
+    data['unpm']=n1[0].unpm
+    return JsonResponse(data)
+
+
+
+
 def GetWoPartNum(request,startHijri,endHijri):
     data=dict()
 

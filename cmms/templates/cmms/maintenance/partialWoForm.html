@@ -16,6 +16,8 @@
     <input type=hidden name='haveschedule' id='haveschedule' value='-1'/>
     <input type=hidden name='havetasks' id='havetasks' value='-1'/>
     {{ form.visibile.as_hidden }}
+    {{ form.isScheduling.as_hidden }}
+    {{ form.isPartOf.as_hidden }}
     {{ form.isUpdating.as_hidden }}
 
 
