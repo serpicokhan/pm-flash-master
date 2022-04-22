@@ -3,16 +3,22 @@
 {% block content %}
 
 
-<div class="alert alert-warning text-center">
-  {% load static %}
+<div class="row">
+  <div class="alert alert-warning text-center">
+    {% load static %}
 
-  <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
-  <h2>
-    زمان متوسط برای تعمیر (MTTR)  <br>
+    <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+    <h2>
+      زمان متوسط برای تعمیر (MTTR)  <br>
+      <h2>دسته بندی: {{category}}</h2>
+      <h2>مکان: {{location}}</h2>
 
 
-  </h2>
-  {{start}} 00:00:00 تا {{end}} 23:59:
+    </h2>
+    <h2>از {{start}} تا {{end}}</h2>
+
+
+  </div>
 
 </div>
 

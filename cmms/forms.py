@@ -1920,7 +1920,7 @@ class MTTRALL(forms.Form):
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
-    category = GroupedModelChoiceField(label="دسته بندی",
+    category = GroupedModelChoiceField(label="دسته بندی",required=False,
         queryset=AssetCategory.objects.all(),empty_label=None,
         choices_groupby='isPartOf',
         widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})

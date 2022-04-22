@@ -248,6 +248,12 @@ class reporttest:
          date2=DateJob.getDate2(request.POST.get("endDate",""))
          c=request.POST.getlist("category",[])
          l=request.POST.getlist("location",[])
+         categoryText="همه"
+         locationText="همه"
+         if(len(c)>0):
+             categoryText=list(AssetCategory.objects.filter(id__in=c).values_list('name',flat=True))
+         if(len(l)>0):
+             locationText=list(Asset.objects.filter(id__in=l).values_list('assetName',flat=True))
          startDate=request.POST.get("startDate","")
          endDate=request.POST.get("endDate","")
          mttrs=MTTR.getMTTRAll(date1,date2,category=c,location=l)
@@ -256,9 +262,8 @@ class reporttest:
          for i in mttrs:
              s1.append(float(i.id))
              s2.append(str(jdatetime.date.fromgregorian(date=i.dt1)))
-         print(s1,s2)
 
-         return render(request, 'cmms/reports/simplereports/mttrall.html',{'mttrs': s1,'label':s2,'start':startDate,'end':endDate})
+         return render(request, 'cmms/reports/simplereports/mttrall.html',{'mttrs': s1,'label':s2,'start':startDate,'end':endDate,'category':categoryText,'location':locationText})
 
     def MTTRByCategory(self,request):
         categoryText=request.POST.get("categoryText", "")
