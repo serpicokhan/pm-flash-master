@@ -1920,6 +1920,14 @@ class MTTRALL(forms.Form):
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    category = GroupedModelChoiceField(label="دسته بندی",
+        queryset=AssetCategory.objects.all(),empty_label=None,
+        choices_groupby='isPartOf',
+        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
+    )
+    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),empty_label=None,
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+
 class MTTRByCategory(forms.Form):
     OPTIONS = (
         (0, "pdf"),

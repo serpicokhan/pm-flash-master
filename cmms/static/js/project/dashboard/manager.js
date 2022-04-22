@@ -53,6 +53,8 @@ $(".btn.btn-white.btn-bitbucket").click(function(){
     if(ex=='-1')
     {
     GetWoReqNum();
+    GetPmpAll();
+    LoadResources();
     GetWoPartNum();
     // GetMTTR();
     GetMisc();

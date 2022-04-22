@@ -243,15 +243,33 @@ class reporttest:
         return render(request, 'cmms/reports/simplereports/DowntimeByRepairTypeByAssetCategory.html',{'s1': s1,'s2':s2,'z1': z1,'z2':z2,'start':startDate,'end':endDate})
 
     def MTTRALL(self,request):
-         print("!!!!!!!!!!!!!!!!!!")
+
          date1=DateJob.getDate2(request.POST.get("startDate",""))
          date2=DateJob.getDate2(request.POST.get("endDate",""))
+         c=request.POST.getlist("category",[])
+         l=request.POST.getlist("location",[])
          startDate=request.POST.get("startDate","")
          endDate=request.POST.get("endDate","")
-         mttrs=MTTR.getMTTRAll(date1,date2)
-         return render(request, 'cmms/reports/simplereports/MTTRALL.html',{'mttrs': mttrs,'start':startDate,'end':endDate})
+         mttrs=MTTR.getMTTRAll(date1,date2,category=c,location=l)
+         s1=[]
+         s2=[]
+         for i in mttrs:
+             s1.append(float(i.id))
+             s2.append(str(jdatetime.date.fromgregorian(date=i.dt1)))
+         print(s1,s2)
+
+         return render(request, 'cmms/reports/simplereports/mttrall.html',{'mttrs': s1,'label':s2,'start':startDate,'end':endDate})
 
     def MTTRByCategory(self,request):
+        categoryText=request.POST.get("categoryText", "")
+        catText='-1'
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","")
+        endDate=request.POST.get("endDate","")
+        mttrs=MTTR.getMTTRByCategory(categoryText,date1,date2)
+        return render(request, 'cmms/reports/simplereports/mttrbycategory.html',{'mttrs': mttrs,'start':startDate,'end':endDate})
+    def MTTRByCategoryLineChart(self,request):
         categoryText=request.POST.get("categoryText", "")
         catText='-1'
         date1=DateJob.getDate2(request.POST.get("startDate",""))
