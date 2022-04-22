@@ -17,6 +17,7 @@ GetLowItemStock();
 GetRequestedWo();
 LoadEqCost();
 getDueService();
+LoadMTTRBar();
 
 for(var i in a111){
   LoadResource(a111[i],"doughnutChartResourceStatus"+a111[i]);
@@ -64,6 +65,7 @@ $(".btn.btn-white.btn-bitbucket").click(function(){
     GetOverdueWoReqNum();
     GetLowItemStock();
     LoadEqCost();
+    LoadMTTRBar();
     for ( i=0;i<ggid.length;i++){
 
     LoadResource(ggid[i],"doughnutChartResourceStatus"+ggid[i]);

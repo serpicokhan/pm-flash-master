@@ -422,6 +422,24 @@ def dash_getResource(request,startHijri,endHijri):
 
             })
     return JsonResponse(data)
+############################################
+def dash_getDashMTTR(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    mttrs=MTTR.getMTTRAll(start,end)
+    s1=[]
+    s2=[]
+    for i in mttrs:
+         s1.append(float(i.id))
+         s2.append(str(jdatetime.date.fromgregorian(date=i.dt1)))
+    data['html_dashMTTR_list'] ={
+                's1': s1,
+                's2':s2
+
+            }
+    return JsonResponse(data)
+
+
 #############################################
 def dash_getWoByStatus(request,startHijri,endHijri):
     data=dict()

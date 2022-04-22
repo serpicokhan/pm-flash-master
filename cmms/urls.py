@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetIstgahStatus/$', dash_getDashIstgahStatus, name='dash_getDashIstgahStatus'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetIstgahStatus2/(?P<loc>\d+)$', dash_getDashIstgahStatus2, name='dash_getDashIstgahStatus2'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCauseCount/$', dash_getDashCauseCount, name='dash_getDashCauseCount'),
+    url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetMTTR/$', dash_getDashMTTR, name='dash_getDashMTTR'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCauseCount2/(?P<loc>\d+)$', dash_getDashCauseCount2, name='dash_getDashCauseCount2'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/(?P<gid>\d+)/GetResStatus/$', dash_getDashResourceStatus, name='dash_getDashResourceStatus'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetPMPALL/$', dash_getDashPMPALL, name='dash_getDashPMPALL'),
