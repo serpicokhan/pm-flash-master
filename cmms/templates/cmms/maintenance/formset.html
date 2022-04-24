@@ -184,6 +184,7 @@
                                 </td>
                                 <td>
                                   {% render_field form.RequestedUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+                                  <input type="checkbox" name="saved" id="savereq" value="">
                                 </td>
                                 <td>
                                   {% render_field form.unitgroups class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
@@ -221,6 +222,7 @@
                                 </td>
                                 <td>
                                     {% render_field form.pertTime class="form-control" value="0"    %}
+
                                 </td>
 
                                 <td>
@@ -661,6 +663,16 @@ $(".send_form").click(function(){
               success: function (data) {
                 // console.log(data);
                 if (data.form_is_valid) {
+                  if (typeof(Storage) !== "undefined") {
+
+                    if($("#savereq").is(":checked"))
+                    {
+                      localStorage.setItem("requser",$("#id_RequestedUser").val())
+                    }
+                  } else {
+                    // Sorry! No Web Storage support..
+                  }
+
 
                    // <-- This is just a placeholder for now for testing
                   $("#tbFormset").find("tr:gt(1)").remove();
@@ -722,6 +734,26 @@ $(".send_form").click(function(){
                  var today_time = new Date();
                  $("#id_timecreated").val(today_time.toLocaleTimeString('en-GB'));
                  $("#id_timeCompleted").val(today_time.toLocaleTimeString('en-GB'));
+
+
+
+                 if (typeof(Storage) !== "undefined") {
+
+                   if($("#savereq").is(":checked"))
+                   {
+                     console.log("kire khar");
+                    $("#id_RequestedUser").val(localStorage.getItem("requser"));
+                    $("#id_RequestedUser").selectpicker("refresh");
+                   }
+                 } else {
+                   // Sorry! No Web Storage support..
+                 }
+
+
+
+
+
+
                  $(".input-block-level").keyup(function(){
 
                    $.ajax({
@@ -774,9 +806,9 @@ $(".send_form").click(function(){
                    });
 
 
+
                 }
                 else {
-                  console.log(data);
                   toastr.error(JSON.stringify(data));
 
 

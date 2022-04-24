@@ -649,14 +649,8 @@ def save_formset(request):
     try:
         if (request.method == 'POST'):
             body_unicode = request.body.decode('utf-8')
-            print("here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             body = json.loads(body_unicode)
-            print(body)
-
-
-
             data['datecreated']=DateJob.getDate2(body['datecreated'])
-
             data['requiredCompletionTime']=body['timeCompleted']
             data['RequestedUser']=body['RequestedUser']
             data['maintenanceType']=body['maintenanceType']
@@ -677,20 +671,12 @@ def save_formset(request):
             data['pertTime']=body['pertTime']
             data['timecreated']=body['timecreated']
             data['woStatus']=body['woStatus']
-            # print(data['timecreated'],"timecreated")
-
-
             form = WorkOrderForm2(data)
-            # form.initial['woPart']=data['woPart']
-            # print(form.data['woPart'],">>wopart")
-
-
             if form.is_valid():
                 form.save(commit=False)
                 form.instance.timecreated=datetime.datetime.strptime(data["timecreated"], '%H:%M:%S').time()
                 form.instance.woPriority=3
                 f2=form.save()
-                print(f2.timecreated,'fff')
                 LogEntry.objects.log_action(
                     user_id         = request.user.pk,
                     content_type_id = ContentType.objects.get_for_model(form.instance).pk,
@@ -699,12 +685,11 @@ def save_formset(request):
                     action_flag     = ADDITION,
                     change_message= request.META.get('REMOTE_ADDR')
                 )
-
-                qty=str(data['woPartQty']).split(',')
-                print(len(str(data['woPartQty']).split(',')),"!@@@@@@@@@@@@@@")
+                qty=0
+                if(data['woPartQty']):
+                    qty=str(data['woPartQty']).split(',')
 
                 i=0
-                print(data['woPart'],"$$$$$$$$$$$$")
                 if(data['woPart']):
                     for k in list(data['woPart']):
                         stk=Stock.objects.get(id=k)
@@ -714,7 +699,7 @@ def save_formset(request):
                         i=i+1
                 if(data['assignedToUser_1']):
                     for k in list(data['assignedToUser_1']):
-                        Tasks.objects.create(taskTypes=1,taskDescription=data['summaryofIssue'],taskAssignedToUser=SysUser.objects.get(id=k),taskStartDate=data['datecreated'],taskStartTime='00:00:00',taskDateCompleted=data['dateCompleted'],taskTimeCompleted=data['timeCompleted'],workOrder=f2)
+                        Tasks.objects.create(taskTypes=1,taskDescription=data['summaryofIssue'],taskAssignedToUser=SysUser.objects.get(id=k),taskStartDate=data['datecreated'],taskStartTime=data['timecreated'],taskDateCompleted=data['dateCompleted'],taskTimeCompleted=data['timeCompleted'],workOrder=f2)
                 if(data['woStopCode'] and int(data['woStopCode'])!=15):
                     # try:
                         dd1="{0} {1}".format(f2.datecreated,f2.timecreated)

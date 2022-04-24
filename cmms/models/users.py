@@ -18,7 +18,7 @@ class testuser(models.Model):
 
 class SysUser(models.Model):
     def __str__(self):
-        return "{}".format(self.title)
+        return "{}".format(self.fullName)
     def get_userStatus(self):
                  if(self.userStatus==True):
                      return "<i class='fa fa-play'></i>								"
