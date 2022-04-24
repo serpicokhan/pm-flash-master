@@ -10,7 +10,7 @@ function DrawPMPDonatAll(data1,data2)
   var myChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: ['برنامه ریزی شده','برنامه ریزی نشده'],
+    labels: ['برنامه ریزی شده','واکنشی'],
     datasets: [{
       label: '# of Tomatoes',
       data: [data1,data2],

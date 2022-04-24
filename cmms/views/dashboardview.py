@@ -1,4 +1,3 @@
-
 '''
  fmt = getattr(settings, 'LOG_FORMAT', None)
  lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
@@ -634,6 +633,46 @@ def GetEmCount2(request,startHijri,endHijri,loc):
 
     data['html_emwo_list'] = {
                 'dt1': n1,
+
+                }
+    return JsonResponse(data)
+def dash_GetReactivevsRepatable(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    fixtime=WorkOrder.objects.raw("""
+     select COALESCE(sum(timestampdiff(MINute,cast(concat(t1.taskStartDate, ' ', t1.taskStartTime)
+     as datetime),cast(concat(t1.taskDateCompleted, ' ',t1.taskTimeCompleted) as datetime))),0) as id
+     ,t1.taskstartdate dt1 from tasks as t1 join workorder as t3 on t1.workorder_id=t3.id
+     where t3.datecreated between '{0}' and '{1}'  and t3.visibile=1 and
+      t3.isScheduling=0   and t3.maintenanceType_id=18
+      group by dt1
+      having id>0
+            """.format(start,end))
+    servicetime=WorkOrder.objects.raw("""
+     select COALESCE(sum(timestampdiff(MINute,cast(concat(t1.taskStartDate, ' ', t1.taskStartTime)
+     as datetime),cast(concat(t1.taskDateCompleted, ' ',t1.taskTimeCompleted) as datetime))),0) as id
+     ,t1.taskstartdate dt1 from tasks as t1 join workorder as t3 on t1.workorder_id=t3.id
+     where t3.datecreated between  '{0}' and '{1}'  and t3.visibile=1 and
+      t3.isScheduling=0   and t3.maintenanceType_id=10
+      group by dt1
+      having id>0
+            """.format(start,end))
+    n1=[]
+    n2=[]
+    n22={}
+    n3=[]
+    n4=[]
+    for i in fixtime:
+        n1.append(float(i.id/60))
+        n2.append(str(jdatetime.date.fromgregorian(date=i.dt1)))
+        # n22["str(jdatetime.date.fromgregorian(date=i.dt1))"]
+    for i in servicetime:
+        n3.append(float(i.id/60))
+        n4.append(str(jdatetime.date.fromgregorian(date=i.dt1)))
+
+    data['data'] = {
+                'tamir': n1,
+                'ttime':n2,'service':n3,'ftime':n4
 
                 }
     return JsonResponse(data)

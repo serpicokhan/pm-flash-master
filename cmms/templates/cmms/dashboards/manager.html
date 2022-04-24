@@ -58,12 +58,23 @@
 
 </div>
 <div class="row">
+
+  <div class="col-lg-12">
+   {% include "cmms/summery/resource.html" %}
+
+  </div>
+
+</div>
+<div class="row clear">
+
+</div>
+<div class="row border-bottom white-bg dashboard-header">
   <div class="col-lg-3">
    {% include "cmms/summery/pmp.html" %}
 
   </div>
   <div class="col-lg-9">
-   {% include "cmms/summery/resource.html" %}
+   {% include "cmms/summery/pmp_line.html" %}
 
   </div>
 
@@ -175,6 +186,7 @@ $('.dueservice2').click(function(){
 <script src="{% static '/js/project/dashboard/randomcolor.js' %}"></script>
 <script src="{% static '/js/project/dashboard/resourceStatus.js' %}"></script>
 <script src="{% static '/js/project/dashboard/pmp.js' %}"></script>
+<script src="{% static '/js/project/dashboard/pm_line.js' %}"></script>
 <script src="{% static '/js/project/dashboard/causeBar.js' %}"></script>
 <script src="{% static '/js/project/dashboard/istgahStatus.js' %}"></script>
 <script src="{% static '/js/project/dashboard/res.js' %}"></script>

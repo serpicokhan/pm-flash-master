@@ -4,18 +4,34 @@ var drawIstgahStatusBar=function(data,dcolor,assetname)
   // console.log(data);
 
   mydataset=[]
-  var Color=["#4dc9f6","#f67019","#f53794","#537bc4","blue","red","orange"]
+  var Color=[ 'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'];
+      borderColor= [
+         'rgb(255, 99, 132)',
+         'rgb(255, 159, 64)',
+         'rgb(255, 205, 86)',
+         'rgb(75, 192, 192)',
+         'rgb(54, 162, 235)',
+         'rgb(153, 102, 255)',
+         'rgb(201, 203, 207)'
+       ];
   k=0;
   for( i in data){
     mydataset.push(
       {
         label: i,
-        backgroundColor: dcolor[i+'-1'],
-        borderColor: dcolor[i+'-1'],
-        borderWidth: 1,
+        backgroundColor: Color[k],
+        borderColor: borderColor[k],
+        borderWidth:0.5,
         data: data[i]
       }
     );
+    k++;
 
   }
 
