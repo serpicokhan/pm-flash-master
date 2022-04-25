@@ -26,7 +26,7 @@ from cmms.models.users import *
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
-from cmms.forms import WorkOrderForm,WorkOrderForm2
+from cmms.forms import WorkOrderForm,WorkOrderForm2,CopyAssetForm
 from django.urls import reverse_lazy
 from django.db import transaction
 from cmms.business.mail import Mail
@@ -665,8 +665,8 @@ def save_formset(request):
             data['assignedToUser']=body['assignedToUser'][0]
             data['woStopCode']=body['woStopCode']
             data['woPart']=body['woPart']
-            print("woPart in view",data['woPart'])
-            data['woPartQty']=body['woPartQty']
+            # print("woPart in view",data['woPart'])
+            data['woPartQty']=body['woPartQty'] if body['woPartQty'] else 0
             data['isEM']=body['isEM'] #if body['isEM']=="true" else False
             data['pertTime']=body['pertTime']
             data['timecreated']=body['timecreated']
@@ -686,6 +686,7 @@ def save_formset(request):
                     change_message= request.META.get('REMOTE_ADDR')
                 )
                 qty=0
+                
                 if(data['woPartQty']):
                     qty=str(data['woPartQty']).split(',')
 
@@ -693,7 +694,6 @@ def save_formset(request):
                 if(data['woPart']):
                     for k in list(data['woPart']):
                         stk=Stock.objects.get(id=k)
-                        print(i,":i")
                         print(qty)
                         WorkorderPart.objects.create(woPartWorkorder=f2,woPartStock=stk,woPartActulaQnty=qty[i])
                         i=i+1
@@ -1033,3 +1033,42 @@ def wo_change_status(request,id,status):
             data['form_is_valid']=False
             data['wo_status']=wo.woStatus
     return JsonResponse(data)
+def wo_copy(request,ids=None):
+    if(request.method=='GET'):
+        print("kire khar")
+        data=dict()
+        id=request.GET.get('id','')
+        wo_asset1=WorkOrder.objects.get(id=id).woAsset
+        assets=Asset.objects.all().order_by('-id')
+        # assets=Asset.objects.all().order_by('-id')
+        asset_loc=Asset.objects.filter(assetTypes=1)
+        asset_cat=AssetCategory.objects.all()
+        wos=AssetUtility.doPaging(request,assets)
+        form=CopyAssetForm()
+        q=request.GET.get('q','')
+
+        data["modalcopyasset"]=render_to_string('cmms/sworkorder/assetcopy.html',{'asset':wos,'asset_cat':asset_cat,
+        'asset_loc':asset_loc,'perms': PermWrapper(request.user),'form':form,'id':id})
+        data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination_swo.html', {
+                          'asset': wos,'pageType':'swo_copy','ptr':0,'q':q})
+        data['form_is_valid']=True
+        return JsonResponse(data)
+@csrf_exempt
+def save_wo_copy(request):
+        # print("double kire kahr")
+        data=dict()
+        data['form_is_valid']=True
+        assetlist=request.GET.get("q", "")
+        assetlist=[int(i) for i in assetlist.split(',') ]
+        ids=request.GET.get('id','?')
+        # print(assetlist,'assetlist')
+        WOUtility.copy(int(ids),assetlist,request)
+        books = WorkOrder.objects.filter(isScheduling=False,visibile=True)
+        books=filterUser(request,books)
+        wos=WOUtility.doPaging(request,books)
+        data['html_swo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
+            'wo': wos,
+            'perms': PermWrapper(request.user)
+        })
+        data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination2.html', {'wo': wos           })
+        return JsonResponse(data)

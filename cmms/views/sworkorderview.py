@@ -36,17 +36,17 @@ from django.contrib.contenttypes.models import ContentType
 from cmms.business.AssetUtility import AssetUtility
 
 def filterUser(request,books):
-    if(request.user.username!="admin"):
-        books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
+    if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
+        books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-timestamp','-running')
     else:
-        books=books.order_by('-datecreated','-timecreated')
+        books=books.order_by('-timeStamp','-running')
     return books
 ##########################################################
 @permission_required('cmms.view_workorder')
 def list_swo(request,id=None):
     books = WorkOrder.objects.filter(isScheduling=True)
      #paging
-    books=filterUser(request,books).order_by('-running')
+    books=filterUser(request,books)
     wos=SWOUtility.doPaging(request,books)
     return render(request, 'cmms/sworkorder/woList.html', {'wo': wos,'section':'list_swo'})
 
@@ -362,12 +362,7 @@ def save_swo_copy(request):
         assetlist=[int(i) for i in assetlist.split(',') ]
         ids=request.GET.get('id','?')
         print(assetlist,'assetlist')
-        # print(request.GET.get('id','matches'),'dsdsdsds')
-        # print(request.GET.get('q','matches'),'qqq')
-        # request for using user pk
         SWOUtility.copy(int(ids),assetlist,request)
-        # # print(request.POST.getlist("assetname2", ""))
-        # data['form_is_valid'] = True
         books = WorkOrder.objects.filter(isScheduling=True)
         books=filterUser(request,books)
         wos=SWOUtility.doPaging(request,books)

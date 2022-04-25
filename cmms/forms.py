@@ -110,7 +110,7 @@ class WorkOrderForm2(forms.ModelForm):
     # assignedToUser=forms.ModelMultipleChoiceField(queryset=SysUser.objects.filter(userStatus=True),required=False)
     assignedToUser = forms.ModelChoiceField(label="گروه کاری",queryset=SysUser.objects.filter(userStatus=True),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
-    woPartQty=forms.FloatField(required=False)
+    woPartQty=forms.FloatField(required=False,initial=0)
     timecreated=forms.TimeField(required=False)
 
     def clean(self):
@@ -137,9 +137,12 @@ class WorkOrderForm2(forms.ModelForm):
                 assignedToUser=cleaned_data.get('assignedToUser','')
                 woStopCode=cleaned_data.get('woStopCode','')
 
-                woPart=self.woPart.to_python(cleaned_data.get('woPart',''))#cleaned_data.get('woPart','')
-                print("wopart",woPart)
-                woPartQty=cleaned_data.get('woPartQty','')
+                try:
+                    woPart=self.woPart.to_python(cleaned_data.get('woPart',''))#cleaned_data.get('woPart','')
+                except:
+                    pass
+                # print("wopart",woPart)
+                woPartQty=cleaned_data.get('woPartQty','0')
                 pertTime=cleaned_data.get('pertTime','')
                 timecreated=cleaned_data.get('timecreated','')
                 isEM=cleaned_data.get('isEM',False)

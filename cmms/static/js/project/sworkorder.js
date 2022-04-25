@@ -35,7 +35,6 @@ $(function () {
       },
       success: function (data) {
         //alert("3123@!");
-        console.log("!");
         $("#modal-copy .modal-content").html(data.modalcopyasset);
           $(".assetPaging").html(data.html_asset_paginator);
           $(".assetSearch").on("input",searchAsset);
@@ -280,6 +279,7 @@ var saveForm= function () {
  };
 var saveCopy= function () {
    var form = $(this);
+
 
    $.ajax({
      url: form.attr("action"),
@@ -744,12 +744,11 @@ return false;
    $(".selection-box2:checked").each(function() {
        matches.push(this.value);
    });
-   console.log(matches);
 
    // var form = $(this);
 
     $.ajax({
-     url: '/WorkOrder/save_copy/?q='+matches+'&id='+$("#cpswoid").val(),
+     url: '/SWorkOrder/save_copy/?q='+matches+'&id='+$("#cpswoid").val(),
 
      type: 'get',
      dataType: 'json',
@@ -761,6 +760,7 @@ return false;
          $("#modal-copy").modal("hide");
        $("#tbody_company").html(data.html_swo_list);
        $(".assetPaging").html(data.html_swo_paginator);
+       alert("it is done!");
        // $("tr").on("click", showAssetDetails);
        toastr.success("کپی با موفقیت انجام شد")
      }

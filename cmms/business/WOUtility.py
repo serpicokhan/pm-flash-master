@@ -11,6 +11,10 @@ from cmms.business.EquipCostSettingUtility import *
 from decimal import Decimal
 from cmms.utils import *
 from django.db.models import Q
+from django.db import transaction
+from django.contrib.admin.models import LogEntry, ADDITION,CHANGE,DELETION
+from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import get_object_or_404
 import locale
 class WOUtility:
 
@@ -995,3 +999,72 @@ class WOUtility:
     @staticmethod
     def getNewWO(start,end):
         return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end),woStatus=1)
+    @staticmethod
+    def copy(ids,assetlist,request):
+        print("kire khar")
+        with transaction.atomic():
+            kl=ids
+            print(kl,'k1')
+            print(assetlist)
+             ##### Create Wo #########
+            for assets in assetlist:
+                    Ast=Asset.objects.get(id=assets)
+                    stableWo=WorkOrder.objects.get(id=kl)
+                    oldWo=WorkOrder.objects.get(id=kl)
+                    stableWo.pk=None
+                    stableWo.visibile=True
+                    stableWo.woAsset=Ast
+
+
+                    # stableWo.datecreated=datetime.now().date()
+                    # stableWo.timecreated=datetime.now().time()
+                    # stableWo.isPartOf=unit.workOrder
+                    # Newsch.schNextWo=WorkOrder.objects.create(datecreated=Newsch.schnextTime.date(),timecreated=Newsch.schnextTime.time(),visibile=False,isScheduling=False,isPartOf=Newsch.workOrder)
+                    stableWo.save()
+
+                    #################
+                    # wt=WorkorderTask.objects.filter(workorder=oldWo)
+                    wt=Tasks.objects.filter(workOrder=oldWo)
+                    if(wt!=None):
+                        for f in wt:
+                            f.pk=None
+                            f.workOrder=stableWo
+                            f.save()
+                    ##############
+
+
+                    ##############
+                    wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)
+                    if(wp!=None):
+                        for f in wp:
+                            f.pk=None
+                            f.woPartWorkorder=stableWo
+                            # woPartMsg=StockUtility.remove(f)
+                            f.save()
+                    ###############
+                    wf=WorkorderFile.objects.filter(woFileworkorder=oldWo)
+                    if(wf!=None):
+
+                        for f in wf:
+                            f.pk=None
+                            f.woFileworkorder=stableWo
+                            f.save()
+
+                    ################
+                    try:
+                        wn=WorkorderUserNotification.objects.filter(woNotifWorkorder=oldWo)
+                        if(wn!=None):
+                            wn.pk=None
+                            wn.woNotifWorkorder=stableWo
+                            wn.save()
+
+                    except Exception as es:
+                        print(es)
+                    LogEntry.objects.log_action(
+                        user_id         = request.user.pk,
+                        content_type_id = ContentType.objects.get_for_model(oldWo).pk,
+                        object_id       = oldWo.id,
+                        object_repr     = 'workorder',
+                        action_flag     = CHANGE,
+                        change_message= request.META.get('REMOTE_ADDR')
+                    )

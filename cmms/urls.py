@@ -112,9 +112,13 @@ urlpatterns = [
     url(r'^SWorkOrder/(?P<status>\d+)/swo_show_swo_by_schedule_type/$', swo_show_swo_by_schedule_type, name='swo_show_swo_by_schedule_type'),
     url(r'^SWorkOrder/(?P<id>-?\d+)/details$', swo_detail, name='swo_detail'),
     url(r'^SWorkOrder/copy/AssetSearch$', swo_asset_Search, name='swo_asset_Search'),
-    url(r'^WorkOrder/Copy/$', swo_copy, name='swo_copy'),
-    url(r'^WorkOrder/save_copy/$', save_swo_copy, name='save_swo_copy'),
-    url(r'^WorkOrder/Copy/(?P<ids>\d+(?:,\d+)*)$', swo_copy, name='swo_copy'),
+    url(r'^SWorkOrder/Copy/$', swo_copy, name='swo_copy'),
+    url(r'^SWorkOrder/save_copy/$', save_swo_copy, name='save_swo_copy'),
+    url(r'^SWorkOrder/Copy/(?P<ids>\d+(?:,\d+)*)$', swo_copy, name='swo_copy'),
+
+    url(r'^WorkOrder/Copy/$', wo_copy, name='wo_copy'),
+    url(r'^WorkOrder/save_copy/$', save_wo_copy, name='save_wo_copy'),
+    url(r'^WorkOrder/Copy/(?P<ids>\d+(?:,\d+)*)$', wo_copy, name='wo_copy'),
 
 
      url(r'^Task/$',list_task,name='list_task'),

@@ -1,5 +1,155 @@
 
 $(function () {
+  var chkselection=function(){
+    matches=[];
+    $(".selection-box:checked").each(function() {
+        matches.push(this.value);
+    });
+    if(matches.length>0)
+    {
+    $(".js-create-wo-copy").show();
+  }
+  else{
+    $(".js-create-wo-copy").hide();
+
+  }
+
+  };
+  var clone_asset_wo2 =function () {
+
+
+
+    matches=[];
+    $(".selection-box2:checked").each(function() {
+        matches.push(this.value);
+    });
+
+    // var form = $(this);
+
+     $.ajax({
+      url: '/WorkOrder/save_copy/?q='+matches+'&id='+$("#cpswoid").val(),
+
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+      },
+      success: function (data) {
+        if(data.form_is_valid)
+        {
+          $("#modal-copy").modal("hide");
+        $("#tbody_company").html(data.html_swo_list);
+        $(".assetPaging").html(data.html_swo_paginator);
+        // $("tr").on("click", showAssetDetails);
+        toastr.success("کپی با موفقیت انجام شد")
+      }
+      else
+      {
+        toastr.error("خطا در کپی دارایی");
+      }
+    }
+    });
+ return false;
+
+
+  };
+
+  var searchAsset=function(){
+
+
+    $.ajax({
+      url: '/SWorkOrder/copy/AssetSearch?q='+$("#assetSearch").val()+"&asset_loc="+$("#asset_loc").val()+"&asset_cat="+$("#asset_cat").val(),
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+
+        // $("#modal-copy").modal({backdrop: 'static', keyboard: false});
+
+      },
+      success: function (data) {
+        //alert("3123@!");
+
+        $("#tbody_company2").html(data.modalcopyasset);
+        $(".assetPaging").html(data.html_asset_paginator);
+
+          // $(".assetSearch").on("input",searchAsset);
+
+
+
+      },error:function(){
+      }
+    });
+
+  }
+  var LoadFormCopySelector =function () {
+    matches=[];
+    $(".selection-box:checked").each(function() {
+        matches.push(this.value);
+    });
+    // lo(matches);
+    // console.log(matches);
+
+
+    return $.ajax({
+      url: $(this).attr("data-url")+'?id='+matches,
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+
+        $("#modal-copy").modal({backdrop: 'static', keyboard: false});
+
+      },
+      success: function (data) {
+        //alert("3123@!");
+        console.log("!");
+        $("#modal-copy .modal-content").html(data.modalcopyasset);
+          $(".assetPaging").html(data.html_asset_paginator);
+          $(".assetSearch").on("input",searchAsset);
+
+
+
+
+      }
+    });
+
+
+
+};
+var saveCopy= function () {
+   var form = $(this);
+
+   $.ajax({
+     url: form.attr("action"),
+     data: form.serialize(),
+     type: form.attr("method"),
+     dataType: 'json',
+     beforeSend:function(xhr, opts){
+
+     },
+     success: function (data) {
+       console.log(data)
+       if (data.form_is_valid) {
+         //alert("Company created!");  // <-- This is just a placeholder for now for testing
+         $("#tbody_company").empty();
+         $("#tbody_company").html(data.html_wo_list);
+         $(".woPaging").html(data.html_swo_paginator);
+         $("#modal-copy").modal("hide");
+
+
+         $("#issavechanged").val("1");
+
+        // console.log(data.html_wo_list);
+       }
+       else {
+
+         $("#company-table tbody").html(data.html_wo_list);
+         $("#modal-company .modal-content").html(data.html_wo_form);
+         toastr.error("خطا در ایجاد دستور کار. لطفا ورودیهای خود را کنترل نمایید.");
+       }
+     }
+   });
+   return false;
+ };
+
 
 
 
@@ -1192,6 +1342,9 @@ var check_completion_date=function()
   $(".wo-filter").on("click",filter);
   $(".js-bulkwo-selector").on("click", wobulkdeletion_pressed);
   $("#status-selector2").on("change",filter_by_woStatus);
+  $("#company-table").on("click", ".selection-box", chkselection);
+  $(".js-create-wo-copy").click(LoadFormCopySelector);
+  $("#modal-copy").on("click", ".btn-save-copy", clone_asset_wo2);
 
   $(document).ready(function(){
 

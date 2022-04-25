@@ -687,10 +687,10 @@ $(".send_form").click(function(){
                    // console.log(elem);
                    elem.remove();
                    elem1.remove();
-                   elem2.remove();
+                   // elem2.remove();
                    $('tr#myform td:nth-child(3)').append($('<input type="text" id="id_datecreated" name="datecreated"  class="form-control"/>'));
                    $('tr#myform td:nth-child(14)').append($('<input type="text" id="id_dateCompleted" name="dateCompleted"  class="form-control"/>'));
-                   $('tr#myform td:nth-child(9)').append($('<input type="text" id="id_myAsset" name="myAsset"  class="form-control  advanced2AutoComplete"/><input type="hidden" name="woAsset" id="id_woAsset" >'));
+                   // $('tr#myform td:nth-child(9)').append($('<input type="text" id="id_myAsset" name="myAsset"  class="form-control  advanced2AutoComplete"/><input type="hidden" name="woAsset" id="id_woAsset" >'));
                    // console.log(elem);
                    // elem.parentElement.removeChild(elem);
                    $('#id_datecreated').pDatepicker({
@@ -734,6 +734,9 @@ $(".send_form").click(function(){
                  var today_time = new Date();
                  $("#id_timecreated").val(today_time.toLocaleTimeString('en-GB'));
                  $("#id_timeCompleted").val(today_time.toLocaleTimeString('en-GB'));
+                 $("#id_woPartQty").val("0");
+                 var r_right= $("#id_myAsset").offsetParent().width() - ($("#id_myAsset").position().left + $("#id_myAsset").width());
+                 $('.bootstrap-autocomplete.dropdown-menu').css({'right':r_right+'px'});
 
 
 
@@ -769,41 +772,41 @@ $(".send_form").click(function(){
                  });
 
                    $('.basicAutoComplete').autoComplete();
-                   $('.advanced2AutoComplete').autoComplete({
-                     resolver: 'custom',
-                     noResultsText:'بدون نتیجه',
-                     formatResult: function (item) {
-                       return {
-                         value: item.id,
-                         text: "[" + item.assetCode + "] " + item.assetName,
-
-                       };
-                     },
-                     events: {
-                       search: function (qry, callback) {
-                         // let's do a custom ajax call
-                         $.ajax(
-                           '/Asset/GetAssets',
-                           {
-                             data: { 'qry': qry}
-                           }
-                         ).done(function (res) {
-                           // console.log(res);
-
-
-                           callback(res)
-                         });
-                       },
-
-                     }
-                   });
-
-                   $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
-                       $("#id_woAsset").val(item.id);
-                       $('#id_woAsset').val(item.id).trigger('change');
-
-                     // $('.basicAutoCompleteCustom').html('');
-                   });
+                   // $('.advanced2AutoComplete').autoComplete({
+                   //   resolver: 'custom',
+                   //   noResultsText:'بدون نتیجه',
+                   //   formatResult: function (item) {
+                   //     return {
+                   //       value: item.id,
+                   //       text: "[" + item.assetCode + "] " + item.assetName,
+                   //
+                   //     };
+                   //   },
+                   //   events: {
+                   //     search: function (qry, callback) {
+                   //       // let's do a custom ajax call
+                   //       $.ajax(
+                   //         '/Asset/GetAssets',
+                   //         {
+                   //           data: { 'qry': qry}
+                   //         }
+                   //       ).done(function (res) {
+                   //         // console.log(res);
+                   //
+                   //
+                   //         callback(res)
+                   //       });
+                   //     },
+                   //
+                   //   }
+                   // });
+                   //
+                   // $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
+                   //     $("#id_woAsset").val(item.id);
+                   //     $('#id_woAsset').val(item.id).trigger('change');
+                   //
+                   //   // $('.basicAutoCompleteCustom').html('');
+                   // });
 
 
 

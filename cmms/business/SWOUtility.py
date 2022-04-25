@@ -65,27 +65,17 @@ class SWOUtility:
             print(assetlist)
              ##### Create Wo #########
             for assets in assetlist:
-
-
                     Ast=Asset.objects.get(id=assets)
-
                     stableWo=WorkOrder.objects.get(id=kl)
-                    print(assets)
                     oldWo=WorkOrder.objects.get(id=kl)
                     stableWo.pk=None
                     stableWo.visibile=False
                     stableWo.woAsset=Ast
-
                     stableWo.isScheduling=True
                     stableWo.isPm=False
-                    # stableWo.datecreated=datetime.now().date()
-                    # stableWo.timecreated=datetime.now().time()
-                    # stableWo.isPartOf=unit.workOrder
-                    # Newsch.schNextWo=WorkOrder.objects.create(datecreated=Newsch.schnextTime.date(),timecreated=Newsch.schnextTime.time(),visibile=False,isScheduling=False,isPartOf=Newsch.workOrder)
                     stableWo.save()
 
                     #################
-                    # wt=WorkorderTask.objects.filter(workorder=oldWo)
                     wt=Tasks.objects.filter(workOrder=oldWo)
                     if(wt!=None):
                         for f in wt:
@@ -123,7 +113,7 @@ class SWOUtility:
 
                     ################
                     try:
-                        wn=get_object_or_404(WorkorderUserNotification,woNotifWorkorder=oldWo)
+                        wn=WorkorderUserNotification.objects.filter(woNotifWorkorder=oldWo)
                         if(wn!=None):
                             wn.pk=None
                             wn.woNotifWorkorder=stableWo
@@ -136,14 +126,6 @@ class SWOUtility:
                         content_type_id = ContentType.objects.get_for_model(oldWo).pk,
                         object_id       = oldWo.id,
                         object_repr     = 'sworkorder',
-                        action_flag     = CHANGE,
-                        change_message= request.META.get('REMOTE_ADDR')
-                    )
-                    LogEntry.objects.log_action(
-                        user_id         = request.user.pk,
-                        content_type_id = ContentType.objects.get_for_model(stableWo).pk,
-                        object_id       = stableWo.id,
-                        object_repr     = 'workorder',
                         action_flag     = CHANGE,
                         change_message= request.META.get('REMOTE_ADDR')
                     )
