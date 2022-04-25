@@ -33,6 +33,7 @@ import json
 from django.http import JsonResponse
 from django.db.models import F
 from django.urls import reverse
+import collections
 # Create your views here.
 import datetime
 def index(request):
@@ -662,17 +663,45 @@ def dash_GetReactivevsRepatable(request,startHijri,endHijri):
     n22={}
     n3=[]
     n4=[]
+    nt2={}
+    nt3={}
     for i in fixtime:
         n1.append(float(i.id/60))
         n2.append(str(jdatetime.date.fromgregorian(date=i.dt1)))
+        nt2[str(jdatetime.date.fromgregorian(date=i.dt1))]=float(i.id/60)
         # n22["str(jdatetime.date.fromgregorian(date=i.dt1))"]
     for i in servicetime:
         n3.append(float(i.id/60))
         n4.append(str(jdatetime.date.fromgregorian(date=i.dt1)))
+        nt3[str(jdatetime.date.fromgregorian(date=i.dt1))]=float(i.id/60)
+    nset=set(tuple(n2)+tuple(n4))
+    # print(nset,"nset")
+    for i in nset:
+        if(not i in nt2):
+            nt2[i]=0
+        if(not i in nt3):
+            nt3[i]=0
+    order_fix=collections.OrderedDict(sorted(nt2.items()))
+    order_service=collections.OrderedDict(sorted(nt3.items()))
+    # print()
+    # print(collections.OrderedDict(sorted(nt3.items())))
+    lbl=[]
+    v1=[]
+    v2=[]
+    for i in order_fix:
+        lbl.append(i)
+        v1.append(order_fix[i])
+    for i in order_service:
+        # lbl.append(i)
+        v2.append(order_service[i])
+
+
+
+
 
     data['data'] = {
-                'tamir': n1,
-                'ttime':n2,'service':n3,'ftime':n4
+                'tamir': v1,
+                'ttime':lbl,'service':v2,'ftime':lbl
 
                 }
     return JsonResponse(data)
