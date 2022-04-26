@@ -2951,9 +2951,9 @@ class PartUsageByLocation(forms.Form):
     makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,)
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False)
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False)
 
 class PartUsageByLocationandPart(forms.Form):
     test='گزارش مصرف قطعه بر اساس تجهیز و قطعه'
