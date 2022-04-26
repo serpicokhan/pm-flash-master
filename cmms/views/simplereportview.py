@@ -2193,9 +2193,9 @@ class reporttest:
         n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,timeStamp__range=(date1,date2),woPartActulaQnty__gt=0).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
 
         if(assetType[0]!=-1):
-            n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+            n1=n1.filter(Q(woPartWorkorder__woAsset__assetIsLocatedAt=makan)|Q(woPartWorkorder__woAsset__id=makan)).filter(woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
         elif(assetname[0]!=-1):
-            n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__in=assetname,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+            n1=n1.filter(Q(woPartWorkorder__woAsset__assetIsLocatedAt=makan)|Q(woPartWorkorder__woAsset__id=makan)).filter(woPartWorkorder__woAsset__in=assetname,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
         return render(request, 'cmms/reports/simplereports/PartUsageByLocation.html',{'result1':n1,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
     def PartUsageByLocationandPart(Self,request):
         reportType=request.POST.getlist("reportType","")

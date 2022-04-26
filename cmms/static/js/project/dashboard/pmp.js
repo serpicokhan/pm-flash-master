@@ -15,8 +15,8 @@ function DrawPMPDonatAll(data1,data2)
       label: '# of Tomatoes',
       data: [data1,data2],
       backgroundColor: [
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 99, 132, 0.5)',
+        'blue',
+        'red',
         'rgba(75, 192, 192, 0.2)',
 
         'rgba(255, 206, 86, 0.2)',

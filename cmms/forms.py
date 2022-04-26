@@ -2937,6 +2937,7 @@ class SummaryReportByAsset(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
         #
 class PartUsageByLocation(forms.Form):
+    rcode=100
     test='خلاصه وضعیت تجهیز'
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
@@ -2950,7 +2951,7 @@ class PartUsageByLocation(forms.Form):
     makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,)
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
 

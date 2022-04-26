@@ -4,7 +4,7 @@
 
 <ul class="pagination">
 {% if wo.has_previous %}
-<li><a href="#" onclick=" return false;" data-url="{% url pageType sdt1 sdt2 ptype ordercol ordertype %}?page={{ wo.previous_page_number }}" class="wo_month_paginator">&laquo;</a></li>
+<li><a href="#" onclick=" return false;" data-url="{% url pageType sdt1 sdt2 ptype ordercol ordertype %}?page={{ wo.previous_page_number }}&q={{q}}" class="wo_month_paginator">&laquo;</a></li>
 {% else %}
 <li class="disabled"><span>&laquo;</span></li>
 {% endif %}
@@ -12,11 +12,11 @@
 {% if wo.number == i %}
 <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
 {% elif  i|sub:3 <=  wo.number and i|add:3 > wo.number %}
-<li><a href="#" onclick=" return false;" data-url="{% url pageType sdt1 sdt2 ptype ordercol ordertype %}?page={{ i }}" class="wo_month_paginator">{{ i }}</a></li>
+<li><a href="#" onclick=" return false;" data-url="{% url pageType sdt1 sdt2 ptype ordercol ordertype %}?page={{ i }}&q={{q}}" class="wo_month_paginator">{{ i }}</a></li>
 {% endif %}
 {% endfor %}
 {% if wo.has_next %}
-<li><a href="#" onclick=" return false;" data-url="{% url pageType sdt1 sdt2 ptype ordercol ordertype %}?page={{ wo.next_page_number }}" class="wo_month_paginator"">&raquo;</a></li>
+<li><a href="#" onclick=" return false;" data-url="{% url pageType sdt1 sdt2 ptype ordercol ordertype %}?page={{ wo.next_page_number }}&q={{q}}" class="wo_month_paginator"">&raquo;</a></li>
 {% else %}
 <li class="disabled"><span>&raquo;</span></li>
 {% endif %}

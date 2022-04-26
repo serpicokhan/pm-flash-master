@@ -686,7 +686,7 @@ def save_formset(request):
                     change_message= request.META.get('REMOTE_ADDR')
                 )
                 qty=0
-                
+
                 if(data['woPartQty']):
                     qty=str(data['woPartQty']).split(',')
 
@@ -874,7 +874,7 @@ def wo_filter(request,startHijri,endHijri,wotype,ordercol,ordertype):
 
             data['html_wo_paginator'] = render_to_string('cmms/maintenance/partialWoPagination3.html',
                                                          {'wo': wos,'pageType':'wo_filter','sdt1':startHijri,
-                                                          'sdt2':endHijri,'ptype':wotype,'ordercol':ordercol,'ordertype':ordertype})
+                                                          'sdt2':endHijri,'ptype':wotype,'ordercol':ordercol,'ordertype':ordertype,'q':request.GET.get('q','')})
             data['form_is_valid'] = True
             return JsonResponse(data)
             return render(request, 'cmms/maintenance/woList.html', {'wo': wos})

@@ -595,7 +595,6 @@ var saveCopy= function () {
 
       },
       success: function (data) {
-        console.log(data);
         if (data.form_is_valid) {
 
 
@@ -753,7 +752,7 @@ var saveCopy= function () {
     return false;
   };
   ///
-  var filter= function (searchStr) {
+  var filter= function () {
 
     var status_selector=($("#status-selector").val()!=null)?'?q='+$("#status-selector").val():'';
     console.log(status_selector);
