@@ -400,6 +400,59 @@ class reporttest:
         woListDic=zip(woList,tasklist)
 
         return render(request, 'cmms/reports/simplereports/OpenWorkOrdersDetailReport.html',{'woList':woListDic,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
+    def WorkOrdersDetailReportByStatus(self,request):
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+        assignUser=request.POST.getlist("assignUser", "")
+        status=request.POST.get("StatusType", "")
+        asset=request.POST.getlist("Asset", "")
+        categoryText=request.POST.getlist("categoryText", "")
+        maintenanceType=request.POST.getlist("maintenanceType", "")
+        priorityType=request.POST.getlist("priorityType", "")
+        ##### حذف .... در combobox
+        if(len(assignUser) >0 and not assignUser[0]):
+            assignUser.pop(0)
+        if(len(asset) >0 and not asset[0]):
+            asset.pop(0)
+        if(len(categoryText) >0 and not categoryText[0]):
+            categoryText.pop(0)
+        if(len(maintenanceType) >0 and not maintenanceType[0]):
+            maintenanceType.pop(0)
+        if(len(priorityType) >0 and not priorityType[0]):
+            priorityType.pop(0)
+        #ساخت لیست
+        assignUser=[int(i) for i in assignUser]
+        asset=[int(i) for i in asset]
+        categoryText=[int(i) for i in categoryText]
+        maintenanceType=[int(i) for i in maintenanceType]
+        priorityType=[int(i) for i in priorityType]
+        #از بین بردن کامای اضافی ایجاد شده در تاپل
+        if(len(assignUser)==1):
+            assignUser.append(-1)
+        if(len(maintenanceType)==1):
+            maintenanceType.append(-1)
+        if(len(categoryText)==1):
+            categoryText.append(-1)
+        if(len(priorityType)==1):
+            priorityType.append(-1)
+
+        user1=User.objects.filter(id__in=assignUser).values_list('username', flat=True)
+        asset1=Asset.objects.filter(id__in=asset).values_list('assetName', flat=True)
+        assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
+        maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
+        woListDic=[]
+        woList=list(WOUtility.getWorkOrdersDetailReportByStatus(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType,status))
+        tasklist=[]
+        # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
+        for i in woList:
+            tasks=Tasks.objects.filter(workOrder=i.id)
+            tasklist.append(tasks)
+        #ادغام دو queryset
+        woListDic=zip(woList,tasklist)
+
+        return render(request, 'cmms/reports/simplereports/WorkOrdersDetailReportByStatus.html',{'woList':woListDic,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
     def CloseWorkOrdersDetailReport(self,request):
         date1=DateJob.getDate2(request.POST.get("startDate",""))
         date2=DateJob.getDate2(request.POST.get("endDate",""))
@@ -550,6 +603,60 @@ class reporttest:
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 
         return render(request, 'cmms/reports/simplereports/OpenWorkOrdersListReport.html',{'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
+        # html = render_to_string('cmms/reports/simplereports/OpenWorkOrdersListReport.html',
+        # {'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
+        # response = HttpResponse(content_type='application/pdf')
+        # response['Content-Disposition'] = f'filename=order_11.pdf'
+        # weasyprint.HTML(string=html).write_pdf(response,stylesheets=[weasyprint.CSS('cmms/static/css/pdf.css')])
+        # return response
+    def WorkOrdersListReportByStatus(self,request):
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","")
+        endDate=request.POST.get("endDate","")
+        assignUser=request.POST.getlist("assignUser", "")
+        status=request.POST.get("statusType", "")
+        asset=request.POST.getlist("Asset", "")
+        categoryText=request.POST.getlist("categoryText", "")
+        maintenanceType=request.POST.getlist("maintenanceType", "")
+        priorityType=request.POST.getlist("priorityType", "")
+        ##### حذف .... در combobox
+        if(len(assignUser) >0 and not assignUser[0]):
+            assignUser.pop(0)
+        if(len(asset) >0 and not asset[0]):
+            asset.pop(0)
+        if(len(categoryText) >0 and not categoryText[0]):
+            categoryText.pop(0)
+        if(len(maintenanceType) >0 and not maintenanceType[0]):
+            maintenanceType.pop(0)
+        if(len(priorityType) >0 and not priorityType[0]):
+            priorityType.pop(0)
+        #ساخت لیست
+        assignUser=[int(i) for i in assignUser]
+        asset=[int(i) for i in asset]
+        categoryText=[int(i) for i in categoryText]
+        maintenanceType=[int(i) for i in maintenanceType]
+        priorityType=[int(i) for i in priorityType]
+        #از بین بردن کامای اضافی ایجاد شده در تاپل
+        if(len(assignUser)==1):
+            assignUser.append(-1)
+        if(len(maintenanceType)==1):
+            maintenanceType.append(-1)
+        if(len(categoryText)==1):
+            categoryText.append(-1)
+        if(len(priorityType)==1):
+            priorityType.append(-1)
+
+        user1=User.objects.filter(id__in=assignUser).values_list('username', flat=True)
+        asset1=Asset.objects.filter(id__in=asset).values_list('assetName', flat=True)
+        assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
+        maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
+        woListDic=[]
+        woList=list(WOUtility.getWorkOrdersListReportByStatus(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType,status))
+        tasklist=[]
+        # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
+
+        return render(request, 'cmms/reports/simplereports/WorkOrdersListReportByStatus.html',{'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
         # html = render_to_string('cmms/reports/simplereports/OpenWorkOrdersListReport.html',
         # {'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
         # response = HttpResponse(content_type='application/pdf')

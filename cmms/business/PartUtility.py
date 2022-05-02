@@ -10,7 +10,8 @@ class PartUtility:
     @staticmethod
     def getUsedPartNum(start,end):
         # print("SELECT  count(woPartActulaQnty) as id   from workorderpart inner join workorder on  workorderpart.woPartWorkorder_id=workorder.id where workorder.datecreated  between '{0}' and '{1}' and isScheduling=0".format(start,end))
-        return WorkorderPart.objects.raw("SELECT  count(woPartActulaQnty) as id from workorderpart inner join workorder on  workorderpart.woPartWorkorder_id=workorder.id where (workorder.datecreated)  between '{0}' and '{1}' and isScheduling=0".format(start,end))
+        # print("SELECT  count(woPartActulaQnty) as id from workorderpart inner join workorder on  workorderpart.woPartWorkorder_id=workorder.id where (workorder.datecreated)  between '{0}' and '{1}' and isScheduling=0 and visibile=1".format(start,end))
+        return WorkorderPart.objects.raw("SELECT  sum(woPartActulaQnty) as id from workorderpart inner join workorder on  workorderpart.woPartWorkorder_id=workorder.id where (workorder.datecreated)  between '{0}' and '{1}' and isScheduling=0 and visibile=1 and woPartActulaQnty >0".format(start,end))
     @staticmethod
     def getUsedPartNum2(start,end,loc):
         # print("SELECT  count(woPartActulaQnty) as id   from workorderpart inner join workorder on  workorderpart.woPartWorkorder_id=workorder.id where workorder.datecreated  between '{0}' and '{1}' and isScheduling=0".format(start,end))
@@ -18,7 +19,7 @@ class PartUtility:
          from workorderpart inner join workorder on  workorderpart.woPartWorkorder_id=workorder.id
          inner join assets on assets.id =workorder.woAsset_id
 
-         where (workorder.datecreated)  between '{0}' and '{1}' and isScheduling=0 and assets.assetIsLocatedAt_id={2} """.format(start,end,loc))
+         where (workorder.datecreated)  between '{0}' and '{1}' and isScheduling=0 and assets.assetIsLocatedAt_id={2} and woPartActulaQnty>0 """.format(start,end,loc))
     @staticmethod
     def getPartCost(start,end):
         return WorkorderPart.objects.raw("""SELECT  sum(t1.woPartActulaQnty*t2.partLastPrice) as id  from workorderpart
@@ -52,7 +53,7 @@ class PartUtility:
     def getParts(searchStr):
         qstr=searchStr
         result=Part.objects.all()
-        
+
         for q in searchStr:
             result = result.filter(Q(partName__icontains=qstr)|Q(partCode__icontains=qstr)|Q(partCategory__name__icontains=qstr)).order_by('-id').values('id', 'partName')
         # res= Part.objects.filter(partName__isnull=False).filter(partName__icontains=searchStr)

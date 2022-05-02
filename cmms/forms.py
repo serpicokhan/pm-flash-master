@@ -2089,6 +2089,71 @@ class OpenWorkOrdersDetailReport(forms.Form):
         choices_groupby='isPartOf',
         widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
     )
+class WorkOrdersDetailReportByStatus(forms.Form):
+
+    assetCatOPTIONS = (
+        (0, "pdf"),
+        (1, "EXCEL"),
+        )
+    Highest=1
+    High=2
+    Medium=3
+    Low=4
+    Lowest=5
+    Priority=(
+    (Highest,'خیلی زیاد'),
+    (High,'زیاد'),
+    (Medium,'متوسط'),
+    (Low,'پایین'),
+    (Lowest,'خیلی پایین'),
+    )
+    Requested=1
+    onHold=2
+    Draft=3
+    Assigned=4
+    Open=5
+    workInProgress=6
+    closedComplete=7
+    closedIncomplete=8
+    waitingForPart=9
+    invisible=-1
+    Highest=1
+    High=2
+    Medium=3
+    Low=4
+    Lowest=5
+    Status=(
+         (Requested,'درخواست شده')  ,
+         (onHold,'متوقف'),
+         (Assigned,'تخصیص داده شده'),
+         (Open,'باز'),
+         (workInProgress,'در حال پیشرفت'),
+         (closedComplete,'بسته شده کامل'),
+         (closedIncomplete,'بسته شده، ناقص'),
+         (waitingForPart,'در انتظار قطعه'),
+
+     )
+
+   # List of open work orders that passed expected completion date.
+
+
+    test="پارامترهای مربوطه را انتخاب کنید و سپس اجرا را فشار دهید"
+    reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=assetCatOPTIONS)
+    StatusType = forms.MultipleChoiceField(label="وضعیت",required=False,widget=forms.Select,choices=Status)
+    startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
+    Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
+    categoryText = GroupedModelChoiceField(label="دسته بندی",
+        queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
+        choices_groupby='isPartOf',
+        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
+    )
 class CloseWorkOrdersDetailReport(forms.Form):
 
     assetCatOPTIONS = (
@@ -2190,6 +2255,72 @@ class OpenWorkOrdersListReport(forms.Form):
 
     test="پارامترهای مربوطه را انتخاب کنید و سپس اجرا را فشار دهید"
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=assetCatOPTIONS)
+    startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
+    Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
+    categoryText = GroupedModelChoiceField(label="دسته بندی",
+        queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
+        choices_groupby='isPartOf',
+        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
+    )
+class WorkOrdersListReportByStatus(forms.Form):
+
+    assetCatOPTIONS = (
+        (0, "pdf"),
+        (1, "EXCEL"),
+        )
+    Highest=1
+    High=2
+    Medium=3
+    Low=4
+    Lowest=5
+    Priority=(
+    (Highest,'خیلی زیاد'),
+    (High,'زیاد'),
+    (Medium,'متوسط'),
+    (Low,'پایین'),
+    (Lowest,'خیلی پایین'),
+    )
+    Requested=1
+    onHold=2
+    Draft=3
+    Assigned=4
+    Open=5
+    workInProgress=6
+    closedComplete=7
+    closedIncomplete=8
+    waitingForPart=9
+    invisible=-1
+    Highest=1
+    High=2
+    Medium=3
+    Low=4
+    Lowest=5
+    Status=(
+         (Requested,'درخواست شده')  ,
+         (onHold,'متوقف'),
+         (Assigned,'تخصیص داده شده'),
+         (Open,'باز'),
+         (workInProgress,'در حال پیشرفت'),
+         (closedComplete,'بسته شده کامل'),
+         (closedIncomplete,'بسته شده، ناقص'),
+         (waitingForPart,'در انتظار قطعه'),
+
+     )
+
+   # This report displays the list of all open work orders assigned to a maintenance type
+   #, parent asset, asset category, priority, and assigned to user, created between two dates.
+
+
+    test="پارامترهای مربوطه را انتخاب کنید و سپس اجرا را فشار دهید"
+    reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=assetCatOPTIONS)
+    statusType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=Status)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),

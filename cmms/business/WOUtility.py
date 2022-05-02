@@ -385,6 +385,26 @@ class WOUtility:
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
         return wo;
+    @staticmethod
+    def getWorkOrdersDetailReportByStatus(start,end,assignedUser,asset,assetCategory,maintenanceType,priority,status):
+
+
+        wo=WorkOrder.objects.none()
+        if(len(assignedUser)>0):
+            wo=WorkOrder.objects.filter(assignedToUser__id__in=assignedUser,visibile=True,datecreated__range=(start,end),isScheduling=False)
+        else:
+            wo=WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end))
+        if(len(maintenanceType)>0):
+            wo=wo.filter(maintenanceType__id__in=maintenanceType)
+        if(len(assetCategory)>0):
+            wo=wo.filter(woAsset__assetCategory__id__in=assetCategory)
+        else:
+            if(len(asset)>0):
+                wo=wo.filter(woAsset__id__in=asset)
+        if(len(priority)>0):
+            wo=wo.filter(woPriority__in=priority)
+
+        return wo.filter(woStatus=status,isScheduling=False,visibile=True);
 
     @staticmethod
     def getCloseWorkOrdersDetailReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority):
@@ -407,7 +427,7 @@ class WOUtility:
                 wo=wo.filter(woAsset__id__in=asset)
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
-        return wo;
+        return wo.filter(isScheduling=False,visibile=True);
     @staticmethod
     def CloseWorkOrdersListReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority):
 
@@ -429,7 +449,7 @@ class WOUtility:
                 wo=wo.filter(woAsset__id__in=asset)
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
-        return wo;
+        return wo.filter(isScheduling=False,visibile=True);
 
 
 
@@ -474,7 +494,7 @@ class WOUtility:
                 wo=wo.filter(woAsset__id__in=asset)
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
-        return wo;
+        return wo.filter(isScheduling=False,visibile=True);
     @staticmethod
     def getRequestedWorkOrdersListReport(start,end,asset,assetCategory,maintenanceType,priority):
 
@@ -514,7 +534,7 @@ class WOUtility:
                 wo=wo.filter(woAsset__id__in=asset)
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
-        return wo;
+        return wo.filter(isScheduling=False,visibile=True);
     @staticmethod
     def getOpenWorkOrdersListReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority):
 
@@ -565,7 +585,26 @@ class WOUtility:
                 wo=wo.filter(woAsset__id__in=asset)
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
-        return wo;
+        return wo.filter(isScheduling=False,visibile=True);
+    @staticmethod
+    def getWorkOrdersListReportByStatus(start,end,assignedUser,asset,assetCategory,maintenanceType,priority,status):
+
+
+        wo=WorkOrder.objects.none()
+        if(len(assignedUser)>0):
+            wo=WorkOrder.objects.filter(assignedToUser__id__in=assignedUser,datecreated__range=(start,end))
+        else:
+            wo=WorkOrder.objects.filter(datecreated__range=(start,end))
+        if(len(maintenanceType)>0):
+            wo=wo.filter(maintenanceType__id__in=maintenanceType)
+        if(len(assetCategory)>0):
+            wo=wo.filter(woAsset__assetCategory__id__in=assetCategory)
+        else:
+            if(len(asset)>0):
+                wo=wo.filter(woAsset__id__in=asset)
+        if(len(priority)>0):
+            wo=wo.filter(woPriority__in=priority)
+        return wo.filter(woStatus=status,isScheduling=False,visibile=True);
 
     @staticmethod
     def getOpenPMWorkOrdersListReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority):
@@ -608,7 +647,7 @@ class WOUtility:
                 wo=wo.filter(woAsset__id__in=asset)
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
-        return wo;
+        return wo.filter(isScheduling=False,visibile=True);
     @staticmethod
     def getOpenWorkOrderGraphReport(start,end,assignedUser,asset,assetCategory,maintenanceType):
 
@@ -626,19 +665,7 @@ class WOUtility:
             whereConition+=" and  maintenanceType_id in {0}".format(maintenanceType)
 
 
-        print((""" select count(workorder.id) as id, b.name as name ,b.id as k
 
-        from workorder
-        inner join maintenancetype b on workorder.maintenancetype_id=b.id
-        left join assets on workorder.woasset_id=assets.id
-        left join assetcategory as a on assets.assetCategory_id= a.id
-
-
-        {0}
-        group by b.name,b.id
-
-        order by workorder.id
-         """.format(whereConition)))
         return WorkOrder.objects.raw("""  select count(workorder.id) as id, b.name as name ,b.id as k
 
         from workorder
@@ -670,19 +697,7 @@ class WOUtility:
             whereConition+=" and  maintenanceType_id in {0}".format(maintenanceType)
 
 
-        print((""" select count(workorder.id) as id, b.name as name ,b.id as k
 
-        from workorder
-        inner join maintenancetype b on workorder.maintenancetype_id=b.id
-        left join assets on workorder.woasset_id=assets.id
-        left join assetcategory as a on assets.assetCategory_id= a.id
-
-
-        {0}
-        group by b.name,b.id
-
-        order by workorder.id
-         """.format(whereConition)))
         return WorkOrder.objects.raw("""  select count(workorder.id) as id, b.name as name ,b.id as k
 
             from workorder
@@ -703,13 +718,6 @@ class WOUtility:
         if(len(woStatus)>0):
             whereConition+=" and  b.woStatus in {0}".format(str(woStatus))
 
-        print("""  select project.id,projectName, projectDescription as name ,
-        ProjectActualStartDate,ProjectActualEndDate,b.woStatus
-        from project
-        left join workorder b on b.project_id=project.id
-        {0}
-        order by project.id
-         """.format(whereConition))
 
         return Project.objects.raw("""  select project.id
         from project
@@ -983,9 +991,9 @@ class WOUtility:
     @staticmethod
     def getTaviz(start,end,loc=None):
         if(not loc):
-            return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end)).values_list('woPartWorkorder',flat=True)))
+            return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end),woPartActulaQnty__gt=1).values_list('woPartWorkorder',flat=True)))
         else:
-            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end)).values_list('woPartWorkorder',flat=True)))
+            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end),woPartActulaQnty__gt=1).values_list('woPartWorkorder',flat=True)))
 
     # @staticmethod
     # def getTaviz(start,end,loc):

@@ -1,0 +1,109 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+                     گزارش دستور کار با جزییات <br>
+
+
+                            </h1>
+
+                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+                          <h4>به همراه پارامترهای زیر</h4>
+                          <h4> از تاریخ: {{stdate}}</h4>
+                          <h4>تا تاریخ: {{enddate}}</h4>
+                          <h4>کاربر : {{users}}</h4>
+                          <h4>دارایی: {{assets}}</h4>
+                          <h4>نوع دارایی: {{assetcat}}</h4>
+                          <h4>نوع نگهداری: {{maintype}}</h4>
+                          <h4>اولویت: {{priority}}</h4>
+
+                           </div>
+
+
+     {% for c in woList %}
+     <table class="table table-bordered">
+       <thead>
+         <tr>
+          <th class="col-md-1 active">کد</th>
+          <th class="col-md-2 active">شرح دستور کار</th>
+          <th class="col-md-1 active">وضعیت</th>
+          <th class="col-md-1 active">نوع</th>
+          <th class="col-md-1 active">تاریخ ایجاد</th>
+          <th class="col-md-1 active">عمر</th>
+          <th class="col-md-1 active">تاریخ موعد</th>
+          <th class="col-md-1 active">دیرکرد</th>
+         </tr>
+       </thead>
+       <tbody>
+     <tr>
+       <td class="active"><a href="/WorkOrder/{{c.0.id}}/details" target="_blank">{{c.0.id}}</a></td>
+       <td class="active">
+         {{c.0.summaryofIssue}}
+       </td>
+       <td class="active">
+         {{c.0.get_woStatus_display}}
+       </td>
+
+       <td class="active">
+         {{c.0.maintenanceType}}
+       </td>
+
+       <td class="active">
+         {{c.0.timecreated| time:"H:i"}}  {{c.0.get_dateCreated_jalali}}
+       </td>
+       <td class="active" >
+         {{c.0.get_omr}}
+       </td>
+       <td class="active">
+        {{c.0.requiredCompletionTime | time:"H:i"}}  {{c.0.get_dateRequire_jalali}}
+       </td>
+       <td class="active">
+         {{c.0.get_dirkard}}
+       </td>
+
+     </tr>
+     <tr >
+       <td colspan="8"><table class="table table-borderless table-dark">
+         <thead>
+           <th>شرح فعالیت</th>
+           <th>کاربر</th>
+           <th>زمان تخمینی</th>
+           <th>دارایی</th>
+           <th>نوع دارایی</th>
+         </thead>
+          <tbody>
+            {% for k in c.1 %}
+            <tr>
+              <td>{{k.taskDescription|default_if_none:""}}</td>
+              <td>{{k.taskAssignedToUser|default_if_none:"نامشخص"}}</td>
+              <td>{{k.taskTimeEstimate|default_if_none:"نامشخص"}}</td>
+              <td>{{c.0.woAsset|default_if_none:"نامشخص"}}</td>
+              <td>{{c.0.woAsset.assetCategory|default_if_none:"نامشخص"}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+             <td colspan="5" class="text-center bg-warning">بدون فعالیت</td>
+            </tr>
+
+            {%endfor%}
+
+         </tbody>
+       </table></td>
+
+
+     </tr>
+     {% empty %}
+     <tr>
+       <td colspan="7" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+     </tr>
+   </tbody>
+     </table>
+     {% endfor %}
+
+ {% endblock %}

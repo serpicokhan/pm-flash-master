@@ -1,0 +1,93 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+                                     گزارش دستور کارها </br>
+
+
+                            </h1>
+
+                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+                          <h4>به همراه پارامترهای زیر</h4>
+                          <h4> از تاریخ: {{stdate}}</h4>
+                          <h4>تا تاریخ: {{enddate}}</h4>
+                          <h4>کاربر : {{users}}</h4>
+                          <h4>دارایی: {{assets}}</h4>
+                          <h4>نوع دارایی: {{assetcat}}</h4>
+                          <h4>نوع نگهداری: {{maintype}}</h4>
+                          <h4>اولویت: {{priority}}</h4>
+
+                           </div>
+
+                           <table class="table table-bordered table-striped">
+                             <thead>
+                               <tr>
+                                <th class="col-md-1 active">کد</th>
+                                <th class="col-md-2 active">شرح دستور کار</th>
+                                <th class="col-md-1 active">وضعیت</th>
+                                <th class="col-md-1 active">دارایی</th>
+                                <th class="col-md-1 active">نوع دارایی</th>
+                                <th class="col-md-1 active">نوع نگهداری</th>
+                                <th class="col-md-1 active">اولویت</th>
+                                <th class="col-md-1 active">تاریخ ایجاد</th>
+                                <th class="col-md-1 active">تاریخ موعد</th>
+                                <th class="col-md-1 active">کاربر</th>
+                                <th class="col-md-1 active">ساعت تخمینی</th>
+                                <th class="col-md-1 active">دیرکرد</th>
+
+
+                               </tr>
+                             </thead>
+                             <tbody>
+     {% for c in woList %}
+
+     <tr>
+        <td  ><a href="/WorkOrder/{{c.id}}/details" target="_blank">{{c.id}}</a></td>
+       <td  >
+         {{c.summaryofIssue|default_if_none:"نامشخص"}}
+       </td>
+       <td  >
+         {{c.get_woStatus_display|default_if_none:"نامشخص"}}
+       </td>
+
+       <td  >
+         {{c.woAsset|default_if_none:"نامشخص"}}
+       </td>
+
+
+       <td   >
+         {{c.woAsset.assetCategory|default_if_none:"نامشخص"}}
+       </td>
+
+       <td  >
+         {{c.maintenanceType|default_if_none:"نامشخص"}}
+       </td>
+       <td  >{{c.woPriority|default_if_none:"نامشخص"}}</td>
+       <td  >
+        {{c.timecreated | time:"H:i"}}  {{c.get_dateCreated_jalali}}
+       </td>
+       <td  >
+        {{c.requiredCompletionTime | time:"H:i"}}  {{c.get_dateRequire_jalali}}
+       </td>
+       <td  >
+        {{c.assignedToUser|default_if_none:"نامشخص"}}
+       </td>
+       <td  >{{c.estimatedLabor|default_if_none:"نامشخص"}}</td>
+       <td  >{{c.get_dirkard}}</td>
+
+
+     </tr>
+
+
+
+     {% endfor %}
+   </tbody>
+     </table>
+
+ {% endblock %}
