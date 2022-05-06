@@ -61,8 +61,27 @@
     $( document).ready(
 
 
+
       function()
       {
+        var loadcontent_task=function(){
+           $.ajax({
+            url: '/Task/content/?t='+$("#id_taskTypes").val()+'&q='+$("#lastWorkOrderid").val(),
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+              //alert("3123@!");
+              // console.log(data);
+               $("#taskmetricrow").html(data.html);
+
+
+
+            },
+            error:function(){
+              console.log("error");
+            }
+          });
+        }
         $(".cl-task").click(function()
         {
           $("#modal-task").modal("hide");
@@ -71,7 +90,7 @@
 
         }
        );
-        $(".taskmetricrow").hide();
+        // $(".taskmetricrow").hide();
         $("#id_taskTypes").change(
           function()
           {
@@ -81,7 +100,9 @@
                 $(".taskmetricrow").hide();
                 break;
               case "3":
+              case "4":
               $(".taskmetricrow").show();
+              loadcontent_task();
               break;
 
               default:
@@ -89,6 +110,7 @@
             }
 
           }
+
 
         );
 
@@ -109,9 +131,10 @@
               ,"workOrder":{11}\
               ,"taskTimeCompleted":"{12}"\
               ,"taskStartTime":"{13}"\
-              ,"taskResult":{14}}',
+              ,"taskResult":{14}\
+              ,"task_inspection":{15}}',
               getVal($("#id_taskTypes")),
-              ($("#id_taskMetrics").val()=='')?null:$("#id_taskMetrics").val(),
+              ($("#id_taskMetrics").val()==''||$("#id_taskMetrics").val()==undefined)?null:$("#id_taskMetrics").val(),
               getStringVal($("#id_taskDescription").val()),
               getVal($("#id_taskAssignedToUser")),
               getStringVal($("#id_taskStartDate").val()),
@@ -124,7 +147,9 @@
               getVal($("#lastWorkOrderid")),
               getStringVal($("#id_taskTimeCompleted").val()),
               getStringVal($("#id_taskStartTime").val()),
-              ($('#id_taskResult').val().length>0)?$('#id_taskResult').val():null
+              ($('#id_taskResult').val().length>0)?$('#id_taskResult').val():null,
+              ($('input[name=options1]:checked').val()!=undefined)?$('input[name=options1]:checked').val():null,
+
               );
 
               //alert($("#lastWorkOrderid").val());
@@ -134,6 +159,8 @@
                 data:mydata,
                 dataType: 'json',
                 beforeSend: function (xhr, opts) {
+                  console.log(mydata);
+
                 },
                 success: function (data) {
                   if (data.form_is_valid) {

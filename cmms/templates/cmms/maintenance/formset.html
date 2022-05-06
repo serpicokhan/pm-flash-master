@@ -199,6 +199,7 @@
                                 <td>
                                     {% render_field form.myAsset class="form-control advanced2AutoComplete" %}
                                     {{ form.woAsset.as_hidden }}
+                                    <input type="checkbox" name="saveasset" id="saveasset" value="">
                                 </td>
                                 <td>
                                   {% render_field form.summaryofIssue class="form-control basicAutoComplete" autocomplete="off" data-url='/WorkOrder/GetProblems' %}
@@ -228,6 +229,7 @@
                                 <td>
 
                                     {% render_field form.assignedToUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true" multiple='true'  %}
+                                    <input type="checkbox" name="saveuser" id="saveuser" value="">
                                 </td>
                                 <td>
                                   {{form.woStopCode| add_class:"form-control" }}
@@ -669,6 +671,15 @@ $(".send_form").click(function(){
                     {
                       localStorage.setItem("requser",$("#id_RequestedUser").val())
                     }
+                    if($("#saveasset").is(":checked"))
+                    {
+                      localStorage.setItem("saveasset",$("#id_woAsset").val())
+                      localStorage.setItem("assetname",$("#id_myAsset").val())
+                    }
+                    if($("#saveuser").is(":checked"))
+                    {
+                      localStorage.setItem("saveuser",$("#id_assignedToUser").val())
+                    }
                   } else {
                     // Sorry! No Web Storage support..
                   }
@@ -744,9 +755,16 @@ $(".send_form").click(function(){
 
                    if($("#savereq").is(":checked"))
                    {
-                     console.log("kire khar");
+                     // console.log("kire khar");
                     $("#id_RequestedUser").val(localStorage.getItem("requser"));
                     $("#id_RequestedUser").selectpicker("refresh");
+                     $("#id_assignedToUser").selectpicker('val',localStorage.getItem("saveuser").split(','))
+                    $("#id_assignedToUser").selectpicker("refresh");
+                    $("#id_myAsset").val(localStorage.getItem("assetname"));
+                    $("#id_myAsset").selectpicker("refresh");
+
+                    $("#id_woAsset").val(localStorage.getItem("saveasset"));
+                    // $("#id_assignedToUser").selectpicker("refresh");
                    }
                  } else {
                    // Sorry! No Web Storage support..

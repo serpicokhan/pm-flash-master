@@ -122,6 +122,7 @@ urlpatterns = [
 
 
      url(r'^Task/$',list_task,name='list_task'),
+     url(r'^Task/content/$',getTaskTypeSelector,name='getTaskTypeSelector'),
      url(r'^Task/create/$', task_create, name='task_create'),
      url(r'^Task/create2/$', task_create2, name='task_create2'),
      # url(r'^Task/(?P<id>\d+)/create/$', task_create, name='task_create'),

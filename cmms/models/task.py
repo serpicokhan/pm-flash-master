@@ -20,6 +20,7 @@ class Tasks(models.Model):
     General=1
     Text=2
     meterReading=3
+    inspection=4
 
 
     TaskType1=(
@@ -27,6 +28,7 @@ class Tasks(models.Model):
         (General,'عمومی'),
         (Text ,'متنی'),
         (meterReading,'متریک'),
+        (inspection,'بازرسی'),
 
     )
     taskTypes=models.IntegerField("انتخاب نوع فعالیت", choices=TaskType1,null=True,blank=True)
@@ -44,6 +46,7 @@ class Tasks(models.Model):
     taskTimeSpent=models.FloatField("زمان صرف شده",null=True,blank=True)
     taskCompletionNote=models.CharField("یادداشت تکمیلی",max_length = 100,null=True,blank=True)
     workOrder = models.ForeignKey('WorkOrder',on_delete=models.CASCADE,null=True,blank=True,related_name="CompleteUserTask")
+    task_inspection =models.TextField(null=True,blank=True)
     #woId=models.FloatField(null=True,blank=True)
     class Meta:
       db_table = "tasks"
