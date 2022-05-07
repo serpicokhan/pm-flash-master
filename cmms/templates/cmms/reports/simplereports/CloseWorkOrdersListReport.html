@@ -68,7 +68,7 @@
        <td class="active">
          {{c.maintenanceType|default_if_none:"نامشخص"}}
        </td>
-       <td>{{c.woPriority|default_if_none:"نامشخص"}}</td>
+       <td>{{c.get_woPriority_display|default_if_none:"نامشخص"}}</td>
        <td class="active">
         {{c.timecreated | time:"H:i"}}  {{c.get_dateCreated_jalali}}
        </td>
