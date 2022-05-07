@@ -1,0 +1,36 @@
+{% load widget_tweaks %}
+
+{% if c == '3' %}
+
+<div class="col-lg-6">
+  <label>{{form.taskMetrics.label}}</label>
+
+  </div>
+
+<div class="col-lg-6">
+  {{form.taskMetrics| add_class:"form-control" }}
+  </div>
+{% elif c == '4' %}
+<div class="col-lg-6">
+
+</div>
+<div class="col-lg-6">
+
+
+<div class="btn-group" data-toggle="buttons">
+
+			<label class="btn btn-outline btn-primary {% if form.task_inspection.value == '1' %} active {% endif %}" style="margin-inline-start: 10px;">
+				<input type="radio" name="options1"  {% if form.task_inspection.value == '1' %} checked {% endif %}  value="1"> موفق
+			</label>
+			<label class="btn btn-outline btn-warning {% if form.task_inspection.value == '2' %} active {% endif %}" style="margin-inline-start: 10px;">
+				<input type="radio" name="options1" {% if form.task_inspection.value == '2' %} checked {% endif %}  value="2"> بررسی
+			</label>
+			<label class="btn btn-outline btn-danger {% if form.task_inspection.value == '3' %} active {% endif %}" style="margin-inline-start: 10px;">
+				<input type="radio" name="options1" {% if form.task_inspection.value == '3' %} checked {% endif %} value="3"> ناموفق
+			</label>
+		</div>
+
+
+
+    </div>
+{% endif %}

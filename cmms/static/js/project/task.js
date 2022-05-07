@@ -46,6 +46,7 @@ $(function () {
 
 
 
+
 };
 
   var loadTaskForm =function () {
@@ -146,6 +147,8 @@ var saveTaskForm= function () {
   };
 var set_task_result=function(){
   e=$(this).parent();
+  l=e.parent().children('td').eq(5);
+  // l.html('<span>1</span>');
   if($(this).val().length>0){
   $.ajax({
     async: true,
@@ -155,9 +158,12 @@ var set_task_result=function(){
     dataType: 'json',
     success: function (data) {
       if (data.form_is_valid) {
+        console.log(data);
         // e=$(this).parent();
         e.html('');
         e.html('<span>'+data.result+'</span>');
+        l.html('<span>'+data.time+'</span>');
+
 
 
       }

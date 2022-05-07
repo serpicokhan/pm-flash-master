@@ -63,6 +63,27 @@
        $( document).ready(
          function()
          {
+           var loadcontent_task=function(){
+             var task_id= {% autoescape off %}    {{ form.instance.id }}{% endautoescape %};
+             // loadcontent_task(task_id);
+             console.log(task_id);
+              $.ajax({
+               url: '/Task/content/?t='+$("#id_taskTypes").val()+'&id='+(task_id)+'&q='+$("#lastWorkOrderid").val(),
+               type: 'get',
+               dataType: 'json',
+               success: function (data) {
+                 //alert("3123@!");
+                 console.log(data);
+                  $("#taskmetricrow").html(data.html);
+
+
+
+               },
+               error:function(){
+                 console.log("error");
+               }
+             });
+           }
            $(".cl-task").click(function()
            {
              $("#modal-task").modal("hide");
@@ -70,6 +91,10 @@
          );
            if($( "#id_taskTypes" ).val()<3)
             $(".taskmetricrow").hide();
+            else{
+              // var task_id= {% autoescape off %}    {{ form.instance.id }}{% endautoescape %};
+              loadcontent_task();
+            }
            $("#id_taskTypes").change(
              function()
              {
@@ -80,7 +105,9 @@
                    $(".taskmetricrow").hide();
                    break;
                  case "3":
+                 case "4":
                  $(".taskmetricrow").show();
+                 loadcontent_task();
                  break;
 
                  default:
@@ -88,6 +115,8 @@
                }
 
              }
+
+
 
            );
 
@@ -138,6 +167,7 @@
                    dataType: 'json',
                    beforeSend: function () {
                      //alert(btn.attr("data-url"));
+                     // console.log(mydata);
 
                    },
                    success: function (data) {

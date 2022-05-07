@@ -255,11 +255,12 @@ class TaskForm(forms.ModelForm):
                     taskCompletedByUser=cleaned_data.get('taskCompletedByUser','')
                     taskTimeSpent=cleaned_data.get('taskTimeSpent','')
                     taskResult=cleaned_data.get('taskResult','')
+                    task_inspection=cleaned_data.get('task_inspection','')
                     workOrder=cleaned_data.get('workOrder','')
                     #woId=cleaned_data.get('woId','')
                     #WorkOrder=cleaned_data.get('workOrder','')
                     result="312312"
-                    print("everything is goo")
+                    # print("everything is goo")
                 except :
                     print("error is here!!")
                     return cleaned_data

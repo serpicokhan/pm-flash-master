@@ -188,6 +188,7 @@ class BMGTemplate(models.Model):
 
         db_table="bmgtemplate"
         unique_together = ('BMGTemplate', 'BMGGroup')
+        ordering=['BMGTemplate']
 
 class BOMGroupAsset(models.Model):
     def __str__(self):
@@ -299,3 +300,4 @@ class AssetMeterTemplate(models.Model):
             return "{}({})".format(self.assetMeterTemplateDesc,self.assetMeterTemplateMeter)
         class Meta:
             db_table="Assetmetertemplate"
+            ordering=['assetMeterTemplateDesc']

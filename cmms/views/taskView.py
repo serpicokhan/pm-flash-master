@@ -219,12 +219,10 @@ def task_create(request):
             data['taskStartTime']=body['taskStartTime']
             data['taskTimeCompleted']=body['taskTimeCompleted']
             data['taskResult']=body['taskResult']
+            data['task_inspection']=body['task_inspection']
             ####
             data['workOrder']=body['workOrder']
-            woId=body['workOrder']
-            print("here!!!!!!!!!!!!!!!")
-            # print("what")
-            # print(data['taskMetrics'])
+            woId=body['workOrder']            
             form = TaskForm(int(woId),data)
 
         else:
@@ -272,6 +270,7 @@ def task_update(request, id):
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
+
         content = body['taskTypes']
         data = request.POST.dict()
         data['taskTypes']=body['taskTypes']
@@ -289,7 +288,8 @@ def task_update(request, id):
         data['taskTimeCompleted']=body['taskTimeCompleted']
         data['workOrder']=body['workOrder']
         data['taskResult']=body['taskResult']
-        print("taskResult",data['taskResult'])
+        data['task_inspection']=body['task_inspection']
+        # print("taskResult",data['taskResult'])
 
         woId=body['workOrder']
         form = TaskForm(int(woId),data, instance=company)
@@ -328,10 +328,16 @@ def task_update2(request, id):
 def set_task_result(request,id):
     task=Tasks.objects.get(id=id)
     task.taskResult=float(request.GET.get('q','0'))
+    dt_start=datetime.datetime.combine(task.taskStartDate,task.taskStartTime)
+    dt_end=dt_start+timedelta(hours=task.taskTimeEstimate)
+    task.taskDateCompleted=dt_end.date()
+    task.taskTimeCompleted=dt_end.time()
+
     task.save()
     data=dict()
     data['form_is_valid']=True
     data["result"]=task.taskResult
+    data["time"]=task.get_total_work_time()
     task_create_meter_reading(task.id)
     return JsonResponse(data)
 def task_create_meter_reading(t):
@@ -371,11 +377,31 @@ def get_auto_completion_time(request,id):
     data=dict()
     data["date"]=str(jdatetime.date.fromgregorian(date=dt_end.date()))
     data["time"]=dt_end.time()
+
     data["form_is_valid"]=True
     return JsonResponse(data)
 
 
+def getTaskTypeSelector(request):
 
+    ww=request.GET.get("q",1)
+    task_type=request.GET.get("t",1)
+    task_id=request.GET.get("id","0")
+    print("task_id",task_id)
+    data=dict()
+    form=None
+    if(int(task_id)>0):
+        print("here")
+        form=TaskForm(instance=Tasks.objects.get(id=task_id),workorder=int(ww))
+    else:
+        print("here",task_id)
+        form=TaskForm(workorder=int(ww))
+
+    data['html']=render_to_string('cmms/tasks/tasktypeselector.html', {
+        'form':form,
+        'c':task_type,
+    })
+    return JsonResponse(data)
 def getTaskWoHour(request,startHijri,endHijri,t1,t2):
     start1,end1=DateJob.convert2Date(startHijri,endHijri)
     start=DateJob.combine(start1,t1)
