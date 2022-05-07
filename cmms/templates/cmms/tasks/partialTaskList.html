@@ -3,8 +3,28 @@
 
 <tr>
 <td>{{c.get_taskTypes_display|default_if_none:"-"}}</td>
-{% if c.taskTypes == 3 and not ispm %} {% if not c.taskResult %}<td class="col-md-1"> <input type="text"  name="taskresult" value="" data-url="{{c.id}}" class="form-control task-result"> </td>
-{% else %} <td> {{c.taskResult}} </td> {% endif %} {% else %} <td>{{c.taskResult|default_if_none:"-"}}</td> {% endif %}
+{% if c.taskTypes == 3 and not ispm %}
+ {% if not c.taskResult %}
+<td class="col-md-1"> <input type="text"  name="taskresult" value="" data-url="{{c.id}}" class="form-control task-result">
+</td>
+{% else %} <td> {{c.taskResult}} </td> {% endif %}
+{% elif c.taskTypes == 4 %}
+
+{% if  not c.task_inspection %}
+<td>
+<select class="btn-primary form-control" name="">
+  <option value="">با موفقیت</option>
+  <option value="">بررسی بیشتر</option>
+  <option value=""> ناموفق</option>
+
+</select>
+											</td>
+{% else %}
+<td>
+{{c.task_inspection|default_if_none:"-"}}</td>
+{% endif %}
+
+ {% else %} <td>{{c.taskResult|default_if_none:"-"}}</td> {% endif %}
  <td>{{c.taskDescription|default_if_none:"-"}}</td>
 
  <td>{{c.taskAssignedToUser|default_if_none:"-"}}</td>
