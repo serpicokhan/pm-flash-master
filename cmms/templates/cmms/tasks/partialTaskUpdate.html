@@ -139,9 +139,10 @@
                  ,"workOrder":{11}\
                  ,"taskTimeCompleted":"{12}"\
                  ,"taskStartTime":"{13}"\
-                 ,"taskResult":{14}}',
+                 ,"taskResult":{14}\
+                 ,"task_inspection":{15}}',
                  getVal($("#id_taskTypes")),
-                 ($("#id_taskMetrics").val()=='')?null:$("#id_taskMetrics").val(),
+                 ($("#id_taskMetrics").val()==''||$("#id_taskMetrics").val()==undefined)?null:$("#id_taskMetrics").val(),
                  getStringVal($("#id_taskDescription").val()),
                  getVal($("#id_taskAssignedToUser")),
                  getStringVal($("#id_taskStartDate").val()),
@@ -154,7 +155,9 @@
                  getVal($("#lastWorkOrderid")),
                  getStringVal($("#id_taskTimeCompleted").val()),
                  getStringVal($("#id_taskStartTime").val()),
-                 ($('#id_taskResult').val().length>0)?$('#id_taskResult').val():null
+                 ($('#id_taskResult').val().length>0)?$('#id_taskResult').val():null,
+                 ($('input[name=options1]:checked').val()!=undefined)?$('input[name=options1]:checked').val():null,
+
                  );
 
                  $.ajax({

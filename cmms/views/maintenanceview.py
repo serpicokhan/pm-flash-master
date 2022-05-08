@@ -228,8 +228,10 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
                             assetlife=AssetLife.objects.none()
                             if(iscreated==1):
                                 if(form.instance.woStopCode.stopCode):
+                                    # print("here")
                                     AssetUtility.createNewAssetStatus(form.instance)
                             else:
+                                    # print("update")
                                     AssetUtility.updateAssetLife(form.instance)
                         except AssetLife.DoesNotExist:
                             print("error")

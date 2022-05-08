@@ -118,7 +118,7 @@ def GeStopNum(request,startHijri,endHijri):
     n1=AssetUtility.getAssetOfflineTime(start,end)
     #n2=WorkorderPart.objects.raw("SELECT  count(woPartActulaQnty) as id  from workorderpart where pmonth(timeStamp) =pmonth(CURRENT_DATE - INTERVAL 1 MONTH)")
     data['html_stopnumrep_list'] = render_to_string('cmms/summery/stopNum.html', {
-                'x1': n1,
+                'x1': n1/60,
                 #'x2':n2
 
             })
