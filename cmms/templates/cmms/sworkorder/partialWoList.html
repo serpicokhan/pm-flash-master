@@ -27,13 +27,13 @@
      {% if perms.cmms.view_workorder %}
    <button type="button"
               class="btn btn-warning btn-sm js-update-swo"
-              data-url="{% url 'swo_update' c.id %}">
+              data-url="{% url 'swo_update' c.id %}?page={{page}}">
         <span class="glyphicon glyphicon-pencil"></span>مشاهده     </button>
       {% endif %}
         {% if perms.cmms.delete_workorder %}
       <button type="button"
                    class="btn btn-danger btn-sm js-delete-swo"
-                   data-url="{% url 'swo_delete' c.id %}">
+                   data-url="{% url 'swo_delete' c.id %}?page={{page}}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>
        {% endif %}

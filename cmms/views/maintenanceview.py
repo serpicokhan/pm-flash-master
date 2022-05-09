@@ -85,7 +85,7 @@ def list_wo(request,id=None):
         user1=SysUser.objects.get(userId=request.user)
         # print(user1)
         # print(user1.profileImage,'$$$$$$$$$$')
-        wos,page=WOUtility.doPaging(request,books)
+        wos,page=WOUtility.doPagingWithPage(request,books)
         return render(request, 'cmms/maintenance/woList.html', {'wo': wos,'groups':groups,'user2':user1,'section':'list_wo','status':Status,'page':page})
     except Exception as ex:
         print(ex)
@@ -195,15 +195,16 @@ def list_lastmonth_wo(request):
 ##########################################################
 ##########################################################
 
-def save_wo_form(request, form, template_name,id=None,iscreated=None):
+def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
 
 
     # try:
         data = dict()
-        page=1
+
         if (request.method == 'POST'):
             # print(form.cleaned_data['requiredCompletionDate'],'*******************')
             if form.is_valid():
+
 
                     # validVal=[0,0,0]
                     # validVal[0]=(WOUtility.checkTaskDateRange(form.instance))
@@ -240,31 +241,38 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
                         except Exception as e:
                             print(e)
                     #End of asset life section
-                    if(request.user):
+                    if(request.user and iscreated==1):
                         # print("user",request.user.username)
-                        requestedUser=SysUser.objects.get(userId=request.user)
-                        # print("$$$$$$$$$$$$$$$$$$$$$")
-                        # print("user",requestedUser)
-                        form.instance.RequestedUser=requestedUser
-                        form.instance.save()
-                        if(id):
-                            LogEntry.objects.log_action(
-                                user_id         = request.user.pk,
-                                content_type_id = ContentType.objects.get_for_model(form.instance).pk,
-                                object_id       = form.instance.id,
-                                object_repr     = 'workorder',
-                                action_flag     = CHANGE,
-                                change_message= request.META.get('REMOTE_ADDR')
-                            )
-                        else:
-                            LogEntry.objects.log_action(
-                                user_id         = request.user.pk,
-                                content_type_id = ContentType.objects.get_for_model(form.instance).pk,
-                                object_id       = form.instance.id,
-                                object_repr     = 'workorder',
-                                action_flag     = ADDITION,
-                                change_message= request.META.get('REMOTE_ADDR')
-                            )
+                        form.instance.RequestedUser=SysUser.objects.get(userId=request.user)
+                    else:
+
+                        # requestedUser=form.instance.RequestedUser
+                        print(form.instance.RequestedUser)
+
+
+                    # print("$$$$$$$$$$$$$$$$$$$$$")
+                    # print("user",requestedUser)
+                    # form.instance.RequestedUser=requestedUser
+                    form.instance.save()
+                    if(id):
+                        LogEntry.objects.log_action(
+                            user_id         = request.user.pk,
+                            content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                            object_id       = form.instance.id,
+                            object_repr     = 'workorder',
+                            action_flag     = CHANGE,
+                            change_message= request.META.get('REMOTE_ADDR')
+                        )
+                    else:
+                        LogEntry.objects.log_action(
+                            user_id         = request.user.pk,
+                            content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                            object_id       = form.instance.id,
+                            object_repr     = 'workorder',
+                            action_flag     = ADDITION,
+                            change_message= request.META.get('REMOTE_ADDR')
+                        )
+
 
                     data['form_is_valid'] = True
                     books=[]
@@ -277,10 +285,14 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
                         books = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True).order_by('-datecreated','-timecreated')
 
                     # page=request.GET.get('page',1)
-                    wos=WOUtility.doPaging(request,books)
+
+
+                    wos,page=WOUtility.doPagingWithPage(request,books)
+                    print("page",page)
                     data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
                         'wo': wos,
-                        'perms': PermWrapper(request.user)
+                        'perms': PermWrapper(request.user),
+                        'page':page if page is not None and iscreated is not 1 else 1
                     })
                 else:
                     data['form_is_valid'] = False
@@ -290,8 +302,10 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
             else:
                 data['form_is_valid'] = False
                 print(form.errors)
+
+
         # consider id = 0 when you wanna create new wo
-        context = {'form': form,'lId':id if id is not None else 0}
+        context = {'form': form,'lId':id if id is not None else 0,'page':page if page is not None and iscreated is not 1 else 1}
         if(form.instance):
             data['id']=form.instance.id
         data['html_wo_form'] = render_to_string(template_name, context, request=request)
@@ -303,16 +317,9 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
 
 def wo_delete(request, id):
     comp1 = get_object_or_404(WorkOrder, id=id)
+    page=request.GET.get('page',1)
     data = dict()
     if (request.method == 'POST'):
-    #     LogEntry.objects.log_action(
-    #     user_id         = request.user.pk,
-    #     content_type_id = ContentType.objects.get_for_model(comp1),
-    #     object_id       = comp1.id,
-    #     object_repr     = 'workorder',
-    #     action_flag     = DELETION
-    # )
-
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies=[]
@@ -322,14 +329,15 @@ def wo_delete(request, id):
         else:
             companies = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True).order_by('-datecreated','-timecreated')
 
-        wos=WOUtility.doPaging(request,companies)
+        wos,page=WOUtility.doPagingWithPage(request,companies)
         #Tasks.objects.filter(woId=id).update(workorder=id)
         data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
             'wo': wos,
-            'perms': PermWrapper(request.user)
+            'perms': PermWrapper(request.user),
+            'page':page
         })
     else:
-        context = {'wo': comp1}
+        context = {'wo': comp1,'page':page}
         data['html_wo_form'] = render_to_string('cmms/maintenance/partialWoDelete.html',
             context,
             request=request,
@@ -340,7 +348,6 @@ def wo_delete(request, id):
 ##########################################################
 def wo_create(request):
     if (request.method == 'POST'):
-
         form = WorkOrderForm(request.POST)
         if(int(form.data['lastWorkOrderid'])>0):
             return wo_update(request, int(form.data['lastWorkOrderid']))
@@ -370,7 +377,7 @@ def wo_create(request):
 def wo_update(request, id):
     company= get_object_or_404(WorkOrder, id=id)
     page=request.GET.get('page',1)
-    print("page update",page)
+    print("page update!!!!!!!!!!!!!!!!!!!!",request.build_absolute_uri())
 
     if (request.method == 'POST'):
 
@@ -379,7 +386,8 @@ def wo_update(request, id):
     else:
         form = WorkOrderForm(instance=company,initial={'isUpdating':'True','woasset_':company.woAsset})
 
-    return save_wo_form(request, form,'cmms/maintenance/partialWoUpdate.html',id,iscreated=2)
+
+    return save_wo_form(request, form,'cmms/maintenance/partialWoUpdate.html',id,iscreated=2,page=page)
 ##########################################################
 
 @login_required

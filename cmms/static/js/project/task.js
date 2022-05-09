@@ -201,6 +201,28 @@ var get_task_user_time=function(){
 return false;
 
 };
+var taskchkselection=function(){
+  matches=[];
+  $(".selection-box:checked").each(function() {
+      matches.push(this.value);
+  });
+  if(matches.length>0)
+  {
+  $(".js-set-task-completion").show();
+}
+else{
+  $(".js-set-task-completion").hide();
+
+}
+
+};
+var select_all_task_check=function(){
+  var table= $("#task-table");
+  $('td input:checkbox',table).prop('checked',this.checked);
+  taskchkselection();
+
+}
+
 var set_task_completion_time_auto=function(){
   if($("#set-auto-completion-time").attr("date-url")!="None")
   {
@@ -229,6 +251,34 @@ return false;
 return;
 
 };
+var set_All_task_completion_date=function(){
+// $(this).attr("data-url")
+$.ajax({
+  async: true,
+  url: '/Task/Complete/All/'+$(this).attr("data-url"),
+
+  type: 'get',
+  dataType: 'json',
+  success: function (data) {
+    if (data.form_is_valid) {
+      $("#tbody_task").empty();
+      $("#tbody_task").html(data.html_task_list);
+      toastr.success("فعالیت ها با موفقیت تکمیل شدند");
+    }
+    else{
+      toastr.error(data.error);
+    }
+
+
+
+  }
+
+
+});
+
+return false;
+
+}
 
 
 
@@ -241,6 +291,7 @@ $(".js-create-task").unbind();
 
 $(".js-create-task").click(loadTaskForm);
 $(".js-create-taskGroup").click(loadForm);
+$(".js-set-task-completion").click(set_All_task_completion_date);
 $("#task-table").on("click", ".js-update-task", loadTaskForm);
 // $("#modal-task").on("submit", ".js-task-update-form", saveTaskForm);
 // Delete book
@@ -249,5 +300,7 @@ $("#modal-task").on("click", ".js-task-delete-form", deleteTaskForm);
 $("#modal-task").on("change", ".ttttt", get_task_user_time);
 $("#modal-task").on("click", ".set-auto-completion-time", set_task_completion_time_auto);
 $("#task-table").on("focusout", ".task-result", set_task_result );
+$("#task-table").on("change", ".selectalltask", select_all_task_check );
+$("#task-table").on("change", ".selection-box", taskchkselection );
 
 });

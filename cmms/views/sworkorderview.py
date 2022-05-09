@@ -47,8 +47,8 @@ def list_swo(request,id=None):
     books = WorkOrder.objects.filter(isScheduling=True)
      #paging
     books=filterUser(request,books)
-    wos=SWOUtility.doPaging(request,books)
-    return render(request, 'cmms/sworkorder/woList.html', {'wo': wos,'section':'list_swo'})
+    wos,page=SWOUtility.doPagingWithPage(request,books)
+    return render(request, 'cmms/sworkorder/woList.html', {'wo': wos,'section':'list_swo','page':page})
 
 ##########################################################
 ##########################################################
@@ -60,10 +60,11 @@ def list_swo(request,id=None):
 
 #################################################################
 
-def save_swo_form(request, form, template_name,id=None):
+def save_swo_form(request, form, template_name,id=None,page=None):
 
 
     data = dict()
+
     if (request.method == 'POST'):
         if form.is_valid():
 
@@ -79,7 +80,7 @@ def save_swo_form(request, form, template_name,id=None):
             data['form_is_valid'] = True
             books = WorkOrder.objects.filter(isScheduling=True)
             books=filterUser(request,books)
-            wos=SWOUtility.doPaging(request,books)
+            wos,page=SWOUtility.doPagingWithPage(request,books)
             if(id):
                 LogEntry.objects.log_action(
                     user_id         = request.user.pk,
@@ -102,12 +103,13 @@ def save_swo_form(request, form, template_name,id=None):
 
             data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
                 'wo': wos,
-                'perms': PermWrapper(request.user)
+                'perms': PermWrapper(request.user),
+                'page':page
             })
         else:
             data['form_is_valid'] = False
 
-    context = {'form': form,'lId':id,'ispm':True}
+    context = {'form': form,'lId':id,'ispm':True,'page':page}
 
 
     data['html_wo_form'] = render_to_string(template_name, context, request=request)
@@ -160,6 +162,7 @@ def swo_create(request):
 ##########################################################
 def swo_update(request, id):
     company= get_object_or_404(WorkOrder, id=id)
+    page=request.GET.get('page',1)
     # print(company)
     if (request.method == 'POST'):
         form = WorkOrderForm(request.POST, instance=company)
@@ -173,7 +176,7 @@ def swo_update(request, id):
     else:
         form = WorkOrderForm(instance=company,initial={'woasset_':company.woAsset})
 
-    return save_swo_form(request, form,'cmms/sworkorder/partialWoUpdate.html',id)
+    return save_swo_form(request, form,'cmms/sworkorder/partialWoUpdate.html',id,page=page)
 ##########################################################
 def swo_deleteChildren(requst,id):
     #Tasks.objects.filter( woId=id).delete()

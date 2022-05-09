@@ -16,14 +16,14 @@
    {% if perms.cmms.view_assets %}
    <button type="button"
               class="btn btn-warning btn-sm js-update-asset"
-              data-url="{% url 'asset_update' c.id %}">
+              data-url="{% url 'asset_update' c.id %}?page={{page}}">
         <span class="glyphicon glyphicon-pencil"></span>مشاهده
       </button>
       {% endif %}
       {% if perms.cmms.delete_assets %}
       <button type="button"
                    class="btn btn-danger btn-sm js-delete-asset"
-                   data-url="{% url 'asset_delete' c.id %}">
+                   data-url="{% url 'asset_delete' c.id %}?page={{page}}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>
            {% endif %}

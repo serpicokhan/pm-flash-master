@@ -13,6 +13,9 @@
                                 <table class="table table-striped" id="task-table" style="position: relative;height: 300px;overflow: auto;display:block">
                                     <thead>
                                     <tr>
+                                      <th>
+                                        <input type="checkbox" name="" value="" class="selectalltask">
+                                      </th>
                                       <th>نوع</th>
                                       <th></th>
                                       <th>شرح</th>
@@ -63,6 +66,14 @@
 
                                     ></span>
                                 دسته فعالیت
+                                  </button>
+                                  <button type="button" class="btn btn-primary js-set-task-completion" data-url={{lId}} style="display: None">
+                                    <span class="glyphicon glyphicon-check"
+
+
+
+                                    ></span>
+                                تکمیل
                                   </button>
                                 </p>
                                 {% endif %}

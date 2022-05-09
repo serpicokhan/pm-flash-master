@@ -1,5 +1,5 @@
 
-<form method="post" action="{% url 'asset_update' form.instance.id %}" class="js-asset-update-form" autocomplete="off">
+<form method="post" action="{% url 'asset_update' form.instance.id %}?page={{page}}" class="js-asset-update-form" autocomplete="off">
   {% csrf_token %}
   <div class="modal-header">
     <button type="button" class="close assetclose" data-dismiss="modal" aria-label="Close">

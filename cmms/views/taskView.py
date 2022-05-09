@@ -222,7 +222,7 @@ def task_create(request):
             data['task_inspection']=body['task_inspection']
             ####
             data['workOrder']=body['workOrder']
-            woId=body['workOrder']            
+            woId=body['workOrder']
             form = TaskForm(int(woId),data)
 
         else:
@@ -380,6 +380,44 @@ def get_auto_completion_time(request,id):
 
     data["form_is_valid"]=True
     return JsonResponse(data)
+def set_All_task_completion_date(request,id):
+    data=dict()
+    tasks=Tasks.objects.filter(workOrder__id=id)
+    try:
+        for x in tasks:
+
+
+            dt_start=datetime.datetime.combine(x.taskStartDate,x.taskStartTime)
+            dt_end=dt_start+timedelta(hours=x.taskTimeEstimate)
+            x.taskDateCompleted=dt_end.date()
+            x.taskTimeCompleted=dt_end.time()
+            x.save()
+        data["form_is_valid"]=True
+    except:
+        data["error"]="خطایی رخ داده"
+        data["form_is_valid"]=False
+
+    wo_Id=WorkOrder.objects.get(id=id)
+    if(wo_Id.isScheduling==False):
+        data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
+            'task': tasks,
+            'perms': PermWrapper(request.user),
+            'ispm':False
+        })
+    else:
+        data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
+            'task': companies,
+            'perms': PermWrapper(request.user),
+            'ispm':True
+        })
+
+
+
+    # data["date"]=str(jdatetime.date.fromgregorian(date=dt_end.date()))
+    # data["time"]=dt_end.time()
+
+
+    return JsonResponse(data)
 
 
 def getTaskTypeSelector(request):
@@ -387,14 +425,11 @@ def getTaskTypeSelector(request):
     ww=request.GET.get("q",1)
     task_type=request.GET.get("t",1)
     task_id=request.GET.get("id","0")
-    print("task_id",task_id)
     data=dict()
     form=None
     if(int(task_id)>0):
-        print("here")
         form=TaskForm(instance=Tasks.objects.get(id=task_id),workorder=int(ww))
     else:
-        print("here",task_id)
         form=TaskForm(workorder=int(ww))
 
     data['html']=render_to_string('cmms/tasks/tasktypeselector.html', {

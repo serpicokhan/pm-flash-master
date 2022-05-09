@@ -2,6 +2,9 @@
 {% for c in task %}
 
 <tr>
+  <td>
+    <input type="checkbox" name="" value="" data-url={{c.id}} class="selection-box">
+  </td>
 <td>{{c.get_taskTypes_display|default_if_none:"-"}}</td>
 {% if c.taskTypes == 3 and not ispm %}
  {% if not c.taskResult %}

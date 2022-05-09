@@ -60,8 +60,8 @@ def filterUserByResult(request,books):
 def list_asset(request,id=None):
     books=[]
     books =filterUser(request)
-    wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset'})
+    wos,page=AssetUtility.doPagingWithPage(request,books)
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset','page':page})
 
 
 
@@ -70,8 +70,8 @@ def list_asset(request,id=None):
 def list_asset_location(request):
     books=[]
     books =filterUser(request).filter(assetTypes=1).order_by('-assetName')
-    wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assettreeList.html', {'asset': wos,'section':'list_asset_location'})
+    wos,page=AssetUtility.doPagingWithPage(request,books)
+    return render(request, 'cmms/asset/assettreeList.html', {'asset': wos,'section':'list_asset_location','page':page})
     # books=Asset.objects.filter(assetTypes=1)
     # return render(request, 'cmms/asset/assetList.html', {'asset': books})
 
@@ -79,46 +79,44 @@ def list_asset_location(request):
 def list_asset_machine(request):
     books=[]
     books =filterUser(request).filter(assetTypes=2).order_by('-assetName')
-    wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_machine'})
+    wos,page=AssetUtility.doPagingWithPage(request,books)
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_machine','page':page})
 
 @permission_required('cmms.view_assets')
 def list_asset_tool(request):
     books=[]
     books =filterUser(request).filter(assetTypes=3).order_by('-assetName')
-    wos=AssetUtility.doPaging(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_tool'})
+    wos,page=AssetUtility.doPagingWithPage(request,books)
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_tool','page':page})
 
 ##########################################################
 
-def save_asset_form(request, form, template_name,id=None):
+def save_asset_form(request, form, template_name,id=None,page=None):
     data = dict()
     os=Asset.objects.get(id=id)
     # print("Asset From asset status {}".format(os.assetStatus))
     if (request.method == 'POST'):
         if form.is_valid():
             form.save()
-
             data['form_is_valid'] = True
-
             books = filterUser(request)
-            page=request.GET.get('page',1)
-            wos=AssetUtility.doPaging(request,books)
+            print("save asset page",page)
+            # page=request.GET.get('page',1)
+            wos,page=AssetUtility.doPagingWithPage(request,books)
             data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
                 'asset': wos,
-                'perms': PermWrapper(request.user)
+                'perms': PermWrapper(request.user),
+                'page':page if page is not None else 1
             })
         else:
             print(form.errors)
             data['form_is_valid'] = False
-    print(2)
-    context = {'form': form,'lId':id}
+    # print(page,"!!!!!!!!!!!!!!")
+    context = {'form': form,'lId':id,'page':page if page is not None else 1}
     data['html_asset_form'] = render_to_string(template_name, context, request=request)
     data['id']=id
     return JsonResponse(data)
 ##########################################################
-
-
 def asset_delete(request, id):
     comp1 = get_object_or_404(Asset, id=id)
     data = dict()
@@ -178,6 +176,8 @@ def asset_create_tool(request):
 ##########################################################
 def asset_update(request, id):
     company= get_object_or_404(Asset, id=id)
+    page=request.GET.get('page',1)
+    print("update page",page)
     # print("asset status:{}".format(company.assetStatus))
     template=""
     if (request.method == 'POST'):
@@ -192,7 +192,7 @@ def asset_update(request, id):
     else:
         template="cmms/asset/partialAssetToolUpdate.html"
 
-    return save_asset_form(request, form,template,id)
+    return save_asset_form(request, form,template,id,page=page)
 ##########################################################
 
 ##########################################################
@@ -302,13 +302,15 @@ def get_location_by_category(request):
 #######################Search By tags#####################
 def asset_search(request,kvm):
     q=request.GET.get("q","")
+    page=request.GET.get('page',1)
+    print('asset  page',page)
     data=dict()
     print(kvm,'///',q)
     books=AssetUtility.seachAsset(kvm,q)
     books=filterUserByResult(request,books)
     wos=AssetUtility.doPaging(request,list(books))
     data['html_asset_search_tag_list'] = render_to_string('cmms/asset/partialAssetList.html', {
-                   'asset': wos                      ,'perms': PermWrapper(request.user) })
+                   'asset': wos,'page':page                      ,'perms': PermWrapper(request.user) })
     data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination.html', {
                       'asset': wos,'pageType':'asset_search','ptr':kvm,'q':q})
     data['form_is_valid'] = True
