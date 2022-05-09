@@ -27,7 +27,7 @@
 {% if perms.cmms.view_workorder %}
  <td><button type="button"
               class="btn btn-warning btn-sm js-update-wo"
-              data-url="{% url 'wo_update' c.id %}">
+              data-url="{% url 'wo_update' c.id %}" data-page="{{page}}">
         <span class="glyphicon glyphicon-pencil"></span> مشاهده
       </button>
       {% endif %}
@@ -35,7 +35,7 @@
       {% if perms.cmms.delete_workorder %}
       <button type="button"
                    class="btn btn-danger btn-sm js-delete-wo2"
-                   data-url="{% url 'wo_delete' c.id %}">
+                   data-url="{% url 'wo_delete' c.id %}" data-page="{{page}}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>
            {% endif %}

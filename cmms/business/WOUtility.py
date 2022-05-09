@@ -52,7 +52,7 @@ class WOUtility:
             wos = paginator.page(1)
         except EmptyPage:
             wos = paginator.page(paginator.num_pages)
-        return wos
+        return wos,page
     #GET Wo on demand completed between 2 dates
     @staticmethod
     def GetCompletedWorkOrderNum(start,end,isScheduling):

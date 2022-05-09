@@ -85,8 +85,8 @@ def list_wo(request,id=None):
         user1=SysUser.objects.get(userId=request.user)
         # print(user1)
         # print(user1.profileImage,'$$$$$$$$$$')
-        wos=WOUtility.doPaging(request,books)
-        return render(request, 'cmms/maintenance/woList.html', {'wo': wos,'groups':groups,'user2':user1,'section':'list_wo','status':Status})
+        wos,page=WOUtility.doPaging(request,books)
+        return render(request, 'cmms/maintenance/woList.html', {'wo': wos,'groups':groups,'user2':user1,'section':'list_wo','status':Status,'page':page})
     except Exception as ex:
         print(ex)
         return render(request, 'cmms/404.html', {'to':123})
@@ -200,6 +200,7 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
 
     # try:
         data = dict()
+        page=1
         if (request.method == 'POST'):
             # print(form.cleaned_data['requiredCompletionDate'],'*******************')
             if form.is_valid():
@@ -275,7 +276,7 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None):
                     else:
                         books = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True).order_by('-datecreated','-timecreated')
 
-                    page=request.GET.get('page',1)
+                    # page=request.GET.get('page',1)
                     wos=WOUtility.doPaging(request,books)
                     data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
                         'wo': wos,
@@ -368,6 +369,8 @@ def wo_create(request):
 ##########################################################
 def wo_update(request, id):
     company= get_object_or_404(WorkOrder, id=id)
+    page=request.GET.get('page',1)
+    print("page update",page)
 
     if (request.method == 'POST'):
 
