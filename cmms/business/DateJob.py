@@ -59,9 +59,29 @@ class DateJob:
 
     @staticmethod
     def getTaskDate(dt1):
+        try:
+            if(dt1==""):
+                return ""
+
+            y=None
+            y=str(dt1).split("-")
+            #y=str(dt).split("-")
+            if(len(y)==3):
+                year=int(y[0])
+                month=int(y[1])
+                day=int(y[2])
+                # print(jdatetime.date(year,month,day).togregorian(),"$$$$$$$$$$$$$$$$$$$")
+
+                return jdatetime.date(year,month,day).togregorian()
+            else:
+                return datetime.date.today()
+        except Exception as error:
+                print(error)
+    @staticmethod
+    def getmdate(dt1):
+        print(dt1,'!!!!!!!!!!!!!!!@#!@#!@#@!')
         if(dt1==""):
             return ""
-
         y=None
         y=str(dt1).split("-")
         #y=str(dt).split("-")
@@ -70,6 +90,8 @@ class DateJob:
             month=int(y[1])
             day=int(y[2])
             # print(jdatetime.date(year,month,day).togregorian(),"$$$$$$$$$$$$$$$$$$$")
+            print(year,month,day)
+            print(jdatetime.date(year,month,day).togregorian())
             return jdatetime.date(year,month,day).togregorian()
         else:
             return datetime.date.today()
@@ -219,3 +241,24 @@ class DateJob:
 
         return datetime.datetime.combine(dtVal,DateJob.converttoTime(timeVal))
     ###################################################################
+    @staticmethod
+    def clean_workorderdate(request):
+        xxx=request.POST.get('requiredCompletionDate','!!!!')
+        xxx2=request.POST.get('datecreated','!!!!')
+        new_date=DateJob.getTaskDate(xxx)
+        new_date2=DateJob.getTaskDate(xxx2)
+        updated_request = request.POST.copy()
+        updated_request.update({'requiredCompletionDate': new_date})
+        updated_request.update({'datecreated': new_date2})
+        return updated_request
+    ###################################################################
+    @staticmethod
+    def clean_taskdate(request):
+        xxx=request.POST.get('taskStartDate','!!!!')
+        xxx2=request.POST.get('taskDateCompleted','!!!!')
+        new_date=DateJob.getTaskDate(xxx)
+        new_date2=DateJob.getTaskDate(xxx2)
+        updated_request = request.POST.copy()
+        updated_request.update({'taskStartDate': new_date})
+        updated_request.update({'taskDateCompleted': new_date2})
+        return updated_request

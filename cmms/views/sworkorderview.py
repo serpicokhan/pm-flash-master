@@ -143,7 +143,9 @@ def swo_delete(request, id):
 ##########################################################
 def swo_create(request):
     if (request.method == 'POST'):
-        form = WorkOrderForm(request.POST)
+
+
+        form = WorkOrderForm(DateJob.clean_workorderdate(request))
         LogEntry.objects.log_action(
          user_id         = request.user.pk,
          content_type_id = ContentType.objects.get_for_model(form.instance).pk,
@@ -165,7 +167,10 @@ def swo_update(request, id):
     page=request.GET.get('page',1)
     # print(company)
     if (request.method == 'POST'):
-        form = WorkOrderForm(request.POST, instance=company)
+
+
+        # form = WorkOrderForm(updated_request)
+        form = WorkOrderForm(DateJob.clean_workorderdate(request), instance=company)
         LogEntry.objects.log_action(
         user_id         = request.user.pk,
         content_type_id = ContentType.objects.get_for_model(form.instance).pk,

@@ -33,7 +33,7 @@ class Tasks(models.Model):
     )
     taskTypes=models.IntegerField("انتخاب نوع فعالیت", choices=TaskType1,null=True,blank=True)
     taskMetrics=models.ForeignKey("AssetMeterTemplate",verbose_name="واحد اندازه گیری",null=True,blank=True,on_delete=models.CASCADE)
-    taskDescription=models.CharField("توضیحات",max_length = 100,null=True,blank=True)
+    taskDescription=models.CharField("توضیحات",max_length = 200,null=True,blank=True)
     #result related to asset and measured according to Asset
     taskResult=models.FloatField("نتیجه",max_length = 50,null=True,blank=True)
     taskAssignedToUser = models.ForeignKey(SysUser,on_delete=models.CASCADE,verbose_name="اختصاص به کاربر",null=True,blank=True,related_name="assignedToUserTask")
@@ -44,7 +44,7 @@ class Tasks(models.Model):
     taskDateCompleted = models.DateField("تاریخ تکمیل",null=True, blank=True)
     taskTimeCompleted = models.TimeField("زمان پایان",default=datetime.now,null=True, blank=True)
     taskTimeSpent=models.FloatField("زمان صرف شده",null=True,blank=True)
-    taskCompletionNote=models.CharField("یادداشت تکمیلی",max_length = 100,null=True,blank=True)
+    taskCompletionNote=models.CharField("یادداشت تکمیلی",max_length = 200,null=True,blank=True)
     workOrder = models.ForeignKey('WorkOrder',on_delete=models.CASCADE,null=True,blank=True,related_name="CompleteUserTask")
     task_inspection =models.TextField(null=True,blank=True)
     #woId=models.FloatField(null=True,blank=True)

@@ -210,11 +210,11 @@ def task_create(request):
             data['taskDescription']=body['taskDescription']
             data['taskAssignedToUser']=body['taskAssignedToUser']
             data['taskMetrics']=body['taskMetrics']
-            data['taskStartDate']=body['taskStartDate']
+            data['taskStartDate']=DateJob.getTaskDate(body['taskStartDate'])
             data['taskTimeEstimate']=body['taskTimeEstimate']
             data['taskCompletedByUser']=body['taskCompletedByUser']
             data['taskTimeSpent']=body['taskTimeSpent']
-            data['taskDateCompleted']=body['taskDateCompleted']
+            data['taskDateCompleted']=DateJob.getTaskDate(body['taskDateCompleted'])
             data['taskCompletionNote']=body['taskCompletionNote']
             data['taskStartTime']=body['taskStartTime']
             data['taskTimeCompleted']=body['taskTimeCompleted']
@@ -277,11 +277,11 @@ def task_update(request, id):
         data['taskDescription']=body['taskDescription']
         data['taskAssignedToUser']=body['taskAssignedToUser']
         data['taskMetrics']=body['taskMetrics']
-        data['taskStartDate']=body['taskStartDate']
+        data['taskStartDate']=DateJob.getTaskDate(body['taskStartDate'])
         data['taskTimeEstimate']=body['taskTimeEstimate']
         data['taskCompletedByUser']=body['taskCompletedByUser']
         data['taskTimeSpent']=body['taskTimeSpent']
-        data['taskDateCompleted']=body['taskDateCompleted']
+        data['taskDateCompleted']=DateJob.getTaskDate(body['taskDateCompleted'])
         # print("$$$$$$$$$$$$$$$$$$$$$",body['taskDateCompleted'])
         data['taskCompletionNote']=body['taskCompletionNote']
         data['taskStartTime']=body['taskStartTime']

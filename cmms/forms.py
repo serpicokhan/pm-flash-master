@@ -17,6 +17,7 @@ from cmms.component.field import *
 import os
 import sys
 from django.core.exceptions import ValidationError
+from persiantools.jdatetime import JalaliDate
 class CopyAssetForm(forms.Form):
     assetname2= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
@@ -40,13 +41,16 @@ class WorkOrderForm(forms.ModelForm):
         #print(value)
         return value
 
-    def clean_requiredCompletionDate(self):
-        value=DateJob.getDate2( self.cleaned_data['requiredCompletionDate'])
-        # print(value,'****************************')
-        return value
-    def clean_datecreated(self):
-         value=DateJob.getTaskDate( self.cleaned_data['datecreated'])
-         return value
+    # def clean_requiredCompletionDate(self):
+    #     value=DateJob.getTaskDate2( self.cleaned_data['requiredCompletionDate'])
+    #     # print(value,'****************************')
+    #     return value
+    # def clean_datecreated(self):
+    #      print("datecreated")
+    #      print(self.cleaned_data['datecreated'],"datecreated")
+    #      value=DateJob.getTaskDate( self.cleaned_data['datecreated'])
+
+         # return value
     def clean_dateCompleted(self):
         if(self.cleaned_data['dateCompleted']):
              print(self.cleaned_data['dateCompleted'],'datecompleted')
@@ -121,6 +125,7 @@ class WorkOrderForm2(forms.ModelForm):
             #if(self.is_valid()):
             try:
                 datecreated=cleaned_data.get('datecreated','')
+
                 woStatus=cleaned_data.get('woStatus','')
                 RequestedUser=cleaned_data.get('RequestedUser','')
                 maintenanceType=cleaned_data.get('maintenanceType','')
@@ -217,9 +222,7 @@ class TaskForm(forms.ModelForm):
     def __init__(self,workorder=None,*args,**kwargs):
 
         super (TaskForm,self ).__init__(*args,**kwargs) # populates the post
-        print("here!!!!!!!!!2222")
         try:
-            print(workorder)
             if(workorder):
                 print("!!!!!!!!!!!!!!!!!")
                 bg_groups=BMGAsset.objects.filter(BMGAsset=WorkOrder.objects.get(id=workorder).woAsset).values_list('BMGGroup',flat=True)
@@ -237,7 +240,6 @@ class TaskForm(forms.ModelForm):
     taskCompletionNote = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
 
     def clean(self):
-                print("everything is goo")
                 self.is_valid()
                 cleaned_data=super(TaskForm, self).clean()
 
@@ -265,16 +267,32 @@ class TaskForm(forms.ModelForm):
                     print("error is here!!")
                     return cleaned_data
 
-    def clean_taskStartDate(self):
-        value=DateJob.getTaskDate( self.cleaned_data['taskStartDate'])
-        return value
-    def clean_taskDateCompleted(self):
-        if(self.cleaned_data['taskDateCompleted']):
-             print(self.cleaned_data['taskDateCompleted'],'12211221')
-             value=DateJob.getTaskDate( self.cleaned_data['taskDateCompleted'])
-             return value
-        else:
-            return None
+    # def clean_taskStartDate(self):
+    #     # value=DateJob.getTaskDate( self.cleaned_data['taskStartDate'])
+    #     dt1=self.cleaned_data['taskStartDate']
+    #     value=dt1
+    #     if(dt1==""):
+    #         value= ""
+    #     y=None
+    #     #
+    #     y=str(dt1).split("-")
+    #     # #y=str(dt).split("-")
+    #     if(len(y)==3):
+    #         year=int(y[0])
+    #         month=int(y[1])
+    #         day=int(y[2])
+    #         #     print(jdatetime.date(year,month,day).togregorian(),"$$$$$$$$$$$$$$$$$$$")
+    #         # value=jdatetime.date(year,month,day).togregorian()
+    #         tt=JalaliDate(year, month, day).to_gregorian()
+    #         print(tt,"kkkkk")
+    #     return value
+    # def clean_taskDateCompleted(self):
+    #     if(self.cleaned_data['taskDateCompleted']):
+    #          # value=DateJob.getTaskDate( self.cleaned_data['taskDateCompleted'])
+    #          value=self.cleaned_data['taskDateCompleted']
+    #          return value
+    #     else:
+    #         return None
 
     class Meta:
          model = Tasks

@@ -202,8 +202,12 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
         data = dict()
 
         if (request.method == 'POST'):
-            # print(form.cleaned_data['requiredCompletionDate'],'*******************')
+
+
+
             if form.is_valid():
+
+
 
 
                     # validVal=[0,0,0]
@@ -214,6 +218,7 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
                     # err_code,err_msg=WOUtility.checkErr(*validVal)
 
                 err_code=0
+                print("kire khar")
                 if(not form.instance.assignedToUser):
                     err_code=1
                     err_msg="کاربر را مشخص نمایید"
@@ -241,13 +246,14 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
                         except Exception as e:
                             print(e)
                     #End of asset life section
+                    print("is created:",iscreated)
                     if(request.user and iscreated==1):
-                        # print("user",request.user.username)
+                        print("user",request.user.username)
                         form.instance.RequestedUser=SysUser.objects.get(userId=request.user)
                     else:
 
                         # requestedUser=form.instance.RequestedUser
-                        print(form.instance.RequestedUser)
+                        form.instance.RequestedUser=form.instance.RequestedUser
 
 
                     # print("$$$$$$$$$$$$$$$$$$$$$")
@@ -292,7 +298,7 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
                     data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
                         'wo': wos,
                         'perms': PermWrapper(request.user),
-                        'page':page if page is not None and iscreated is not 1 else 1
+                        'page':page if page != None and iscreated != 1 else 1
                     })
                 else:
                     data['form_is_valid'] = False
@@ -301,11 +307,12 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
 
             else:
                 data['form_is_valid'] = False
+
                 print(form.errors)
 
 
         # consider id = 0 when you wanna create new wo
-        context = {'form': form,'lId':id if id is not None else 0,'page':page if page is not None and iscreated is not 1 else 1}
+        context = {'form': form,'lId':id if id != None else 0,'page':page if page != None and iscreated != 1 else 1}
         if(form.instance):
             data['id']=form.instance.id
         data['html_wo_form'] = render_to_string(template_name, context, request=request)
@@ -348,9 +355,13 @@ def wo_delete(request, id):
 ##########################################################
 def wo_create(request):
     if (request.method == 'POST'):
-        form = WorkOrderForm(request.POST)
+
+
+        form = WorkOrderForm(DateJob.clean_workorderdate(request))
         if(int(form.data['lastWorkOrderid'])>0):
             return wo_update(request, int(form.data['lastWorkOrderid']))
+        else:
+            print("else dsadasdsa")
         return save_wo_form(request, form, 'cmms/maintenance/partialWoCreate.html',iscreated=1)
     else:
         # woInstance=WorkOrder.objects.create(isScheduling=False,creatNewWO=False,woStatus=1,woPriority=2,isPm=False)
@@ -377,11 +388,12 @@ def wo_create(request):
 def wo_update(request, id):
     company= get_object_or_404(WorkOrder, id=id)
     page=request.GET.get('page',1)
-    print("page update!!!!!!!!!!!!!!!!!!!!",request.build_absolute_uri())
+    print(request.build_absolute_uri())
 
     if (request.method == 'POST'):
 
-        form = WorkOrderForm(request.POST, instance=company)
+
+        form = WorkOrderForm(DateJob.clean_workorderdate(request), instance=company)
 
     else:
         form = WorkOrderForm(instance=company,initial={'isUpdating':'True','woasset_':company.woAsset})
@@ -500,11 +512,12 @@ def woGetOverdueWO(request,startHijri,endHijri):
 ##change asset
 @permission_required('cmms.add_workorder',login_url='/not_found')
 def wo_setAsset(request,wid,aid):
+    data=dict()
     try:
         wo=WorkOrder.objects.get(id=wid)
         wo.woAsset_id=aid
         wo.save()
-        data=dict()
+
         data['result']=wo.woAsset_id
         books=AssetMeterReading.objects.filter(assetWorkorderMeterReading=wo)
         for book in books:

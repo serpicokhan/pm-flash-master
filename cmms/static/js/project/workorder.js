@@ -142,7 +142,7 @@ var saveCopy= function () {
        else {
 
          $("#company-table tbody").html(data.html_wo_list);
-         $("#modal-company .modal-content").html(data.html_wo_form);
+         // $("#modal-company .modal-content").html(data.html_wo_form);
          toastr.error("خطا در ایجاد دستور کار. لطفا ورودیهای خود را کنترل نمایید.");
        }
      }
@@ -485,6 +485,7 @@ var saveCopy= function () {
       dataType: 'json',
       beforeSend:function(xhr,opt)
       {
+        console.log($("#id_datecreated").val());
         if(!$(this)[0].url.includes('delete')){
           if($("#id_woAsset").val().length<1)
           {
