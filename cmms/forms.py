@@ -17,7 +17,7 @@ from cmms.component.field import *
 import os
 import sys
 from django.core.exceptions import ValidationError
-from persiantools.jdatetime import JalaliDate
+
 class CopyAssetForm(forms.Form):
     assetname2= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
