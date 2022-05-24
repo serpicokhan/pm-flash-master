@@ -327,7 +327,7 @@ var searchAsset= function (loc,searchStr) {
   // searchStr=searchStr.replace(' ','__');
   // console.log('/Asset/'+loc+'/Search/?q='+searchStr);
    $.ajax({
-     url: '/Asset/'+loc+'/Search/?q='+searchStr+'&page='findGetParameter('page'),
+     url: '/Asset/'+loc+'/Search/?q='+searchStr+'&page='+findGetParameter('page'),
      type: 'GET',
      dataType: 'json',
      beforeSend:function(){
