@@ -700,13 +700,13 @@ class AssetUtility:
     @staticmethod
     def getAssets(searchStr):
         result=Asset.objects.all()
-        q=searchStr
-        for qstr in q:
-                 if(qstr.isdigit()):
-                     result = result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(id=int(qstr))|Q(assetCategory__name__icontains=qstr)).order_by('-id')
-                 else:
-                    result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)
-                                       |Q(assetCategory__name__icontains=qstr)).order_by('-id')
+        qstr=searchStr
+        # for qstr in q:
+        if(qstr.isdigit()):
+             result = result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(id=int(qstr))|Q(assetCategory__name__icontains=qstr)).order_by('assetName')
+        else:
+            result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)
+                               |Q(assetCategory__name__icontains=qstr)).order_by('assetName')
         # (Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(assetCategory__name__icontains=qstr))).order_by('-id')
         result=result.extra(select={'length':'Length(assetName)'}).order_by('length').values('id', 'assetName','assetCode')[:10]
         return result
