@@ -21,7 +21,7 @@ class UserUtility:
     def getOveralView(userID,start,end):
         if(userID):
             # print(" select get_closed_wo_byuser({0},'{1}','{2}') as id,get_assoc_wo_byuser({0},'{1}','{2}') as assoc ,get_logged_labour_hour_byuser({0},'{1}','{2}') as  logged from workorder where datecreated between '{1}' and '{2}' limit 1".format(userID,start,end))
-            return WorkOrder.objects.raw(" select get_closed_wo_byuser({0},'{1}','{2}') as id,get_assoc_wo_byuser({0},'{1}','{2}') as assoc ,get_logged_labour_hour_byuser({0},'{1}','{2}') as  logged from workorder where datecreated between '{1}' and '{2}' limit 1".format(userID,start,end))
+            return WorkOrder.objects.raw(" select get_closed_wo_byuser({0},'{1}','{2}') as id,get_assoc_wo_byuser({0},'{1}','{2}') as assoc ,get_logged_labour_hour_byuser({0},'{1}','{2}') as  logged from workorder inner join tasks on tasks.workorder_id=workorder.id  where tasks.taskStartDate between '{1}' and '{2}' limit 1".format(userID,start,end))
         if(unitId):
 
             return SysUser.objects.raw(" select get_closed_wo_unit({0},'{1}','{2}'),get_assoc_wo_unit({0},'{1}','{2}'),get_logged_labour_hour_unit({0},'{1}','{2}')".format(unitID,start,end))
@@ -30,7 +30,7 @@ class UserUtility:
         if(userID):
             # print(" select distinct(workorder.id) as id , get_labour_hour_wo({0},workorder.id) as hour from workorder inner join tasks on tasks.workorder_id=workorder.id where datecreated between '{1}' and '{2}' and (tasks.taskAssignedToUser_id={0})".format(userID,start,end))
             # prin
-            return WorkOrder.objects.raw(" select distinct(workorder.id) as id , COALESCE(get_labour_hour_wo({0},workorder.id),0) /60 as hour from workorder inner join tasks on tasks.workorder_id=workorder.id where datecreated between '{1}' and '{2}' and (tasks.taskAssignedToUser_id={0}) and visibile=1".format(userID,start,end))
+            return WorkOrder.objects.raw(" select distinct(workorder.id) as id , COALESCE(get_labour_hour_wo({0},workorder.id),0) /60 as hour from workorder inner join tasks on tasks.workorder_id=workorder.id where tasks.taskStartDate between '{1}' and '{2}' and (tasks.taskAssignedToUser_id={0}) and visibile=1".format(userID,start,end))
 
     @staticmethod
     def getHozurTimeGid(dt1,dt2,gid):
