@@ -34,6 +34,7 @@ from django.contrib.auth.context_processors import PermWrapper
 from django.contrib.admin.models import LogEntry, ADDITION,CHANGE,DELETION
 from django.contrib.contenttypes.models import ContentType
 from cmms.business.AssetUtility import AssetUtility
+from cmms.business.DateJob import *
 
 def filterUser(request,books):
     if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
@@ -64,43 +65,15 @@ def save_swo_form(request, form, template_name,id=None,page=None):
 
 
     data = dict()
-
     if (request.method == 'POST'):
         if form.is_valid():
-
-
-
-
             form.save()
-            if(request.user):
-                 requestedUser=SysUser.objects.get(userId=request.user)
-                 form.instance.RequestedUser=requestedUser
-                 form.instance.save()
             #print("id:"+str(id))
             data['form_is_valid'] = True
             books = WorkOrder.objects.filter(isScheduling=True)
             books=filterUser(request,books)
             wos,page=SWOUtility.doPagingWithPage(request,books)
-            if(id):
-                LogEntry.objects.log_action(
-                    user_id         = request.user.pk,
-                    content_type_id = ContentType.objects.get_for_model(form.instance).pk,
-                    object_id       = form.instance.id,
-                    object_repr     = 'sworkorder',
-                    action_flag     = CHANGE,
-                    change_message= request.META.get('REMOTE_ADDR')
-                )
-            else:
-                LogEntry.objects.log_action(
-                    user_id         = request.user.pk,
-                    content_type_id = ContentType.objects.get_for_model(form.instance).pk,
-                    object_id       = form.instance.id,
-                    object_repr     = 'sworkorder',
-                    action_flag     = ADDITION,
-                    change_message= request.META.get('REMOTE_ADDR')
-                )
-
-
+            SWOUtility.log(request,form,id)
             data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
                 'wo': wos,
                 'perms': PermWrapper(request.user),
@@ -109,9 +82,9 @@ def save_swo_form(request, form, template_name,id=None,page=None):
         else:
             data['form_is_valid'] = False
 
-    context = {'form': form,'lId':id,'ispm':True,'page':page}
-
-
+    context = {'form': form,'lId':id if id != None else 0,'ispm':True,'page':page}
+    if(form.instance):
+        data['id']=form.instance.id
     data['html_wo_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
 ##########################################################
@@ -142,24 +115,29 @@ def swo_delete(request, id):
 
 ##########################################################
 def swo_create(request):
-    if (request.method == 'POST'):
+
 
 
         form = WorkOrderForm(DateJob.clean_workorderdate(request))
-        LogEntry.objects.log_action(
-         user_id         = request.user.pk,
-         content_type_id = ContentType.objects.get_for_model(form.instance).pk,
-         object_id       = form.instance.id,
-         object_repr     = 'workorder',
-         action_flag     = ADDITION
-     )
-        return save_swo_form(request, form, 'cmms/sworkorder/partialWoCreate.html')
-    else:
-        reqUser=SysUser.objects.get(userId=request.user)
-        woInstance=WorkOrder.objects.create(isScheduling=True,creatNewWO=False,woStatus=1,woPriority=2,isPm=False,RequestedUser=reqUser)
+        if (request.method == 'POST'):
+            if(int(form.data['lastWorkOrderid'])>0):
+                return swo_update(request, int(form.data['lastWorkOrderid']))
+            else:
+                LogEntry.objects.log_action(
+                 user_id         = request.user.pk,
+                 content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                 object_id       = form.instance.id,
+                 object_repr     = 'workorder',
+                 action_flag     = ADDITION
+             )
+                return save_swo_form(request, form, 'cmms/sworkorder/partialWoCreate.html')
 
-        form = WorkOrderForm(instance=woInstance,initial={'isScheduling':'True'})
-        return save_swo_form(request, form, 'cmms/sworkorder/partialWoCreate.html',woInstance.id)
+        else:
+            reqUser=SysUser.objects.get(userId=request.user)
+            # woInstance=WorkOrder.objects.create(isScheduling=True,creatNewWO=False,woStatus=1,woPriority=2,isPm=False,RequestedUser=reqUser)
+
+            form = WorkOrderForm(initial={'isScheduling':True,'creatNewWO':False,'woStatus':1,'woPriority':2,'isPm':False,'requestedUser':reqUser})
+            return save_swo_form(request, form, 'cmms/sworkorder/partialWoCreate.html')
 
 
 ##########################################################
@@ -209,11 +187,12 @@ def SWOupdateRunning(request,id):
 
 @permission_required('cmms.add_workorder',login_url='/not_found')
 def swo_setAsset(request,wid,aid):
+    data=dict()
     try:
         wo=WorkOrder.objects.get(id=wid)
         wo.woAsset_id=aid
         wo.save()
-        data=dict()
+
         data['result']=wo.woAsset_id
         books=AssetMeterReading.objects.filter(assetWorkorderMeterReading=wo)
         for book in books:

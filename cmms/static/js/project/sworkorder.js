@@ -277,6 +277,55 @@ var saveForm= function () {
    });
    return false;
  };
+var applyForm= function () {
+  var form = $(this).parent().parent();
+  alert("this");
+  if(!form.attr("action"))
+  {
+    form=$("#js-swo-create-form");
+  }
+  console.log(form.attr("action"));
+
+   $.ajax({
+     url: form.attr("action"),
+     data: form.serialize(),
+     type: form.attr("method"),
+     dataType: 'json',
+     beforeSend:function(xhr, opts){
+       if(!$(this)[0].url.includes('delete')){
+       if($("#id_woAsset").val().length<1)
+       {
+         toastr.error("برای دستور کار، تجهیزی انتخاب نشده است");
+         xhr.abort();
+       }
+       if($("#id_summaryofIssue").val().length<1)
+       {
+         toastr.error("اطلاعات مربوط به خلاصه مشکل را وارد نمایید!");
+         xhr.abort();
+       }
+
+     }
+     },
+     success: function (data) {
+        console.log(data);
+       if (data.form_is_valid) {
+         //alert("Company created!");  // <-- This is just a placeholder for now for testing
+         toastr.success("دستور کار زمانبندی شده با موفقیت  ایجاد شد");
+         $("#issavechanged").val("1");
+
+         $("#lastWorkOrderid").val(data.id);
+        // console.log(data.html_wo_list);
+       }
+       else {
+
+         $("#company-table tbody").html(data.html_wo_list);
+         $("#modal-company .modal-content").html(data.html_wo_form);
+         toastr.error("خطا در ایجاد دستور کار. لطفا ورودیهای خود را کنترل نمایید.");
+       }
+     }
+   });
+   return false;
+ };
 var saveCopy= function () {
    var form = $(this);
 
@@ -810,12 +859,22 @@ var updatetaskuser=function(){
 return false;
 
 }
+var check_wo_is_new=function(){
+  if($("#lastWorkOrderid").val()!="0")
+  {
+  }
+  else{
+    applyForm();
+
+  }
+}
 
  //////////////
 
 
 $(".js-create-swo").click(loadForm);
 $(".js-create-swo-copy").click(LoadFormCopySelector);
+$("#modal-company").on("click",".js-create-task",check_wo_is_new);
 $("#modal-company").on("submit", ".js-swo-create-form", saveForm);
 // $("#modal-copy").on("submit", ".js-swo-create-swo-copy", saveForm);
 
@@ -829,6 +888,7 @@ $("#modal-copy").on("click", ".btn-save-copy", clone_asset_swo2);
 $("#company-table").on("click", ".js-delete-swo", loadForm);
 $("#modal-company").on("submit", ".js-swo-delete-form", saveForm);
 $("#modal-company").on("change",'.user-assignment',updatetaskuser);
+$("#modal-company").on("click", ".swoapply", applyForm);
 // $("#modal-copy").on("change", "#assetSearch", alert("11"));
 // $('#modal-company').on('hidden.bs.modal',cancelform);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);

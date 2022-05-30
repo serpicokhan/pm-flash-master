@@ -141,3 +141,23 @@ class SWOUtility:
                         action_flag     = CHANGE,
                         change_message= request.META.get('REMOTE_ADDR')
                     )
+    @staticmethod
+    def log(request,form,id):
+        if(id):
+            LogEntry.objects.log_action(
+                user_id         = request.user.pk,
+                content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                object_id       = form.instance.id,
+                object_repr     = 'sworkorder',
+                action_flag     = CHANGE,
+                change_message= request.META.get('REMOTE_ADDR')
+            )
+        else:
+            LogEntry.objects.log_action(
+                user_id         = request.user.pk,
+                content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                object_id       = form.instance.id,
+                object_repr     = 'sworkorder',
+                action_flag     = ADDITION,
+                change_message= request.META.get('REMOTE_ADDR')
+            )

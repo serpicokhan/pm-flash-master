@@ -291,7 +291,7 @@ def wo_create(request):
         if(int(form.data['lastWorkOrderid'])>0):
             return wo_update(request, int(form.data['lastWorkOrderid']))
         else:
-        return save_wo_form(request, form, 'cmms/maintenance/partialWoCreate.html',iscreated=1)
+            return save_wo_form(request, form, 'cmms/maintenance/partialWoCreate.html',iscreated=1)
     else:
         # woInstance=WorkOrder.objects.create(isScheduling=False,creatNewWO=False,woStatus=1,woPriority=2,isPm=False)
         # form = WorkOrderForm(instance=woInstance)
