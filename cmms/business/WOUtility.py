@@ -1089,3 +1089,49 @@ class WOUtility:
                         action_flag     = CHANGE,
                         change_message= request.META.get('REMOTE_ADDR')
                     )
+    @staticmethod
+    def log(requst,form,id):
+        if(id):
+            LogEntry.objects.log_action(
+                user_id         = request.user.pk,
+                content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                object_id       = form.instance.id,
+                object_repr     = 'workorder',
+                action_flag     = CHANGE,
+                change_message= request.META.get('REMOTE_ADDR')
+            )
+        else:
+            LogEntry.objects.log_action(
+                user_id         = request.user.pk,
+                content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                object_id       = form.instance.id,
+                object_repr     = 'workorder',
+                action_flag     = ADDITION,
+                change_message= request.META.get('REMOTE_ADDR')
+            )
+    @staticmethod
+    def manageStopCode(request,form):
+        if(form.instance.woStopCode):
+            try:
+                assetlife=AssetLife.objects.none()
+                if(iscreated==1):
+                    if(form.instance.woStopCode.stopCode):
+                        # print("here")
+                        AssetUtility.createNewAssetStatus(form.instance)
+                else:
+                        # print("update")
+                        AssetUtility.updateAssetLife(form.instance)
+            except AssetLife.DoesNotExist:
+                print("error")
+
+            except Exception as e:
+                print(e)
+    @staticmethod
+    def refreshView(request):
+            books=[]
+            if(request.user.username!="admin" and not request.user.groups.filter(name='operator').exists()):
+                books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
+
+            else:
+                books = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True).order_by('-datecreated','-timecreated')
+            return books

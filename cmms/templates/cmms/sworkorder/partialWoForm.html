@@ -7,6 +7,7 @@
   <input type=hidden name='issavechanged' id='issavechanged' value='-1'/>
   <input type=hidden name='haveschedule' id='haveschedule' value='-1'/>
   <input type=hidden name='havetasks' id='havetasks' value='-1'/>
+  {{ form.RequestedUser.as_hidden }}
 
   {{ form.isScheduling.as_hidden }}
   <div class="form-group">

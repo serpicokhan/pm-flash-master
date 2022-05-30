@@ -155,7 +155,8 @@ def swo_create(request):
      )
         return save_swo_form(request, form, 'cmms/sworkorder/partialWoCreate.html')
     else:
-        woInstance=WorkOrder.objects.create(isScheduling=True,creatNewWO=False,woStatus=1,woPriority=2,isPm=False)
+        reqUser=SysUser.objects.get(userId=request.user)
+        woInstance=WorkOrder.objects.create(isScheduling=True,creatNewWO=False,woStatus=1,woPriority=2,isPm=False,RequestedUser=reqUser)
 
         form = WorkOrderForm(instance=woInstance,initial={'isScheduling':'True'})
         return save_swo_form(request, form, 'cmms/sworkorder/partialWoCreate.html',woInstance.id)

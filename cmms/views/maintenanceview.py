@@ -194,31 +194,22 @@ def list_lastmonth_wo(request):
 
 ##########################################################
 ##########################################################
+# validVal=[0,0,0]
+# validVal[0]=(WOUtility.checkTaskDateRange(form.instance))
+# validVal[1]=(WOUtility.checkWODateRange(form.instance))
+# validVal[2]=(WOUtility.wst_vs_tst(form.instance))
+# print("###################",validVal)
+# err_code,err_msg=WOUtility.checkErr(*validVal)
 
 def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
 
 
     # try:
         data = dict()
-
         if (request.method == 'POST'):
-
-
-
             if form.is_valid():
 
-
-
-
-                    # validVal=[0,0,0]
-                    # validVal[0]=(WOUtility.checkTaskDateRange(form.instance))
-                    # validVal[1]=(WOUtility.checkWODateRange(form.instance))
-                    # validVal[2]=(WOUtility.wst_vs_tst(form.instance))
-                    # print("###################",validVal)
-                    # err_code,err_msg=WOUtility.checkErr(*validVal)
-
                 err_code=0
-                print("kire khar")
                 if(not form.instance.assignedToUser):
                     err_code=1
                     err_msg="کاربر را مشخص نمایید"
@@ -230,71 +221,16 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
 
                     form.save()
                     #Asset life section
-                    if(form.instance.woStopCode):
-                        try:
-                            assetlife=AssetLife.objects.none()
-                            if(iscreated==1):
-                                if(form.instance.woStopCode.stopCode):
-                                    # print("here")
-                                    AssetUtility.createNewAssetStatus(form.instance)
-                            else:
-                                    # print("update")
-                                    AssetUtility.updateAssetLife(form.instance)
-                        except AssetLife.DoesNotExist:
-                            print("error")
-
-                        except Exception as e:
-                            print(e)
+                    WOUtility.manageStopCode(request,form)
                     #End of asset life section
-                    print("is created:",iscreated)
-                    if(request.user and iscreated==1):
-                        print("user",request.user.username)
-                        form.instance.RequestedUser=SysUser.objects.get(userId=request.user)
-                    else:
-
-                        # requestedUser=form.instance.RequestedUser
-                        form.instance.RequestedUser=form.instance.RequestedUser
-
-
-                    # print("$$$$$$$$$$$$$$$$$$$$$")
-                    # print("user",requestedUser)
-                    # form.instance.RequestedUser=requestedUser
+                    ####################
                     form.instance.save()
-                    if(id):
-                        LogEntry.objects.log_action(
-                            user_id         = request.user.pk,
-                            content_type_id = ContentType.objects.get_for_model(form.instance).pk,
-                            object_id       = form.instance.id,
-                            object_repr     = 'workorder',
-                            action_flag     = CHANGE,
-                            change_message= request.META.get('REMOTE_ADDR')
-                        )
-                    else:
-                        LogEntry.objects.log_action(
-                            user_id         = request.user.pk,
-                            content_type_id = ContentType.objects.get_for_model(form.instance).pk,
-                            object_id       = form.instance.id,
-                            object_repr     = 'workorder',
-                            action_flag     = ADDITION,
-                            change_message= request.META.get('REMOTE_ADDR')
-                        )
-
-
+                    ####################
+                    WOUtility.log(request,form,id)
+                    ######################
                     data['form_is_valid'] = True
-                    books=[]
-
-
-                    if(request.user.username!="admin" and not request.user.groups.filter(name='operator').exists()):
-                        books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
-
-                    else:
-                        books = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True).order_by('-datecreated','-timecreated')
-
-                    # page=request.GET.get('page',1)
-
-
+                    books=WOUtility.refreshView(request)
                     wos,page=WOUtility.doPagingWithPage(request,books)
-                    print("page",page)
                     data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
                         'wo': wos,
                         'perms': PermWrapper(request.user),
@@ -329,13 +265,7 @@ def wo_delete(request, id):
     if (request.method == 'POST'):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        companies=[]
-        if(request.user.username!="admin" and not request.user.groups.filter(name='operator').exists()):
-            companies = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
-
-        else:
-            companies = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True).order_by('-datecreated','-timecreated')
-
+        companies=WOUtility.refreshView(request)
         wos,page=WOUtility.doPagingWithPage(request,companies)
         #Tasks.objects.filter(woId=id).update(workorder=id)
         data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
@@ -361,12 +291,12 @@ def wo_create(request):
         if(int(form.data['lastWorkOrderid'])>0):
             return wo_update(request, int(form.data['lastWorkOrderid']))
         else:
-            print("else dsadasdsa")
         return save_wo_form(request, form, 'cmms/maintenance/partialWoCreate.html',iscreated=1)
     else:
         # woInstance=WorkOrder.objects.create(isScheduling=False,creatNewWO=False,woStatus=1,woPriority=2,isPm=False)
         # form = WorkOrderForm(instance=woInstance)
-        form = WorkOrderForm(initial={'isScheduling':False,'creatNewWO':False,'woStatus':1,'woPriority':2,'isPm':False})
+        RequestedUser=SysUser.objects.get(userId=request.user)
+        form = WorkOrderForm(initial={'isScheduling':False,'creatNewWO':False,'woStatus':1,'woPriority':2,'isPm':False,'RequestedUser':RequestedUser})
         # print(request.user)
         return save_wo_form(request, form, 'cmms/maintenance/partialWoCreate.html',iscreated=1)
 
