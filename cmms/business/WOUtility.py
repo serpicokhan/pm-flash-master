@@ -1090,7 +1090,7 @@ class WOUtility:
                         change_message= request.META.get('REMOTE_ADDR')
                     )
     @staticmethod
-    def log(requst,form,id):
+    def log(request,form,id):
         if(id):
             LogEntry.objects.log_action(
                 user_id         = request.user.pk,
