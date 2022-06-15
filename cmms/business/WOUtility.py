@@ -190,42 +190,11 @@ class WOUtility:
             return "cmms/summery/woStatus.html"
     @staticmethod
     def getResources(start,end):
-        # print("""SELECT fullname as id,format((ontime*100.0/totalCompleted),0) as p1,format(hour,1) as hour,total,format(totalcompleted*100/total,2) as t2,format(totalcompleted,0) as totalcompleted
-        #                                 FROM ( SELECT count(id) as ontime, workorder.assignedToUser_id as u1
-        #                                        FROM workorder
-        #
-        #                                        where workorder.visibile=1 and workorder.isScheduling=0 and workorder.datecreated between '{0}' and '{1}' and
-        #                                         workorder.wostatus=7 and workorder.datecompleted <=workorder.requiredCompletionDate
-        #                                      group by (u1)) AS A
-        #                                 left JOIN ( SELECT count(id) as totalCompleted, workorder.assignedToUser_id as u2
-        #                                        FROM workorder
-        #
-        #                                        where workorder.visibile=1 and workorder.isScheduling=0 and workorder.datecreated
-        #                                        between '{0}' and '{1}' and workorder.wostatus=7 group by (u2)) AS B
-        #
-        #                                 ON A.u1=B.u2
-        #
-        #                                 left join (SELECT sum(TIMESTAMPDIFF(HOUR, cast(concat(taskStartDate, ' ', taskStartTime)
-        #                                  as datetime),cast(concat(taskDateCompleted, ' ',
-        #                                   taskTimeCompleted) as datetime))) as hour,taskAssignedToUser_id
-        #                                   as u3 FROM `tasks`
-        #                                    group by taskAssignedToUser_id) as C
-        #                                 on A.u1=C.u3
-        #                                 left join(select count(id) as total ,workorder.assignedToUser_id as u3 from workorder
-        #                                  where workorder.datecreated between '{0}' and '{1}' and workorder.isScheduling=0 and workorder.visibile=1
-        #                                 group by u3) as D
-        #                                 on A.u1=D.u3
-        #                                 left join sysusers on A.u1=sysusers.id
-        #
-        #                                 """.format(start,end))
-        return WorkOrder.objects.raw("""SELECT fullname as id,format((ontime*100.0/totalCompleted),0) as p1,format(hour,1) as hour
-                                        ,total,format(totalcompleted*100/total,2) as t2,
-                                        format(totalcompleted,0) as totalcompleted
+        print("""SELECT fullname as id,format((ontime*100.0/totalCompleted),0) as p1,format(hour,1) as hour,total,format(totalcompleted*100/total,2) as t2,format(totalcompleted,0) as totalcompleted
                                         FROM ( SELECT count(id) as ontime, workorder.assignedToUser_id as u1
                                                FROM workorder
 
-                                               where workorder.visibile=1 and workorder.isScheduling=0 and workorder.datecreated
-                                                between '{0}' and '{1}' and
+                                               where workorder.visibile=1 and workorder.isScheduling=0 and workorder.datecreated between '{0}' and '{1}' and
                                                 workorder.wostatus=7 and workorder.datecompleted <=workorder.requiredCompletionDate
                                              group by (u1)) AS A
                                         left JOIN ( SELECT count(id) as totalCompleted, workorder.assignedToUser_id as u2
@@ -238,16 +207,64 @@ class WOUtility:
 
                                         left join (SELECT sum(TIMESTAMPDIFF(HOUR, cast(concat(taskStartDate, ' ', taskStartTime)
                                          as datetime),cast(concat(taskDateCompleted, ' ',
-                                          taskTimeCompleted) as datetime))) as hour,taskAssignedToUser_id as u3 FROM `tasks`
+                                          taskTimeCompleted) as datetime))) as hour,taskAssignedToUser_id
+                                          as u3 FROM `tasks`
                                            group by taskAssignedToUser_id) as C
                                         on A.u1=C.u3
                                         left join(select count(id) as total ,workorder.assignedToUser_id as u3 from workorder
-                                         where workorder.datecreated between '{0}' and '{1}' and workorder.visibile=1
+                                         where workorder.datecreated between '{0}' and '{1}' and workorder.isScheduling=0 and workorder.visibile=1
                                         group by u3) as D
                                         on A.u1=D.u3
-                                        left join sysusers on A.u1=sysusers.id
+                                        left join sysusers on C.u1=sysusers.id
 
                                         """.format(start,end))
+        return WorkOrder.objects.raw("""
+										SELECT fullname as id,sum(TIMESTAMPDIFF(HOUR, cast(concat(taskStartDate, ' ', taskStartTime)
+                                         as datetime),cast(concat(taskDateCompleted, ' ',
+                                          taskTimeCompleted) as datetime))) as hour,taskAssignedToUser_id
+                                          FROM `tasks`
+
+
+                                          right join workorder
+                                          on workorder.id=tasks.workOrder_id
+                                          left join sysusers on tasks.taskAssignedToUser_id=sysusers.id
+                                          where workorder.datecreated between '{0}' and '{1}' and workorder.visibile=1 and workorder.isScheduling=0
+                                          group by tasks.taskAssignedToUser_id
+                                          order by hour desc
+                                        """.format(start,end))
+        #                                 """.format(start,end))
+        # return WorkOrder.objects.raw("""SELECT fullname as id,format((ontime*100.0/totalCompleted),0) as p1,format(hour,1) as hour
+        #                                 ,total,format(totalcompleted*100/total,2) as t2,
+        #                                 format(totalcompleted,0) as totalcompleted
+        #                                 FROM ( SELECT count(id) as ontime, workorder.assignedToUser_id as u1
+        #                                        FROM workorder
+        #
+        #                                        where workorder.visibile=1 and workorder.isScheduling=0 and workorder.datecreated
+        #                                         between '{0}' and '{1}' and
+        #                                         workorder.wostatus=7 and workorder.datecompleted <=workorder.requiredCompletionDate
+        #                                      group by (u1)) AS A
+        #                                 left JOIN ( SELECT count(id) as totalCompleted, workorder.assignedToUser_id as u2
+        #                                        FROM workorder
+        #
+        #                                        where workorder.visibile=1 and workorder.isScheduling=0 and workorder.datecreated
+        #                                        between '{0}' and '{1}' and workorder.wostatus=7 group by (u2)) AS B
+        #
+        #                                 ON A.u1=B.u2
+        #
+        #                                 left join (SELECT sum(TIMESTAMPDIFF(HOUR, cast(concat(taskStartDate, ' ', taskStartTime)
+        #                                  as datetime),cast(concat(taskDateCompleted, ' ',
+        #                                   taskTimeCompleted) as datetime))) as hour,taskAssignedToUser_id as u3 FROM `tasks`
+        #
+        #
+        #                                    group by taskAssignedToUser_id) as C
+        #                                 on A.u1=C.u3
+        #                                 left join(select count(id) as total ,workorder.assignedToUser_id as u3 from workorder
+        #                                  where workorder.datecreated between '{0}' and '{1}' and workorder.visibile=1
+        #                                 group by u3) as D
+        #                                 on A.u1=D.u3
+        #                                 left join sysusers on C.u3=sysusers.id
+        #
+        #                                 """.format(start,end))
     ##############################Status#######################
     @staticmethod
     def getWoStatusCount(start,end,woStatus):
@@ -1090,7 +1107,7 @@ class WOUtility:
                         change_message= request.META.get('REMOTE_ADDR')
                     )
     @staticmethod
-    def log(requst,form,id):
+    def log(request,form,id):
         if(id):
             LogEntry.objects.log_action(
                 user_id         = request.user.pk,
