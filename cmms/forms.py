@@ -3234,3 +3234,29 @@ class UpCommingServiceByDate(forms.Form):
 
             )
         reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
+class DueServiceReport(forms.Form):
+        test='سرویس های سر رسیده'
+        startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+        endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+        assetname= forms.ModelChoiceField(label="نام مکان",empty_label=None,queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+        widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':'true'}))
+        # startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+        OPTIONS = (
+                (0, "pdf"),
+                (1, "EXCEL"),
+
+            )
+        reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
+class OverDueServiceReport(forms.Form):
+        test='سرویس های منقضی '
+        startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+        endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+        assetname= forms.ModelChoiceField(label="نام مکان",empty_label=None,queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+        widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':'true'}))
+        # startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+        OPTIONS = (
+                (0, "pdf"),
+                (1, "EXCEL"),
+
+            )
+        reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)

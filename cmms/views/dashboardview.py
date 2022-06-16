@@ -247,7 +247,7 @@ def GetdueWoNum(request,startHijri,endHijri):
      # print(WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,visibile=True,datecreated__range=(start,F('requiredCompletionDate'))).query)
      n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,visibile=True)
      # n1=n1.filter(datecreated__range=(start,F('requiredCompletionDate')))
-     n1=n1.filter(datecreated__gte=start,datecreated__lt=F('requiredCompletionDate')).count()
+     n1=n1.filter(datecreated__gte=start,requiredCompletionDate__gte=datetime.datetime.today()).count()
      # print(n1)
      # n1=10
 

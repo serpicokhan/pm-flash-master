@@ -145,7 +145,7 @@ WSGI_APPLICATION = 'pm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmmsuni4',
+        'NAME': 'cmmsuni5',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',

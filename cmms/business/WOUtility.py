@@ -44,7 +44,6 @@ class WOUtility:
     @staticmethod
     def doPaging(request,books):
         page=request.GET.get('page',1)
-        print(page,"page2")
         paginator = Paginator(books, 10)
         wos=None
         try:

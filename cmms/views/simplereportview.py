@@ -2527,3 +2527,49 @@ class reporttest:
             tasks=Tasks.objects.filter(workOrder__datecreated__range=[date1,date2],workOrder__isScheduling=False,workOrder__visibile=False,workOrder__woAsset__assetIsLocatedAt__in=asset_code).order_by('workOrder__datecreated')
 
         return render(request, 'cmms/reports/simplereports/UpCommingServiceByDate.html',{'result1':tasks,'assetname':asset_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
+    def DueServiceReport(Self,request):
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        asset_code=request.POST.getlist("assetname","")
+        print(asset_code,"sadsa")
+
+
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+        n1=WorkOrder.objects.none()
+        asset_name='بدون نام مکان'
+        if(len(asset_code)==0):
+
+            # tasks=Tasks.objects.filter(workOrder__datecreated__range=[date1,date2],workOrder__isScheduling=False,workOrder__visibile=False).order_by('workOrder__datecreated')
+             n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,visibile=True)
+             # n1=n1.filter(datecreated__range=(start,F('requiredCompletionDate')))
+             n1=n1.filter(datecreated__gte=date1,requiredCompletionDate__gte=datetime.datetime.today())
+        else:
+             n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,visibile=True)
+             n1=n1.filter(Q(woAsset__in=asset_code)|Q(woAsset__assetIsLocatedAt__in=asset_code))
+             # n1=n1.filter(datecreated__range=(start,F('requiredCompletionDate')))
+             n1=n1.filter(datecreated__gte=date1,requiredCompletionDate__gte=datetime.datetime.today())
+        return render(request, 'cmms/reports/simplereports/DueService.html',{'result1':n1,'assetname':asset_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
+    def OverDueServiceReport(Self,request):
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        asset_code=request.POST.getlist("assetname","")
+        print(asset_code,"sadsa")
+
+
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+        n1=WorkOrder.objects.none()
+        asset_name='بدون نام مکان'
+        if(len(asset_code)==0):
+
+            # tasks=Tasks.objects.filter(workOrder__datecreated__range=[date1,date2],workOrder__isScheduling=False,workOrder__visibile=False).order_by('workOrder__datecreated')
+             n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,visibile=True)
+             # n1=n1.filter(datecreated__range=(start,F('requiredCompletionDate')))
+             n1=n1.filter(datecreated__gte=date1,requiredCompletionDate__lt=datetime.datetime.today())
+        else:
+             n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,visibile=True)
+             n1=n1.filter(Q(woAsset__in=asset_code)|Q(woAsset__assetIsLocatedAt__in=asset_code))
+             # n1=n1.filter(datecreated__range=(start,F('requiredCompletionDate')))
+             n1=n1.filter(datecreated__gte=date1,requiredCompletionDate__lt=datetime.datetime.today())
+        return render(request, 'cmms/reports/simplereports/OverDueService.html',{'result1':n1,'assetname':asset_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})

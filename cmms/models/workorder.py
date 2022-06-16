@@ -150,6 +150,15 @@ class WorkOrder(models.Model):
         return a
         # return times
         # return Tasks.objects.all()[0].id
+    def get_estimate_labour2(self):
+        times= Tasks.objects.raw("select taskTimeEstimate as id from tasks where workOrder_id={0}".format(self.id))[0].id
+        # times=times/60
+        times=times/60
+        a='{0:02.0f}:{1:02.0f}'.format(*divmod(times * 60, 60))
+        # print(a)
+        return a
+        # return times
+        # return Tasks.objects.all()[0].id
     def __str__(self):
         if(self.isScheduling):
             return "SM{}".format(self.id)

@@ -118,7 +118,6 @@ def reportSearch(request,str):
         str='empty_'
     else:
         books = Report.objects.filter(Q(reportName__contains=str)|Q(reportDetails__contains=str))
-    print(books)
     wos=ReportUtility.doPaging(request,books)
     data['html_report_list'] = render_to_string('cmms/reports/partialReportList.html', {
          'reports': wos
