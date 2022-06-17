@@ -58,10 +58,14 @@ def list_dashboard(request):
         return render(request,"cmms/dashboards/director.html",{"today" : today,'user2':user1})
     elif((user1.userId.groups.filter(name= 'manager').exists())):
         dashugroups=UserGroup.objects.all().exclude(userGroupName="سایر")
-        print("groups",dashugroups)
         gid=UserGroup.objects.all().exclude(userGroupName="سایر").values_list('id',flat=True)
         darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
-        return render(request,"cmms/dashboards/manager.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'تکنسین PM','darayee':darayee,'section':'dashboard'})
+        return render(request,"cmms/dashboards/manager.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'کاربر PM','darayee':darayee,'section':'dashboard','dash_name':'داشبورد اپراتور'})
+    elif((user1.userId.groups.filter(name= 'suboperator').exists())):
+        dashugroups=UserGroup.objects.all().exclude(userGroupName="سایر")
+        gid=UserGroup.objects.all().exclude(userGroupName="سایر").values_list('id',flat=True)
+        darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
+        return render(request,"cmms/dashboards/operator.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'اپراتور','darayee':darayee,'section':'dashboard','dash_name':'داشبورد اپراتور'})
     else:
         # return HttpResponseRedirect(reverse('list_wo'))
         return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1,'section':'dashboard'})

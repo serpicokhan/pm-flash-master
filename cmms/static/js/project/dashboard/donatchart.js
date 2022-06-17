@@ -66,7 +66,7 @@ function DrawDonat(data1,data2,element)
     var myNewChart = new Chart(ctx, {
       type: 'doughnut',
       data: doughnutData,
-      options: doughnutOptions
+
   });
 
   }
