@@ -1541,7 +1541,8 @@ class reporttest:
                     # print("select get_maintenance_time_usergroup({0},{1},'{2}','{3}',{4})".format(x,m,date1,date2,location[0]))
                     # print("$$$$$$$$$$$$$$$$$$$$$$")
                     mres=WorkOrder.objects.raw("select get_maintenance_time_station({0},{1},'{2}','{3}',{4},{5}) as id".format(x,mtype,date1,date2,location[0],a1))
-                    mres[0].id= '{0:02.0f}:{1:02.0f}'.format(*divmod(mres[0].id * 60, 60))
+                    # mres[0].id= '{0:02.0f}:{1:02.0f}'.format(*divmod(mres[0].id * 60, 60))
+                    mres=mres
                     if(maxtime<mres[0].id):
                         maxtime=mres[0].id
 
@@ -1553,7 +1554,8 @@ class reporttest:
                     # ncount[0].id= '{0:02.0f}:{1:02.0f}'.format(*divmod(ncount[0].id*60, 60))
                     noneStopCount=noneStopCount+ncount[0].id
                     nTime=WorkOrder.objects.raw("select get_maintenance_time_station_nonestop({0},{1},'{2}','{3}',{4},{5}) as id".format(x,mtype,date1,date2,location[0],a1))
-                    nTime[0].id= '{0:02.0f}:{1:02.0f}'.format(*divmod(nTime[0].id*60, 60))
+                    # nTime[0].id= '{0:02.0f}:{1:02.0f}'.format(*divmod(nTime[0].id*60, 60))
+                    
                     noneStopTime=noneStopTime+nTime[0].id
                         # ma.append(mres[0].id)
                         # print("################")
