@@ -23,6 +23,7 @@ from django.conf import settings
 from cmms.models.workorder import *
 from cmms.models.task import *
 from cmms.models.users import *
+
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
@@ -1055,3 +1056,7 @@ def save_wo_copy(request):
         })
         data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination2.html', {'wo': wos           })
         return JsonResponse(data)
+def woExport(request):
+    data = WOUtility.download_csv(request, WorkOrder.objects.all())
+
+    return HttpResponse (data, content_type='text/csv')

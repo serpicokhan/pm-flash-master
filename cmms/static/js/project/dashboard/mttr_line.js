@@ -110,8 +110,9 @@ var barData = {
 
 var LoadMTTRBar=function()
 {
+  var location=$("#makans").val();
   $.ajax({
-    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetMTTR/',
+    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetMTTR/?loc='+location,
     type: 'get',
     dataType: 'json',
     beforeSend: function () {

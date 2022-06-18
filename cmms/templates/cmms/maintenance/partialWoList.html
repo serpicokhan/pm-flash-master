@@ -1,16 +1,16 @@
 
 {% for c in wo %}
 
-<tr title="{{c.summaryofIssue}}"  {% if c.isEM %} style="background-color:#e8e6e6" {% endif %}>
+<tr   {% if c.isEM %} style="background-color:#e8e6e6" {% endif %}>
   <td>
     <input type="checkbox" name="action" value={{c.id}} class="selection-box">
   </td>
 
 <td>{{c.get_dateCreated_jalali|default_if_none:"-"}}<br/>{{c.timecreated|time:"H:i"}}</td>
- <td>{{c.summaryofIssue|default_if_none:"-"}}</td>
+ <td title="{{c.summaryofIssue}}">{{c.summaryofIssue|default_if_none:"-"|truncatechars:20}}</td>
 
  <td>{{c.get_woPriority_display|default_if_none:"-"}}</td>
- <td>{{c.woAsset|default_if_none:"-"}}</td>
+ <td title="{{c.woAsset}}">{{c.woAsset|default_if_none:"-"|truncatechars:20}}</td>
  <td>{{c.assignedToUser|default_if_none:"-"}}</td>
   <td>{% autoescape off %}
   {{c.assignedToUser.getName|default_if_none:"-"}}
@@ -26,7 +26,7 @@
 
 {% if perms.cmms.view_workorder %}
  <td><button type="button"
-              class="btn btn-warning btn-sm js-update-wo"
+              class="btn btn-outline btn-warning  btn-sm js-update-wo"
               data-url="{% url 'wo_update' c.id %}?page={{page}}" data-page="{{page}}">
         <span class="glyphicon glyphicon-pencil"></span> مشاهده
       </button>
@@ -34,7 +34,7 @@
 
       {% if perms.cmms.delete_workorder %}
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-wo2"
+                   class="btn btn-outline btn-danger btn-sm js-delete-wo2"
                    data-url="{% url 'wo_delete' c.id %}?page={{page}}" data-page="{{page}}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>

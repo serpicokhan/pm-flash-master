@@ -98,6 +98,8 @@ $(".btn.btn-white.btn-bitbucket").click(function(){
 });
 $("#makans").change(function(){
   GetPmpAll();
+  GetPmpLineAll();
+  LoadMTTRBar();
 
     var ex=$("#makans").val();
     LoadResources();

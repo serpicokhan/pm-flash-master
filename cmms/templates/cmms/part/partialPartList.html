@@ -14,14 +14,14 @@
 
 {% if perms.cmms.view_part %}
  <td><button type="button"
-              class="btn btn-warning btn-sm js-update-part"
+              class="btn btn-outline btn-warning btn-sm js-update-part"
               data-url="{% url 'part_update' c.id %}">
         <span class="glyphicon glyphicon-pencil"></span> ویرایش
       </button>
       {% endif %}
         {% if perms.cmms.delete_part %}
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-part"
+                   class="btn btn-outline btn-danger btn-sm js-delete-part"
                    data-url="{% url 'part_delete' c.id %}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>

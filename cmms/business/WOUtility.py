@@ -15,6 +15,8 @@ from django.db import transaction
 from django.contrib.admin.models import LogEntry, ADDITION,CHANGE,DELETION
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+import csv
 import locale
 class WOUtility:
 
@@ -231,8 +233,7 @@ class WOUtility:
 
                                           right join workorder
                                           on workorder.id=tasks.workOrder_id
-                                          
-                                          left join sysusers on tasks.taskAssignedToUser_id=sysusers.id
+                                           join sysusers on tasks.taskAssignedToUser_id=sysusers.id
                                           where workorder.datecreated between '{0}' and '{1}' and workorder.visibile=1 and workorder.isScheduling=0
                                           {2}
                                           group by tasks.taskAssignedToUser_id
@@ -1158,3 +1159,20 @@ class WOUtility:
             else:
                 books = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True).order_by('-datecreated','-timecreated')
             return books
+    @staticmethod
+    def download_csv(request, queryset):
+        opts = queryset.model._meta
+        model = queryset.model
+        response = HttpResponse(content='text/csv')
+        # force download.
+        response['Content-Disposition'] = 'attachment;filename=export.csv'
+        # the csv writer
+        writer = csv.writer(response)
+        field_names = [field.name for field in opts.fields]
+        # Write a first row with header information
+        writer.writerow(field_names)
+        # Write data rows
+        for obj in queryset:
+            writer.writerow([getattr(obj, field) for field in field_names])
+        return response
+    download_csv.short_description = "Download selected as csv"
