@@ -1,0 +1,224 @@
+{% extends 'cmms/mainTheme.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+  {% include "cmms/summery/dateselector.html" %}
+</div>
+<div class="clear">
+
+</div>
+<div class="row border-bottom white-bg dashboard-header">
+                    <div class="col-sm-3">
+                                <h2>خوش آمدید ایمان</h2>
+                                <small>شما 42 پیغام 6 نوتیفیکیشن دارید.</small>
+                                <ul class="list-group clear-list m-t">
+                                    <li class="list-group-item fist-item">
+                                        <span class="pull-left">
+                                            09:00 ب.ظ
+                                        </span>
+                                        <span class="label label-success">1</span> لطفا با من تماس بگیرید
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="pull-left">
+                                            10:16 ق.ظ
+                                        </span>
+                                        <span class="label label-info">2</span> امضای قرارداد
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="pull-left">
+                                            08:22 ب.ظ
+                                        </span>
+                                        <span class="label label-primary">3</span> افتتاح شعبه جدید
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="pull-left">
+                                            11:06 ب.ظ
+                                        </span>
+                                        <span class="label label-default">4</span> تماس با ایمن
+                                    </li>
+                                    <li class="list-group-item">
+                                        <span class="pull-left">
+                                            12:00 ق.ظ
+                                        </span>
+                                        <span class="label label-primary">5</span> نوشتن نامه به ایمن
+                                    </li>
+                                </ul>
+                    </div>
+                    <div class="col-sm-6">
+                                <div class="flot-chart dashboard-chart">
+                                    <div class="flot-chart-content" id="flot-dashboard-chart" style="padding: 0px; position: relative;"><canvas class="flot-base" width="792" height="180" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 792px; height: 180px;"></canvas><div class="flot-text" style="position: absolute; inset: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; inset: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 88px; top: 164px; left: 16px; text-align: center;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 88px; top: 164px; left: 111px; text-align: center;">2</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 88px; top: 164px; left: 207px; text-align: center;">4</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 88px; top: 164px; left: 303px; text-align: center;">6</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 88px; top: 164px; left: 399px; text-align: center;">8</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 88px; top: 164px; left: 491px; text-align: center;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 88px; top: 164px; left: 587px; text-align: center;">12</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 88px; top: 164px; left: 683px; text-align: center;">14</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 88px; top: 164px; left: 779px; text-align: center;">16</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; inset: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 152px; left: 7px; text-align: right;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 114px; left: 1px; text-align: right;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 76px; left: 1px; text-align: right;">20</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 38px; left: 1px; text-align: right;">30</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 1px; left: 1px; text-align: right;">40</div></div></div><canvas class="flot-overlay" width="792" height="180" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 792px; height: 180px;"></canvas></div>
+                                </div>
+                                <div class="row text-left">
+                                    <div class="col-xs-4">
+                                        <div class=" m-l-md">
+                                        <span class="h4 font-bold m-t block">406,100 تومان</span>
+                                        <small class="text-muted m-b block">گزارش بازاریابی فروش</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <span class="h4 font-bold m-t block">150,401 تومان</span>
+                                        <small class="text-muted m-b block">درآمد فروش سالانه</small>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <span class="h4 font-bold m-t block">16,822 تومان</span>
+                                        <small class="text-muted m-b block">درآمد حاشیه ای نیم سال</small>
+                                    </div>
+
+                                </div>
+                    </div>
+                    <div class="col-sm-3">
+                                <div class="statistic-box">
+                                <h4>
+                                    پیشرفت پروژه بتا
+                                </h4>
+                                <p>
+                                    شما دو پروژه با وظایف تکمیل نشده دارید.
+                                </p>
+                                    <div class="row text-center">
+
+                                        <div class="col-lg-6">
+                                           <canvas id="doughnutChart" width="78" height="78"></canvas>
+                                            <h5>مکستور</h5>
+                                        </div>
+                                        <div class="col-lg-6">
+                                           <canvas id="doughnutChart2" width="78" height="78"></canvas>
+                                            <h5>مکستور</h5>
+                                        </div>
+                                    </div>
+                                    <div class="m-t">
+                                        <small>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</small>
+                                    </div>
+
+                                </div>
+                    </div>
+                </div>
+<script type="text/javascript">
+  xxxDate1=new persianDate();
+
+
+
+  dt1=xxxDate1.pDate.year.toString()+"-"+("0" + xxxDate1.pDate.month).slice(-2)+"-01"
+
+</script>
+<script src="{% static '/js/project/dashboard/datepicker.js' %}"></script>
+<script src="{% static '/js/project/dashboard/operator.js' %}"></script>
+<script>
+            $(document).ready(function() {
+                setTimeout(function() {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        positionClass: 'toast-top-left',
+                        timeOut: 4000
+                    };
+                    toastr.success('لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ', 'به قسمت مدیریت خوش آمدید');
+
+                }, 1300);
+
+
+                var data1 = [
+                    [0,4],[1,8],[2,5],[3,10],[4,4],[5,16],[6,5],[7,11],[8,6],[9,11],[10,30],[11,10],[12,13],[13,4],[14,3],[15,3],[16,6]
+                ];
+                var data2 = [
+                    [0,1],[1,0],[2,2],[3,0],[4,1],[5,3],[6,1],[7,5],[8,2],[9,3],[10,2],[11,1],[12,0],[13,2],[14,8],[15,0],[16,0]
+                ];
+
+
+                // var doughnutData = [
+                //     {
+                //         value: 300,
+                //         color: "#a3e1d4",
+                //         highlight: "#1ab394",
+                //         label: "App"
+                //     },
+                //     {
+                //         value: 50,
+                //         color: "#dedede",
+                //         highlight: "#1ab394",
+                //         label: "Software"
+                //     },
+                //     {
+                //         value: 100,
+                //         color: "#b5b8cf",
+                //         highlight: "#1ab394",
+                //         label: "Laptop"
+                //     }
+                // ];
+                var doughnutData =
+                {
+
+                      labels: ['dsa','dsa','das'],
+                      datasets: [
+                        {
+                          label: "Population (millions)",
+                          backgroundColor: ["#c2c2c2", "#1ab394","#f8ac59"],
+                          data:[100,200,150]
+                        }
+                      ]
+                    };
+
+                var doughnutOptions = {
+                                  legend: {
+                        display: false
+                    },
+                    segmentShowStroke: true,
+                    segmentStrokeColor: "#fff",
+                    segmentStrokeWidth: 2,
+                    percentageInnerCutout: 45, // This is 0 for Pie charts
+                    animationSteps: 100,
+                    animationEasing: "easeOutBounce",
+                    animateRotate: true,
+                    animateScale: false
+                };
+
+                var ctx = document.getElementById("doughnutChart").getContext("2d");
+                var DoughnutChart = new Chart(ctx, {
+                  type: 'doughnut',
+                  data: doughnutData,
+                  options: doughnutOptions
+              });
+
+                var polarData = [
+                    {
+                        value: 300,
+                        color: "#a3e1d4",
+                        highlight: "#1ab394",
+                        label: "App"
+                    },
+                    {
+                        value: 140,
+                        color: "#dedede",
+                        highlight: "#1ab394",
+                        label: "Software"
+                    },
+                    {
+                        value: 200,
+                        color: "#b5b8cf",
+                        highlight: "#1ab394",
+                        label: "Laptop"
+                    }
+                ];
+
+                var polarOptions = {
+                    scaleShowLabelBackdrop: true,
+                    scaleBackdropColor: "rgba(255,255,255,0.75)",
+                    scaleBeginAtZero: true,
+                    scaleBackdropPaddingY: 1,
+                    scaleBackdropPaddingX: 1,
+                    scaleShowLine: true,
+                    segmentShowStroke: true,
+                    segmentStrokeColor: "#fff",
+                    segmentStrokeWidth: 2,
+                    animationSteps: 100,
+                    animationEasing: "easeOutBounce",
+                    animateRotate: true,
+                    animateScale: false
+                };
+                // var ctx = document.getElementById("polarChart").getContext("2d");
+                // var Polarchart = new Chart(ctx).PolarArea(polarData, polarOptions);
+
+            });
+        </script>
+{% endblock %}

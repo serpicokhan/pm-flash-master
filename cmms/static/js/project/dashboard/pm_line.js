@@ -88,8 +88,9 @@ var barOptions = {
 }
 var dmoein=0;
 function GetPmpLineAll(){
+  var location=$("#makans").val();
   $.ajax({
-    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetReactivevsRepatable/',
+    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetReactivevsRepatable/?loc='+location,
     type: 'get',
     dataType: 'json',
     beforeSend: function () {

@@ -3,7 +3,7 @@
 
 <tr>
  <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
-<td>{{c.woPartStock}}</td>
+<td title="{{c.woPartStock}}">{{c.woPartStock|truncatechars:20}}</td>
  <td>{{c.woPartPlannedQnty}}</td>
 
  <td>{{c.woPartActulaQnty}}</td>
@@ -16,14 +16,14 @@
    {% if perms.cmms.view_workorderpart %}
 
    <button type="button"
-              class="btn btn-warning btn-sm js-update-woPart"
+              class="btn btn-outline btn-warning btn-sm js-update-woPart"
               data-url="{% url 'woPart_update' c.id %}">
         <span class="glyphicon glyphicon-pencil"></span>مشاهده
       </button>
       {% endif %}
       {% if perms.cmms.delete_workorderpart %}
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-woPart"
+                   class="btn btn-outline btn-danger btn-sm js-delete-woPart"
                    data-url="{% url 'woPart_delete' c.id %}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>

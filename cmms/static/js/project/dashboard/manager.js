@@ -78,7 +78,8 @@ $(".btn.btn-white.btn-bitbucket").click(function(){
   }
   else
   {
-
+    GetPmpAll();
+    LoadResources();
     GetWoReqNum2(ex);
     GetWoPartNum2(ex);
     GetMisc2(ex);
@@ -96,8 +97,12 @@ $(".btn.btn-white.btn-bitbucket").click(function(){
 }
 });
 $("#makans").change(function(){
+  GetPmpAll();
+  GetPmpLineAll();
+  LoadMTTRBar();
 
     var ex=$("#makans").val();
+    LoadResources();
     //DrawDonat(100,200,'doughnutChartOnDemand');
     if(ex=='-1')
     {

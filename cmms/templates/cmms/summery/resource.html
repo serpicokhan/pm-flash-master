@@ -1,28 +1,25 @@
 <div class="ibox float-e-margins" style="height: 250px;  margin-bottom: 1%; overflow: auto;">
                     <div class="ibox-title">
                         <h5>منابع انسانی </h5>
-                        
+
                         <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                                <li><a href="#">گزینه 1</a>
-                                </li>
-                                <li><a href="#">گزینه 2</a>
-                                </li>
-                            </ul>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
+                            <input type="text" name="" value="" onkeyup="myFunction()" style="border:none" class="xlrv" placeholder="جستجو" id="myInput">
+                            <style media="screen">
+                              .xlrv:focus {
+                                  outline: none !important;
+                                  border:1px solid red;
+                                  box-shadow: 0 0 10px #719ECE;
+                                }
+                                ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                                  color: red;
+                                  opacity: 1; /* Firefox */
+                                }
+                            </style>
                         </div>
                     </div>
                     <div class="ibox-content">
 
-                        <table class="table">
+                        <table class="table" id="myTable">
                             <thead>
                             <tr>
 
@@ -62,7 +59,7 @@
                         </table>
                     </div>
                 </div>
-                <script type="text/javascript">
+                <script>
                 function myFunction() {
                   // Declare variables
                   var input, filter, table, tr, td, i, txtValue;
@@ -84,5 +81,4 @@
                     }
                   }
                 }
-
                 </script>

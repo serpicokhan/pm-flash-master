@@ -89,34 +89,10 @@
                     <i class="fa fa-check-circle-o">
                     </i>
                   </a>
-                   <!-- <div class="btn-group">
-                   <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false">
-                   انتخاب <span class="caret">
-                   </span>
-                   </button>
-                   <ul class="dropdown-menu">
 
-                     <li>
-                       <a href="#">
-                     ماه گذشته</a>
-                     </li>
-                     <li>
-                       <a href="#">
-                       این ماه</a>
-                     </li>
-                     <li>
-                       <a href="#">
-                     30 روز گذشته</a>
-                     </li>
-                     <li>
-                       <a href="#">
-                     از ابتدای سال</a>
-                     </li>
-
-                   </ul>
-                 </div> -->
 
                  </div>
+
              </div>
 
             </div>
@@ -195,17 +171,37 @@
                                 <option value="3">موردی</option>
                                 </select>
                                 </div>
-                                <div class="col-sm-3 m-b-xs">
+                                <div class="col-sm-2 m-b-xs">
                                     <div data-toggle="buttons" class="btn-group">
                                         <label class="btn btn-sm btn-white " > <input type="radio" id="option1" name="options"> روز </label>
                                         <label class="btn btn-sm btn-white"> <input type="radio" id="option2" name="options"> هفته </label>
                                         <label class="btn btn-sm btn-white "> <input type="radio" id="option3" name="options"> ماه </label>
+
                                     </div>
+
                                 </div>
-                                <div class="col-sm-3">
+
+                                <div class="col-sm-2 ">
+                                  <button type="button" class="btn btn-outline btn-default woexport" data-url="{% url 'woExport' %}" >
+                  برون ریزی</button>
+                                  <button type="button" class="btn btn-outline btn-default">
+                درون ریزی</button>
+
+
+
+
+
+                                </div>
+                                <div class="col-sm-2">
+
+
+
+
                                     <div class="input-group"><input type="text" placeholder="جستجو" class="input-sm form-control" id='woSearch'> <span class="input-group-btn">
                                         <button type="button" class="btn btn-sm btn-primary" id='woSearchBtn'> برو!</button> </span></div>
+
                                 </div>
+
                             </div>
                             <div class="table-responsive">
                               <table class="table  breakpoint-lg" data-paging="true" data-page-size="8" id="company-table">
@@ -214,7 +210,7 @@
                                     <th></th>
 
                                     <th>زمان</th>
-                                    <th class="col-md-3">شرح</th>
+                                    <th >شرح</th>
                                     <th>اولویت</th>
                                     <th>دارایی</th>
                                     <th>کاربر مشخص شده</th>

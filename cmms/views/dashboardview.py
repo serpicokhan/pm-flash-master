@@ -58,10 +58,14 @@ def list_dashboard(request):
         return render(request,"cmms/dashboards/director.html",{"today" : today,'user2':user1})
     elif((user1.userId.groups.filter(name= 'manager').exists())):
         dashugroups=UserGroup.objects.all().exclude(userGroupName="سایر")
-        print("groups",dashugroups)
         gid=UserGroup.objects.all().exclude(userGroupName="سایر").values_list('id',flat=True)
-        darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
-        return render(request,"cmms/dashboards/manager.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'تکنسین PM','darayee':darayee,'section':'dashboard'})
+        darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
+        return render(request,"cmms/dashboards/manager.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'کاربر PM','darayee':darayee,'section':'dashboard','dash_name':'داشبورد اپراتور'})
+    elif((user1.userId.groups.filter(name= 'suboperator').exists())):
+        dashugroups=UserGroup.objects.all().exclude(userGroupName="سایر")
+        gid=UserGroup.objects.all().exclude(userGroupName="سایر").values_list('id',flat=True)
+        darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
+        return render(request,"cmms/dashboards/operator.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'اپراتور','darayee':darayee,'section':'dashboard','dash_name':'داشبورد اپراتور'})
     else:
         # return HttpResponseRedirect(reverse('list_wo'))
         return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1,'section':'dashboard'})
@@ -74,7 +78,13 @@ def list_dashboard(request):
 def dash_getDashPMPALL(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    n1=WorkOrder.objects.raw("select get_numberof_planned_maintenance_hours_all('{0}','{1}') as id ,get_numberof_unplanned_maintenance_hours_all('{0}','{1}') as unpm".format(start,end))
+    loc=request.GET.get('loc',False)
+    n1=[]
+    print('loc',loc)
+    if(loc=='-1'):
+        n1=WorkOrder.objects.raw("select get_numberof_planned_maintenance_hours_all('{0}','{1}') as id ,get_numberof_unplanned_maintenance_hours_all('{0}','{1}') as unpm".format(start,end))
+    else:
+        n1=WorkOrder.objects.raw("select get_numberof_planned_maintenance_hours_loc('{0}','{1}',{2}) as id ,get_numberof_unplanned_maintenance_hours_loc('{0}','{1}',{2}) as unpm".format(start,end,loc))
     data['pm']=n1[0].id
     data['unpm']=n1[0].unpm
     return JsonResponse(data)
@@ -413,8 +423,9 @@ def dash_GetAllWorkOrders(request,startHijri,endHijri):
 #####################################
 def dash_getResource(request,startHijri,endHijri):
     data=dict()
+    location=request.GET.get("loc",False)
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    n1=WOUtility.getResources(start,end)
+    n1=WOUtility.getResources(start,end,location)
 
     data['html_dashAllResource_list'] =render_to_string('cmms/summery/partialResource.html', {
                 'res': n1,
@@ -426,7 +437,8 @@ def dash_getResource(request,startHijri,endHijri):
 def dash_getDashMTTR(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    mttrs=MTTR.getMTTRAll(start,end)
+    loc=request.GET.get('loc',False)
+    mttrs=MTTR.getMTTRAll2(start,end,location=loc)
     s1=[]
     s2=[]
     for i in mttrs:
@@ -639,25 +651,38 @@ def GetEmCount2(request,startHijri,endHijri,loc):
     return JsonResponse(data)
 def dash_GetReactivevsRepatable(request,startHijri,endHijri):
     data=dict()
+    loc=request.GET.get('loc',False)
+    where=""
+    if(loc!='-1' ):
+        where="and t3.woAsset_id in (select id from assets where id ={0} or assetIsLocatedAt_id={0})".format(loc)
     start,end=DateJob.convert2Date(startHijri,endHijri)
     fixtime=WorkOrder.objects.raw("""
      select COALESCE(sum(timestampdiff(MINute,cast(concat(t1.taskStartDate, ' ', t1.taskStartTime)
      as datetime),cast(concat(t1.taskDateCompleted, ' ',t1.taskTimeCompleted) as datetime))),0) as id
      ,t1.taskstartdate dt1 from tasks as t1 join workorder as t3 on t1.workorder_id=t3.id
      where t3.datecreated between '{0}' and '{1}'  and t3.visibile=1 and
-      t3.isScheduling=0   and t3.maintenanceType_id=18
+      t3.isScheduling=0   and t3.maintenanceType_id=18 {2}
       group by dt1
       having id>0
-            """.format(start,end))
+            """.format(start,end,where))
+    print("""
+     select COALESCE(sum(timestampdiff(MINute,cast(concat(t1.taskStartDate, ' ', t1.taskStartTime)
+     as datetime),cast(concat(t1.taskDateCompleted, ' ',t1.taskTimeCompleted) as datetime))),0) as id
+     ,t1.taskstartdate dt1 from tasks as t1 join workorder as t3 on t1.workorder_id=t3.id
+     where t3.datecreated between  '{0}' and '{1}'  and t3.visibile=1 and
+      t3.isScheduling=0   and t3.maintenanceType_id=10 {2}
+      group by dt1
+      having id>0
+            """.format(start,end,where))
     servicetime=WorkOrder.objects.raw("""
      select COALESCE(sum(timestampdiff(MINute,cast(concat(t1.taskStartDate, ' ', t1.taskStartTime)
      as datetime),cast(concat(t1.taskDateCompleted, ' ',t1.taskTimeCompleted) as datetime))),0) as id
      ,t1.taskstartdate dt1 from tasks as t1 join workorder as t3 on t1.workorder_id=t3.id
      where t3.datecreated between  '{0}' and '{1}'  and t3.visibile=1 and
-      t3.isScheduling=0   and t3.maintenanceType_id=10
+      t3.isScheduling=0   and t3.maintenanceType_id=10 {2}
       group by dt1
       having id>0
-            """.format(start,end))
+            """.format(start,end,where))
     n1=[]
     n2=[]
     n22={}

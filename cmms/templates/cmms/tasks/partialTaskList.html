@@ -28,7 +28,7 @@
 {% endif %}
 
  {% else %} <td>{{c.taskResult|default_if_none:"-"}}</td> {% endif %}
- <td>{{c.taskDescription|default_if_none:"-"}}</td>
+ <td title="{{c.taskDescription}}">{{c.taskDescription|default_if_none:"-"|truncatechars:20}}</td>
 
  <td>{{c.taskAssignedToUser|default_if_none:"-"}}</td>
  <td>{{c.taskTimeEstimate|default_if_none:"-"}}</td>
@@ -42,13 +42,13 @@
 
   {% if ispm == False %}
    <button type="button"
-              class="btn btn-warning btn-sm js-update-task"
+              class="btn btn-outline btn-warning btn-sm js-update-task"
               data-url="{% url 'task_update' c.id %}?q={{c.workOrder.id}}">
         <span class="glyphicon glyphicon-pencil"></span> مشاهده
       </button>
   {% else %}
   <button type="button"
-             class="btn btn-warning btn-sm js-update-task"
+             class="btn btn-outline btn-warning btn-sm js-update-task"
              data-url="{% url 'task_update2' c.id %}?q={{c.workOrder.id}}">
        <span class="glyphicon glyphicon-pencil"></span> مشاهده
      </button>
@@ -57,7 +57,7 @@
 
 {% if perms.cmms.delete_tasks %}
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-task"
+                   class="btn  btn-outline btn-danger btn-sm js-delete-task"
                    data-url="{% url 'task_delete' c.id %}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>

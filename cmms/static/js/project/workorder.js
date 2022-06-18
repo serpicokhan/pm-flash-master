@@ -1227,6 +1227,19 @@ var saveCopy= function () {
     return false;
 
   }
+  /////////////
+  var ExportWO=function(){
+    // alert(1000);
+    // alert($("#id_assignedToUser").val());
+    // user_id=$("#id_assignedToUser").val();
+    // alert(user_id.length);
+    // console.log(user_id,user_id.length);
+
+    var form=$(this).attr('data-url');
+    window.open(form, '_blank');
+    return false;
+
+  }
   var filter_by_woStatus=function(){
     window.location.replace("/WorkOrder/list_wo_by_status/"+$("#status-selector2").val());
   }
@@ -1345,6 +1358,7 @@ var check_completion_date=function()
   $("#company-table").on("click", ".selection-box", chkselection);
   $(".js-create-wo-copy").click(LoadFormCopySelector);
   $("#modal-copy").on("click", ".btn-save-copy", clone_asset_wo2);
+  $(".woexport").on("click",  ExportWO);
 
   $(document).ready(function(){
 
