@@ -3827,10 +3827,15 @@ table.table-mail tr td {
   background-color: #23c6c8;
   color: #ffffff;
 }
+.dark-blue-bg {
+  background-color: #032672;
+  color: #ffffff;
+}
 .yellow-bg {
   background-color: #f8ac59;
   color: #ffffff;
 }
+
 .red-bg {
   background-color: #ed5565;
   color: #ffffff;
