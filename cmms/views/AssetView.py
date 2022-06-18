@@ -42,8 +42,9 @@ from django.db import  transaction
 
 
 def filterUser(request):
+    user1=SysUser.objects.get(userId=request.user)
     books=Asset.objects.none()
-    if(request.user.username!="admin"):
+    if((user1.userId.groups.filter(name= 'manager').exists())):
         books = Asset.objects.filter(Q(id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
     else:
         books=Asset.objects.all().order_by('-id')
