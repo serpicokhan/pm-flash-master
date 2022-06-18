@@ -2310,7 +2310,12 @@ class reporttest:
         if(assetname):
             print(assetname,"assetName")
             n1=n1.filter(woPartWorkorder__woAsset__id__in=assetname).filter(woPartWorkorder__woAsset__in=assetname,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
-        return render(request, 'cmms/reports/simplereports/PartUsageByLocation.html',{'result1':n1,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
+        s1=[]
+        s2=[]
+        for i in n1:
+            s1.append('{0}/{1}'.format(i['woPartStock__stockItem__partName'],i['woPartWorkorder__woAsset__assetName']))
+            s2.append(i['part_total'])
+        return render(request, 'cmms/reports/simplereports/PartUsageByLocation.html',{'result1':n1,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate,'s1':s1,'s2':s2})
     def PartUsageByLocationandPart(Self,request):
         reportType=request.POST.getlist("reportType","")
         makan=request.POST.get("makan","")
