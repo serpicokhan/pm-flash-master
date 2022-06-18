@@ -46,8 +46,9 @@ function DrawPMPDonatAll(data1,data2)
 
 }
 function GetPmpAll(){
+  var location=$("#makans").val();
   $.ajax({
-    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetPMPALL/',
+    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetPMPALL/?loc='+location,
     type: 'get',
     dataType: 'json',
     beforeSend: function () {

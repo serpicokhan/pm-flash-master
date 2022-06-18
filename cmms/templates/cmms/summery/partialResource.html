@@ -8,7 +8,7 @@
                 <div style="width: {{c.t2}}%;" class="progress-bar"></div>
             </div>
         </td>
-        <td>{{c.hour}}</td>
+        <td>{{c.hour|default_if_none:"0"}}</td>
         <td>{{c.p1}}%</td>
 </tr>
 

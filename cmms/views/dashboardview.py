@@ -59,12 +59,12 @@ def list_dashboard(request):
     elif((user1.userId.groups.filter(name= 'manager').exists())):
         dashugroups=UserGroup.objects.all().exclude(userGroupName="سایر")
         gid=UserGroup.objects.all().exclude(userGroupName="سایر").values_list('id',flat=True)
-        darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
+        darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
         return render(request,"cmms/dashboards/manager.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'کاربر PM','darayee':darayee,'section':'dashboard','dash_name':'داشبورد اپراتور'})
     elif((user1.userId.groups.filter(name= 'suboperator').exists())):
         dashugroups=UserGroup.objects.all().exclude(userGroupName="سایر")
         gid=UserGroup.objects.all().exclude(userGroupName="سایر").values_list('id',flat=True)
-        darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
+        darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
         return render(request,"cmms/dashboards/operator.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'اپراتور','darayee':darayee,'section':'dashboard','dash_name':'داشبورد اپراتور'})
     else:
         # return HttpResponseRedirect(reverse('list_wo'))
@@ -78,7 +78,12 @@ def list_dashboard(request):
 def dash_getDashPMPALL(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    n1=WorkOrder.objects.raw("select get_numberof_planned_maintenance_hours_all('{0}','{1}') as id ,get_numberof_unplanned_maintenance_hours_all('{0}','{1}') as unpm".format(start,end))
+    loc=request.GET.get('loc',False)
+    n1=[]
+    if(not loc):
+        n1=WorkOrder.objects.raw("select get_numberof_planned_maintenance_hours_all('{0}','{1}') as id ,get_numberof_unplanned_maintenance_hours_all('{0}','{1}') as unpm".format(start,end))
+    else:
+        n1=WorkOrder.objects.raw("select get_numberof_planned_maintenance_hours_loc('{0}','{1}',{2}) as id ,get_numberof_unplanned_maintenance_hours_loc('{0}','{1}',{2}) as unpm".format(start,end,loc))
     data['pm']=n1[0].id
     data['unpm']=n1[0].unpm
     return JsonResponse(data)
@@ -417,8 +422,9 @@ def dash_GetAllWorkOrders(request,startHijri,endHijri):
 #####################################
 def dash_getResource(request,startHijri,endHijri):
     data=dict()
+    location=request.GET.get("loc",False)
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    n1=WOUtility.getResources(start,end)
+    n1=WOUtility.getResources(start,end,location)
 
     data['html_dashAllResource_list'] =render_to_string('cmms/summery/partialResource.html', {
                 'res': n1,
