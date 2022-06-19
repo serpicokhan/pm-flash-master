@@ -9,7 +9,8 @@ function DrawPMLineAll(data1,label,data2,label2)
     label: 'واکنشی',
     data: data1,
     fill: false,
-    borderColor: 'red',
+    backgroundColor:  'rgba(255, 99, 132, 0.2)',
+borderColor: 'rgb(255, 99, 132)',
     borderWidth: 10
   },
   {
@@ -17,7 +18,8 @@ function DrawPMLineAll(data1,label,data2,label2)
     label: 'برنامه ریزی شده',
     data: data2,
     fill: false,
-    borderColor: 'blue',
+    backgroundColor: 'rgba(54, 162, 235, 0.2)' ,
+borderColor:'rgb(54, 162, 235)',
     borderWidth: 10
   }]
 };

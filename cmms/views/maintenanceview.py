@@ -877,12 +877,20 @@ def showtaviz(request,startHijri,endHijri,loc=None):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
     n1=0
+    n2=0
+    s1=[]
+    s2=[]
     if(not loc):
         n1=WOUtility.getTaviz(start,end)
+        n2=WorkorderPart.objects.values('timeStamp__date').filter(timeStamp__date__range=(start,end),woPartActulaQnty__gt=0).annotate(part_total=Sum('woPartActulaQnty')).order_by('timeStamp__date')
+        for i in n2:
+            s1.append(str(jdatetime.date.fromgregorian(date=i['timeStamp__date'])))
+            s2.append(i['part_total'])
+        # print(n2.query)
     else:
         n1=n1=WOUtility.getTaviz(start,end,loc)
     wos=WOUtility.doPaging(request,n1)
-    return render(request,"cmms/maintenance/dash_woList.html",{"wo" : wos})
+    return render(request,"cmms/maintenance/dash_woList.html",{"wo" : wos,"taviz":1,"s1":s1,"s2":s2})
 def showtavaghof(request,startHijri,endHijri,loc=None):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)

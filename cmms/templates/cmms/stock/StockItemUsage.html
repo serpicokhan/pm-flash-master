@@ -1,0 +1,95 @@
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+
+
+        <div ibox-tools></div>
+      </div>
+      <div class="ibox-content">
+        <div>
+          <canvas id="BarChart" height="140"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% load static %}
+
+{% block javascript %}
+<!-- <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script> -->
+<script type="text/javascript">
+var drawline=function(){
+  // alert(1000);
+  // alert($("#id_assignedToUser").val());
+  // user_id=$("#id_assignedToUser").val();
+  // alert(user_id.length);
+  // console.log(user_id,user_id.length);
+
+  var form=$(this).attr('data-url');
+  window.open(form, '_blank');
+  return false;
+
+}
+$(function () {
+
+    $(".showpartusagechart").on("click",  drawline);
+});
+</script>
+
+<script type="text/javascript">
+  // var glll;
+
+
+  var MONTHS = {% autoescape off %} {{s1}} {% endautoescape %};
+    var color = Chart.helpers.color;
+    var barChartData = {
+      labels: {% autoescape off %} {{s1}} {% endautoescape %},
+      datasets: [{
+        label: '',
+        backgroundColor: 'rgba(54, 162, 235, 0.2)' ,
+   borderColor:'rgb(54, 162, 235)',
+
+
+
+
+
+        borderWidth: 1,
+
+        data:
+        {% autoescape off %} {{s2}} {% endautoescape %},
+
+      }]
+
+    };
+
+
+
+
+     var ctx = document.getElementById("BarChart").getContext("2d");
+
+     window.myBar = new Chart(ctx, {
+       type: 'bar',
+
+       data: barChartData,
+       options: {
+         responsive: true,
+         animation:false,
+
+         legend: {
+           position: 'top',
+         },
+         title: {
+           display: false,
+           text: 'تعداد توقفات'
+         }
+       }
+     });
+
+
+
+</script>
+  <!-- <script src="{% static '/js/project/reports/DowntimeByRepairTypeByAssetCategory.js' %}"></script> -->
+
+{% endblock %}

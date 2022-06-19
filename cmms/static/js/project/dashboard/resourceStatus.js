@@ -6,7 +6,7 @@ function DrawResourceStatusDonat(element,gid,date1,date2)
         datasets: [
           {
             label: "",
-            backgroundColor: ["#c2c2c2", "#1ab394"],
+            backgroundColor: ['rgb(54, 162, 235)','rgb(255, 99, 132)'],
             data: [date2, date1]
           }
         ]

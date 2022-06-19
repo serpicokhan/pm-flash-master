@@ -2,6 +2,8 @@
 {% extends 'cmms/mainTheme.html' %}
 
  {% block content %}
+{% load static %}
+
 
 <div class="row">
   <div class="col-lg-12">
@@ -10,6 +12,8 @@
                         <div class="ibox-title">
                             <h5>درخواست ها </h5>
                             <div class="ibox-tools">
+
+                              
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
                                 </a>
@@ -150,8 +154,12 @@
 </div>
 
 
-{% load static %}
 
+{% if taviz %}
+
+{% include 'cmms/stock/StockItemUsage.html' %}
+
+{% endif %}
 {% block javascript %}
 
   <script src="{% static '/js/project/workorder.js' %}"></script>
