@@ -1029,9 +1029,9 @@ class WOUtility:
     @staticmethod
     def getTaviz(start,end,loc=None):
         if(not loc):
-            return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end),woPartActulaQnty__gt=1).values_list('woPartWorkorder',flat=True)))
+            return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end),woPartActulaQnty__gt=0).values_list('woPartWorkorder',flat=True))).order_by('-datecreated','-timecreated')
         else:
-            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end),woPartActulaQnty__gt=1).values_list('woPartWorkorder',flat=True)))
+            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end),woPartActulaQnty__gt=0).values_list('woPartWorkorder',flat=True))).order_by('-datecreated','-timecreated')
 
     # @staticmethod
     # def getTaviz(start,end,loc):

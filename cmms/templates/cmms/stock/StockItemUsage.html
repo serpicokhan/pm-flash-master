@@ -75,6 +75,14 @@ $(function () {
        data: barChartData,
        options: {
          responsive: true,
+         scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    },
+
          animation:false,
 
          legend: {
