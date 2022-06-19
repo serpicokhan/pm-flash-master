@@ -1216,6 +1216,19 @@ var gen_code=function(){
   }
 });
 }
+/////////////
+var ExportAsset=function(){
+  // alert(1000);
+  // alert($("#id_assignedToUser").val());
+  // user_id=$("#id_assignedToUser").val();
+  // alert(user_id.length);
+  // console.log(user_id,user_id.length);
+
+  var form=$(this).attr('data-url');
+  window.open(form, '_blank');
+  return false;
+
+}
 //for tr click
 $(".js-create-asset").unbind();
 // $("tr").on("click", showAssetDetails);
@@ -1246,5 +1259,7 @@ $(".js-duplicate-asset").click(duplicate_asset);
 $(".js-bulk_delete-asset").click(bulk_delete_pressed);
 $(".js-bulkasset-type-selector").click(showAssetTypeSelector);
 $("#modal-assettype").on("click", ".asset_type_change", change_type);
+$(".assetexport").on("click",  ExportAsset);
+
 
 });

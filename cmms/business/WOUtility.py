@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 import csv
 import locale
+import codecs
 class WOUtility:
 
     @staticmethod
@@ -1166,6 +1167,7 @@ class WOUtility:
         response = HttpResponse(content='text/csv')
         # force download.
         response['Content-Disposition'] = 'attachment;filename=export.csv'
+        response.write(codecs.BOM_UTF8)
         # the csv writer
         writer = csv.writer(response)
         field_names = [field.name for field in opts.fields]

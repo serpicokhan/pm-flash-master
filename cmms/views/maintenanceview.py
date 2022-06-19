@@ -1057,6 +1057,6 @@ def save_wo_copy(request):
         data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination2.html', {'wo': wos           })
         return JsonResponse(data)
 def woExport(request):
-    data = WOUtility.download_csv(request, WorkOrder.objects.all())
+    data = WOUtility.download_csv(request, WorkOrder.objects.filter(isScheduling=0))
 
     return HttpResponse (data, content_type='text/csv')
