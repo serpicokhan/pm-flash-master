@@ -886,7 +886,7 @@ def showtaviz(request,startHijri,endHijri,loc=None):
         for i in n2:
             s1.append(str(jdatetime.date.fromgregorian(date=i['woPartWorkorder__datecreated'])))
             s2.append(i['part_total'])
-        print(n2.query)
+        # print(n2.query)
     else:
         n1=WOUtility.getTaviz(start,end,loc)
         n2=WorkorderPart.objects.values('woPartWorkorder__datecreated').filter(woPartWorkorder__datecreated__range=(start,end),woPartActulaQnty__gt=0).filter(Q(woPartWorkorder__woAsset__id=loc)|Q(woPartWorkorder__woAsset__assetIsLocatedAt__id=loc)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__datecreated')
