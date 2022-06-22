@@ -3099,7 +3099,7 @@ class PartUsageByLocation(forms.Form):
         )
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
     makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),

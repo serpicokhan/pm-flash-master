@@ -2276,7 +2276,7 @@ class reporttest:
     ################################
     def PartUsageByLocation(Self,request):
         reportType=request.POST.getlist("reportType","")
-        makan=request.POST.get("makan","")
+        makan=request.POST.get("makan",False)
         assetType=request.POST.getlist("assetType",False)
         assetname=request.POST.getlist("assetname",False)
         date1=DateJob.getDate2(request.POST.get("startDate",""))
@@ -2301,15 +2301,19 @@ class reporttest:
         #      assetname.append(-1)
         # if((assetname[0]==-1)):
         #      assetname=Asset.objects.values_list('id', flat=True)
-        n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetIsLocatedAt__assetName','woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(timeStamp__range=(date1,date2),woPartActulaQnty__gt=0).filter(Q(woPartWorkorder__woAsset__assetIsLocatedAt__id=makan)|Q(woPartWorkorder__woAsset__id=makan)).annotate(part_total=Sum('woPartActulaQnty')).order_by('-part_total')
+        n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetIsLocatedAt__assetName','woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(timeStamp__range=(date1,date2),woPartActulaQnty__gt=0)
+        if(makan):
+            n1=n1.filter(Q(woPartWorkorder__woAsset__assetIsLocatedAt__id=makan)|Q(woPartWorkorder__woAsset__id=makan))
+        n1=n1.annotate(part_total=Sum('woPartActulaQnty')).order_by('-part_total')
+
         # print(n1)
 
         if(assetType):
             print(assetType,"assettype")
-            n1=n1.filter(woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+            n1=n1.filter(woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('-part_total')
         if(assetname):
             print(assetname,"assetName")
-            n1=n1.filter(woPartWorkorder__woAsset__id__in=assetname).filter(woPartWorkorder__woAsset__in=assetname,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+            n1=n1.filter(woPartWorkorder__woAsset__id__in=assetname).filter(woPartWorkorder__woAsset__in=assetname,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woPartActulaQnty')).order_by('-part_total')
         s1=[]
         s2=[]
         for i in n1:
