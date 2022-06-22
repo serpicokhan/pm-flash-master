@@ -2320,6 +2320,54 @@ class reporttest:
             s1.append('{0}/{1}'.format(i['woPartStock__stockItem__partName'],i['woPartWorkorder__woAsset__assetName']))
             s2.append(i['part_total'])
         return render(request, 'cmms/reports/simplereports/PartUsageByLocation.html',{'result1':n1,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate,'s1':s1,'s2':s2})
+
+    def CauseByLocation(Self,request):
+        reportType=request.POST.getlist("reportType","")
+        makan=request.POST.get("makan",False)
+        assetType=request.POST.getlist("assetType",False)
+        assetname=request.POST.getlist("assetname",False)
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+        # if(len(assetType) >0 and not assetType[0]):
+        #     # print("$$$$$$$$$$$$$$$$$$$$$$")
+        #     assetType.pop(0)
+        if(assetType):
+            assetType=[int(i) for i in assetType]
+        # if(len(assetType)==0):
+        #     assetType.append(-1)
+        # # if((assetType[0]==-1)):
+        #      assetType=AssetCategory.objects.values_list('id', flat=True)
+
+        # if(len(assetname) >0 and not assetname[0]):
+        #      assetname.pop(0)
+        if(assetname):
+            assetname=[int(i) for i in assetname]
+        # if(len(assetname)==0):
+        #      assetname.append(-1)
+        # if((assetname[0]==-1)):
+        #      assetname=Asset.objects.values_list('id', flat=True)
+        n1=WorkOrder.objects.values('woCauseCode','woCauseCode__causeDescription').filter(datecreated__range=(date1,date2),woCauseCode__isnull=False)
+        if(makan):
+            n1=n1.filter(Q(woAsset__assetIsLocatedAt__id=makan)|Q(woAsset__id=makan))
+        n1=n1.annotate(part_total=Sum('woCauseCode')).order_by('-part_total')
+
+
+        print(n1.query)
+
+        if(assetType):
+            print(assetType,"assettype")
+            n1=n1.filter(woAsset__assetCategory__in=assetType).annotate(part_total=Sum('woCauseCode')).order_by('-part_total')
+        if(assetname):
+            print(assetname,"assetName")
+            n1=n1.filter(woAsset__id__in=assetname).filter(woPartWorkorder__woAsset__in=assetname,timeStamp__range=(date1,date2)).annotate(part_total=Sum('woCauseCode')).order_by('-part_total')
+        s1=[]
+        s2=[]
+        for i in n1:
+            s1.append('{0}'.format(i['woCauseCode__causeDescription']))
+            s2.append(int(i['part_total']))
+        return render(request, 'cmms/reports/simplereports/CauseByLocation.html',{'result1':n1,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate,'s1':s1,'s2':s2})
     def PartUsageByLocationandPart(Self,request):
         reportType=request.POST.getlist("reportType","")
         makan=request.POST.get("makan","")
