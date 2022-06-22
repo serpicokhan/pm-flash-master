@@ -2301,7 +2301,7 @@ class reporttest:
         #      assetname.append(-1)
         # if((assetname[0]==-1)):
         #      assetname=Asset.objects.values_list('id', flat=True)
-        n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetIsLocatedAt__assetName','woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(timeStamp__range=(date1,date2),woPartActulaQnty__gt=0).filter(Q(woPartWorkorder__woAsset__assetIsLocatedAt__id=makan)|Q(woPartWorkorder__woAsset__id=makan)).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+        n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetIsLocatedAt__assetName','woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(timeStamp__range=(date1,date2),woPartActulaQnty__gt=0).filter(Q(woPartWorkorder__woAsset__assetIsLocatedAt__id=makan)|Q(woPartWorkorder__woAsset__id=makan)).annotate(part_total=Sum('woPartActulaQnty')).order_by('-part_total')
         # print(n1)
 
         if(assetType):
