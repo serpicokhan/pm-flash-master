@@ -17,7 +17,7 @@
                 <strong class="font-bold">
 
                   {% if request.user.is_authenticated %}
-                  
+
                   {{request.session.username}}
                   {% endif %}</strong>
                 </span>
@@ -235,6 +235,9 @@
 
               <li  {% if section == 'list_Stock' %} class='active'   {% endif %}>
                 <a href="{% url 'list_stock'%}" >موجودی انبار</a>
+              </li>
+              <li  {% if section == 'list_Stock' %} class='active'   {% endif %}>
+                <a href="{% url 'list_purchaseRequest'%}" >درخواست خرید</a>
               </li>
               <li {% if section == 'list_business' %} class='active'   {% endif %}>
                 <a href="{% url 'list_business'%}" >کسب وکار</a>
