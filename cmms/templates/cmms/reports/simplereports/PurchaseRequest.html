@@ -1,0 +1,69 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+                              گزارش درخواست های خرید <br>
+
+
+                            </h1>
+
+                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+                          <h4>به همراه پارامترهای زیر</h4>
+                          <h4> از تاریخ: {{dt1}}</h4>
+                          <h4>تا تاریخ: {{dt2}}</h4>
+                          <h4>مکان: {% for i in assetname %} {{i}} {% endfor %}</h4>
+
+
+                           </div>
+
+                           <table class="table table-bordered table-striped">
+                             <thead>
+                               <tr>
+                                <th class="col-md-1 active">کد درخواست</th>
+                                <th class="col-md-1 active">نام قطعه</th>
+                                <th class="col-md-2 active">وضعیت درخواست</th>
+                                <th class="col-md-2 active">اختصاص به </th>
+
+                                <th class="col-md-1 active">تاریخ</th>
+                                <th class="col-md-1 active">تعداد درخواستی</th>
+                                <th class="col-md-1 active">تجهیز</th>
+                                <th class="col-md-1 active">درخواست کننده</th>
+
+
+
+                               </tr>
+                             </thead>
+                             <tbody>
+     {% for c in result1 %}
+
+     <tr>
+        <td><a href="/PurchaseRequest/{{c.id}}/details" target="_blank">{% autoescape off %}
+    {{c.id}}
+{% endautoescape %}</a></td>
+       <td  >
+         {{c.get_dateCreated_jalali|default_if_none:"نامشخص"}}
+       </td>
+       <td>{{c.get_PurchaseRequestStatus_display}}</td>
+       <td>{{c.PurchaseRequestPartName}}</td>
+
+       <td>{{c.get_dateCreated_jalali}}</td>
+       <td>{{c.get_pstatus}}</td>
+      <td>{{c.PurchaseRequestAsset}}</td>
+      <td>{{c.PurchaseRequestRequestedUser}}</td>
+
+
+     </tr>
+
+
+
+     {% endfor %}
+   </tbody>
+     </table>
+
+ {% endblock %}

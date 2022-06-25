@@ -2368,6 +2368,7 @@ class reporttest:
             s1.append('{0}'.format(i['woCauseCode__causeDescription']))
             s2.append(int(i['part_total']))
         return render(request, 'cmms/reports/simplereports/CauseByLocation.html',{'result1':n1,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate,'s1':s1,'s2':s2})
+
     def PartUsageByLocationandPart(Self,request):
         reportType=request.POST.getlist("reportType","")
         makan=request.POST.get("makan","")
@@ -2684,7 +2685,7 @@ class reporttest:
         date1=DateJob.getDate2(request.POST.get("startDate",""))
         date2=DateJob.getDate2(request.POST.get("endDate",""))
         asset_code=request.POST.getlist("assetname","")
-        print(asset_code,"sadsa")
+
 
 
         startDate=request.POST.get("startDate","").replace('-','/')
@@ -2703,3 +2704,37 @@ class reporttest:
              # n1=n1.filter(datecreated__range=(start,F('requiredCompletionDate')))
              n1=n1.filter(datecreated__gte=date1,requiredCompletionDate__lt=datetime.datetime.today())
         return render(request, 'cmms/reports/simplereports/OverDueService.html',{'result1':n1,'assetname':asset_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
+    def PurchaseRequest(Self,request):
+        reportType=request.POST.getlist("reportType","")
+        makan=request.POST.get("makan",False)
+        assetType=request.POST.getlist("assetType",False)
+        req_user=request.POST.getlist("req_user",False)
+        assetname=request.POST.getlist("assetname",False)
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+
+        if(assetType):
+            assetType=[int(i) for i in assetType]
+        if(req_user):
+            req_user=[int(i) for i in req_user]
+        asset_name=Asset.objects.none()
+        if(assetname):
+            assetname=[int(i) for i in assetname]
+            asset_name=Asset.objects.filter(id__in=assetname).values('assetName',falt=True)
+
+
+        n1=PurchaseRequest.objects.filter(PurchaseRequestDateFrom__range=(date1,date2))
+        
+
+        if(makan):
+            n1=n1.filter(PurchaseRequestAsset__assetIsLocatedAt=makan)
+        if(assetname):
+            n1=n1.filter(PurchaseRequestAsset__id=assetname)
+        if(assetType):
+            n1=n1.filter(PurchaseRequestAsset__assetCategory__in=assetType)
+        if(req_user):
+            n1=n1.filter(PurchaseRequestRequestedUser__in=req_user)
+
+        return render(request, 'cmms/reports/simplereports/PurchaseRequest.html',{'result1':n1,'assetname':asset_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})

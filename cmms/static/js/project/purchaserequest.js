@@ -66,6 +66,13 @@ $(function () {
 
 
       });
+        $('#id_PurchaseRequestDateFrom').pDatepicker({
+          format: 'YYYY-MM-DD',
+          initialValueType: 'gregorian',
+          autoClose:true
+
+
+      });
 
 
       }

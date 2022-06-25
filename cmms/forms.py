@@ -1630,6 +1630,13 @@ class PurchaseRequestForm(forms.ModelForm):
              return value
         else:
             return None
+    def clean_PurchaseRequestDateFrom(self):
+        if(self.cleaned_data['PurchaseRequestDateFrom']):
+             # print(self.cleaned_data['PurchaseRequestDateTo'],'datecompleted')
+             value=DateJob.getDate2( self.cleaned_data['PurchaseRequestDateFrom'])
+             return value
+        else:
+            return None
 
     class Meta:
         model = PurchaseRequest
@@ -3295,9 +3302,9 @@ class CauseByLocation(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
-class PartUsageByType(forms.Form):
+class PurchaseRequest(forms.Form):
     rcode=100
-    test='گزارش مصرف قطعه -> نمودار +قطعات پر مصرف'
+    test='گزارش درخواست های خرید'
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
 
@@ -3310,6 +3317,8 @@ class PartUsageByType(forms.Form):
     makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+    req_user= forms.ModelChoiceField(label="کاربر درخواست کننده",queryset=SysUser.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
