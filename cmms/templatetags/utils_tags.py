@@ -20,4 +20,4 @@ def get_filter_action(value):
         return "نامشخص"
 @register.filter
 def show_hour(value):
-    return '{0:02.0f}:{1:02.0f}'.format(*divmod(value * 60, 60))
+    return '{0:02.0f}:{1:02.0f}'.format(*divmod(float(value) * 60, 60))

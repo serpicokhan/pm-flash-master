@@ -2,7 +2,7 @@
 
  {% block content %}
 
-
+{% load utils_tags %}
    <div class="alert alert-warning text-center">
      {% load static %}
 
@@ -13,10 +13,28 @@
                   </h2>
                   <h3> از تاریخ: {{date1}} تا {{date2}}<br/>
                    تاریخ اجرای گزارش {{currentdate}}</h3>
+                   <h3>نوع نگهداری {{maintype}}</h3>
+                   <h3>نوع تجهیز {{assetcat}}</h3>
 
 
 
 
+                           </div>
+                           <div class="row">
+                             <div class="col-lg-12">
+                               <div class="ibox float-e-margins">
+                                 <div class="ibox-title">
+
+
+                                   <div ibox-tools></div>
+                                 </div>
+                                 <div class="ibox-content">
+                                   <div>
+                                     <canvas id="BarChart" height="140"></canvas>
+                                   </div>
+                                 </div>
+                               </div>
+                             </div>
                            </div>
 
  <table class="table table-bordered table-striped ">
@@ -33,6 +51,7 @@
    </thead>
    <tbody>
      {% for c in wolist %}
+     
      <tr>
        <td>{{c.assetCode}}</td>
        <td>
@@ -47,8 +66,8 @@
 
        </td>
 <td>
-  {% if c.assetIsPartOf %}
-  {{c.assetIsPartOf}}
+  {% if c.assetIsLocatedAt %}
+  {{c.assetIsLocatedAt}}
   {% else %}
   مشخص نشده
   {% endif %}
@@ -56,7 +75,7 @@
 </td>
        <td>
          {% if c.timespent %}
-         {{c.timespent}}
+         {{c.timespent|show_hour}}
          {% else %}
          0
          {% endif %}
@@ -72,4 +91,59 @@
   {% endfor %}
   </tbody>
   </table>
+  {% load static %}
+
+  {% block javascript %}
+  <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+  <script type="text/javascript">
+    // var glll;
+
+
+    var MONTHS = {% autoescape off %} {{s1}} {% endautoescape %};
+      var color = Chart.helpers.color;
+      var barChartData = {
+        labels: {% autoescape off %} {{s1}} {% endautoescape %},
+        datasets: [{
+          label: '',
+
+
+
+          borderWidth: 1,
+
+          data:
+          {% autoescape off %} {{s2}} {% endautoescape %},
+
+        }]
+
+      };
+
+
+
+
+       var ctx = document.getElementById("BarChart").getContext("2d");
+
+       window.myBar = new Chart(ctx, {
+         type: 'bar',
+
+         data: barChartData,
+         options: {
+           responsive: true,
+           animation:false,
+
+           legend: {
+             position: 'top',
+           },
+           title: {
+             display: false,
+             text: 'تعداد توقفات'
+           }
+         }
+       });
+
+
+
+  </script>
+    <!-- <script src="{% static '/js/project/reports/DowntimeByRepairTypeByAssetCategory.js' %}"></script> -->
+
+  {% endblock %}
  {% endblock %}

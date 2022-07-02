@@ -391,18 +391,20 @@ class AssetUtility:
                                    '''.format(assetList,date1,date2))
     @staticmethod
 
-    def getLabourHoursByAsset(date1,date2,assetCategory,mainType):
+    def getLabourHoursByAsset(date1,date2,assetCategory,mainType,makan1=None):
         #############$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         #add extra function for empty maintype
-        whereConition="left join workorder as wo on wo.woasset_id=assets.id  where wo.maintenanceType_id in ({0})".format(mainType)
+        whereConition="left join workorder as wo on wo.woasset_id=assets.id  where wo.maintenanceType_id in ({0}) ".format(mainType)
 
         # if(len(mainType)>0):
         #     whereConition+=" and  maintenanceType_id in {0}".format(str(mainType))
         if(len(assetCategory)>0):
             whereConition+=" and  assetCategory_id in {0}".format(str(assetCategory))
+        if(makan1):
+            whereConition+=" and  (assets.assetIsLocatedAt_id in {0} or assets.id in {0})".format(makan1)
         # print(""" select distinct(assets.id),get_task_asset_time_spent2 (assets.id,'{0}','{1}') as timespent from assets {2}  """.format(date1,date2,whereConition))
-        print(""" select distinct(assets.id),get_task_asset_time_spent2 (assets.id,'{0}','{1}') as timespent from assets {2}  """.format(date1,date2,whereConition))
-        return Asset.objects.raw(""" select distinct(assets.id),get_task_asset_time_spent2 (assets.id,'{0}','{1}') as timespent from assets {2}  """.format(date1,date2,whereConition))
+        print(""" select distinct(assets.id),get_task_asset_time_spent3 (assets.id,'{0}','{1}') as timespent from assets {2}  """.format(date1,date2,whereConition))
+        return Asset.objects.raw(""" select distinct(assets.id),get_task_asset_time_spent3 (assets.id,'{0}','{1}') as timespent from assets {2} having timespent>0  """.format(date1,date2,whereConition))
     @staticmethod
     def getLabourHoursByAssetTop10(date1,date2,assetCategory,mainType):
         #############$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

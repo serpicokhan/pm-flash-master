@@ -2636,6 +2636,7 @@ class LabourHoursByAsset(forms.Form):
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    makan = forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
     categoryText = GroupedModelChoiceField(label="دسته بندی",
         queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
         choices_groupby='isPartOf',

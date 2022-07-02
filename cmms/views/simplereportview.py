@@ -975,12 +975,14 @@ class reporttest:
         #this report include bar graph
         date1=DateJob.getDate2(request.POST.get("startDate",""))
         date2=DateJob.getDate2(request.POST.get("endDate",""))
+
         startDate=request.POST.get("startDate","")
         endDate=request.POST.get("endDate","")
 
         ######asset category###########
         categoryText=request.POST.getlist("categoryText", "")
         maintenanceType=request.POST.getlist("maintenanceType", "")
+        makan=request.POST.getlist("makan", "")
 
         if(len(categoryText) >0 and not categoryText[0]):
                 categoryText.pop(0)
@@ -990,6 +992,7 @@ class reporttest:
 
         categoryText=[int(i) for i in categoryText]
         maintenanceType=[int(i) for i in maintenanceType]
+        makan=[int(i) for i in makan]
 
         if(len(categoryText)==1):
                 categoryText.append(-1)
@@ -1003,9 +1006,29 @@ class reporttest:
 
         #پیدا کردن اسم
         assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
-        woList=list(AssetUtility.getLabourHoursByAsset(date1,date2,tuple(categoryText),','.join([str(elem) for elem in maintenanceType]) ))
+        def myfunc(e):
+            return e.timespent
 
-        return render(request, 'cmms/reports/simplereports/LabourHoursByAsset.html',{'wolist':woList,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'assetcat':list(assetcat),'maintype':list(maintype),'date1':startDate,'date2':endDate})
+
+        if(makan):
+            makan.append(-1)
+            woList=list(AssetUtility.getLabourHoursByAsset(date1,date2,tuple(categoryText),','.join([str(elem) for elem in maintenanceType]),makan1=tuple(makan) ))
+        else:
+            woList=list(AssetUtility.getLabourHoursByAsset(date1,date2,tuple(categoryText),','.join([str(elem) for elem in maintenanceType]) ))
+        woList.sort(key=myfunc)
+        print(makan)
+        # if(len(makan)>0):
+        #     woList=[x for x in woList if (x.assetIsLocatedAt != None )]
+        #     if(len(woList)>0):
+        #         woList=[x for x in woList if ( x.assetIsLocatedAt.id==1964 )]
+        #         print(woList)
+        s1=[]
+        s2=[]
+        for i in woList:
+            s1.append(i.assetName)
+            s2.append(i.timespent)
+
+        return render(request, 'cmms/reports/simplereports/LabourHoursByAsset.html',{'wolist':woList,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'assetcat':list(assetcat),'maintype':list(maintype),'date1':startDate,'date2':endDate,'s1':s1,'s2':s2})
     def LabourHoursByAssetTop10(self,request):
        #this report include bar graph
        date1=DateJob.getDate2(request.POST.get("startDate",""))
@@ -2726,7 +2749,7 @@ class reporttest:
 
 
         n1=PurchaseRequest.objects.filter(PurchaseRequestDateFrom__range=(date1,date2))
-        
+
 
         if(makan):
             n1=n1.filter(PurchaseRequestAsset__assetIsLocatedAt=makan)
