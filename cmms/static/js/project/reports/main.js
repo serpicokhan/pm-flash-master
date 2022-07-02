@@ -21,7 +21,9 @@ var loadForm =function (btn1) {
         //alert(btn.attr("data-url"));
         //alert("321321");
         // /$("#modal-report").modal("hide");
+
         $("#modal-report").modal("show");
+        $("#modal-report .modal-content").html('');
       },
       success: function (data) {
 
