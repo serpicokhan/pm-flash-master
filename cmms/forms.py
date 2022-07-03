@@ -2278,7 +2278,7 @@ class OpenWorkOrdersListReport(forms.Form):
    # This report displays the list of all open work orders assigned to a maintenance type
    #, parent asset, asset category, priority, and assigned to user, created between two dates.
 
-
+    rcode=100
     test="پارامترهای مربوطه را انتخاب کنید و سپس اجرا را فشار دهید"
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=assetCatOPTIONS)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
@@ -2461,23 +2461,25 @@ class RequestedWorkOrdersListReport(forms.Form):
    # This report displays the list of all open work orders assigned to a maintenance type
    #, parent asset, asset category, priority, and assigned to user, created between two dates.
 
-
+    rcode=100
     test="پارامترهای مربوطه را انتخاب کنید و سپس اجرا را فشار دهید"
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=assetCatOPTIONS)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
+    # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
 
-    priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    categoryText = GroupedModelChoiceField(label="دسته بندی",
-        queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
-        choices_groupby='isPartOf',
-        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
-    )
+
 class OpenWorkOrderGraphReport(forms.Form):
+    rcode=100
 
     assetCatOPTIONS = (
         (0, "pdf"),
@@ -2495,15 +2497,24 @@ class OpenWorkOrderGraphReport(forms.Form):
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
+    # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
 
 
-    categoryText = GroupedModelChoiceField(label="دسته بندی",
-        queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
-        choices_groupby='isPartOf',
-        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
-    )
+
+
+
+    # categoryText = GroupedModelChoiceField(label="دسته بندی",
+    #     queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
+    #     choices_groupby='isPartOf',
+    #     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
+    # )
 class CloseWorkOrderGraphReport(forms.Form):
 
     assetCatOPTIONS = (

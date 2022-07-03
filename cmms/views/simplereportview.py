@@ -763,8 +763,8 @@ class reporttest:
         startDate=request.POST.get("startDate","")
         endDate=request.POST.get("endDate","")
         assignUser=request.POST.getlist("assignUser", "")
-        asset=request.POST.getlist("Asset", "")
-        categoryText=request.POST.getlist("categoryText", "")
+        asset=request.POST.getlist("assetname", "")
+        categoryText=request.POST.getlist("assetType", "")
         maintenanceType=request.POST.getlist("maintenanceType", "")
 
         ##### حذف .... در combobox
@@ -859,9 +859,10 @@ class reporttest:
         startDate=request.POST.get("startDate","")
         endDate=request.POST.get("endDate","")
 
-        asset=request.POST.getlist("Asset", "")
-        categoryText=request.POST.getlist("categoryText", "")
-        maintenanceType=request.POST.getlist("maintenanceType", "")
+        asset=request.POST.getlist("assetname", "")
+        categoryText=request.POST.getlist("assetType", "")
+        maintenanceType=request.POST.getlist("maintenanceType","")
+        makan=request.POST.get("makan","")
         priorityType=request.POST.getlist("priorityType", "")
         ##### حذف .... در combobox
 
@@ -876,6 +877,11 @@ class reporttest:
         #ساخت لیست
 
         asset=[int(i) for i in asset]
+        if(makan):
+            print(len(makan),"makan")
+            print((makan),"makan")
+            makan=[int(i) for i in makan]
+            makan.append(-1)
         categoryText=[int(i) for i in categoryText]
         maintenanceType=[int(i) for i in maintenanceType]
         priorityType=[int(i) for i in priorityType]
@@ -893,7 +899,10 @@ class reporttest:
         assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType)))
+        if(makan):
+            woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),makan=tuple(makan)))
+        else:
+            woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType)))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 

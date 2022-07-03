@@ -10,11 +10,13 @@
    {% include 'cmms/tasks/partialTaskForm.html' %}
   </div>
   <div class="modal-footer">
-    <button type="button" class="cl-task btn btn-default" >انصراف</button>
-      {% if perms.cmms.add_tasks %}
+
+    {% if perms.cmms.add_tasks %}
+
+    <button type="button" class="btn btn-info" id="task-apply"  >اعمال</button>
     <button type="button" class="btn btn-primary" id="task-submit"  >ذخیره</button>
-    <button type="button" class="btn btn-primary" id="task-apply"  >اعمال</button>
     {% endif %}
+      <button type="button" class="cl-task btn btn-default" >انصراف</button>
  <script>
 
 
@@ -261,6 +263,12 @@
                   if (data.form_is_valid) {
                     //alert("Company created!");  // <-- This is just a placeholder for now for testing
                     $("#tbody_task").empty();
+                    if(data.id){
+                      form.attr('data-url',`/Task/${data.id}/update/`);
+                      form.attr('class',`js-task-update-form`);
+
+
+                    }
 
                     if(data.last_task_date)
                     {

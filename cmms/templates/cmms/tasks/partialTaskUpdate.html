@@ -10,11 +10,13 @@
     {% include 'cmms/tasks/partialTaskForm.html' %}
   </div>
   <div class="modal-footer">
-    <button type="button" class="cl-task btn btn-default" >بستن</button>
-      {% if perms.cmms.change_tasks %}
-    <button type="button" class="btn btn-primary" id="task-submit">ویرایش</button>
-    <button type="button" class="btn btn-default" id="task-apply">اعمال</button>
-    {% endif %}
+    {% if perms.cmms.add_tasks %}
+
+  <button type="button" class="btn btn-info" id="task-apply"  >اعمال</button>
+  <button type="button" class="btn btn-primary" id="task-submit"  >ذخیره</button>
+  {% endif %}
+    <button type="button" class="cl-task btn btn-default" >انصراف</button>
+    
 
 
     <script>
