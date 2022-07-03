@@ -562,8 +562,9 @@ class reporttest:
         startDate=request.POST.get("startDate","")
         endDate=request.POST.get("endDate","")
         assignUser=request.POST.getlist("assignUser", "")
-        asset=request.POST.getlist("Asset", "")
-        categoryText=request.POST.getlist("categoryText", "")
+        asset=request.POST.getlist("assetname", "")
+        makan=request.POST.get("makan", "")
+        categoryText=request.POST.getlist("assetType", "")
         maintenanceType=request.POST.getlist("maintenanceType", "")
         priorityType=request.POST.getlist("priorityType", "")
         ##### حذف .... در combobox
@@ -579,6 +580,8 @@ class reporttest:
             priorityType.pop(0)
         #ساخت لیست
         assignUser=[int(i) for i in assignUser]
+
+            # makan.append(-1)
         asset=[int(i) for i in asset]
         categoryText=[int(i) for i in categoryText]
         maintenanceType=[int(i) for i in maintenanceType]
@@ -598,7 +601,12 @@ class reporttest:
         assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getOpenWorkOrdersListReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType))
+        if(makan):
+            print("heeq!")
+            woList=list(WOUtility.getOpenWorkOrdersListReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType,makan=makan))
+        else:
+            print("!!!!!!!!")
+            woList=list(WOUtility.getOpenWorkOrdersListReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 

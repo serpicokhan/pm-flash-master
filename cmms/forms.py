@@ -2285,16 +2285,20 @@ class OpenWorkOrdersListReport(forms.Form):
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
+    # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+
+
     assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    categoryText = GroupedModelChoiceField(label="دسته بندی",
-        queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
-        choices_groupby='isPartOf',
-        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
-    )
+
 class WorkOrdersListReportByStatus(forms.Form):
 
     assetCatOPTIONS = (
