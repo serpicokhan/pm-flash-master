@@ -870,7 +870,7 @@ class reporttest:
         asset=request.POST.getlist("assetname", "")
         categoryText=request.POST.getlist("assetType", "")
         maintenanceType=request.POST.getlist("maintenanceType","")
-        makan=request.POST.get("makan","")
+        makan=request.POST.getlist("makan","")
         priorityType=request.POST.getlist("priorityType", "")
         ##### حذف .... در combobox
 

@@ -2475,7 +2475,7 @@ class RequestedWorkOrdersListReport(forms.Form):
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
     makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False)
     # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
     # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
