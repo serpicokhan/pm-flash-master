@@ -2169,17 +2169,24 @@ class WorkOrdersDetailReportByStatus(forms.Form):
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':''}),empty_label=None)
+    assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
+    # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
+    # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+
     assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),empty_label=None)
     priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    categoryText = GroupedModelChoiceField(label="دسته بندی",
-        queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
-        choices_groupby='isPartOf',
-        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
-    )
+    # categoryText = GroupedModelChoiceField(label="دسته بندی",
+    #     queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
+    #     choices_groupby='isPartOf',
+    #     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
+    # )
 class CloseWorkOrdersDetailReport(forms.Form):
 
     assetCatOPTIONS = (
@@ -2288,7 +2295,7 @@ class OpenWorkOrdersListReport(forms.Form):
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
     makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
     # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
     # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
@@ -2354,17 +2361,20 @@ class WorkOrdersListReportByStatus(forms.Form):
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':''}),empty_label=None)
+    assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
+    # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
+    # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+
+
     assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),empty_label=None)
     priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    categoryText = GroupedModelChoiceField(label="دسته بندی",
-        queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
-        choices_groupby='isPartOf',
-        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
-    )
 class CloseWorkOrdersListReport(forms.Form):
 
     assetCatOPTIONS = (
@@ -2475,7 +2485,7 @@ class RequestedWorkOrdersListReport(forms.Form):
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
     makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False)
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
     # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
     # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
@@ -2500,11 +2510,11 @@ class OpenWorkOrderGraphReport(forms.Form):
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':''}),empty_label=None)
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
     makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
     # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
     # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),

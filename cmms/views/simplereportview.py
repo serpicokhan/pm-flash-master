@@ -407,43 +407,44 @@ class reporttest:
         endDate=request.POST.get("endDate","").replace('-','/')
         assignUser=request.POST.getlist("assignUser", "")
         status=request.POST.get("StatusType", "")
-        asset=request.POST.getlist("Asset", "")
-        categoryText=request.POST.getlist("categoryText", "")
+        asset=request.POST.getlist("assetname", "")
+        categoryText=request.POST.getlist("assetType", "")
+        makan=request.POST.getlist("makan", "")
         maintenanceType=request.POST.getlist("maintenanceType", "")
         priorityType=request.POST.getlist("priorityType", "")
         ##### حذف .... در combobox
-        if(len(assignUser) >0 and not assignUser[0]):
-            assignUser.pop(0)
-        if(len(asset) >0 and not asset[0]):
-            asset.pop(0)
-        if(len(categoryText) >0 and not categoryText[0]):
-            categoryText.pop(0)
-        if(len(maintenanceType) >0 and not maintenanceType[0]):
-            maintenanceType.pop(0)
-        if(len(priorityType) >0 and not priorityType[0]):
-            priorityType.pop(0)
-        #ساخت لیست
-        assignUser=[int(i) for i in assignUser]
-        asset=[int(i) for i in asset]
-        categoryText=[int(i) for i in categoryText]
-        maintenanceType=[int(i) for i in maintenanceType]
-        priorityType=[int(i) for i in priorityType]
-        #از بین بردن کامای اضافی ایجاد شده در تاپل
-        if(len(assignUser)==1):
-            assignUser.append(-1)
-        if(len(maintenanceType)==1):
-            maintenanceType.append(-1)
-        if(len(categoryText)==1):
-            categoryText.append(-1)
-        if(len(priorityType)==1):
-            priorityType.append(-1)
+        # if(len(assignUser) >0 and not assignUser[0]):
+        #     assignUser.pop(0)
+        # if(len(asset) >0 and not asset[0]):
+        #     asset.pop(0)
+        # if(len(categoryText) >0 and not categoryText[0]):
+        #     categoryText.pop(0)
+        # if(len(maintenanceType) >0 and not maintenanceType[0]):
+        #     maintenanceType.pop(0)
+        # if(len(priorityType) >0 and not priorityType[0]):
+        #     priorityType.pop(0)
+        # #ساخت لیست
+        # assignUser=[int(i) for i in assignUser]
+        # asset=[int(i) for i in asset]
+        # categoryText=[int(i) for i in categoryText]
+        # maintenanceType=[int(i) for i in maintenanceType]
+        # priorityType=[int(i) for i in priorityType]
+        # #از بین بردن کامای اضافی ایجاد شده در تاپل
+        # if(len(assignUser)==1):
+        #     assignUser.append(-1)
+        # if(len(maintenanceType)==1):
+        #     maintenanceType.append(-1)
+        # if(len(categoryText)==1):
+        #     categoryText.append(-1)
+        # if(len(priorityType)==1):
+        #     priorityType.append(-1)
 
-        user1=User.objects.filter(id__in=assignUser).values_list('username', flat=True)
-        asset1=Asset.objects.filter(id__in=asset).values_list('assetName', flat=True)
-        assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
-        maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
+        user1=User.objects.filter(id__in=tuple(assignUser)).values_list('username', flat=True)
+        asset1=Asset.objects.filter(id__in=tuple(asset)).values_list('assetName', flat=True)
+        assetcat=AssetCategory.objects.filter(id__in=tuple(categoryText)).values_list('name', flat=True)
+        maintype=MaintenanceType.objects.filter(id__in=tuple(maintenanceType)).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getWorkOrdersDetailReportByStatus(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType,status))
+        woList=list(WOUtility.getWorkOrdersDetailReportByStatus(date1,date2,tuple(assignUser),tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),status,tuple(makan)))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
         for i in woList:
@@ -563,7 +564,7 @@ class reporttest:
         endDate=request.POST.get("endDate","")
         assignUser=request.POST.getlist("assignUser", "")
         asset=request.POST.getlist("assetname", "")
-        makan=request.POST.get("makan", "")
+        makan=request.POST.getlist("makan", "")
         categoryText=request.POST.getlist("assetType", "")
         maintenanceType=request.POST.getlist("maintenanceType", "")
         priorityType=request.POST.getlist("priorityType", "")
@@ -602,8 +603,7 @@ class reporttest:
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
         if(makan):
-            print("heeq!")
-            woList=list(WOUtility.getOpenWorkOrdersListReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType,makan=makan))
+            woList=list(WOUtility.getOpenWorkOrdersListReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType,makan=tuple(makan)))
         else:
             print("!!!!!!!!")
             woList=list(WOUtility.getOpenWorkOrdersListReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType))
@@ -624,43 +624,20 @@ class reporttest:
         endDate=request.POST.get("endDate","")
         assignUser=request.POST.getlist("assignUser", "")
         status=request.POST.get("statusType", "")
-        asset=request.POST.getlist("Asset", "")
-        categoryText=request.POST.getlist("categoryText", "")
+        asset=request.POST.getlist("assetname", "")
+        makan=request.POST.getlist("makan", "")
+        categoryText=request.POST.getlist("assetType", "")
         maintenanceType=request.POST.getlist("maintenanceType", "")
         priorityType=request.POST.getlist("priorityType", "")
         ##### حذف .... در combobox
-        if(len(assignUser) >0 and not assignUser[0]):
-            assignUser.pop(0)
-        if(len(asset) >0 and not asset[0]):
-            asset.pop(0)
-        if(len(categoryText) >0 and not categoryText[0]):
-            categoryText.pop(0)
-        if(len(maintenanceType) >0 and not maintenanceType[0]):
-            maintenanceType.pop(0)
-        if(len(priorityType) >0 and not priorityType[0]):
-            priorityType.pop(0)
-        #ساخت لیست
-        assignUser=[int(i) for i in assignUser]
-        asset=[int(i) for i in asset]
-        categoryText=[int(i) for i in categoryText]
-        maintenanceType=[int(i) for i in maintenanceType]
-        priorityType=[int(i) for i in priorityType]
-        #از بین بردن کامای اضافی ایجاد شده در تاپل
-        if(len(assignUser)==1):
-            assignUser.append(-1)
-        if(len(maintenanceType)==1):
-            maintenanceType.append(-1)
-        if(len(categoryText)==1):
-            categoryText.append(-1)
-        if(len(priorityType)==1):
-            priorityType.append(-1)
 
-        user1=User.objects.filter(id__in=assignUser).values_list('username', flat=True)
-        asset1=Asset.objects.filter(id__in=asset).values_list('assetName', flat=True)
-        assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
-        maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
+
+        user1=User.objects.filter(id__in=tuple(assignUser)).values_list('username', flat=True)
+        asset1=Asset.objects.filter(id__in=tuple(asset)).values_list('assetName', flat=True)
+        assetcat=AssetCategory.objects.filter(id__in=tuple(categoryText)).values_list('name', flat=True)
+        maintype=MaintenanceType.objects.filter(id__in=tuple(maintenanceType)).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getWorkOrdersListReportByStatus(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType,status))
+        woList=list(WOUtility.getWorkOrdersListReportByStatus(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType,status,makan))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 
@@ -771,46 +748,26 @@ class reporttest:
         startDate=request.POST.get("startDate","")
         endDate=request.POST.get("endDate","")
         assignUser=request.POST.getlist("assignUser", "")
+        makan=request.POST.getlist("makan", "")
         asset=request.POST.getlist("assetname", "")
         categoryText=request.POST.getlist("assetType", "")
         maintenanceType=request.POST.getlist("maintenanceType", "")
 
         ##### حذف .... در combobox
-        if(len(assignUser) >0 and not assignUser[0]):
-            assignUser.pop(0)
-        if(len(asset) >0 and not asset[0]):
-            asset.pop(0)
-        if(len(categoryText) >0 and not categoryText[0]):
-            categoryText.pop(0)
-        if(len(maintenanceType) >0 and not maintenanceType[0]):
-            maintenanceType.pop(0)
-        #ساخت لیست
-        assignUser=[int(i) for i in assignUser]
-        asset=[int(i) for i in asset]
-        categoryText=[int(i) for i in categoryText]
-        maintenanceType=[int(i) for i in maintenanceType]
-
-        #از بین بردن کامای اضافی ایجاد شده در تاپل
-        if(len(assignUser)==1):
-            assignUser.append(-1)
-        if(len(maintenanceType)==1):
-            maintenanceType.append(-1)
-        if(len(categoryText)==1):
-            categoryText.append(-1)
-        if(len(asset)==1):
-            asset.append(-1)
 
 
-        user1=User.objects.filter(id__in=assignUser).values_list('username', flat=True)
-        asset1=Asset.objects.filter(id__in=asset).values_list('assetName', flat=True)
-        assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
-        maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
+
+        user1=User.objects.filter(id__in=tuple(assignUser)).values_list('username', flat=True)
+        asset1=Asset.objects.filter(id__in=tuple(asset)).values_list('assetName', flat=True)
+        assetcat=AssetCategory.objects.filter(id__in=tuple(categoryText)).values_list('name', flat=True)
+        maintype=MaintenanceType.objects.filter(id__in=tuple(maintenanceType)).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getOpenWorkOrderGraphReport(date1,date2,tuple(assignUser),tuple(asset),tuple(categoryText),tuple(maintenanceType)))
+        woList=list(WOUtility.getOpenWorkOrderGraphReport(date1,date2,tuple(assignUser),tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(makan)))
         s1,s2=[],[]
         for i in woList:
-            s1.append(i.id)
-            s2.append(i.name)
+            print(i)
+            s1.append(i['count'])
+            s2.append(i['maintenanceType__name'])
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 
         return render(request, 'cmms/reports/simplereports/OpenWorkOrderGraphReport.html',{'wolist':woList,'s1':s1,'s2':s2,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
@@ -886,9 +843,7 @@ class reporttest:
 
         asset=[int(i) for i in asset]
         if(makan):
-            print(len(makan),"makan")
-            print((makan),"makan")
-            makan=[int(i) for i in makan]
+            print(makan,"makan")
             makan.append(-1)
         categoryText=[int(i) for i in categoryText]
         maintenanceType=[int(i) for i in maintenanceType]
@@ -2743,7 +2698,7 @@ class reporttest:
              n1=n1.filter(Q(woAsset__in=asset_code)|Q(woAsset__assetIsLocatedAt__in=asset_code))
              # n1=n1.filter(datecreated__range=(start,F('requiredCompletionDate')))
              n1=n1.filter(datecreated__gte=date1,requiredCompletionDate__lt=datetime.datetime.today())
-        return render(request, 'cmms/reports/simplereports/OverDueService.html',{'result1':n1,'assetname':asset_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
+        return render(request, 'cmms/reports/simplereports/OverDueService.html',{'result1':n1.order_by('-datecreated'),'assetname':asset_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
     def PurchaseRequest(Self,request):
         reportType=request.POST.getlist("reportType","")
         makan=request.POST.get("makan",False)
