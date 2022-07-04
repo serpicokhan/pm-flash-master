@@ -17,14 +17,14 @@
  <td>
    {% if perms.cmms.view_miniworkorder %}
    <button type="button"
-              class="btn btn-warning btn-sm js-update-miniWorkorder"
+              class="btn btn-outline btn-warning btn-sm js-update-miniWorkorder"
               data-url="{% url 'miniWorkorder_view' c.id %}">
         <span class="glyphicon glyphicon-ok"></span> مشاهده
       </button>
       {% endif %}
       {% if perms.cmms.delete_miniworkorder %}
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-miniWorkorder"
+                   class="btn btn-outline btn-danger btn-sm js-delete-miniWorkorder"
                    data-url="{% url 'miniWorkorder_delete' c.id %}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>
