@@ -108,6 +108,7 @@ class Asset(models.Model):
 
     class Meta:
       db_table = "assets"
+      ordering = ('assetName', )
 class AssetMeterReading(models.Model):
     def getRow(self):
          return "{} {}".format(self.assetMeterMeterReading,self.assetMeterMeterReadingUnit)

@@ -1,0 +1,93 @@
+{% block menu %}
+
+{% load static %}
+
+<nav class="navbar-default navbar-static-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+      <li class="nav-header">
+
+        <div class="dropdown profile-element">
+          <span>
+            <img alt="image" width="64px" height="64px" class="img-circle" src="{{ MEDIA_URL }}{{request.session.userpic}}" />
+          </span>
+          <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+            <span class="clear">
+              <span class="block m-t-xs">
+                <strong class="font-bold">
+
+                  {% if request.user.is_authenticated %}
+
+                  {{request.session.username}}
+                  {% endif %}</strong>
+                </span>
+                <span class="text-muted text-xs block">{{request.session.usertitle}}
+                  <b class="caret">
+                  </b>
+                </span>
+              </span>
+            </a>
+            <ul class="dropdown-menu animated fadeInLeft m-t-xs">
+
+
+              <li class="divider">
+              </li>
+              <li>
+                <a href="{% url 'logout' %}">
+                  خروج</a>
+                </li>
+              </ul>
+            </div>
+            <div class="logo-element">
+              <img src="{% static 'img/logo_icon.png' %}" alt=""/>
+            </div>
+          </li>
+
+    <li>
+      <a href="#">
+        <i class="fa fa-cogs">
+        </i>
+        <span class="nav-label">
+          تعمیر و نگهداری</span>
+          <span class="fa arrow">
+          </span>
+        </a>
+        <ul  {% if section in 'list_miniWorkorder,list_wo,formset_view,list_swo,list_maintenanceType,list_taskGroup,list_project' %} class="nav nav-second-level collapse in"
+        {% else %}
+        class="nav nav-second-level collapse"
+        {% endif %} >
+
+          <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
+
+            <a href="{% url 'list_miniWorkorder' %}" >صدور درخواست</a>
+          </li>
+
+        </ul>
+      </li>
+    
+
+              </ul>
+            </div>
+          </nav>
+          <!-- <script type="text/javascript">
+            if(localStorage.getItem('lastclicked')!=null && window.location.pathname+window.location.search.length!=1)
+            {
+              // $(".navbar-default.nav li").eq(2).css("color", "yellow");
+              a1=parseInt(localStorage.getItem('lastclicked'));
+
+              $(".nav li:nth-child("+(a1+1)+")").attr("class","active");
+
+            }
+
+            $('.nav li').click(function() {
+              var index = $(this).index();
+              if (typeof(Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                localStorage.setItem("lastclicked", index);
+              } else {
+                console.log("Sorry! No Web Storage support..");
+              }
+            });
+
+          </script> -->
+          {% endblock %}

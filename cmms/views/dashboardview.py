@@ -46,7 +46,7 @@ def list_dashboard(request):
 
 
     user1=SysUser.objects.get(userId=request.user)
-    print("here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    # print("here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     request.session['userpic'] = str(user1.profileImage)
     request.session['username'] = str(user1.fullName)
     request.session['usertitle'] = str(user1.title)
@@ -62,13 +62,16 @@ def list_dashboard(request):
         darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
         return render(request,"cmms/dashboards/manager.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'کاربر PM','darayee':darayee,'section':'dashboard','dash_name':'داشبورد اپراتور'})
     elif((user1.userId.groups.filter(name= 'suboperator').exists())):
+
         dashugroups=UserGroup.objects.all().exclude(userGroupName="سایر")
         gid=UserGroup.objects.all().exclude(userGroupName="سایر").values_list('id',flat=True)
         darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
         return render(request,"cmms/dashboards/operator.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'اپراتور','darayee':darayee,'section':'dashboard','dash_name':'داشبورد اپراتور'})
     else:
+        request.session['operator'] = True
+
         # return HttpResponseRedirect(reverse('list_wo'))
-        return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1,'section':'dashboard'})
+        return render(request,"cmms/dashboards/operator.html",{"today" : today,'user2':user1,'section':'dashboard','menu':'opmenu.html'})
     # return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1})
 
 

@@ -148,14 +148,9 @@
 
 
            {% block menu %}
-
-           {% if request.session.operator %}
-
+           
 
            {%include "cmms/op_menu.html" %}
-           {% else %}
-           {%include "cmms/menu.html" %}
-           {% endif %}
 
            {% endblock %}
 

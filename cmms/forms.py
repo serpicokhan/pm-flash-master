@@ -190,6 +190,14 @@ class SearchFormSetForm(forms.Form):
 
 
 class MiniWorkorderForm(forms.ModelForm):
+    def __init__(self,workorder=None,*args,**kwargs):
+
+        super (MiniWorkorderForm,self ).__init__(*args,**kwargs) # populates the post
+        try:
+            self.fields['woAsset'].queryset = Asset.objects.filter(assetIsLocatedAt__isnull=True) #AssetMeterTemplate.objects.filter(assetMeterTemplateAsset=WorkOrder.objects.get(id=workorder).woAsset)
+
+        except Exception as ex:
+            print(ex)
     # def clean(self):
     #             self.is_valid()
     #             cleaned_data=super(MiniWorkorderForm, self).clean()
