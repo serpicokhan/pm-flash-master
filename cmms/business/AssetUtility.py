@@ -670,15 +670,16 @@ class AssetUtility:
         max_digit=Asset.objects.filter(assetCode__contains="{}-{}-{}".format(foo.get_asset_loc_code(),foo.assetCategory.code,pishvand)).count()
         return "{}-{}-{}{}".format(foo.get_asset_loc_code(),foo.assetCategory.code,pishvand,max_digit+1)
     @staticmethod
-    def duplicate_asset(id,tedad,pishvand):
+    def duplicate_asset(id,tedad,pishvand,partof):
             foo=Asset.objects.get(pk=id)
             foo.pk=None
             foo.assetName=foo.assetName+' '+str(tedad)
             # foo.assetCode=pishvand+' '+str(tedad)
             foo.assetCode=AssetUtility.find_temp_assetcode(foo,pishvand)
             # این دو خط رو نسبت به clone اضافه تر داره
-            # foo.assetIsLocatedAt=None
-            # foo.assetIsPartOf=None
+            if(not partof):
+                foo.assetIsLocatedAt=None
+                foo.assetIsPartOf=None
             foo.assetStatus=True
             foo.save()
             #############

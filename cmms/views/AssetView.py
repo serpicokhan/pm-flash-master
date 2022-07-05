@@ -262,12 +262,20 @@ def duplicate_asset(request,id):
         assetId=request.POST.get("assetID","")
         tedad=request.POST.get("tedad","")
         pishvand=request.POST.get("pishvand","")
+        partof=request.POST.getlist("partof")
+        if(len(partof)>0):
+            partof=True
+        else:
+            partof=False
+
+
+
 
         try:
             with transaction.atomic():
 
                 for i in range(1,int(tedad)+1):
-                    AssetUtility.duplicate_asset(id,i,pishvand)
+                    AssetUtility.duplicate_asset(id,i,pishvand,partof)
         except Exception as e:
             data['error']="خطا در ثبت اطلاعات"
             print(e)
