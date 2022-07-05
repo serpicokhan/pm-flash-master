@@ -677,8 +677,8 @@ class AssetUtility:
             # foo.assetCode=pishvand+' '+str(tedad)
             foo.assetCode=AssetUtility.find_temp_assetcode(foo,pishvand)
             # این دو خط رو نسبت به clone اضافه تر داره
-            foo.assetIsLocatedAt=None
-            foo.assetIsPartOf=None
+            # foo.assetIsLocatedAt=None
+            # foo.assetIsPartOf=None
             foo.assetStatus=True
             foo.save()
             #############
