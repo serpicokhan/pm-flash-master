@@ -66,6 +66,7 @@ function DrawDonat(data1,data2,element)
     var myNewChart = new Chart(ctx, {
       type: 'doughnut',
       data: doughnutData,
+      options:doughnutOptions
 
   });
 
@@ -120,11 +121,11 @@ function DrawDonat2(data,element)
       // responsive: true,
       // borderWidth:10
       title: {
-        display: true,
+        display: false,
         text: ''
       },
       legend: {
-        display: true,
+        display: false,
         position: 'right'
     },
 
@@ -175,7 +176,7 @@ var LoadCompletedWorkOrderDonat=function()
 var LoadOnDemandDonat=function()
 {
   $.ajax({
-    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/'+0+'/GetCompletedWo/',
+    url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/'+0+'/GetCompletedWo/?makan='+$("#makans").val(),
     type: 'get',
     dataType: 'json',
     beforeSend: function () {
@@ -192,7 +193,7 @@ var LoadOnDemandDonat=function()
 var LoadPmDonat=function()
 {
   $.ajax({
-  url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/'+1+'/GetCompletedWo/',
+  url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/'+1+'/GetCompletedWo/?makan='+$("#makans").val(),
   type: 'get',
   dataType: 'json',
   beforeSend: function () {
@@ -210,7 +211,7 @@ var LoadTotalDonat=function()
 {
   $.ajax({
   //url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetTotalCompletedWo/',dash_GetAllWorkOrders
-  url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetAllWorkOrders/',
+  url: 'Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetAllWorkOrders/?makan='+$("#makans").val(),
   type: 'get',
   dataType: 'json',
   beforeSend: function () {

@@ -19,6 +19,7 @@ from django.http import HttpResponse
 import csv
 import locale
 import codecs
+from django.db.models import Count, F, Value
 class WOUtility:
 
     @staticmethod
@@ -70,14 +71,31 @@ class WOUtility:
         return wos,page
     #GET Wo on demand completed between 2 dates
     @staticmethod
-    def GetCompletedWorkOrderNum(start,end,isScheduling):
+    def GetCompletedWorkOrderNum(start,end,isScheduling,makan=None):
         #print("select count(id) as id from workorder where  (datecompleted between '{0}' and '{1}') and  wostatus=7 and isPartOf_id {2} and isScheduling=0".format(start,end,isScheduling))
-        return WorkOrder.objects.raw("select count(id) as id from workorder where  (datecompleted between '{0}' and '{1}') and  wostatus=7 and isPartOf_id {2} and isScheduling=0".format(start,end,isScheduling))
+        # return WorkOrder.objects.raw("select count(id) as id from workorder where  (datecompleted between '{0}' and '{1}') and  wostatus=7 and isPartOf_id  {2} and isScheduling=0 and visibile=1".format(start,end,isScheduling))
+        wo=WorkOrder.objects.none()
+        if(isScheduling=='is not null'):
+             wo=WorkOrder.objects.filter(dateCompleted__range=(start,end),isPartOf__isnull=False,visibile=True,woStatus=7)
+        else:
+            wo=WorkOrder.objects.filter(dateCompleted__range=(start,end),isPartOf__isnull=True,visibile=True,woStatus=7)
+        if(makan):
+            wo=wo.filter(Q(woAsset__id=makan)|Q(woAsset__assetIsLocatedAt__id=makan))
+        return wo.count()
     #########################################################################################
     @staticmethod
-    def GetOnTimeCompletedWorkOrderNum(start,end,isScheduling):
+    def GetOnTimeCompletedWorkOrderNum(start,end,isScheduling,makan=None):
+        wo=WorkOrder.objects.none()
+        if(isScheduling=='is not null'):
+            wo= WorkOrder.objects.filter(dateCompleted__lte=F('requiredCompletionDate'),dateCompleted__range=(start,end),woStatus=7,visibile=1,isPartOf__isnull=False)
+        else:
+            WorkOrder.objects.filter(dateCompleted__lte=F('requiredCompletionDate'),dateCompleted__range=(start,end),woStatus=7,visibile=1,isPartOf__isnull=True)
+        if(makan):
+                wo=wo.filter(Q(woAsset__id=makan)|Q(woAsset__assetIsLocatedAt__id=makan))
+        return wo.count()
 
-        return WorkOrder.objects.raw("select count(id) as id from workorder where datecompleted <= requiredCompletionDate and (datecompleted between '{0}' and '{1}') and  wostatus=7 and isPartOf_id={2}".format(start,end,isScheduling))
+
+        # return WorkOrder.objects.raw("select count(id) as id from workorder where datecompleted <= requiredCompletionDate and (datecompleted between '{0}' and '{1}') and  wostatus=7 and isPartOf_id={2} and visibile=1".format(start,end,isScheduling))
 
     #########################################################################################
     @staticmethod

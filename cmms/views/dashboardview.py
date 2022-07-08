@@ -68,10 +68,10 @@ def list_dashboard(request):
         darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
         return render(request,"cmms/dashboards/operator.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'اپراتور','darayee':darayee,'section':'dashboard','dash_name':'داشبورد اپراتور'})
     else:
-        request.session['operator'] = True
+        # request.session['operator'] = True
 
         # return HttpResponseRedirect(reverse('list_wo'))
-        return render(request,"cmms/dashboards/operator.html",{"today" : today,'user2':user1,'section':'dashboard','menu':'opmenu.html'})
+        return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1,'section':'dashboard','menu':'opmenu.html'})
     # return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1})
 
 
@@ -378,12 +378,19 @@ def GetLowItemStock(request):
 def dash_GetCompletedWo(request,startHijri,endHijri,isScheduling):
     data=dict()
     searchPtr="is not null" if isScheduling=='1' else "is NULL"
+    makan=request.GET.get("makan",False)
+
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    n1=WOUtility.GetCompletedWorkOrderNum(start,end,searchPtr)
-    n2=WOUtility.GetOnTimeCompletedWorkOrderNum(start,end,searchPtr)
+    if(makan=='-1'):
+        n1=WOUtility.GetCompletedWorkOrderNum(start,end,searchPtr)
+
+        n2=WOUtility.GetOnTimeCompletedWorkOrderNum(start,end,searchPtr)
+    else:
+        n1=WOUtility.GetCompletedWorkOrderNum(start,end,searchPtr,makan)
+        n2=WOUtility.GetOnTimeCompletedWorkOrderNum(start,end,searchPtr,makan)
     data['html_dashwoCompleted_list'] ={
-                 'woCompletedNum': n1[0].id,
-                 'woCompletedOnTimeNum':n2[0].id
+                 'woCompletedNum': n1,
+                 'woCompletedOnTimeNum':n2
                               }
     return JsonResponse(data)
 ################################################################################################

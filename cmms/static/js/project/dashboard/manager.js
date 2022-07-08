@@ -68,6 +68,8 @@ $(".btn.btn-white.btn-bitbucket").click(function(){
     LoadEqCost();
     LoadMTTRBar();
     GetPmpLineAll();
+    LoadOnDemandDonat();
+    LoadPmDonat();
     for ( i=0;i<ggid.length;i++){
 
     LoadResource(ggid[i],"doughnutChartResourceStatus"+ggid[i]);
@@ -103,6 +105,8 @@ $("#makans").change(function(){
 
     var ex=$("#makans").val();
     LoadResources();
+    LoadOnDemandDonat();
+    LoadPmDonat();
     //DrawDonat(100,200,'doughnutChartOnDemand');
     if(ex=='-1')
     {
@@ -134,6 +138,7 @@ $("#makans").change(function(){
     LoadEqCost2(ex);
     GetStopNum2(ex);
     GetOverdueWoReqNum2(ex);
+
     for ( i=0;i<ggid.length;i++){
 
     LoadResource2(ggid[i],"doughnutChartResourceStatus"+ggid[i],ex);

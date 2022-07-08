@@ -65,6 +65,18 @@
   </div>
 
 </div>
+<div class="row">
+
+  <div class="col-lg-6">
+   {% include "cmms/summery/pmStatus.html" %}
+
+  </div>
+  <div class="col-lg-6">
+   {% include "cmms/summery/onDemandStatus.html" %}
+
+  </div>
+
+</div>
 <div class="row clear">
 
 </div>
@@ -194,6 +206,7 @@ $('.kdueservice2').click(function(){
 <script src="{% static '/js/project/dashboard/mttr_line.js' %}"></script>
 <script src="{% static '/js/project/dashboard/info.js' %}"></script>
 <script src="{% static '/js/project/dashboard/manager.js' %}"></script>
+<script src="{% static '/js/project/dashboard/donatchart.js' %}"></script>
 <script type="text/javascript">
 
 LoadCauseBar();
