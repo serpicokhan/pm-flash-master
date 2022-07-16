@@ -191,6 +191,7 @@ class SearchFormSetForm(forms.Form):
 
 class MiniWorkorderForm(forms.ModelForm):
 
+
     def __init__(self,workorder=None,*args,**kwargs):
 
         super (MiniWorkorderForm,self ).__init__(*args,**kwargs) # populates the post
