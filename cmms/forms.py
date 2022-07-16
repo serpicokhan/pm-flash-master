@@ -190,24 +190,21 @@ class SearchFormSetForm(forms.Form):
 
 
 class MiniWorkorderForm(forms.ModelForm):
+
     def __init__(self,workorder=None,*args,**kwargs):
 
         super (MiniWorkorderForm,self ).__init__(*args,**kwargs) # populates the post
-        try:
-            self.fields['woAsset'].queryset = Asset.objects.filter(assetIsLocatedAt__isnull=True) #AssetMeterTemplate.objects.filter(assetMeterTemplateAsset=WorkOrder.objects.get(id=workorder).woAsset)
 
-        except Exception as ex:
-            print(ex)
-    # def clean(self):
-    #             self.is_valid()
-    #             cleaned_data=super(MiniWorkorderForm, self).clean()
+        self.fields['woAsset'].queryset = Asset.objects.filter(assetIsLocatedAt__isnull=True)
+        #AssetMeterTemplate.objects.filter(assetMeterTemplateAsset=WorkOrder.objects.get(id=workorder).woAsset)
+
+
 
     def clean_woStatus(self):
          value=1
          return value
     def clean_maintenanceType(self):
-         print("!!!!!!!@#@!#!@#@!#@#@")
-         value=MaintenanceType.objects.get(name="تعمیر")
+         value=MaintenanceType.objects.get(id=18)
          return value
     def clean_woTags(self):
         str1= self.cleaned_data['summaryofIssue']
@@ -232,7 +229,6 @@ class TaskForm(forms.ModelForm):
         super (TaskForm,self ).__init__(*args,**kwargs) # populates the post
         try:
             if(workorder):
-                print("!!!!!!!!!!!!!!!!!")
                 bg_groups=BMGAsset.objects.filter(BMGAsset=WorkOrder.objects.get(id=workorder).woAsset).values_list('BMGGroup',flat=True)
                 tmp_=BMGTemplate.objects.filter(BMGGroup__in=bg_groups).values_list('BMGTemplate',flat=True)
                 books=AssetMeterTemplate.objects.filter(id__in=tmp_).order_by('-id')

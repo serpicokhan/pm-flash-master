@@ -53,31 +53,29 @@ def save_miniWorkorder_form(request, form, template_name,id=None):
 
     data = dict()
     if (request.method == 'POST'):
-        print("!!!!!!!!!!!!!!!!!!!!!")
         if form.is_valid():
             form.save()
             RequestedUser=SysUser.objects.get(userId=request.user)
-
             form.instance.RequestedUser=RequestedUser
             form.instance.save()
-            if(id):
-                LogEntry.objects.log_action(
-                    user_id         = request.user.pk,
-                    content_type_id = ContentType.objects.get_for_model(form.instance).pk,
-                    object_id       = form.instance.id,
-                    object_repr     = 'workorder',
-                    action_flag     = CHANGE,
-                    change_message= request.META.get('REMOTE_ADDR')
-                )
-            else:
-                LogEntry.objects.log_action(
-                    user_id         = request.user.pk,
-                    content_type_id = ContentType.objects.get_for_model(form.instance).pk,
-                    object_id       = form.instance.id,
-                    object_repr     = 'workorder',
-                    action_flag     = ADDITION,
-                    change_message= request.META.get('REMOTE_ADDR')
-                )
+            # if(id):
+            #     LogEntry.objects.log_action(
+            #         user_id         = request.user.pk,
+            #         content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+            #         object_id       = form.instance.id,
+            #         object_repr     = 'workorder',
+            #         action_flag     = CHANGE,
+            #         change_message= request.META.get('REMOTE_ADDR')
+            #     )
+            # else:
+            #     LogEntry.objects.log_action(
+            #         user_id         = request.user.pk,
+            #         content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+            #         object_id       = form.instance.id,
+            #         object_repr     = 'workorder',
+            #         action_flag     = ADDITION,
+            #         change_message= request.META.get('REMOTE_ADDR')
+            #     )
             data['form_is_valid'] = True
             books = WorkOrder.objects.filter(isScheduling=False,visibile=True)
             books=filterUser(request,books)
@@ -88,6 +86,7 @@ def save_miniWorkorder_form(request, form, template_name,id=None):
             })
         else:
             print(form.errors)
+            print("!@#")
             data['form_is_valid'] = False
 
     context = {'form': form}
@@ -126,6 +125,7 @@ def miniWorkorder_delete(request, id):
 def miniWorkorder_create(request):
     if (request.method == 'POST'):
         form = MiniWorkorderForm(request.POST)
+        # print("here!!!!!!")
 
         return save_miniWorkorder_form(request, form, 'cmms/miniworkorder/partialMiniWorkorderCreate.html')
     else:

@@ -64,9 +64,10 @@ def list_dashboard(request):
     elif((user1.userId.groups.filter(name= 'suboperator').exists())):
 
         dashugroups=UserGroup.objects.all().exclude(userGroupName="سایر")
+        request.session['operator'] = True
         gid=UserGroup.objects.all().exclude(userGroupName="سایر").values_list('id',flat=True)
         darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
-        return render(request,"cmms/dashboards/operator.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'اپراتور','darayee':darayee,'section':'dashboard','dash_name':'داشبورد اپراتور'})
+        return render(request,"cmms/dashboards/operator3.html",{"dashugroups" : dashugroups,'ggid':list(gid),'user2':user1,'naghsh':'اپراتور','darayee':darayee,'section':'dashboard','dash_name':'داشبورد اپراتور'})
     else:
         # request.session['operator'] = True
 

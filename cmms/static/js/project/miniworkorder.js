@@ -23,7 +23,7 @@ $(function () {
         $("#modal-company").modal("show");
       },
       success: function (data) {
-        console.log(data);
+        // console.log(data);
         //alert("3123@!");
         $("#modal-company .modal-content").html(data.html_miniWorkorder_form);
           $('.selectpicker').selectpicker();
@@ -73,6 +73,7 @@ $(function () {
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveForm= function () {
    var form = $(this);
+   console.log(form);
 
 
    $.ajax({
