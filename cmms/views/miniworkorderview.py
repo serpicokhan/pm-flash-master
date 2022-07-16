@@ -80,7 +80,7 @@ def save_miniWorkorder_form(request, form, template_name,id=None):
             books = WorkOrder.objects.filter(isScheduling=False,visibile=True)
             books=filterUser(request,books)
             wos=WOUtility.doPaging(request,list(books))
-            data['html_miniWorkorder_list'] = render_to_string('cmms/miniworkorder/partialMiniWorkorderlist.html', {
+            data['html_miniWorkorder_list'] = render_to_string('cmms/miniworkorder/partialMiniWorkorderList.html', {
                 'miniWorkorder': wos,
                 'perms': PermWrapper(request.user)
             })
@@ -107,7 +107,7 @@ def miniWorkorder_delete(request, id):
         companies=filterUser(request,companies)
         wos=WOUtility.doPaging(request,list(companies))
         #Tasks.objects.filter(miniWorkorderId=id).update(miniWorkorder=id)
-        data['html_miniWorkorder_list'] = render_to_string('cmms/miniworkorder/partialMiniWorkorderlist.html', {
+        data['html_miniWorkorder_list'] = render_to_string('cmms/miniworkorder/partialMiniWorkorderList.html', {
             'miniWorkorder': wos,
             'perms': PermWrapper(request.user)
         })
