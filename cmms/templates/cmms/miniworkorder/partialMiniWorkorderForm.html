@@ -13,10 +13,13 @@
   </div>
   <div class="form-group">
 
+
+
+
     <label>{{form.woAsset.label}}</label>
-      {% render_field form.woAsset  class="form-control selectpicker" data-show-subtext="true" data-live-search="true" %}
+    {{ form.woAsset.as_hidden }}
 
-
+    {% render_field form.woasset_ class="form-control advanced2AutoComplete4" %}
   </div>
 
 

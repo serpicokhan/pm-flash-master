@@ -28,6 +28,34 @@ $(function () {
         $("#modal-company .modal-content").html(data.html_miniWorkorder_form);
           $('.selectpicker').selectpicker();
           $('.basicAutoComplete').autoComplete();
+          $('.advanced2AutoComplete4').autoComplete({
+            resolver: 'custom',
+            noResultsText:'بدون نتیجه',
+            formatResult: function (item) {
+              return {
+                value: item.id,
+                text: "[" + item.assetCode + "] " + item.assetName,
+              };
+            },
+            events: {
+              search: function (qry, callback) {
+                // let's do a custom ajax call
+                $.ajax(
+                  '/Asset/GetAssets',
+                  {
+                    data: { 'qry': qry}
+                  }
+                ).done(function (res) {
+                  callback(res);
+                });
+              },
+            }
+          });
+          $('.advanced2AutoComplete4').on('autocomplete.select', function (evt, item) {
+            // alert("!23");
+            $("#id_woAsset").val(item.id);
+            
+          });
 
       },
       error:function(x,y,z){
@@ -169,6 +197,7 @@ $("#modal-company").on("submit", ".js-miniWorkorder-create-form", saveForm);
 $("#company-table").on("click", ".js-update-miniWorkorder", myWoLoader);
 $("#company-table").on("click", "tr", myWoLoader);
 $("#modal-company").on("submit", ".js-miniWorkorder-update-form", saveForm);
+$("#modal-company").on("change", "#id_makan", change);
 // Delete book
 $("#company-table").on("click", ".js-delete-miniWorkorder", loadForm);
 $("#modal-company").on("submit", ".js-miniWorkorder-delete-form", saveForm);

@@ -191,16 +191,15 @@ class SearchFormSetForm(forms.Form):
 
 class MiniWorkorderForm(forms.ModelForm):
 
-
-    def __init__(self,workorder=None,*args,**kwargs):
-
-        super (MiniWorkorderForm,self ).__init__(*args,**kwargs) # populates the post
-
-        self.fields['woAsset'].queryset = Asset.objects.filter(assetIsLocatedAt__isnull=True)
-        #AssetMeterTemplate.objects.filter(assetMeterTemplateAsset=WorkOrder.objects.get(id=workorder).woAsset)
+    # maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all())
+    woAsset = MyModelChoiceField(label="نوع نگهداری",queryset=Asset.objects.none())
+    woasset_ = forms.CharField(label='دارایی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
 
 
-
+    def clean_woAsset(self):
+         i=self.cleaned_data['woAsset']
+         value=Asset.objects.get(id=i)
+         return value
     def clean_woStatus(self):
          value=1
          return value
