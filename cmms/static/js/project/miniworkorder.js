@@ -54,7 +54,7 @@ $(function () {
           $('.advanced2AutoComplete4').on('autocomplete.select', function (evt, item) {
             // alert("!23");
             $("#id_woAsset").val(item.id);
-            
+
           });
 
       },
@@ -197,7 +197,7 @@ $("#modal-company").on("submit", ".js-miniWorkorder-create-form", saveForm);
 $("#company-table").on("click", ".js-update-miniWorkorder", myWoLoader);
 $("#company-table").on("click", "tr", myWoLoader);
 $("#modal-company").on("submit", ".js-miniWorkorder-update-form", saveForm);
-$("#modal-company").on("change", "#id_makan", change);
+// $("#modal-company").on("change", "#id_makan", change);
 // Delete book
 $("#company-table").on("click", ".js-delete-miniWorkorder", loadForm);
 $("#modal-company").on("submit", ".js-miniWorkorder-delete-form", saveForm);
