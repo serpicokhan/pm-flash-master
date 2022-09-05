@@ -1118,7 +1118,7 @@ class WOUtility:
                         user_id         = request.user.pk,
                         content_type_id = ContentType.objects.get_for_model(oldWo).pk,
                         object_id       = oldWo.id,
-                        object_repr     = 'workorder',
+                        object_repr     = 'دستور کار موردی',
                         action_flag     = CHANGE,
                         change_message= request.META.get('REMOTE_ADDR')
                     )
@@ -1129,7 +1129,7 @@ class WOUtility:
                 user_id         = request.user.pk,
                 content_type_id = ContentType.objects.get_for_model(form.instance).pk,
                 object_id       = form.instance.id,
-                object_repr     = 'workorder',
+                object_repr     = 'دستور کار موردی',
                 action_flag     = CHANGE,
                 change_message= request.META.get('REMOTE_ADDR')
             )
@@ -1138,7 +1138,7 @@ class WOUtility:
                 user_id         = request.user.pk,
                 content_type_id = ContentType.objects.get_for_model(form.instance).pk,
                 object_id       = form.instance.id,
-                object_repr     = 'workorder',
+                object_repr     = 'دستور کار موردی',
                 action_flag     = ADDITION,
                 change_message= request.META.get('REMOTE_ADDR')
             )
