@@ -54,10 +54,11 @@ INSTALLED_APPS = [
     'cmms.apps.CmmsConfig',
     'widget_tweaks',
 
-    'mathfilters',
+     'mathfilters',
      'rest_framework',
      'django.contrib.humanize',
-         'corsheaders',
+     'corsheaders',
+     'rest_framework.authtoken',  # <-- Here
 
 
      # 'channels',
@@ -142,13 +143,18 @@ WSGI_APPLICATION = 'pm.wsgi.application'
 #         'PORT': '3306',
 #     }
 # }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
+    ],
+}
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cmmsuni2',
         'USER': 'root',
         'PASSWORD': 'docker-root',
-        'HOST': '172.16.2.149',
+        'HOST': '192.168.183.129',
         'PORT': '3306',
     }
 }
