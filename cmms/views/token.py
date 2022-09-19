@@ -62,7 +62,4 @@ class RegMiniView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        # for k in serializer.data:
-        #     # k.datecreated=DateJob.getDate2(k.datecreated)
-        #     k["datecreated"]= str(jdatetime.datetime.fromgregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
-        # return Response(serializer.data)
+        
