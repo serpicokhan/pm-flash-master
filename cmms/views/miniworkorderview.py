@@ -30,6 +30,10 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.context_processors import PermWrapper
 from django.db.models import Q
 from cmms.business.WOUtility import *
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated  # <-- Here
 
 @permission_required('cmms.view_miniworkorder')
 def list_miniWorkorder(request,id=None):
@@ -53,7 +57,7 @@ def save_miniWorkorder_form(request, form, template_name,id=None):
 
     data = dict()
     if (request.method == 'POST'):
-        
+
         if form.is_valid():
             form.save()
             RequestedUser=SysUser.objects.get(userId=request.user)
@@ -150,7 +154,7 @@ def miniWorkorder_update(request, id):
     return save_miniWorkorder_form(request, form,"cmms/miniworkorder/partialMiniWorkorderUpdate.html",id)
 ##########################################################
 def miniWorkorder_view(request, id):
-    print(id,"id")
+    # print(id,"id")
     comp1 = get_object_or_404(WorkOrder, id=id)
     data = dict()
 

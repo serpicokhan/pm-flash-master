@@ -67,6 +67,13 @@ class AssetFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssetFile
         fields = '__all__'
+class MiniWorkorderSerializer(serializers.ModelSerializer):
+
+
+
+    class Meta:
+        model = WorkOrder
+        fields = ('summaryofIssue','woAsset','maintenanceType','woTags','woStatus')
 
 class TaskSerializer(serializers.ModelSerializer):
     taskAssignedToUser = serializers.SlugRelatedField(

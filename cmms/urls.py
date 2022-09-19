@@ -60,6 +60,8 @@ urlpatterns = [
 
     url(r'^MiniWorkorder/(?P<id>\d+)/delete/$', miniWorkorder_delete, name='miniWorkorder_delete'),
 
+     # url(r'^api/v1/Mini/$',mini_collection, name='mini_collection'),
+
 
     url(r'^WorkOrder/(?P<wid>\d+)/(?P<aid>\d+)/setAsset/$', wo_setAsset, name='wo_setAsset'),
     url(r'^WorkOrder/(?P<id>\d+)/deleteChildren$', wo_deleteChildren, name='wo_deleteChildren'),
@@ -733,6 +735,7 @@ urlpatterns = [
             url(r'^PurchaseRequest/(?P<id>\d+)/delete/$', purchaseRequest_delete, name='purchaseRequest_delete'),
             url(r'^PurchaseRequest/filter/$', purchaseRequest_filter, name='purchaseRequest_filter'),
             url(r'^hello/$', views.HelloView.as_view(), name='hello'),
+            url(r'^api/v1/Mini/$', views.MiniView.as_view(), name='MiniView'),
             path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
 
 
