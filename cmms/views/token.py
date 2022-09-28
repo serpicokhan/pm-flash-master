@@ -12,6 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 from cmms.models.workorder import *
 from cmms.api.WOSerializer import *
 from cmms.business.WOUtility import WOUtility
+from rest_framework import status
 
 
 class HelloView(APIView):
@@ -27,7 +28,7 @@ class HelloView(APIView):
 class MiniView(APIView):
     def filterUser(self,request,books):
         if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
-            books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
+            books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))|Q(RequestedUser__userId=request.user)).order_by('-datecreated','-timecreated')
         else:
             books=books.order_by('-datecreated','-timecreated')
         return books
@@ -35,6 +36,7 @@ class MiniView(APIView):
     def post(self,request):
         # print("!23")
         posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
+        print(request.user)
         companies=self.filterUser(request,posts)
         wos=WOUtility.doPaging(request,companies)
         serializer = WOSerializer(wos, many=True)
@@ -45,7 +47,7 @@ class MiniView(APIView):
 class RegMiniView(APIView):
     def filterUser(self,request,books):
         if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
-            books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
+            books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))|Q(RequestedUser__userId=request.user)).order_by('-datecreated','-timecreated')
         else:
             books=books.order_by('-datecreated','-timecreated')
         return books
@@ -54,12 +56,34 @@ class RegMiniView(APIView):
         # print("!23")
         serializer = MiniWorkorderSerializer(data=request.data)
         if serializer.is_valid():
+            # serializer.instance.
             serializer.save()
+            print("her2!")
+
             posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
             companies=self.filterUser(request,posts)
             wos=WOUtility.doPaging(request,companies)
             serializer = WOSerializer(wos, many=True)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.error)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class DetailedMiniView(APIView):
 
-        
+    permission_classes = (IsAuthenticated,)
+    def post(self,request):
+        # print("!23")
+            print(request.POST)
+            id=request.GET.get('id',False)
+            # print(id)
+            if(id):
+                posts = WorkOrder.objects.filter(id=id)
+                print(posts)
+                # print(request.user)
+                serializer = WOSerializerDetaile(posts)
+                print(serializer)
+                return Response(serializer.data)
+            else:
+                content = {'message': 'Error'}
+                print(content)
+                return Response(content)

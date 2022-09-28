@@ -73,7 +73,7 @@ class MiniWorkorderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkOrder
-        fields = ('summaryofIssue','woAsset','maintenanceType','woTags','woStatus')
+        fields = ('summaryofIssue','woAsset','maintenanceType','woStatus','RequestedUser')
 
 class TaskSerializer(serializers.ModelSerializer):
     taskAssignedToUser = serializers.SlugRelatedField(
@@ -148,7 +148,7 @@ class WOSerializerDetaile(serializers.ModelSerializer):
     #     queryset=MaintenanceType.objects.all(), slug_field='id'
     # )
     def get_datecreated(self, obj):
-         return  str(jdatetime.datetime.fromgregorian(date=obj.datecreated).date())
+         return  True #str(jdatetime.datetime.fromgregorian(date=obj.datecreated).date())
 
 
     class Meta:

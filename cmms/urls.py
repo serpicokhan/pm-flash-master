@@ -736,6 +736,8 @@ urlpatterns = [
             url(r'^PurchaseRequest/filter/$', purchaseRequest_filter, name='purchaseRequest_filter'),
             url(r'^hello/$', views.HelloView.as_view(), name='hello'),
             url(r'^api/v1/Mini/$', views.MiniView.as_view(), name='MiniView'),
+            url(r'^api/v1/RegMini/$', views.RegMiniView.as_view(), name='RegMiniView'),
+            url(r'^api/v1/DetailedMini/$', views.DetailedMiniView.as_view(), name='DetailedMiniView'),
             path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
 
 
