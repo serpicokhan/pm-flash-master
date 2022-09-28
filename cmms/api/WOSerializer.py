@@ -134,6 +134,7 @@ class WOSerializer(serializers.ModelSerializer):
         'woStatus','workInstructions','timecreated')
 class WOSerializerDetaile(serializers.ModelSerializer):
     datecreated = serializers.SerializerMethodField()
+     # category_name = serializers.RelatedField(source='category', read_only=True)
     RequestedUser = serializers.SlugRelatedField(
         queryset=SysUser.objects.all(), slug_field='fullName'
     )
