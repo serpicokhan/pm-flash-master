@@ -634,7 +634,7 @@ def list_assetAsset(request,id):
     data['form_is_valid']=True
     return JsonResponse(data)
 
-
+@csrf_exempt
 def asset_getAssets(request):
     searchStr= request.GET['qry'] if request.GET['qry'] else ''
     x=list(AssetUtility.getAssets(searchStr))

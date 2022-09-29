@@ -13,8 +13,8 @@ from cmms.models.workorder import *
 from cmms.api.WOSerializer import *
 from cmms.business.WOUtility import WOUtility
 from rest_framework import status
-
-
+from django.shortcuts import get_object_or_404
+import json
 class HelloView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -36,7 +36,7 @@ class MiniView(APIView):
     def post(self,request):
         # print("!23")
         posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
-        print(request.user)
+        # print(request.user)
         companies=self.filterUser(request,posts)
         wos=WOUtility.doPaging(request,companies)
         serializer = WOSerializer(wos, many=True)
@@ -54,11 +54,15 @@ class RegMiniView(APIView):
     permission_classes = (IsAuthenticated,)
     def post(self,request):
         # print("!23")
-        serializer = MiniWorkorderSerializer(data=request.data)
+        # body_unicode = request.body.decode('utf-8')
+        # body = json.loads(body_unicode)
+        rq=SysUser.objects.get(userId=request.user)
+        serializer =MiniWorkorderSerializer(data=request.data)
         if serializer.is_valid():
-            # serializer.instance.
+            # serializer.RequestedUser=SysUser.objects.get(userId=request.user)
+
             serializer.save()
-            print("her2!")
+            # print("her2!")
 
             posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
             companies=self.filterUser(request,posts)
@@ -66,24 +70,57 @@ class RegMiniView(APIView):
             serializer = WOSerializer(wos, many=True)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            print(serializer.error)
+            print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class DetailedMiniView(APIView):
 
     permission_classes = (IsAuthenticated,)
     def post(self,request):
         # print("!23")
-            print(request.POST)
+            # print(request.POST)
             id=request.GET.get('id',False)
             # print(id)
             if(id):
-                posts = WorkOrder.objects.filter(id=id)
-                print(posts)
+                try:
+                    posts = WorkOrder.objects.get(id=id,RequestedUser__userId=request.user)
+                except WorkOrder.DoesNotExist:
+                    content = {'message': 'Nothing to Show'}
+                    # print(content)
+                    return Response(content)
+                # print(posts)
                 # print(request.user)
                 serializer = WOSerializerDetaile(posts)
-                print(serializer)
+                # serializer = WOSerializer(posts)
+                # print(serializer)
                 return Response(serializer.data)
             else:
                 content = {'message': 'Error'}
-                print(content)
+                # print(content)
+                return Response(content)
+class DeleteMiniView(APIView):
+    def filterUser(self,request,books):
+        if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
+            books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))|Q(RequestedUser__userId=request.user)).order_by('-datecreated','-timecreated')
+        else:
+            books=books.order_by('-datecreated','-timecreated')
+        return books
+
+    permission_classes = (IsAuthenticated,)
+    def post(self,request):
+            id=request.GET.get('id',False)
+            if(id):
+                try:
+                    post = WorkOrder.objects.get(id=id,RequestedUser__userId=request.user)
+                    post.delete()
+                except WorkOrder.DoesNotExist:
+                    content = {'message': 'Nothing to Show'}
+                    return Response(content)
+                posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
+                companies=self.filterUser(request,posts)
+                wos=WOUtility.doPaging(request,companies)
+                serializer = WOSerializer(wos, many=True)
+                return Response(serializer.data)
+            else:
+                content = {'message': 'Error'}
+                # print(content)
                 return Response(content)
