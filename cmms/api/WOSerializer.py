@@ -73,7 +73,7 @@ class MiniWorkorderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkOrder
-        fields = ('summaryofIssue','woAsset','maintenanceType','woStatus','RequestedUser')
+        fields = ('summaryofIssue','woAsset','maintenanceType','woStatus','RequestedUser','timecreated')
 
 class TaskSerializer(serializers.ModelSerializer):
     taskAssignedToUser = serializers.SlugRelatedField(
@@ -107,7 +107,7 @@ class woPartSerializer(serializers.ModelSerializer):
 
 
 class WOSerializer(serializers.ModelSerializer):
-    
+
 
     datecreated = serializers.SerializerMethodField()
     # RequestedUser = serializers.SlugRelatedField(
@@ -179,3 +179,9 @@ class userSerializer(serializers.ModelSerializer):
     class Meta:
         model = testuser
         fields = ('id', 'massage')
+class SysUserSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = SysUser
+        fields = ('id', 'fullName','title','password','email','userId')

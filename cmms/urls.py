@@ -739,6 +739,7 @@ urlpatterns = [
             url(r'^api/v1/RegMini/$', views.RegMiniView.as_view(), name='RegMiniView'),
             url(r'^api/v1/DetailedMini/$', views.DetailedMiniView.as_view(), name='DetailedMiniView'),
             url(r'^api/v1/DeleteMini/$', views.DeleteMiniView.as_view(), name='DeleteMiniView'),
+            url(r'^api/v1/RegUser/$', views.SysUserView.as_view(), name='SysUserView'),
             path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
 
 

@@ -57,6 +57,8 @@ class RegMiniView(APIView):
         # body_unicode = request.body.decode('utf-8')
         # body = json.loads(body_unicode)
         rq=SysUser.objects.get(userId=request.user)
+        request.data['RequestedUser']=rq.id
+        # print('123')
         serializer =MiniWorkorderSerializer(data=request.data)
         if serializer.is_valid():
             # serializer.RequestedUser=SysUser.objects.get(userId=request.user)
@@ -122,5 +124,36 @@ class DeleteMiniView(APIView):
                 return Response(serializer.data)
             else:
                 content = {'message': 'Error'}
+                # print(content)
+                return Response(content)
+class SysUserView(APIView):
+
+
+
+    def createDjangoUser(self,user):
+        djangoUser = User.objects.create_user(username=user['fullName'],
+                               email=user['email'],
+                                  password=user['password'])
+        user['userId']=djangoUser.id
+    def post(self,request):
+        try:
+
+            self.createDjangoUser(request.data)
+
+            serializer=SysUserSerializer(data=request.data)
+            if serializer.is_valid():
+                # serializer.RequestedUser=SysUser.objects.get(userId=request.user)
+
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                content = {'message': serializer.errors}
+                # print(content)
+                return Response(content)
+        except Exception as e:
+
+
+            # else:
+                content = {'message': str(e)}
                 # print(content)
                 return Response(content)
