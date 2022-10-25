@@ -44,7 +44,7 @@ from django.db import  transaction
 def filterUser(request):
     user1=SysUser.objects.get(userId=request.user)
     books=Asset.objects.none()
-    if(( not user1.userId.groups.filter(name= 'manager').exists())):
+    if(( not user1.userId.groups.filter(name__in= ('manager','operator')).exists())):
         books = Asset.objects.filter(Q(id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
     else:
         books=Asset.objects.all().order_by('-id')
@@ -57,17 +57,18 @@ def filterUserByResult(request,books):
         pass
     return books
 
-@permission_required('cmms.view_assets')
+@permission_required('cmms.view_asset')
 def list_asset(request,id=None):
     books=[]
     books =filterUser(request)
+    print(123)
     wos,page=AssetUtility.doPagingWithPage(request,books)
     return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset','page':page})
 
 
 
 
-@permission_required('cmms.view_assets')
+@permission_required('cmms.view_asset')
 def list_asset_location(request):
     books=[]
     books =filterUser(request).filter(assetTypes=1).order_by('-assetName')
@@ -76,14 +77,14 @@ def list_asset_location(request):
     # books=Asset.objects.filter(assetTypes=1)
     # return render(request, 'cmms/asset/assetList.html', {'asset': books})
 
-@permission_required('cmms.view_assets')
+@permission_required('cmms.view_asset')
 def list_asset_machine(request):
     books=[]
     books =filterUser(request).filter(assetTypes=2).order_by('-assetName')
     wos,page=AssetUtility.doPagingWithPage(request,books)
     return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_machine','page':page})
 
-@permission_required('cmms.view_assets')
+@permission_required('cmms.view_asset')
 def list_asset_tool(request):
     books=[]
     books =filterUser(request).filter(assetTypes=3).order_by('-assetName')
