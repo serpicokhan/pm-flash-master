@@ -39,7 +39,7 @@ class MiniView(APIView):
         # print(request.user)
         companies=self.filterUser(request,posts)
         wos=WOUtility.doPaging(request,companies)
-        serializer = WOSerializer(wos, many=True)
+        serializer = WOSerializer2(wos, many=True)
         # for k in serializer.data:
         #     # k.datecreated=DateJob.getDate2(k.datecreated)
         #     k["datecreated"]= str(jdatetime.datetime.fromgregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
