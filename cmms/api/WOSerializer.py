@@ -67,6 +67,13 @@ class AssetFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssetFile
         fields = '__all__'
+class MiniWorkorderSerializer(serializers.ModelSerializer):
+
+
+
+    class Meta:
+        model = WorkOrder
+        fields = ('summaryofIssue','woAsset','maintenanceType','woStatus','RequestedUser','timecreated')
 
 class TaskSerializer(serializers.ModelSerializer):
     taskAssignedToUser = serializers.SlugRelatedField(
@@ -100,19 +107,35 @@ class woPartSerializer(serializers.ModelSerializer):
 
 
 class WOSerializer(serializers.ModelSerializer):
+
+
     datecreated = serializers.SerializerMethodField()
-    RequestedUser = serializers.SlugRelatedField(
-        queryset=SysUser.objects.all(), slug_field='fullName'
-    )
-    assignedToUser = serializers.SlugRelatedField(
-        queryset=SysUser.objects.all(), slug_field='fullName'
-    )
-    woAsset = serializers.SlugRelatedField(
-        queryset=Asset.objects.all(), slug_field='assetName'
-    )
+    # RequestedUser = serializers.SlugRelatedField(
+    #     queryset=SysUser.objects.all(), slug_field='fullName'
+    # )
+    # RequestedUser = serializers.RelatedField(source='SysUser', read_only=True)
+    # assignedToUser = serializers.RelatedField(source='SysUser', read_only=True)
+    # assignedToUser = serializers.SlugRelatedField(
+    #     queryset=SysUser.objects.all(), slug_field='fullName'
+    # )
+    # woAsset = serializers.RelatedField(source='Asset', read_only=True)
+    # woAsset = serializers.SlugRelatedField(
+    #     queryset=Asset.objects.all(), slug_field='assetName'
+    # )
     maintenanceType =MaintenanceTypeSerializer(read_only=True)
     def get_datecreated(self, obj):
          return  str(jdatetime.datetime.fromgregorian(date=obj.datecreated).date())
+
+    # def update(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     instance.RequestedUser = SysUser.objects.get(userId=request.user)# request.data.get("name")
+    #     instance.save()
+    #
+    #     serializer = self.get_serializer(instance)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_update(serializer)
+    #
+    #     return Response(serializer.data)
     #  serializers.SlugRelatedField(
     #     queryset=MaintenanceType.objects.all(), slug_field='id'
     # )
@@ -127,15 +150,18 @@ class WOSerializer(serializers.ModelSerializer):
         'woStatus','workInstructions','timecreated')
 class WOSerializerDetaile(serializers.ModelSerializer):
     datecreated = serializers.SerializerMethodField()
-    RequestedUser = serializers.SlugRelatedField(
-        queryset=SysUser.objects.all(), slug_field='fullName'
-    )
-    assignedToUser = serializers.SlugRelatedField(
-        queryset=SysUser.objects.all(), slug_field='fullName'
-    )
-    woAsset = serializers.SlugRelatedField(
-        queryset=Asset.objects.all(), slug_field='assetName'
-    )
+    RequestedUser = serializers.RelatedField(source='SysUser', read_only=True)
+    # RequestedUser = serializers.SlugRelatedField(
+    #     queryset=SysUser.objects.all(), slug_field='fullName'
+    # )
+    # assignedToUser = serializers.SlugRelatedField(
+    #     queryset=SysUser.objects.all(), slug_field='fullName'
+    # )
+    assignedToUser=serializers.RelatedField(source='SysUser', read_only=True)
+    # woAsset = serializers.SlugRelatedField(
+    #     queryset=Asset.objects.all(), slug_field='assetName'
+    # )
+    woAsset=serializers.RelatedField(source='Asset', read_only=True)
     maintenanceType =MaintenanceTypeSerializer(read_only=True)
     # maintenanceType = serializers.SlugRelatedField(
     #     queryset=MaintenanceType.objects.all(), slug_field='id'
@@ -153,3 +179,9 @@ class userSerializer(serializers.ModelSerializer):
     class Meta:
         model = testuser
         fields = ('id', 'massage')
+class SysUserSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = SysUser
+        fields = ('id', 'fullName','title','password','email','userId')

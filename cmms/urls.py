@@ -5,6 +5,7 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView,LogoutView
+from rest_framework.authtoken.views import obtain_auth_token  # <-- Here
 
 urlpatterns = [
     # url(r'^login/$',LoginView(template_name= 'cmms/registration/login.html'), name='login'),
@@ -58,6 +59,8 @@ urlpatterns = [
     url(r'^MiniWorkorder/(?P<id>\d+)/view/$', miniWorkorder_view, name='miniWorkorder_view'),
 
     url(r'^MiniWorkorder/(?P<id>\d+)/delete/$', miniWorkorder_delete, name='miniWorkorder_delete'),
+
+     # url(r'^api/v1/Mini/$',mini_collection, name='mini_collection'),
 
 
     url(r'^WorkOrder/(?P<wid>\d+)/(?P<aid>\d+)/setAsset/$', wo_setAsset, name='wo_setAsset'),
@@ -731,6 +734,13 @@ urlpatterns = [
             # url(r'^PurchaseRequest/(?P<name>[-\w]+)/Search/$', searchPurchaseRequest, name='searchPurchaseRequest'),
             url(r'^PurchaseRequest/(?P<id>\d+)/delete/$', purchaseRequest_delete, name='purchaseRequest_delete'),
             url(r'^PurchaseRequest/filter/$', purchaseRequest_filter, name='purchaseRequest_filter'),
+            url(r'^hello/$', views.HelloView.as_view(), name='hello'),
+            url(r'^api/v1/Mini/$', views.MiniView.as_view(), name='MiniView'),
+            url(r'^api/v1/RegMini/$', views.RegMiniView.as_view(), name='RegMiniView'),
+            url(r'^api/v1/DetailedMini/$', views.DetailedMiniView.as_view(), name='DetailedMiniView'),
+            url(r'^api/v1/DeleteMini/$', views.DeleteMiniView.as_view(), name='DeleteMiniView'),
+            url(r'^api/v1/RegUser/$', views.SysUserView.as_view(), name='SysUserView'),
+            path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
 
 
 

@@ -47,6 +47,7 @@ $(function () {
                   }
                 ).done(function (res) {
                   callback(res);
+                  console.log((res));
                 });
               },
             }

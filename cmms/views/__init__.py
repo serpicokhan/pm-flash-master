@@ -86,3 +86,4 @@ from cmms.views.bomgroupassetview import *
 from cmms.views.dash_assetview import *
 from cmms.views.purchaseboardview import *
 from cmms.views.purchaserequestview import *
+from cmms.views.token import *

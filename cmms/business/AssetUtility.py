@@ -437,22 +437,22 @@ class AssetUtility:
 
 
         if(searchStr != 'empty'):
-            q=searchStr
-            for qstr in q:
-                if(aType>0):
-                     if(qstr.isdigit()):
-                         result = result.filter(Q(assetName__icontains=qstr,assetTypes=aType)
-                                                |Q(assetCode__icontains=qstr,assetTypes=aType)|Q(id=int(qstr),assetTypes=aType)|Q(assetCategory__name__icontains=qstr,assetTypes=aType)).order_by('-id')
-                     else:
-                        print("here")
+            qstr=searchStr
+            # for qstr in q:
+            if(aType>0):
+                 if(qstr.isdigit()):
+                     result = result.filter(Q(assetName__icontains=qstr,assetTypes=aType)
+                                            |Q(assetCode__icontains=qstr,assetTypes=aType)|Q(id=int(qstr),assetTypes=aType)|Q(assetCategory__name__icontains=qstr,assetTypes=aType)).order_by('-id')
+                 else:
+                    print("here")
 
-                        result= result.filter(Q(assetName__icontains=qstr,assetTypes=aType)|Q(assetCode__icontains=qstr,assetTypes=aType)
-                                           |Q(assetCategory__name__icontains=qstr,assetTypes=aType)).order_by('-id')
-                else:
-                     if(qstr.isdigit()):
-                          result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(id=int(qstr))).order_by('-id')
-                     else:
-                         result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(assetCategory__name__icontains=qstr)).order_by('-id')
+                    result= result.filter(Q(assetName__icontains=qstr,assetTypes=aType)|Q(assetCode__icontains=qstr,assetTypes=aType)
+                                       |Q(assetCategory__name__icontains=qstr,assetTypes=aType)).order_by('-id')
+            else:
+                 if(qstr.isdigit()):
+                      result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(id=int(qstr))).order_by('-id')
+                 else:
+                     result= result.filter(Q(assetName__icontains=qstr)|Q(assetCode__icontains=qstr)|Q(assetCategory__name__icontains=qstr)).order_by('-id')
             return result.extra(select={'length':'Length(assetName)'}).order_by('length')
 
 
@@ -673,6 +673,7 @@ class AssetUtility:
     def duplicate_asset(id,tedad,pishvand,partof):
             foo=Asset.objects.get(pk=id)
             foo.pk=None
+            print(partof,"partof")
             foo.assetName=foo.assetName+' '+str(tedad)
             # foo.assetCode=pishvand+' '+str(tedad)
             foo.assetCode=AssetUtility.find_temp_assetcode(foo,pishvand)
