@@ -12,7 +12,7 @@
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
                                 </a>
-                                {% if perms.cmms.add_assets %}
+                                {% if perms.cmms.add_asset %}
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                     <i class="fa fa-wrench"></i>
                                 </a>
@@ -105,7 +105,7 @@
 
                                 </div>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
-                                {% if perms.cmms.add_assets %}
+                                {% if perms.cmms.add_asset %}
                                 <p>
                                   <button type="button" class="btn btn-primary js-select-asset-type"
                                   data-url="{% url 'asset_type_selector' %}"                                  >
