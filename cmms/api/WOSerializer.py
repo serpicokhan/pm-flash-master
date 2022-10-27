@@ -148,6 +148,19 @@ class WOSerializer(serializers.ModelSerializer):
         model = WorkOrder
         fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser',
         'woStatus','workInstructions','timecreated')
+class MainSysUserSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = SysUser
+        fields = ('id', 'fullName','title','email','userId')
+class MiniAssetSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = Asset
+        fields = ('id', 'assetName')
+
 class WOSerializer2(serializers.ModelSerializer):
 
 
@@ -155,15 +168,16 @@ class WOSerializer2(serializers.ModelSerializer):
     # RequestedUser = serializers.SlugRelatedField(
     #     queryset=SysUser.objects.all(), slug_field='fullName'
     # )
-    RequestedUser = serializers.SlugRelatedField(
-        queryset=SysUser.objects.all(), slug_field='fullName'
-    )
-    # RequestedUser = serializers.RelatedField(source='SysUser', read_only=True)
+    # RequestedUser = serializers.SlugRelatedField(
+    #     queryset=SysUser.objects.all(), slug_field='fullName'
+    # )
+    RequestedUser = MainSysUserSerializer( read_only=True)
+    assignedToUser = MainSysUserSerializer( read_only=True)
     # assignedToUser = serializers.RelatedField(source='SysUser', read_only=True)
     # assignedToUser = serializers.SlugRelatedField(
     #     queryset=SysUser.objects.all(), slug_field='fullName'
     # )
-    woAsset = serializers.RelatedField(source='Asset', read_only=True)
+    woAsset = MiniAssetSerializer(read_only=True)
     # woAsset = serializers.SlugRelatedField(
     #     queryset=Asset.objects.all(), slug_field='assetName'
     # )
@@ -171,22 +185,7 @@ class WOSerializer2(serializers.ModelSerializer):
     def get_datecreated(self, obj):
          return  str(jdatetime.datetime.fromgregorian(date=obj.datecreated).date())
 
-    # def update(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     instance.RequestedUser = SysUser.objects.get(userId=request.user)# request.data.get("name")
-    #     instance.save()
-    #
-    #     serializer = self.get_serializer(instance)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_update(serializer)
-    #
-    #     return Response(serializer.data)
-    #  serializers.SlugRelatedField(
-    #     queryset=MaintenanceType.objects.all(), slug_field='id'
-    # )
-    # color = serializers.SlugRelatedField(
-    #     queryset=MaintenanceType.objects.all(), slug_field='color'
-    # )
+
 
 
     class Meta:
@@ -230,3 +229,9 @@ class SysUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SysUser
         fields = ('id', 'fullName','title','password','email','userId')
+class MainSysUserSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = SysUser
+        fields = ('id', 'fullName','title','email','userId')
