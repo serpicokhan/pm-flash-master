@@ -56,7 +56,8 @@ class RegMiniView(APIView):
         # print("!23")
         # body_unicode = request.body.decode('utf-8')
         # body = json.loads(body_unicode)
-        rq=SysUser.objects.get(userId=request.user)
+        print(request.user.id,"req")
+        rq=SysUser.objects.get(userId=request.user.id)
         request.data['RequestedUser']=rq.id
         # print('123')
         serializer =MiniWorkorderSerializer(data=request.data)
@@ -143,8 +144,12 @@ class SysUserView(APIView):
             serializer=SysUserSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.userId=User.objects.get(id=u_id)
+                # print(serializer)
 
-                serializer.save()
+                uu=serializer.save()
+                uu.userId=User.objects.get(id=u_id)
+                uu.save()
+
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
                 content = {'message': serializer.errors}
