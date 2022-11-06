@@ -134,15 +134,15 @@ class SysUserView(APIView):
         djangoUser = User.objects.create_user(username=user['fullName'],
                                email=user['email'],
                                   password=user['password'])
-        user['userId']=djangoUser.id
+        return djangoUser.id
     def post(self,request):
         try:
 
-            self.createDjangoUser(request.data)
+            u_id=self.createDjangoUser(request.data)
 
             serializer=SysUserSerializer(data=request.data)
             if serializer.is_valid():
-                # serializer.RequestedUser=SysUser.objects.get(userId=request.user)
+                serializer.userId=User.objects.get(id=u_id)
 
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
