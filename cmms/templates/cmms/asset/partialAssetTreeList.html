@@ -20,14 +20,14 @@
 
 
  <td>
-   {% if perms.cmms.view_assets %}
+   {% if perms.cmms.view_asset %}
    <button type="button"
               class=" btn btn-outline btn-warning btn-sm js-update-asset"
               data-url="{% url 'asset_update' c.id %}">
         <span class="glyphicon glyphicon-pencil"></span>
       </button>
       {% endif %}
-      {% if perms.cmms.delete_assets %}
+      {% if perms.cmms.delete_asset %}
       <button type="button"
                    class="btn btn-outline btn-danger btn-sm js-delete-asset"
                    data-url="{% url 'asset_delete' c.id %}">
