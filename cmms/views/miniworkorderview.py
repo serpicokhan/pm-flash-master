@@ -117,11 +117,19 @@ def miniWorkorder_delete(request, id):
             'perms': PermWrapper(request.user)
         })
     else:
-        context = {'miniWorkorder': comp1}
-        data['html_miniWorkorder_form'] = render_to_string('cmms/miniworkorder/partialMiniWorkorderDelete.html',
-            context,
-            request=request,
-        )
+        if(comp1.woStatus==1):
+            context = {'miniWorkorder': comp1}
+            data['html_miniWorkorder_form'] = render_to_string('cmms/miniworkorder/partialMiniWorkorderDelete.html',
+                context,
+                request=request,
+            )
+        else:
+            context = {'miniWorkorder': comp1}
+            data['html_miniWorkorder_form'] = render_to_string('cmms/miniworkorder/partialMiniWorkorderCantDelete.html',
+                context,
+                request=request,
+            )
+
     return JsonResponse(data)
 
 ##########################################################

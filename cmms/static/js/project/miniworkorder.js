@@ -196,7 +196,7 @@ $("#modal-company").on("submit", ".js-miniWorkorder-create-form", saveForm);
 
 // Update book
 $("#company-table").on("click", ".js-update-miniWorkorder", myWoLoader);
-$("#company-table").on("click", "tr", myWoLoader);
+// $("#company-table").on("click", "tr", myWoLoader);
 $("#modal-company").on("submit", ".js-miniWorkorder-update-form", saveForm);
 // $("#modal-company").on("change", "#id_makan", change);
 // Delete book
