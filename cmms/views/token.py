@@ -73,7 +73,7 @@ class RegMiniView(APIView):
             posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
             companies=self.filterUser(request,posts)
             wos=WOUtility.doPaging(request,companies)
-            serializer = WOSerializer(wos, many=True)
+            serializer = WOSerializer2(wos, many=True)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             print(serializer.errors)
@@ -95,7 +95,7 @@ class DetailedMiniView(APIView):
                     return Response(content)
                 # print(posts)
                 # print(request.user)
-                serializer = WOSerializerDetaile(posts)
+                serializer = WOSerializer2(posts)
                 # serializer = WOSerializer(posts)
                 # print(serializer)
                 return Response(serializer.data)
@@ -124,7 +124,7 @@ class DeleteMiniView(APIView):
                 posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
                 companies=self.filterUser(request,posts)
                 wos=WOUtility.doPaging(request,companies)
-                serializer = WOSerializer(wos, many=True)
+                serializer = WOSerializer2(wos, many=True)
                 return Response(serializer.data)
             else:
                 content = {'message': 'Error'}
