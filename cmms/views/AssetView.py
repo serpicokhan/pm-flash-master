@@ -45,14 +45,14 @@ def filterUser(request):
     user1=SysUser.objects.get(userId=request.user)
     books=Asset.objects.none()
     if(( not user1.userId.groups.filter(name__in= ('manager','operator')).exists())):
-        books = Asset.objects.filter(Q(id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
+        books = Asset.objects.filter(Q(id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
     else:
         books=Asset.objects.all().order_by('-id')
     return books
 def filterUserByResult(request,books):
     # books=Asset.objects.none()
     if(request.user.username!="admin"):
-        books = books.filter(Q(id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
+        books = books.filter(Q(id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
     else:
         pass
     return books
