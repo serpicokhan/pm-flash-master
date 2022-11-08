@@ -102,7 +102,9 @@ def save_asset_form(request, form, template_name,id=None,page=None):
             form.save()
             data['form_is_valid'] = True
             books = filterUser(request)
-            print("save asset page",page)
+            # print("save asset page",page)
+            AssetUtility.log(request,form,id)
+            print(1)
             # page=request.GET.get('page',1)
             wos,page=AssetUtility.doPagingWithPage(request,books)
             data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {

@@ -14,6 +14,8 @@ import csv
 import codecs
 from django.http import HttpResponse
 import locale
+from django.contrib.admin.models import LogEntry, ADDITION,CHANGE,DELETION
+from django.contrib.contenttypes.models import ContentType
 class AssetUtility:
 
     @staticmethod
@@ -740,3 +742,23 @@ class AssetUtility:
             writer.writerow([getattr(obj, field) for field in field_names])
         return response
     download_csv.short_description = "Download selected as csv"
+    @staticmethod
+    def log(request,form,id):
+        if(id):
+            LogEntry.objects.log_action(
+                user_id         = request.user.pk,
+                content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                object_id       = form.instance.id,
+                object_repr     = 'asset',
+                action_flag     = CHANGE,
+                change_message= request.META.get('REMOTE_ADDR')
+            )
+        else:
+            LogEntry.objects.log_action(
+                user_id         = request.user.pk,
+                content_type_id = ContentType.objects.get_for_model(form.instance).pk,
+                object_id       = form.instance.id,
+                object_repr     = 'asset',
+                action_flag     = ADDITION,
+                change_message= request.META.get('REMOTE_ADDR')
+            )

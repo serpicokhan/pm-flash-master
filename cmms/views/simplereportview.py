@@ -2160,6 +2160,7 @@ class reporttest:
     def LogReport(Self,request):
          books=LogEntry.objects.none()
          reportType=request.POST.getlist("reportType","")
+         print(reportType[0],"report")
          date1=DateJob.getDate2(request.POST.get("startDate",""))
          date2=DateJob.getDate2(request.POST.get("endDate",""))
          startDate=request.POST.get("startDate","").replace('-','/')
@@ -2170,11 +2171,11 @@ class reporttest:
          if(len(reportType)==0):
               reportType.append(-1)
          if((reportType[0]==-1)):
-             print(LogEntry.objects.filter(action_time__range=(date1,date2)).query)
+             # print(LogEntry.objects.filter(action_time__range=(date1,date2)).query)
 
              books=LogEntry.objects.filter(action_time__range=(date1,date2))
          else:
-             books=LogEntry.objects.filter(object_repr=reportType,action_time__range=(date1,date2))
+             books=LogEntry.objects.filter(object_repr__in=reportType,action_time__range=(date1,date2))
          return render(request, 'cmms/reports/simplereports/logReport.html',{'wolog':books,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
     def SummaryReportByUser(Self,request):
          reportType=request.POST.getlist("reportType","")
