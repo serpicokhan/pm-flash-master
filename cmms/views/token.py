@@ -58,13 +58,16 @@ class RegMiniView(APIView):
         # body = json.loads(body_unicode)
         print(request.user.id,"req")
         rq=SysUser.objects.get(userId=request.user.id)
-        request.data['RequestedUser']=rq.id
+        # request.data['RequestedUser']=rq.id
+
         # print('123')
         serializer =MiniWorkorderSerializer(data=request.data)
         if serializer.is_valid():
             # serializer.RequestedUser=SysUser.objects.get(userId=request.user)
 
-            serializer.save()
+            io1=serializer.save()
+            io1.RequestedUser=rq
+            io1.save()
             # print("her2!")
 
             posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
