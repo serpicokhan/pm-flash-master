@@ -51,7 +51,7 @@ def filterUser(request):
     return books
 def filterUserByResult(request,books):
     # books=Asset.objects.none()
-    if(request.user.username!="admin"):
+    if(not request.user.groups.filter(name__in= ('manager','operator')).exists()):
         books = books.filter(Q(id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
     else:
         pass
@@ -313,9 +313,10 @@ def get_location_by_category(request):
     return JsonResponse(data)
 #######################Search By tags#####################
 def asset_search(request,kvm):
+
     q=request.GET.get("q","")
     page=request.GET.get('page',1)
-    print('asset  page',page)
+    print('asset  page',page,q)
     data=dict()
     print(kvm,'///',q)
     books=AssetUtility.seachAsset(kvm,q)
