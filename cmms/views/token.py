@@ -57,19 +57,22 @@ class RegMiniView(APIView):
         # body_unicode = request.body.decode('utf-8')
         # body = json.loads(body_unicode)
         rq=SysUser.objects.get(userId=request.user)
-        request.data['RequestedUser']=rq.id
+        # request.data['RequestedUser']=rq.id
         # print('123')
         serializer =MiniWorkorderSerializer(data=request.data)
         if serializer.is_valid():
             # serializer.RequestedUser=SysUser.objects.get(userId=request.user)
 
-            serializer.save()
+            io1=serializer.save()
+            io1.RequestedUser=rq
+            io1.save()
+
             # print("her2!")
 
             posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
             companies=self.filterUser(request,posts)
             wos=WOUtility.doPaging(request,companies)
-            serializer = WOSerializer(wos, many=True)
+            serializer = WOSerializer2(wos, many=True)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             print(serializer.errors)
