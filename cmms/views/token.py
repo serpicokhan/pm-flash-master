@@ -56,23 +56,21 @@ class RegMiniView(APIView):
         # print("!23")
         # body_unicode = request.body.decode('utf-8')
         # body = json.loads(body_unicode)
-        rq=SysUser.objects.get(userId=request.user)
-        # request.data['RequestedUser']=rq.id
+        print(request.user.id,"req")
+        rq=SysUser.objects.get(userId=request.user.id)
+        request.data['RequestedUser']=rq.id
         # print('123')
         serializer =MiniWorkorderSerializer(data=request.data)
         if serializer.is_valid():
             # serializer.RequestedUser=SysUser.objects.get(userId=request.user)
 
-            io1=serializer.save()
-            io1.RequestedUser=rq
-            io1.save()
-
+            serializer.save()
             # print("her2!")
 
             posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
             companies=self.filterUser(request,posts)
             wos=WOUtility.doPaging(request,companies)
-            serializer = WOSerializer2(wos, many=True)
+            serializer = WOSerializer(wos, many=True)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             print(serializer.errors)
@@ -137,17 +135,21 @@ class SysUserView(APIView):
         djangoUser = User.objects.create_user(username=user['fullName'],
                                email=user['email'],
                                   password=user['password'])
-        user['userId']=djangoUser.id
+        return djangoUser.id
     def post(self,request):
         try:
 
-            self.createDjangoUser(request.data)
+            u_id=self.createDjangoUser(request.data)
 
             serializer=SysUserSerializer(data=request.data)
             if serializer.is_valid():
-                # serializer.RequestedUser=SysUser.objects.get(userId=request.user)
+                serializer.userId=User.objects.get(id=u_id)
+                # print(serializer)
 
-                serializer.save()
+                uu=serializer.save()
+                uu.userId=User.objects.get(id=u_id)
+                uu.save()
+
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
                 content = {'message': serializer.errors}
