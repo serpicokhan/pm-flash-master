@@ -52,7 +52,7 @@ def filterUser(request):
 def filterUserByResult(request,books):
     # books=Asset.objects.none()
     if(request.user.username!="admin"):
-        books = books.filter(Q(id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
+        books = books.filter(Q(id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filtet(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
     else:
         pass
     return books
