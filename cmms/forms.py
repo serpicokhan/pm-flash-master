@@ -1469,6 +1469,19 @@ class MeterCodeForm(forms.ModelForm):
     class Meta:
          model = MeterCode
          fields = '__all__'
+class AssetExceptionForm(forms.ModelForm):
+    assetExceptionAsset= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    def clean(self):
+                self.is_valid()
+                cleaned_data=super(AssetExceptionForm, self).clean()
+                assetExceptionAsset=cleaned_data.get('assetExceptionAsset','')
+
+
+                return cleaned_data
+    class Meta:
+         model = AssetException
+         fields = '__all__'
 class MiscCostCodeForm(forms.ModelForm):
     def clean(self):
                 self.is_valid()

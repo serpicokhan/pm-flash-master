@@ -1,7 +1,7 @@
 <div  data-url="{% url 'woAction_create' %}" class="js-woAction-create-form" >
 
   <div class="modal-header " style="background:#ccc">
-    <button type="button" class="close"  aria-label="Close">
+    <button type="button" class="close"  aria-label="Close"  data-dismiss="modal">
       <span aria-hidden="true">&times;</span>
     </button>
     <h4 class="modal-title">جدید</h4>
@@ -10,7 +10,7 @@
    {% include 'cmms/settingpages/wo_action_code/partialWoActionForm.html' %}
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-default"  data-dismiss="modal">انصراف</button>
     <button type="button" class="btn btn-primary" id="woAction-submit"  >ذخیره</button>
  <script>
   myformat = function() {
@@ -58,7 +58,7 @@
 
                           $("#tbody_woAction").html(data.html_woAction_list);
                           $("#modal-woAction").modal("hide");
-                        
+
                         }
                         else {
 

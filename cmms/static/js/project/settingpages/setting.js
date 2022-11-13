@@ -334,6 +334,33 @@ var initKpiException=function(){
   });
 return false;
 };
+var initAssetException=function(){
+
+  $.ajax({
+
+    url: '/SettingPage/AssetException/listAssetException',
+
+
+
+    success: function (data) {
+        //alert($("#lastWorkOrderid").val());
+      if (data.form_is_valid) {
+
+
+        //alert(data.html_woCause_list);  // <-- This is just a placeholder for now for testing
+        $("#tbody_assetException").empty();
+        $("#tbody_assetException").html(data.html_assetException_list);
+        $("#modal-assetException").modal("hide");
+        //console.log(data.html_wo_list);
+      }
+      else {
+
+
+      }
+    }
+  });
+return false;
+};
 initKpiException();
 initWoProblemLoad();
 initWoCauseLoad();
@@ -346,4 +373,5 @@ initWoPertLoad();
 initDashAssetLoad();
 initMeterCodeLoad();
 initMiscCostCodeLoad();
+initAssetException();
 });

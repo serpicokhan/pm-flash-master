@@ -1,0 +1,82 @@
+<div  data-url="{% url 'assetException_update' form.instance.id %}" class="js-assetException-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/settingpages/asset_exception/partialAssetExceptionForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+    <button type="button" class="btn btn-primary" id="assetException-submit">ویرایش</button>
+
+
+    <script>
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+   }
+       $( document).ready(
+         function()
+         {
+
+           $("#assetException-submit").click(function(){
+
+                      //alert("12321");
+                      //$( "#myselect option:selected" ).text();
+                      var mydata="";
+                      mydata=myformat('{"assetException":"{0}"}',
+                      $("#id_assetExceptionAsset").val(),
+
+
+                    );
+
+                       var form = $(this).parent().parent();
+
+                       //alert($("#id_metrics").val());
+
+                       $.ajax({
+                         url: form.attr("data-url"),
+                         type: "POST",
+                         data:mydata,
+                         dataType: 'json',
+                         
+                         success: function (data) {
+                           if (data.form_is_valid) {
+                             //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                             $("#tbody_assetException").empty();
+
+                             $("#tbody_assetException").html(data.html_assetException_list);
+                             $("#modal-assetException").modal("hide");
+
+                           }
+                           else {
+
+                             $("#assetException-table tbody").html(data.html_assetException_list);
+                             $("#modal-assetException .modal-content").html(data.html_assetException_form);
+                           }
+                         }
+
+                       });
+                       return false;
+
+
+
+                  });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

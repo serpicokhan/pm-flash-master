@@ -62,6 +62,7 @@ from cmms.views.adsetview import *
 from cmms.views.reportview import *
 from cmms.views.workorderProblemview import *
 from cmms.views.MeterCodeview import *
+from cmms.views.assetExceptionview import *
 from cmms.views.misccostcodeview import *
 from cmms.views.workorderStopview import *
 from cmms.views.workorderPertview import *

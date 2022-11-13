@@ -13,6 +13,7 @@ $(function () {
       success: function (data) {
 
         $("#modal-kpiException .modal-content").html(data.html_kpiException_form);
+      $(".selectpicker").selectpicker();
       }
     });
 

@@ -1,17 +1,17 @@
-<div  data-url="{% url 'offlineStatus_create' %}" class="js-offlineStatus-create-form" >
+<div  data-url="{% url 'assetException_create' %}" class="js-assetException-create-form" >
 
   <div class="modal-header " style="background:#ccc">
-    <button type="button" class="close"  aria-label="Close" data-dismiss="modal">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
     <h4 class="modal-title">جدید</h4>
   </div>
   <div class="modal-body">
-   {% include 'cmms/settingpages/offline_status/partialOfflineStatusForm.html' %}
+   {% include 'cmms/settingpages/asset_exception/partialAssetExceptionForm.html' %}
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default"  data-dismiss="modal">انصراف</button>
-    <button type="button" class="btn btn-primary" id="offlineStatus-submit"  >ذخیره</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" >انصراف</button>
+    <button type="button" class="btn btn-primary" id="assetException-submit"  >ذخیره</button>
  <script>
   myformat = function() {
   var s = arguments[0];
@@ -26,17 +26,13 @@
       function()
       {
 
-        $("#offlineStatus-submit").click(function(){
+        $("#assetException-submit").click(function(){
 
                    //alert("12321");
                    //$( "#myselect option:selected" ).text();
                    var mydata="";
-                   mydata=myformat('{"Code":"{0}"\
-                   ,"description":"{1}","name":"{2}"}',
-                   $("#id_Code").val(),
-                   $("#id_description").val(),
-                   $("#id_name").val(),
-
+                   mydata=myformat('{"assetExceptionAsset":"{0}"}',
+                   $("#id_assetExceptionAsset").val(),
 
                  );
 
@@ -49,24 +45,20 @@
                       type: "POST",
                       data:mydata,
                       dataType: 'json',
-                      beforeSend: function () {
-                        //alert(btn.attr("data-url"));
 
-
-                      },
                       success: function (data) {
                         if (data.form_is_valid) {
                           //alert("Company created!");  // <-- This is just a placeholder for now for testing
-                          $("#tbody_offlineStatus").empty();
+                          $("#tbody_assetException").empty();
 
-                          $("#tbody_offlineStatus").html(data.html_offlineStatus_list);
-                          $("#modal-offlineStatus").modal("hide");
+                          $("#tbody_assetException").html(data.html_assetException_list);
+                          $("#modal-assetException").modal("hide");
 
                         }
                         else {
 
-                          $("#offlineStatus-table tbody").html(data.html_offlineStatus_list);
-                          $("#modal-offlineStatus .modal-content").html(data.html_offlineStatus_form);
+                          $("#assetException-table tbody").html(data.html_assetException_list);
+                          $("#modal-assetException .modal-content").html(data.html_assetException_form);
                         }
                       }
 

@@ -1,7 +1,7 @@
 <div  data-url="{% url 'meterCode_create' %}" class="js-meterCode-create-form" >
 
   <div class="modal-header " style="background:#ccc">
-    <button type="button" class="close"  aria-label="Close">
+    <button type="button" class="close"  aria-label="Close" data-dismiss="modal">
       <span aria-hidden="true">&times;</span>
     </button>
     <h4 class="modal-title">جدید</h4>
@@ -10,7 +10,7 @@
    {% include 'cmms/settingpages/meter_code/partialMeterCodeForm.html' %}
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" >انصراف</button>
+    <button type="button" class="btn btn-default"  data-dismiss="modal">انصراف</button>
     <button type="button" class="btn btn-primary" id="meterCode-submit"  >ذخیره</button>
  <script>
   myformat = function() {

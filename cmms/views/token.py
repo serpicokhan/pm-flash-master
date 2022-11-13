@@ -165,3 +165,21 @@ class SysUserView(APIView):
                 content = {'message': str(e)}
                 # print(content)
                 return Response(content)
+class SiteView(APIView):
+
+
+
+
+    def get(self,request):
+            sites=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).exclude(id__in=AssetException.objects.all().values_list('assetExceptionAsset',flat=True))
+            my_site=MiniAssetSerializer(sites, many=True)
+            return Response(my_site.data)
+class SubSiteView(APIView):
+
+
+
+
+    def get(self,request,id):
+            sites=Asset.objects.filter(Q(assetIsLocatedAt__id=id)|Q(assetIsPartOf__id=id)).filter(assetTypes=1)
+            my_site=MiniAssetSerializer(sites, many=True)
+            return Response(my_site.data)

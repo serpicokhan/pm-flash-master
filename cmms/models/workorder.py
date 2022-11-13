@@ -39,6 +39,18 @@ class MeterCode(models.Model):
     class Meta:
 
         db_table="metercode"
+class AssetException(models.Model):
+    #این مدل برای قسمت تنظیمات تدارک دیده نشده
+    #در صورت استفاده هنگام فراخوانی api درخواست سایت این تجهیزات قلم گرفته می شوند
+    def __str__(self):
+        return self.assetExceptionAsset
+    assetExceptionAsset= models.ForeignKey('Asset',on_delete=models.CASCADE,verbose_name="کد پرت",null=True,blank=True)
+    # meterDescription=models.CharField("َشرح",max_length = 100,null=True,blank=True)
+    # meterAbbr=models.CharField("اختصار",max_length = 5,null=True,blank=True)
+
+    class Meta:
+
+        db_table="assetexception"
 
 
 class MiscCostCode(models.Model):

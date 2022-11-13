@@ -1,0 +1,30 @@
+
+{% for c in assetExceptions %}
+
+<tr>
+
+<td>{{c.assetExceptionAsset}}</td>
+
+
+
+
+
+
+
+ <td><button type="button"
+              class="btn btn-warning btn-sm js-update-assetException"
+              data-url="{% url 'assetException_update' c.id %}">
+
+      </button>
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-assetException"
+                   data-url="{{c.id}}">
+
+           </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="3" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+{% endfor %}

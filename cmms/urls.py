@@ -644,6 +644,11 @@ urlpatterns = [
            url(r'^SettingPage/MiscCostCode/(?P<id>\d+)/Delete/$', miscCostCode_delete, name='miscCostCode_delete'),
            url(r'^SettingPage/MiscCostCode/(?P<id>\d+)/update/$', miscCostCode_update, name='miscCostCode_update'),
 
+           url(r'^SettingPage/AssetException/listAssetException$',js_list_assetException,name='js_list_assetException'),
+           url(r'^SettingPage/AssetException/create/$', assetException_create, name='assetException_create'),
+           url(r'^SettingPage/AssetException/(?P<id>\d+)/Delete/$', assetException_delete, name='assetException_delete'),
+           url(r'^SettingPage/AssetException/(?P<id>\d+)/update/$', assetException_update, name='assetException_update'),
+
 
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetRequestedWo/$', GetRequestedWo, name='GetRequestedWo'),
            url(r'^Summery/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetWoReqNum/$', GetWoReqNum, name='GetWoReqNum'),
@@ -740,6 +745,8 @@ urlpatterns = [
             url(r'^api/v1/DetailedMini/$', views.DetailedMiniView.as_view(), name='DetailedMiniView'),
             url(r'^api/v1/DeleteMini/$', views.DeleteMiniView.as_view(), name='DeleteMiniView'),
             url(r'^api/v1/RegUser/$', views.SysUserView.as_view(), name='SysUserView'),
+            url(r'^api/v1/sites/$', views.SiteView.as_view(), name='SiteView'),
+            url(r'^api/v1/(?P<id>\d+)/subsites/$', views.SubSiteView.as_view(), name='SubSiteView'),
             path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
 
 
