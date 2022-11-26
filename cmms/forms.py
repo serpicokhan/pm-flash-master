@@ -3348,7 +3348,7 @@ class CauseByLocation(forms.Form):
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
 class AssetListForm(forms.Form):
-    main_asset= forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    main_asset= forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 class PurchaseRequest(forms.Form):
     rcode=100
     test='گزارش درخواست های خرید'

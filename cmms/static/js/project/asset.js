@@ -1235,7 +1235,9 @@ var ExportAsset=function(){
   return false;
 
 }
-
+var main_asset_change=function(){
+  window.location='/Asset/?main_asset='+$('#id_main_asset').val()
+}
 //for tr click
 $(".js-create-asset").unbind();
 // $("tr").on("click", showAssetDetails);
@@ -1248,6 +1250,7 @@ $(".js-create-asset").click(myWoLoader);
 $("#modal-company").on("submit", ".js-asset-create-form", saveForm);
 
 $("#modal-assetcategory2").on("submit", ".js-bulkasset-selector-form2", saveAssetCatForm);
+$("#id_main_asset").on("change", main_asset_change);
 $("#modal-assetcategory2").on("submit", ".js-bulkasset-duplicate-form", saveAssetCatForm);
 
 // Update book

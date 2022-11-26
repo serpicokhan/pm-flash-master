@@ -60,11 +60,18 @@ def filterUserByResult(request,books):
 @permission_required('cmms.view_asset')
 def list_asset(request,id=None):
     books=[]
+    dc={}
     books =filterUser(request)
     # print(123)
     sort_type=request.GET.get('sort',False)
     sort_arrow=request.GET.get('asc',False)
+    main_asset=request.GET.get('main_asset',False)
+    if(main_asset):
+        print('mainasset',main_asset)
+        books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset))
+        dc['main_asset']=main_asset
     form=AssetListForm()
+    # dc={'asset': wos,'section':'list_asset','page':page}
     if(sort_type):
         if(sort_type=='1'):
             if(sort_arrow=='asc'):
@@ -91,16 +98,22 @@ def list_asset(request,id=None):
                 books=books.order_by('assetIsLocatedAt')
             else:
                 books=books.order_by('-assetIsLocatedAt')
-        wos,page=AssetUtility.doPagingWithPage(request,books)
+        # wos,page=AssetUtility.doPagingWithPage(request,books)
 
 
-        return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset','page':page,'sort':sort_type,'asc':sort_arrow,'form':form})
+
+        dc['sort']=sort_type
+        dc['asc']=sort_arrow
 
 
 
     wos,page=AssetUtility.doPagingWithPage(request,books)
-    main_asset=Asset.objects.filter(assetIsLocatedAt__isnull=True)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset','page':page,'form':form})
+    dc['asset']=wos
+    dc['section']='list_asset'
+    dc['page']=page
+    # main_asset=Asset.objects.filter(assetIsLocatedAt__isnull=True)
+    dc['form']=form
+    return render(request, 'cmms/asset/assetList.html', dc)
 
 
 

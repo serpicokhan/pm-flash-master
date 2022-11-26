@@ -94,7 +94,7 @@
                                   {% if asset.has_other_pages %}
                                   <ul class="pagination">
                                   {% if asset.has_previous %}
-                                  <li><a href="?page={{ asset.previous_page_number }}">&laquo;</a></li>
+                                  <li><a href="?page={{ asset.previous_page_number }}&sort={{sort}}&asc={{asc}}&main_asset={{main_asset}}">&laquo;</a></li>
                                   {% else %}
                                   <li class="disabled"><span>&laquo;</span></li>
                                   {% endif %}
@@ -102,7 +102,7 @@
 
 
                                   {% if asset.has_next %}
-                                  <li><a href="?page={{ asset.next_page_number }}&sort={{sort}}&asc={{asc}}">&raquo;</a></li>
+                                  <li><a href="?page={{ asset.next_page_number }}&sort={{sort}}&asc={{asc}}&main_asset={{main_asset}}">&raquo;</a></li>
                                   {% else %}
                                   <li class="disabled"><span>&raquo;</span></li>
                                   {% endif %}
