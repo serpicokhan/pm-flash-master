@@ -323,6 +323,7 @@ function findGetParameter(parameterName) {
           result=1
     return result;
 }
+
 //////////
 ////////////////Search buttom click#############################
 var searchAsset= function (loc,searchStr) {
@@ -946,12 +947,15 @@ var showAssetTypeSelector=function(){
 }
 var showAssetDetails=function()
 {
+if(($(this).find("td:eq(1)").index())>0){
   $(".detail").show();
   $("#p_assetdetails").html($(this).find("td:eq(1)").text());
+  // alert($(this).find("td:eq(1)").index());
   showMTTR($(this).attr('date-url'));
   showMTBF($(this).attr('date-url'));
   showAssetWoStatus($(this).attr('date-url'));
   loadAssetOfflineStatus($(this).attr('date-url'));
+}
   // console.log($(this).attr('date-url'));
 }
 var showMTTR=function(id)
@@ -1231,6 +1235,7 @@ var ExportAsset=function(){
   return false;
 
 }
+
 //for tr click
 $(".js-create-asset").unbind();
 // $("tr").on("click", showAssetDetails);
@@ -1251,7 +1256,7 @@ $("#modal-company").on("submit", ".js-asset-update-form", saveForm);
 $("#modal-company").on("click", ".btn_code_gen", gen_code);
 // Delete book
 $("#company-table").on("click", ".js-delete-asset", loadForm);
-$("#company-table").on("click", "tr", showAssetDetails);
+$("#tbody_company").on("click", "tr", showAssetDetails);
 $("#modal-company").on("submit", ".js-asset-delete-form", saveForm);
 // $('#modal-company').on('hidden.bs.modal',cancelForm);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);

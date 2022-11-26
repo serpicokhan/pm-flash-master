@@ -272,6 +272,7 @@ urlpatterns = [
         url(r'^Asset/Asset/create$', assetAsset_craete, name='assetAsset_craete'),
         url(r'^Asset/Asset/(?P<id>\d+)/listAssetAsset$', list_assetAsset, name='list_assetAsset'),
         url(r'^Asset/Asset/(?P<id>\d+)/delete/(?P<ch_id>\d+)$', assetAsset_delete, name='assetAsset_delete'),
+        url(r'^Asset/Sort/(?P<id>\d+)$', asset_sort, name='asset_sort'),
 
         url(r'^api/v1/Asset/Category/(?P<id>\d+)/$',assetcategory_detail_collection, name='assetcategory_detail_collection'),
 

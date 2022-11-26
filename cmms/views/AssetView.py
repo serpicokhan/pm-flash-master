@@ -61,7 +61,16 @@ def filterUserByResult(request,books):
 def list_asset(request,id=None):
     books=[]
     books =filterUser(request)
-    print(123)
+    # print(123)
+    sort_type=request.GET.get('sort',False)
+    sort_arrow=request.GET.get('asc',False)
+    if(sort_type):
+        if(sort_type=='1'):
+            if(sort_arrow=='asc'):
+                books=books.order_by('assetName')
+            else:
+                books=books.order_by('assetName')
+
     wos,page=AssetUtility.doPagingWithPage(request,books)
     return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset','page':page})
 
@@ -867,6 +876,44 @@ def gen_asset_code(request,id):
         code="{}-{}-{}".format(x.get_asset_loc_code(),x.assetCategory.code,max_digit+1)
 
     return JsonResponse({'code':code,'form_is_valid':True},safe=False)
+
+def asset_sort(request,id):
+    data=dict()
+    sort_name=request.GET.get('e',False)
+    asset=Asset.objects.all()
+    if(id=='1'):
+        print(sort_name)
+        if(sort_name=='asc'):
+            asset=asset.order_by('assetName')
+        else:
+            asset=asset.order_by('-assetName')
+
+    elif(id=='2'):
+        if(sort_name=='asc'):
+            asset=asset.order_by('assetCode')
+        else:
+            asset=asset.order_by('-assetCode')
+    elif(id=='5'):
+        if(sort_name=='asc'):
+            asset=asset.order_by('assetIsLocatedAt')
+        else:
+            asset=asset.order_by('-assetIsLocatedAt')
+    wos,page=AssetUtility.doPagingWithPage(request,asset)
+    data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
+        'asset': wos,
+        'perms': PermWrapper(request.user),
+        'page':page if page is not None else 1
+    })
+    data['html_asset_paging'] = render_to_string('cmms/asset/asset_sort.html', {
+        'asset': wos,
+        'sort':id,
+        'asc':sort_name,
+        'perms': PermWrapper(request.user),
+        'page':page if page is not None else 1
+    })
+    return JsonResponse(data)
+
+
 
 
 def getRelatedAsset(request,id):
