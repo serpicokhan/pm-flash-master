@@ -47,6 +47,12 @@
                             <div class="row">
                                 <div class="col-sm-5 m-b-xs">
                                     {{ form.main_asset }}
+                                    {% if main_asset %}
+                                    <script>
+                                    $('select[name=main_asset]').val({{main_asset}});
+                                    $('.selectpicker').selectpicker('refresh')
+                                    </script>
+                                    {% endif %}
 
 
                                 </div>
