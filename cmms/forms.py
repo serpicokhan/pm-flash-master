@@ -634,13 +634,15 @@ class ScheduleForm(forms.ModelForm):
 class AssetForm(forms.ModelForm):
     assetDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     assetIsLocatedAt = forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False),
+
     # def clean_assetCategory(self):
     #     last_name = self.cleaned_data['assetCategory']
     #     print(last_name,"$$$$$$$$$$$$$$$$")
     #     return int(last_name)
     asseccategorytxt = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
     assetispart = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
+
 
     class Meta:
         model = Asset
@@ -3345,6 +3347,8 @@ class CauseByLocation(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+class AssetListForm(forms.Form):
+    main_asset= forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 class PurchaseRequest(forms.Form):
     rcode=100
     test='گزارش درخواست های خرید'

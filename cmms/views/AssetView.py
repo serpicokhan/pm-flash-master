@@ -22,7 +22,7 @@ from cmms.models.Asset import *
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
-from cmms.forms import AssetForm,WoAssetForm
+from cmms.forms import AssetForm,WoAssetForm,AssetListForm
 from django.urls import reverse_lazy
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
@@ -64,15 +64,43 @@ def list_asset(request,id=None):
     # print(123)
     sort_type=request.GET.get('sort',False)
     sort_arrow=request.GET.get('asc',False)
+    form=AssetListForm()
     if(sort_type):
         if(sort_type=='1'):
             if(sort_arrow=='asc'):
                 books=books.order_by('assetName')
             else:
-                books=books.order_by('assetName')
+                books=books.order_by('-assetName')
+        if(sort_type=='2'):
+            if(sort_arrow=='asc'):
+                books=books.order_by('assetCode')
+            else:
+                books=books.order_by('-assetCode')
+        if(sort_type=='3'):
+            if(sort_arrow=='asc'):
+                books=books.order_by('assetStatus')
+            else:
+                books=books.order_by('-assetStatus')
+        if(sort_type=='4'):
+            if(sort_arrow=='asc'):
+                books=books.order_by('assetCategory')
+            else:
+                books=books.order_by('-assetCategory')
+        if(sort_type=='5'):
+            if(sort_arrow=='asc'):
+                books=books.order_by('assetIsLocatedAt')
+            else:
+                books=books.order_by('-assetIsLocatedAt')
+        wos,page=AssetUtility.doPagingWithPage(request,books)
+
+
+        return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset','page':page,'sort':sort_type,'asc':sort_arrow,'form':form})
+
+
 
     wos,page=AssetUtility.doPagingWithPage(request,books)
-    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset','page':page})
+    main_asset=Asset.objects.filter(assetIsLocatedAt__isnull=True)
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset','page':page,'form':form})
 
 
 
@@ -893,6 +921,16 @@ def asset_sort(request,id):
             asset=asset.order_by('assetCode')
         else:
             asset=asset.order_by('-assetCode')
+    elif(id=='3'):
+        if(sort_name=='asc'):
+            asset=asset.order_by('assetStatus')
+        else:
+            asset=asset.order_by('-assetStatus')
+    elif(id=='4'):
+        if(sort_name=='asc'):
+            asset=asset.order_by('assetCategory')
+        else:
+            asset=asset.order_by('-assetCategory')
     elif(id=='5'):
         if(sort_name=='asc'):
             asset=asset.order_by('assetIsLocatedAt')

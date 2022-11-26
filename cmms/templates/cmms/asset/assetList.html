@@ -10,7 +10,7 @@
    <script src="{% static '/js/project/asset_stuf.js' %}"></script>
 
 
-
+{% load widget_tweaks %}
 <div class="row">
   <div class="col-lg-8">
                     <div class="ibox float-e-margins">
@@ -45,12 +45,10 @@
                         </div>
                         <div class="ibox-content">
                             <div class="row">
-                                <div class="col-sm-5 m-b-xs"><select class="input-sm form-control input-s-sm inline" id='assetStatus'>
-                                    <option value="0">همه</option>
-                                    <option value="1">فعال</option>
-                                    <option value="2">غیر فعال</option>
+                                <div class="col-sm-5 m-b-xs">
+                                    {{ form.main_asset }}
 
-                                </select>
+
                                 </div>
 
 
@@ -104,7 +102,7 @@
 
 
                                   {% if asset.has_next %}
-                                  <li><a href="?page={{ asset.next_page_number }}">&raquo;</a></li>
+                                  <li><a href="?page={{ asset.next_page_number }}&sort={{sort}}&asc={{asc}}">&raquo;</a></li>
                                   {% else %}
                                   <li class="disabled"><span>&raquo;</span></li>
                                   {% endif %}
