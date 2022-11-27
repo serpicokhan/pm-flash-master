@@ -9,9 +9,9 @@ var asset_sort=function(){
   // $(this).sortDir = sortDirection == 'asc' ? 'desc' : 'asc'
   sort_type=$(this);
 
-  console.log(sort_type.index());
+  // console.log(sort_type.index());
   $.ajax({
-   url: '/Asset/Sort/'+sort_type.index()+'?e='+sort_type.attr('data-sort-type'),
+   url: '/Asset/Sort/'+sort_type.index()+'?e='+sort_type.attr('data-sort-type')+'&search='+$('#assetSearch').val()+'&kvm=0&main_asset='+$('#id_main_asset').val(),
    beforeSend: function () {
 
      // $("#modal-assettype").modal({backdrop: 'static', keyboard: false});

@@ -61,16 +61,24 @@ def filterUserByResult(request,books):
 def list_asset(request,id=None):
     books=[]
     dc={}
+    form=AssetListForm()
     books =filterUser(request)
     # print(123)
     sort_type=request.GET.get('sort',False)
     sort_arrow=request.GET.get('asc',False)
     main_asset=request.GET.get('main_asset',False)
+    search_term=request.GET.get('search',False)
+
+    kvm=0
     if(main_asset):
-        print('mainasset',main_asset)
+        # print('mainasset',main_asset)
         books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset))
         dc['main_asset']=main_asset
-    form=AssetListForm()
+
+    if(search_term):
+        books=AssetUtility.seachAsset(kvm,search_term)
+        dc['search']=search_term
+        dc['kvm']=kvm
     # dc={'asset': wos,'section':'list_asset','page':page}
     if(sort_type):
         if(sort_type=='1'):
@@ -145,16 +153,20 @@ def list_asset_tool(request):
 
 def save_asset_form(request, form, template_name,id=None,page=None):
     data = dict()
+
     os=Asset.objects.get(id=id)
     # print("Asset From asset status {}".format(os.assetStatus))
     if (request.method == 'POST'):
         if form.is_valid():
             form.save()
+            main_asset= request.POST.get('main_asset',False)
             data['form_is_valid'] = True
             books = filterUser(request)
+            # if(main_asset):
+            #     books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset))
             # print("save asset page",page)
             AssetUtility.log(request,form,id)
-            print(1)
+            # print(1)
             # page=request.GET.get('page',1)
             wos,page=AssetUtility.doPagingWithPage(request,books)
             data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
@@ -162,11 +174,20 @@ def save_asset_form(request, form, template_name,id=None,page=None):
                 'perms': PermWrapper(request.user),
                 'page':page if page is not None else 1
             })
+            data['html_asset_paging'] = render_to_string('cmms/asset/asset_sort.html', {
+                'asset': wos,
+
+                'perms': PermWrapper(request.user),
+                'page':page if page is not None else 1
+            })
         else:
             print(form.errors)
             data['form_is_valid'] = False
     # print(page,"!!!!!!!!!!!!!!")
-    context = {'form': form,'lId':id,'page':page if page is not None else 1}
+    main_asset=request.GET.get('main_asset',False)
+    print('main_asset',main_asset)
+    context = {'form': form,'lId':id,'page':page if page is not None else 1,'main_asset':main_asset}
+
     data['html_asset_form'] = render_to_string(template_name, context, request=request)
     data['id']=id
     return JsonResponse(data)
@@ -366,10 +387,13 @@ def asset_search(request,kvm):
 
     q=request.GET.get("q","")
     page=request.GET.get('page',1)
-    print('asset  page',page,q)
+    main_asset=request.GET.get('main_asset',False)
+    # print('asset  page',page,q)
     data=dict()
-    print(kvm,'///',q)
+    # print(kvm,'///',q)
     books=AssetUtility.seachAsset(kvm,q)
+    if(main_asset):
+        books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset))
     books=filterUserByResult(request,books)
     wos=AssetUtility.doPaging(request,list(books))
     data['html_asset_search_tag_list'] = render_to_string('cmms/asset/partialAssetList.html', {
@@ -921,7 +945,17 @@ def gen_asset_code(request,id):
 def asset_sort(request,id):
     data=dict()
     sort_name=request.GET.get('e',False)
-    asset=Asset.objects.all()
+    asset=Asset.objects.none()
+    search_term=request.GET.get('search',False)
+    kvm=request.GET.get('kvm',False)
+    main_asset=request.GET.get('main_asset',False)
+
+    if(search_term):
+        asset=AssetUtility.seachAsset(kvm,search_term)
+    else:
+        asset=Asset.objects.all()
+    if(main_asset):
+        asset=asset.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset))
     if(id=='1'):
         print(sort_name)
         if(sort_name=='asc'):
@@ -945,6 +979,7 @@ def asset_sort(request,id):
         else:
             asset=asset.order_by('-assetCategory')
     elif(id=='5'):
+
         if(sort_name=='asc'):
             asset=asset.order_by('assetIsLocatedAt')
         else:
@@ -959,6 +994,8 @@ def asset_sort(request,id):
         'asset': wos,
         'sort':id,
         'asc':sort_name,
+        'search':search_term,
+        'kvm':kvm,
         'perms': PermWrapper(request.user),
         'page':page if page is not None else 1
     })
@@ -1097,5 +1134,13 @@ def get_json_test(request):
         };
     return JsonResponse(jsonData)
 def assetExport(request):
-    data = AssetUtility.download_csv(request, Asset.objects.all())
+    search=request.GET.get('search',False)
+    kvm=request.GET.get('kvm',False)
+    main_asset=request.GET.get('main_asset',False)
+    asset=Asset.objects.all()
+    if(main_asset):
+        asset=asset.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset))
+    if(search):
+        asset=AssetUtility.searchAsset(kvm,search)
+    data = AssetUtility.download_csv(request, asset)
     return HttpResponse (data, content_type='text/csv')

@@ -100,6 +100,7 @@ $(function () {
         //alert("3123@!");
 
         $("#modal-company .modal-content").html(data.html_asset_form);
+
         $('.advanced2AutoComplete3').autoComplete({
           resolver: 'custom',
           noResultsText:'بدون نتیجه',
@@ -330,7 +331,7 @@ var searchAsset= function (loc,searchStr) {
   // searchStr=searchStr.replace(' ','__');
   // console.log('/Asset/'+loc+'/Search/?q='+searchStr);
    $.ajax({
-     url: '/Asset/'+loc+'/Search/?q='+searchStr+'&page='+findGetParameter('page'),
+     url: '/Asset/'+loc+'/Search/?q='+searchStr+'&page='+findGetParameter('page')+'&main_asset='+$('#id_main_asset').val(),
      type: 'GET',
      dataType: 'json',
      beforeSend:function(){
@@ -537,6 +538,7 @@ var saveForm= function () {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_company").empty();
          $("#tbody_company").html(data.html_asset_list);
+         $(".assetPaging").html(data.html_asset_paging);
          $("#modal-company").modal("hide");
            // $("tr").on("click", showAssetDetails);
             $("#issavechanged").val("1");
@@ -1230,13 +1232,13 @@ var ExportAsset=function(){
   // alert(user_id.length);
   // console.log(user_id,user_id.length);
 
-  var form=$(this).attr('data-url');
+  var form=$(this).attr('data-url')+'?search='+$('#assetSearch').val()+'&kvm=0&main_asset='+$('#id_main_asset').val();
   window.open(form, '_blank');
   return false;
 
 }
 var main_asset_change=function(){
-  window.location='/Asset/?main_asset='+$('#id_main_asset').val()
+  window.location='/Asset/?main_asset='+$('#id_main_asset').val()+'&search='+$('#assetSearch').val()+'&kvm=0'
 }
 //for tr click
 $(".js-create-asset").unbind();

@@ -6,6 +6,7 @@
   <img src="{% static 'img/forklift.png' %}" / >
   <input type=hidden name='lastAssetid' id='lastAssetid' value='{{lId}}'/>
   <input type=hidden name='issavechanged' id='issavechanged' value='-1'/>
+  <input type=hidden name='main_asset' id='main_asset' value='{{main_asset}}'/>
   <div class="col-md-offset-4" id="qrcode"></div>
   {{form.assetTypes.as_hidden}}
   <hr>
