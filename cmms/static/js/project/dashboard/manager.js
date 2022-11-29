@@ -19,6 +19,8 @@ LoadEqCost();
 getDueService();
 LoadMTTRBar();
 GetPmpLineAll();
+LoadOnDemandDonat();
+LoadPmDonat();
 
 for(var i in a111){
   LoadResource(a111[i],"doughnutChartResourceStatus"+a111[i]);

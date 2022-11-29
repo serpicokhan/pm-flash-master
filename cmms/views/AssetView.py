@@ -399,7 +399,7 @@ def asset_search(request,kvm):
     data['html_asset_search_tag_list'] = render_to_string('cmms/asset/partialAssetList.html', {
                    'asset': wos,'page':page                      ,'perms': PermWrapper(request.user) })
     data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination.html', {
-                      'asset': wos,'pageType':'asset_search','ptr':kvm,'q':q})
+                      'asset': wos,'pageType':'list_asset','ptr':kvm,'search':q,'main_asset':main_asset})
     data['form_is_valid'] = True
     return JsonResponse(data)
 #######################Search#####################
@@ -997,7 +997,8 @@ def asset_sort(request,id):
         'search':search_term,
         'kvm':kvm,
         'perms': PermWrapper(request.user),
-        'page':page if page is not None else 1
+        'page':page if page is not None else 1,
+        'main_asset':main_asset
     })
     return JsonResponse(data)
 
