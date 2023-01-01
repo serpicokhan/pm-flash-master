@@ -232,6 +232,7 @@ def asset_create_machine(request):
         form = AssetForm(request.POST)
         return save_asset_form(request, form, 'cmms/asset/partialAssetMachineCreate.html')
     else:
+        # print("!!!!!!!!!!!!!!!!!!!!!!12")
         assetInstance=Asset.objects.create(assetTypes=2)
         form = AssetForm({'assetHasPartOf':'False','assetStatus':'True','assetTypes':'2'})
         return save_asset_form(request, form, 'cmms/asset/partialAssetMachineCreate.html',assetInstance.id)
@@ -241,6 +242,7 @@ def asset_create_tool(request):
         form = AssetForm(request.POST)
         return save_asset_form(request, form, 'cmms/asset/partialAssetToolCreate.html')
     else:
+
         assetInstance=Asset.objects.create(assetTypes=3)
         form = AssetForm({'assetHasPartOf':'False','assetStatus':'True','assetTypes':'3'})
         return save_asset_form(request, form, 'cmms/asset/partialAssetToolCreate.html',assetInstance.id)

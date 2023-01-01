@@ -634,12 +634,7 @@ class ScheduleForm(forms.ModelForm):
 class AssetForm(forms.ModelForm):
     assetDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     assetIsLocatedAt = forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False),
-
-    # def clean_assetCategory(self):
-    #     last_name = self.cleaned_data['assetCategory']
-    #     print(last_name,"$$$$$$$$$$$$$$$$")
-    #     return int(last_name)
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
     asseccategorytxt = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
     assetispart = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
 
@@ -650,7 +645,9 @@ class AssetForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         # print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
         super(AssetForm, self).__init__(*args, **kwargs)
-        # self.fields['assetCategory'].queryset = AssetCategory.objects.filter(id__lte=3)
+        # self.fields['assetIsLocatedAt'].queryset = Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
+        # assetIsLocatedAt = forms.ModelChoiceField(label="مکان",queryset=Asset.objects.none(),
+        # widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False),
 # class AssetSubForm(forms.Form):
 #     assetDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
 #     # def clean_assetCategory(self):
@@ -1878,11 +1875,11 @@ class AssetList(forms.Form):
     categoryText = GroupedModelChoiceField(label='دسته دارایی',
         queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
         choices_groupby='isPartOf',empty_label=None,
-        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
+        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False
     )
     # location = forms.CharField(label='مکان',required=False,widget=forms.TextInput(attrs={'class':'assetselector','autocomplete':'off'}))
     # locationVal=forms.CharField(widget=forms.HiddenInput(),required=False)
-    locationVal = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetTypes=1),
+    locationVal = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True),empty_label=None,
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     ################
     # location = GroupedModelChoiceField(

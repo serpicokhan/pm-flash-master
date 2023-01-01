@@ -275,12 +275,13 @@ class AssetUtility:
         return c
     @staticmethod
     def getAssetListByNameAndLocation(assetCatListId,LocationListId):
-        wos=[]
+        wos=Asset.objects.all().order_by('assetCategory__name','assetName')
         # print(assetCatListId,"####################")
         if(len(assetCatListId)>0):
-            wos=Asset.objects.filter(assetCategory__in=assetCatListId)
-        elif(len(LocationListId)):
-            wos=Asset.objects.filter(Q(id__in=LocationListId)|Q(assetIsLocatedAt__in=LocationListId)|Q(assetIsPartOf__in=LocationListId)).order_by('assetCategory__name','assetName')
+            # print(assetCatListId)
+            wos=wos.filter(Q(assetCategory__in=assetCatListId)| Q(assetCategory__isPartOf__in=assetCatListId))
+        if(len(LocationListId)):
+            wos=wos.filter(Q(id__in=LocationListId)|Q(assetIsLocatedAt__in=LocationListId)|Q(assetIsPartOf__in=LocationListId)).order_by('assetCategory__name','assetName')
         else:
             return Asset.objects.all().order_by('assetCategory__name','assetName')
 
