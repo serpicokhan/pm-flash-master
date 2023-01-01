@@ -3,6 +3,10 @@
 <div class="col-sm-4 b-r">
   {% load static %}
   <img src="{% static 'img/if_industry_50840.png' %}" / >
+  <label for="f_upload">
+      <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+      <input type="file" name="f_upload" id="f_upload" style="display:none">
+</label>
   <input type=hidden name='lastAssetid' id='lastAssetid' value='{{lId}}'/>
   <input type=hidden name='issavechanged' id='issavechanged' value='-1'/>
   <input type=hidden name='main_asset' id='main_asset' value='{{main_asset}}'/>

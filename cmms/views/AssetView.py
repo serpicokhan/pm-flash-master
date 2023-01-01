@@ -258,6 +258,8 @@ def asset_update(request, id):
     # print("asset status:{}".format(company.assetStatus))
     template=""
     if (request.method == 'POST'):
+        print("file!!!!!!!!!!")
+        print(request.FILES.get('f_upload'))
         form = AssetForm(request.POST, instance=company)
     else:
         assetcatText=company.assetCategory.name if company.assetCategory else ''
