@@ -198,15 +198,15 @@ def asset_delete(request, id):
     if (request.method == 'POST'):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        books =filterUser(request)
-        wos=AssetUtility.doPaging(request,books)
+        # books =filterUser(request)
+        # wos=AssetUtility.doPaging(request,books)
         #Tasks.objects.filter(assetId=id).update(asset=id)
 
 
-        data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
-            'asset': wos,
-            'perms': PermWrapper(request.user)
-        })
+        # data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
+        #     'asset': wos,
+        #     'perms': PermWrapper(request.user)
+        # })
     else:
         context = {'asset': comp1}
         data['html_asset_form'] = render_to_string('cmms/asset/partialAssetDelete.html',
