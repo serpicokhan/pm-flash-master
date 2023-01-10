@@ -388,6 +388,7 @@ urlpatterns = [
         url(r'^AssetFile/(?P<woId>\d+)/listAssetFile/$', js_list_assetFile, name='js_list_assetFile'),
         url(r'^AssetFile/(?P<Id>\d+)/basic-upload/$', AssetFileUploadView.as_view(), name='asset_upload'),
         url(r'^api/v1/Asset/Files/(?P<id>\d+)/$',assetfile_collection, name='assetfile_collection'),
+        url(r'^api/v1/Asset/Files/(?P<id>\d+)/Delete$',delete_assetfile, name='delete_assetfile'),
 
          url(r'^AssetCategory/$',list_assetCategory,name='list_assetCategory'),
          url(r'^AssetCategory/create/$', assetCategory_create, name='assetCategory_create'),

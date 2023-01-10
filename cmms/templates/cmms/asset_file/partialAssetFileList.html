@@ -16,6 +16,11 @@
 
 
  <td>
+   <button type="button"
+                class="btn btn-outline btn-danger btn-sm js-delete-assetFile"
+                data-url="{% url 'delete_assetfile' c.id %}">
+          <span class="glyphicon glyphicon-trash"></span> حذف
+        </button>
 
     </td>
 </tr>
@@ -25,10 +30,3 @@
 </tr>
 
 {% endfor %}
-{% load static %}
-
-{% block javascript %}
-
-
-  <script src="{% static '/js/project/assetFile.js' %}"></script>
-{% endblock %}

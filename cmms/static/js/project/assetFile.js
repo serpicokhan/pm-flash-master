@@ -19,5 +19,27 @@ $(function () {
     }
 
   });
+var delete_assetFile=function(){
+  // alert("123");
+    var btn=$(this);
+    var yes=confirm("فایل حذف شود؟");
+    if(yes)
+      $.ajax({
+        url: btn.attr("data-url"),
+        type: 'get',
+        dataType: 'json',
+        success: function (data) {
+          if(data.is_valid){
+            $("#tbody_assetFile").empty();
+            $("#tbody_assetFile").html(data.html_assetFile_list);
+          }
 
+
+
+
+        }
+      });
+  return false;
+};
+$("#assetFile-table").on("click",".js-delete-assetFile",delete_assetFile);
 });

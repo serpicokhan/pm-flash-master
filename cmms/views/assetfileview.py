@@ -50,7 +50,17 @@ def js_list_assetFile(request,woId):
     return JsonResponse(data)
 
 
+def delete_assetfile(request,id):
+    data=dict()
+    company=AssetFile.objects.get(id=id)
+    main_asset=company.assetFileAssetId
+    company.delete()
+    books = AssetFile.objects.filter(assetFileAssetId=main_asset)
+    data['html_assetFile_list'] = render_to_string('cmms/asset_file/partialAssetFileList.html', {
+          'assetFiles': books})
+    data['is_valid']=True
 
+    return JsonResponse(data)
 
 class AssetFileUploadView(View):
     def get(self, request,*args, **kwargs):
@@ -86,6 +96,9 @@ class AssetFileUploadView(View):
             data['is_valid']=True
 
         return JsonResponse(data)
+
+
+
 
 
 

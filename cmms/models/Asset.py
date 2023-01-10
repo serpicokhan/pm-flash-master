@@ -143,7 +143,8 @@ class AssetFile(models.Model):
         v=os.path.splitext(self.assetFile.name)
         return v[len(v)-1]
     def get_size(self):
-        return " MB {0:.2f}".format(self.assetFile.size/1048576)
+        # return " MB {0:.2f}".format(self.assetFile.size/1048576)
+        return "?"
 
     assetFile=models.FileField(upload_to='documents/',max_length=200)
     assetFileAssetId=models.ForeignKey('Asset',on_delete=models.CASCADE,blank=True,null=True)
