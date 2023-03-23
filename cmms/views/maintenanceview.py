@@ -299,7 +299,7 @@ def wo_create(request):
         RequestedUser=SysUser.objects.get(userId=request.user)
         form = WorkOrderForm(initial={'isScheduling':False,'creatNewWO':False,'woStatus':1,'woPriority':2,'isPm':False,'RequestedUser':RequestedUser})
         # print(request.user)
-        return save_wo_form(request, form, 'cmms/maintenance/partialWoCreate.html',iscreated=1)
+        return save_wo_form(request, form, 'cmms/maintenance/partialWoCreateWizard.html',iscreated=1)
 
 
 

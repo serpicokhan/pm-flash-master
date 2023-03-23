@@ -1,5 +1,8 @@
 
 $(function () {
+  
+
+
   var chkselection=function(){
     matches=[];
     $(".selection-box:checked").each(function() {
@@ -186,51 +189,51 @@ var saveCopy= function () {
           autoClose: true,
           initialValueType: 'gregorian'
         });
-        if($('#id_datecreated').val().length>0)
-        {
-          $('#id_datecreated').pDatepicker({
-            format: 'YYYY-MM-DD',
-            initialValueType: 'gregorian',
-            autoClose:true
-
-
-          });
-        }//id_dateCompleted
-        else {
-
-          $('#id_datecreated').pDatepicker({
-            format: 'YYYY-MM-DD',
-            initialValueType: 'gregorian',
-            autoClose:true
-
-
-          }).val('');
-        }
-        if($('#id_timecreated').val().length==0)
-        {
-          $('#id_timecreated').val(new Date().toLocaleTimeString('en-US', { hour12: false }))
-
-        }//id_dateCompleted
-
-        //console.log($('#id_dateCompleted').val()+":dsadsa");
-        if($('#id_dateCompleted').val().length>0){
-          $('#id_dateCompleted').pDatepicker({
-            format: 'YYYY-MM-DD',
-
-            autoClose:true,
-            initialValueType: 'gregorian'
-          });//id_dateCompleted
-        }
-        else {
-          $('#id_dateCompleted').pDatepicker({
-            format: 'YYYY-MM-DD',
-
-            autoClose:true,
-            initialValueType: 'gregorian'
-          }).val('');//id_dateCompleted
-        }
-
-        //id_completedByUser
+        // if($('#id_datecreated').val().length>0)
+        // {
+        //   $('#id_datecreated').pDatepicker({
+        //     format: 'YYYY-MM-DD',
+        //     initialValueType: 'gregorian',
+        //     autoClose:true
+        //
+        //
+        //   });
+        // }//id_dateCompleted
+        // else {
+        //
+        //   $('#id_datecreated').pDatepicker({
+        //     format: 'YYYY-MM-DD',
+        //     initialValueType: 'gregorian',
+        //     autoClose:true
+        //
+        //
+        //   }).val('');
+        // }
+        // if($('#id_timecreated').val().length==0)
+        // {
+        //   $('#id_timecreated').val(new Date().toLocaleTimeString('en-US', { hour12: false }))
+        //
+        // }//id_dateCompleted
+        //
+        // //console.log($('#id_dateCompleted').val()+":dsadsa");
+        // if($('#id_dateCompleted').val().length>0){
+        //   $('#id_dateCompleted').pDatepicker({
+        //     format: 'YYYY-MM-DD',
+        //
+        //     autoClose:true,
+        //     initialValueType: 'gregorian'
+        //   });//id_dateCompleted
+        // }
+        // else {
+        //   $('#id_dateCompleted').pDatepicker({
+        //     format: 'YYYY-MM-DD',
+        //
+        //     autoClose:true,
+        //     initialValueType: 'gregorian'
+        //   }).val('');//id_dateCompleted
+        // }
+        //
+        // //id_completedByUser
 
         $("#id_woAsset").change(function(){
           if($(this).val()!="-1")
@@ -267,13 +270,18 @@ var saveCopy= function () {
         $("#id_woAsset option:first").after('<Option value="-1">"<b>اضافه کردن عنوان جدید</b>"</option>');
         $('.selectpicker').selectpicker();
         $('.basicAutoComplete').autoComplete();
-        initLoad();
-        initWoPartLoad();
-        initWoMeterLoad();
-        initWoMiscLoad();
-        initWoNotifyLoad();
-        initWoFileLoad();initWoLogLoad();
-        initWoPertLoad();
+
+        //
+        $("#form").steps();
+
+        //
+        // initLoad();
+        // initWoPartLoad();
+        // initWoMeterLoad();
+        // initWoMiscLoad();
+        // initWoNotifyLoad();
+        // initWoFileLoad();initWoLogLoad();
+        // initWoPertLoad();
         $('#woassetrefresh').click(function(){
 
           $(this).html('<i class="fa fa-refresh fa-spin"></i>');

@@ -1,0 +1,165 @@
+<div method="post" action="{% url 'wo_create' %}" class="js-wo-create-form" id='js-wo-create-form' autocomplete="off">
+  {% csrf_token %}
+  {% load widget_tweaks %}
+  <div class="modal-header">
+        <h5 class="modal-title" id="modal-companyLabel">Form Wizard</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Step 1 Content -->
+        <div id="step1">
+          <div class="row">
+            <div class="col-sm-3 b-r">
+              {% load static %}
+              <img src="{% static 'img/images2.png' %}" / >
+              <input type=hidden name='lastWorkOrderid' id='lastWorkOrderid' value='{{lId}}'/>
+              <input type=hidden name='issavechanged' id='issavechanged' value='-1'/>
+
+              <input type=hidden name='haveschedule' id='haveschedule' value='-1'/>
+              <input type=hidden name='havetasks' id='havetasks' value='-1'/>
+              {{ form.visibile.as_hidden }}
+              {{ form.isScheduling.as_hidden }}
+              {{ form.isPartOf.as_hidden }}
+              {{ form.isPm.as_hidden }}
+              {{ form.RequestedUser.as_hidden }}
+
+              {{ form.isUpdating.as_hidden }}
+
+
+            </div>
+            <div class="col-sm-4 b-r">
+
+              <div class="form-group">
+                <label>{{form.woStatus.label}}</label>
+                {{form.woStatus| add_class:"form-control" }}
+
+
+              </div>
+              <div class="form-group">
+                <label>{{form.maintenanceType.label}}</label>
+                {{form.maintenanceType| add_class:"form-control" }}
+              </div>
+              <div class="form-group">
+                <label>{{form.woPriority.label}}</label>
+                {{form.woPriority| add_class:"form-control" }}
+              </div>
+            </div>
+            <div class="col-sm-5 b-r">
+              <div class="form-group">
+
+
+
+
+                <label>{{form.woAsset.label}}</label>
+                {{ form.woAsset.as_hidden }}
+
+                {% render_field form.woasset_ class="form-control advanced2AutoComplete4" %}
+              </div>
+              <div class="form-group">
+                <label>{{form.Project.label}}</label>
+                {% render_field form.Project class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
+              </div>
+              <div class="row">
+                <div class="col-lg-7">
+                  <div class="form-group">
+                    <label>{{form.requiredCompletionDate.label}}</label>
+
+                    <div class="input-group date">
+                                                          {{form.requiredCompletionDate| add_class:"form-control" }}
+                                                          <span class="input-group-addon">
+                                                              <i class="fa fa-calendar">
+                                                              </i>
+                                                          </span>
+                                                      </div>
+                  </div>
+
+                </div>
+                <div class="col-lg-5">
+                  <label>{{form.requiredCompletionTime.label}}</label>
+
+
+
+                                                        {{form.requiredCompletionTime| add_class:"form-control" }}
+
+
+                </div>
+
+                </div>
+
+              </div>
+
+
+            </div>
+          <button class="btn btn-primary next-step">Next</button>
+        </div>
+
+        <!-- Step 2 Content -->
+        <div id="step2">
+          <h2>Step 2</h2>
+          <p>This is step 2 of the form wizard.</p>
+          <button class="btn btn-primary prev-step">Previous</button>
+          <button class="btn btn-primary next-step1">Next</button>
+        </div>
+
+        <!-- Step 3 Content -->
+        <div id="step3">
+          <h2>Step 3</h2>
+          <p>This is step 3 of the form wizard.</p>
+          <button class="btn btn-primary prev-step1">Previous</button>
+          <button class="btn btn-success submit-form">Submit</button>
+        </div>
+      </div>
+</form>
+<style media="screen">
+  #modal-company {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#modal-company .modal-dialog {
+  max-width: 800px;
+}
+
+#modal-company .modal-content {
+  padding: 20px;
+}
+
+#modal-company .modal-body {
+  position: relative;
+}
+
+#modal-company .modal-body > div {
+  display: none;
+}
+
+#modal-company .modal-body > div:first-child {
+  display: block;
+}
+
+#modal-company h2 {
+  margin-top: 0;
+}
+
+#modal-company p {
+  margin-bottom: 1em;
+}
+</style>
+<script type="text/javascript">
+  $('.next-step').on('click', function() {
+
+    $('#step1').hide();
+    $('#step2').show();
+  });
+  $('.next-step1').on('click', function() {
+
+    $('#step2').hide();
+    $('#step3').show();
+  });
+  $('.prev-step').on('click', function() {
+
+    $('#step1').show();
+    $('#step2').hide();
+  });
+
+</script>
