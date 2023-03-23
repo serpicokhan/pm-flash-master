@@ -1,6 +1,6 @@
 
 $(function () {
-  
+
 
 
   var chkselection=function(){
@@ -165,17 +165,16 @@ var saveCopy= function () {
     else {
       btn=btn1;
     }
-    //console.log($(btn).attr("type"));
-    //console.log($(btn).attr("data-url"));
+
     return $.ajax({
       url: btn.attr("data-url"),
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
-        //alert(btn.attr("data-url"));
-        //alert("321321");
+
         $("#modal-company .modal-content").html('');
-        $("#modal-company").modal({backdrop: 'static', keyboard: false});
+        // $("#modal-company").modal({backdrop: 'static', keyboard: false});
+        $("#modal-company").modal('show');
 
 
       },
