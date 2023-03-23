@@ -495,7 +495,7 @@ def list_asset_dash(request):
             # acat_dict[i.name][x.id]=x.assetName
         # x1.push(x2)
         # x2=[]
-    return render(request, 'cmms/asset/dash2.html', {'assets':final_list,'test':a_zip,'locs':assetloc})
+    return render(request, 'cmms/asset/dash2.html', {'assets':final_list,'test':a_zip,'locs':assetloc,'section':'dashasset'})
 def tmp_doPaging(request,books):
         page=request.GET.get('page',1)
         paginator = Paginator(books, 10)

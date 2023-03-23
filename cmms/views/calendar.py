@@ -37,7 +37,7 @@ def list_calendar(request):
     maintenanceType=MaintenanceType.objects.all()
     #
     # books = MaintenanceType.objects.all()
-    return render(request, 'cmms/calendar/calendar.html', {'ug':userg,'mt':maintenanceType})
+    return render(request, 'cmms/calendar/calendar.html', {'ug':userg,'mt':maintenanceType,'section':'calendar'})
 def display_calendar(request,mtId,gId,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)

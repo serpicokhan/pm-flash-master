@@ -51,7 +51,7 @@
                 <span class="fa arrow">
                 </span>
               </a>
-              <ul  {% if section in 'dashboard,x' %} class="nav nav-second-level collapse in"
+              <ul  {% if section in 'dashboard,dashasset,calendar' %} class="nav nav-second-level collapse in"
               {% else %}
               class="nav nav-second-level collapse"
               {% endif %} >
@@ -61,12 +61,12 @@
                   <a href="{% url 'list_dashboard' %}"   >داشبورد</a>
                 </li>
 
-                <li {% if section == 'asset_dash' %} class='active'   {% endif %}>
+                <li {% if section == 'dashasset' %} class='active'   {% endif %}>
 
 
                   <a href="{% url 'list_asset_dash' %}" ><i class="fa fa-calendar-o"></i>وضعیت دستگاهها</a>
                 </li>
-                <li {% if section == 'list_calendar' %} class='active'   {% endif %}>
+                <li {% if section == 'calendar' %} class='active'   {% endif %}>
                   <a href="{% url 'list_calendar' %}">
                     <i class="fa fa-calendar"></i>
                     تقویم
