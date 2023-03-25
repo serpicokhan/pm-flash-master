@@ -1,9 +1,9 @@
-<div method="post" action="{% url 'wo_create' %}" class="js-wo-create-form" id='js-wo-create-form' autocomplete="off">
+<form method="post" action="{% url 'wo_create' %}" class="js-wo-create-form" id='js-wo-create-form' autocomplete="off">
   {% csrf_token %}
     {% load static %}
   {% load widget_tweaks %}
   <div class="modal-header">
-        <h5 class="modal-title" id="modal-companyLabel">Form Wizard</h5>
+        <h5 class="modal-title" id="modal-companyLabel">دستور کار جدید</h5>
         <button type="button" class="close woclose" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -12,7 +12,7 @@
         <!-- Step 1 Content -->
       {% include 'cmms/maintenance/partialWoFormWizard.html' %}
       </div>
-</div>
+</form>
 <style media="screen">
   #modal-company {
   display: flex;
@@ -72,6 +72,11 @@
     $('#step3').hide();
     $('#step2').show('slow');
   });
+  $('.next-step3').on('click', function() {
+
+    $('#step3').hide();
+    $('#step4').show('slow');
+  });
   $('.prev-step').on('click', function() {
 
     $('#step1').show();
@@ -81,6 +86,11 @@
 
     $('#step2').show();
     $('#step3').hide();
+  });
+  $('.prev-step2').on('click', function() {
+
+    $('#step3').show();
+    $('#step4').hide();
   });
   $('.selectpicker').selectpicker();
 
