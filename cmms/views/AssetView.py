@@ -465,6 +465,9 @@ def assetCancel(request,id):
                 data['form_is_valid'] = True
 
     return JsonResponse(data)
+
+
+
 ##########################################################
 def list_asset_dash(request):
     acat=AssetCategory.objects.all().order_by("priority")

@@ -323,23 +323,33 @@ def swo_detail(request,id=None):
 
 def swo_copy(request,ids=None):
     if(request.method=='GET'):
-        print("1")
         data=dict()
-        id=request.GET.get('id','')
-        print(id,':id!!!!!!!!!')
-        wo_asset1=WorkOrder.objects.get(id=id).woAsset
+        asset_status1=request.GET.get('asset_stastus','')
+        # asset_status=True if assetStatus else False
+
+        asset_loc1=request.GET.get('asset_loc','')
+        asset_cat1=request.GET.get('asset_cat','')
         assets=Asset.objects.all().order_by('-id')
-        # assets=Asset.objects.all().order_by('-id')
-        asset_loc=Asset.objects.filter(assetTypes=1)
+        if(asset_status1 and int(asset_status1)>0):
+            assets=Asset.objects.filter(assetStatus=int(asset_status1))
+        if(asset_loc1 and int(asset_loc1)>0):
+            assets=Asset.objects.filter(assetIsLocatedAt=int(asset_loc1))
+        if(asset_cat1 and int(asset_cat1)>0):
+            assets=Asset.objects.filter(assetCategory=int(asset_cat1))
+
+
+        id=request.GET.get('id','')
+        wo_asset1=WorkOrder.objects.get(id=id).woAsset
+        asset_loc=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
         asset_cat=AssetCategory.objects.all()
         wos=AssetUtility.doPaging(request,assets)
-        form=CopyAssetForm()
+        # form=CopyAssetForm()
         q=request.GET.get('q','')
 
         data["modalcopyasset"]=render_to_string('cmms/sworkorder/assetcopy.html',{'asset':wos,'asset_cat':asset_cat,
-        'asset_loc':asset_loc,'perms': PermWrapper(request.user),'form':form,'id':id})
+        'asset_loc':asset_loc,'perms': PermWrapper(request.user),'id':id,'asset_cat1':asset_cat1,'asset_status1':asset_status1,'asset_loc1':asset_loc1})
         data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination_swo.html', {
-                          'asset': wos,'pageType':'swo_copy','ptr':0,'q':q})
+                          'asset': wos,'pageType':'swo_copy','ptr':0,'q':id,'asset_cat1':asset_cat1,'asset_status1':asset_status1,'asset_loc1':asset_loc1})
         data['form_is_valid']=True
         return JsonResponse(data)
 @csrf_exempt

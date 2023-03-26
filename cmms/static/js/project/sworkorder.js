@@ -15,6 +15,45 @@ $(function () {
   }
 
   };
+  var selectchangectlr=function(){
+    let asset_status='';
+    // let asset_location='';
+    // let asset_cat='';
+
+    if($('#assetStatus').val()!==''){
+      asset_status="&asset_status="+$('#assetStatus').val()
+    }
+    if($('#asset_loc').val()!==''){
+      asset_status+="&asset_loc="+$('#asset_loc').val()
+    }
+    if($('#asset_cat').val()!==''){
+      asset_status+="&asset_cat="+$('#asset_cat').val()
+    }
+
+    const id =$("#cpswoid").val();
+
+    return $.ajax({
+      url: '/SWorkOrder/Copy/?id='+id+asset_status,
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+
+        $("#modal-copy").modal({backdrop: 'static', keyboard: false});
+
+      },
+      success: function (data) {
+        //alert("3123@!");
+        $("#modal-copy .modal-content").html(data.modalcopyasset);
+          $(".assetPaging").html(data.html_asset_paginator);
+
+
+
+
+
+      }
+    });
+
+  }
   var LoadFormCopySelector =function () {
     matches=[];
     $(".selection-box:checked").each(function() {
@@ -809,7 +848,7 @@ return false;
          $("#modal-copy").modal("hide");
        $("#tbody_company").html(data.html_swo_list);
        $(".assetPaging").html(data.html_swo_paginator);
-       alert("it is done!");
+       // alert("it is done!");
        // $("tr").on("click", showAssetDetails);
        toastr.success("کپی با موفقیت انجام شد")
      }
@@ -892,7 +931,7 @@ $("#modal-company").on("click", ".swoapply", applyForm);
 // $("#modal-copy").on("change", "#assetSearch", alert("11"));
 // $('#modal-company').on('hidden.bs.modal',cancelform);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);
-
+$("#modal-copy").on("change",".swocpyctrl",selectchangectlr);
 
 $(document).ready(function(){
 

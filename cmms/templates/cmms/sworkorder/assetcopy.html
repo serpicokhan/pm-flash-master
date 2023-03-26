@@ -16,27 +16,37 @@
                             <div class="ibox-content">
                                 <div class="row">
                                     <div class="col-sm-2 m-b-xs">
-                                      <select class="input-sm form-control input-s-sm inline" id='assetStatus'>
+                                      <select class="input-sm form-control input-s-sm inline swocpyctrl" id='assetStatus'>
                                         <option value="0">همه</option>
                                         <option value="1">فعال</option>
                                         <option value="2">غیر فعال</option>
 
                                     </select>
                                     </div>
+
                                     <div class="col-sm-4 m-b-xs">
-                                      <select class="input-sm form-control input-s-sm inline" id='asset_loc'>
+                                      <select class="input-sm form-control input-s-sm inline swocpyctrl" id='asset_loc'>
                                         <option value="0">همه</option>
                                       {% for i in asset_loc %}
-                                      <option value="{{i.id}}">{{i}}</option>
+                                      {% if i.id == asset_loc1|add:"0" %}
+                                      <option value="{{i.id}}" selected>{{i}} </option>
+                                      {% else %}
+                                      <option value="{{i.id}}" >{{i}} </option>
+
+                                      {% endif %}
                                       {% endfor %}
                                       </select>
 
                                     </div>
                                     <div class="col-sm-3 m-b-xs">
-                                      <select class="input-sm form-control input-s-sm " id='asset_cat'>
+                                      <select class="input-sm form-control input-s-sm swocpyctrl" id='asset_cat'>
                                         <option value="0">همه</option>
                                       {% for i in asset_cat %}
+                                      {% if i.id == asset_cat1|add:"0" %}
+                                      <option value="{{i.id}}" selected>{{i}}</option>
+                                      {% else %}
                                       <option value="{{i.id}}">{{i}}</option>
+                                      {% endif %}
                                       {% endfor %}
                                       </select>
 
