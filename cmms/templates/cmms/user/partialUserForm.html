@@ -10,7 +10,7 @@
     {% else %}
     <img src="{% static 'img/_blank_profile.png' %}"  width="128" height="128" class="js-upload-photos" />
     {% endif %}
-    
+
 
     <input type=hidden name='lastUserId' id='lastUserId' value='{{lId}}'/>
     {{ form.visibile.as_hidden }}
@@ -74,7 +74,10 @@
       </div>
     </div>
     <div class="col-lg-6">
-
+      <div class="form-group">
+        <label>شیفت</label>
+        {{form.shift| add_class:"form-control" }}
+      </div>
     </div>
 
 

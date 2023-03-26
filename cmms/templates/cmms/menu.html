@@ -279,7 +279,7 @@
                 <span class="fa arrow">
                 </span>
               </a>
-              <ul  {% if section in 'list_user,list_attendance' %} class="nav nav-second-level collapse in"
+              <ul  {% if section in 'list_user,list_attendance,list_userShift' %} class="nav nav-second-level collapse in"
               {% else %}
               class="nav nav-second-level collapse"
               {% endif %} >
@@ -288,6 +288,9 @@
                 </li>
                 <li {% if section == 'list_attendance' %} class='active'   {% endif %}>
                   <a href="{% url 'list_attendance'%}" >حضور و غیاب </a>
+                </li>
+                <li {% if section == 'list_userShift' %} class='active'   {% endif %}>
+                  <a href="{% url 'list_userShift'%}" >شیفت </a>
                 </li>
 
 

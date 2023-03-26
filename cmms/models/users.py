@@ -16,7 +16,7 @@ class testuser(models.Model):
         db_table="testuser"
 
 class UserShift(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField("اسم شیفت",max_length=50)
     start_time = models.TimeField("زمان شروع")
     end_time = models.TimeField("زمان پایان")
 
