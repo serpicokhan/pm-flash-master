@@ -330,12 +330,12 @@ def swo_copy(request,ids=None):
         asset_loc1=request.GET.get('asset_loc','')
         asset_cat1=request.GET.get('asset_cat','')
         assets=Asset.objects.all().order_by('-id')
-        if(asset_status1 and int(asset_status1)>0):
-            assets=Asset.objects.filter(assetStatus=int(asset_status1))
-        if(asset_loc1 and int(asset_loc1)>0):
-            assets=Asset.objects.filter(assetIsLocatedAt=int(asset_loc1))
-        if(asset_cat1 and int(asset_cat1)>0):
-            assets=Asset.objects.filter(assetCategory=int(asset_cat1))
+        if(asset_status1!='' and int(asset_status1)>0):
+            assets=assets.filter(assetStatus=int(asset_status1))
+        if(asset_loc1!='' and int(asset_loc1)>0):
+            assets=assets.filter(assetIsLocatedAt=int(asset_loc1))
+        if(asset_cat1!='' and int(asset_cat1)>0):
+            assets=assets.filter(assetCategory=int(asset_cat1))
 
 
         id=request.GET.get('id','')

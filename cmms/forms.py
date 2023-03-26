@@ -1366,6 +1366,11 @@ class MaintenanceTypeForm(forms.ModelForm):
     class Meta:
         model = MaintenanceType
         fields = '__all__'
+class UserShiftForm(forms.ModelForm):
+
+    class Meta:
+        model = UserShift
+        fields = '__all__'
 ###############################################################
 class AttendanceForm(forms.ModelForm):
     def clean_datecreated(self):

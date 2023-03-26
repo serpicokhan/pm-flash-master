@@ -15,6 +15,13 @@ class testuser(models.Model):
     class Meta:
         db_table="testuser"
 
+class UserShift(models.Model):
+    name = models.CharField(max_length=50)
+    start_time = models.TimeField("زمان شروع")
+    end_time = models.TimeField("زمان پایان")
+
+    def __str__(self):
+        return self.name
 
 class SysUser(models.Model):
     def __str__(self):
@@ -45,6 +52,7 @@ class SysUser(models.Model):
         (WorkOrders,'درخواست'),
     )
     userId = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True)
+    shift = models.ForeignKey(UserShift, on_delete=models.CASCADE,null=True,blank=True)
     password=models.CharField(max_length=20)
     token=models.CharField(max_length=20,null=True,blank=True)
     fullName=models.CharField("مشخصات کامل",max_length = 50)

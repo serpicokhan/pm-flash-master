@@ -29,6 +29,7 @@ $(function () {
     if($('#asset_cat').val()!==''){
       asset_status+="&asset_cat="+$('#asset_cat').val()
     }
+    console.log(asset_status);
 
     const id =$("#cpswoid").val();
 
@@ -43,8 +44,10 @@ $(function () {
       },
       success: function (data) {
         //alert("3123@!");
-        $("#modal-copy .modal-content").html(data.modalcopyasset);
+        if(data.form_is_valid){
+          $("#modal-copy .modal-content").html(data.modalcopyasset);
           $(".assetPaging").html(data.html_asset_paginator);
+        }
 
 
 

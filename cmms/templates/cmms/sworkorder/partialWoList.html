@@ -15,7 +15,8 @@
  <td>{{c.woAsset}}</td>
  <td>{{c.assignedToUser|default_if_none:"مشخص نشده"}}</td>
  <td>{{c.get_woStatus_display}}</td>
-
+ <td><span class="label label-primary" style="background-color:{{c.maintenanceType.color}}; min-width: 55px !important;  display: inline-block !important">
+                                                  {{c.maintenanceType}}</span></td>
 
  <td>{{c.estimatedLabor|default_if_none:0}}</td>
  <td>{{c.get_nextTime|default_if_none:0}}</td>
