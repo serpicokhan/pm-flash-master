@@ -94,7 +94,7 @@ var saveForm= function () {
          $("#tbody_company").empty();
          $("#tbody_company").html(data.html_part_list);
          $("#modal-company").modal("hide");
-         $("tr").on("click", showPartDetails);
+         // $("tr").on("click", showPartDetails);
 
          $("#issavechanged").val("1");
          toastr.success("قطعه با موفقیت ثبت گردید");
@@ -410,8 +410,8 @@ return false;
 
 
    //$.when(loadForm(btn)).done(initLoad,initWoPartLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
-   $.when(loadForm(btn)).done(initPartStockLoad,initPartLocationLoad,initPartUserLoad,initPartWarantyLoad,initPartBusinessLoad,initPartPurchaseLoad,initPartFileLoad);
-   //loadForm(btn);
+   // $.when(loadForm(btn)).done(initPartStockLoad,initPartLocationLoad,initPartUserLoad,initPartWarantyLoad,initPartBusinessLoad,initPartPurchaseLoad,initPartFileLoad);
+   loadForm(btn);
 
    //initLoad();
  }
@@ -432,7 +432,7 @@ return false;
 
           $("#tbody_company").html(data.html_part_search_tag_list);
           $(".woPaging").html(data.html_part_paginator);
-          $("tr").on("click", showPartDetails);
+          // $("tr").on("click", showPartDetails);
           $("#modal-company").modal("hide");
          // console.log(data.html_amar_list);
         }
@@ -730,7 +730,7 @@ function GetConsumeInfo(id){
   });
 }
 
-$("tr").on("click", showPartDetails);
+// $("tr").on("click", showPartDetails);
 $(".js-create-part").click(myWoLoader);
 $("#modal-company").on("submit", ".js-part-create-form", saveForm);
 $("#modal-company").on("click", "#id_partcategorytxt", showPartSelector);
