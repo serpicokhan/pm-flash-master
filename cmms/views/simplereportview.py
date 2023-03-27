@@ -35,6 +35,8 @@ from cmms.business.schedule_utility import *
 from cmms.business.SWOUtility import *
 from django.contrib.admin.models import LogEntry
 from django.db.models import Sum
+import weasyprint
+from django.template.loader import get_template
 # import weasyprint
 # from django.conf import settings
 
@@ -177,7 +179,20 @@ class reporttest:
             woparts=WorkorderPart.objects.filter(woPartStock__stockItem_id=parts, woPartWorkorder__in=wo,woPartActulaQnty__gte=1).order_by('-woPartWorkorder__datecreated')
         else:
             woparts=WorkorderPart.objects.filter(woPartWorkorder__in=wo,woPartActulaQnty__gte=1).order_by('-woPartWorkorder__datecreated','-woPartStock__stockItem__partName')
-        return render(request, 'cmms/reports/simplereports/PartUsageHistory.html', {'woparts': woparts,'date1':rawdate1,'date2':rawdate2,'parts':partNames})
+
+        template = get_template('cmms/reports/simplereports/PartUsageHistory.html')
+        html = template.render({'woparts': woparts,'date1':rawdate1,'date2':rawdate2,'parts':partNames})
+
+        # Generate the PDF using WeasyPrint
+        pdf_file = weasyprint.HTML(string=html).write_pdf()
+
+        # Return the PDF as a response
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="my_pdf.pdf"'
+        return response
+
+
+        # return render(request, 'cmms/reports/simplereports/PartUsageHistory.html', {'woparts': woparts,'date1':rawdate1,'date2':rawdate2,'parts':partNames})
     def OveralPartUsageHistory(self,request):
 
 

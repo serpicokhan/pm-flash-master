@@ -519,6 +519,7 @@ urlpatterns = [
           url(r'^MaintenanceType/(?P<id>\d+)/delete/$', maintenanceType_delete, name='maintenanceType_delete'),
           url(r'^MaintenanceType/(?P<id>\d+)/update/$', maintenanceType_update, name='maintenanceType_update'),
           url(r'^UserShift/$',list_userShift,name='list_userShift'),
+          url(r'^pdf/$',generate_pdf,name='generate_pdf'),
           url(r'^UserShift/create/$', userShift_create, name='userShift_create'),
           url(r'^UserShift/(?P<id>\d+)/delete/$', userShift_delete, name='userShift_delete'),
           url(r'^UserShift/(?P<id>\d+)/update/$', userShift_update, name='userShift_update'),

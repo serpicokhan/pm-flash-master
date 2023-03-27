@@ -32,6 +32,20 @@ from cmms.api.WOSerializer import *
 from rest_framework.response import Response
 from rest_framework import status
 
+from django.template.loader import get_template
+import weasyprint
+
+def generate_pdf(request):
+    template = get_template('cmms/usershift/userShiftList2.html')
+    html = template.render({'my_var': 'Hello world'})
+
+    # Generate the PDF using WeasyPrint
+    pdf_file = weasyprint.HTML(string=html).write_pdf()
+
+    # Return the PDF as a response
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="my_pdf.pdf"'
+    return response
 @permission_required('cmms.view_usershift')
 def list_userShift(request,id=None):
     #
