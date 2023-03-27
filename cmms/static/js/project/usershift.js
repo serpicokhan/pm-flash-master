@@ -10,8 +10,8 @@ $(function () {
     else {
       btn=btn1;
     }
-    console.log($(btn).attr("type"));
-    console.log($(btn).attr("data-url"));
+    //console.log($(btn).attr("type"));
+    //console.log($(btn).attr("data-url"));
     return $.ajax({
       url: btn.attr("data-url"),
       type: 'get',
@@ -19,18 +19,12 @@ $(function () {
       beforeSend: function () {
         //alert(btn.attr("data-url"));
         //alert("321321");
-        // /$("#modal-mail").modal("hide");
+        // /$("#modal-userShift").modal("hide");
         $("#modal-company").modal("show");
       },
       success: function (data) {
         //alert("3123@!");
-        $("#modal-company .modal-content").html(data.html_mail_form);
-        $(".selectpicker").selectpicker();
-        $('.i-checks').iCheck({
-            checkboxClass: 'icheckbox_square-green',
-            radioClass: 'iradio_square-green',
-        });
-        $('#id_Message').summernote();
+        $("#modal-company .modal-content").html(data.html_userShift_form);
 
       }
     });
@@ -51,14 +45,14 @@ var saveForm= function () {
        if (data.form_is_valid) {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_company").empty();
-         $("#tbody_company").html(data.html_mail_list);
+         $("#tbody_company").html(data.html_userShift_list);
          $("#modal-company").modal("hide");
-        // console.log(data.html_mail_list);
+        // console.log(data.html_userShift_list);
        }
        else {
 
-         $("#company-table tbody").html(data.html_mail_list);
-         $("#modal-company .modal-content").html(data.html_mail_form);
+         $("#company-table tbody").html(data.html_userShift_list);
+         $("#modal-company .modal-content").html(data.html_userShift_form);
        }
      }
    });
@@ -96,13 +90,16 @@ var saveForm= function () {
  //alert("321312");
  // Create book
 
+
+
+
  var myWoLoader= function(){
    btn=$(this);
-   console.log(btn);
 
 
-   //$.when(loadForm(btn)).done(initLoad,initWomailLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
-   //$.when(loadForm(btn)).done(initmailFileLoad,initmailAssetLoad,initmailPartLoad );
+
+   //$.when(loadForm(btn)).done(initLoad,initWoUserShiftLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
+   //$.when(loadForm(btn)).done(initUserShiftFileLoad,initUserShiftAssetLoad,initUserShiftPartLoad );
    loadForm(btn);
 
    //initLoad();
@@ -110,14 +107,14 @@ var saveForm= function () {
 
 
 
-$(".js-create-mail").click(myWoLoader);
-$("#modal-company").on("submit", ".js-mail-create-form", saveForm);
+$(".js-create-userShift").click(myWoLoader);
+$("#modal-company").on("submit", ".js-userShift-create-form", saveForm);
 
 // Update book
-$("#company-table").on("click", ".js-update-mail", myWoLoader);
-$("#modal-company").on("submit", ".js-mail-update-form", saveForm);
+$("#company-table").on("click", ".js-update-userShift", myWoLoader);
+$("#modal-company").on("submit", ".js-userShift-update-form", saveForm);
 // Delete book
-$("#company-table").on("click", ".js-delete-mail", loadForm);
-$("#modal-company").on("submit", ".js-mail-delete-form", saveForm);
+$("#company-table").on("click", ".js-delete-userShift", loadForm);
+$("#modal-company").on("submit", ".js-userShift-delete-form", saveForm);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);
 });

@@ -1,0 +1,18 @@
+{% load static %}
+{% for c in request.session.users %}
+
+
+<li class="active dz-chat-user" data-url="{{c.1}}">
+    <div class="d-flex bd-highlight">
+        <div class="img_cont">
+            <img src="{% static 'images/avatar/1.jpg' %}"class="rounded-circle user_img" alt=""/>
+            <span class="online_icon"></span>
+        </div>
+        <div class="user_info">
+            <span>{{c.0}}</span>
+            <p>آنلاین </p>
+        </div>
+    </div>
+</li>
+
+{% endfor %}

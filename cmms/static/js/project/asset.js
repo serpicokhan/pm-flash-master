@@ -100,6 +100,7 @@ $(function () {
         //alert("3123@!");
 
         $("#modal-company .modal-content").html(data.html_asset_form);
+
         $('.advanced2AutoComplete3').autoComplete({
           resolver: 'custom',
           noResultsText:'بدون نتیجه',
@@ -165,7 +166,7 @@ $(function () {
         //     }
         //   });
         var elem = document.querySelector('.js-switch');
-        // var init = new Switchery(elem);
+        var init = new Switchery(elem);
         $("#id_assetStatus").change(function(x){
           // console.log("start");
           // console.log(x.cancelable);
@@ -323,13 +324,14 @@ function findGetParameter(parameterName) {
           result=1
     return result;
 }
+
 //////////
 ////////////////Search buttom click#############################
 var searchAsset= function (loc,searchStr) {
   // searchStr=searchStr.replace(' ','__');
   // console.log('/Asset/'+loc+'/Search/?q='+searchStr);
    $.ajax({
-     url: '/Asset/'+loc+'/Search/?q='+searchStr+'&page='+findGetParameter('page'),
+     url: '/Asset/'+loc+'/Search/?q='+searchStr+'&page='+findGetParameter('page')+'&main_asset='+$('#id_main_asset').val(),
      type: 'GET',
      dataType: 'json',
      beforeSend:function(){
@@ -514,13 +516,21 @@ var js_switch_change=function()
 }
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveForm= function () {
-   var form = $(this);
+   // e.preventDefault();
+   var form =  $(this);
+// var form2 = $(this);
+
+ // var form = new FormData(document.getElementById("assetupdateform2"));
 
    $.ajax({
      url: form.attr("action"),
      data: form.serialize(),
      type: form.attr("method"),
      dataType: 'json',
+     // cache:false,
+     // contentType: false,
+     // processData: false,
+
      beforeSend:function(x,h)
      {
        if(!$(this)[0].url.includes('delete')){
@@ -536,9 +546,56 @@ var saveForm= function () {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_company").empty();
          $("#tbody_company").html(data.html_asset_list);
+         $(".assetPaging").html(data.html_asset_paging);
          $("#modal-company").modal("hide");
            // $("tr").on("click", showAssetDetails);
             $("#issavechanged").val("1");
+        // console.log(data.html_asset_list);
+       }
+       else {
+
+         $("#company-table tbody").html(data.html_asset_list);
+         $("#modal-company .modal-content").html(data.html_asset_form);
+       }
+     }
+   });
+   return false;
+ };
+var deleteForm= function () {
+   // e.preventDefault();
+   var form =  $(this);
+   var asset_id=$("#assetiddelete").val();
+   // var tr1=form.parent().parent();
+   // console.log(tr1);
+// var form2 = $(this);
+
+ // var form = new FormData(document.getElementById("assetupdateform2"));
+
+   $.ajax({
+     url: form.attr("action"),
+     data: form.serialize(),
+     type: form.attr("method"),
+     dataType: 'json',
+     // cache:false,
+     // contentType: false,
+     // processData: false,
+
+     beforeSend:function(x,h)
+     {
+
+     },
+     success: function (data) {
+       if (data.form_is_valid) {
+         //alert("Company created!");  // <-- This is just a placeholder for now for testing
+         // $("#tbody_company").empty();
+         // $("#tbody_company").html(data.html_asset_list);
+         // $(".assetPaging").html(data.html_asset_paging);
+
+         $("#modal-company").modal("hide");
+         $('tr[date-url='+asset_id+']').remove();
+         console.log( $('tr[date-url='+asset_id+']'));
+           // $("tr").on("click", showAssetDetails);
+          $("#issavechanged").val("1");
         // console.log(data.html_asset_list);
        }
        else {
@@ -946,12 +1003,15 @@ var showAssetTypeSelector=function(){
 }
 var showAssetDetails=function()
 {
+if(($(this).find("td:eq(1)").index())>0){
   $(".detail").show();
   $("#p_assetdetails").html($(this).find("td:eq(1)").text());
+  // alert($(this).find("td:eq(1)").index());
   showMTTR($(this).attr('date-url'));
   showMTBF($(this).attr('date-url'));
   showAssetWoStatus($(this).attr('date-url'));
   loadAssetOfflineStatus($(this).attr('date-url'));
+}
   // console.log($(this).attr('date-url'));
 }
 var showMTTR=function(id)
@@ -1226,10 +1286,13 @@ var ExportAsset=function(){
   // alert(user_id.length);
   // console.log(user_id,user_id.length);
 
-  var form=$(this).attr('data-url');
+  var form=$(this).attr('data-url')+'?search='+$('#assetSearch').val()+'&kvm=0&main_asset='+$('#id_main_asset').val();
   window.open(form, '_blank');
   return false;
 
+}
+var main_asset_change=function(){
+  window.location='/Asset/?main_asset='+$('#id_main_asset').val()+'&search='+$('#assetSearch').val()+'&kvm=0'
 }
 //for tr click
 $(".js-create-asset").unbind();
@@ -1243,6 +1306,7 @@ $(".js-create-asset").click(myWoLoader);
 $("#modal-company").on("submit", ".js-asset-create-form", saveForm);
 
 $("#modal-assetcategory2").on("submit", ".js-bulkasset-selector-form2", saveAssetCatForm);
+$("#id_main_asset").on("change", main_asset_change);
 $("#modal-assetcategory2").on("submit", ".js-bulkasset-duplicate-form", saveAssetCatForm);
 
 // Update book
@@ -1251,8 +1315,8 @@ $("#modal-company").on("submit", ".js-asset-update-form", saveForm);
 $("#modal-company").on("click", ".btn_code_gen", gen_code);
 // Delete book
 $("#company-table").on("click", ".js-delete-asset", loadForm);
-$("#company-table").on("click", "tr", showAssetDetails);
-$("#modal-company").on("submit", ".js-asset-delete-form", saveForm);
+$("#tbody_company").on("click", "tr", showAssetDetails);
+$("#modal-company").on("submit", ".js-asset-delete-form", deleteForm);
 // $('#modal-company').on('hidden.bs.modal',cancelForm);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);
 $(".js-bulkasset-category-selector").click(LoadFormAssetSelector);

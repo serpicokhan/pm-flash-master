@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>اکسپرتر</title>
+  {% load static %}
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+
+        <link href="{% static 'css/bootstrap.min.css' %}"  rel="stylesheet">
+
+         <link href="{% static 'css/bootstrap.rtl.min.css' %}"  rel="stylesheet">
+
+        <link href="{% static 'font-awesome/css/font-awesome.css' %}"  rel="stylesheet">
+        <!-- Toastr style -->
+
+        <link href="{% static 'css/plugins/toastr/toastr.min.css' %}"  rel="stylesheet">
+         <link href="{% static 'css/plugins/steps/jquery.steps.css' %}" rel="stylesheet">
+        <!-- Gritter -->
+
+        <link href="{% static 'css/style.rtl.css' %}"  rel="stylesheet">
+
+        <link href="{% static 'css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+        <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+        <link href="{% static 'css/plugins/jasny/jasny-bootstrap.min.css' %}" rel="stylesheet">
+        <!-- orris -->
+        <link href="{% static 'css/plugins/morris/morris-0.4.3.min.css' %}" rel="stylesheet">
+        <!-- tag input for chpis -->
+        <link href="{% static 'css/plugins/BootstrapTagsInput/bootstrap-tagsinput.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css' %}" rel="stylesheet">
+        <link href="{% static 'css/plugins/dropzone/dropzone.css' %}" rel="stylesheet">
+            <link href="{% static 'js/plugins/treetable/js/js/css/jquery.treetable.css' %}" rel="stylesheet">
+		<!-- FooTable -->
+        <link href="{% static 'css/plugins/footable/footable.core.css' %}" rel="stylesheet">
+        <link href="{% static 'css/plugins/switchery/switchery.css' %}" rel="stylesheet">
+        <!--  Persian datapicker -->
+     <link href="{% static 'css/plugins/persian-datepicker/persian-datepicker.min.css' %}" rel="stylesheet">
+     <link rel="stylesheet" href="{% static 'css/plugins/select/bootstrap-select.min.css' %}" />
+     <link href="{% static 'css/plugins/fullcalendar/fullcalendar.css' %}" rel="stylesheet">
+		<link href="{% static 'css/plugins/fullcalendar/fullcalendar.print.css' %}" rel='stylesheet' media='print'>
+    <link rel="stylesheet" href="{% static 'css/plugins/jsTree/style.min.css' %}" />
+    <link href="{% static 'css/plugins/clockpicker/clockpicker.css' %}" rel="stylesheet">
+
+    <!-- Sweet Alert -->
+ <link href="{% static 'css/plugins/sweetalert/sweetalert.css' %}" rel="stylesheet">
+
+
+
+
+        <!-- Mainly scripts -->
+            <script src="{% static 'js/jquery-2.1.1.js' %}"></script>
+            <script src="{% static 'js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+            <script src="{% static 'js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+            <!-- Peity -->
+            <script src="{% static 'js/plugins/peity/jquery.peity.min.js' %}"></script>
+
+            <!-- Custom and plugin javascript -->
+            <script src="{% static 'js/rada.js' %}"></script>
+            <script src="{% static 'js/plugins/pace/pace.min.js' %}"></script>
+
+            <!-- iCheck -->
+            <script src="{% static 'js/plugins/iCheck/icheck.min.js' %}"></script>
+
+
+            <!-- moment -->
+            <script src="{% static 'js/plugins/fullcalendar/lib/moment.min.js' %}"></script>
+            <script src="{% static 'js/plugins/fullcalendar/lib/moment-jalaali.js' %}"></script>
+            <!-- Full Calendar -->
+        		<script src="{% static 'js/plugins/fullcalendar/pwt-date.js' %}">	</script>
+        		<script src="{% static 'js/plugins/fullcalendar/fullcalendar.min.js' %}"></script>
+            <script src="{% static 'js/plugins/fullcalendar/locale/fa.js' %}"></script>
+        		</script>
+            <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+            <!-- Morris -->
+            <script src="{% static 'js/plugins/morris/raphael-2.1.0.min.js' %}"></script>
+            <script src="{% static 'js/plugins/morris/morris.js' %}"></script>
+            <!-- ChartJS-->
+            <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+            <!-- DROPZONE -->
+            <script src="{% static 'js/plugins/dropzone/dropzone.js' %}"></script>
+            <script src="{% static 'js/plugins/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+
+
+
+           <script src="{% static 'js/plugins/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+           <script src="{% static 'js/plugins/jquery-file-upload/jquery.fileupload.js' %}"></script>
+		   <!-- FooTable -->
+		   <script src="{% static 'js/plugins/footable/footable.all.min.js' %}"></script>
+       <!-- Switchery -->
+        <script src="{% static 'js/plugins/switchery/switchery.js' %}">        </script>
+
+        <!-- Data picker -->
+       <script src="{% static 'js/plugins/datapicker/bootstrap-datepicker.js' %}">
+       </script>
+       <script src="{% static 'js/plugins/persian-datepicker/persian-date.js' %}">
+       </script>
+       <script src="{% static 'js/plugins/persian-datepicker/persian-datepicker.min.js' %}">
+       </script>
+       <!-- Chosen -->
+       <script src="{% static 'js/plugins/chosen/chosen.jquery.js' %}">
+       </script>
+       <script src="{% static 'js/typeahead.bundle.js' %}">
+       </script>
+
+       </script>
+       <!-- <script src="{% static 'js/plugins/require/require.js' %}">
+       </script> -->
+       <script src="{% static 'js/plugins/select/bootstrap-select.min.js' %}"></script>
+       <!-- Toastr -->
+        <script src="{% static 'js/plugins/toastr/toastr.min.js' %}"></script>
+        <!-- Input Mask-->
+      <script src="{% static 'js/plugins/jasny/jasny-bootstrap.min.js' %}">
+      </script>
+      <!-- qrcode -->
+      <script src="{% static 'js/plugins/qr/qrcode.js' %}">
+      </script>
+      <!-- Sweet alert -->
+    <script src="{% static 'js/plugins/sweetalert/sweetalert.min.js' %}"></script>
+      <script src="{% static 'js/plugins/summernote/summernote.min.js' %}"></script>
+      <script src="{% static 'js/plugins/jsTree/jstree.min.js' %}"></script>
+        <script src="{% static 'js/plugins/treetable/js/js/jquery.treetable.js' %}"></script>
+        <script src="{% static 'js/plugins/BootstrapTagsInput/bootstrap-tagsinput.min.js' %}"></script>
+        <script src="{% static 'js/plugins/staps/jquery.steps.min.js' %}"></script>
+
+        <!-- Jquery Validate -->
+        <script src="{% static 'js/plugins/validate/jquery.validate.min.js' %}"></script>
+
+
+
+
+
+
+
+
+
+
+           {# PHOTOS PAGE SCRIPTS #}
+
+
+
+
+    </head>
+    <body >
+      <div id="preloading" style="display:none" >
+        {%include "cmms/preloading.html" %}
+
+      </div>
+        <div id="wrapper">
+
+
+           {% block menu %}
+
+           {% if request.session.operator %}
+
+
+           {%include "cmms/op_menu.html" %}
+           {% else %}
+           {%include "cmms/menu.html" %}
+           {% endif %}
+
+           {% endblock %}
+
+            <div id="page-wrapper" class="gray-bg">
+
+              {% block search %}
+              {%include "cmms/searchbox.html" %}
+              {% endblock %}
+
+              {% block content %}
+
+              {% endblock %}
+              {% block footer %}
+              {%include "cmms/footer.html" %}
+              {% endblock %}
+
+
+            </div>
+        </div>
+
+
+
+    </body>
+	 <script src="{% static '/js/project/utils.js' %}"></script>
+   <script src="{% static '/js/plugins/autocomplete/bootstrap-autocomplete.min.js' %}"></script>
+   <script src="{% static '/js/plugins/treeview/bootstrap-treeview.js' %}"></script>
+    <script src="{% static 'js/plugins/clockpicker/clockpicker.js' %}">
+
+
+
+
+   </script>
+   <script type="text/javascript">
+   $(document).keydown(function(e) {
+  var code = e.keyCode || e.which;
+  // if (code == 27) $("#modal-company").modal("hide");
+  // if (code == 27) $("#modal-taskGroup").modal("hide");
+  if (code == 27){
+    flag=0;
+    $(document).find(".modal").each(function (i, el) {
+      if(i>0) {
+        $(this).modal("hide");
+        // console.log($(this).attr('class'));
+        flag=1;
+      }
+
+    });
+
+    // $(e[1]).modal("hide");
+   // $(document).modal("hide");
+ }
+});
+
+
+   </script>
+
+</html>
