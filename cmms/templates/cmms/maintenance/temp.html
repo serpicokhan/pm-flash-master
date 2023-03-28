@@ -1,0 +1,488 @@
+<div class="col-lg-12">
+  <div class="card">
+    <div class="card-body">
+      <div class="default-tab">
+        <ul class="nav nav-tabs active" role="tablist">
+          <li class="nav-item"><a data-toggle="tab" href="#tab-1" aria-expanded="true">عمومی</a><i
+                                                  class="la la-user mr-2"></i></li>
+          <li class="nav-item"><a data-toggle="tab" href="#tab-2" aria-expanded="false">اطلاعات تکمیلی</a><i
+                                              class="la la-envelope mr-2"></i></li>
+          <li class="nav-item"><a data-toggle="tab" href="#tab-3" aria-expanded="false">کارها</a><i
+                                              class="la la-envelope mr-2"></i></li>
+          <li class="nav-item"><a data-toggle="tab" href="#tab-4" aria-expanded="false">قطعات</a><i
+                                              class="la la-envelope mr-2"></i></li>
+          <li class="nav-item"><a data-toggle="tab" href="#tab-5" aria-expanded="false">قرائت</a><i
+                                              class="la la-envelope mr-2"></i></li>
+          <li class="nav-item"><a data-toggle="tab" href="#tab-10" aria-expanded="false">پرت زمان</a><i
+                                              class="la la-envelope mr-2"></i></li>
+          <li class="nav-item"><a data-toggle="tab" href="#tab-6" aria-expanded="false">هزینه های متفرقه</a><i
+                                              class="la la-envelope mr-2"></i></li>
+          <li class="nav-item"><a data-toggle="tab" href="#tab-7" aria-expanded="false">اعلانات</a><i
+                                              class="la la-envelope mr-2"></i></li>
+          <li class="nav-item"><a data-toggle="tab" href="#tab-8" aria-expanded="false">پیوست ها</a><i
+                                              class="la la-envelope mr-2"></i></li>
+            {% if perms.cmms.view_logentry %}
+          <li class=""><a data-toggle="tab" href="#tab-9" aria-expanded="false">فعالیت ها</a><i
+                                              class="la la-envelope mr-2"></i></li>
+          {% endif %}
+
+        </ul>
+        <div class="tab-content">
+          <div id="tab-1" class="tab-pane active" role="tab card">
+            <div class="pt-4">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label>{{form.summaryofIssue.label}}</label>
+
+
+                    {% render_field form.summaryofIssue class="form-control basicAutoComplete" autocomplete="off" data-url='/WorkOrder/GetProblems' %}
+                  </div>
+
+                </div >
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label>{{form.woProblemCode.label}}</label>
+
+
+                    {% render_field form.woProblemCode class="form-control   selectpicker" data-show-subtext="true" data-live-search="true"   %}
+                  </div>
+                  <div class="form-group">
+                    <label>{{form.workInstructions.label}}</label>
+                    {{form.workInstructions| add_class:"form-control" }}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label>{{form.datecreated.label}}</label>
+
+                        <div class="input-group date">
+                                              {{form.datecreated| add_class:"form-control" }}
+                                              <span class="input-group-addon">
+                                                  <i class="fa fa-calendar">
+                                                  </i>
+                                              </span>
+                                          </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label>{{form.timecreated.label}}</label>
+                        {% render_field form.timecreated class="form-control ltr-input"  data-mask="99:99:99"  %}
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="form-group">
+                    <label>{{form.assignedToUser.label}}</label>
+
+                    {% render_field form.assignedToUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true" %}
+                  </div>
+                  <div class="form-group">
+                    <label>{{form.estimatedLabor.label}}</label>
+                    {{form.estimatedLabor| add_class:"form-control" }}
+                  </div>
+                  <div class="form-group">
+                    <label>{{form.completedByUser.label}}</label>
+                      {% render_field form.completedByUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true" %}
+                  </div>
+                  <div class="form-group">
+                    <label>{{form.actualLabor.label}}</label>
+                    {{form.actualLabor| add_class:"form-control" }}
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label>{{form.dateCompleted.label}}</label>
+
+                        <div class="input-group date">
+                                              {{form.dateCompleted| add_class:"form-control" }}
+                                              <span class="input-group-addon">
+                                                  <i class="fa fa-calendar">
+                                                  </i>
+                                              </span>
+                                          </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label>{{form.timeCompleted.label}}</label>
+                        {{form.timeCompleted| add_class:"form-control" }}
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+
+          <div id="tab-2" class="tab-pane" role="tab card">
+            <div class="pt-4">
+              <div class='row'>
+                <div class='col-lg-12'>
+                  <div class=" card  card-info">
+                    <div class=" card-heading">
+                      <i class="fa fa-info-circle"></i> پیگیری هزینه
+                    </div>
+                    <div class=" card-body">
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label>{{form.account.label}}</label>
+                            {{form.account| add_class:"form-control" }}
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label>{{form.chargeDepartment.label}}</label>
+                            {{form.chargeDepartment| add_class:"form-control" }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class=" card  card-info">
+                    <div class=" card-heading">
+                      <i class="fa fa-info-circle"></i>اطلاعات تکمیلی
+                    </div>
+                    <div class=" card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="form-group">
+                            <label>{{form.completionNotes.label}}</label>
+                            {{form.completionNotes| add_class:"form-control" }}
+                          </div>
+                          <div class="form-group">
+                            <label>{{form.problemBrief.label}}</label>
+                            {{form.problemBrief| add_class:"form-control" }}
+                          </div>
+
+                        </div>
+
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label>{{form.rootCause.label}}</label>
+                            {{form.rootCause| add_class:"form-control" }}
+                          </div>
+                          <div class="form-group">
+                            <label>{{form.solution.label}}</label>
+                            {{form.solution| add_class:"form-control" }}
+                          </div>
+                          <div class="form-group">
+                            <label>{{form.isEM.label}}</label>
+                            {{form.isEM| add_class:"form-control" }}
+                          </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label>{{form.woStopCode.label}}</label>
+                            {% render_field form.woStopCode class="form-control selectpicker" data-show-subtext="true" data-live-search="true" %}
+                          </div>
+                          <div class="form-group">
+                            <label>{{form.woCauseCode.label}}</label>
+                            {% render_field form.woCauseCode class="form-control selectpicker" data-show-subtext="true" data-live-search="true" %}
+                          </div>
+                          <div class="form-group">
+                            <label>{{form.woActionCode.label}}</label>
+                            {% render_field form.woActionCode class="form-control selectpicker" data-show-subtext="true" data-live-search="true" %}
+
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class=" card  card-info">
+                    <div class=" card-heading">
+                      <i class="fa fa-info-circle"></i>یادداشت مدیر
+                    </div>
+                    <div class=" card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="form-group">
+                            <label>{{form.adminNote.label}}</label>
+                            {{form.adminNote| add_class:"form-control" }}
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div id="tab-3" class="tab-pane" role="tab card">
+            <div class="pt-4">
+
+              <div class='row'>
+                <div class='col-lg-12'>
+                  <div class=" card  card-info">
+                    <div class=" card-heading">
+                      <i class="fa fa-info-circle"></i> فعالیت ها
+                    </div>
+                    <div class=" card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          {% include 'cmms/tasks/taskList.html' %}
+
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+          <div id="tab-4" class="tab-pane" role="tab card">
+            <div class="pt-4">
+
+              <div class='row'>
+                <div class='col-lg-12'>
+                  <div class=" card  card-info">
+                    <div class=" card-heading">
+                      <i class="fa fa-info-circle"></i> قطعات
+                    </div>
+                    <div class=" card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          {% include 'cmms/workorder_parts/woPartList.html' %}
+
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+          <div id="tab-5" class="tab-pane" role="tab card">
+            <div class="pt-4">
+
+              <div class='row'>
+                <div class='col-lg-12'>
+                  <div class=" card  card-info">
+                    <div class=" card-heading">
+                      <i class="fa fa-info-circle"></i> قرائت
+                    </div>
+                    <div class=" card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          {% include 'cmms/wo_meter/woMeterList.html' %}
+
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+          <div id="tab-6" class="tab-pane" role="tab card">
+            <div class="pt-4">
+
+              <div class='row'>
+                <div class='col-lg-12'>
+                  <div class=" card  card-info">
+                    <div class=" card-heading">
+                      <i class="fa fa-info-circle"></i>
+                    </div>
+                    <div class=" card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          {% include 'cmms/workorder_misccoast/woMiscList.html' %}
+
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+          <div id="tab-7" class="tab-pane" role="tab card">
+            <div class="pt-4">
+
+              <div class='row'>
+                <div class='col-lg-12'>
+                  <div class=" card  card-info">
+                    <div class=" card-heading">
+                      <i class="fa fa-info-circle"></i>اعلانات
+                    </div>
+                    <div class=" card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          {% include 'cmms/workorder_notification/woNotifyList.html' %}
+
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+          <div id="tab-8" class="tab-pane" role="tab card">
+            <div class="pt-4">
+
+              <div class='row'>
+                <div class='col-lg-12'>
+                  <div class=" card  card-info">
+                    <div class=" card-heading">
+                      <i class="fa fa-info-circle"></i> فایل های ضمیمه
+                    </div>
+                    <div class=" card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          {% include 'cmms/workorder_file/woFileList.html' %}
+
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+          <div id="tab-9" class="tab-pane" role="tab card">
+            <div class=" pt-4">
+
+              <div class='row'>
+                <div class='col-lg-12'>
+                  <div class=" card  card-info">
+                    <div class=" card-heading">
+                      <i class="fa fa-info-circle"></i> پیوست ها
+                    </div>
+                    <div class=" card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          {% include 'cmms/workorder_log/woLogList.html' %}
+
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+          <div id="tab-10" class="tab-pane" role="tab card">
+            <div class=" pt-4">
+
+              <div class='row'>
+                <div class='col-lg-12'>
+                  <div class=" card  card-info">
+                    <div class=" card-heading">
+                      <i class="fa fa-info-circle"></i>
+                    </div>
+                    <div class=" card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+
+                          {% include 'cmms/wo_pert/woPertList.html' %}
+
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+
+
+
+
+
+
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+</div>

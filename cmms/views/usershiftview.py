@@ -32,8 +32,8 @@ from cmms.api.WOSerializer import *
 from rest_framework.response import Response
 from rest_framework import status
 
-from django.template.loader import get_template
-import weasyprint
+# from django.template.loader import get_template
+# import weasyprint
 
 def generate_pdf(request):
     template = get_template('cmms/usershift/userShiftList2.html')

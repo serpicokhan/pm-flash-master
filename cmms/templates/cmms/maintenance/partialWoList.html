@@ -25,20 +25,14 @@
 
 
 {% if perms.cmms.view_workorder %}
- <td><button type="button"
-              class="btn btn-outline btn-warning  btn-sm js-update-wo"
-              data-url="{% url 'wo_update' c.id %}?page={{page}}" data-page="{{page}}">
-        <span class="glyphicon glyphicon-pencil"></span> مشاهده
-      </button>
-      {% endif %}
+ <td>
+<a href="#" class="btn btn-primary shadow btn-xs sharp mr-1 js-update-wo" data-page="{{page}}"   data-url="{% url 'wo_update' c.id %}?page={{page}}" data-page="{{page}}"><i class="fa fa-pencil"></i></a>
+{% endif %}
 
-      {% if perms.cmms.delete_workorder %}
-      <button type="button"
-                   class="btn btn-outline btn-danger btn-sm js-delete-wo2"
-                   data-url="{% url 'wo_delete' c.id %}?page={{page}}" data-page="{{page}}">
-             <span class="glyphicon glyphicon-trash"></span> حذف
-           </button>
-           {% endif %}
+{% if perms.cmms.delete_workorder %}
+
+<a href="#" class="btn btn-danger shadow btn-xs sharp js-delete-wo" data-url="{% url 'wo_delete' c.id %}?page={{page}}" data-page="{{page}}"><i class="fa fa-trash"></i></a>
+{% endif %}
     </td>
 </tr>
 {% empty %}

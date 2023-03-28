@@ -271,7 +271,7 @@ var saveCopy= function () {
         $('.basicAutoComplete').autoComplete();
 
         //
-        $("#form").steps();
+        // $("#form").steps();
 
         //
         initLoad();
