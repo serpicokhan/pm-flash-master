@@ -23,7 +23,7 @@ wo_create<!--pip install django-widget-tweaks-->
 
                    </div>
                    <div class="table-responsive">
-                       <table class="table table-striped" id="company-table">
+                       <table class="table table-striped custom-table" id="company-table">
                          <thead>
                          <tr>
                            <th></th>
@@ -58,6 +58,15 @@ wo_create<!--pip install django-widget-tweaks-->
                                    {% include 'cmms/maintenance/partialWoList.html' %}
                            </tbody>
                        </table>
+                       <!-- <style media="screen">
+                         .custom-table tbody tr:nth-child(odd) {
+                            background-color: #B1B1B1;
+                          }
+
+                          .custom-table tbody tr:nth-child(even) {
+                            background-color: #fff;
+                          }
+                       </style> -->
 
                        <!-- BUTTON TO TRIGGER THE ACTION -->
                        <p>
