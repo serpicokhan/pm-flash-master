@@ -2,12 +2,31 @@
 
 <div class="row">
   <div class="col-lg-12">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>قطعات </h5>
+                    <div class="card info">
 
-                        </div>
-                        <div class="ibox-content">
+                        <div class="card-body">
+                          {% if perms.cmms.add_workorderpart %}
+                          <p>
+                            <button type="button" class="btn tp-btn-light btn-primary btn-xs js-create-woPart"
+                            data-url="{% url 'woPart_create' %}"                                  >
+                              <span class="glyphicon glyphicon-plus"
+
+
+
+                              ></span>
+                            جدید
+                            </button>
+                            <button type="button" class="btn tp-btn-light btn-primary btn-xs js-create-woAssetPart"
+                            data-url=""                                  >
+                              <span class="glyphicon glyphicon-plus"
+
+
+
+                              ></span>
+                              BOM
+                            </button>
+                          </p>
+                          {% endif %}
 
                             <div class="table-responsive" style="position: relative;height: 300px;overflow: auto;display:block">
                                 <table class="table table-striped" id="woPart-table" >
@@ -29,35 +48,14 @@
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
-                                {% if perms.cmms.add_workorderpart %}
-                                <p>
-                                  <button type="button" class="btn btn-primary js-create-woPart"
-                                  data-url="{% url 'woPart_create' %}"                                  >
-                                    <span class="glyphicon glyphicon-plus"
 
-
-
-                                    ></span>
-                                  جدید
-                                  </button>
-                                  <button type="button" class="btn btn-primary js-create-woAssetPart"
-                                  data-url=""                                  >
-                                    <span class="glyphicon glyphicon-plus"
-
-
-
-                                    ></span>
-                                    BOM
-                                  </button>
-                                </p>
-                                {% endif %}
                             </div>
                           </div>
 
                     </div>
                 </div>
                 <div class="modal fade" id="modal-woAssetPart">
-                 <div class="modal-dialog ">
+                 <div class="modal-dialog modal-dialog-centered" role="document">
 
                    <div class="modal-content ">
                    </div>
