@@ -79,7 +79,8 @@
                                 </div>
                                         <div class="col-md-12  mb-3">
                                     <label>{{form.taskStartTime.label}}</label>
-                                    <div class="input-group clockpicker">
+                                    <div class="input-group clockpicker" data-autoclose="true">
+
                                       {{form.taskStartTime| add_class:"form-control border-primary" }} <span class="input-group-append">
                                           <span class="input-group-text"><i class="fa fa-clock-o"></i></span></span>
                                     </div>
@@ -91,7 +92,7 @@
 
                                       <div class="row" style="margin-top:20px">
                                         <div class="col-md-12  mb-3">
-                                          <div class="form-group">
+                                          <div class="form-group" data-autoclose="true">
                                             <label>{{form.taskTimeEstimate.label}}</label>
                                             {{form.taskTimeEstimate| add_class:"form-control border-primary" }}
 
@@ -128,7 +129,7 @@
                                           </div>
                                           <div class="form-group">
                                             <label>{{form.taskTimeCompleted.label}}</label>
-                                            <div class="input-group clockpicker">
+                                            <div class="input-group clockpicker" data-autoclose="true">
                                               {{form.taskTimeCompleted| add_class:"form-control border-primary" }} <span class="input-group-append">
                                                   <span class="input-group-text"><i class="fa fa-clock-o"></i></span></span>
                                             </div>
