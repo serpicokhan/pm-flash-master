@@ -6,11 +6,14 @@
  <td>{{c.assetPartQnty}}</td>
  <td>{{c.assetPartDescription|default_if_none:"مشخص نشده"}}</td>
 
-<td><button type="button"
-             class="btn btn-warning btn-sm js-select-assetPart"
-             data-url="/WoPart/CreateByWo/{{wo}}/{{c.assetPartPid.id}}">
-        مصرف
-     </button></td>
+<td>
+     <button type="button"
+                class="btn btn-outline btn-warning  btn-sm js-select-assetPart"
+                data-url="/WoPart/CreateByWo/{{wo}}/{{c.assetPartPid.id}}">
+          <span class="glyphicon glyphicon-pencil"></span>مصرف     </button>
+
+
+   </td>
 
 
 
@@ -38,11 +41,12 @@
 
 
  <td>
-   <button type="button"
-                class="btn btn-warning btn-sm js-select-assetPart"
-                data-url="">
-          <span class="glyphicon glyphicon-pencil"></span> ویرایش
-        </button>
+
+
+        <button type="button"
+                   class="btn btn-outline btn-warning  btn-sm js-select-assetPart"
+                   data-url="">
+             <span class="glyphicon glyphicon-pencil"></span>ویرایش     </button>
     </td>
 </tr>
 {% empty %}
