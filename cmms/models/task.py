@@ -35,7 +35,7 @@ class Tasks(models.Model):
     taskMetrics=models.ForeignKey("AssetMeterTemplate",verbose_name="واحد اندازه گیری",null=True,blank=True,on_delete=models.CASCADE)
     taskDescription=models.CharField("توضیحات",max_length = 200,null=True,blank=True)
     #result related to asset and measured according to Asset
-    taskResult=models.FloatField("نتیجه",max_length = 50,null=True,blank=True)
+    taskResult=models.FloatField("مقدار",max_length = 50,null=True,blank=True)
     taskAssignedToUser = models.ForeignKey(SysUser,on_delete=models.CASCADE,verbose_name="اختصاص به کاربر",null=True,blank=True,related_name="assignedToUserTask")
     taskStartDate = models.DateField(" تاریخ شروع",null=True, blank=True)
     taskStartTime = models.TimeField("زمان شروع",default=datetime.now,null=True, blank=True)

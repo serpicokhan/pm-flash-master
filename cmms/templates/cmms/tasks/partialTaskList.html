@@ -5,73 +5,70 @@
   <td>
     <input type="checkbox" name="" value="" data-url={{c.id}} class="selection-box">
   </td>
-<td>{{c.get_taskTypes_display|default_if_none:"-"}}</td>
-{% if c.taskTypes == 3 and not ispm %}
- {% if not c.taskResult %}
-<td class="col-md-1"> <input type="text"  name="taskresult" value="" data-url="{{c.id}}" class="form-control task-result">
-</td>
-{% else %} <td> {{c.taskResult}} </td> {% endif %}
-{% elif c.taskTypes == 4 %}
+  <td>{{c.get_taskTypes_display|default_if_none:"-"}}</td>
+  {% if c.taskTypes == 3 and not ispm %}
+  {% if not c.taskResult %}
+  <td class="col-md-1"> <input type="text"  name="taskresult" value="" data-url="{{c.id}}" class="form-control task-result">
+  </td>
+  {% else %} <td> {{c.taskResult}} </td> {% endif %}
+  {% elif c.taskTypes == 4 %}
 
-{% if  not c.task_inspection %}
-<td>
-<select class="btn-primary form-control" name="">
-  <option value="">با موفقیت</option>
-  <option value="">بررسی بیشتر</option>
-  <option value=""> ناموفق</option>
+  {% if  not c.task_inspection %}
+  <td>
+    <select class="btn-primary form-control" name="">
+      <option value="">با موفقیت</option>
+      <option value="">بررسی بیشتر</option>
+      <option value=""> ناموفق</option>
 
-</select>
-											</td>
-{% else %}
-<td>
-{{c.task_inspection|default_if_none:"-"}}</td>
-{% endif %}
-
- {% else %} <td>{{c.taskResult|default_if_none:"-"}}</td> {% endif %}
- <td title="{{c.taskDescription}}">{{c.taskDescription|default_if_none:"-"|truncatechars:20}}</td>
-
- <td>{{c.taskAssignedToUser|default_if_none:"-"}}</td>
- <td>{{c.taskTimeEstimate|default_if_none:"-"}}</td>
- <td>{{c.get_total_work_time|default_if_none:"-"}}</td>
-
-
-
-
- <td>
-  {% if perms.cmms.view_tasks %}
-
-  {% if ispm == False %}
-   <button type="button"
-              class="btn btn-outline btn-warning btn-sm js-update-task"
-              data-url="{% url 'task_update' c.id %}?q={{c.workOrder.id}}">
-        <span class="glyphicon glyphicon-pencil"></span> مشاهده
-      </button>
+    </select>
+  </td>
   {% else %}
-  <button type="button"
-             class="btn btn-outline btn-warning btn-sm js-update-task"
-             data-url="{% url 'task_update2' c.id %}?q={{c.workOrder.id}}">
-       <span class="glyphicon glyphicon-pencil"></span> مشاهده
-     </button>
-  {% endif %}
+  <td>
+    {{c.task_inspection|default_if_none:"-"}}</td>
     {% endif %}
 
-{% if perms.cmms.delete_tasks %}
-      <button type="button"
-                   class="btn  btn-outline btn-danger btn-sm js-delete-task"
-                   data-url="{% url 'task_delete' c.id %}">
-             <span class="glyphicon glyphicon-trash"></span> حذف
-           </button>
-           {% endif %}
+    {% else %} <td>{{c.taskResult|default_if_none:"-"}}</td> {% endif %}
+    <td title="{{c.taskDescription}}">{{c.taskDescription|default_if_none:"-"|truncatechars:20}}</td>
+
+    <td>{{c.taskAssignedToUser|default_if_none:"-"}}</td>
+    <td>{{c.taskTimeEstimate|default_if_none:"-"}}</td>
+    <td>{{c.get_total_work_time|default_if_none:"-"}}</td>
+
+
+
+
+    <td>
+      <div class="d-flex">
+        {% if perms.cmms.view_tasks %}
+
+        {% if ispm == False %}
+        <a href="#" class="btn btn-primary shadow btn-xs sharp mr-1 js-update-task"
+        data-url="{% url 'task_update' c.id %}?q={{c.workOrder.id}} %}"><i class="fa fa-pencil"></i></a>
+        {% else %}
+        <a href="#" class="btn btn-primary shadow btn-xs sharp mr-1 js-update-purchaseRequest"
+        data-url="{% url 'purchaseRequest_update' c.id %}"><i class="fa fa-pencil"></i></a>
+        {% endif %}
+        {% endif %}
+        {% if perms.cmms.delete_tasks %}
+        <a href="#" class="btn btn-danger shadow btn-xs sharp js-delete-task"
+        data-url="{% url url 'task_delete' c.id %}"><i class="fa fa-trash"></i></a>
+        {% endif %}
+      </div>
+
+
+
+
+
 
 
 
     </td>
 
-</tr>
-{% empty %}
-<tr>
- <td colspan="8" class="text-center bg-warning">هیچ موردی یافت نشد</td>
-</tr>
+  </tr>
+  {% empty %}
+  <tr>
+    <td colspan="8" class="text-center ">هیچ موردی یافت نشد</td>
+  </tr>
 
 
-{% endfor %}
+  {% endfor %}

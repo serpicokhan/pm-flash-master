@@ -1,6 +1,6 @@
 <div  data-url="{% url 'task_create' %}" class="js-task-create-form" >
 
-  <div class="modal-header " style="background:#ccc">
+  <div class="modal-header bg-secondary  text-white" >
     <button type="button" class="close cl-task"  aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -12,9 +12,9 @@
   <div class="modal-footer">
 
     {% if perms.cmms.add_tasks %}
-
-    <button type="button" class="btn btn-info" id="task-apply"  >اعمال</button>
     <button type="button" class="btn btn-primary" id="task-submit"  >ذخیره</button>
+    <button type="button" class="btn btn-info" id="task-apply"  >اعمال</button>
+
     {% endif %}
       <button type="button" class="cl-task btn btn-default" >انصراف</button>
  <script>

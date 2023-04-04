@@ -1,220 +1,187 @@
 {% load widget_tweaks %}
 
-<div class="row">
-  <div class="col-lg-12">
-    <div class="tabs-container">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#tab-22" aria-expanded="true">اطلاعات عمومی</a></li>
-            <li><a data-toggle="tab" href="#tab-23" aria-expanded="true"> جزییات تکمیل</a></li>
+<div class="col-xl-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <div class="default-tab">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#home"><i
+                                                class="la la-home mr-2"></i>عمومی</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " data-toggle="tab" href="#home2"><i
+                                                class="la la-home mr-2"></i>زمانبندی</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#profile"><i
+                                                class="la la-user mr-2"></i> تکمیلی</a>
+                                    </li>
+
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="home" role="tabpanel">
+                                      <div class="row">
+                                        <div class="col-md-12 mt-3">
+                                          <div class="form-group">
+                                            <label>{{form.taskTypes.label}}</label>
+                                            {{form.taskTypes| add_class:"form-control border-primary" }}
+
+                                          </div>
+
+                                        </div>
 
 
 
 
-        </ul>
-        <div class="tab-content ">
-            <div id="tab-22" class="tab-pane active">
-              <div class="panel panel-info">
-
-                   <div class="panel-body">
-                       <div class="row">
-                         <div class="col-lg-6">
-
-                           <label>{{form.taskTypes.label}}</label>
-
-                           </div>
-
-                         <div class="col-lg-6">
-                           {{form.taskTypes| add_class:"form-control" }}
-                         </div>
-                       </div>
-                       <div class="row taskmetricrow" id="taskmetricrow" style=" margin-top:20px;">
+                                      </div>
+                                      <div class="row taskmetricrow" id="taskmetricrow" style=" margin-top:20px;">
 
 
-                       </div>
-                       <div class="row">
-                         <div class="col-lg-12">
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-lg-12">
 
-                           <label>{{form.taskDescription.label}}</label>
-
-
-                           {{form.taskDescription| add_class:"form-control" }}
-                         </div>
-                       </div>
-                       <div class="row" style="margin-top: 20px">
-                         <div class="col-lg-6">
-
-                           <label>{{form.taskAssignedToUser.label}}</label>
-
-                           </div>
-
-                         <div class="col-lg-6">
-
-                             {% render_field form.taskAssignedToUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
-                         </div>
-                       </div>
-                       <div class="row" >
-                         <div class="col-lg-6">
-                           <label style="margin-top: 5px;">{{form.taskStartDate.label}}</label>
-
-                         </div>
-                         <div class="col-lg-6">
-
-                            <div class="input-group date">
-                                                {{form.taskStartDate| add_class:"form-control" }}
-                                                  <span class="input-group-addon">
-                                                      <i class="fa fa-calendar">
-                                                      </i>
-                                                  </span>
-                                              </div>
-
-                         </div>
-
-                       </div>
-                       <div class="row" >
-                         <div class="col-lg-6">
-                           <label style="margin-top: 5px;">{{form.taskStartTime.label}}</label>
-
-                         </div>
-                         <div class="col-lg-6">
-                            {% render_field form.taskStartTime class="form-control ltr-input"  data-mask="99:99:99"  %}
-
-                         </div>
+                                          <label>{{form.taskDescription.label}}</label>
 
 
-                     </div>
-                       <div class="row" style="margin-top:20px">
-                         <div class="col-lg-6">
+                                          {{form.taskDescription| add_class:"form-control border-primary" }}
+                                        </div>
+                                      </div>
+                                      <div class="row" style="margin-top: 20px">
+                                        <div class="col-lg-12">
+                                          <div class="form-group">
+                                            <label>{{form.taskAssignedToUser.label}}</label>
+                                            {% render_field form.taskAssignedToUser class="form-control border-primary selectpicker" data-show-subtext="true" data-live-search="true"  %}
 
-                           <label>{{form.taskTimeEstimate.label}}</label>
-
-                           </div>
-
-                         <div class="col-lg-6">
-                           {{form.taskTimeEstimate| add_class:"form-control" }}
-                         </div>
-                       </div>
-                   </div>
-
-              </div>
-
-                </div>
-                <div id="tab-23" class="tab-pane ">
-
-                    <div class="panel panel-info">
-
-                         <div class="panel-body">
-                             <div class="row">
-                               <div class="col-lg-6">
-
-                                 <label>{{form.taskCompletedByUser.label}}</label>
-
-                                 </div>
-
-                               <div class="col-lg-6">
-
-                                    {% render_field form.taskCompletedByUser class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  %}
-                               </div>
-                             </div>
-                             <div class="row">
-                               <div class="col-lg-6">
-
-                                 <label>{{form.taskResult.label}}</label>
-
-                                 </div>
-
-                               <div class="col-lg-6">
-
-                                    {% render_field form.taskResult class="form-control "  %}
-                               </div>
-                             </div>
-                             <div class="row">
-                               <div class="col-lg-6">
-
-                                 <label>{{form.taskDateCompleted.label}}</label>
-
-                                 </div>
-
-                               <div class="col-lg-6">
-                                 <div class="input-group date">
-                                                            {{form.taskDateCompleted| add_class:"form-control" }}
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar">
-                                                                </i>
-                                                            </span>
-                                                        </div>
-
-                               </div>
+                                          </div>
 
 
-                             </div>
-                             <div class="row">
-                               <div class="col-lg-6">
 
-                                 <label>{{form.taskTimeCompleted.label}}</label>
+                                          </div>
 
-                                 </div>
 
-                               <div class="col-lg-6">
-                                 <div class="form-group">
+                                      </div>
 
-                                   {% render_field form.taskTimeCompleted class="form-control ltr-input"  data-mask="99:99:99"  %}
+                                    </div>
+                                    <div class="tab-pane fade " id="home2" role="tabpanel">
 
-                                 {% if perms.cmms.delete_tasks %}
-                                 <button type="button"
-                                            class="btn btn-default btn-sm set-auto-completion-time" id="set-auto-completion-time" date-url="{{form.instance.id}}">
-                                      <span class="glyphicon glyphicon-refresh"></span>
-                                    </button>
-                                 {% endif %}
-                               </div>
+
+                                      <div class="row" >
+                                        <div class="col-md-12  mb-3">
+                                    <label>{{form.taskStartDate.label}}</label>
+                                    <div class="input-group">
+                                      {{form.taskStartDate| add_class:"form-control border-primary" }} <span class="input-group-append">
+                                          <span class="input-group-text"><i class="fa fa-calendar-o"></i></span></span>
+                                    </div>
+                                </div>
+                                        <div class="col-md-12  mb-3">
+                                    <label>{{form.taskStartTime.label}}</label>
+                                    <div class="input-group clockpicker">
+                                      {{form.taskStartTime| add_class:"form-control border-primary" }} <span class="input-group-append">
+                                          <span class="input-group-text"><i class="fa fa-clock-o"></i></span></span>
+                                    </div>
                                 </div>
 
 
 
-                             </div>
+                                      </div>
+
+                                      <div class="row" style="margin-top:20px">
+                                        <div class="col-md-12  mb-3">
+                                          <div class="form-group">
+                                            <label>{{form.taskTimeEstimate.label}}</label>
+                                            {{form.taskTimeEstimate| add_class:"form-control border-primary" }}
+
+                                          </div>
 
 
-                             <div class="row">
-                               <div class="col-lg-6">
-
-                                 <label>{{form.taskTimeSpent.label}}</label>
-
-                                 </div>
-
-                               <div class="col-lg-6">
-                                 {{form.taskTimeSpent| add_class:"form-control" }}
-                               </div>
-                             </div>
-
-                             <div class="row">
-                               <div class="col-lg-12">
-
-                                 <label>{{form.taskCompletionNote.label}}</label>
+                                          </div>
 
 
-                                 {{form.taskCompletionNote| add_class:"form-control" }}
-                               </div>
-                         </div>
+                                      </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile">
+                                      <div class="row">
+                                        <div class="col-md-12 mb-3">
 
+                                          <div class="form-group">
+                                            <label>{{form.taskResult.label}}</label>
+                                            {% render_field form.taskResult class="form-control border-primary "  %}
+
+
+
+                                          </div>
+                                          <div class="form-group">
+                                            <label>{{form.taskDateCompleted.label}}</label>
+
+                                            <div class="input-group date">
+                                                                       {{form.taskDateCompleted| add_class:"form-control border-primary" }}
+                                                                       <span class="input-group-addon">
+                                                                           <i class="fa fa-calendar">
+                                                                           </i>
+                                                                       </span>
+                                                                   </div>
+
+                                          </div>
+                                          <div class="form-group">
+                                            <label>{{form.taskTimeCompleted.label}}</label>
+                                            <div class="input-group clockpicker">
+                                              {{form.taskTimeCompleted| add_class:"form-control border-primary" }} <span class="input-group-append">
+                                                  <span class="input-group-text"><i class="fa fa-clock-o"></i></span></span>
+                                            </div>
+                                            {% if perms.cmms.delete_tasks %}
+                                            <button type="button"
+                                                       class="btn btn-default btn-sm set-auto-completion-time" id="set-auto-completion-time" date-url="{{form.instance.id}}">
+                                                 <span class="glyphicon glyphicon-refresh"></span>
+                                               </button>
+                                            {% endif %}
+
+
+
+                                          </div>
+                                          <div class="form-group">
+                                            <label>{{form.taskTimeSpent.label}}</label>
+                                            {{form.taskTimeSpent| add_class:"form-control border-primary" }}
+
+
+
+
+                                          </div>
+                                          <div class="form-group">
+
+                                            <label>{{form.taskCompletionNote.label}}</label>
+
+
+                                            {{form.taskCompletionNote| add_class:"form-control border-primary" }}
+
+                                          </div>
+
+
+
+                                          </div>
+
+
+                                      </div>
+
+
+
+
+
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-
-
-
-
-
-
-
-                  </div>
-
-                    </div>
-          </div>
-
-
-</div>
-
-</div>
-</div>
+                </div>
 <script>
+  $('.clockpicker').clockpicker();
 $('#id_taskStartDate').pDatepicker({
                 format: 'YYYY-MM-DD',
                 autoClose: true,

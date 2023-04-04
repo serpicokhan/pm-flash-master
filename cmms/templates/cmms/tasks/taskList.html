@@ -2,106 +2,104 @@
 
 <div class="row">
   <div class="col-lg-12">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>فعالیت ها </h5>
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>فعالیت ها </h5>
 
-                        </div>
-                        <div class="ibox-content">
+      </div>
+      <div class="ibox-content">
+        {% if perms.cmms.add_tasks %}
+        <p>
 
-                            <div class="table-responsive" style="position: relative;height: 200px;overflow: auto;display:block">
-                                <table class="table table-striped" id="task-table" >
-                                    <thead>
-                                    <tr>
-                                      <th>
-                                        <input type="checkbox" name="" value="" class="selectalltask">
-                                      </th>
-                                      <th>نوع</th>
-                                      <th></th>
-                                      <th>شرح</th>
-
-
-                                      <th>کاربر مشخص شده</th>
-                                     <th>زمان تخمینی</th>
-                                      <th>زمان واقعی صرف شده</th>
-                                        <th></th>
-
-                                    </tr>
-
-                                    </thead>
-                                    <tbody id='tbody_task'>
-                                            {% include 'cmms/tasks/partialTaskList.html' %}
-                                    </tbody>
-                                </table>
-                                <!-- BUTTON TO TRIGGER THE ACTION -->
-                                {% if perms.cmms.add_tasks %}
-                                <p>
-
-                                  {% if not ispm %}
-                                  <button type="button" class="btn btn-primary js-create-task"
-                                  data-url="{% url 'task_create'  %}?q={{lId}}"                                  >
-                                    <span class="glyphicon glyphicon-plus"
+          {% if not ispm %}
+          <button type="button" class="btn tp-btn-light btn-primary btn-xs js-create-task"
+          data-url="{% url 'task_create'  %}?q={{lId}}"                                  >
+          <span class="glyphicon glyphicon-plus"
 
 
 
-                                    ></span>
-                                  جدید
-                                  </button>
-                                  {% else %}
-                                  <button type="button" class="btn btn-primary js-create-task"
-                                  data-url="{% url 'task_create2'  %}?q={{lId}}"                                  >
-                                    <span class="glyphicon glyphicon-plus"
+          ></span>
+          جدید
+        </button>
+        {% else %}
+        <button type="button" class="btn tp-btn-light btn-primary btn-xs js-create-task"
+        data-url="{% url 'task_create2'  %}?q={{lId}}"                                  >
+        <span class="glyphicon glyphicon-plus"
 
 
 
-                                    ></span>
-                                  جدید
-                                  </button>
-                                  {% endif %}
+        ></span>
+        جدید
+      </button>
+      {% endif %}
 
-                                  <button type="button" class="btn btn-primary js-create-taskGroup">
-                                    <span class="glyphicon glyphicon-plus"
-
-
-
-                                    ></span>
-                                دسته فعالیت
-                                  </button>
-                                  <button type="button" class="btn btn-primary js-set-task-completion" data-url={{lId}} style="display: None">
-                                    <span class="glyphicon glyphicon-check"
+      <button type="button" class="btn tp-btn-light btn-primary btn-xs js-create-taskGroup">
+        <span class="glyphicon glyphicon-plus"
 
 
 
-                                    ></span>
-                                تکمیل
-                                  </button>
-                                </p>
-                                {% endif %}
-                            </div>
-                          </div>
-
-                    </div>
-                </div>
-                <div class="modal fade" id="modal-task" style="overflow-y: scroll;top:24%">
-
-                 <div class="modal-dialog ">
+        ></span>
+      لیست
+      </button>
+      <button type="button" class="btn tp-btn-light btn-primary btn-xs js-set-task-completion" data-url={{lId}} style="display: None">
+        <span class="glyphicon glyphicon-check"
 
 
-                   <div class="modal-content ">
-                   </div>
-                 </div>
-                </div>
-                <div class="modal fade" id="modal-taskGroup">
-                 <div class="modal-dialog   ">
 
-                   <div class="modal-content ">
-                   </div>
-                 </div>
-                </div>
+        ></span>
+        تکمیل
+      </button>
+    </p>
+    {% endif %}
+        <div class="table-responsive" style="position: relative;height: 400px;overflow: auto;display:block">
+          <table class="table table-striped" id="task-table" >
+            <thead>
+              <tr>
+                <th>
+                  <input type="checkbox" name="" value="" class="selectalltask">
+                </th>
+                <th>نوع</th>
+                <th></th>
+                <th>شرح</th>
+                <th>کاربر مشخص شده</th>
+                <th>زمان تخمینی</th>
+                <th>زمان واقعی صرف شده</th>
+                <th></th>
+
+              </tr>
+
+            </thead>
+            <tbody id='tbody_task'>
+              {% include 'cmms/tasks/partialTaskList.html' %}
+            </tbody>
+          </table>
+          <!-- BUTTON TO TRIGGER THE ACTION -->
+
+    </div>
+  </div>
+
+</div>
+</div>
+<div class="modal fade" id="modal-task" >
+
+  <div class="modal-dialog modal-dialog-centered" role="document">
+
+
+    <div class="modal-content ">
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modal-taskGroup">
+  <div class="modal-dialog   ">
+
+    <div class="modal-content ">
+    </div>
+  </div>
+</div>
 
 </div>
 {% load static %}
 
 {% block javascript %}
-  <script src="{% static '/js/project/task.js' %}"></script>
+<script src="{% static '/js/project/task.js' %}"></script>
 {% endblock %}
