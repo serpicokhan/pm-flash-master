@@ -10,7 +10,9 @@ from cmms.models.users import *
 import os
 class Part(models.Model):
     def __str__(self):
-        return "[{}]: {}".format(self.partCode,self.partName)
+        if(self.partCode):
+            return "[{}]: {}".format(self.partCode,self.partName)
+        return "{}".format(self.partName)
     partName=models.CharField("مشخصات",max_length = 100)
     partDescription=models.CharField("توضیحات",max_length = 100)
     partCode=models.CharField("کد",max_length = 50)

@@ -7,10 +7,8 @@
  <td>{{c.assetPartDescription|default_if_none:"مشخص نشده"}}</td>
 
 <td>
-     <button type="button"
-                class="btn btn-outline btn-warning  btn-sm js-select-assetPart"
-                data-url="/WoPart/CreateByWo/{{wo}}/{{c.assetPartPid.id}}">
-          <span class="glyphicon glyphicon-pencil"></span>مصرف     </button>
+
+          <a href="#" class="btn btn-primary shadow btn-xs sharp mr-1 js-select-assetPart" data-page="{{page}}"   data-url="/WoPart/CreateByWo/{{wo}}/{{c.assetPartPid.id}}" ><i class="fa fa-pencil"></i></a>
 
 
    </td>
@@ -43,10 +41,9 @@
  <td>
 
 
-        <button type="button"
-                   class="btn btn-outline btn-warning  btn-sm js-select-assetPart"
-                   data-url="">
-             <span class="glyphicon glyphicon-pencil"></span>ویرایش     </button>
+        
+               <a href="#" class="btn btn-primary shadow btn-xs sharp mr-1 js-select-assetPart" "
+               data-url="" ><i class="fa fa-pencil"></i></a>
     </td>
 </tr>
 {% empty %}
