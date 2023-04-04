@@ -44,7 +44,6 @@ ALLOWED_HOSTS = ['192.168.2.60','127.0.0.1','192.168.1.50','172.17.153.145','172
 
 INSTALLED_APPS = [
     'admin_view_permission',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,7 +52,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cmms.apps.CmmsConfig',
     'widget_tweaks',
-
      'mathfilters',
      'rest_framework',
      'django.contrib.humanize',
@@ -79,25 +77,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsPostCsrfMiddleware',
 ]
 CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
-# CORS_ALLOW_METHODS = [
-#     'DELETE',
-#     'GET',
-#     'OPTIONS',
-#     'PATCH',
-#     'POST',
-#     'PUT',
-# ]
-# CORS_ALLOW_HEADERS = [
-#     'accept',
-#     'accept-encoding',
-#     'authorization',
-#     'content-type',
-#     'dnt',
-#     'origin',
-#     'user-agent',
-#     'x-csrftoken',
-#     'x-requested-with',
-# ]
 
 ROOT_URLCONF = 'pm.urls'
 
@@ -129,20 +108,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pm.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'cmms4',
-#         'USER': 'monty',
-#         'PASSWORD': '84281734Man!@#',
-#         'HOST': '192.168.183.130',
-#         'PORT': '3306',
-#     }
-# }
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',  # <-- And here
@@ -151,7 +116,7 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmmsuni2',
+        'NAME': 'cmm100',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
