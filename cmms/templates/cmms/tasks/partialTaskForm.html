@@ -115,16 +115,16 @@
 
 
                                           </div>
+
                                           <div class="form-group">
                                             <label>{{form.taskDateCompleted.label}}</label>
+                                            <div class="input-group " >
+                                              {{form.taskDateCompleted| add_class:"form-control border-primary" }} <span class="input-group-append">
+                                                  <span class="input-group-text"><i class="fa fa-calendar-o"></i></span></span>
+                                            </div>
 
-                                            <div class="input-group date">
-                                                                       {{form.taskDateCompleted| add_class:"form-control border-primary" }}
-                                                                       <span class="input-group-addon">
-                                                                           <i class="fa fa-calendar">
-                                                                           </i>
-                                                                       </span>
-                                                                   </div>
+
+
 
                                           </div>
                                           <div class="form-group">

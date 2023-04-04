@@ -23,7 +23,7 @@ $(function () {
         // /$("#modal-taskGroup").modal("hide");
         if($("#id_woAsset").val()!='')
         {
-          $("#modal-taskGroup").modal({backdrop: 'static', keyboard: false});
+          $("#modal-taskGroup").modal('show');
         }
         else
         {
@@ -283,11 +283,11 @@ return false;
 
 
  // Create book
-$(".js-create-taskGroup").unbind();
-$(".js-delete-task").unbind();
-$(".js-update-task").unbind();
-
-$(".js-create-task").unbind();
+// $(".js-create-taskGroup").unbind();
+// $(".js-delete-task").unbind();
+// $(".js-update-task").unbind();
+//
+// $(".js-create-task").unbind();
 
 $(".js-create-task").click(loadTaskForm);
 $(".js-create-taskGroup").click(loadForm);

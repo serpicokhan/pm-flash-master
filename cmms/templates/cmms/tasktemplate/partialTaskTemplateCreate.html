@@ -1,7 +1,7 @@
 <div  data-url="{% url 'taskTemplate_create' %}" class="js-taskTemplate-create-form" >
 
   <div class="modal-header " style="background:#ccc">
-    <button type="button" class="close cl-taskTemplate"  aria-label="Close">
+    <button type="button" class="close cl-taskTemplate" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
     <h4 class="modal-title">جدید</h4>
@@ -10,7 +10,7 @@
    {% include 'cmms/tasktemplate/partialTaskTemplateForm.html' %}
   </div>
   <div class="modal-footer">
-    <button type="button" class="cl-taskTemplate btn btn-default" >انصراف</button>
+    <button type="button" class="cl-taskTemplate btn btn-default data-dismiss="modal"" >انصراف</button>
     <button type="button" class="btn btn-primary" id="taskTemplate-submit"  >ذخیره</button>
  <script>
    $(".cl-taskTemplate").click(function()
