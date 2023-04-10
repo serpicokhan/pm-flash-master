@@ -67,7 +67,7 @@
                                     </div>
                                 <div class="col-sm-3">
 
-                                    <div class="input-group"><input type="text" placeholder="جستجو" id="assetSearch" class="input-sm form-control"> <span class="input-group-btn">
+                                    <div class="input-group"><input type="text" placeholder="جستجو" id="assetSearch" class="input-sm form-control" value="{{search}}"> <span class="input-group-btn">
                                         <button type="button" class="btn btn-sm btn-primary"> برو!</button> </span></div>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                                   {% if asset.has_other_pages %}
                                   <ul class="pagination">
                                   {% if asset.has_previous %}
-                                  <li><a href="?page={{ asset.previous_page_number }}&sort={{sort}}&asc={{asc}}&main_asset={{main_asset}}&search={{search}}&kvm={{kvm}}">&laquo;</a></li>
+                                  <li><a id="prevasset"  href="?page={{ asset.previous_page_number }}&sort={{sort}}&asc={{asc}}&main_asset={{main_asset}}&search={{search}}&kvm={{kvm}}">&laquo;</a></li>
                                   {% else %}
                                   <li class="disabled"><span>&laquo;</span></li>
                                   {% endif %}
@@ -108,7 +108,7 @@
 
 
                                   {% if asset.has_next %}
-                                  <li><a href="?page={{ asset.next_page_number }}&sort={{sort}}&asc={{asc}}&main_asset={{main_asset}}&search={{search}}&kvm={{kvm}}">&raquo;</a></li>
+                                  <li><a id="nextasset" href="?page={{ asset.next_page_number }}&sort={{sort}}&asc={{asc}}&main_asset={{main_asset}}&search={{search}}&kvm={{kvm}}">&raquo;</a></li>
                                   {% else %}
                                   <li class="disabled"><span>&raquo;</span></li>
                                   {% endif %}

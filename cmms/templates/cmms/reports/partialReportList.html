@@ -2,7 +2,6 @@
 {% for c in reports %}
 
 <tr title="{{c.id}}">
- <td><div class="icheckbox_square-green checked" style="position: relative;"><input type="checkbox" checked="" class="i-checks" name="input[]" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
 <td class="col-md-3">{{c}}</td>
  <td class="col-md-4"> {{c.reportDetails}} </td>
  <td class="col-md-2"><button class="btn btn-warning fav_report" type="button" data-url="{{c.id}}">
