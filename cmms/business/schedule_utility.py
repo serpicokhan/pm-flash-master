@@ -355,7 +355,7 @@ class ScheduleUtility:
             print(cd)
 
 
-            Newsch.schnextTime=mydt1.combine(cd.togregorian(),datetime.now().time())
+            Newsch.schnextTime=mydt1.combine(cd.togregorian(),datetime.datetime.now().time())
         elif(Newsch.schHowOften==5):
             #cd=jdatetime.date.fromgregorian(date=datetime.now())
             # dt1=jdatetime.date(Newsch.schnextTime.year,Newsch.schnextTime.month,Newsch.schnextTime.day)

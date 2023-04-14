@@ -1805,7 +1805,7 @@ class  WorkOrderPartUsageHistory(forms.Form):
             craeteAfter = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
             craeteBefore = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
             partName=forms.CharField(label='نام قطعه',required=False,widget=forms.TextInput(attrs={'class':'partselector','autocomplete':'off'}))
-            part=forms.CharField(widget=forms.HiddenInput(),required=False)
+            part=forms.CharField(widget=forms.HiddenInput(),required=True)
 class PartUsageHistory(forms.Form):
     OPTIONS = (
         (0, "pdf"),
