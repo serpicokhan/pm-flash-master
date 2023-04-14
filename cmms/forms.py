@@ -1753,7 +1753,7 @@ class UpcommingScheduledMaintenanceList(forms.Form):
         widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
     )
     assignUser = forms.ModelChoiceField(label="انتخاب کاربر",queryset=SysUser.objects.all(),widget=forms.Select(attrs={'class':'selectpicker','multiple':'', 'data-live-search':'true'}))
-    parentAsset = forms.ModelChoiceField(label="دارایی والد",queryset=Asset.objects.all(),widget=forms.Select(attrs={'class':'selectpicker','multiple':'', 'data-live-search':'true'}))
+    parentAsset = forms.ModelChoiceField(label="دارایی والد",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),widget=forms.Select(attrs={'class':'selectpicker','multiple':'', 'data-live-search':'true'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),widget=forms.Select(attrs={'class':'selectpicker','multiple':'', 'data-live-search':'true'}))
 
     ######################################
