@@ -18,10 +18,10 @@
                           <h4> از تاریخ: {{stdate}}</h4>
                           <h4>تا تاریخ: {{enddate}}</h4>
 
-                          <h4>دارایی: {{assets}}</h4>
+                          <!-- <h4>دارایی: {{assets}}</h4>
                           <h4>نوع دارایی: {{assetcat}}</h4>
                           <h4>نوع نگهداری: {{maintype}}</h4>
-                          <h4>اولویت: {{priority}}</h4>
+                          <h4>اولویت: {{priority}}</h4> -->
 
                            </div>
 
@@ -52,7 +52,7 @@
 
 
        <td class="active">
-         {{c.woAsset|default_if_none:"نامشخص"}}
+         {{c.woAsset.assetName|default_if_none:"نامشخص"}}
        </td>
 
 
