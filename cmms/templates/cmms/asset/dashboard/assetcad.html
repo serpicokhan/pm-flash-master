@@ -26,7 +26,7 @@
 {% load static %}
 
 {% block javascript %}
-<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
 
   <script type="text/javascript">
 $(document).ready(function(){
@@ -90,12 +90,14 @@ $(document).ready(function(){
     const width = Math.abs(e.offsetX - startX);
     const height = Math.abs(e.offsetY - startY);
     if (width > 0 && height > 0) {
-      textBox = document.createElement("textarea");
+      textBox = document.createElement("input");
+      textBox.type="text"
       textBox.style.position = "absolute";
       textBox.style.left = x + "px";
       textBox.style.top = y + "px";
       textBox.style.width = width + "px";
       textBox.style.height = height + "px";
+      textBox.classList.add('advanced2AutoComplete');
       textBox.addEventListener("change", e => {
         console.log(e.target.value);
       });
@@ -114,10 +116,41 @@ $(document).ready(function(){
   canvas.addEventListener('click', e => {
     const x = e.offsetX;
     const y = e.offsetY;
-    if (textBox && x >= textBox.offsetLeft && x <= textBox.offsetLeft + textBox.offsetWidth &&
-        y >= textBox.offsetTop && y <= textBox.offsetTop + textBox.offsetHeight) {
-      // alert(textBox.value);
-    }
+    // if (textBox && x >= textBox.offsetLeft && x <= textBox.offsetLeft + textBox.offsetWidth &&
+    //     y >= textBox.offsetTop && y <= textBox.offsetTop + textBox.offsetHeight) {
+    //   // alert(textBox.value);
+    // }
+    $('.advanced2AutoComplete').autoComplete({
+      resolver: 'custom',
+      formatResult: function (item) {
+        return {
+          value: item.id,
+          text: "[" + item.id + "] " + item.partName,
+
+        };
+      },
+      events: {
+        search: function (qry, callback) {
+          // alert(1);
+          // let's do a custom ajax call
+          $.ajax(
+            '/WoPart/GetParts',
+            {
+              data: { 'qry': qry}
+            }
+          ).done(function (res) {
+            // console.log(res);
+            callback(res)
+          });
+        },
+
+      }
+    });
+    $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
+      $("#id_stockItem").val(item.id);
+      $('#id_stockItem').val(item.id).trigger('change');
+      // $('.basicAutoCompleteCustom').html('');
+    });
   });
 
 
