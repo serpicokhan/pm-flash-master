@@ -160,8 +160,8 @@ $(function () {
           btn.classList.add("dim");
           btn.appendChild(ibut);
           btn.setAttribute('data-url',form.find("#id_assetCoord").val());
-          btn.setAttribute('data-content','Vivamus sagittis lacus vel augue laoreet rutrum faucibus');
-          btn.setAttribute('data-toggle','popover');
+          btn.setAttribute('data-content','<p class="text-muted">لورم ایپسوم متن ساختگی</p>                                <p class="text-primary">لورم ایپسوم متن ساختگی</p>                                <p class="text-success">لورم ایپسوم متن ساختگی</p>                                <p class="text-info">لورم ایپسوم متن ساختگی</p>                                <p class="text-warning">لورم ایپسوم متن ساختگی</p>                                <p class="text-danger">لورم ایپسوم متن ساختگی</p>                        ');
+                    btn.setAttribute('data-toggle','popover');
           btn.setAttribute('data-placement','left');
           ibut.classList.add("fa");
           ibut.classList.add("fa-warning");

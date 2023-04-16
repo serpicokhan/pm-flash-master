@@ -23,7 +23,8 @@ from django.contrib.auth.decorators import permission_required
 
 @permission_required('cmms.view_asset')
 def assetcad_view(request):
-    return render(request,'cmms/asset/dashboard/assetcad.html',{})
+    objs=AssetCadCoordination.objects.all()
+    return render(request,'cmms/asset/dashboard/assetcad.html',{'assets':objs})
 
 def save_assetCad_form(request, form, template_name,id=None):
 
