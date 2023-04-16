@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <button id="flag-btn" style="display: none;">🚩</button>
+  </body>
+</html>
+
+{% load static %}
+
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="{% static '/js/project/assetcad.js' %}"></script>
+{% endblock %}

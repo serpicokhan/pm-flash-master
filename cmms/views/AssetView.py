@@ -125,7 +125,9 @@ def list_asset(request,id=None):
 
 
 
-
+@permission_required('cmms.view_asset')
+def assetcad_view(request):
+    return render(request,'cmms/asset/dashboard/assetcad.html',{})
 @permission_required('cmms.view_asset')
 def list_asset_location(request):
     books=[]

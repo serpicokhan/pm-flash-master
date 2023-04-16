@@ -251,6 +251,7 @@ urlpatterns = [
         url(r'^Asset/(?P<kvm>[\w\s]+)/Search/$', asset_search, name='asset_search'),
 
         url(r'^Asset/Machine/create/$', asset_create_machine, name='asset_create_machine'),
+        url(r'^Asset/Cad/$', assetcad_view, name='assetcad_view'),
         url(r'^Asset/Tool/create/$', asset_create_tool, name='asset_create_tool'),
         url(r'^Asset/(?P<id>\d+)/delete/$', asset_delete, name='asset_delete'),
         url(r'^Asset/(?P<id>\d+)/gen_code$', gen_asset_code, name='gen_asset_code'),
