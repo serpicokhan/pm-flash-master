@@ -110,6 +110,14 @@ class Asset(models.Model):
     class Meta:
       db_table = "assets"
       ordering = ('assetName', )
+
+
+class AssetCadCoordination(models.Model):
+    x = models.FloatField()
+    y = models.FloatField()
+    assetCoord=models.ForeignKey(Asset,on_delete=models.CASCADE,blank=True,null=True,verbose_name="دارایی")
+    class Meta:
+         db_table = "assetcadcoordination"
 class AssetMeterReading(models.Model):
     def getRow(self):
          return "{} {}".format(self.assetMeterMeterReading,self.assetMeterMeterReadingUnit)

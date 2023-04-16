@@ -1581,6 +1581,14 @@ class EquipmentCostSettingForm(forms.ModelForm):
     class Meta:
          model = EquipmentCostSetting
          fields = '__all__'
+
+class AssetCadForm(forms.ModelForm):
+    assetCoord= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    class Meta:
+         model = AssetCadCoordination
+         fields = '__all__'
+
 ########################################################################
 class ActionCodeForm(forms.ModelForm):
     def clean(self):

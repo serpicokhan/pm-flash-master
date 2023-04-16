@@ -44,6 +44,7 @@ from cmms.views.projectScheduledview import *
 from cmms.views.projectwoview import *
 from cmms.views.projectuserview import *
 from cmms.views.projectfileview import *
+from cmms.views.assetcadview import *
 
 
 

@@ -15,7 +15,13 @@
 
 
 
+                <div class="modal fade" id="modal-company">
+                 <div class="modal-dialog  modal-lg ">
 
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
 </div>
 
 
@@ -27,137 +33,8 @@
 
 {% block javascript %}
 
-
-  <script type="text/javascript">
-$(document).ready(function(){
-  // JavaScript code to show an image on the canvas and draw a rectangle on click with a textbox and a flag button
-  // JavaScript code to show an image on the canvas and draw a rectangle on click with a textbox and a flag button
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-
-  const img = new Image();
-  img.onload = function() {
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage(img, 0, 0);
-  };
-  // img.src = 'https://via.placeholder.com/800x780.png'; // replace with the URL of your image
-  img.src = 'https://th.bing.com/th/id/R.879f9abfa6f951030c10799d2f00149c?rik=zS%2bFqr9767MDKA&pid=ImgRaw&r=0'; // replace with the URL of your image
-
-  let isDrawing = false;
-  let startX, startY;
-  let textBox, textBoxOffsetX, textBoxOffsetY;
-  let flagBtn = document.getElementById('flag-btn');
-
-  function startDragging(e) {
-    textBoxOffsetX = e.clientX - textBox.offsetLeft;
-    textBoxOffsetY = e.clientY - textBox.offsetTop;
-    textBox.style.cursor = "move";
-    canvas.addEventListener('mousemove', dragTextBox);
-  }
-
-  function stopDragging(e) {
-    textBox.style.cursor = "default";
-    canvas.removeEventListener('mousemove', dragTextBox);
-  }
-
-  function dragTextBox(e) {
-    textBox.style.left = (e.clientX - textBoxOffsetX) + "px";
-    textBox.style.top = (e.clientY - textBoxOffsetY) + "px";
-  }
-
-  canvas.addEventListener('mousedown', e => {
-    startX = e.offsetX;
-    startY = e.offsetY;
-    isDrawing = true;
-  });
-
-  canvas.addEventListener('mousemove', e => {
-    if (!isDrawing) return;
-    const currentX = e.offsetX;
-    const currentY = e.offsetY;
-    const width = currentX - startX;
-    const height = currentY - startY;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0);
-    ctx.strokeRect(startX, startY, width, height);
-  });
-
-  canvas.addEventListener('mouseup', e => {
-    isDrawing = false;
-    const x = Math.min(startX, e.offsetX);
-    const y = Math.min(startY, e.offsetY);
-    const width = Math.abs(e.offsetX - startX);
-    const height = Math.abs(e.offsetY - startY);
-    if (width > 0 && height > 0) {
-      textBox = document.createElement("input");
-      textBox.type="text"
-      textBox.style.position = "absolute";
-      textBox.style.left = x + "px";
-      textBox.style.top = y + "px";
-      textBox.style.width = width + "px";
-      textBox.style.height = height + "px";
-      textBox.classList.add('advanced2AutoComplete');
-      textBox.addEventListener("change", e => {
-        console.log(e.target.value);
-      });
-      textBox.addEventListener('mousedown', startDragging);
-      textBox.addEventListener('mouseup', stopDragging);
-      pcol=document.getElementById('pcol');
-      pcol.appendChild(textBox);
-      flagBtn.style.display = "block";
-      flagBtn.style.position = "absolute";
-      flagBtn.style.left = x + width - 20 + "px";
-      flagBtn.style.top = y + height - 20 + "px";
-      document.body.appendChild(flagBtn);
-    }
-  });
-
-  canvas.addEventListener('click', e => {
-    const x = e.offsetX;
-    const y = e.offsetY;
-    // if (textBox && x >= textBox.offsetLeft && x <= textBox.offsetLeft + textBox.offsetWidth &&
-    //     y >= textBox.offsetTop && y <= textBox.offsetTop + textBox.offsetHeight) {
-    //   // alert(textBox.value);
-    // }
-    $('.advanced2AutoComplete').autoComplete({
-      resolver: 'custom',
-      formatResult: function (item) {
-        return {
-          value: item.id,
-          text: "[" + item.id + "] " + item.partName,
-
-        };
-      },
-      events: {
-        search: function (qry, callback) {
-          // alert(1);
-          // let's do a custom ajax call
-          $.ajax(
-            '/WoPart/GetParts',
-            {
-              data: { 'qry': qry}
-            }
-          ).done(function (res) {
-            // console.log(res);
-            callback(res)
-          });
-        },
-
-      }
-    });
-    $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
-      $("#id_stockItem").val(item.id);
-      $('#id_stockItem').val(item.id).trigger('change');
-      // $('.basicAutoCompleteCustom').html('');
-    });
-  });
+  <script src="{% static '/js/project/assetcad.js' %}"></script>
 
 
-});
-
-
-
-  </script>
 {% endblock %}
 {% endblock %}
