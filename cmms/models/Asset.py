@@ -111,6 +111,17 @@ class Asset(models.Model):
       db_table = "assets"
       ordering = ('assetName', )
 
+class AssetCadFile(models.Model):
+        def get_ext(self):
+            v=os.path.splitext(self.assetFile.name)
+            return v[len(v)-1]
+        def get_size(self):
+            # return " MB {0:.2f}".format(self.assetFile.size/1048576)
+            return "?"
+
+        assetCadFile=models.FileField(upload_to='documents/',max_length=200)
+        assetCadFileAssetId=models.ForeignKey('Asset',on_delete=models.CASCADE,blank=True,null=True)
+        assetCadFiledateAdded=models.DateTimeField(auto_now_add=True)
 
 class AssetCadCoordination(models.Model):
     x = models.FloatField()

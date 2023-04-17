@@ -1367,6 +1367,12 @@ class MaintenanceTypeForm(forms.ModelForm):
         model = MaintenanceType
         fields = '__all__'
 ###############################################################
+class AssetCadFileForm(forms.ModelForm):
+
+    class Meta:
+        model = AssetCadFile
+        fields = '__all__'
+###############################################################
 class AttendanceForm(forms.ModelForm):
     def clean_datecreated(self):
         value=DateJob.getDate2( self.cleaned_data['datecreated'])
