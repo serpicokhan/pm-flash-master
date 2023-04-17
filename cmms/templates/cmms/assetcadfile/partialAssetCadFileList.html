@@ -1,11 +1,11 @@
+{% load static %}
 {% for c in assetCadFile %}
 
 <tr>
 <td></td>
-<td>{{c.name}}</td>
-<td>{{c.description}}</td>
- <td><span class="label label-primary" style="background-color:{{c.color}}">
-                                                    {{c.color}}</span></td>
+<td> {{c.assetCadFileAssetId}}</td>
+<td><img src="{% get_media_prefix %}{{c.assetCadFile}}" width='64px' height='64px'/> </td>
+
 
 
 

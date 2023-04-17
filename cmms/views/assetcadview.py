@@ -23,7 +23,15 @@ from django.contrib.auth.decorators import permission_required
 
 @permission_required('cmms.view_asset')
 def assetcad_view(request):
-    objs=AssetCadCoordination.objects.all()
+    # objs=AssetCadCoordination.objects.all()
+    # return render(request,'cmms/asset/dashboard/assetcad.html',{'assets':objs})
+    assets=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
+    return render(request,'cmms/asset/dashboard/assetcad.html',{'test':assets})
+@permission_required('cmms.view_asset')
+def assetcadmain_view(request):
+    # objs=AssetCadCoordination.objects.all()
+    # test
+    assets=Asset.objects.filter(assetIsLocatedAt_isnull=True,assetTypes=1)
     return render(request,'cmms/asset/dashboard/assetcad.html',{'assets':objs})
 
 def save_assetCad_form(request, form, template_name,id=None):
@@ -59,3 +67,14 @@ def assetcad_create(request):
 
             form = AssetCadForm()
             return save_assetCad_form(request, form, 'cmms/asset/dashboard/partialAssetCadCreate.html')
+def get_assetFile(request):
+    asset_id=request.GET.get('q','')
+    data=dict()
+    if(asset_id):
+        try:
+            file=AssetCadFile.objects.get(assetCadFileAssetId__id=asset_id)
+            data['img']= settings.STATIC_URL+file.assetCadFile.name
+        except AssetCadFile.DoesNotExist:
+            pass
+
+    return JsonResponse(data)

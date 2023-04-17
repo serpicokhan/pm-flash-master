@@ -2,14 +2,8 @@ $(function () {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
 
-  const img = new Image();
-  img.onload = function() {
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage(img, 0, 0);
-  };
-  // img.src = 'https://via.placeholder.com/800x780.png'; // replace with the URL of your image
-  img.src = 'https://th.bing.com/th/id/R.879f9abfa6f951030c10799d2f00149c?rik=zS%2bFqr9767MDKA&pid=ImgRaw&r=0'; // replace with the URL of your image
+
+
 
   let isDrawing = false;
   let startX, startY;
@@ -32,6 +26,33 @@ $(function () {
     textBox.style.left = (e.clientX - textBoxOffsetX) + "px";
     textBox.style.top = (e.clientY - textBoxOffsetY) + "px";
   }
+  $("#assetIdName").change(function(){
+    return $.ajax({
+      url: '/Asset/Cad/changeloc?q='+$(this).val(),
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+        //alert(btn.attr("data-url"));
+        //alert("321321");
+        // /$("#modal-maintenanceType").modal("hide");
+        // $("#modal-company").modal("show");
+      },
+      success: function (data) {
+        console.log(data);
+        const img = new Image();
+        img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        img.src='static/documents/2023/04/17/fact2.JPG';
+      }
+      }
+    });
+
+    // };
+    //
+    // img.src = 'http://127.0.0.1:8000/media/documents/fact2.JPG'; // replace with the URL of your image
+  });
 
   canvas.addEventListener('mousedown', e => {
     startX = e.offsetX;

@@ -120,8 +120,11 @@ class AssetCadFile(models.Model):
             return "?"
 
         assetCadFile=models.FileField(upload_to='documents/%Y/%m/%d',max_length=200)
-        assetCadFileAssetId=models.ForeignKey('Asset',on_delete=models.CASCADE,blank=True,null=True)
+        assetCadFileAssetId=models.ForeignKey('Asset',on_delete=models.CASCADE,unique=True)
         assetCadFiledateAdded=models.DateTimeField(auto_now_add=True)
+        class Meta:
+            db_table="assetcadfile"
+
 
 class AssetCadCoordination(models.Model):
     x = models.FloatField()

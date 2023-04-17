@@ -2,7 +2,62 @@
 {% extends 'cmms/mainTheme.html' %}
 
  {% block content %}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>داشبورد تجهیزات و دارایی ها </h5>
+        <div class="ibox-tools">
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up"></i>
+          </a>
+          {% if perms.cmms.add_assets %}
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-wrench"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
 
+          </ul>
+          {% endif %}
+          <a class="close-link">
+            <i class="fa fa-times"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-sm-5 m-b-xs">
+            <select class="input-sm form-control  selectpicker " data-show-subtext="true" data-live-search="true"  id='assetIdName'>
+
+            {% for i in test %}
+            <option value="{{i.id}}">{{i.assetName}}</option>
+
+            {% endfor %}
+
+          </select>
+        </div>
+        <div class="col-sm-4 m-b-xs">
+
+
+
+        </div>
+        <div class="col-sm-3">
+          
+          </div>
+        </div>
+        <div class="modal fade" id="modal-company" style="overflow-y: scroll">
+         <div class="modal-dialog  modal-lg ">
+
+           <div class="modal-content ">
+           </div>
+         </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
 <div class="row" >
   <div class="col-lg-12 "  style="position: relative;" id="pcol">
 

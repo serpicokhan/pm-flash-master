@@ -46,21 +46,9 @@ def save_assetCadFile_form(request, form, template_name,id=None):
 
     data = dict()
     if (request.method == 'POST'):
-        # print(request.FILES)
-        # assetCadFileAssetId = request.POST.get('assetCadFileAssetId')
-        # print(assetCadFileAssetId)
-        # assetCadFile = request.FILES.get('assetCadFile')
-        # print(assetCadFile,'dsadsa')
-        # # submission = AssetCadFile(assetCadFileAssetId=assetCadFileAssetId, assetCadFile=)
-        # # submission.save()
-        # save_path = os.path.join(settings.MEDIA_ROOT,'documents', assetCadFile.name)
-        # path = default_storage.save(save_path, assetCadFile)
-        # document = AssetCadFile.objects.create(assetCadFile=r'documents/'+assetCadFile.name, assetCadFileAssetId=Asset.objects.get(id=assetCadFileAssetId))
-        form = AssetCadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            assetCadFileAssetId = request.POST.get('assetCadFileAssetId')
-            newdoc = AssetCadFile(assetCadFile = request.FILES['assetCadFile'],assetCadFileAssetId=Asset.objects.get(id=assetCadFileAssetId))
-            newdoc.save()
+
+        if form.is_valid():            
+            form.save()
         else:
             print(form.errors)
         books = AssetCadFile.objects.all()
@@ -69,21 +57,7 @@ def save_assetCadFile_form(request, form, template_name,id=None):
                 'perms': PermWrapper(request.user)
             })
 
-        # Save the uploaded file to the server
-        # with open('documents/' + assetCadFile.name, 'wb+') as destination:
-        #     for chunk in assetCadFile.chunks():
-        #         destination.write(chunk)
-        # if form.is_valid():
-        #     form.save()
-        #     data['form_is_valid'] = True
-        #     books = AssetCadFile.objects.all()
-        #     data['html_assetCadFile_list'] = render_to_string('cmms/assetcadfile/partialAssetCadFileList.html', {
-        #         'assetCadFile': books,
-        #         'perms': PermWrapper(request.user)
-        #     })
-        # else:
-        #     data['form_is_valid'] = False
-        #     print(form.errors)
+
 
     context = {'form': form}
 
@@ -118,7 +92,7 @@ def assetCadFile_delete(request, id):
 ##########################################################
 def assetCadFile_create(request):
     if (request.method == 'POST'):
-        form = AssetCadFileForm(request.POST)
+        form = AssetCadFileForm(request.POST,request.FILES)
         return save_assetCadFile_form(request, form, 'cmms/assetcadfile/partialAssetCadFileCreate.html')
     else:
 
