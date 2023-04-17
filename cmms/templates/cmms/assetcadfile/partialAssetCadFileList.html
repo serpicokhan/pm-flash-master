@@ -1,4 +1,4 @@
-{% for c in maintenanceType %}
+{% for c in assetCadFile %}
 
 <tr>
 <td></td>
@@ -13,17 +13,17 @@
 
 
  <td>
-   {% if perms.cmms.view_maintenancetype %}
+   {% if perms.cmms.view_assetcadfile %}
    <button type="button"
-              class="btn btn-warning btn-sm js-update-maintenanceType"
-              data-url="{% url 'maintenanceType_update' c.id %}">
+              class="btn btn-warning btn-sm js-update-assetCadFile"
+              data-url="{% url 'assetCadFile_update' c.id %}">
         <span class="glyphicon glyphicon-pencil"></span> ویرایش
       </button>
       {% endif %}
-      {% if perms.cmms.delete_maintenancetype %}
+      {% if perms.cmms.delete_assetcadfile %}
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-maintenanceType"
-                   data-url="{% url 'maintenanceType_delete' c.id %}">
+                   class="btn btn-danger btn-sm js-delete-assetCadFile"
+                   data-url="{% url 'assetCadFile_delete' c.id %}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>
            {% endif %}

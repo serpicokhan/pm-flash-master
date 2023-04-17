@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'maintenanceType_create'   %}" class="js-maintenanceType-create-form">
+<form method="post" action="{% url 'assetCadFile_create'   %}" class="js-assetCadFile-create-form">
   {% csrf_token %}
   <div class="modal-header " style="background:#ccc">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -7,11 +7,11 @@
     <h4 class="modal-title">جدید</h4>
   </div>
   <div class="modal-body">
-   {% include 'cmms/maintenancetype/partialMaintenanceTypeForm.html' %}
+   {% include 'cmms/assetcadfile/partialAssetCadFileForm.html' %}
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default">انصراف</button>
-    {% if perms.cmms.add_maintenancetype %}
+    {% if perms.cmms.add_assetcadfile %}
     <button type="submit" class="btn btn-primary" >ذخیره</button>
     {% endif %}
   </div>

@@ -46,14 +46,14 @@
 
                                     </thead>
                                     <tbody id='tbody_company'>
-                                            {% include 'cmms/assetcadfile/partialMaintenanceTypeList.html' %}
+                                            {% include 'cmms/assetcadfile/partialAssetCadFileList.html' %}
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                 {% if perms.cmms.add_assetcadfile %}
                                 <p>
-                                  <button type="button" class="btn btn-primary js-create-maintenanceType"
-                                  data-url="{% url 'maintenanceType_create' %}"                                  >
+                                  <button type="button" class="btn btn-primary js-create-assetCadFile"
+                                  data-url="{% url 'assetCadFile_create' %}"                                  >
                                     <span class="glyphicon glyphicon-plus"
 
 
