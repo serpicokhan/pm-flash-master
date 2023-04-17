@@ -1368,6 +1368,8 @@ class MaintenanceTypeForm(forms.ModelForm):
         fields = '__all__'
 ###############################################################
 class AssetCadFileForm(forms.ModelForm):
+    assetCadFileAssetId= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
 
     class Meta:
         model = AssetCadFile

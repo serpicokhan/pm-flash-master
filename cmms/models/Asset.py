@@ -119,7 +119,7 @@ class AssetCadFile(models.Model):
             # return " MB {0:.2f}".format(self.assetFile.size/1048576)
             return "?"
 
-        assetCadFile=models.FileField(upload_to='documents/',max_length=200)
+        assetCadFile=models.FileField(upload_to='documents/%Y/%m/%d',max_length=200)
         assetCadFileAssetId=models.ForeignKey('Asset',on_delete=models.CASCADE,blank=True,null=True)
         assetCadFiledateAdded=models.DateTimeField(auto_now_add=True)
 

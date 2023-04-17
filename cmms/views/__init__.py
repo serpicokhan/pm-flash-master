@@ -45,6 +45,7 @@ from cmms.views.projectwoview import *
 from cmms.views.projectuserview import *
 from cmms.views.projectfileview import *
 from cmms.views.assetcadview import *
+from cmms.views.assetcadfileview import *
 
 
 
