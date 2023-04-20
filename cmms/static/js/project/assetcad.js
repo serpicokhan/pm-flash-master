@@ -2,8 +2,16 @@ $(function () {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
 
+  // const img = new Image();
+  // console.log("dasdsa");
+  // img.src='http://127.0.0.1:8000/media/documents/2023/04/20/fact2.JPG';
+  // img.onload = function() {
+  // canvas.width = img.width;
+  // canvas.height = img.height;
 
-
+  // console.log(img);
+  // ctx.drawImage(img, 0, 0);
+// }
 
   let isDrawing = false;
   let startX, startY;
@@ -39,12 +47,17 @@ $(function () {
       },
       success: function (data) {
         console.log(data);
+        console.log("call from here");
+        var canvas = document.getElementById('canvas'),
+        context = canvas.getContext('2d');
         const img = new Image();
+        img.src=data.img;
         img.onload = function() {
         canvas.width = img.width;
         canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        img.src='static/documents/2023/04/17/fact2.JPG';
+
+        context.drawImage(img, 0, 0);
+
       }
       }
     });
@@ -61,6 +74,7 @@ $(function () {
   });
 
   canvas.addEventListener('mousemove', e => {
+    // img=new Image
     if (!isDrawing) return;
     const currentX = e.offsetX;
     const currentY = e.offsetY;

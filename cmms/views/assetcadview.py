@@ -73,7 +73,7 @@ def get_assetFile(request):
     if(asset_id):
         try:
             file=AssetCadFile.objects.get(assetCadFileAssetId__id=asset_id)
-            data['img']= settings.STATIC_URL+file.assetCadFile.name
+            data['img']= settings.MEDIA_URL+file.assetCadFile.name
         except AssetCadFile.DoesNotExist:
             pass
 

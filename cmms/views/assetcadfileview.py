@@ -17,7 +17,7 @@ from django.views.decorators import csrf
 import django.core.serializers
 import logging
 from django.conf import settings
-
+from django.db import IntegrityError
 from cmms.models.workorder import *
 #from django.core import serializers
 import json
@@ -47,10 +47,19 @@ def save_assetCadFile_form(request, form, template_name,id=None):
     data = dict()
     if (request.method == 'POST'):
 
-        if form.is_valid():            
-            form.save()
+        if form.is_valid():
+            try:
+                form.save()
+                data['form_is_valid']=True
+            except IntegrityError as e:
+                    if 'unique constraint' in e.message: # or e.args[0] from Django 1.10
+                        data['form_is_valid']=False
+                        data['error']="برای این تجهیز قبلا فایل ثبت شده است"
         else:
             print(form.errors)
+            if 'already exists' in form.errors: # or e.args[0] from Django 1.10
+                data['form_is_valid']=False
+                data['error']="برای این تجهیز قبلا فایل ثبت شده است"
         books = AssetCadFile.objects.all()
         data['html_assetCadFile_list'] = render_to_string('cmms/assetcadfile/partialAssetCadFileList.html', {
                 'assetCadFile': books,
@@ -60,7 +69,6 @@ def save_assetCadFile_form(request, form, template_name,id=None):
 
 
     context = {'form': form}
-
 
     data['html_assetCadFile_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)

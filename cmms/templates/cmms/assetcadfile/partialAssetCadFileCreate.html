@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'assetCadFile_create'   %}" class="js-assetCadFile-create-form" id="assetusercadformid" enctype="multipart/form-data">
+<form method="post" action="{% url 'assetCadFile_create'   %}" class="js-AssetCadFile-create-form" id="assetusercadformid" enctype="multipart/form-data">
   {% csrf_token %}
   <div class="modal-header " style="background:#ccc">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -10,7 +10,7 @@
    {% include 'cmms/assetcadfile/partialAssetCadFileForm.html' %}
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default">انصراف</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">انصراف</button>
     {% if perms.cmms.add_assetcadfile %}
     <button type="submit" class="btn btn-primary" >ذخیره</button>
     {% endif %}
