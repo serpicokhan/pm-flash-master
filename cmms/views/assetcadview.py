@@ -74,7 +74,12 @@ def get_assetFile(request):
         try:
             file=AssetCadFile.objects.get(assetCadFileAssetId__id=asset_id)
             data['img']= settings.MEDIA_URL+file.assetCadFile.name
+            # print(file.assetCadFileAssetId.id)
+            data['id']=file.assetCadFileAssetId.id
         except AssetCadFile.DoesNotExist:
             pass
 
     return JsonResponse(data)
+def get_points(request):
+    id=request.GET.get("id","")
+    

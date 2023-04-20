@@ -47,11 +47,12 @@ $(function () {
       },
       success: function (data) {
         console.log(data);
-        console.log("call from here");
+        // console.log("call from here");
         var canvas = document.getElementById('canvas'),
         context = canvas.getContext('2d');
         const img = new Image();
         img.src=data.img;
+        $("#location_id").val(data.id);
         img.onload = function() {
         canvas.width = img.width;
         canvas.height = img.height;
