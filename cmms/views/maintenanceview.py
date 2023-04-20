@@ -62,7 +62,7 @@ def filterUser(request,books):
 ##########################################################
 # @login_require
 
-@permission_required('cmms.view_workorder',login_url='/not_found')
+
 def list_wo(request,id=None):
     try:
         books=[]
