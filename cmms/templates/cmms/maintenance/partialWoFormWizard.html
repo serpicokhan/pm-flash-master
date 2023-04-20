@@ -129,10 +129,10 @@
           </div>
 
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-5 clockpicker">
           <div class="form-group">
             <label>{{form.timecreated.label}}</label>
-            {% render_field form.timecreated class="form-control ltr-input"  data-mask="99:99:99"   %}
+            {% render_field form.timecreated class="form-control ltr-input"%}
           </div>
 
         </div>
@@ -158,7 +158,7 @@
           </div>
 
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-5 clockpicker">
           <label>{{form.requiredCompletionTime.label}}</label>
 
 
@@ -218,3 +218,9 @@
   <button  class="btn btn-success woapply finnish" data-dismiss="modal">پایان</button>
 
 </div>
+<script type="text/javascript">
+ $('.clockpicker').clockpicker({
+   autoclose: true
+ });
+
+</script>
