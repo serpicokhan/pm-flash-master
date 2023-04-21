@@ -1168,6 +1168,7 @@ class WOUtility:
             else:
                 books = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True).order_by('-datecreated','-timecreated')
             return books
+
     @staticmethod
     def download_csv(request, queryset):
         opts = queryset.model._meta

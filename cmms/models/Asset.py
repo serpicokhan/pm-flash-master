@@ -16,7 +16,7 @@ from cmms.models.purchase import *
 from cmms.models.stock import *
 from django.db.models import Count
 from django.db.models import Q
-
+from cmms.business.myutl import someUtil
 class Asset(models.Model):
     def __str__(self):
         # return self.assetName
@@ -56,6 +56,16 @@ class Asset(models.Model):
                      return "<i class='fa fa-play'></i>								"
                  else:
                      return "<i class='fa fa-stop'></i>"
+    def get_assetStatusIcon(self):
+        if(self.assetStatus==True):
+                     return "<i class='fa fa-play'></i>								"
+        else:
+                     return "<i class='fa fa-wrench'></i>"
+    def get_assetStatusColor(self):
+                 if(self.assetStatus==True):
+                     return "success"
+                 else:
+                     return "danger"
     def get_assetid(self):
 
                  return self.assetIsLocatedAt.id

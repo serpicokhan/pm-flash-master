@@ -201,6 +201,11 @@ return false;
                           toastr.error("کد علت را مشخص کنید");
                           xhr.abort();
                         }
+                        if($("#id_assetSetOfflineByUser").val().length<1)
+                        {
+                          toastr.error("کاربر را مشخص کنید!");
+                          xhr.abort();
+                        }
 
                       },
                       success: function (data) {

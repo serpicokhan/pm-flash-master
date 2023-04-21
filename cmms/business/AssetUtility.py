@@ -763,3 +763,4 @@ class AssetUtility:
                 action_flag     = ADDITION,
                 change_message= request.META.get('REMOTE_ADDR')
             )
+    

@@ -72,49 +72,49 @@ $(function () {
     // img.src = 'http://127.0.0.1:8000/media/documents/fact2.JPG'; // replace with the URL of your image
   });
 
-  canvas.addEventListener('mousedown', e => {
-    startX = e.offsetX;
-    startY = e.offsetY;
-    isDrawing = true;
-  });
+  // canvas.addEventListener('mousedown', e => {
+  //   startX = e.offsetX;
+  //   startY = e.offsetY;
+  //   isDrawing = true;
+  // });
+  //
+  // canvas.addEventListener('mousemove', e => {
+  //   // img=new Image
+  //   if (!isDrawing) return;
+  //   const currentX = e.offsetX;
+  //   const currentY = e.offsetY;
+  //   const width = currentX - startX;
+  //   const height = currentY - startY;
+  //   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //   ctx.drawImage(img, 0, 0);
+  //   ctx.strokeRect(startX, startY, width, height);
+  // });
 
-  canvas.addEventListener('mousemove', e => {
-    // img=new Image
-    if (!isDrawing) return;
-    const currentX = e.offsetX;
-    const currentY = e.offsetY;
-    const width = currentX - startX;
-    const height = currentY - startY;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0);
-    ctx.strokeRect(startX, startY, width, height);
-  });
-
-  canvas.addEventListener('mouseup', e => {
-    isDrawing = false;
-    const x = Math.min(startX, e.offsetX);
-    const y = Math.min(startY, e.offsetY);
-    const width = Math.abs(e.offsetX - startX);
-    const height = Math.abs(e.offsetY - startY);
-    if (width > 0 && height > 0) {
-      textBox = document.createElement("input");
-      textBox.type="text"
-      textBox.style.position = "absolute";
-      textBox.style.left = x + "px";
-      textBox.style.top = y + "px";
-      textBox.style.width = width + "px";
-      textBox.style.height = height + "px";
-      textBox.classList.add('advanced2AutoComplete');
-      textBox.addEventListener("change", e => {
-        console.log(e.target.value);
-      });
-      textBox.addEventListener('mousedown', startDragging);
-      textBox.addEventListener('mouseup', stopDragging);
-      pcol=document.getElementById('pcol');
-      pcol.appendChild(textBox);
-
-    }
-  });
+  // canvas.addEventListener('mouseup', e => {
+  //   isDrawing = false;
+  //   const x = Math.min(startX, e.offsetX);
+  //   const y = Math.min(startY, e.offsetY);
+  //   const width = Math.abs(e.offsetX - startX);
+  //   const height = Math.abs(e.offsetY - startY);
+  //   if (width > 0 && height > 0) {
+  //     textBox = document.createElement("input");
+  //     textBox.type="text"
+  //     textBox.style.position = "absolute";
+  //     textBox.style.left = x + "px";
+  //     textBox.style.top = y + "px";
+  //     textBox.style.width = width + "px";
+  //     textBox.style.height = height + "px";
+  //     textBox.classList.add('advanced2AutoComplete');
+  //     textBox.addEventListener("change", e => {
+  //       console.log(e.target.value);
+  //     });
+  //     textBox.addEventListener('mousedown', startDragging);
+  //     textBox.addEventListener('mouseup', stopDragging);
+  //     pcol=document.getElementById('pcol');
+  //     pcol.appendChild(textBox);
+  //
+  //   }
+  // });
 
   canvas.addEventListener('click', e => {
     const x = e.offsetX;
