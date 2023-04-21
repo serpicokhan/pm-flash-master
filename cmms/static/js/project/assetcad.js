@@ -46,7 +46,7 @@ $(function () {
         // $("#modal-company").modal("show");
       },
       success: function (data) {
-        console.log(data);
+        // console.log(data);
         // console.log("call from here");
         var canvas = document.getElementById('canvas'),
         context = canvas.getContext('2d');
@@ -58,6 +58,10 @@ $(function () {
         canvas.height = img.height;
 
         context.drawImage(img, 0, 0);
+        console.log(data);
+        $("#locpoints").html(data.points);
+        $("[data-toggle=popover]")
+        .popover({html:true})
 
       }
       }
@@ -137,28 +141,30 @@ $(function () {
 
     //console.log($(btn).attr("type"));
     //console.log($(btn).attr("data-url"));
+    if($("#location_id").val())
+      return $.ajax({
+        url: '/Asset/Cad/create?q='+$("#location_id").val(),
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+          //alert(btn.attr("data-url"));
+          //alert("321321");
+          // /$("#modal-maintenanceType").modal("hide");
+          $("#modal-company").modal("show");
+        },
+        success: function (data) {
+          //alert("3123@!");
 
-    return $.ajax({
-      url: '/Asset/Cad/create',
-      type: 'get',
-      dataType: 'json',
-      beforeSend: function () {
-        //alert(btn.attr("data-url"));
-        //alert("321321");
-        // /$("#modal-maintenanceType").modal("hide");
-        $("#modal-company").modal("show");
-      },
-      success: function (data) {
-        //alert("3123@!");
+          $("#modal-company .modal-content").html(data.html_asset_cad_form);
+          $("#id_x").val(x1);
+          $("#id_y").val(y1);
 
-        $("#modal-company .modal-content").html(data.html_asset_cad_form);
-        $("#id_x").val(x1);
-        $("#id_y").val(y1);
-        console.log(x1,y1);
-          $(".selectpicker").selectpicker();
+            $(".selectpicker").selectpicker();
 
-      }
-    });
+
+
+        }
+      });
 
 
 
@@ -202,7 +208,7 @@ $(function () {
           ibut.classList.add("fa");
           ibut.classList.add("fa-warning");
           $("[data-toggle=popover]")
-          .popover({html:true})
+          .popover({html:true});
           btn.addEventListener("click", function(e){
             // alert();
             // console.log(form.serialize());

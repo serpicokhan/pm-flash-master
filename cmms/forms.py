@@ -1591,8 +1591,19 @@ class EquipmentCostSettingForm(forms.ModelForm):
          fields = '__all__'
 
 class AssetCadForm(forms.ModelForm):
-    assetCoord= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    def __init__(self,loc=None,*args,**kwargs):
+
+        super (AssetCadForm,self ).__init__(*args,**kwargs) # populates the post
+
+        if(loc):
+            self.fields['assetCoord'].queryset=queryset=Asset.objects.filter(assetIsLocatedAt__id=loc)
+        else:
+            print("here########!!!!!!!!!!!!!!!!!!!!")
+            self.fields['assetCoord'].queryset=queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True)
+
+    location=forms.CharField()   
+    # assetCoord= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+    # widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
     class Meta:
          model = AssetCadCoordination
          fields = '__all__'

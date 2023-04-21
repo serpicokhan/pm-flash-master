@@ -34,14 +34,13 @@ def assetcadmain_view(request):
     assets=Asset.objects.filter(assetIsLocatedAt_isnull=True,assetTypes=1)
     return render(request,'cmms/asset/dashboard/assetcad.html',{'assets':objs})
 
-def save_assetCad_form(request, form, template_name,id=None):
+def save_assetCad_form(request, form, template_name,id=None,loc=None):
 
 
     data = dict()
     if (request.method == 'POST'):
         if form.is_valid():
             form.save()
-            print("here")
             data['form_is_valid'] = True
             # books = MaintenanceType.objects.all()
             # data['html_assetCad_list'] = render_to_string('cmms/maintenancetype/partialMaintenanceTypeList.html', {
@@ -52,7 +51,7 @@ def save_assetCad_form(request, form, template_name,id=None):
             data['form_is_valid'] = False
             print(form.errors)
 
-    context = {'form': form}
+    context = {'form': form,'location':loc}
 
 
     data['html_asset_cad_form'] = render_to_string(template_name, context, request=request)
@@ -60,13 +59,15 @@ def save_assetCad_form(request, form, template_name,id=None):
 @permission_required('cmms.view_asset')
 def assetcad_create(request):
         if (request.method == 'POST'):
-            form = AssetCadForm(request.POST)
+            form = AssetCadForm(int (request.POST.get("location",'')),request.POST)
             return save_assetCad_form(request, form, 'cmms/asset/dashboard/partialAssetCadCreate.html')
 
         else:
-
-            form = AssetCadForm()
-            return save_assetCad_form(request, form, 'cmms/asset/dashboard/partialAssetCadCreate.html')
+            location=request.GET.get("q","")
+            if(location):
+                form = AssetCadForm(loc=int(location))
+                return save_assetCad_form(request, form, 'cmms/asset/dashboard/partialAssetCadCreate.html',loc=location)
+        return JsonResponse(dict())
 def get_assetFile(request):
     asset_id=request.GET.get('q','')
     data=dict()
@@ -76,10 +77,15 @@ def get_assetFile(request):
             data['img']= settings.MEDIA_URL+file.assetCadFile.name
             # print(file.assetCadFileAssetId.id)
             data['id']=file.assetCadFileAssetId.id
+            points=AssetCadCoordination.objects.filter(assetCoord__assetIsLocatedAt__id=asset_id)
+            print('points:',points)
+            data['points']=render_to_string('cmms/asset/dashboard/points.html', {
+                'points': points,
+
+            })
         except AssetCadFile.DoesNotExist:
             pass
 
     return JsonResponse(data)
 def get_points(request):
     id=request.GET.get("id","")
-    
