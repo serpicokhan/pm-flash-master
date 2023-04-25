@@ -7,7 +7,7 @@ from datetime import datetime
 import jdatetime
 from django.utils.timezone import now
 from cmms.models.users import *
-from cmms.models.workorder import *
+
 from cmms.models.assetcategory import *
 from cmms.models.event import *
 from cmms.models.machinecategory import *
@@ -17,6 +17,7 @@ from cmms.models.stock import *
 from django.db.models import Count
 from django.db.models import Q
 from cmms.business.myutl import someUtil
+from cmms.models.workorder import *
 class Asset(models.Model):
     def __str__(self):
         # return self.assetName
@@ -57,6 +58,8 @@ class Asset(models.Model):
                  else:
                      return "<i class='fa fa-stop'></i>"
     def get_assetStatusIcon(self):
+
+        # books = self.workorder_set.all().count()
         if(self.assetStatus==True):
                      return "<i class='fa fa-play'></i>								"
         else:

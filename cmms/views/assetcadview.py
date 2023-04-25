@@ -78,7 +78,6 @@ def get_assetFile(request):
             # print(file.assetCadFileAssetId.id)
             data['id']=file.assetCadFileAssetId.id
             points=AssetCadCoordination.objects.filter(assetCoord__assetIsLocatedAt__id=asset_id)
-            print('points:',points)
             data['points']=render_to_string('cmms/asset/dashboard/points.html', {
                 'points': points,
 
