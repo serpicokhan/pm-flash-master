@@ -1149,3 +1149,30 @@ def assetExport(request):
         asset=AssetUtility.searchAsset(kvm,search)
     data = AssetUtility.download_csv(request, asset)
     return HttpResponse (data, content_type='text/csv')
+def assetImport(request):
+    return render(request, 'cmms/asset/assetUpload.html', {})
+def upload_file_asset(request):
+    def iter_rows(ws):
+        for row in ws.iter_rows():
+            yield [cell.value for cell in row]
+    if request.method == 'POST':
+        my_file=request.FILES.get('file')
+        data=dict()
+        # msg=AssetCsvFile.objects.create(msgFile=my_file)
+        # workbook = load_workbook(filename='media/'+msg.msgFile.name)
+        # ws = workbook.active
+        # item=Part(pk=None)
+        # for i in list(iter_rows(ws)):
+        #
+        #
+        #     if(i[19]!=None):#id
+        #         item=Part(pk=None)
+        #         item.partName=i[18]
+        #         item.partDescription=i[14] if(i[14]) else '-'
+        #         item.partCode=0
+        #         item.save()
+        #
+        #
+        # data["id"]=msg.id
+        return JsonResponse(data)
+    return JsonResponse({'post':'fasle'})

@@ -230,6 +230,8 @@ urlpatterns = [
 
 
         url(r'^Asset/$',list_asset,name='list_asset'),
+        url(r'^Asset/Upload$',assetImport,name='assetImport'),
+        url(r'^Asset/UploadFile$',upload_file_asset,name='upload_file_asset'),
         url(r'^Asset/Export/$', assetExport, name='assetExport'),
         url(r'^Asset/echo/json/$',get_json_test,name='get_json_test'),
         url(r'^Asset/WoAsset/Create$',create_woasset,name='create_woasset'),

@@ -1,0 +1,64 @@
+<!--pip install django-widget-tweaks-->
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+{% load static %}
+<div class="row">
+
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="card-body">
+
+            <div class="compose-content">
+
+                  <h5 class="mb-4"><i class="fa fa-paperclip"></i> فایل پیوست</h5>
+                  <form action="{% url 'upload_file_asset'  %}" class="dropzone dz-clickable" id="mydrop">
+                      {% csrf_token %}
+
+
+                  <div class="dz-default dz-message" id="myfiles"><button class="dz-button" type="button">Drop files here to upload</button></div>
+              </form>
+              <div class="form-group">
+                <a href="{% url 'list_asset' %}" class="btn btn-outline btn-success"> بازگشت به صفحه اصلی</a>
+
+              </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+{% load static %}
+
+{% block javascript %}
+
+<script >
+//"myAwesomeDropzone" is the camelized version of the HTML element's ID
+
+$(document).ready(function () {
+
+     Dropzone.options.mydrop = {
+
+         maxFilesize: 10,
+         init: function () {
+
+
+            this.on("complete", file => {
+            var aval=[];
+             if($("#file_id").val()!="-1")
+             aval.push($("#file_id").val());
+             aval.push(JSON.parse(file.xhr.response).id)
+             $("#file_id").val(aval);
+
+});
+         }
+
+     };
+ });
+</script>
+{% endblock %}
+{% endblock %}
