@@ -512,7 +512,7 @@ class reporttest:
         #ادغام دو queryset
         woListDic=zip(woList,tasklist)
 
-        return render(request, 'cmms/reports/simplereports/CloseWorkOrdersDetailReport.html',{'woList':woListDic,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
+        return render(request, 'cmms/reports/simplereports/CloseWorkOrdersDetailReport.html',{'woList':woListDic,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':'{}','assets':'{}','priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
     def AllWorkOrdersDetailReport(self,request):
         date1=DateJob.getDate2(request.POST.get("startDate",""))
         date2=DateJob.getDate2(request.POST.get("endDate",""))
