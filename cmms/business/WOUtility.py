@@ -428,9 +428,9 @@ class WOUtility:
         #  """.format(whereConition))
         wo=WorkOrder.objects.none()
         if(len(assignedUser)>0):
-            wo=WorkOrder.objects.filter(assignedToUser__id__in=assignedUser,visibile=True,datecreated__range=(start,end),isScheduling=False).exclude(woStatus__in=(7,8))
+            wo=WorkOrder.objects.filter(assignedToUser__id__in=assignedUser,visibile=True,datecreated__range=(start,end),isScheduling=False).exclude(woStatus__in=(1,7,8))
         else:
-            wo=WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(woStatus__in=(7,8))
+            wo=WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(woStatus__in=(1,7,8))
         if(len(maintenanceType)>0):
             wo=wo.filter(maintenanceType__id__in=maintenanceType)
         if(len(assetCategory)>0):
@@ -465,7 +465,7 @@ class WOUtility:
         return wo.filter(woStatus=status,isScheduling=False,visibile=True);
 
     @staticmethod
-    def getCloseWorkOrdersDetailReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority):
+    def getCloseWorkOrdersDetailReport(start,end,assignedUser,makan,assetName,maintenanceType,priority):
 
 
         # print("asset:",asset)
@@ -478,21 +478,37 @@ class WOUtility:
             wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
         if(len(maintenanceType)>0):
             wo=wo.filter(maintenanceType__id__in=maintenanceType)
-        if(len(assetCategory)>0):
-            wo=wo.filter(woAsset__assetCategory__id__in=assetCategory)
-        else:
-            if(len(asset)>0):
-                wo=wo.filter(woAsset__id__in=asset)
+        if(assetName):
+                wo=wo.filter(woAsset__id__in=assetName)
+        elif(len(makan)>0):
+            wo=wo.filter(Q(woAsset__id__in=makan)|Q(woAsset__assetIsLocatedAt__id__in=makan)|Q(woAsset__assetIsPartOf__in=makan))
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
         return wo.filter(isScheduling=False,visibile=True);
     @staticmethod
-    def CloseWorkOrdersListReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority):
+    def getCloseWorkOrdersListReport(start,end,assignedUser,makan,assetName,maintenanceType,priority):
 
 
         # print("asset:",asset)
         # print("priority",priority)
         # print("maintenance:",assetCategory)
+        # wo=WorkOrder.objects.none()
+        # if(len(assignedUser)>0):
+        #     wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
+        # else:
+        #     wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
+        # if(len(maintenanceType)>0):
+        #     wo=wo.filter(maintenanceType__id__in=maintenanceType)
+        # if(len(assetCategory)>0):
+        #     wo=wo.filter(woAsset__assetCategory__id__in=assetCategory)
+        # else:
+        #     if(len(asset)>0):
+        #         wo=wo.filter(woAsset__id__in=asset)
+        # if(len(priority)>0):
+        #     wo=wo.filter(woPriority__in=priority)
+        # return wo.filter(isScheduling=False,visibile=True);
+
+        #################
         wo=WorkOrder.objects.none()
         if(len(assignedUser)>0):
             wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
@@ -500,16 +516,13 @@ class WOUtility:
             wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
         if(len(maintenanceType)>0):
             wo=wo.filter(maintenanceType__id__in=maintenanceType)
-        if(len(assetCategory)>0):
-            wo=wo.filter(woAsset__assetCategory__id__in=assetCategory)
-        else:
-            if(len(asset)>0):
-                wo=wo.filter(woAsset__id__in=asset)
+        if(assetName):
+                wo=wo.filter(woAsset__id__in=assetName)
+        elif(len(makan)>0):
+            wo=wo.filter(Q(woAsset__id__in=makan)|Q(woAsset__assetIsLocatedAt__id__in=makan)|Q(woAsset__assetIsPartOf__in=makan))
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
         return wo.filter(isScheduling=False,visibile=True);
-
-
 
 
     @staticmethod
@@ -601,7 +614,7 @@ class WOUtility:
 
 
         wo=WorkOrder.objects.none()
-        wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(1,2,4,5,6,9),visibile=True,datecreated__range=(start,end))
+        wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(2,4,5,6,9),visibile=True,datecreated__range=(start,end))
         print(wo.query)
         if(makan):
             print(makan,'!!!')
@@ -690,7 +703,7 @@ class WOUtility:
     @staticmethod
     def getOpenWorkOrderGraphReport(start,end,assignedUser,asset,assetCategory,maintenanceType,makan):
 
-        wo=WorkOrder.objects.filter(datecreated__range=(start,end),isScheduling=False,visibile=True,woStatus__in=(1,2,4,5,6,9))
+        wo=WorkOrder.objects.filter(datecreated__range=(start,end),isScheduling=False,visibile=True,woStatus__in=(2,4,5,6,9))
         # whereConition="where datecreated between '{0}' and '{1}' and wostatus in (1,2,4,5,6,9) and isScheduling=0  and visibile=1".format(start ,end)
         if(len(makan)>0):
             wo=wo.filter(Q(woAsset__id__in=makan)|Q(woAsset__assetIsLocatedAt__id__in=makan))
