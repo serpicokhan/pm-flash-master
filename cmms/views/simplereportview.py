@@ -457,28 +457,35 @@ class reporttest:
     def CloseWorkOrdersDetailReport(self,request):
         date1=DateJob.getDate2(request.POST.get("startDate",""))
         date2=DateJob.getDate2(request.POST.get("endDate",""))
-        startDate=request.POST.get("startDate","").replace('-','/')
-        endDate=request.POST.get("endDate","").replace('-','/')
+        startDate=request.POST.get("startDate","")
+        endDate=request.POST.get("endDate","")
         assignUser=request.POST.getlist("assignUser", "")
-        asset=request.POST.getlist("Asset", "")
-        categoryText=request.POST.getlist("categoryText", "")
+        makan=request.POST.get("makan",False)
+        assetType=request.POST.getlist("assetType",False)
+        assetname=request.POST.getlist("assetname",False)
+        print("assetname",assetname)
+        # categoryText=request.POST.getlist("categoryText", "")
         maintenanceType=request.POST.getlist("maintenanceType", "")
         priorityType=request.POST.getlist("priorityType", "")
+        if(assetType):
+            assetType=[int(i) for i in assetType]
+        if(assetname):
+            assetname=[int(i) for i in assetname]
         ##### حذف .... در combobox
         if(len(assignUser) >0 and not assignUser[0]):
             assignUser.pop(0)
-        if(len(asset) >0 and not asset[0]):
-            asset.pop(0)
-        if(len(categoryText) >0 and not categoryText[0]):
-            categoryText.pop(0)
+        # if(len(asset) >0 and not asset[0]):
+        #     asset.pop(0)
+        # if(len(categoryText) >0 and not categoryText[0]):
+        #     categoryText.pop(0)
         if(len(maintenanceType) >0 and not maintenanceType[0]):
             maintenanceType.pop(0)
         if(len(priorityType) >0 and not priorityType[0]):
             priorityType.pop(0)
         #ساخت لیست
         assignUser=[int(i) for i in assignUser]
-        asset=[int(i) for i in asset]
-        categoryText=[int(i) for i in categoryText]
+        # asset=[int(i) for i in asset]
+        # categoryText=[int(i) for i in categoryText]
         maintenanceType=[int(i) for i in maintenanceType]
         priorityType=[int(i) for i in priorityType]
         #از بین بردن کامای اضافی ایجاد شده در تاپل
@@ -486,17 +493,17 @@ class reporttest:
             assignUser.append(-1)
         if(len(maintenanceType)==1):
             maintenanceType.append(-1)
-        if(len(categoryText)==1):
-            categoryText.append(-1)
+        # if(len(categoryText)==1):
+        #     categoryText.append(-1)
         if(len(priorityType)==1):
             priorityType.append(-1)
 
         user1=User.objects.filter(id__in=assignUser).values_list('username', flat=True)
-        asset1=Asset.objects.filter(id__in=asset).values_list('assetName', flat=True)
-        assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
+        # asset1=Asset.objects.filter(id=makan).values_list('assetName', flat=True)
+        # assetcat=AssetCategory.objects.filter(id__in=assetType).values_list('name', flat=True)
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getCloseWorkOrdersDetailReport(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType))
+        woList=list(WOUtility.getCloseWorkOrdersDetailReport(date1,date2,assignUser,makan,assetname,maintenanceType,priorityType))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
         for i in woList:
