@@ -693,7 +693,7 @@ class reporttest:
             priorityType.append(-1)
 
         user1=User.objects.filter(id__in=assignUser).values_list('username', flat=True)
-        asset1=Asset.objects.filter(id=makan).values_list('assetName', flat=True)
+        # asset1=Asset.objects.filter(id=makan).values_list('assetName', flat=True)
         # assetcat=AssetCategory.objects.filter(id__in=assetType).values_list('name', flat=True)
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
@@ -701,7 +701,7 @@ class reporttest:
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 
-        return render(request, 'cmms/reports/simplereports/CloseWorkOrdersListReport.html',{'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':'{}','assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
+        return render(request, 'cmms/reports/simplereports/CloseWorkOrdersListReport.html',{'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':'{}','assets':{},'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
     def OpenPMWorkOrdersListReport(self,request):
         date1=DateJob.getDate2(request.POST.get("startDate",""))
         date2=DateJob.getDate2(request.POST.get("endDate",""))
