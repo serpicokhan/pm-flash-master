@@ -485,7 +485,6 @@ var saveCopy= function () {
       dataType: 'json',
       beforeSend:function(xhr,opt)
       {
-        console.log($("#id_datecreated").val());
         if(!$(this)[0].url.includes('delete')){
           if($("#id_woAsset").val().length<1)
           {
@@ -604,6 +603,7 @@ var saveCopy= function () {
           toastr.success("دستور کار با موفقیت  ایجاد شد");
           $("#issavechanged").val("1");
           $("#lastWorkOrderid").val(data.id);
+          $("#tbody_task").html(data.first_task_created);
 
 
           // console.log(data.html_wo_list);

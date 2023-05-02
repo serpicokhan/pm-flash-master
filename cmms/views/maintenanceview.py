@@ -224,6 +224,7 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
                     #Asset life section
                     WOUtility.manageStopCode(request,form)
                     #End of asset life section
+                    data['first_task_created']=WOUtility.create_task_when_wo_created(request,form)
                     ####################
                     form.instance.save()
                     ####################

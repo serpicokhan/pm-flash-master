@@ -20,6 +20,9 @@ import csv
 import locale
 import codecs
 from django.db.models import Count, F, Value
+from django.template.loader import render_to_string
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.context_processors import PermWrapper
 class WOUtility:
 
     @staticmethod
@@ -1199,4 +1202,17 @@ class WOUtility:
         for obj in queryset:
             writer.writerow([getattr(obj, field) for field in field_names])
         return response
-    download_csv.short_description = "Download selected as csv"
+        download_csv.short_description = "Download selected as csv"
+
+    @staticmethod
+    def create_task_when_wo_created(request,form):
+
+        wo=form.instance
+        if(wo.CompleteUserTask.all().count()==0):
+            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated)
+            data = render_to_string('cmms/tasks/partialTaskList.html', {
+                'task': wo.CompleteUserTask.all(),
+                'perms': PermWrapper(request.user),
+                'ispm':False
+            })
+        return data
