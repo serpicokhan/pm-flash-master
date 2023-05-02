@@ -1170,19 +1170,30 @@ class WOUtility:
             return books
     @staticmethod
     def download_csv(request, queryset):
-        opts = queryset.model._meta
-        model = queryset.model
-        response = HttpResponse(content='text/csv')
-        # force download.
-        response['Content-Disposition'] = 'attachment;filename=export.csv'
-        response.write(codecs.BOM_UTF8)
-        # the csv writer
-        writer = csv.writer(response)
-        field_names = [field.name for field in opts.fields]
-        # Write a first row with header information
-        writer.writerow(field_names)
-        # Write data rows
-        for obj in queryset:
-            writer.writerow([getattr(obj, field) for field in field_names])
-        return response
-    download_csv.short_description = "Download selected as csv"
+            opts = queryset.model._meta
+            model = queryset.model
+            response = HttpResponse(content='text/csv')
+            # force download.
+            response['Content-Disposition'] = 'attachment;filename=export.csv'
+            response.write(codecs.BOM_UTF8)
+            # the csv writer
+            writer = csv.writer(response)
+            field_names = [field.name for field in opts.fields]
+            # Write a first row with header information
+            writer.writerow(field_names)
+            # Write data rows
+            for obj in queryset:
+                writer.writerow([getattr(obj, field) for field in field_names])
+            return response
+        download_csv.short_description = "Download selected as csv"
+    @staticmethod
+    def create_task_when_wo_created(request,form):
+        data=dict()
+        wo=form.instance
+        Task.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated)
+        data['html_task_list'] = render_to_string('cmms/tasks/partialTaskList.html', {
+            'task': books,
+            'perms': PermWrapper(request.user),
+            'ispm':False
+        })
+        return data
