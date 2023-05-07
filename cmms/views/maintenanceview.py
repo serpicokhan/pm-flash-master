@@ -217,7 +217,9 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
                 if(not form.instance.maintenanceType):
                     err_code=1
                     err_msg="نوع نگهداری را تعیین کنید"
-
+                if(WOUtility.find_wos_created_within_5_days(form.instance)):
+                    error_code=100
+                    err_msg="دستور کاری مشابه در یستم باز است"
                 if(err_code==0):
 
                     form.save()

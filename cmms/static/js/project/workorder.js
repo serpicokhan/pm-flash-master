@@ -497,11 +497,11 @@ var saveCopy= function () {
             xhr.abort();
           }
 
-          if($("#havetasks").val()=="-1")
-          {
-            toastr.error("فعالیتی مشخص نکرده اید!");
-            xhr.abort();
-          }
+          // if($("#havetasks").val()=="-1")
+          // {
+          //   toastr.error("فعالیتی مشخص نکرده اید!");
+          //   xhr.abort();
+          // }
           if($("#id_timecreated").val()=="")
           {
             toastr.error("زمان ایجاد فعالیت را مشخص نکردیه اید");

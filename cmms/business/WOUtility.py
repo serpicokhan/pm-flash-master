@@ -23,7 +23,37 @@ from django.db.models import Count, F, Value
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.context_processors import PermWrapper
+import difflib
+from django.utils import timezone
+from datetime import timedelta
+
 class WOUtility:
+
+    @staticmethod
+    def find_similarity(str1,str2,ratio):
+        string1=str1#.toLower()
+        string2=str2#.toLower()
+        similarity = difflib.SequenceMatcher(None, string1, string2).ratio()
+        print("similarity",similarity)
+        if(similarity>=ratio):
+            return True
+        return False
+    @staticmethod
+    def find_wos_created_within_5_days(wo):
+        current_date = timezone.now().date()
+        five_days_ago = current_date - timedelta(days=5)
+        # Query rows created within the last 5 days
+        rows = WorkOrder.objects.filter(datecreated__gte=five_days_ago,woAsset=wo.woAsset,maintenanceType=wo.maintenanceType).exclude(woStatus__in=[7,8])
+
+        # Access the required data or perform further operations with the rows
+        for row in rows:
+            print("date:",row.datecreated)
+            # Do something with each row
+            if(WOUtility.find_similarity(wo.woTags,row.woTags,0.5)):
+                return True
+
+        return False
+
 
     @staticmethod
     def getListWorkorderLastWeek(request):
@@ -1208,6 +1238,7 @@ class WOUtility:
     def create_task_when_wo_created(request,form):
 
         wo=form.instance
+        data=dict()
         if(wo.CompleteUserTask.all().count()==0):
             to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated)
             data = render_to_string('cmms/tasks/partialTaskList.html', {
