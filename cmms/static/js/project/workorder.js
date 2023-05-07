@@ -333,6 +333,14 @@ var saveCopy= function () {
             dataType: 'json',
             success: function (data) {
               // console.log("hahaha");
+              console.log(data);
+              if(data.asset_user){
+                console.log(data.asset_user);
+              $('#id_assignedToUser').val(data.asset_user);
+
+  // Refresh the Bootstrap selectpicker to update the selected option
+            $('.selectpicker').selectpicker('refresh');
+          }
 
             }
           });

@@ -475,11 +475,19 @@ def woGetOverdueWO(request,startHijri,endHijri):
 def wo_setAsset(request,wid,aid):
     data=dict()
     try:
+        data['asset_user']=AssetUser.objects.filter(AssetUserAssetId__id=aid)[0].AssetUserUserId.id
+    except :
+        print("error")
+        pass
+    try:
         wo=WorkOrder.objects.get(id=wid)
         wo.woAsset_id=aid
         wo.save()
 
         data['result']=wo.woAsset_id
+
+
+
         books=AssetMeterReading.objects.filter(assetWorkorderMeterReading=wo)
         for book in books:
             book.assetMeterLocation=Asset.objects.get(id=aid)
