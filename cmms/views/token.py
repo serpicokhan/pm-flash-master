@@ -38,7 +38,8 @@ class MiniView(APIView):
         posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
         # print(request.user)
         companies=self.filterUser(request,posts)
-        wos=WOUtility.doPaging(request,companies)
+        # wos=WOUtility.doPaging(request,companies)
+        wos=companies[:50]
         serializer = WOSerializer2(wos, many=True)
         # for k in serializer.data:
         #     # k.datecreated=DateJob.getDate2(k.datecreated)
@@ -56,7 +57,7 @@ class RegMiniView(APIView):
         # print("!23")
         # body_unicode = request.body.decode('utf-8')
         # body = json.loads(body_unicode)
-        print(request.user.id,"req")
+        # print(request.user.id,"req")
         rq=SysUser.objects.get(userId=request.user.id)
         # request.data['RequestedUser']=rq.id
 
@@ -72,7 +73,8 @@ class RegMiniView(APIView):
 
             posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
             companies=self.filterUser(request,posts)
-            wos=WOUtility.doPaging(request,companies)
+            # wos=WOUtility.doPaging(request,companies)
+            wos=companies[:50]
             serializer = WOSerializer2(wos, many=True)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
@@ -123,7 +125,8 @@ class DeleteMiniView(APIView):
                     return Response(content)
                 posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')
                 companies=self.filterUser(request,posts)
-                wos=WOUtility.doPaging(request,companies)
+                # wos=WOUtility.doPaging(request,companies)
+                wos=companies[:50]
                 serializer = WOSerializer2(wos, many=True)
                 return Response(serializer.data)
             else:
