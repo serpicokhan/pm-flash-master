@@ -114,7 +114,7 @@ class Asset(models.Model):
     assetStatus=models.BooleanField("وضعیت",default=True)
     assetMachineCategory=models.ForeignKey(MachineCategory,on_delete=models.CASCADE,null=True,blank=True,verbose_name="نوع دستگاه")
     assetIsStock=models.BooleanField("انبار",default=False)
-
+    assetTavali=models.IntegerField("شماره توالی",default=0)
 
 
 
