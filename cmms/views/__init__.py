@@ -90,3 +90,4 @@ from cmms.views.dash_assetview import *
 from cmms.views.purchaseboardview import *
 from cmms.views.purchaserequestview import *
 from cmms.views.token import *
+from cmms.views.ringamarview import *

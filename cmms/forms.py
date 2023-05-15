@@ -1366,6 +1366,23 @@ class MaintenanceTypeForm(forms.ModelForm):
     class Meta:
         model = MaintenanceType
         fields = '__all__'
+class RingAmarForm(forms.ModelForm):
+
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    assetName= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.none(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    def clean_assetAmarDate(self):
+        if(self.cleaned_data['assetAmarDate']):
+             print(self.cleaned_data['assetAmarDate'],'assetAmarDate')
+             value=DateJob.getDate2( self.cleaned_data['assetAmarDate'])
+             return value
+        else:
+            return None
+
+    class Meta:
+        model = RingAmar
+        fields = '__all__'
 ###############################################################
 class AssetCadFileForm(forms.ModelForm):
     assetCadFileAssetId= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),

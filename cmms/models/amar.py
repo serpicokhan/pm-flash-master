@@ -11,7 +11,7 @@ Shift=(
 )
 class RingAmar(models.Model):
     ShiftTypes=models.IntegerField("شیفت", choices=Shift,null=True,blank=True)
-    assetName=models.ForeignKey(Asset,on_delete=models.CASCADE,null=True,blank=True,verbose_name="انبار",related_name='ringAmar')
+    assetName=models.ForeignKey(Asset,on_delete=models.CASCADE,null=True,blank=True,verbose_name="تجهیز",related_name='ringAmar')
     assetStartKilometer=models.DecimalField("کیلومتر شروع",max_digits=10, decimal_places=0,default=0)
     assetEndKilometer=models.DecimalField("کیلومتر پایان",max_digits=10, decimal_places=0,default=0)
     assetTotlaKilometer=models.DecimalField("کیلومتر تولید",max_digits=10, decimal_places=0,default=0)
@@ -24,3 +24,6 @@ class RingAmar(models.Model):
     assetAmarDate=models.DateField("تاریخ",default=datetime.now,blank=True,null=True)
     timestamp=models.DateTimeField(auto_now_add=True)
     userRegisterd=models.ForeignKey(SysUser,on_delete=models.CASCADE,blank=True,null=True,verbose_name="کاربر ثبت کننده")
+    class Meta:
+      db_table = "ringamar"
+      ordering = ('-assetAmarDate', )

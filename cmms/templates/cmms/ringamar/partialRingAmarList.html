@@ -1,0 +1,49 @@
+{% for ring_amar in ringAmar %}
+
+<tr>
+<td></td>
+      <td>{{ ring_amar.assetName }}</td>
+      <td>{{ ring_amar.assetStartKilometer }}</td>
+      <td>{{ ring_amar.assetEndKilometer }}</td>
+      <td>{{ ring_amar.assetStartTime }}</td>
+      <td>{{ ring_amar.assetEndTime }}</td>
+      <td>{{ ring_amar.assetDarsad }}</td>
+      <td>{{ ring_amar.assetDaf }}</td>
+      <td>{{ ring_amar.operatorName }}</td>
+      <td>{{ ring_amar.assetTotlaKilometer }}</td>
+
+      <td>{{ ring_amar.assetTotalTime }}</td>
+
+      <td>{{ ring_amar.assetAmarDate }}</td>
+      <td>{{ ring_amar.get_ShiftTypes_display }}</td>
+
+
+
+
+
+
+
+
+ <td>
+   {% if perms.cmms.view_ringamar %}
+   <button type="button"
+              class="btn btn-warning btn-sm js-update-ringAmar"
+              data-url="{% url 'ringAmar_update' ring_amar.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      {% endif %}
+      {% if perms.cmms.delete_ringamar %}
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-ringAmar"
+                   data-url="{% url 'ringAmar_delete' ring_amar.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+           {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="13" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}
