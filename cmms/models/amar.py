@@ -10,7 +10,7 @@ Shift=(
 
 )
 class RingAmar(models.Model):
-    ShiftTypes=models.IntegerField("شیفت", choices=Shift,null=True,blank=True)
+    ShiftTypes=models.CharField("شیفت", choices=Shift,max_length=1,null=True,blank=True)
     assetName=models.ForeignKey(Asset,on_delete=models.CASCADE,null=True,blank=True,verbose_name="تجهیز",related_name='ringAmar')
     assetStartKilometer=models.DecimalField("کیلومتر شروع",max_digits=10, decimal_places=0,default=0)
     assetEndKilometer=models.DecimalField("کیلومتر پایان",max_digits=10, decimal_places=0,default=0)
