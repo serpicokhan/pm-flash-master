@@ -47,7 +47,6 @@ def save_ringAmar_form(request, form, template_name,id=None):
     data = dict()
     if (request.method == 'POST'):
         if form.is_valid():
-            print("here!!!!")
             form.save()
             data['form_is_valid'] = True
             books = RingAmar.objects.all()

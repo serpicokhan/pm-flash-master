@@ -40,7 +40,6 @@ $(function () {
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveForm= function () {
    var form = $(this);
-   alert("123");
 
    $.ajax({
      url: form.attr("action"),
