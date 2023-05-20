@@ -27,16 +27,21 @@
  <td>
    {% if perms.cmms.view_ringamar %}
    <button type="button"
-              class="btn btn-warning btn-sm js-update-ringAmar"
+              class="btn btn-outline btn-warning btn-sm js-update-ringAmar"
               data-url="{% url 'ringAmar_update' ring_amar.id %}">
-        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+        <span class="glyphicon glyphicon-pencil"></span>
       </button>
       {% endif %}
       {% if perms.cmms.delete_ringamar %}
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-ringAmar"
+                   class="btn btn-outline btn-danger btn-sm js-delete-ringAmar"
                    data-url="{% url 'ringAmar_delete' ring_amar.id %}">
-             <span class="glyphicon glyphicon-trash"></span> حذف
+             <span class="glyphicon glyphicon-trash"></span>
+           </button>
+      <button type="button"
+                   class="btn btn-outline btn-danger btn-sm js-delete-ringAmar"
+                   data-url="{% url 'ringAmar_delete' ring_amar.id %}">
+             <span class="glyphicon glyphicon-cog"></span>
            </button>
            {% endif %}
     </td>

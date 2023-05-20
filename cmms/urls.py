@@ -523,7 +523,7 @@ urlpatterns = [
           url(r'^MaintenanceType/create/$', maintenanceType_create, name='maintenanceType_create'),
           url(r'^MaintenanceType/(?P<id>\d+)/delete/$', maintenanceType_delete, name='maintenanceType_delete'),
           url(r'^MaintenanceType/(?P<id>\d+)/update/$', maintenanceType_update, name='maintenanceType_update'),
-          
+
           url(r'^RingAmar/$',list_ringAmar,name='list_ringAmar'),
           url(r'^RingAmar/create/$', ringAmar_create, name='ringAmar_create'),
           url(r'^RingAmar/(?P<id>\d+)/delete/$', ringAmar_delete, name='ringAmar_delete'),

@@ -48,5 +48,9 @@ $("#id_assetType").change(function(){
   });
 
 });
+$("#id_assetName").change(function(){
+  $("#create_btn_id").attr("data-asset",$(this).val());
+
+});
 //
 });

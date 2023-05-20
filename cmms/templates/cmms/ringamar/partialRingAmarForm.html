@@ -10,15 +10,17 @@
       {% render_field form.ShiftTypes class='form-control'  %}
     </div>
 
-    <div class="form-group">
-      <label for="id_makan">مکان</label>
-      {% render_field form.makan class='form-control'  %}
 
-    </div>
     <div class="form-group">
       <label for="id_assetName">تجهیز</label>
-      {% render_field form.assetName class='form-control'  %}
 
+    <select class="form-control" name="assetName">
+      {% for i in assetName2 %}
+      <option value="{{i.id}}">{{i.assetName}}</option>
+
+      {% endfor %}
+
+    </select>
     </div>
 
     <div class="form-group">

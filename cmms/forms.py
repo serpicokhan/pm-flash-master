@@ -59,7 +59,7 @@ class WorkOrderForm(forms.ModelForm):
         else:
             return None
     def clean_summaryofIssue(self):
-         value= self.cleaned_data['summaryofIssue']
+         value= self.ama['summaryofIssue']
          return value
 
     #CustomerId = forms.ModelChoiceField(queryset=Customer.objects.all())
@@ -1367,18 +1367,19 @@ class MaintenanceTypeForm(forms.ModelForm):
         model = MaintenanceType
         fields = '__all__'
 class RingAmarForm(forms.ModelForm):
+    # makan=forms.CharField(required=False)
+    # makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+    # widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    # assetName= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(id__lte=1000),
+    # widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    # def clean_assetAmarDate(self):
+    #     if(self.cleaned_data['assetAmarDate']):
+    #          # print(self.cleaned_data['dateCompleted'],'datecompleted')
+    #          value=DateJob.getRingAmarDate( self.cleaned_data['assetAmarDate'])
+    #          return value
+    #     else:
+    #         return None
 
-    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
-    assetName= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.none(),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
-    def clean_assetAmarDate(self):
-        if(self.cleaned_data['assetAmarDate']):
-             print(self.cleaned_data['assetAmarDate'],'assetAmarDate')
-             value=DateJob.getDate2( self.cleaned_data['assetAmarDate'])
-             return value
-        else:
-            return None
 
     class Meta:
         model = RingAmar

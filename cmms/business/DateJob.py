@@ -78,6 +78,26 @@ class DateJob:
         except Exception as error:
                 print(error)
     @staticmethod
+    def getRingAmarDate(dt1):
+        try:
+            if(dt1==""):
+                return ""
+
+            y=None
+            y=str(dt1).split("-")
+            #y=str(dt).split("-")
+            if(len(y)==3):
+                year=int(y[0])
+                month=int(y[1])
+                day=int(y[2])
+                # print(jdatetime.date(year,month,day).togregorian(),"$$$$$$$$$$$$$$$$$$$")
+
+                return jdatetime.date(year,month,day).togregorian()
+            else:
+                return datetime.date.today()
+        except Exception as error:
+                print(error)
+    @staticmethod
     def getmdate(dt1):
         print(dt1,'!!!!!!!!!!!!!!!@#!@#!@#@!')
         if(dt1==""):
@@ -127,7 +147,7 @@ class DateJob:
     #for schedule form only
     @staticmethod
     def getDate2(dt1):
-        print(dt1)
+        # print(dt1)
         # print(dt1,"#@#@#@")
 
         if(not dt1):
@@ -145,7 +165,7 @@ class DateJob:
             month=int(y[1])
             day=int(y[2])
             # print("###############43####$$$$$$$$$$$$$$$$$$$$$$$")
-            # print(jdatetime.date(year,month,day).togregorian(),"$$$#$#$#$#################")
+            print(jdatetime.date(year,month,day).togregorian(),"$$$#$#$#$#################")
             return jdatetime.date(year,month,day).togregorian()
         else:
             print("else")
@@ -250,6 +270,13 @@ class DateJob:
         updated_request = request.POST.copy()
         updated_request.update({'requiredCompletionDate': new_date})
         updated_request.update({'datecreated': new_date2})
+        return updated_request
+    @staticmethod
+    def clean_ringamar(request):
+        xxx=request.POST.get('assetAmarDate','!!!!')
+        new_date=DateJob.getTaskDate(xxx)
+        updated_request = request.POST.copy()
+        updated_request.update({'assetAmarDate': new_date})
         return updated_request
     ###################################################################
     @staticmethod

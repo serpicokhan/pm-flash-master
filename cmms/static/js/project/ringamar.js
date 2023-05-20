@@ -11,19 +11,22 @@ $(function () {
       btn=btn1;
     }
     //console.log($(btn).attr("type"));
-    //console.log($(btn).attr("data-url"));
+    // console.log(btn.attr("data-url")+'?q='+$("#id_assetName").val());
     return $.ajax({
-      url: btn.attr("data-url"),
+      url: btn.attr("data-url")+'?q='+$("#id_makan").val(),
       type: 'get',
       dataType: 'json',
-      beforeSend: function () {
-        //alert(btn.attr("data-url"));
-        //alert("321321");
-        // /$("#modal-ringAmar").modal("hide");
+      beforeSend: function (xhr,x) {
+        if($("#id_assetName").val()=== null ||$("#id_assetName").val()==='' ){
+          toastr.error("مکان را انتخاب نمایید");
+          xhr.abort();
+          return;
+        }
+
         $("#modal-company").modal("show");
+
       },
       success: function (data) {
-        //alert("3123@!");
         $("#modal-company .modal-content").html(data.html_ringAmar_form);
         $('#id_assetAmarDate').pDatepicker({
           format: 'YYYY-MM-DD',
@@ -40,6 +43,7 @@ $(function () {
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveForm= function () {
    var form = $(this);
+   console.log(form.serialize());
 
    $.ajax({
      url: form.attr("action"),
@@ -68,38 +72,41 @@ var saveForm= function () {
    });
    return false;
  };
+var applyForm= function () {
 
-/*
- $('#modal-company').on('hidden.bs.modal', function () {
-   alert("321321");
-   console.log($("#lastWorkOrderid").val());
+   var form = $("#amarform");
+   console.log(form.serialize());
+
    $.ajax({
-     url: '/WorkOrder/'+$("#lastWorkOrderid").val()+'/deleteChildren',
-
-
-
+     url: form.attr("action"),
+     data: form.serialize(),
+     type: form.attr("method"),
+     dataType: 'json',
+     errors:function(x,y,z){
+       console.log(x);
+       console.log(y);
+       console.log(z);
+     },
      success: function (data) {
        if (data.form_is_valid) {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
-         //$("#tbody_company").empty();
-         //$("#tbody_company").html(data.html_wo_list);
-         //$("#modal-company").modal("hide");
-         //console.log(data.html_wo_list);
+         $("#tbody_company").empty();
+         $("#tbody_company").html(data.html_ringAmar_list);
+         toastr.success("اطلاعات با موفقت درج شد");
+         $("input[type=text][name!=assetAmarDate], textarea").val("");
+         $("input[type=number], textarea").val("0");
+
+
+        // console.log(data.html_ringAmar_list);
        }
        else {
+         toastr.error("ورودیهای خود را مجدد چک کنید");
 
-         $("#company-table tbody").html(data.html_wo_list);
-         $("#modal-company .modal-content").html(data.html_form);
        }
      }
    });
-
-
-  // do something…
-});
-*/
- //alert("321312");
- // Create book
+   return false;
+ };
 
 
 
@@ -124,6 +131,7 @@ $("#modal-company").on("submit", ".js-ringAmar-create-form", saveForm);
 // Update book
 $("#company-table").on("click", ".js-update-ringAmar", myWoLoader);
 $("#modal-company").on("submit", ".js-ringAmar-update-form", saveForm);
+$("#modal-company").on("click", ".create-next", applyForm);
 // Delete book
 $("#company-table").on("click", ".js-delete-ringAmar", loadForm);
 $("#modal-company").on("submit", ".js-ringAmar-delete-form", saveForm);
