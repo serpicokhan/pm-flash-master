@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 from cmms.models import Asset
 from cmms.models import SysUser
+import jdatetime
 Shift=(
 
     ('A','A'),
@@ -24,7 +25,12 @@ class RingAmar(models.Model):
     assetAmarDate=models.DateField("تاریخ",default=datetime.now,blank=True,null=True)
     timestamp=models.DateTimeField(auto_now_add=True)
     userRegisterd=models.ForeignKey(SysUser,on_delete=models.CASCADE,blank=True,null=True,verbose_name="کاربر ثبت کننده")
+    def get_jalali(self):
+        if(self.assetAmarDate):
+            return jdatetime.date.fromgregorian(date=self.assetAmarDate)
+        return "بدون تاریخ"
+
     class Meta:
       db_table = "ringamar"
-      ordering = ('-assetAmarDate', )
+      ordering = ('-assetAmarDate','-id' )
       unique_together = ['ShiftTypes', 'assetName','assetAmarDate']
