@@ -195,7 +195,6 @@ def save_asset_form(request, form, template_name,id=None,page=None):
             data['form_is_valid'] = False
     # print(page,"!!!!!!!!!!!!!!")
     main_asset=request.GET.get('main_asset',False)
-
     context = {'form': form,'lId':id,'page':page if page is not None else 1,'main_asset':main_asset}
 
     data['html_asset_form'] = render_to_string(template_name, context, request=request)
@@ -333,6 +332,8 @@ def get_assetCategoryMain(request,ids):
             'asset': wos,
             'perms': PermWrapper(request.user)
         })
+
+
     else:
 
         m=AssetUtility.getCategory()
