@@ -525,6 +525,8 @@ urlpatterns = [
           url(r'^MaintenanceType/(?P<id>\d+)/update/$', maintenanceType_update, name='maintenanceType_update'),
 
           url(r'^RingAmar/$',list_ringAmar,name='list_ringAmar'),
+          url(r'^RingAmar/GetMax/$',get_max_kilometer,name='get_max_kilometer'),
+          url(r'^RingAmar/GetMaxTime/$',get_max_time,name='get_max_time'),
           url(r'^RingAmar/GetOpName$',getAmarOpName,name='getAmarOpName'),
           url(r'^RingAmar/create/$', ringAmar_create, name='ringAmar_create'),
           url(r'^RingAmar/(?P<id>\d+)/delete/$', ringAmar_delete, name='ringAmar_delete'),

@@ -155,15 +155,69 @@ var applyForm= function () {
 
    //initLoad();
  }
+var loadkilometer=function(){
+  if(  $("#id_assetStartKilometer").val()===null ||   $("#id_assetStartKilometer").val()==0){
+  $.ajax({
+    url: '/RingAmar/GetMax/?asset_id='+$("#id_assetName").val()+'&shift='+$("#id_ShiftTypes").val()+'&date='+$("#id_assetAmarDate").val(),
 
+    type: 'get',
+    dataType: 'json',
+    errors:function(x,y,z){
+      console.log(x);
+      console.log(y);
+      console.log(z);
+    },
+    success: function (data) {
+      console.log(data);
+      $("#id_assetStartKilometer").val(data.x);
+    }
+  });
+}
+}
+var loadTime=function(){
+  $.ajax({
+    url: '/RingAmar/GetMaxTime/?asset_id='+$("#id_assetName").val()+'&shift='+$("#id_ShiftTypes").val()+'&date='+$("#id_assetAmarDate").val(),
 
+    type: 'get',
+    dataType: 'json',
+    errors:function(x,y,z){
+      console.log(x);
+      console.log(y);
+      console.log(z);
+    },
+    success: function (data) {
+      console.log(data);
+      $("#id_assetStartTime").val(data.x);
+    }
+  });
+}
 
+var subkilometer=function(){
+  var x1=$("#id_assetStartKilometer").val();
+  var x2=$("#id_assetEndKilometer").val();
+  // console.log(x1,x2);
+  var x3=x2-x1;
+  // console.log(x3);
+  $("#id_assetTotlaKilometer").val(Math.abs(x3));
+}
+var subTime=function(){
+  var x1=$("#id_assetStartTime").val();
+  var x2=$("#id_assetEndTime").val();
+  // console.log(x1,x2);
+  var x3=x2-x1;
+  // console.log(x3);
+  $("#id_assetTotalTime").val(Math.abs(x3));
+}
 $(".js-create-ringAmar").click(myWoLoader);
 $("#modal-company").on("submit", ".js-ringAmar-create-form", saveForm);
 
 // Update book
 $("#company-table").on("click", ".js-update-ringAmar", myWoLoader);
 $("#modal-company").on("submit", ".js-ringAmar-update-form", saveForm);
+$("#modal-company").on("focus", "#id_assetStartKilometer", loadkilometer);
+// $("#modal-company").on("focus", "#id_assetStartTime", loadTime);
+$("#modal-company").on("focus", "#id_assetTotlaKilometer", subkilometer);
+$("#modal-company").on("focus", "#id_assetTotalTime", subTime);
 $("#modal-company").on("click", ".create-next", applyForm);
 // Delete book
 $("#company-table").on("click", ".js-delete-ringAmar", loadForm);

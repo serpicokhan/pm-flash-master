@@ -33,6 +33,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from cmms.business.amarutility import AmarUtility
 from cmms.business.DateJob import *
+from django.db.models import Max
 @permission_required('cmms.view_ringamar')
 def list_ringAmar(request,id=None):
     #
@@ -144,3 +145,25 @@ def getAmarOpName(request):
         return JsonResponse(list(results), safe=False)
     return data
 ##########################################################
+def get_max_kilometer(request):
+    data=dict()
+    # max_value = MyModel.objects.aggregate(max_value=Max('my_field'))['max_value']
+    # max=Ama
+    asset=request.GET.get("asset_id",0)
+    print(asset)
+    shift=request.GET.get("shift",0)
+    date=request.GET.get("date",0)
+    date=DateJob.getTaskDate(date)
+    data["x"]=RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('assetEndKilometer'))['max_value']
+    return JsonResponse(data)
+def get_max_time(request):
+    data=dict()
+    # max_value = MyModel.objects.aggregate(max_value=Max('my_field'))['max_value']
+    # max=Ama
+    asset=request.GET.get("asset_id",0)
+    print(asset)
+    shift=request.GET.get("shift",0)
+    date=request.GET.get("date",0)
+    date=DateJob.getTaskDate(date)
+    data["x"]=RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('assetEndTime'))['max_value']
+    return JsonResponse(data)
