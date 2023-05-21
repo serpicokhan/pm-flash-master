@@ -50,8 +50,9 @@ def save_ringAmar_form(request, form, template_name,id=None,cnn=None):
 
     data = dict()
     if (request.method == 'POST'):
-        print("here!")
         if form.is_valid():
+            form.save(commit=False)
+            form.instance.userRegisterd=SysUser.objects.get(userId=request.user)
             form.save()
             data['form_is_valid'] = True
             books = RingAmar.objects.all()
@@ -124,12 +125,22 @@ def ringAmar_update(request, id):
     company= get_object_or_404(RingAmar, id=id)
     template=""
     if (request.method == 'POST'):
-        form = RingAmarForm(request.POST, instance=company)
+        form = RingAmarForm(DateJob.clean_ringamar(request),instance=company)
+        # form = RingAmarForm(request.POST, instance=company)
     else:
+        asset=request.GET.get("q",False)
+        assetName2=Asset.objects.filter(assetIsLocatedAt__id=asset)
         form = RingAmarForm(instance=company)
+        return save_ringAmar_form(request, form,"cmms/ringamar/partialRingAmarUpdate.html",id,cnn=assetName2)
 
 
     return save_ringAmar_form(request, form,"cmms/ringamar/partialRingAmarUpdate.html",id)
 ##########################################################
-
+def getAmarOpName(request):
+    data=dict()
+    qry=request.GET.get("qry",False)
+    if(qry):
+        results=RingAmar.objects.filter(operatorName__contains=qry).values("operatorName")
+        return JsonResponse(list(results), safe=False)
+    return data
 ##########################################################

@@ -33,6 +33,39 @@ $(function () {
           autoClose: true,
           initialValueType: 'gregorian'
         });
+        $('.advanced2AutoComplete').autoComplete({
+					resolver: 'custom',
+          minChars:1,
+					formatResult: function (item) {
+						return {
+							value: item.operatorName,
+							text:  item.operatorName,
+
+						};
+					},
+					events: {
+						search: function (qry, callback) {
+							// let's do a custom ajax call
+							$.ajax(
+								'/RingAmar/GetOpName',
+								{
+									data: { 'qry': qry}
+								}
+							).done(function (res) {
+                console.log(res);
+								callback(res)
+							});
+						},
+
+					}
+				});
+        $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
+          console.log("here",item);
+					$("#id_operatorName").val(item.operatorName);
+          $('#id_operatorName').val(item.operatorName).trigger('change');
+          // console.log($('#id_woPartStock').val());
+					// $('.basicAutoCompleteCustom').html('');
+				});
 
       }
     });

@@ -525,6 +525,7 @@ urlpatterns = [
           url(r'^MaintenanceType/(?P<id>\d+)/update/$', maintenanceType_update, name='maintenanceType_update'),
 
           url(r'^RingAmar/$',list_ringAmar,name='list_ringAmar'),
+          url(r'^RingAmar/GetOpName$',getAmarOpName,name='getAmarOpName'),
           url(r'^RingAmar/create/$', ringAmar_create, name='ringAmar_create'),
           url(r'^RingAmar/(?P<id>\d+)/delete/$', ringAmar_delete, name='ringAmar_delete'),
           url(r'^RingAmar/(?P<id>\d+)/update/$', ringAmar_update, name='ringAmar_update'),
