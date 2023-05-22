@@ -42,12 +42,22 @@ from django.db import  transaction
 
 
 def filterUser(request):
+    main_asset=request.GET.get('main_asset',False)
+    search_term=request.GET.get('search',False)
+
+
+
+
+
     user1=SysUser.objects.get(userId=request.user)
     books=Asset.objects.none()
     if(( not user1.userId.groups.filter(name__in= ('manager','operator')).exists())):
         books = Asset.objects.filter(Q(id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
     else:
         books=Asset.objects.all().order_by('-id')
+    if(main_asset):
+            print('mainasset',main_asset)
+            books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset)|Q(id=main_asset))
     return books
 def filterUserByResult(request,books):
     # books=Asset.objects.none()
@@ -185,7 +195,6 @@ def save_asset_form(request, form, template_name,id=None,page=None):
             data['form_is_valid'] = False
     # print(page,"!!!!!!!!!!!!!!")
     main_asset=request.GET.get('main_asset',False)
-    print('main_asset',main_asset)
     context = {'form': form,'lId':id,'page':page if page is not None else 1,'main_asset':main_asset}
 
     data['html_asset_form'] = render_to_string(template_name, context, request=request)
