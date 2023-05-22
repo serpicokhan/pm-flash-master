@@ -1,7 +1,65 @@
 
 $(function () {
 
+  var senddata=function(){
+    var data = [];
+        $('#company-table tr:not(:first-child)').each(function() {
+          var id=$(this).attr('data-id');
+          var radif = $(this).find('td:eq(0)').text();
+          var assetAmarDate = $(this).find('td:eq(1)').attr('data-date');
+          var assetName = $(this).find('td:eq(2)').attr('data-assetname');
+          var shift = $(this).find('td:eq(3)').text();
+          var assetStartKilometer = $(this).find('td:eq(4)').text();
+          var assetEndKilometer = $(this).find('td:eq(5)').text();
+          var assetTotlaKilometer = $(this).find('td:eq(6)').text();
+          var assetStartTime = $(this).find('td:eq(7)').text();
+          var assetEndTime = $(this).find('td:eq(8)').text();
+          var assetTotalTime = $(this).find('td:eq(9)').text();
+          var operatorName = $(this).find('td:eq(10)').text();
+          data.push({ id: id, radif: radif,assetAmarDate: assetAmarDate, assetName: assetName,shift: shift
+            , assetStartKilometer: assetStartKilometer,assetEndKilometer: assetEndKilometer, assetTotlaKilometer: assetTotlaKilometer
+            ,assetStartTime: assetStartTime, assetEndTime: assetEndTime, assetTotalTime: assetTotalTime, operatorName: operatorName });
+        });
+        console.log(JSON.stringify(data));
 
+    $.ajax({
+      url: '/RingAmar/SaveTableInfo',
+         method: 'GET',
+         data: JSON.stringify(data),
+         contentType: 'application/json',
+         success: function(response) {
+           // Handle the response from the server
+           console.log('Data sent successfully');
+         },
+         error: function(xhr, status, error) {
+           // Handle the error
+           console.log('Error sending data:', error);
+         }
+    });
+  }
+  $("#btncreate").click(function(){
+    $.ajax({
+      url: '/RingAmar/LoadTableInfo?makan='+mak_val+'&dt='+$("#dttext").val()+'&shift='+$("#shift").val(),
+      type: 'get',
+      dataType: 'json',
+      success: function (data) {
+        if (data.form_is_valid) {
+          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+        $("#tbody_amar").html('');
+        $("#tbody_amar").html(data.amar);
+        }
+        else {
+
+        toastr.error("خطایی بوجود آمده لطفا مجددا سعی نمایید");
+        }
+      }
+    });
+  });
+  $('#dttext').pDatepicker({
+    format: 'YYYY-MM-DD',
+    autoClose: true,
+    initialValueType: 'gregorian'
+  });
   var loadForm =function (btn1) {
     var btn=0;
     //console.log(btn1);
@@ -221,6 +279,7 @@ $("#modal-company").on("focus", "#id_assetTotalTime", subTime);
 $("#modal-company").on("click", ".create-next", applyForm);
 // Delete book
 $("#company-table").on("click", ".js-delete-ringAmar", loadForm);
+$(".savetableinfo").on("click", senddata);
 $("#modal-company").on("submit", ".js-ringAmar-delete-form", saveForm);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);
 });

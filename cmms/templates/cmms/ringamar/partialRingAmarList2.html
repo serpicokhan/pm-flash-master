@@ -1,0 +1,29 @@
+{% for ring_amar in ringAmar %}
+
+<tr data-id={{ring_amar.id}}>
+<td contenteditable="true"> {{ forloop.counter }}</td>
+<td contenteditable="true" class='dt' data-date={{ring_amar.assetAmarDate}}>{{ring_amar.get_jalali}}</td>
+<td data-assetname={{ring_amar.assetName.id}}>{{ring_amar.assetName}}</td>
+<td >{{ring_amar.get_ShiftTypes_display}}</td>
+<td contenteditable="true"></td>
+<td contenteditable="true"></td>
+<td contenteditable="true"></td>
+<td contenteditable="true"></td>
+<td contenteditable="true"></td>
+<td contenteditable="true"></td>
+<td contenteditable="true"></td>
+<td contenteditable="true">0</td>
+
+
+
+
+
+
+
+
+
+
+</tr>
+
+
+{% endfor %}

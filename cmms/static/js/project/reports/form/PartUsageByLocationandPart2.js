@@ -22,6 +22,7 @@ $("#id_makan").change(function(){
       }
     }
   });
+
 });
 //
 $("#id_assetType").change(function(){

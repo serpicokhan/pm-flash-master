@@ -34,14 +34,16 @@ from rest_framework import status
 from cmms.business.amarutility import AmarUtility
 from cmms.business.DateJob import *
 from django.db.models import Max
+from django.db import IntegrityError
+from django.views.decorators.csrf import csrf_exempt
 @permission_required('cmms.view_ringamar')
 def list_ringAmar(request,id=None):
     #
-    books = RingAmar.objects.all()
-    wo=AmarUtility.doPaging(request,books)
+    books = RingAmar.objects.none()
+    # wo=AmarUtility.doPaging(request,books)
 
     assetMakan=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
-    return render(request, 'cmms/ringamar/ringAmarList.html', {'ringAmar': wo,'section':'list_ringAmar','makan':assetMakan})
+    return render(request, 'cmms/ringamar/ringAmarList2.html', {'ringAmar': books,'section':'list_ringAmar','makan':assetMakan})
 
 
 ##########################################################
@@ -166,4 +168,41 @@ def get_max_time(request):
     date=request.GET.get("date",0)
     date=DateJob.getTaskDate(date)
     data["x"]=RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('assetEndTime'))['max_value']
+    return JsonResponse(data)
+def loadAmarTableInfo(request):
+    makan=request.GET.get("makan",False)
+    dt=request.GET.get("dt",False)
+    shift=request.GET.get("shift",False)
+    date1=DateJob.getTaskDate(dt)
+    data=dict()
+    x1=''
+    y1=''
+    if(makan):
+        asset=Asset.objects.filter(assetTypes=2,assetIsLocatedAt__id=makan).order_by('assetName')[:2]
+
+        try:
+            amar=[]
+            for i in asset:
+
+                j=RingAmar.objects.create(assetName=i,assetAmarDate=date1,userRegisterd=SysUser.objects.get(userId=request.user),ShiftTypes=shift)
+                amar.append(j)
+
+        except IntegrityError:
+            amar=RingAmar.objects.filter(assetName=i,assetAmarDate=date1,ShiftTypes=shift)
+
+
+        data['amar']= render_to_string('cmms/ringamar/partialRingAmarList2.html', {
+            'ringAmar': amar,
+            'perms': PermWrapper(request.user),
+
+        })
+
+        data['form_is_valid']=True
+
+    return JsonResponse(data)
+@csrf_exempt
+def saveAmarTableInfo(request):
+    print(request)
+    print(request.POST)
+    data=dict()
     return JsonResponse(data)
