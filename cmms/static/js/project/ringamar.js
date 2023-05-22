@@ -24,7 +24,7 @@ $(function () {
 
     $.ajax({
       url: '/RingAmar/SaveTableInfo',
-         method: 'GET',
+         method: 'POST',
          data: JSON.stringify(data),
          contentType: 'application/json',
          success: function(response) {

@@ -202,7 +202,11 @@ def loadAmarTableInfo(request):
     return JsonResponse(data)
 @csrf_exempt
 def saveAmarTableInfo(request):
-    print(request)
-    print(request.POST)
+    # print(request.body)
+    # print(request.POST)
+    data = json.loads(request.body)
+    for i in data:
+        print(i)
+        print("********")
     data=dict()
     return JsonResponse(data)
