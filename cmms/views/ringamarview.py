@@ -178,17 +178,28 @@ def loadAmarTableInfo(request):
     x1=''
     y1=''
     if(makan):
-        asset=Asset.objects.filter(assetTypes=2,assetIsLocatedAt__id=makan).order_by('assetName')[:2]
-
-        try:
+        asset=Asset.objects.filter(assetTypes=2,assetIsLocatedAt__id=makan).order_by('assetName')
+        amar=RingAmar.objects.filter(assetName__assetIsLocatedAt__id=makan,assetAmarDate=date1,ShiftTypes=shift)
+        if(amar.count()==0):
+            print("0")
             amar=[]
             for i in asset:
 
-                j=RingAmar.objects.create(assetName=i,assetAmarDate=date1,userRegisterd=SysUser.objects.get(userId=request.user),ShiftTypes=shift)
-                amar.append(j)
+                    j=RingAmar.objects.create(assetName=i,assetAmarDate=date1,userRegisterd=SysUser.objects.get(userId=request.user),ShiftTypes=shift)
+                    amar.append(j)
 
-        except IntegrityError:
-            amar=RingAmar.objects.filter(assetName=i,assetAmarDate=date1,ShiftTypes=shift)
+
+        # j=RingAmar.objects.filter(assetName__assetIsLocatedAt__id=makan=,assetAmarDate=date1,userRegisterd=SysUser.objects.get(userId=request.user),ShiftTypes=shift)
+
+        # try:
+        #     amar=[]
+        #     for i in asset:
+        #
+        #         j=RingAmar.objects.create(assetName=i,assetAmarDate=date1,userRegisterd=SysUser.objects.get(userId=request.user),ShiftTypes=shift)
+        #         amar.append(j)
+        #
+        # except IntegrityError:
+        #     amar=RingAmar.objects.filter(assetName=i,assetAmarDate=date1,ShiftTypes=shift)
 
 
         data['amar']= render_to_string('cmms/ringamar/partialRingAmarList2.html', {
@@ -205,8 +216,26 @@ def saveAmarTableInfo(request):
     # print(request.body)
     # print(request.POST)
     data = json.loads(request.body)
+    print("********")
     for i in data:
-        print(i)
-        print("********")
+        # print(i)
+        # print("********")
+        if('id' in i):
+            amar=RingAmar.objects.get(id=i['id'])
+            amar.ShiftTypes=i["ShiftTypes"]
+            amar.assetName=Asset.objects.get(id=i["assetName"])
+            amar.assetStartKilometer=i["assetStartKilometer"]
+            amar.assetEndKilometer=i["assetEndKilometer"]
+            amar.assetTotlaKilometer=i["assetTotlaKilometer"]
+            amar.assetStartTime=i["assetStartTime"]
+            amar.assetEndTime=i["assetEndTime"]
+            amar.assetTotalTime=i["assetTotalTime"]
+            # amar.assetDaf=i["shift"]
+            amar.operatorName=i["operatorName"]
+            # amar.assetAmarDate=i["assetAmarDate"]
+            amar.assetDaf=i["assetDaf"]
+            amar.userRegisterd=SysUser.objects.get(userId=request.user)
+            amar.save()
+            print("done",amar.id)
     data=dict()
     return JsonResponse(data)

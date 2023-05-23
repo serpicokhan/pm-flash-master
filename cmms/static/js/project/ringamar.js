@@ -3,7 +3,7 @@ $(function () {
 
   var senddata=function(){
     var data = [];
-        $('#company-table tr:not(:first-child)').each(function() {
+        $('#company-table tr').each(function() {
           var id=$(this).attr('data-id');
           var radif = $(this).find('td:eq(0)').text();
           var assetAmarDate = $(this).find('td:eq(1)').attr('data-date');
@@ -16,9 +16,10 @@ $(function () {
           var assetEndTime = $(this).find('td:eq(8)').text();
           var assetTotalTime = $(this).find('td:eq(9)').text();
           var operatorName = $(this).find('td:eq(10)').text();
-          data.push({ id: id, radif: radif,assetAmarDate: assetAmarDate, assetName: assetName,shift: shift
+          var assetDaf = $(this).find('td:eq(11)').text();
+          data.push({ id: id, radif: radif,assetAmarDate: assetAmarDate, assetName: assetName,ShiftTypes: shift
             , assetStartKilometer: assetStartKilometer,assetEndKilometer: assetEndKilometer, assetTotlaKilometer: assetTotlaKilometer
-            ,assetStartTime: assetStartTime, assetEndTime: assetEndTime, assetTotalTime: assetTotalTime, operatorName: operatorName });
+            ,assetStartTime: assetStartTime, assetEndTime: assetEndTime, assetTotalTime: assetTotalTime, operatorName: operatorName, assetDaf: assetDaf });
         });
         console.log(JSON.stringify(data));
 

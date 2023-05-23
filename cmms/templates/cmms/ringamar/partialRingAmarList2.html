@@ -2,16 +2,17 @@
 
 <tr data-id={{ring_amar.id}}>
 <td contenteditable="true"> {{ forloop.counter }}</td>
-<td contenteditable="true" class='dt' data-date={{ring_amar.assetAmarDate}}>{{ring_amar.get_jalali}}</td>
+<td  class='dt' data-date={{ring_amar.assetAmarDate|date:"Y/m/d"}}>{{ring_amar.get_jalali}}</td>
 <td data-assetname={{ring_amar.assetName.id}}>{{ring_amar.assetName}}</td>
 <td >{{ring_amar.get_ShiftTypes_display}}</td>
-<td contenteditable="true"></td>
-<td contenteditable="true"></td>
-<td contenteditable="true"></td>
-<td contenteditable="true"></td>
-<td contenteditable="true"></td>
-<td contenteditable="true"></td>
-<td contenteditable="true"></td>
+<td contenteditable="true">{{ring_amar.assetStartKilometer}}</td>
+<td contenteditable="true">{{ring_amar.assetEndKilometer}}</td>
+<td contenteditable="true">{{ring_amar.assetTotlaKilometer}}</td>
+<td contenteditable="true">{{ring_amar.assetStartTime}}</td>
+<td contenteditable="true">{{ring_amar.assetEndTime}}</td>
+<td contenteditable="true">{{ring_amar.assetTotalTime}}</td>
+<td contenteditable="true">{{ring_amar.operatorName}}</td>
+<td contenteditable="true">{{ring_amar.assetDaf}}</td>
 <td contenteditable="true">0</td>
 
 
