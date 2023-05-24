@@ -3,8 +3,8 @@
 <tr data-id={{ring_amar.id}}>
 <td contenteditable="true"> {{ forloop.counter }}</td>
 <td  class='dt' data-date={{ring_amar.assetAmarDate|date:"Y/m/d"}}>{{ring_amar.get_jalali}}</td>
-<td data-assetname={{ring_amar.assetName.id}}>{{ring_amar.assetName}}</td>
-<td >{{ring_amar.get_ShiftTypes_display}}</td>
+<td data-assetname={{ring_amar.assetName.id}} class="assetname">{{ring_amar.assetName}}</td>
+<td class="shift">{{ring_amar.get_ShiftTypes_display}}</td>
 <td contenteditable="true" class="editable-cell stk selectable1">{{ring_amar.assetStartKilometer}}</td>
 <td contenteditable="true" class="editable-cell endk selectable1">{{ring_amar.assetEndKilometer}}</td>
 <td contenteditable="true" class="editable-cell totalk selectable1">{{ring_amar.assetTotlaKilometer}}</td>

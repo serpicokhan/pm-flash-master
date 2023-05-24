@@ -326,6 +326,64 @@ $('#company-table').on('focusout', '.stk, .endk', function() {
 
         row.find('.totalk').text(result.toFixed(2));
       });
+$('#company-table').on('focus', '.stk', function() {
+        var row = $(this).closest('tr');
+        var id=row.attr('data-id')
+        var col1 = row.find('.stk');
+        var shift = row.find('.shift').text();
+        var assetname = row.find('.assetname').attr('data-assetname');
+        // var column2Value = parseFloat(row.find('.endk').text()) || 0;
+        // var result = Math.abs(column1Value - column2Value);
+        //
+        // row.find('.totalk').text(result.toFixed(2));
+        // var cell=row.find('.totalk').text(result.toFixed(2));
+        if(  col1.text()===null ||   col1.text()==0){
+        $.ajax({
+          url: '/RingAmar/GetMax/?asset_id='+assetname+'&shift='+shift,//+'&date='+$("#id_assetAmarDate").val(),
+
+          type: 'get',
+          dataType: 'json',
+          errors:function(x,y,z){
+            console.log(x);
+            console.log(y);
+            console.log(z);
+          },
+          success: function (data) {
+            console.log(data);
+            col1.text(data.x);
+          }
+        });
+      }
+      });
+$('#company-table').on('focus', '.stt', function() {
+        var row = $(this).closest('tr');
+        var id=row.attr('data-id')
+        var col1 = row.find('.stt');
+        var shift = row.find('.shift').text();
+        var assetname = row.find('.assetname').attr('data-assetname');
+        // var column2Value = parseFloat(row.find('.endk').text()) || 0;
+        // var result = Math.abs(column1Value - column2Value);
+        //
+        // row.find('.totalk').text(result.toFixed(2));
+        // var cell=row.find('.totalk').text(result.toFixed(2));
+        if(  col1.text()===null ||   col1.text()==0){
+          $.ajax({
+            url: '/RingAmar/GetMaxTime/?asset_id='+assetname+'&shift='+shift,//+'&date='+$("#id_assetAmarDate").val(),
+
+            type: 'get',
+            dataType: 'json',
+            errors:function(x,y,z){
+              console.log(x);
+              console.log(y);
+              console.log(z);
+            },
+            success: function (data) {
+              console.log(data);
+              col1.text(data.x);
+            }
+          });
+      }
+      });
 $('#company-table').on('focusout', '.stt, .endt', function() {
         var row = $(this).closest('tr');
         var column1Value = parseFloat(row.find('.stt').text()) || 0;
