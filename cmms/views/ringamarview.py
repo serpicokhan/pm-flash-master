@@ -179,9 +179,8 @@ def loadAmarTableInfo(request):
     y1=''
     if(makan):
         asset=Asset.objects.filter(assetTypes=2,assetIsLocatedAt__id=makan).order_by('assetName')
-        amar=RingAmar.objects.filter(assetName__assetIsLocatedAt__id=makan,assetAmarDate=date1,ShiftTypes=shift)
+        amar=RingAmar.objects.filter(assetName__assetIsLocatedAt__id=makan,assetAmarDate=date1,ShiftTypes=shift).order_by('assetName')
         if(amar.count()==0):
-            print("0")
             amar=[]
             for i in asset:
 

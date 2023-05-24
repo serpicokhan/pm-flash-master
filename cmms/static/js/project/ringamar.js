@@ -1,3 +1,46 @@
+// var isCtrlPressed = false;
+// var selectedCells = [];
+//
+//     $(document).keydown(function(event) {
+//       if (event.which === 17) { // 17 is the key code for Control (Ctrl)
+//         isCtrlPressed = true;
+//       }
+//     });
+//
+//     $(document).keyup(function(event) {
+//       if (event.which === 17) { // 17 is the key code for Control (Ctrl)
+//         isCtrlPressed = false;
+//       }
+//     });
+//
+//         // Event delegation for cell click event
+//         $('#company-table').on('click', 'td[contenteditable="true"]', function(event) {
+//           if (isCtrlPressed) {
+//             $(this).toggleClass('selected');
+//
+//             var cellValue = $(this).html();
+//             var cellIndex = $(this).index();
+//             var rowIndex = $(this).closest('tr').index();
+//             var cellKey = rowIndex + '-' + cellIndex;
+//
+//             if ($(this).hasClass('selected')) {
+//               selectedCells[cellKey] = cellValue;
+//             } else {
+//               delete selectedCells[cellKey];
+//             }
+//           }
+//         });
+//
+//         // Event delegation for cell blur event
+//         $('#company-table').on('blur', 'td[contenteditable="true"]', function(event) {
+//           if (isCtrlPressed) {
+//             var newValue = $(this).html();
+//             for (var cellKey in selectedCells) {
+//               var cell = $('#' + cellKey);
+//               cell.html(newValue);
+//             }
+//           }
+//         });
 
 $(function () {
 
@@ -5,18 +48,18 @@ $(function () {
     var data = [];
         $('#company-table tr').each(function() {
           var id=$(this).attr('data-id');
-          var radif = $(this).find('td:eq(0)').text();
-          var assetAmarDate = $(this).find('td:eq(1)').attr('data-date');
-          var assetName = $(this).find('td:eq(2)').attr('data-assetname');
-          var shift = $(this).find('td:eq(3)').text();
-          var assetStartKilometer = $(this).find('td:eq(4)').text();
-          var assetEndKilometer = $(this).find('td:eq(5)').text();
-          var assetTotlaKilometer = $(this).find('td:eq(6)').text();
-          var assetStartTime = $(this).find('td:eq(7)').text();
-          var assetEndTime = $(this).find('td:eq(8)').text();
-          var assetTotalTime = $(this).find('td:eq(9)').text();
-          var operatorName = $(this).find('td:eq(10)').text();
-          var assetDaf = $(this).find('td:eq(11)').text();
+          var radif = $(this).find('td:eq(0)').text()||0;
+          var assetAmarDate = $(this).find('td:eq(1)').attr('data-date')||0;
+          var assetName = $(this).find('td:eq(2)').attr('data-assetname')||0;
+          var shift = $(this).find('td:eq(3)').text()||0;
+          var assetStartKilometer = $(this).find('td:eq(4)').text()||0;
+          var assetEndKilometer = $(this).find('td:eq(5)').text()||0;
+          var assetTotlaKilometer = $(this).find('td:eq(6)').text()||0;
+          var assetStartTime = $(this).find('td:eq(7)').text()||0;
+          var assetEndTime = $(this).find('td:eq(8)').text()||0;
+          var assetTotalTime = $(this).find('td:eq(9)').text()||0;
+          var operatorName = $(this).find('td:eq(10)').text()||'';
+          var assetDaf = $(this).find('td:eq(11)').text()||0;
           data.push({ id: id, radif: radif,assetAmarDate: assetAmarDate, assetName: assetName,ShiftTypes: shift
             , assetStartKilometer: assetStartKilometer,assetEndKilometer: assetEndKilometer, assetTotlaKilometer: assetTotlaKilometer
             ,assetStartTime: assetStartTime, assetEndTime: assetEndTime, assetTotalTime: assetTotalTime, operatorName: operatorName, assetDaf: assetDaf });
@@ -92,39 +135,7 @@ $(function () {
           autoClose: true,
           initialValueType: 'gregorian'
         });
-        $('.advanced2AutoComplete').autoComplete({
-					resolver: 'custom',
-          minChars:1,
-					formatResult: function (item) {
-						return {
-							value: item.operatorName,
-							text:  item.operatorName,
 
-						};
-					},
-					events: {
-						search: function (qry, callback) {
-							// let's do a custom ajax call
-							$.ajax(
-								'/RingAmar/GetOpName',
-								{
-									data: { 'qry': qry}
-								}
-							).done(function (res) {
-                console.log(res);
-								callback(res)
-							});
-						},
-
-					}
-				});
-        $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
-          console.log("here",item);
-					$("#id_operatorName").val(item.operatorName);
-          $('#id_operatorName').val(item.operatorName).trigger('change');
-          // console.log($('#id_woPartStock').val());
-					// $('.basicAutoCompleteCustom').html('');
-				});
 
       }
     });
@@ -132,6 +143,42 @@ $(function () {
 
 
 };
+// $('#company-table').on('focus', '.advanced2AutoComplete', function() {
+//   $('advanced2AutoComplete').autoComplete({
+//     resolver: 'custom',
+//     minChars:1,
+//     formatResult: function (item) {
+//       return {
+//         value: item.operatorName,
+//         text:  item.operatorName,
+//
+//       };
+//     },
+//     events: {
+//       search: function (qry, callback) {
+//         // let's do a custom ajax call
+//         $.ajax(
+//           '/RingAmar/GetOpName',
+//           {
+//             data: { 'qry': qry}
+//           }
+//         ).done(function (res) {
+//           console.log(res);
+//           callback(res)
+//         });
+//       },
+//
+//     }
+//   });
+//   $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
+//     console.log("here",item);
+//     $(this).val(item.operatorName);
+//     $(this).val(item.operatorName).trigger('change');
+//     // console.log($('#id_woPartStock').val());
+//     // $('.basicAutoCompleteCustom').html('');
+//   });
+//     });
+
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveForm= function () {
    var form = $(this);
@@ -267,10 +314,69 @@ var subTime=function(){
   // console.log(x3);
   $("#id_assetTotalTime").val(Math.abs(x3));
 }
+
+
+
+
+$('#company-table').on('focusout', '.stk, .endk', function() {
+        var row = $(this).closest('tr');
+        var column1Value = parseFloat(row.find('.stk').text()) || 0;
+        var column2Value = parseFloat(row.find('.endk').text()) || 0;
+        var result = Math.abs(column1Value - column2Value);
+
+        row.find('.totalk').text(result.toFixed(2));
+      });
+$('#company-table').on('focusout', '.stt, .endt', function() {
+        var row = $(this).closest('tr');
+        var column1Value = parseFloat(row.find('.stt').text()) || 0;
+        var column2Value = parseFloat(row.find('.endt').text()) || 0;
+        var result = Math.abs(column1Value - column2Value);
+
+        row.find('.totalt').text(result.toFixed(2));
+      });
+$('#company-table').on('keydown', '.editable-cell', function(e) {
+       var keyCode = e.keyCode || e.which;
+
+       if (keyCode === 13) { // Enter key
+         e.preventDefault();
+
+         // Find the current cell and its parent row
+         var currentCell = $(this);
+         var currentRow = currentCell.closest('tr');
+
+         // Find the next row and the corresponding cell in the same column
+         var nextRow = currentRow.next('tr');
+         var nextCell = nextRow.find('td:eq(' + currentCell.index() + ')');
+
+         if (nextCell.length > 0) {
+           nextCell.focus();
+         } else {
+           // If there is no next cell in the same column, move to the first cell of the next row
+           nextRow = currentRow.next('tr');
+           nextCell = nextRow.find('td:eq(0)');
+           if (nextCell.length > 0) {
+             nextCell.focus();
+           }
+         }
+       }
+     });
+
 $(".js-create-ringAmar").click(myWoLoader);
 $("#modal-company").on("submit", ".js-ringAmar-create-form", saveForm);
 
 // Update book
+$('#company-table').on('focus', 'td[contenteditable="true"]', function() {
+     selectText(this);
+   });
+
+   function selectText(element) {
+     var range = document.createRange();
+     range.selectNodeContents(element);
+
+     var selection = window.getSelection();
+     selection.removeAllRanges();
+     selection.addRange(range);
+   }
 $("#company-table").on("click", ".js-update-ringAmar", myWoLoader);
 $("#modal-company").on("submit", ".js-ringAmar-update-form", saveForm);
 $("#modal-company").on("focus", "#id_assetStartKilometer", loadkilometer);
