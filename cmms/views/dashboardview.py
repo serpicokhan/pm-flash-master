@@ -25,6 +25,7 @@ from cmms.business.misccost import *
 from cmms.business.DateJob import *
 from cmms.business.WOUtility import *
 from cmms.business.AssetUtility import *
+from cmms.business.amarutility import *
 from cmms.business.UserUtility import *
 from cmms.business.PartUtility import *
 from django.contrib.auth.decorators import login_required
@@ -42,7 +43,13 @@ def index(request):
     ###################################################################
 @login_required
 def list_dashboard_ceo(request):
-    return render(request,"cmms/dashboards/ceo.html",{"today" : 1})
+    user1=SysUser.objects.get(userId=request.user)
+    # print("here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    request.session['userpic'] = str(user1.profileImage)
+    request.session['username'] = str(user1.fullName)
+    request.session['usertitle'] = str(user1.title)
+    darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
+    return render(request,"cmms/dashboards/ceo.html",{"darayee" : darayee})
 @login_required
 def list_dashboard(request):
     today=1
@@ -458,6 +465,45 @@ def dash_getDashMTTR(request,startHijri,endHijri):
     for i in mttrs:
          s1.append(float(i.id))
          s2.append(str(jdatetime.date.fromgregorian(date=i.dt1)))
+    data['html_dashMTTR_list'] ={
+                's1': s1,
+                's2':s2
+
+            }
+    return JsonResponse(data)
+############################################
+def dash_getDashTolid(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    loc=request.GET.get('loc',False)
+    amar=AmarUtility.getTolid(start,end,location=loc)
+    s1=[]
+    s2=[]
+    for i in amar:
+         s1.append(float(i.id))
+         s2.append(str(jdatetime.date.fromgregorian(date=i.assetAmarDate)))
+    # print(amar)
+    data['html_dashMTTR_list'] ={
+                's1': s1,
+                's2':s2
+
+            }
+    return JsonResponse(data)
+############################################
+def dash_getDashTolidTime(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    loc=request.GET.get('loc',False)
+    if(loc=='6961'):
+        amar=AmarUtility.getTolid(start,end,location=loc)
+    else:
+        amar=AmarUtility.getTolidTime(start,end,location=loc)
+    s1=[]
+    s2=[]
+    for i in amar:
+         s1.append(float(i.id))
+         s2.append(str(jdatetime.date.fromgregorian(date=i.assetAmarDate)))
+    # print(amar)
     data['html_dashMTTR_list'] ={
                 's1': s1,
                 's2':s2

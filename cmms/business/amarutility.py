@@ -2,6 +2,9 @@ from cmms.models import RingAmar
 
 from cmms.business.systemmessage import *
 from django.core.paginator import *
+from django.db.models import Sum
+
+
 class AmarUtility:
 
     @staticmethod
@@ -17,3 +20,33 @@ class AmarUtility:
             wos = paginator.page(paginator.num_pages)
         return wos
     #نمایش اطلاعات مصرف برای یک انبار
+    @staticmethod
+    def getTolid(start,end,location=None):
+        # values=RingAmar.objects.filter(assetAmarDate__range=(start, end),assetName__assetIsLocatedAt__id=location).values('date').annotate(total_amount=Sum('amount'))
+        # values = RingAmar.objects.filter(
+        #     assetAmarDate__range=(start, end),assetName__assetIsLocatedAt__id=location
+        # ).values('assetAmarDate').annotate(data_sum=Sum('assetTotlaKilometer'))
+        # print(RingAmar.objects.filter(
+        #     assetAmarDate__range=(start, end),assetName__assetIsLocatedAt__id=location
+        # ).values('assetAmarDate').annotate(data_sum=Sum('assetTotlaKilometer')).query)
+        values=RingAmar.objects.raw('''SELECT `ringamar`.`assetAmarDate`,
+                                    SUM(`ringamar`.`assetTotlaKilometer`) AS `id` FROM `ringamar`
+                                    INNER JOIN `assets` ON (`ringamar`.`assetName_id` = `assets`.`id`)
+                                     WHERE (`ringamar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND
+                                     `assets`.`assetIsLocatedAt_id` = {2}) GROUP BY `ringamar`.`assetAmarDate`'''.format(start,end,location))
+        return values
+    @staticmethod
+    def getTolidTime(start,end,location=None):
+        # values=RingAmar.objects.filter(assetAmarDate__range=(start, end),assetName__assetIsLocatedAt__id=location).values('date').annotate(total_amount=Sum('amount'))
+        # values = RingAmar.objects.filter(
+        #     assetAmarDate__range=(start, end),assetName__assetIsLocatedAt__id=location
+        # ).values('assetAmarDate').annotate(data_sum=Sum('assetTotlaKilometer'))
+        # print(RingAmar.objects.filter(
+        #     assetAmarDate__range=(start, end),assetName__assetIsLocatedAt__id=location
+        # ).values('assetAmarDate').annotate(data_sum=Sum('assetTotlaKilometer')).query)
+        values=RingAmar.objects.raw('''SELECT `ringamar`.`assetAmarDate`,
+                                    SUM(`ringamar`.`assetTotalTime`) AS `id` FROM `ringamar`
+                                    INNER JOIN `assets` ON (`ringamar`.`assetName_id` = `assets`.`id`)
+                                     WHERE (`ringamar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND
+                                     `assets`.`assetIsLocatedAt_id` = {2}) GROUP BY `ringamar`.`assetAmarDate`'''.format(start,end,location))
+        return values
