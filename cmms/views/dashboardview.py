@@ -41,6 +41,9 @@ def index(request):
     return render(request,"cmms/mainTheme.html",{"today" : today})
     ###################################################################
 @login_required
+def list_dashboard_ceo(request):
+    return render(request,"cmms/dashboards/ceo.html",{"today" : 1})
+@login_required
 def list_dashboard(request):
     today=1
 

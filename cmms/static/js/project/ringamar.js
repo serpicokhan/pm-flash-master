@@ -386,11 +386,29 @@ $('#company-table').on('focus', '.stt', function() {
       });
 $('#company-table').on('focusout', '.stt, .endt', function() {
         var row = $(this).closest('tr');
-        var column1Value = parseFloat(row.find('.stt').text()) || 0;
-        var column2Value = parseFloat(row.find('.endt').text()) || 0;
-        var result = Math.abs(column1Value - column2Value);
+        if($("#id_makan").val()!=6961){
+          var column1Value = parseFloat(row.find('.stt').text()) || 0;
+          var column2Value = parseFloat(row.find('.endt').text()) || 0;
 
-        row.find('.totalt').text(result.toFixed(2));
+          var result = Math.abs(column1Value - column2Value);
+          row.find('.totalt').text(result.toFixed(2));
+
+        }
+        else{
+          console.log("line 4");
+          var col1 = parseFloat(row.find('.totalk').text()) || 0;
+
+          var x=Math.floor(col1/180);
+          var x1=Math.floor(x/3);
+          console.log(col1,x,x1);
+          row.find('.totalt').text(parseFloat(x.toString()+'.'+x1.toString()));
+
+
+        }
+
+
+
+
       });
 $('#company-table').on('keydown', '.editable-cell', function(e) {
        var keyCode = e.keyCode || e.which;

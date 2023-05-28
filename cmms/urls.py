@@ -16,6 +16,7 @@ urlpatterns = [
     # url(r'^logout/$', LogoutView(template_name= 'cmms/registration/logout.html'), name='logout'),
    #url(r'^$',dashboard,name='dashboard'),
     url(r'^$',list_dashboard,name='list_dashboard'),
+    url(r'^Dashboard/CEO$',list_dashboard_ceo,name='list_dashboard_ceo'),
     url(r'^not_found/$',not_found,name='not_found'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/(?P<isScheduling>\d+)/GetCompletedWo/$', dash_GetCompletedWo, name='dash_GetCompletedWo'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetAllWorkOrders/$', dash_GetAllWorkOrders, name='dash_GetAllWorkOrders'),

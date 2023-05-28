@@ -3,7 +3,7 @@
 <tr data-id={{ring_amar.id}}>
 <td contenteditable="true"> {{ forloop.counter }}</td>
 <td  class='dt' data-date={{ring_amar.assetAmarDate|date:"Y/m/d"}}>{{ring_amar.get_jalali}}</td>
-<td data-assetname={{ring_amar.assetName.id}} class="assetname">{{ring_amar.assetName}}</td>
+<td data-assetname={{ring_amar.assetName.id}} class="assetname">{{ring_amar.assetName.assetName}}</td>
 <td class="shift">{{ring_amar.get_ShiftTypes_display}}</td>
 <td contenteditable="true" class="editable-cell stk selectable1">{{ring_amar.assetStartKilometer}}</td>
 <td contenteditable="true" class="editable-cell endk selectable1">{{ring_amar.assetEndKilometer}}</td>
@@ -24,6 +24,20 @@
 
 
 
+<td>
+
+  <button type="button"
+             class="btn btn-outline btn-warning  btn-sm js-create-tavaghof"
+             data-url="">
+       <span class="glyphicon glyphicon-pencil"></span>     </button>
+
+
+
+   </td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="14" class="text-center bg-warning">هیچ موردی یافت نشد</td>
 </tr>
 
 

@@ -59,7 +59,7 @@ class WorkOrderForm(forms.ModelForm):
         else:
             return None
     def clean_summaryofIssue(self):
-         value= self.ama['summaryofIssue']
+         value= self.cleaned_data['summaryofIssue']
          return value
 
     #CustomerId = forms.ModelChoiceField(queryset=Customer.objects.all())
