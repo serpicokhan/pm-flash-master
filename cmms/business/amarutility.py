@@ -34,19 +34,28 @@ class AmarUtility:
                                     INNER JOIN `assets` ON (`ringamar`.`assetName_id` = `assets`.`id`)
                                      WHERE (`ringamar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND
                                      `assets`.`assetIsLocatedAt_id` = {2}) GROUP BY `ringamar`.`assetAmarDate`'''.format(start,end,location))
-        return values
+        values2=RingAmar.objects.raw('''SELECT `ringamar`.`assetAmarDate` ,`ringamar`.`shifttypes`,SUM(`ringamar`.`assetTotlaKilometer`) AS `id`  FROM `ringamar`
+                                    INNER JOIN `assets` ON (`ringamar`.`assetName_id` = `assets`.`id`)
+                                     WHERE (`ringamar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND
+                                     `assets`.`assetIsLocatedAt_id` = {2}) GROUP BY `ringamar`.`assetAmarDate`,`ringamar`.`shifttypes`'''.format(start,end,location))
+        return (values,values2)
+    @staticmethod
+    def getTolidByShift(start,end,location=None):
+        values2=RingAmar.objects.raw('''SELECT `ringamar`.`assetAmarDate` ,`ringamar`.`shifttypes`,SUM(`ringamar`.`assetTotlaKilometer`) AS `id`  FROM `ringamar`
+                                    INNER JOIN `assets` ON (`ringamar`.`assetName_id` = `assets`.`id`)
+                                     WHERE (`ringamar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND
+                                     `assets`.`assetIsLocatedAt_id` = {2}) GROUP BY `ringamar`.`assetAmarDate`,`ringamar`.`shifttypes`'''.format(start,end,location))
+        return values2
     @staticmethod
     def getTolidTime(start,end,location=None):
-        # values=RingAmar.objects.filter(assetAmarDate__range=(start, end),assetName__assetIsLocatedAt__id=location).values('date').annotate(total_amount=Sum('amount'))
-        # values = RingAmar.objects.filter(
-        #     assetAmarDate__range=(start, end),assetName__assetIsLocatedAt__id=location
-        # ).values('assetAmarDate').annotate(data_sum=Sum('assetTotlaKilometer'))
-        # print(RingAmar.objects.filter(
-        #     assetAmarDate__range=(start, end),assetName__assetIsLocatedAt__id=location
-        # ).values('assetAmarDate').annotate(data_sum=Sum('assetTotlaKilometer')).query)
         values=RingAmar.objects.raw('''SELECT `ringamar`.`assetAmarDate`,
                                     SUM(`ringamar`.`assetTotalTime`) AS `id` FROM `ringamar`
                                     INNER JOIN `assets` ON (`ringamar`.`assetName_id` = `assets`.`id`)
                                      WHERE (`ringamar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND
                                      `assets`.`assetIsLocatedAt_id` = {2}) GROUP BY `ringamar`.`assetAmarDate`'''.format(start,end,location))
-        return values
+        values2=RingAmar.objects.raw('''SELECT `ringamar`.`assetAmarDate`,`ringamar`.`shifttypes`,
+                                    SUM(`ringamar`.`assetTotalTime`) AS `id` FROM `ringamar`
+                                    INNER JOIN `assets` ON (`ringamar`.`assetName_id` = `assets`.`id`)
+                                     WHERE (`ringamar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND
+                                     `assets`.`assetIsLocatedAt_id` = {2}) GROUP BY `ringamar`.`assetAmarDate`,`ringamar`.`shifttypes`'''.format(start,end,location))
+        return (values,values2)

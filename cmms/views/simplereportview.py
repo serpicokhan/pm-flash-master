@@ -31,6 +31,7 @@ from cmms.business.AssetUtility import *
 from cmms.business.mttr import *
 from cmms.business.WOUtility import *
 from cmms.business.UserUtility import *
+from cmms.business.amarutility import *
 from cmms.business.schedule_utility import *
 from cmms.business.SWOUtility import *
 from django.contrib.admin.models import LogEntry
@@ -2748,3 +2749,26 @@ class reporttest:
             n1=n1.filter(PurchaseRequestRequestedUser__in=req_user)
 
         return render(request, 'cmms/reports/simplereports/PurchaseRequest.html',{'result1':n1,'assetname':asset_name,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
+    def AmarRingReport(Self,request):
+        reportType=request.POST.getlist("reportType","")
+        makan=request.POST.get("makan",False)
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+
+
+        data={}
+        if(makan):
+            n1=AmarUtility.getTolidByShift(date1,date2,makan)
+            for i in n1:
+                data[i.shifttypes]=[]
+
+            for i in n1:
+                data[i.shifttypes].append({'date':str(i.assetAmarDate),'value':str(i.id)})
+
+            print(data)
+            # n1=RingAmar.objects.filter(assetName__assetIsLocatedAt=makan,assetAmarDate__range=(date1, date2))
+
+
+        return render(request, 'cmms/reports/simplereports/AmarRingReport.html',{'result1':data,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})

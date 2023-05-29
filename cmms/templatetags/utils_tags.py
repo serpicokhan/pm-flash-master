@@ -21,3 +21,9 @@ def get_filter_action(value):
 @register.filter
 def show_hour(value):
     return '{0:02.0f}:{1:02.0f}'.format(*divmod(float(value) * 60, 60))
+@register.filter
+def get_value_by_date(data_list, date):
+    for data in data_list:
+        if data.date == date:
+            return data.value
+    return ''

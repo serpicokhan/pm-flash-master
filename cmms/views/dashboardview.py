@@ -476,16 +476,25 @@ def dash_getDashTolid(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
     loc=request.GET.get('loc',False)
-    amar=AmarUtility.getTolid(start,end,location=loc)
+    amar1,amar2=AmarUtility.getTolid(start,end,location=loc)
     s1=[]
     s2=[]
-    for i in amar:
+    dt={}
+    dt['total']=[]
+    for i in amar1:
          s1.append(float(i.id))
          s2.append(str(jdatetime.date.fromgregorian(date=i.assetAmarDate)))
-    # print(amar)
+         dt['total'].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
+    for i in amar2:
+        dt[str(i.shifttypes)]=[]#={str(i.assetAmarDate):i.id}
+    # dt['total']=[]#={str(i.assetAmarDate):i.id}
+    for i in amar2:
+        dt[str(i.shifttypes)].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
+
     data['html_dashMTTR_list'] ={
                 's1': s1,
-                's2':s2
+                's2':s2,
+                's3':dt
 
             }
     return JsonResponse(data)
@@ -495,18 +504,28 @@ def dash_getDashTolidTime(request,startHijri,endHijri):
     start,end=DateJob.convert2Date(startHijri,endHijri)
     loc=request.GET.get('loc',False)
     if(loc=='6961'):
-        amar=AmarUtility.getTolid(start,end,location=loc)
+        amar1,amar2=AmarUtility.getTolid(start,end,location=loc)
     else:
-        amar=AmarUtility.getTolidTime(start,end,location=loc)
+        amar1,amar2=AmarUtility.getTolidTime(start,end,location=loc)
     s1=[]
     s2=[]
-    for i in amar:
+    dt={}
+    dt['total']=[]
+    for i in amar1:
          s1.append(float(i.id))
          s2.append(str(jdatetime.date.fromgregorian(date=i.assetAmarDate)))
+         dt['total'].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
+    for i in amar2:
+        dt[str(i.shifttypes)]=[]#={str(i.assetAmarDate):i.id}
+    # dt['total']=[]#={str(i.assetAmarDate):i.id}
+    for i in amar2:
+        dt[str(i.shifttypes)].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
+
     # print(amar)
     data['html_dashMTTR_list'] ={
                 's1': s1,
-                's2':s2
+                's2':s2,
+                's3':dt
 
             }
     return JsonResponse(data)

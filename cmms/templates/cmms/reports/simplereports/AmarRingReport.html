@@ -1,0 +1,47 @@
+{% extends 'cmms/reports/simplereports/main.html' %}
+
+ {% block content %}
+
+
+   <div class="alert alert-warning text-center">
+     {% load static %}
+     {% load utils_tags %}
+     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+     <h1>
+                            آمار تولید <br>
+
+
+                            </h1>
+
+                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+                          <h4>به همراه پارامترهای زیر</h4>
+                          <h4> از تاریخ: {{dt1}}</h4>
+                          <h4>تا تاریخ: {{dt2}}</h4>
+                          <h4></h4>
+
+
+                           </div>
+
+                           <table class="table table-bordered">
+     <thead>
+         <tr>
+             <th>Date</th>
+             <th>Value (A)</th>
+             <th>Value (B)</th>
+             <th>Value (C)</th>
+         </tr>
+     </thead>
+     <tbody>
+         {% for data in result1.A %}
+             <tr>
+                 <td>{{ data.date }}</td>
+                 <td>{{ data.value }}</td>
+                 <td>{{ my_dict.B|get_value_by_date:data.value }}</td>
+                 <td>{{ my_dict.C|get_value_by_date:data.value }}</td>
+             </tr>
+         {% endfor %}
+     </tbody>
+ </table>
+
+
+ {% endblock %}
