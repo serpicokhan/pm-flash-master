@@ -17,6 +17,7 @@
                           <h4>به همراه پارامترهای زیر</h4>
                           <h4> از تاریخ: {{dt1}}</h4>
                           <h4>تا تاریخ: {{dt2}}</h4>
+                          <h4>{{makan}}</h4>
                           <h4></h4>
 
 
@@ -40,6 +41,12 @@
                  <td>{{ result1.C|get_value_by_date:data.date }}</td>
              </tr>
          {% endfor %}
+         <tr>
+                <td><strong>مجموع</strong></td>
+                <td><strong>{{ sum_a| floatformat:2  }}</strong></td>
+                <td><strong>{{ sum_b | floatformat:2}}</strong></td>
+                <td><strong>{{ sum_c | floatformat:2 }}</strong></td>
+            </tr>
      </tbody>
  </table>
 
