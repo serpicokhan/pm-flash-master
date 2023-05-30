@@ -24,6 +24,7 @@ def show_hour(value):
 @register.filter
 def get_value_by_date(data_list, date):
     for data in data_list:
-        if data.date == date:
-            return data.value
+        print(data['date'],date)
+        if data['date'] == date:
+            return data['value']
     return ''

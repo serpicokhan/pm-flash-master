@@ -2765,9 +2765,9 @@ class reporttest:
                 data[i.shifttypes]=[]
 
             for i in n1:
-                data[i.shifttypes].append({'date':str(i.assetAmarDate),'value':str(i.id)})
+                data[i.shifttypes].append({'date':jdatetime.date.fromgregorian(date=i.assetAmarDate),'value':str(i.id)})
 
-            print(data)
+            # print(data)
             # n1=RingAmar.objects.filter(assetName__assetIsLocatedAt=makan,assetAmarDate__range=(date1, date2))
 
 

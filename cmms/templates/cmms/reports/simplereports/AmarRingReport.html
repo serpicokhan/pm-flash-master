@@ -36,8 +36,8 @@
              <tr>
                  <td>{{ data.date }}</td>
                  <td>{{ data.value }}</td>
-                 <td>{{ my_dict.B|get_value_by_date:data.value }}</td>
-                 <td>{{ my_dict.C|get_value_by_date:data.value }}</td>
+                 <td>{{ result1.B|get_value_by_date:data.date }}</td>
+                 <td>{{ result1.C|get_value_by_date:data.date }}</td>
              </tr>
          {% endfor %}
      </tbody>
