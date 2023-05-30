@@ -46,6 +46,13 @@ def js_list_assetUser(request,woId):
 
 
 ###################################################################    ###################################################################
+def create_sub_asset_user(books):
+    if(books.count()>0):
+        asset=books[0].AssetUserAssetId
+        if(asset.assetTypes==1):
+            sub_asset=Asset.objects.filter(assetIsLocatedAt=asset)
+            for i in sub_asset:
+                AssetUser.objects.create(AssetUserUserId=books[0].AssetUserUserId,AssetUserAssetId=i)
 @csrf_exempt
 def save_assetUser_form(request, form, template_name,woId=None):
     data = dict()
@@ -57,7 +64,9 @@ def save_assetUser_form(request, form, template_name,woId=None):
             lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
             logging.basicConfig(format=fmt, level=lvl)
             logging.debug( woId)
+
             books = AssetUser.objects.filter(AssetUserAssetId=woId)
+            create_sub_asset_user(books)
             data['html_assetUser_list'] = render_to_string('cmms/asset_user/partialAssetUserList.html', {
                 'assetUsers': books
             })
