@@ -74,9 +74,11 @@ $(function () {
          success: function(response) {
            // Handle the response from the server
            console.log('Data sent successfully');
+           toastr.success("اطلاعات با موفقیت ارسال شد");
          },
          error: function(xhr, status, error) {
            // Handle the error
+            toastr.success("خطا در ارسال داده ها");
            console.log('Error sending data:', error);
          }
     });

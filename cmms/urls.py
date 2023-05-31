@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetAllWorkOrders/$', dash_GetAllWorkOrders, name='dash_GetAllWorkOrders'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetResources/$', dash_getResource, name='dash_getResource'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolid/$', dash_getDashTolid, name='dash_getDashTolid'),
+    url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidBar/$', dash_getDashTolidBar, name='dash_getDashTolidBar'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidTime/$', dash_getDashTolidTime, name='dash_getDashTolidTime'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCompletedOpenStatus/$', dash_getWoByStatus, name='dash_getWoByStatus'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCompletedWoDonat/$', dash_GetCompletedWoDonat, name='dash_GetCompletedWoDonat'),

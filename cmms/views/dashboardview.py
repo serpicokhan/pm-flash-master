@@ -498,6 +498,23 @@ def dash_getDashTolid(request,startHijri,endHijri):
 
             }
     return JsonResponse(data)
+def dash_getDashTolidBar(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    loc=request.GET.get('loc',False)
+    amar1,amar2=AmarUtility.getTolidBar(start,end,location=loc)
+    s1=[]
+    s2=[]
+    dt={}
+    dt['total']=[]
+
+    data['html_dashMTTR_list'] ={
+                's1': s1,
+                's2':s2,
+                's3':dt
+
+            }
+    return JsonResponse(data)
 ############################################
 def dash_getDashTolidTime(request,startHijri,endHijri):
     data=dict()

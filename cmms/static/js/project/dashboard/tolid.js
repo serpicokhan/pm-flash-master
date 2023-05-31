@@ -5,46 +5,6 @@ var drawTolidBar=function(data,label)
 
 
 
-  // var barOptions = {
-  //
-  //   responsive: true,
-  //   scales: {
-  //
-  //       yAxes: [{
-  //           ticks: {
-  //               beginAtZero: true,
-  //               padding: 20
-  //
-  //           }
-  //       }],
-  //       y: {
-  //      title: {
-  //        display: true,
-  //        text: 'Value'
-  //      },
-  //      min: 0,
-  //      max: 100,
-  //      ticks: {
-  //        // forces step size to be 50 units
-  //        stepSize: 50
-  //      }
-  //    }
-  //   }
-  // }
-  // const data222 = {
-  //   labels: label,
-  //   datasets: [{
-  //     axis: 'y',
-  //     label: 'کیلومتر کارکرد',
-  //     data: data,
-  //     fill: true,
-  //     backgroundColor: 'rgba(0, 128, 0, 0.5)' ,
-  //     borderColor:'rgba(0, 128, 0, 1)',
-  //     borderWidth: 5
-  //   }]
-  // };
-
-
   // Extract labels and data
   const labels = [];
 const datasets = [];
@@ -74,8 +34,6 @@ for (let datasetKey in data) {
 
 }
 const uniqueArray = Array.from(new Set(labels));
-console.log("$$$$$$$$$");
-console.log(uniqueArray);
   $('#linetolid').remove(); // this is my <canvas> element
   $('#tolidlineholder').append('<canvas id="linetolid" height="100px"><canvas>');
   var ctx = document.getElementById("linetolid").getContext("2d");
@@ -111,8 +69,7 @@ console.log(uniqueArray);
 var drawTolidTimeBar=function(data,label)
 {
 
-console.log("in");
-console.log(data);
+
 
   const labels = [];
 const datasets = [];
@@ -239,6 +196,29 @@ var LoadTolidTimeBar=function()
 
 
       // $("#dash_eqdowntimebody").html(data.html_dashEqDownTime_list);
+
+    },
+    error:function(){
+      alert("error");
+    }
+  });
+
+}
+var LoadTolidBarChart=function()
+{
+  var location=$("#makans").val();
+  $.ajax({
+    url: '/GetTolidBar/?loc='+location,
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+
+    },
+    success: function (data) {
+
+      console.log(data);
+      // drawTolidTimeBar(data.html_dashMTTR_list.s3,data.html_dashMTTR_list.s2);
+
 
     },
     error:function(){
