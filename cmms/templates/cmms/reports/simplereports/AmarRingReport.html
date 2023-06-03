@@ -1,54 +1,157 @@
 {% extends 'cmms/reports/simplereports/main.html' %}
 
- {% block content %}
+{% block content %}
 
 
-   <div class="alert alert-warning text-center">
-     {% load static %}
-     {% load utils_tags %}
-     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
-     <h1>
-                            آمار تولید <br>
+<div class="alert alert-warning text-center">
+  {% load static %}
+  {% load utils_tags %}
+  <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+  <h1>
+    آمار تولید <br>
 
 
-                            </h1>
+  </h1>
 
-                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
-                          <h4>به همراه پارامترهای زیر</h4>
-                          <h4> از تاریخ: {{dt1}}</h4>
-                          <h4>تا تاریخ: {{dt2}}</h4>
-                          <h4>{{makan}}</h4>
-                          <h4></h4>
-
-
-                           </div>
-
-                           <table class="table table-bordered">
-     <thead>
-         <tr>
-             <th>Date</th>
-             <th>Value (A)</th>
-             <th>Value (B)</th>
-             <th>Value (C)</th>
-         </tr>
-     </thead>
-     <tbody>
-         {% for data in result1.A %}
-             <tr>
-                 <td>{{ data.date }}</td>
-                 <td>{{ data.value }}</td>
-                 <td>{{ result1.B|get_value_by_date:data.date }}</td>
-                 <td>{{ result1.C|get_value_by_date:data.date }}</td>
-             </tr>
-         {% endfor %}
-         <tr>
-                <td><strong>مجموع</strong></td>
-                <td><strong>{{ sum_a| floatformat:2  }}</strong></td>
-                <td><strong>{{ sum_b | floatformat:2}}</strong></td>
-                <td><strong>{{ sum_c | floatformat:2 }}</strong></td>
-            </tr>
-     </tbody>
- </table>
+  <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+  <h4>به همراه پارامترهای زیر</h4>
+  <h4> از تاریخ: {{dt1}}</h4>
+  <h4>تا تاریخ: {{dt2}}</h4>
+  <h4>{{makan}}</h4>
+  <h4></h4>
 
 
- {% endblock %}
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+
+      <div class="ibox-content">
+
+        <div>
+          <canvas id="BarChart" height="300" ></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12">
+  <div class="ibox float-e-margins">
+    <div class="ibox-content">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>تاریخ</th>
+            <th>شیفت A</th>
+            <th>شیفت B</th>
+            <th>شیفت C</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in result1.A %}
+          <tr>
+            <td>{{ data.date }}</td>
+            <td>{{ data.value }}</td>
+            <td>{{ result1.B|get_value_by_date:data.date }}</td>
+            <td>{{ result1.C|get_value_by_date:data.date }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td><strong>مجموع</strong></td>
+            <td><strong>{{ sum_a| floatformat:2  }}</strong></td>
+            <td><strong>{{ sum_b | floatformat:2}}</strong></td>
+            <td><strong>{{ sum_c | floatformat:2 }}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  </div>
+</div>
+
+
+
+
+{% load static %}
+
+{% block javascript %}
+<script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+<script type="text/javascript">
+  // var glll;
+
+
+  var v1 = {% autoescape off %} {{result1.A}} {% endautoescape %};
+  var v2 = {% autoescape off %} {{result1.B}} {% endautoescape %};
+  var v3 = {% autoescape off %} {{result1.C}} {% endautoescape %};
+
+  var data=[v1,v2,v3];
+  console.log(data);
+  var labels = data[0].map(function (entry) {
+    return entry.date;
+  });
+
+  var datasets = data.map(function (dataset, index) {
+    return {
+      label: 'شیفت ' + (index + 1),
+      data: dataset.map(function (entry) {
+        return parseFloat(entry.value);
+      }),
+      fill:false,
+
+      borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Random color for line
+      borderWidth: 1,
+      type:  'line'
+    };
+  });
+  var totalData = data.reduce(function (accumulator, dataset) {
+    dataset.forEach(function (entry, index) {
+      if (!accumulator[index]) {
+        accumulator[index] = { date: entry.date, value: 0 };
+      }
+      accumulator[index].value += parseFloat(entry.value);
+    });
+    return accumulator;
+  }, []);
+
+  datasets.push({
+    label: 'Total',
+    data: totalData.map(function (entry) {
+      return entry.value;
+    }),
+    backgroundColor: 'rgba(255, 206, 86, 0.5)',
+    borderColor: 'rgba(255, 206, 86, 1)',
+    borderWidth: 1,
+    type: 'line'
+  });
+
+
+  var chartData = {
+    labels: labels,
+    datasets: datasets
+  };
+
+  var chartOptions = {
+    responsive: true,
+    fill:false,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
+
+  var lineBarChart = new Chart(document.getElementById('BarChart'), {
+    type: 'bar',
+    data: chartData,
+    options: chartOptions
+  });
+
+
+
+</script>
+<!-- <script src="{% static '/js/project/reports/DowntimeByRepairTypeByAssetCategory.js' %}"></script> -->
+
+{% endblock %}
+
+{% endblock %}

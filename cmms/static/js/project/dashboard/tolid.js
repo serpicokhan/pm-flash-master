@@ -143,7 +143,7 @@ var LoadTolidBar=function()
 
     },
     success: function (data) {
-      console.log(data);
+      // console.log(data);
       drawTolidBar(data.html_dashMTTR_list.s3,data.html_dashMTTR_list.s2);
       //html_DashMTTRCount_list
 
@@ -208,15 +208,49 @@ var LoadTolidBarChart=function()
 {
   var location=$("#makans").val();
   $.ajax({
-    url: '/GetTolidBar/?loc='+location,
+    url: $("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetTolidBar/?loc='+location,
     type: 'get',
     dataType: 'json',
     beforeSend: function () {
 
     },
-    success: function (data) {
+    success: function (data2) {
 
+      console.log(data2);
+
+      data=data2.html_dashMTTR_list.s3;
       console.log(data);
+      // Formatting data for Chart.js
+      const labels = Object.keys(data);
+      const datasets = labels.map((label) => ({
+          label: `برج ${label}`,
+          data: data[label].map((item) => parseFloat(item.val)),
+          backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Adjust as needed
+          borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Adjust as needed
+          borderWidth: 1
+      }));
+
+      // Creating the bar chart
+      $('#bartolid').remove(); // this is my <canvas> element
+      $('#tolidbarholder').append('<canvas id="bartolid" height="100px"><canvas>');
+      // var ctx = document.getElementById("linetolidtime").getContext("2d");
+      const ctx = document.getElementById('bartolid').getContext('2d');
+      new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: labels,
+              datasets: datasets
+          },
+          options: {
+              scales: {
+                yAxes: [{
+           ticks: {
+               beginAtZero: true
+           }
+       }]
+              }
+          }
+      });
       // drawTolidTimeBar(data.html_dashMTTR_list.s3,data.html_dashMTTR_list.s2);
 
 

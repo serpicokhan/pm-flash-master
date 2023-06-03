@@ -2767,7 +2767,7 @@ class reporttest:
                 data[i.shifttypes]=[]
 
             for i in n1:
-                data[i.shifttypes].append({'date':jdatetime.date.fromgregorian(date=i.assetAmarDate),'value':str(i.id)})
+                data[i.shifttypes].append({'date':str(jdatetime.date.fromgregorian(date=i.assetAmarDate)),'value':str(i.id)})
                 # data[i.shifttypes].append({'date':jdatetime.date.fromgregorian(date=i.assetAmarDate),'value':str(i.id)})
 
             # print(data)
