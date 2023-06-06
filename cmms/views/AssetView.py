@@ -267,8 +267,7 @@ def asset_update(request, id):
     # print("asset status:{}".format(company.assetStatus))
     template=""
     if (request.method == 'POST'):
-        print("file!!!!!!!!!!")
-        print(request.FILES.get('f_upload'))
+
         form = AssetForm(request.POST, instance=company)
     else:
         assetcatText=company.assetCategory.name if company.assetCategory else ''
@@ -606,7 +605,7 @@ def show_Asset_status(request,id):
     data["form_is_valid"]=True
     return JsonResponse(data)
 def show_asset_tree(request,id):
-    children=Asset.objects.filter(assetIsPartOf=id)
+    children=Asset.objects.filter(Q(assetIsPartOf=id)|Q(assetIsLocatedAt=id))
     mainparts=AssetPart.objects.filter(assetPartAssetid=id)
     mainbooks2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
     BOMGroupAsset.objects.filter(BOMGroupAssetAsset=id).values_list('BOMGroupAssetBOMGroup',flat=True))
@@ -732,38 +731,7 @@ def asset_getAssets(request):
     return JsonResponse(x, safe=False)
 @csrf_exempt
 def assetAsset_craete(request):
-    # # print(request.GET['q'])
-    # child_asset_id= request.GET['child'] if request.GET['child'] else ''
-    # main_asset_id= request.GET['main'] if request.GET['main'] else ''
-    # main_asset=Asset.objects.get(id=main_asset_id)
-    # child_asset=Asset.objects.get(id=child_asset_id)
-    # if(main_asset.assetTypes==1):
-    #     child_asset.assetIsLocatedAt=main_asset
-    #     child_asset.save()
-    # else:
-    #     child_asset.assetIsPartOf=main_asset
-    #     child_asset.save()
-    # data=dict()
-    # books=Asset.objects.filter(Q(assetIsLocatedAt=main_asset))
-    #
-    # data['html_assetAsset_list']= render_to_string('cmms/asset/asset/partialAssetRow.html', {
-    #     'assetwos': books,
-    #     'perms': PermWrapper(request.user)
-    # })
-    # data['form_is_valid']=True
-    # return JsonResponse(data)
 
-
-
-    # if(len(x)==0):
-    #     print("dasdsa")
-    #     x=[{'id':-1,'partName':'قطعه یافت نشد'}]
-
-
-    # response_data = {}
-    # response_data['result'] = '[dsadas,dasdasdas]'
-    # child_asset_id= request.GET['child'] if request.GET['child'] else ''
-    # main_asset_id= request.GET['main'] if request.GET['main'] else ''
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
@@ -877,11 +845,6 @@ def bulk_delete_asset(request,ids):
     data['form_is_valid'] = True
     # print('done')
     return JsonResponse(data)
-
-
-
-
-
 
 @csrf_exempt
 def create_woasset(request):
@@ -1014,9 +977,6 @@ def asset_sort(request,id):
         'main_asset':main_asset
     })
     return JsonResponse(data)
-
-
-
 
 def getRelatedAsset(request,id):
     data=dict()
@@ -1167,21 +1127,6 @@ def upload_file_asset(request):
     if request.method == 'POST':
         my_file=request.FILES.get('file')
         data=dict()
-        # msg=AssetCsvFile.objects.create(msgFile=my_file)
-        # workbook = load_workbook(filename='media/'+msg.msgFile.name)
-        # ws = workbook.active
-        # item=Part(pk=None)
-        # for i in list(iter_rows(ws)):
-        #
-        #
-        #     if(i[19]!=None):#id
-        #         item=Part(pk=None)
-        #         item.partName=i[18]
-        #         item.partDescription=i[14] if(i[14]) else '-'
-        #         item.partCode=0
-        #         item.save()
-        #
-        #
-        # data["id"]=msg.id
+
         return JsonResponse(data)
     return JsonResponse({'post':'fasle'})

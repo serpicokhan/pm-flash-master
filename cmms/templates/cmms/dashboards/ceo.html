@@ -1,0 +1,75 @@
+{% extends 'cmms/mainTheme.html' %}
+
+{% block content %}
+<div>
+  <div class="row">
+    {% include "cmms/summery/dateselector.html" %}
+  </div>
+</div>
+
+<div class="clear">
+
+</div>
+<div class="row border-bottom  dashboard-header" style="margin-top:50px">
+
+  <div class="col-lg-12">
+   {% include "cmms/summery/tolid_test.html" %}
+
+  </div>
+  <div class="col-lg-12">
+   {% include "cmms/summery/tolid_time.html" %}
+
+  </div>
+  <div class="col-lg-12">
+   {% include "cmms/summery/tolid_bar.html" %}
+
+  </div>
+
+</div>
+<div class="clear">
+
+</div>
+
+
+
+
+
+
+
+{% load static %}
+
+{% block javascript %}
+<script type="text/javascript">
+;
+
+xxxDate1=new persianDate();
+
+
+
+dt1=xxxDate1.pDate.year.toString()+"-"+("0" + xxxDate1.pDate.month).slice(-2)+"-01";
+//$("#dashboardt1").val(dt1);
+
+
+</script>
+<script src="{% static '/js/project/dashboard/datepicker.js' %}"></script>
+<script src="{% static '/js/project/dashboard/tolid.js' %}"></script>
+
+<script type="text/javascript">
+
+LoadTolidBar();
+LoadTolidTimeBar();
+LoadTolidBarChart();
+$(document).ready(function(){
+  xxxDate1=new persianDate();
+  dt1=xxxDate1.pDate.year.toString()+"-"+("0" + xxxDate1.pDate.month).slice(-2)+"-01";
+  $("#dashboardt1").val(dt1);
+  $(".btn.btn-white.btn-bitbucket").click(function(){
+    LoadTolidBar();
+    LoadTolidTimeBar();
+    LoadTolidBarChart();
+  });
+});
+</script>
+
+{% endblock %}
+{% endblock %}

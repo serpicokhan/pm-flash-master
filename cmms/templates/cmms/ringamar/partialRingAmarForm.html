@@ -14,7 +14,7 @@
     <div class="form-group">
       <label for="id_assetName">تجهیز</label>
 
-    <select class="form-control" name="assetName">
+    <select class="form-control" name="assetName" id="id_assetName">
       {% for i in assetName2 %}
       <option value="{{i.id}}">{{i.assetName}}</option>
 
@@ -24,12 +24,12 @@
     </div>
 
     <div class="form-group">
-      <label for="id_assetStartKilometer">کیلومتر شروع</label>
+      <label for="id_assetStartKilometer">کیلومتر پایان شیفت قبل</label>
         {% render_field form.assetStartKilometer class='form-control'  %}
     </div>
 
     <div class="form-group">
-      <label for="id_assetEndKilometer">کیلومتر پایان</label>
+      <label for="id_assetEndKilometer">کیلومتر پایان شیفت جاری</label>
         {% render_field form.assetEndKilometer class='form-control'  %}
     </div>
 

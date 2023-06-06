@@ -912,6 +912,7 @@ class AssetPurchaseForm(forms.ModelForm):
 ###########################################################################
 class AssetLifeForm(forms.ModelForm):
     woName=forms.CharField(label='دستور کار',required=False,widget=forms.TextInput(attrs={'class':'woselector','autocomplete':'off'}))
+    asset_name=forms.CharField(label='دستور کار',required=False,widget=forms.TextInput(attrs={'class':'woselector','autocomplete':'off'}))
     # def __init__(self,*args,**kwargs):
     #
     #         self.asset_id = kwargs.pop('asset_id')
@@ -3427,3 +3428,29 @@ class PurchaseRequest(forms.Form):
 
     partName=forms.CharField(label='نام قطعه',required=False,widget=forms.TextInput(attrs={'class':'partselector','autocomplete':'off'}))
     part=forms.CharField(widget=forms.HiddenInput(),required=False)
+class AmarRingReport(forms.Form):
+    # rcode=100
+    test='آمار'
+    startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+
+    OPTIONS = (
+        (0, "pdf"),
+        (1, "EXCEL"),
+
+        )
+    reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    # assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
+    # widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+    # req_user= forms.ModelChoiceField(label="کاربر درخواست کننده",queryset=SysUser.objects.all(),
+    # widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+    # assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
+    # widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+
+    # partCategory= forms.ModelChoiceField(label="دسته قطعه",queryset=PartCategory.objects.all(),
+    # widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+
+    # partName=forms.CharField(label='نام قطعه',required=False,widget=forms.TextInput(attrs={'class':'partselector','autocomplete':'off'}))
+    # part=forms.CharField(widget=forms.HiddenInput(),required=False)

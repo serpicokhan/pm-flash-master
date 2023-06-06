@@ -1,0 +1,44 @@
+{% for ring_amar in ringAmar %}
+
+<tr data-id={{ring_amar.id}}>
+<td contenteditable="true"> {{ forloop.counter }}</td>
+<td  class='dt' data-date={{ring_amar.assetAmarDate|date:"Y/m/d"}}>{{ring_amar.get_jalali}}</td>
+<td data-assetname={{ring_amar.assetName.id}} class="assetname">{{ring_amar.assetName.assetName}}</td>
+<td class="shift">{{ring_amar.get_ShiftTypes_display}}</td>
+<td contenteditable="true" class="editable-cell stk selectable1">{{ring_amar.assetStartKilometer}}</td>
+<td contenteditable="true" class="editable-cell endk selectable1">{{ring_amar.assetEndKilometer}}</td>
+<td contenteditable="true" class="editable-cell totalk selectable1">{{ring_amar.assetTotlaKilometer}}</td>
+<td contenteditable="true" class="editable-cell stt selectable1">{{ring_amar.assetStartTime}}</td>
+<td contenteditable="true" class="editable-cell endt selectable1">{{ring_amar.assetEndTime}}</td>
+<td contenteditable="true" class="editable-cell totalt selectable1">{{ring_amar.assetTotalTime}}</td>
+<td contenteditable="true" class="editable-cell advanced2AutoComplete selectable1">{{ring_amar.operatorName}}</td>
+<td contenteditable="true" class="editable-cell selectable1">{{ring_amar.assetDaf}}</td>
+<td contenteditable="true" class="editable-cell selectable1">0</td>
+
+
+
+
+
+
+
+
+
+
+<td>
+
+  <button type="button"
+             class="btn btn-outline btn-warning  btn-sm js-create-tavaghof"
+             data-url="">
+       <span class="glyphicon glyphicon-pencil"></span>     </button>
+
+
+
+   </td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="14" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+
+{% endfor %}

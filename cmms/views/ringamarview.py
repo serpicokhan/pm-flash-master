@@ -33,14 +33,20 @@ from rest_framework.response import Response
 from rest_framework import status
 from cmms.business.amarutility import AmarUtility
 from cmms.business.DateJob import *
+from django.db.models import Max
+from django.db import IntegrityError
+from django.views.decorators.csrf import csrf_exempt
+from openpyxl import Workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
+import pandas as pd
 @permission_required('cmms.view_ringamar')
 def list_ringAmar(request,id=None):
     #
-    books = RingAmar.objects.all()
-    wo=AmarUtility.doPaging(request,books)
+    books = RingAmar.objects.none()
+    # wo=AmarUtility.doPaging(request,books)
 
     assetMakan=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
-    return render(request, 'cmms/ringamar/ringAmarList.html', {'ringAmar': wo,'section':'list_ringAmar','makan':assetMakan})
+    return render(request, 'cmms/ringamar/ringAmarList2.html', {'ringAmar': books,'section':'list_ringAmar','makan':assetMakan})
 
 
 ##########################################################
@@ -144,3 +150,130 @@ def getAmarOpName(request):
         return JsonResponse(list(results), safe=False)
     return data
 ##########################################################
+def get_max_kilometer(request):
+    data=dict()
+    # max_value = MyModel.objects.aggregate(max_value=Max('my_field'))['max_value']
+    # max=Ama
+    asset=request.GET.get("asset_id",0)
+    print(asset)
+    shift=request.GET.get("shift",0)
+    date=request.GET.get("date",0)
+    date=DateJob.getTaskDate(date)
+    data["x"]=RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('assetEndKilometer'))['max_value']
+    return JsonResponse(data)
+def get_max_time(request):
+    data=dict()
+    # max_value = MyModel.objects.aggregate(max_value=Max('my_field'))['max_value']
+    # max=Ama
+    asset=request.GET.get("asset_id",0)
+    print(asset)
+    shift=request.GET.get("shift",0)
+    date=request.GET.get("date",0)
+    date=DateJob.getTaskDate(date)
+    data["x"]=RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('assetEndTime'))['max_value']
+    return JsonResponse(data)
+
+
+def loadAmarTableInfo(request):
+    makan=request.GET.get("makan",False)
+    dt=request.GET.get("dt",False)
+    shift=request.GET.get("shift",False)
+    date1=DateJob.getTaskDate(dt)
+    data=dict()
+    x1=''
+    y1=''
+    if(makan):
+        asset=Asset.objects.filter(assetTypes=2,assetIsLocatedAt__id=makan).order_by('assetTavali')
+        amar=RingAmar.objects.filter(assetName__assetIsLocatedAt__id=makan,assetAmarDate=date1,ShiftTypes=shift).order_by('assetName__assetTavali')
+        if(amar.count()==0):
+            amar=[]
+            for i in asset:
+
+                    j=RingAmar.objects.create(assetName=i,assetAmarDate=date1,userRegisterd=SysUser.objects.get(userId=request.user),ShiftTypes=shift)
+                    amar.append(j)
+        # elif(amar.count()<asset.count):
+        #     subasset
+
+
+        # j=RingAmar.objects.filter(assetName__assetIsLocatedAt__id=makan=,assetAmarDate=date1,userRegisterd=SysUser.objects.get(userId=request.user),ShiftTypes=shift)
+
+        # try:
+        #     amar=[]
+        #     for i in asset:
+        #
+        #         j=RingAmar.objects.create(assetName=i,assetAmarDate=date1,userRegisterd=SysUser.objects.get(userId=request.user),ShiftTypes=shift)
+        #         amar.append(j)
+        #
+        # except IntegrityError:
+        #     amar=RingAmar.objects.filter(assetName=i,assetAmarDate=date1,ShiftTypes=shift)
+
+
+        data['amar']= render_to_string('cmms/ringamar/partialRingAmarList2.html', {
+            'ringAmar': amar,
+            'perms': PermWrapper(request.user),
+
+        })
+
+        data['form_is_valid']=True
+
+    return JsonResponse(data)
+@csrf_exempt
+def saveAmarTableInfo(request):
+    # print(request.body)
+    # print(request.POST)
+    data = json.loads(request.body)
+    print("********")
+    for i in data:
+        # print(i)
+        # print("********")
+        if('id' in i):
+            amar=RingAmar.objects.get(id=i['id'])
+            amar.ShiftTypes=i["ShiftTypes"]
+            amar.assetName=Asset.objects.get(id=i["assetName"])
+            amar.assetStartKilometer=i["assetStartKilometer"]
+            amar.assetEndKilometer=i["assetEndKilometer"]
+            amar.assetTotlaKilometer=i["assetTotlaKilometer"]
+            amar.assetStartTime=i["assetStartTime"]
+            amar.assetEndTime=i["assetEndTime"]
+            amar.assetTotalTime=i["assetTotalTime"]
+            # amar.assetDaf=i["shift"]
+            amar.operatorName=i["operatorName"]
+            # amar.assetAmarDate=i["assetAmarDate"]
+            amar.assetDaf=i["assetDaf"]
+            amar.userRegisterd=SysUser.objects.get(userId=request.user)
+            amar.save()
+            print("done",amar.id)
+    data=dict()
+    return JsonResponse(data)
+def export_to_excel(request):
+    amar=RingAmar.objects.all()
+    data = {
+    'Name': ['John', 'Jane', 'Mike'],
+    'Age': [25, 30, 28],
+    'Country': ['USA', 'Canada', 'UK']
+    }
+
+# Create a workbook and select the active sheet
+    wb = Workbook()
+    ws = wb.active
+
+    # Create a DataFrame
+    df = pd.DataFrame.from_records(amar.values())
+
+    # Insert the data into the worksheet
+    for row in dataframe_to_rows(df, index=False, header=True):
+        ws.append(row)
+
+    # Add a table to the worksheet
+    # table_range = f'A1:C{len(df) + 1}'  # Adjust the range based on the size of your data
+    # table = ws.tables.add(table_range)
+
+    # Save the workbook
+    # wb.save('table_example.xlsx')
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=table_example.xlsx'
+
+    # Save the workbook to the response object
+    wb.save(response)
+
+    return response

@@ -13,8 +13,8 @@ $("#id_makan").change(function(){
     success: function (data) {
       if (data.form_is_valid) {
         //alert("Company created!");  // <-- This is just a placeholder for now for testing
-      $("#id_assetName").html(data.html_assets_dynamics);
-      $('#id_assetName').selectpicker('refresh');
+      $("#id_assetName2").html(data.html_assets_dynamics);
+      $('#id_assetName2').selectpicker('refresh');
       }
       else {
 
@@ -22,6 +22,7 @@ $("#id_makan").change(function(){
       }
     }
   });
+
 });
 //
 $("#id_assetType").change(function(){

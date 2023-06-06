@@ -25,6 +25,7 @@ from cmms.business.misccost import *
 from cmms.business.DateJob import *
 from cmms.business.WOUtility import *
 from cmms.business.AssetUtility import *
+from cmms.business.amarutility import *
 from cmms.business.UserUtility import *
 from cmms.business.PartUtility import *
 from django.contrib.auth.decorators import login_required
@@ -40,6 +41,15 @@ def index(request):
     today=1
     return render(request,"cmms/mainTheme.html",{"today" : today})
     ###################################################################
+@login_required
+def list_dashboard_ceo(request):
+    user1=SysUser.objects.get(userId=request.user)
+    # print("here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    request.session['userpic'] = str(user1.profileImage)
+    request.session['username'] = str(user1.fullName)
+    request.session['usertitle'] = str(user1.title)
+    darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
+    return render(request,"cmms/dashboards/ceo.html",{"darayee" : darayee})
 @login_required
 def list_dashboard(request):
     today=1
@@ -458,6 +468,90 @@ def dash_getDashMTTR(request,startHijri,endHijri):
     data['html_dashMTTR_list'] ={
                 's1': s1,
                 's2':s2
+
+            }
+    return JsonResponse(data)
+############################################
+def dash_getDashTolid(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    loc=request.GET.get('loc',False)
+    amar1,amar2=AmarUtility.getTolid(start,end,location=loc)
+    s1=[]
+    s2=[]
+    dt={}
+    dt['total']=[]
+    for i in amar1:
+         s1.append(float(i.id))
+         s2.append(str(jdatetime.date.fromgregorian(date=i.assetAmarDate)))
+         dt['total'].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
+    for i in amar2:
+        dt[str(i.shifttypes)]=[]#={str(i.assetAmarDate):i.id}
+    # dt['total']=[]#={str(i.assetAmarDate):i.id}
+    for i in amar2:
+        dt[str(i.shifttypes)].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
+
+    data['html_dashMTTR_list'] ={
+                's1': s1,
+                's2':s2,
+                's3':dt
+
+            }
+    return JsonResponse(data)
+def dash_getDashTolidBar(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    loc=request.GET.get('loc',False)
+    amar1=AmarUtility.getTolidBar(start,end,location=loc)
+
+    s1=[]
+    s2=[]
+    dt={}
+    # dt['total']=[]
+    for i in amar1:
+        # print(i.id)
+        dt[i.jalali_month]=[]
+
+    for i in amar1:
+        dt[i.jalali_month].append({'val':i.sum_value,'loc':i.id,'mah':i.jalali_month,'sal':i.jalali_year})
+    # sum_a = sum(float(item['value']) for item in data['A'] if item['value'])
+    # # print(data['A'][0]['value'].isdigit())
+    # sum_b = sum(float(item['value']) for item in data['B'] if item['value'])
+    # sum_c = sum(float(item['value']) for item in data['C'] if item['value'])
+    data['html_dashMTTR_list'] ={
+                
+                's3':dt
+
+            }
+    return JsonResponse(data)
+############################################
+def dash_getDashTolidTime(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    loc=request.GET.get('loc',False)
+    if(loc=='6961'):
+        amar1,amar2=AmarUtility.getTolid(start,end,location=loc)
+    else:
+        amar1,amar2=AmarUtility.getTolidTime(start,end,location=loc)
+    s1=[]
+    s2=[]
+    dt={}
+    dt['total']=[]
+    for i in amar1:
+         s1.append(float(i.id))
+         s2.append(str(jdatetime.date.fromgregorian(date=i.assetAmarDate)))
+         dt['total'].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
+    for i in amar2:
+        dt[str(i.shifttypes)]=[]#={str(i.assetAmarDate):i.id}
+    # dt['total']=[]#={str(i.assetAmarDate):i.id}
+    for i in amar2:
+        dt[str(i.shifttypes)].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
+
+    # print(amar)
+    data['html_dashMTTR_list'] ={
+                's1': s1,
+                's2':s2,
+                's3':dt
 
             }
     return JsonResponse(data)

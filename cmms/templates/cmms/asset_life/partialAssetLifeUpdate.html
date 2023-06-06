@@ -72,6 +72,7 @@
    }
    }
    getVal=function(element){
+     console.log(element);
      if(element.val().length===0)
      {
         switch(element.attr("id"))
@@ -112,7 +113,7 @@
           ,"assetOnlineStatus":{10}\
           ,"assetOnlineAdditionalInfo":"{11}"\
         ,"assetOnlineProducteHourAffected":{12},"assetOfflineFromTime":"{13}","assetOnlineFromTime":"{14}","assetCheckEvent":{15},"assetStopCode":{16},"assetCauseCode":{17}}',
-                      getVal($("#lastAssetid")),
+                      getVal($("#id_assetLifeAssetid")),
                       getStringVal($("#id_assetOfflineFrom")),
                       getVal($("#id_assetSetOfflineByUser")),
                       1,

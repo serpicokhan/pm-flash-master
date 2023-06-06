@@ -27,21 +27,42 @@
                         </div>
                         <div class="ibox-content">
                         <div class="row">
-                          <div class="col-sm-6">
+                          <div class="col-sm-3">
                             <div class="form-group">
                               <select class="form-control" name="assetMakan" id="id_makan">
+                                <option value="">-----</option>
                                   {% for i in makan %}
+
                                     <option value="{{i.id}}">{{i.assetName}}</option>
                                   {% endfor %}
                               </select>
                             </div>
                           </div>
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-3">
                               <div class="form-group">
                                 <select class="form-control" name="assetName2" id="id_assetName2">
 
                                 </select>
+                              </div>
+                            </div>
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                <input type="text" name="" value="" id="dttext" class="form-control">
+                              </div>
+                            </div>
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                <select class="form-control" name="" id="shift" >
+                                  <option value="A">A</option>
+                                  <option value="B">B</option>
+                                  <option value="C">C</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                <button type="button" name="button" class="btn btn-primary btn-outline" id='btncreate'>مشاهده و ایجاد</button>
                               </div>
                             </div>
 
@@ -74,69 +95,32 @@
                         </div>
                         <div class="ibox-content">
 
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="company-table">
-                                    <thead>
-                                    <tr>
-                                      <th></th>
-                                      <th>نام دستگاه</th>
-                                      <th>کیلومتر پایان شیفت قبل</th>
-                                      <th>کیلومتر پایان شیفت جاری</th>
-                                      <th>ساعت پایان شیفت  قبل</th>
-                                      <th>ساعت پایان شیفت جاری</th>
-                                      <th>درصد</th>
-                                      <th>داف</th>
-                                      <th>نام اپراتور</th>
-                                      <th>کیلومتر تولید</th>
-                                      <th>ساعت تولید</th>
-                                      <th>تاریخ</th>
-                                      <th>شیفت</th>
-
-                                        <th></th>
-
-                                    </tr>
-
-                                    </thead>
-                                    <tbody id='tbody_company'>
-                                            {% include 'cmms/ringamar/partialRingAmarList.html' %}
-                                    </tbody>
-                                </table>
-                                
-                                <div class="woPaging" >
-                                  {% if ringAmar.has_other_pages %}
-                                  <ul class="pagination">
-                                  {% if ringAmar.has_previous %}
-                                  <li><a href="?page={{ ringAmar.previous_page_number }}">&laquo;</a></li>
-                                  {% else %}
-                                  <li class="disabled"><span>&laquo;</span></li>
-                                  {% endif %}
-
-                                  <li ><span>{{ ringAmar.number }} از {{ ringAmar.paginator.num_pages }} <span class="sr-only">(current)</span></span></li>
-
-                                  {% if ringAmar.has_next %}
-                                  <li><a href="?page={{ ringAmar.next_page_number }}">&raquo;</a></li>
-                                  {% else %}
-                                  <li class="disabled"><span>&raquo;</span></li>
-                                  {% endif %}
-                                  </ul>
-                                  {% endif %}
-
-                                </div>
-                                <!-- BUTTON TO TRIGGER THE ACTION -->
-                                {% if perms.cmms.add_ringamar %}
-                                <p>
-                                  <button type="button" class="btn btn-primary js-create-ringAmar"
-                                  data-url="{% url 'ringAmar_create' %}" id="create_btn_id"  data-asset=""                                >
-                                    <span class="glyphicon glyphicon-plus"
-
-
-
-                                    ></span>
-                                  جدید
-                                  </button>
-                                </p>
-                                {% endif %}
-                            </div>
+                          <table class="table table-bordered table-striped" id="company-table" >
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>تاریخ</th>
+        <th>نام دستگاه</th>
+        <th>شیفت</th>
+        <th>کیلومتر پایان شیفت قبل</th>
+        <th>کیلومتر پایان شیفت جاری</th>
+        <th>کیلومتر تولید</th>
+        <th>ساعت پایان شیفت قبل</th>
+        <th>ساعت پایان شیفت جاری</th>
+        <th>ساعت تولید</th>
+        <th>نام اپراتور</th>
+        <th>داف</th>
+        <th>نمره</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id='tbody_amar'>
+      <!-- Generating rows using JavaScript -->
+      {% include 'cmms/ringamar/partialRingAmarList2.html' %}
+    </tbody>
+  </table>
+  <p>
+  <button type="button" name="button" class="btn btn-primary savetableinfo">بارگزاری</button></p>
 
                           </div>
 
@@ -144,6 +128,13 @@
                 </div>
                 <div class="modal fade" id="modal-company">
                  <div class="modal-dialog  modal-lg ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+                <div class="modal fade" id="modal-assetLife">
+                 <div class="modal-dialog  ">
 
                    <div class="modal-content ">
                    </div>
@@ -162,5 +153,26 @@
 
   <script src="{% static '/js/project/ringamar.js' %}"></script>
     <script src="{% static '/js/project/reports/form/PartUsageByLocationandPart2.js' %}"></script>
+    <!-- <script>
+    // Generate rows using JavaScript
+    var tableBody = document.querySelector('tbody');
+    for (var i = 1; i <= 20; i++) {
+      var row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${i}</td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+      `;
+      tableBody.appendChild(row);
+    }
+  </script> -->
 {% endblock %}
 {% endblock %}

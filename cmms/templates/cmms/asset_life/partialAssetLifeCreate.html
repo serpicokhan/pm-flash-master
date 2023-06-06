@@ -76,8 +76,9 @@ catch
 }
 }
 getVal=function(element){
+  console.log(element);
   if(element){
-    // console.log(element);
+    console.log(element);
   if(element.val().length===0)
   {
      switch(element.attr("id"))
@@ -105,7 +106,7 @@ var initAssetEventLoad=function(){
 
   $.ajax({
 
-    url: '/AssetEvent/'+$("#lastAssetid").val()+'/listAssetEvent',
+    url: '/AssetEvent/'+$("#id_assetLifeAssetid").val()+'/listAssetEvent',
 
 
 
@@ -154,7 +155,7 @@ return false;
          ,"assetOnlineStatus":{10}\
          ,"assetOnlineAdditionalInfo":"{11}"\
        ,"assetOnlineProducteHourAffected":{12},"assetOfflineFromTime":"{13}","assetOnlineFromTime":"{14}","assetCheckEvent":{15},"assetStopCode":{16},"assetCauseCode":{17}}',
-                     getVal($("#lastAssetid")),
+                     $("#id_assetLifeAssetid").val(),
                      getStringVal($("#id_assetOfflineFrom")),
                      getVal($("#id_assetSetOfflineByUser")),
                      1,
@@ -222,6 +223,7 @@ return false;
                           //console.log(data.html_assetLife_list);
                         }
                         else {
+                          toastr.error("خطا");
 
                           // $("#assetLife-table tbody").html(data.html_assetLife_list);
                           // $("#modal-assetLife .modal-content").html(data.html_assetLife_form);

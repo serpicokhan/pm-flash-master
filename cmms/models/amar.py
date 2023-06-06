@@ -13,9 +13,9 @@ Shift=(
 class RingAmar(models.Model):
     ShiftTypes=models.CharField("شیفت", choices=Shift,max_length=1,null=True,blank=True)
     assetName=models.ForeignKey(Asset,on_delete=models.CASCADE,null=True,blank=True,verbose_name="تجهیز",related_name='ringAmar')
-    assetStartKilometer=models.DecimalField("کیلومتر شروع",max_digits=10, decimal_places=3,default=0)
-    assetEndKilometer=models.DecimalField("کیلومتر پایان",max_digits=10, decimal_places=3,default=0)
-    assetTotlaKilometer=models.DecimalField("کیلومتر تولید",max_digits=10, decimal_places=3,default=0)
+    assetStartKilometer=models.DecimalField("کیلومتر پایان شیفت قبل",max_digits=15, decimal_places=3,default=0)
+    assetEndKilometer=models.DecimalField("کیلومتر پایان شیفت جاری",max_digits=15, decimal_places=3,default=0)
+    assetTotlaKilometer=models.DecimalField("کیلومتر تولید",max_digits=15, decimal_places=3,default=0)
     assetStartTime=models.DecimalField("ساعت پایان شیفت قبل",max_digits=10, decimal_places=3,default=0)
     assetEndTime=models.DecimalField("ساعت پایان شیفت جاری",max_digits=10, decimal_places=3,default=0)
     assetTotalTime=models.DecimalField("ساعت تولید",max_digits=10, decimal_places=3,default=0)
@@ -32,5 +32,5 @@ class RingAmar(models.Model):
 
     class Meta:
       db_table = "ringamar"
-      ordering = ('-assetAmarDate','-id' )
+      ordering = ('-assetAmarDate','-ShiftTypes','-id' )
       unique_together = ['ShiftTypes', 'assetName','assetAmarDate']

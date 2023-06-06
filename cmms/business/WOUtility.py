@@ -1,4 +1,4 @@
-from cmms.models import WorkOrder,Project,SysUser
+from cmms.models import *
 import jdatetime
 import datetime
 
@@ -1247,3 +1247,23 @@ class WOUtility:
                 'ispm':False
             })
         return data
+    @staticmethod
+    def create_task_when_wo_created_fromAPI(request,woid):
+
+        wo=WorkOrder.object.get(id=woid)
+
+        data=dict()
+        if(wo.CompleteUserTask.all().count()==0):
+            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated)
+
+        return True
+    @staticmethod
+    def create_notification(request,woid):
+
+        wo=WorkOrder.object.get(id=woid)
+        asset_user=AssetUser.objects.filter(AssetUserAssetId=wo.woAsset)
+        for i in asset_user:
+            WorkorderUserNotification.objects.create(woNotifWorkorder=wo,woNotifUser=i.AssetUserUserId)
+
+
+        return True
