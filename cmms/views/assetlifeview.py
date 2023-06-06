@@ -134,11 +134,11 @@ def assetLife_create(request,assetId=None):
             data['assetOnlineAdditionalInfo']=body['assetOnlineAdditionalInfo']
             data['assetOnlineProducteHourAffected']=body['assetOnlineProducteHourAffected']
             data['assetOnlineFromTime']=body['assetOnlineFromTime']
-            time1 = data['assetOfflineFromTime']
-            time2 = data['assetOnlineFromTime']
-            format = "%H:%M"
-            t1 = datetime.strptime(time1, format)
-            t2 = datetime.strptime(time2, format)
+            # time1 = data['assetOfflineFromTime']
+            # time2 = data['assetOnlineFromTime']
+            # format = "%H:%M"
+            # t1 = datetime.strptime(time1, format)
+            # t2 = datetime.strptime(time2, format)
             # asset1.assetStatus=True
             # asset1.save()
             # print(asset1,"if#####################")
