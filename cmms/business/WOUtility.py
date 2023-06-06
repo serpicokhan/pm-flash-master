@@ -1250,7 +1250,7 @@ class WOUtility:
     @staticmethod
     def create_task_when_wo_created_fromAPI(request,woid):
 
-        wo=WorkOrder.object.get(id=woid)
+        wo=WorkOrder.objects.get(id=woid)
 
         data=dict()
         if(wo.CompleteUserTask.all().count()==0):
@@ -1260,7 +1260,7 @@ class WOUtility:
     @staticmethod
     def create_notification(request,woid):
 
-        wo=WorkOrder.object.get(id=woid)
+        wo=WorkOrder.objects.get(id=woid)
         asset_user=AssetUser.objects.filter(AssetUserAssetId=wo.woAsset)
         for i in asset_user:
             WorkorderUserNotification.objects.create(woNotifWorkorder=wo,woNotifUser=i.AssetUserUserId)
