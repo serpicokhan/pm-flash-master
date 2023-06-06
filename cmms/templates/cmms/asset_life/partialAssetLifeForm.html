@@ -74,11 +74,7 @@
                                            </span>
                                        </span>
                                    </div>
-                                   <style media="screen">
-                                     .clockpicker-popover {
-    z-index: 999999;
-}
-                                   </style>
+
                          <div class="form-group">
                            <label>{{form.assetWOAssoc.label}}</label>
 
@@ -143,7 +139,7 @@
 
                              <input type=text id='id_assetMeterAssetjq21' class="form-control" readonly/>
                              <script type="text/javascript">
-                             $("#id_assetMeterAssetjq21").val($("#id_assetName").val());
+                             $("#id_assetMeterAssetjq21").val($("#id_asset_name").val());
 
                              </script>
                            </div>
@@ -155,7 +151,16 @@
                            <div class="form-group">
                              <label>{{form.assetOnlineFromTime.label}}</label>
 
-                             {{form.assetOnlineFromTime| add_class:"form-control" }}
+
+                             <div class="input-group clockpicker" data-autoclose="true">
+
+                               {% render_field form.assetOnlineFromTime class="form-control ltr-inpuy"   %}
+                                           <!-- <input type="text" class="form-control ltr-inpuy"  > -->
+                                           <span class="input-group-addon">
+                                               <span class="fa fa-clock-o">
+                                               </span>
+                                           </span>
+                                       </div>
                            </div>
                            <div class="form-group">
                              <label>{{form.assetSetOnlineByUser.label}}</label>
@@ -211,6 +216,11 @@
       </div>
     </div>
   </div>
+  <style media="screen">
+    .clockpicker-popover {
+z-index: 999999;
+}
+  </style>
   <script type="text/javascript">
      $('.clockpicker').clockpicker();
   </script>
