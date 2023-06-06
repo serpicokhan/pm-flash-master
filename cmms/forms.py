@@ -912,6 +912,7 @@ class AssetPurchaseForm(forms.ModelForm):
 ###########################################################################
 class AssetLifeForm(forms.ModelForm):
     woName=forms.CharField(label='دستور کار',required=False,widget=forms.TextInput(attrs={'class':'woselector','autocomplete':'off'}))
+    asset_name=forms.CharField(label='دستور کار',required=False,widget=forms.TextInput(attrs={'class':'woselector','autocomplete':'off'}))
     # def __init__(self,*args,**kwargs):
     #
     #         self.asset_id = kwargs.pop('asset_id')

@@ -68,7 +68,11 @@ class RegMiniView(APIView):
 
             io1=serializer.save()
             io1.RequestedUser=rq
+
             io1.save()
+            WOUtility.create_task_when_wo_created(request,io1.id)
+            WOUtility.create_notification(request,io1.id)
+
             # print("her2!")
 
             posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')

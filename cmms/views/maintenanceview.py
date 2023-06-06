@@ -634,7 +634,7 @@ def formset_view(request):
     context['form']= form
     context['woList']=wos
     context['section']='formset_view'
-    return render(request, "cmms/maintenance/formset.html", context)
+    return render(request, "cmms/maintenance/formset2.html", context)
 @csrf_exempt
 def save_formset(request):
     #add try catch

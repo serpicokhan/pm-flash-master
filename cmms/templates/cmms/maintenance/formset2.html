@@ -1,0 +1,770 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+ {% block content %}
+ {% load widget_tweaks %}
+
+<div class="row">
+  <div class="col-lg-12" >
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>درخواست ها </h5>
+
+                        </div>
+                        <div class="ibox-content">
+
+                            <div class="row">
+
+                            </div>
+
+
+      <!-- Management data of formset -->
+
+
+      <!-- Security token -->
+
+
+      <!-- Using the formset -->
+
+<div class="table-responsive" style=" overflow-x: scroll;height:500px">
+
+
+      <table class="table table-bordered table-striped table-hover"  id=tbFormset >
+                            <thead>
+                            <tr>
+                              <th></th>
+                              <th>EM</th>
+                                <th  >تاریخ ایجاد</th>
+                                <th >زمان ایجاد</th>
+                                <th >درخواست کننده</th>
+                                <th >واحد مجری</th>
+                                <th >نوع نگهداری</th>
+                                <th >وضعیت درخواست</th>
+                                <th >نام دستگاه</th>
+                                <th >شرح درخواست</th>
+                                <th  >توضیحات</th>
+                                <th >علت</th>
+                                <th >پروژه</th>
+                                <th >تاریخ انجام</th>
+                                <th >زمان انجام</th>
+                                <th  >زمان پرت</th>
+                                <th  >تعمیرکار</th>
+                                <th >با توقف</th>
+                                <th  >نام قطعه</th>
+                                <th  >تعداد</th>
+
+
+
+                            </tr>
+
+                            </thead>
+                            <tbody>
+
+
+
+
+                              <tr>
+       <td contenteditable="true"></td>
+       <td contenteditable="true" ></td>
+       <td contenteditable="true" class="datecreated"> <input type="text" name="" value="" class="form-control date"></td>
+       <td contenteditable="true"></td>
+       <td contenteditable="true"></td>
+       <td contenteditable="true"></td>
+       <td contenteditable="true" class="select-cell">  {% render_field form.maintenanceType class="form-control " data-show-subtext="true" data-live-search="true"  %}</td>
+       <td contenteditable="true"></td>
+       <td contenteditable="true" class="machin_name"><input type="text" name="" value="" class="form-control auto-complete"></td>
+       <td contenteditable="true" style="text-align:center"></td>
+       <td contenteditable="true"></td>
+       <td contenteditable="true"></td>
+       <td contenteditable="true"></td>
+       <td contenteditable="true" ></td>
+       <td contenteditable="true" ></td>
+       <td contenteditable="true"></td>
+       <td contenteditable="true" ></td>
+       <td contenteditable="true" ></td>
+       <td contenteditable="true" ></td>
+       <td contenteditable="true" ></td>
+     </tr>
+
+
+
+
+
+                            </tbody>
+
+                        </table>
+                        
+                        </div>
+                        {% load mathfilters %}
+                        <div class="woPaging" >
+                          {% if woList.has_other_pages %}
+                          <ul class="pagination">
+                          {% if woList.has_previous %}
+                          <li><a href="?page={{ woList.previous_page_number }}">&laquo;</a></li>
+                          {% else %}
+                          <li class="disabled"><span>&laquo;</span></li>
+                          {% endif %}
+                          {% for i in woList.paginator.page_range %}
+                          {% if  woList.number  ==  i %}
+                          <li class="active">
+                            <span>{{ i }} <span class="sr-only">(current)</span></span>
+                          </li>
+                          {% elif  i|sub:3 <=  woList.number and i|add:3 > woList.number %}
+
+                          <li><a href="?page={{ i }}">{{ i }}</a></li>
+                          {% endif %}
+                          {% endfor %}
+                          {% if woList.has_next %}
+                          <li><a href="?page={{ woList.next_page_number }}">&raquo;</a></li>
+                          {% else %}
+                          <li class="disabled"><span>&raquo;</span></li>
+                          {% endif %}
+                          </ul>
+                          {% endif %}
+
+                        </div>
+                        <div class="modal fade" id="modal-company" style="overflow-y: scroll">
+                         <div class="modal-dialog  modal-lg ">
+
+                           <div class="modal-content ">
+                           </div>
+                         </div>
+                        </div>
+
+      <button type="button" name="button"  id="btn11" class="btn btn-w-m btn-primary send_form" >ارسال</button>
+      <button type="button" name="delbtn"  id="delbtn" class="btn btn-w-m btn-danger js-bulk-formset-delete-wo" data-url='{% url 'formset_bulk_deletion' %}' >حذف</button>
+      <button type="button" name="button"  id="btn11" class="btn btn-w-m btn-primary pull-left send_form" >ارسال</button>
+
+
+                          </div>
+
+                    </div>
+
+                </div>
+                <div class="modal fade" id="modal-company" style="overflow-y: scroll">
+                 <div class="modal-dialog  modal-lg ">
+
+                   <div class="modal-content ">
+                   </div>
+                 </div>
+                </div>
+
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+
+<script src="{% static '/js/project/workorder.js' %}"></script>
+
+
+
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+
+
+   $('#tbFormset').on('keydown', 'td[contenteditable="true"]', function(e) {
+
+     if (e.key === 'Enter') {
+       e.preventDefault();
+      var newRow = $(this).closest('tr').clone();
+      newRow.find('td[contenteditable="true"]').text('');
+      var firstRowSelect = $('#tbFormset tbody tr:first-child td.select-cell select');
+      var firstRowInput = $('#editableTable tbody tr:first-child td.datecreated input');
+      var firstRowMachinName = $('#editableTable tbody tr:first-child td.machin_name input');
+
+
+       var newInput = $('<input>').attr('type', 'text').addClass('form-control');
+       newRow.find('td.datecreated').empty().append(newInput);
+       newInput.pDatepicker({
+         format: 'YYYY-MM-DD',
+         initialValueType: 'gregorian',
+         autoClose:true
+
+
+     });
+       var newInput2 = $('<input>').attr('type', 'text').addClass('form-control');
+       newRow.find('td.machin_name').empty().append(newInput2);
+
+     if (firstRowSelect.length) {
+       var newSelect = firstRowSelect.clone();
+       newRow.find('td.select-cell').empty().append(newSelect);
+     }
+      $('#tbFormset tbody').append(newRow);
+      newRow.find('td[contenteditable="true"]').eq(0).focus();
+    //id_dateCompleted
+     }
+
+
+
+});
+
+
+    $(".input-block-level").keyup(function(){
+
+      $.ajax({
+            url: "/WoPart/search_form_set?q="+$(this).val(),
+            type: 'get',
+            success: function(data){
+              console.log(data);
+            $("#id_woPart").empty();
+            $("#id_woPart").html(data.result);
+            $("#id_woPart").selectpicker('refresh'); // without the []
+    }
+});
+    });
+
+      $('.basicAutoComplete').autoComplete();
+      $('.advanced2AutoComplete').autoComplete({
+        resolver: 'custom',
+        noResultsText:'بدون نتیجه',
+        formatResult: function (item) {
+          return {
+            value: item.id,
+            text: "[" + item.assetCode + "] " + item.assetName,
+
+          };
+        },
+        events: {
+          search: function (qry, callback) {
+            // let's do a custom ajax call
+            $.ajax(
+              '/Asset/GetAssets',
+              {
+                data: { 'qry': qry}
+              }
+            ).done(function (res) {
+              // console.log(res);
+
+
+              callback(res)
+            });
+          },
+
+        }
+      });
+
+      $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
+          $("#id_woAsset").val(item.id);
+          $('#id_woAsset').val(item.id).trigger('change');
+
+        // $('.basicAutoCompleteCustom').html('');
+      });
+
+
+
+
+
+  });
+var itemSelectorOption = $('#id_assignedToUser option:selected');
+itemSelectorOption.remove();
+$('#id_assignedToUser').selectpicker('refresh');
+
+    var pcounter=0;
+    if(pcounter==0){
+    $('.selectpicker').selectpicker();
+    $('.date').pDatepicker({
+      format: 'YYYY-MM-DD',
+      initialValueType: 'gregorian',
+      autoClose:true
+
+
+  });//id_dateCompleted
+    $('#id_dateCompleted').pDatepicker({
+      format: 'YYYY-MM-DD',
+      initialValueType: 'gregorian',
+      autoClose:true
+
+
+  });//id_dateCompleted
+  pcounter=1;
+
+
+}
+// var preloader=$("#preloading");
+function myfuncloader(){
+
+  perloader.style.display=none;
+
+}
+
+
+
+
+
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+getStringVal=function(element){
+  if(element.length===0)
+
+
+    return "null";
+  else{
+    return element;
+  }
+}
+getVal=function(element){
+  if(element ==null)
+    return 'null';
+
+
+  if(element.length==0){
+    return 'null';
+  }
+  else{
+    return element;
+  }
+}
+function checkDate()
+{
+  b=$("#id_datecreated").val().split`-`.map(x=>+x);
+  // console.log(b);
+  // console.log(new persianDate(b).gDate);
+
+
+  date1= new persianDate(b).gDate
+  date2=$("#id_dateCompleted").val().split`-`.map(x=>+x);
+  time2=$("#id_timeCompleted").val().split`:`.map(x=>+x);
+  // console.log(time2);
+  if(time2.length==3){
+    if(Number.isInteger(((time2[0]))))
+    {
+      if(Number.isInteger(((time2[1]))))
+      {
+        if(Number.isInteger((time2[2])))
+        {
+          date2.push(time2[0]);
+          date2.push(time2[1]);
+          date2.push(time2[2]);
+          // console.log(date2);
+          date3=new persianDate(date2).gDate;
+          // console.log(date3);
+          if(date3>date1){
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+
+
+        }
+        else
+        {
+          toastr.error(" 1فرمت اشتباه در ساعت");
+          return false;
+        }
+
+      }
+      else
+      {
+        toastr.error(" 2فرمت اشتباه در ساعت");
+        return false;
+      }
+    }
+    else
+    {
+      toastr.error("3فرمت اشتباه در ساعت");
+      return false;
+    }
+  }
+
+
+
+
+  return true;
+}
+function validateform(){
+  is_ok=true;
+  msg="";
+  if($("#id_RequestedUser").val()=="")
+  {
+    is_ok=false;
+    msg="درخوسات کننده را مشخص کنید";
+
+
+  }
+  else if($("#id_woAsset").val()=="")
+  {
+    is_ok=false;
+    msg="نام دستگاه را مشخص کنید";
+
+
+  }
+  else if($("#id_maintenanceType").val()=="")
+  {
+    is_ok=false;
+    msg="نوع نگهداری را مشخص کنید";
+
+
+  }
+  else if($("#id_summaryofIssue").val()=="")
+  {
+    is_ok=false;
+    msg="قسمت شرح درخواست را پر کنید";
+
+
+  }
+  else if($("#id_assignedToUser").val()==null)
+  {
+    is_ok=false;
+    msg="تعمیر کاران را مشخص کنید";
+
+
+  }
+  else if($("#id_woCauseCode").val()=="")
+  {
+    is_ok=false;
+    msg="علت را مشخص کنید";
+
+
+  }
+  else if($("#id_woPart").val()!=null)
+  {
+    if($("#id_woPart").val().length==1)
+    {
+      if(!Number.isInteger(parseInt($("#id_woPartQty").val()))){
+        is_ok=false;
+        msg="تعداد قطعات بایستی عدد باشد";
+
+      }
+
+    }
+    else if($("#id_woPart").val().length>1)
+    {
+      a=$("#id_woPartQty").val().split(",");
+      if(a.length==1)
+      {
+        is_ok=false;
+        msg="با کاما جدا کنید";
+
+      }
+      else if(a.length==0)
+        {
+          is_ok=false;
+          msg="حتما بایستی عدد وارد کنید";
+
+        }
+      else if(a.length>1)
+      {
+        for(i=0;i<a.length;i++)
+        {
+          if(!Number.isInteger(parseInt(a[i]))){
+            is_ok=false;
+            msg="تعداد قطعات بایستی عدد باشد";
+          }
+        }
+      }
+
+    }
+  }
+  else if (!checkDate())
+  {
+    is_ok=false;
+    msg="تاریخ اتمام بایستی بزرگتر از تاریخ ایجاد دستور کار باشد!";
+  }
+
+  if(!is_ok)
+  {
+    toastr.error(msg);
+  }
+  return is_ok;
+
+
+
+
+}
+$(".send_form").click(function(){
+
+            var form = $("#myform");
+            // console.log(form.attr("data-url"));
+            var mydata=myformat('{"datecreated":"{0}"\
+            ,"RequestedUser":{1}\
+            ,"maintenanceType":{2}\
+            ,"woAsset":{3}\
+            ,"summaryofIssue":"{4}"\
+            ,"completionNotes":"{5}"\
+            ,"woCauseCode":{6}\
+            ,"Project":{7}\
+            ,"dateCompleted":"{8}"\
+            ,"timeCompleted":"{9}"\
+            ,"assignedToUser":{10}\
+            ,"woStopCode":{11}\
+            ,"woPart":{12}\
+            ,"woPartQty":"{13}"\
+            ,"isEM":{14}\
+            ,"pertTime":"{15}","woStatus":{16},"timecreated":"{17}"}',
+            getStringVal($("#id_datecreated").val()),
+            getVal($("#id_RequestedUser").val()),
+            getVal($("#id_maintenanceType").val()),
+            getVal($("#id_woAsset").val()),
+            getStringVal($("#id_summaryofIssue").val()),
+            getStringVal($("#id_completionNotes").val()),
+            getVal($("#id_woCauseCode").val()),
+            getVal($("#id_Project").val()),
+            getStringVal($("#id_dateCompleted").val()),
+            getStringVal($("#id_timeCompleted").val()),
+
+            getVal($("#id_assignedToUser").val()==null)?null:myformat("[{0}]",getVal($("#id_assignedToUser").val())),
+            getVal($("#id_woStopCode").val()),
+            getVal($("#id_woPart").val()==null)?null:myformat("[{0}]",getVal($("#id_woPart").val())),
+            ($("#id_woPartQty").val())==""?null:$("#id_woPartQty").val(),
+            $('#id_isEM').is(":checked"),
+            getStringVal(($("#id_pertTime").val()==""?"-":$("#id_pertTime").val())),
+            getStringVal(($("#id_woStatus").val()==""?"1":$("#id_woStatus").val())),
+            getStringVal(($("#id_timecreated").val()=="")?"00:00:00":$("#id_timecreated").val())
+
+            );
+            if(validateform())
+            {
+              // console.log(mydata);
+            $.ajax({
+              url: '/formsetcreate',
+              type: "POST",
+              data:mydata,
+
+
+
+              dataType: 'json',
+              beforeSend: function (xhr, opts) {
+                // console.log(mydata);
+
+
+              },
+
+              success: function (data) {
+                // console.log(data);
+                if (data.form_is_valid) {
+                  if (typeof(Storage) !== "undefined") {
+
+                    if($("#savereq").is(":checked"))
+                    {
+                      localStorage.setItem("requser",$("#id_RequestedUser").val())
+                    }
+                    if($("#saveasset").is(":checked"))
+                    {
+                      localStorage.setItem("saveasset",$("#id_woAsset").val())
+                      localStorage.setItem("assetname",$("#id_myAsset").val())
+                    }
+                    if($("#saveuser").is(":checked"))
+                    {
+                      localStorage.setItem("saveuser",$("#id_assignedToUser").val())
+                    }
+                  } else {
+                    // Sorry! No Web Storage support..
+                  }
+
+
+                   // <-- This is just a placeholder for now for testing
+                  $("#tbFormset").find("tr:gt(1)").remove();
+
+                  $(data.html_formset_list).insertAfter('table > tbody > tr:nth-child(1)');
+                   toastr.success("دستور کار با موفقیت  ایجاد شد");
+                   var elem = document.getElementById("id_datecreated");
+                   var elem1 = document.getElementById("id_dateCompleted");
+                   var elem2 = document.getElementById("id_myAsset");
+                   v=elem.parentElement;
+
+                   // console.log(elem);
+                   elem.remove();
+                   elem1.remove();
+                   // elem2.remove();
+                   $('tr#myform td:nth-child(3)').append($('<input type="text" id="id_datecreated" name="datecreated"  class="form-control"/>'));
+                   $('tr#myform td:nth-child(14)').append($('<input type="text" id="id_dateCompleted" name="dateCompleted"  class="form-control"/>'));
+                   // $('tr#myform td:nth-child(9)').append($('<input type="text" id="id_myAsset" name="myAsset"  class="form-control  advanced2AutoComplete"/><input type="hidden" name="woAsset" id="id_woAsset" >'));
+                   // console.log(elem);
+                   // elem.parentElement.removeChild(elem);
+                   $('#id_datecreated').pDatepicker({
+                     format: 'YYYY-MM-DD',
+                     initialValueType: 'gregorian',
+                     autoClose:true
+
+
+                 });//id_dateCompleted
+                   $('#id_dateCompleted').pDatepicker({
+                     format: 'YYYY-MM-DD',
+                     initialValueType: 'gregorian',
+                     autoClose:true
+
+
+                 });//id_dateCompleted
+                 $("#id_woPart").val('default');
+                 $("#id_woPart").selectpicker("refresh");
+                 $("#id_assignedToUser").val('default');
+                 $("#id_assignedToUser").selectpicker("refresh");
+                 $("#id_Project").val('default');
+                 $("#id_Project").selectpicker("refresh");
+                 $("#id_woCauseCode").val('default');
+                 $("#id_woCauseCode").selectpicker("refresh");
+
+                 // $("#id_woAsset").val('default');
+                 $("#id_myAsset").val('');
+                 // $("#id_woAsset").selectpicker("refresh");
+                 $("#id_maintenanceType").val('default');
+                 $("#id_maintenanceType").selectpicker("refresh");
+                 $("#id_unitgroups").val('default');
+                 $("#id_unitgroups").selectpicker("refresh");
+                 $("#id_RequestedUser").val('default');
+                 $("#id_RequestedUser").selectpicker("refresh");
+                 $("#id_isEM").prop('checked', false);
+                 $("#id_summaryofIssue").val("");
+                 $("#id_completionNotes").val("");
+                 $("#id_pertTime").val("0");
+                 $("#id_woStopCode").val("15");
+                 $("#id_woPartQty").val("0");
+                 var today_time = new Date();
+                 $("#id_timecreated").val(today_time.toLocaleTimeString('en-GB'));
+                 $("#id_timeCompleted").val(today_time.toLocaleTimeString('en-GB'));
+                 $("#id_woPartQty").val("0");
+                 var r_right= $("#id_myAsset").offsetParent().width() - ($("#id_myAsset").position().left + $("#id_myAsset").width());
+                 $('.bootstrap-autocomplete.dropdown-menu').css({'right':r_right+'px'});
+
+
+
+                 if (typeof(Storage) !== "undefined") {
+
+                   if($("#savereq").is(":checked"))
+                   {
+                     // console.log("kire khar");
+                    $("#id_RequestedUser").val(localStorage.getItem("requser"));
+                    $("#id_RequestedUser").selectpicker("refresh");
+                     $("#id_assignedToUser").selectpicker('val',localStorage.getItem("saveuser").split(','))
+                    $("#id_assignedToUser").selectpicker("refresh");
+                    $("#id_myAsset").val(localStorage.getItem("assetname"));
+                    $("#id_myAsset").selectpicker("refresh");
+
+                    $("#id_woAsset").val(localStorage.getItem("saveasset"));
+                    // $("#id_assignedToUser").selectpicker("refresh");
+                   }
+                 } else {
+                   // Sorry! No Web Storage support..
+                 }
+
+
+
+
+
+
+                 $(".input-block-level").keyup(function(){
+
+                   $.ajax({
+                         url: "/WoPart/search_form_set?q="+$(this).val(),
+                         type: 'get',
+                         success: function(data){
+                           // console.log(data);
+                         $("#id_woPart").empty();
+                         $("#id_woPart").html(data.result);
+                         $("#id_woPart").selectpicker('refresh'); // without the []
+                 }
+             });
+                 });
+
+                   $('.basicAutoComplete').autoComplete();
+                   // $('.advanced2AutoComplete').autoComplete({
+                   //   resolver: 'custom',
+                   //   noResultsText:'بدون نتیجه',
+                   //   formatResult: function (item) {
+                   //     return {
+                   //       value: item.id,
+                   //       text: "[" + item.assetCode + "] " + item.assetName,
+                   //
+                   //     };
+                   //   },
+                   //   events: {
+                   //     search: function (qry, callback) {
+                   //       // let's do a custom ajax call
+                   //       $.ajax(
+                   //         '/Asset/GetAssets',
+                   //         {
+                   //           data: { 'qry': qry}
+                   //         }
+                   //       ).done(function (res) {
+                   //         // console.log(res);
+                   //
+                   //
+                   //         callback(res)
+                   //       });
+                   //     },
+                   //
+                   //   }
+                   // });
+                   //
+                   // $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
+                   //     $("#id_woAsset").val(item.id);
+                   //     $('#id_woAsset').val(item.id).trigger('change');
+                   //
+                   //   // $('.basicAutoCompleteCustom').html('');
+                   // });
+
+
+
+                }
+                else {
+                  toastr.error(JSON.stringify(data));
+
+
+
+                }
+              }
+
+            });
+          }
+            return false;
+          });
+          function changem(id,val,element)
+          {
+            $.ajax({
+              url: '/WorkOrder/'+id+'/updateEm/'+val,
+              type: "get",
+
+
+
+
+              dataType: 'json',
+              beforeSend: function (xhr, opts) {
+                // console.log(mydata);
+
+
+              },
+
+              success: function (data) {
+                if(val=="0")
+                $(element).prop("class","fa fa-times emcheck");
+                else {
+                $(element).prop("class","fa fa-minus emcheck");
+                }
+              },
+
+              error:function(){
+                toastr.error("خطایی رخ داده است");
+              }
+            });
+          }
+          $("#tbFormset").on("click", ".emcheck", function(){
+            if($(this).prop("class")=="fa fa-minus emcheck")
+            changem($(this).attr("date-url"),"0",$(this))
+            else {
+            changem($(this).attr("date-url"),"1",$(this))
+            }
+          });
+
+
+
+  </script>
+
+
+
+
+{% endblock %}
+{% endblock %}

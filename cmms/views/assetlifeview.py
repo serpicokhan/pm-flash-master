@@ -164,9 +164,9 @@ def assetLife_create(request,assetId=None):
 
 
     else:
-        al=AssetLife.objects.filter(assetLifeAssetid=assetId)
-
-        form = AssetLifeForm(initial={'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
+        # al=AssetLife.objects.filter(assetLifeAssetid=assetId)
+        asset_name=Asset.objects.get(id=assetId).assetName
+        form = AssetLifeForm(initial={'asset_name':asset_name,'assetLifeAssetid':assetId,'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
 
     return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeCreate.html',woId,False)
 ###################################################################
@@ -175,6 +175,7 @@ def assetLife_create(request,assetId=None):
 def assetLife_update(request, id):
     company= get_object_or_404(AssetLife, id=id)
     woId=company.assetLifeAssetid
+    asset_name=company.assetLifeAssetid.assetName
     print("{}".format(woId.assetStatus))
     assetStatus=False
     #parrent asset
@@ -229,7 +230,7 @@ def assetLife_update(request, id):
         form = AssetLifeForm(data, instance=company)
         woId.save()
     else:
-         form = AssetLifeForm(instance=company,initial={'woName':company.assetWOAssoc,'assetSetOnlineByUser':SysUser.objects.get(userId=request.user)})
+         form = AssetLifeForm(instance=company,initial={'asset_name':asset_name,'woName':company.assetWOAssoc,'assetSetOnlineByUser':SysUser.objects.get(userId=request.user)})
     return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeUpdate.html',woId.id,assetStatus)
 ###################################################################    ###################################################################
 @csrf_exempt

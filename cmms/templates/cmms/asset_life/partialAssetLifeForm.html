@@ -26,10 +26,11 @@
                        <div class="col-lg-6">
                          <div class="form-group">
                            <label>نام تجهیز</label>
-
+                           {{form.assetLifeAssetid.as_hidden}}
+                           {{form.asset_name.as_hidden}}
                            <input type=text id='id_assetMeterAssetjq' class="form-control" readonly/>
                            <script type="text/javascript">
-                           $("#id_assetMeterAssetjq").val($("#id_assetName").val());
+                           $("#id_assetMeterAssetjq").val($("#id_asset_name").val());
 
                            </script>
                          </div>
@@ -61,11 +62,23 @@
 
                            {{form.assetOfflineStatus| add_class:"form-control" }}
                          </div> -->
-                         <div class="form-group">
-                           <label>{{form.assetOfflineFromTime.label}}</label>
+                         <!-- <div class="form-group">
 
-                           {{form.assetOfflineFromTime| add_class:"form-control" }}
-                         </div>
+                         </div> -->
+                         <div class="input-group clockpicker" data-autoclose="true">
+
+                           {% render_field form.assetOfflineFromTime class="form-control ltr-inpuy"   %}
+                                       <!-- <input type="text" class="form-control ltr-inpuy"  > -->
+                                       <span class="input-group-addon">
+                                           <span class="fa fa-clock-o">
+                                           </span>
+                                       </span>
+                                   </div>
+                                   <style media="screen">
+                                     .clockpicker-popover {
+    z-index: 999999;
+}
+                                   </style>
                          <div class="form-group">
                            <label>{{form.assetWOAssoc.label}}</label>
 
@@ -198,3 +211,6 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+     $('.clockpicker').clockpicker();
+  </script>

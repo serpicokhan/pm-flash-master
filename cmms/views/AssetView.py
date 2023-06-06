@@ -605,7 +605,7 @@ def show_Asset_status(request,id):
     data["form_is_valid"]=True
     return JsonResponse(data)
 def show_asset_tree(request,id):
-    children=Asset.objects.filter(assetIsPartOf=id)
+    children=Asset.objects.filter(Q(assetIsPartOf=id)|Q(assetIsLocatedAt=id))
     mainparts=AssetPart.objects.filter(assetPartAssetid=id)
     mainbooks2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
     BOMGroupAsset.objects.filter(BOMGroupAssetAsset=id).values_list('BOMGroupAssetBOMGroup',flat=True))

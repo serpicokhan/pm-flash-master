@@ -439,6 +439,113 @@ $('#company-table').on('keydown', '.editable-cell', function(e) {
        }
      });
 
+var load_assetlife=function(){
+  var row = $(this).closest('tr');
+  var asset_id= parseInt(row.find('.assetname').attr('data-assetname')) || 0;
+  // console.log(asset_id);
+  js_switch_change(asset_id);
+}
+var js_switch_change=function(asset_id)
+{
+  $.ajax({
+    url: '/AssetLife/'+asset_id+'/eval/',
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+      $("#modal-assetLife").modal({backdrop: 'static', keyboard: false});
+      // $('#modal-assetLife').data('bs.modal').options.backdrop = 'static';
+    },
+    success: function (data) {
+
+
+
+      tab="tab-assetlife"
+
+       $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+
+      $("#modal-assetLife .modal-content").html(data.html_assetLife_form);
+      // if($("#id_assetStatus").is(":checked")==true)
+      // {
+      //   $('.nav-tabs a[href="#' + 'tab-correct' + '"]').tab('show');
+      // }
+      // else {
+      //   $('.nav-tabs a[href="#' + 'tab-failur' + '"]').tab('show');
+      // }
+
+      $('#id_assetOfflineFrom').pDatepicker({
+                              format: 'YYYY/MM/DD',
+
+            autoClose: true,
+            // onSelect:function(unix){
+            //   assetOfflineFrom=new Date(unix);
+            // }
+          });
+      $('#id_assetOnlineFrom').pDatepicker({
+                                  format: 'YYYY/MM/DD',
+
+                autoClose: true,
+                // onSelect: function(unix){
+                //
+                //  // var date1 = new Date(Date.parse($("#id_assetOfflineFrom").attr("value")));
+                //   // var date2 = new Date(Date.parse($("#id_assetOnlineFrom").attr("value")));
+                //   assetLifeOnlineFrom=new Date(unix);
+                //   // var timeDiff = Math.abs(assetLifeOnlineFrom.getTime() - assetLifeOfflineFrom.getTime());
+                //   // var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                //   // alert(diffDays);
+                // }
+                                            });
+                $('.woselector').autoComplete({
+                                              resolver: 'custom',
+                                              minLength:1,
+                                              formatResult: function (item) {
+                                                return {
+                                                  value: item.id,
+                                                  text: "[" + item.id + "] " + item.summaryofIssue,
+
+                                                };
+                                              },
+                                              events: {
+                                                search: function (qry, callback) {
+                                                  // let's do a custom ajax call
+                                                  $.ajax(
+                                                    '/WorkOrder/GetWos',
+                                                    {
+                                                      data: { 'qry': qry}
+                                                    }
+                                                  ).done(function (res) {
+                                                    console.log(res);
+                                                    callback(res)
+                                                  });
+                                                },
+
+                                              }
+                });
+                $('.woselector').on('autocomplete.select', function (evt, item) {
+                                            $("#id_assetWOAssoc").val(item.id);
+                                              $('#id_assetWOAssoc').val(item.id).trigger('change');
+                                              // $('.basicAutoCompleteCustom').html('');
+                });
+
+
+
+
+
+      if($("#id_assetStatus").is(":checked")==true)
+      {
+        $('.nav-tabs a[href="#' + 'tab-correct' + '"]').tab('show');
+      }
+      else {
+        $('.nav-tabs a[href="#' + 'tab-failur' + '"]').tab('show');
+      }
+      //console.log(data.html_assetLife_form)
+    },
+    error:function(x,y,z)
+    {
+      // alert("123");
+    }
+  });
+}
+
 $(".js-create-ringAmar").click(myWoLoader);
 $("#modal-company").on("submit", ".js-ringAmar-create-form", saveForm);
 
@@ -464,6 +571,7 @@ $("#modal-company").on("focus", "#id_assetTotalTime", subTime);
 $("#modal-company").on("click", ".create-next", applyForm);
 // Delete book
 $("#company-table").on("click", ".js-delete-ringAmar", loadForm);
+$("#company-table").on("click", ".js-create-tavaghof", load_assetlife);
 $(".savetableinfo").on("click", senddata);
 $("#modal-company").on("submit", ".js-ringAmar-delete-form", saveForm);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);
