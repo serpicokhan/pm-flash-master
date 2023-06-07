@@ -115,7 +115,7 @@ def assetLife_create(request,assetId=None):
         data['assetEventDescription']=body['assetEventDescription']
         data['assetCheckEvent']=body['assetCheckEvent']
         data['assetStopCode']=body['assetStopCode']
-
+        print("date:",data['assetOfflineFrom'])
         data['assetOfflineFromTime']=body['assetOfflineFromTime']
         woId=body['assetLifeAssetid']
         data['assetOnlineFrom']=data['assetOfflineFrom']
@@ -123,7 +123,7 @@ def assetLife_create(request,assetId=None):
         data['assetCauseCode']=body['assetCauseCode']
 
         # print("dsadsadsa%%%%%%%"+str(body['assetOnlineStatus']))
-        # asset1=Asset.objects.get(pk=int(woId))
+        asset1=Asset.objects.get(pk=int(woId))
 
         if ("assetOnlineStatus" in body and body['assetOnlineStatus']!=-1):
 
@@ -136,11 +136,11 @@ def assetLife_create(request,assetId=None):
             data['assetOnlineFromTime']=body['assetOnlineFromTime']
             time1 = data['assetOfflineFromTime']
             time2 = data['assetOnlineFromTime']
-            format = "%H:%M:%S"
-            t1 = datetime.strptime(time1, format)
-            t2 = datetime.strptime(time2, format)
-            # asset1.assetStatus=True
-            # asset1.save()
+            # format = "%H:%M:%S"
+            # t1 = datetime.strptime(time1, format)
+            # t2 = datetime.strptime(time2, format)
+            asset1.assetStatus=True
+            asset1.save()
             # print(asset1,"if#####################")
         else:
             pass
@@ -166,7 +166,13 @@ def assetLife_create(request,assetId=None):
     else:
         # al=AssetLife.objects.filter(assetLifeAssetid=assetId)
         asset_name=Asset.objects.get(id=assetId).assetName
-        form = AssetLifeForm(initial={'asset_name':asset_name,'assetLifeAssetid':assetId,'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
+        stdate_=request.GET.get("stdate",False)
+        if(stdate_):
+            dt=DateJob.getDate2(stdate_)
+            form = AssetLifeForm(initial={'assetOfflineFrom':dt,'assetOnlineFrom':dt,'asset_name':asset_name,'assetLifeAssetid':assetId,'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
+
+        else:
+            form = AssetLifeForm(initial={'asset_name':asset_name,'assetLifeAssetid':assetId,'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
 
     return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeCreate.html',woId,False)
 ###################################################################

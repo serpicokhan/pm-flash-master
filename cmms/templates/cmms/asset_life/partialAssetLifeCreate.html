@@ -182,7 +182,7 @@ return false;
 
 
 
-
+                   console.log(mydata);
                     var form = $(this).parent().parent();
 
                     $.ajax({
@@ -191,7 +191,7 @@ return false;
                       data:mydata,
                       dataType: 'json',
                       beforeSend: function(xhr,opt) {
-                        console.log(mydata);
+                        // console.log(mydata);
                         if($("#id_assetStopCode").val().length<1)
                         {
                           toastr.error("کد توقف را مشخص نمایید");

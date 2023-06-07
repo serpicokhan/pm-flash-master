@@ -73,6 +73,7 @@
           <th class="col-md-1">کاربر</th>
           <th class="col-md-1">جزییات آفلاین شدن</th>
           <th class="col-md-1">علت</th>
+          <th class="col-md-1">توقف</th>
           <th class="col-md-1">ساعت توقف در تولید</th>
           <th class="col-md-1">جزییات آنلاین شدن</th>
 
@@ -84,7 +85,8 @@
               <td>{{k.getdate}} {{k.assetOfflineFromTime|time:'H:i'}}</td>
               <td>{{k.getonlinedate}}  {{k.assetOnlineFromTime|time:'H:i'}}</td>
               <td>{{k.assetSetOfflineByUser}}</td>
-              <td>{{k.assetOfflineAdditionalInfo |default_if_none:"N/A"}}</td>
+              <td>{{k.assetOfflineAdditionalInfo |default_if_none:k.assetEventDescription|default_if_none:"N/A"}}</td>
+              <td>{{k.assetCauseCode}}</td>
               <td>{{k.assetStopCode}}</td>
               <td>{{k.getAffectedHour}}</td>
               <td>{{k.assetOnlineAdditionalInfo |default_if_none:"N/A"}}</td>

@@ -448,7 +448,7 @@ var load_assetlife=function(){
 var js_switch_change=function(asset_id)
 {
   $.ajax({
-    url: '/AssetLife/'+asset_id+'/eval/',
+    url: '/AssetLife/'+asset_id+'/eval/?stdate='+$("#dttext").val(),
     type: 'get',
     dataType: 'json',
     beforeSend: function () {
@@ -473,7 +473,7 @@ var js_switch_change=function(asset_id)
       // }
 
       $('#id_assetOfflineFrom').pDatepicker({
-                              format: 'YYYY/MM/DD',
+                              format: 'YYYY-MM-DD',
 
             autoClose: true,
             // onSelect:function(unix){
@@ -481,7 +481,7 @@ var js_switch_change=function(asset_id)
             // }
           });
       $('#id_assetOnlineFrom').pDatepicker({
-                                  format: 'YYYY/MM/DD',
+                                  format: 'YYYY-MM-DD',
 
                 autoClose: true,
                 // onSelect: function(unix){

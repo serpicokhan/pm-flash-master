@@ -210,6 +210,7 @@ class reporttest:
 
     def DowntimeByRepairTypeByAssetCategory(self,request):
         categoryText=request.POST.getlist("categoryText", "")
+        makan=request.POST.get("makan", False)
         if(len(categoryText) >0 and not categoryText[0]):
             categoryText.pop(0)
 
@@ -219,7 +220,10 @@ class reporttest:
         date2=DateJob.getDate2(request.POST.get("endDate",""))
         startDate=request.POST.get("startDate","").replace('-','/')
         endDate=request.POST.get("endDate","").replace('-','/')
-        assetList=AssetUtility.getAssetListByCategory(categoryText)
+        if(makan):
+            assetList=Asset.objects.filter(assetIsLocatedAt__id=makan).values_list('id',flat=True)
+        else:
+            assetList=AssetUtility.getAssetListByCategory(categoryText)
         # print("#######",assetList)
         ########### GERnetare output####################
         ##############count by event type ###################
@@ -227,6 +231,7 @@ class reporttest:
         s1,s2=[],[]
         z1,z2=[],[]
         offlineCountByEvent=AssetUtility.getOfflineCountByEvent(assetList,date1,date2)
+        # print(offlineCountByEvent,'!!!!!!!')
         # print(offlineCountByEvent,'$$$$$$$$$$$$$$$$$$$$')
         offlineSumTimeByEvent=AssetUtility.getOfflineSumTimeByEvent(assetList,date1,date2)
         for i in offlineCountByEvent:
@@ -239,7 +244,7 @@ class reporttest:
         #
         #convert assetlist to tuple for sql query compatibility means: Rawquery([1,2,3])==>(1,2,3)
 
-
+        print(s1,s2)
 
         return render(request, 'cmms/reports/simplereports/DowntimeByRepairTypeByAssetCategory.html',{'s1': s1,'s2':s2,'z1': z1,'z2':z2,'start':startDate,'end':endDate})
 

@@ -336,8 +336,8 @@ class AssetUtility:
 
             return AssetLife.objects.raw(''' select count(assetlife.id) as id,b.id as event,b.causeDescription as eventname
                                         from assetlife
-                                        left join workorder wo on assetlife.assetWOAssoc_id=wo.id
-                                        left join causecode b on wo.woCauseCode_id=b.id
+
+                                        left join causecode b on assetCauseCode_id=b.id
 
                                         where assetLifeAssetid_id in {0} and
                                         (assetOfflineFrom between "{1}" and "{2}")
@@ -763,4 +763,3 @@ class AssetUtility:
                 action_flag     = ADDITION,
                 change_message= request.META.get('REMOTE_ADDR')
             )
-    
