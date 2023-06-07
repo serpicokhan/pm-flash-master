@@ -36,9 +36,9 @@ from cmms.business.DateJob import *
 from django.db.models import Max
 from django.db import IntegrityError
 from django.views.decorators.csrf import csrf_exempt
-from openpyxl import Workbook
-from openpyxl.utils.dataframe import dataframe_to_rows
-import pandas as pd
+# from openpyxl import Workbook
+# from openpyxl.utils.dataframe import dataframe_to_rows
+# import pandas as pd
 @permission_required('cmms.view_ringamar')
 def list_ringAmar(request,id=None):
     #
@@ -246,34 +246,35 @@ def saveAmarTableInfo(request):
     data=dict()
     return JsonResponse(data)
 def export_to_excel(request):
-    amar=RingAmar.objects.all()
-    data = {
-    'Name': ['John', 'Jane', 'Mike'],
-    'Age': [25, 30, 28],
-    'Country': ['USA', 'Canada', 'UK']
-    }
-
-# Create a workbook and select the active sheet
-    wb = Workbook()
-    ws = wb.active
-
-    # Create a DataFrame
-    df = pd.DataFrame.from_records(amar.values())
-
-    # Insert the data into the worksheet
-    for row in dataframe_to_rows(df, index=False, header=True):
-        ws.append(row)
-
-    # Add a table to the worksheet
-    # table_range = f'A1:C{len(df) + 1}'  # Adjust the range based on the size of your data
-    # table = ws.tables.add(table_range)
-
-    # Save the workbook
-    # wb.save('table_example.xlsx')
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename=table_example.xlsx'
-
-    # Save the workbook to the response object
-    wb.save(response)
-
-    return response
+    pass
+#     amar=RingAmar.objects.all()
+#     data = {
+#     'Name': ['John', 'Jane', 'Mike'],
+#     'Age': [25, 30, 28],
+#     'Country': ['USA', 'Canada', 'UK']
+#     }
+#
+# # Create a workbook and select the active sheet
+#     wb = Workbook()
+#     ws = wb.active
+#
+#     # Create a DataFrame
+#     df = pd.DataFrame.from_records(amar.values())
+#
+#     # Insert the data into the worksheet
+#     for row in dataframe_to_rows(df, index=False, header=True):
+#         ws.append(row)
+#
+#     # Add a table to the worksheet
+#     # table_range = f'A1:C{len(df) + 1}'  # Adjust the range based on the size of your data
+#     # table = ws.tables.add(table_range)
+#
+#     # Save the workbook
+#     # wb.save('table_example.xlsx')
+#     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+#     response['Content-Disposition'] = 'attachment; filename=table_example.xlsx'
+#
+#     # Save the workbook to the response object
+#     wb.save(response)
+#
+#     return response
