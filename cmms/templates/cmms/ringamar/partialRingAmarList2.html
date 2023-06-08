@@ -25,13 +25,18 @@
 
 
 <td>
-
+  {% if  not ring_amar.has_downtime %}
   <button type="button"
-             class="btn btn-outline btn-warning  btn-sm js-create-tavaghof"
+             class="btn btn-outline btn-info  btn-sm js-create-tavaghof"
+             data-url="">
+       <span class="glyphicon glyphicon-pencil"></span>     </button>
+  {% else %}
+  <button type="button"
+             class="btn  btn-warning  btn-sm js-create-tavaghof"
              data-url="">
        <span class="glyphicon glyphicon-pencil"></span>     </button>
 
-
+    {% endif %}
 
    </td>
 </tr>

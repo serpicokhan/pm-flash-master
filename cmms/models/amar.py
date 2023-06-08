@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-from cmms.models import Asset
+from cmms.models import Asset,AssetLife
 from cmms.models import SysUser
 import jdatetime
 Shift=(
@@ -11,6 +11,14 @@ Shift=(
 
 )
 class RingAmar(models.Model):
+
+    def has_downtime(self):
+        asset_code=AssetLife.objects.filter(assetLifeAssetid=self.assetName,assetOfflineFrom=self.assetAmarDate)
+        print('count',asset_code.count())
+        if(asset_code.count()>0):
+            return True
+        return False
+
     ShiftTypes=models.CharField("شیفت", choices=Shift,max_length=1,null=True,blank=True)
     assetName=models.ForeignKey(Asset,on_delete=models.CASCADE,null=True,blank=True,verbose_name="تجهیز",related_name='ringAmar')
     assetStartKilometer=models.DecimalField("کیلومتر پایان شیفت قبل",max_digits=15, decimal_places=3,default=0)

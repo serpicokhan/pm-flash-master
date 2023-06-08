@@ -371,8 +371,8 @@ class AssetUtility:
 
                                   from assetlife  as t1
 
-                                    left join workorder wo on t1.assetWOAssoc_id=wo.id
-                                    left join causecode b on wo.woCauseCode_id=b.id
+
+                                    left join causecode b on assetCauseCode_id=b.id
 
                                   where assetLifeAssetid_id in {0} and (assetOfflineFrom between '{1}' and '{2}')
                                   and

@@ -1,3 +1,4 @@
+var firstPressedButton = null;
 // var isCtrlPressed = false;
 // var selectedCells = [];
 //
@@ -443,10 +444,15 @@ var load_assetlife=function(){
   var row = $(this).closest('tr');
   var asset_id= parseInt(row.find('.assetname').attr('data-assetname')) || 0;
   // console.log(asset_id);
+  firstPressedButton=$(this);
+  // localStorage.setItem('myData', $(this));
+  console.log($(this));
   js_switch_change(asset_id);
 }
 var js_switch_change=function(asset_id)
 {
+
+
   $.ajax({
     url: '/AssetLife/'+asset_id+'/eval/?stdate='+$("#dttext").val(),
     type: 'get',
