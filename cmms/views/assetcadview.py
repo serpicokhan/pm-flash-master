@@ -79,12 +79,29 @@ def get_assetFile(request):
             data['img']= settings.MEDIA_URL+file.assetCadFile.name
             # print(file.assetCadFileAssetId.id)
             data['id']=file.assetCadFileAssetId.id
-            points=AssetCadCoordination.objects.filter(assetCoord__assetIsLocatedAt__id=asset_id)
+            points=list(AssetCadCoordination.objects.filter(assetCoord__assetIsLocatedAt__id=asset_id))
             # points={}
             # for i in pts:
+            print(points)
+
+            updated_querypoints = []
+            for point in points:
+                print(asset_width)
+                adjustmentRatioX = float(asset_width) / float(point.z);
+
+                # print(asset_height,point.z2)
+                adjustmentRatioY = float(asset_height) / float(point.z2);
+                # Update the x and y values
+                point.x = point.x*adjustmentRatioX
+                point.y = point.y*adjustmentRatioY
+
+                # Append the updated object to the new list
+                updated_querypoints.append(point)
+
 
             data['points']=render_to_string('cmms/asset/dashboard/points.html', {
-                'points': points,
+                'points': updated_querypoints
+
 
             })
         except AssetCadFile.DoesNotExist:
