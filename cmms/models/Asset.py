@@ -156,6 +156,8 @@ class AssetCadFile(models.Model):
 class AssetCadCoordination(models.Model):
     x = models.FloatField()
     y = models.FloatField()
+    z = models.FloatField(default=0)
+    z2 = models.FloatField(default=0)
     assetCoord=models.ForeignKey(Asset,on_delete=models.CASCADE,blank=True,null=True,verbose_name="دارایی")
     class Meta:
          db_table = "assetcadcoordination"

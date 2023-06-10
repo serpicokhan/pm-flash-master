@@ -70,6 +70,8 @@ def assetcad_create(request):
         return JsonResponse(dict())
 def get_assetFile(request):
     asset_id=request.GET.get('q','')
+    asset_width=request.GET.get('ratiow','')
+    asset_height=request.GET.get('ratioh','')
     data=dict()
     if(asset_id):
         try:
@@ -78,6 +80,9 @@ def get_assetFile(request):
             # print(file.assetCadFileAssetId.id)
             data['id']=file.assetCadFileAssetId.id
             points=AssetCadCoordination.objects.filter(assetCoord__assetIsLocatedAt__id=asset_id)
+            # points={}
+            # for i in pts:
+
             data['points']=render_to_string('cmms/asset/dashboard/points.html', {
                 'points': points,
 
