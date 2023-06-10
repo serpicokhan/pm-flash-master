@@ -379,6 +379,7 @@ urlpatterns = [
 
 
         url(r'^AssetLife/$',list_assetLife,name='list_assetLife'),
+        # url(r'^AssetLife/List$',list_assetLife,name='list_assetLife'),
         url(r'^AssetLife/(?P<assetId>\d+)/create/$', assetLife_create, name='assetLife_create'),
         url(r'^AssetLife/(?P<assetId>\d+)/eval/$', findLastOpenAssetLife, name='findLastOpenAssetLife'),
         url(r'^AssetLife/create/$', assetLife_create, name='assetLife_create'),

@@ -1,0 +1,113 @@
+<div  data-url="{% url 'assetMeter_create' %}" class="js-assetMeter-create-form" >
+
+  <div class="modal-header " style="background:#ccc">
+    <button type="button" class="close cl-assetMeter"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">جدید</h4>
+  </div>
+  <div class="modal-body">
+   {% include 'cmms/asset_meter/partialAssetMeterForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-assetMeter btn btn-default " >انصراف</button>
+    <button type="button" class="btn btn-primary" id="assetMeter-submit"  >ذخیره</button>
+ <script>
+   $(".cl-assetMeter").click(function()
+   {
+     $("#modal-assetMeter").modal("hide");
+
+   }
+  );
+  myformat = function() {
+  var s = arguments[0];
+  for (var i = 0; i < arguments.length - 1; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
+    s = s.replace(reg, arguments[i + 1]);
+  }
+
+  return s;
+}
+    $( document).ready(
+      function()
+      {
+
+        $("#assetMeter-submit").click(function(){
+
+                   //alert("12321");
+                    var form = $(this).parent().parent();
+                    //console.log(form.attr("action"));
+                    //alert($("#id_metrics").val());
+                    // console.log(form.attr('class'));
+                    $.ajax({
+                      url: form.attr("data-url"),
+                      type: "POST",
+                      data:myformat('{"assetMeterLocation":{0}\
+                      ,"assetMeterMeterReading":{1}\
+                      ,"assetMeterMeterReadingUnit":{2},"assetWorkorderMeterReading":{3}}',
+                      $("#lastAssetid").val(),
+                      $("#id_assetMeterMeterReading").val(),
+                      $("#id_assetMeterMeterReadingUnit").val(),
+                      ($("#id_assetWorkorderMeterReading").val().length == 0)? "-1" : $("#id_assetWorkorderMeterReading").val()),
+
+
+
+
+                      dataType: 'json',
+                      beforeSend: function (xhr,opts) {
+                        if($('#id_assetMeterMeterReadingUnit option').size()==1 )
+                        {
+                          //سایز 1 برای اینگه افزونه select اگه خالی باشه سایزش یکه
+                          toastr.error("کمیتی تعریف نشده است <br/> برای تعریف کمیت به قسمت تنظیمات مراجعه کنید");
+                          xhr.abort();
+                        }
+
+
+                        if( $("#id_assetMeterMeterReading").val().length==0 ||  $("#id_assetMeterMeterReading").val()==0)
+                        {
+                          toastr.error("پر کردن فیلدها الزامیست");
+                          xhr.abort();
+                        }
+
+                        //alert(btn.attr("data-url"));
+                        // console.log(myformat('{"assetMeterLocation":{0}\
+                        // ,"assetMeterMeterReading":{1}\
+                        // ,"assetMeterMeterReadingUnit":{2},"assetWorkorderMeterReading":{3}}',
+                        // $("#lastAssetid").val(),
+                        // $("#id_assetMeterMeterReading").val(),
+                        // $("#id_assetMeterMeterReadingUnit").val(),
+                        // $("#id_assetWorkorderMeterReading").val()));
+
+                      },
+                      success: function (data) {
+                        console.log(data);
+                        if (data.form_is_valid) {
+                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                          $("#tbody_assetMeter").empty();
+
+                          $("#tbody_assetMeter").html(data.html_assetMeter_list);
+                          $("#modal-assetMeter").modal("hide");
+                          // console.log(data.html_assetMeter_list);
+                        }
+                        else {
+
+                          $("#assetMeter-table tbody").html(data.html_assetMeter_list);
+                          $("#modal-assetMeter .modal-content").html(data.html_assetMeter_form);
+                        }
+                      }
+
+                    });
+                    return false;
+
+
+
+               });
+      }
+
+
+    );
+
+    </script>
+
+  </div>
+</div>

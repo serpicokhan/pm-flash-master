@@ -1,0 +1,92 @@
+<div  data-url="{% url 'assetMeter_update' form.instance.id %}" class="js-assetMeter-update-form">
+
+  <div class="modal-header">
+    <button type="button" class="close cl-assetMeter"  aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">ویرایش</h4>
+  </div>
+  <div class="modal-body">
+    {% include 'cmms/asset_meter/partialAssetLifeMainForm.html' %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="cl-assetMeter btn btn-default" >بستن</button>
+    <button type="button" class="btn btn-primary" id="assetMeter-submit">ویرایش</button>
+
+
+    <script>
+      $(".cl-assetMeter").click(function()
+      {
+        $("#modal-assetMeter").modal("hide");
+
+      }
+     );
+     myformat = function() {
+     var s = arguments[0];
+     for (var i = 0; i < arguments.length - 1; i++) {
+       var reg = new RegExp("\\{" + i + "\\}", "gm");
+       s = s.replace(reg, arguments[i + 1]);
+     }
+
+     return s;
+    }
+       $( document).ready(
+         function()
+         {
+
+     $("#assetMeter-submit").click(function(){
+
+                //alert("12321");
+                 var form = $(this).parent().parent();
+                 //console.log(form.attr("action"));
+                 //alert($("#id_metrics").val());
+                 $.ajax({
+                   url: form.attr("data-url"),
+                   type: "POST",
+                   data:myformat('{"assetMeterLocation":{0}\
+                   ,"assetMeterMeterReading":{1}\
+                   ,"assetMeterMeterReadingUnit":{2},"assetWorkorderMeterReading":{3}}',
+                   $("#lastAssetid").val(),
+                   $("#id_assetMeterMeterReading").val(),
+                   $("#id_assetMeterMeterReadingUnit").val(),
+                  ($("#id_assetWorkorderMeterReading").val().length == 0)? "-1" : $("#id_assetWorkorderMeterReading").val()),
+
+
+
+
+                   dataType: 'json',
+                   beforeSend: function () {
+                     //alert(btn.attr("data-url"));
+                    // console.log(myformat('{"assetMeterPart":{0},"assetMeterPlannedQnty":{1},"assetMeterActulaQnty":{2},"assetMeterWorkorder":{3}}',$("#id_assetMeterPart").val(),$("#id_assetMeterPlannedQnty").val(),$("#id_assetMeterActulaQnty").val(),$("#id_assetMeterWorkorder").val()));
+
+                   },
+                   success: function (data) {
+                     if (data.form_is_valid) {
+                       //alert("Company created!");  // <-- This is just a placeholder for now for testing
+                       $("#tbody_assetMeter").empty();
+                       $("#tbody_assetMeter").html(data.html_assetMeter_list);
+                       $("#modal-assetMeter").modal("hide");
+                       //console.log(data.html_wo_list);
+                     }
+                     else {
+
+                       $("#assetMeter-table tbody").html(data.html_assetMeter_list);
+                       $("#modal-assetMeter .modal-content").html(data.html_assetMeter_form);
+                     }
+                   }
+
+                 });
+                 return false;
+
+
+
+            });
+         }
+
+
+       );
+
+       </script>
+
+  </div>
+</div>

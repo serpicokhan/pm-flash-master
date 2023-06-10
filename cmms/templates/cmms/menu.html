@@ -170,7 +170,7 @@
               <span class="fa arrow">
               </span>
             </a>
-            <ul  {% if section in 'list_asset,list_asset_location,list_asset_machine,list_asset_tool,list_assetCategory,list_assetMeterTemplate,list_batchMeterGroup' %} class="nav nav-second-level collapse in"
+            <ul  {% if section in 'list_asset,list_assetLife,list_asset_location,list_asset_machine,list_asset_tool,list_assetCategory,list_assetMeterTemplate,list_batchMeterGroup' %} class="nav nav-second-level collapse in"
             {% else %}
             class="nav nav-second-level collapse"
             {% endif %} >
@@ -188,6 +188,9 @@
               </li>
               <li {% if section == 'list_asset_tool' %} class='active'   {% endif %}>
                 <a href="{% url 'list_asset_tool' %}" >ابزارارآلات</a>
+              </li>
+              <li {% if section == 'list_assetLife' %} class='active'   {% endif %}>
+                <a href="{% url 'list_assetLife' %}" >توقفات</a>
               </li>
               <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
                 <a href="#"><i class="fa fa-list-alt">

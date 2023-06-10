@@ -20,6 +20,7 @@ import django.core.serializers
 import logging
 from django.conf import settings
 from cmms.business.DateJob import *
+from cmms.business.AssetUtility import *
 from cmms.models.Asset import *
 
 from django.views.decorators.csrf import csrf_exempt
@@ -30,11 +31,40 @@ import json
 from django.forms.models import model_to_dict
 from cmms.forms import AssetLifeForm
 from cmms.business.updateAssetStatus import *
+from django.db.models import Sum, F
 ###################################################################
-@csrf_exempt
+
 def list_assetLife(request,id=None):
-    books = AssetLife.objects.all()
-    return render(request, 'cmms/asset_life/assetLifeList.html', {'assetLifes': books})
+    date1=DateJob.getDate2(request.GET.get("dttextFrom",False))
+    date2=DateJob.getDate2(request.GET.get("dttextTo",False))
+    startDate=request.GET.get("dttextFrom",False)
+    endDate=request.GET.get("dttextTo",False)
+    print("###########",request)
+    print("###########",endDate)
+    books=AssetLife.objects.none()
+    if(startDate):
+        # print("here")
+        books=AssetLife.objects.filter(assetOfflineFrom__range=(date1,date2)).order_by('-id')
+    else:
+        books = AssetLife.objects.all().order_by('-id')
+    # time_total=books.aggregate(total_time=Sum(Extract('time_field', 'seconds')))['total_time']
+    total=0
+    for i in books:
+        total+=i.getAffectedHour_digits()
+    final_total='{0:02.0f}:{1:02.0f}'.format(*divmod(total * 60, 60))
+    wos=AssetUtility.doPaging(request,books)
+    assetMakan=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
+    return render(request, 'cmms/asset_life_main/assetLifeMainList.html', {'assetLifes': wos,'section':'list_assetLife','makan':assetMakan,'stdate':startDate,'enddate':endDate,'total_time':final_total})
+# def filter_assetLife(request):
+#     data=dict()
+#     date1=DateJob.getDate2(request.POST.get("dttextFrom",False))
+#     date2=DateJob.getDate2(request.POST.get("dttextTo",False))
+#
+#
+#     books = AssetLife.objects.filter().order_by('-id')
+#     wos=AssetUtility.doPaging(request,books)
+#     assetMakan=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
+#     return render(request, 'cmms/asset_life_main/assetLifeMainList.html', {'assetLifes': wos,'section':'assetLife','makan':assetMakan})
 
 
 ###################################################################
