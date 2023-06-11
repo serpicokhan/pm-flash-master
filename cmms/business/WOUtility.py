@@ -1245,9 +1245,14 @@ class WOUtility:
     def create_task_when_wo_created(request,form):
 
         wo=form.instance
+        # wo=WorkOrder.objects.get(id=woid)
+        if(wo.assignedToUser):
+            user=wo.assignedToUser
+        else:
+            user=WOUtility.find_technisions(request,wo)[0]
         data=dict()
         if(wo.CompleteUserTask.all().count()==0):
-            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated)
+            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=user,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated)
             data = render_to_string('cmms/tasks/partialTaskList.html', {
                 'task': wo.CompleteUserTask.all(),
                 'perms': PermWrapper(request.user),
