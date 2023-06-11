@@ -46,19 +46,21 @@ def js_list_assetUser(request,woId):
 
 
 ###################################################################    ###################################################################
-def create_sub_asset_user(books):
-    if(books.count()>0):
-        asset=books[0].AssetUserAssetId
+def create_sub_asset_user(luser):
+    # if(books.count()>0):
+        asset=luser.AssetUserAssetId
         if(asset.assetTypes==1):
             sub_asset=Asset.objects.filter(assetIsLocatedAt=asset)
             for i in sub_asset:
-                AssetUser.objects.create(AssetUserUserId=books[0].AssetUserUserId,AssetUserAssetId=i)
+                res=AssetUser.objects.filter(AssetUserAssetId=i,AssetUserUserId=luser.AssetUserUserId)
+                if(res.count()==0):
+                    AssetUser.objects.create(AssetUserUserId=luser.AssetUserUserId,AssetUserAssetId=i)
 @csrf_exempt
 def save_assetUser_form(request, form, template_name,woId=None):
     data = dict()
     if (request.method == 'POST'):
           if form.is_valid():
-            form.save()
+            luser=form.save()
             data['form_is_valid'] = True
             fmt = getattr(settings, 'LOG_FORMAT', None)
             lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
@@ -66,7 +68,7 @@ def save_assetUser_form(request, form, template_name,woId=None):
             logging.debug( woId)
 
             books = AssetUser.objects.filter(AssetUserAssetId=woId)
-            create_sub_asset_user(books)
+            create_sub_asset_user(luser)
             data['html_assetUser_list'] = render_to_string('cmms/asset_user/partialAssetUserList.html', {
                 'assetUsers': books
             })
