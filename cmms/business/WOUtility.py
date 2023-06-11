@@ -1233,7 +1233,14 @@ class WOUtility:
             writer.writerow([getattr(obj, field) for field in field_names])
         return response
         download_csv.short_description = "Download selected as csv"
-
+    @staticmethod
+    def find_supervisor(request,wo):
+        user1=AssetUser.objects.filter(AssetUserAssetId=wo.woAsset,AssetUserUserId__in=SysUser.objects.filter(userId__groups__name="supervisor")).values_list('AssetUserUserId',flat=True)
+        return user1
+    @staticmethod
+    def find_technisions(request,wo):
+        user1=AssetUser.objects.filter(AssetUserAssetId=wo.woAsset,AssetUserUserId__in=SysUser.objects.exclude(userId__groups__name="supervisor")).values_list('AssetUserUserId',flat=True)
+        return user1
     @staticmethod
     def create_task_when_wo_created(request,form):
 
@@ -1251,7 +1258,9 @@ class WOUtility:
     def create_task_when_wo_created_fromAPI(request,woid):
 
         wo=WorkOrder.objects.get(id=woid)
-
+        user=WOUtility.find_technisions(request,wo)
+        wo.assignedToUser=SysUser.objects.get(id=user[0])
+        wo.save()
         data=dict()
         if(wo.CompleteUserTask.all().count()==0):
             to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated)
