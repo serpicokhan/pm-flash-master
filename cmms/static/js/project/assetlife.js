@@ -6,6 +6,8 @@ $(function () {
   // Read individual query parameters
   const param1 = urlParams.get('dttextFrom'); // "value1"
   const param2 = urlParams.get('dttextTo'); // "value2"
+  const param3 = urlParams.get('makan'); // "value2"
+  $("#id_makan").val(param3);
   $('#dttextFrom').pDatepicker({
     format: 'YYYY-MM-DD',
     autoClose: true,
@@ -17,7 +19,8 @@ $(function () {
     initialValueType: 'gregorian'
   }).val(param2);
 var filterAssetLife=function(){
-  window.location='/AssetLife?dttextFrom='+$("#dttextFrom").val()+'&dttextTo='+$("#dttextTo").val()
+  makan=$("#id_makan").val()||0;
+  window.location='/AssetLife?dttextFrom='+$("#dttextFrom").val()+'&dttextTo='+$("#dttextTo").val()+'&makan='+makan;
 }
   var loadAssetLifeForm =function () {
     var btn=$(this);

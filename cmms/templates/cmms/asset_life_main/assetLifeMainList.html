@@ -48,12 +48,12 @@
                             </div>
                             <div class="col-sm-2">
                               <div class="form-group">
-                                <input type="text" name="" value="" id="dttextFrom" class="form-control">
+                                <input type="text" name="" value="" id="dttextFrom" class="form-control" autocomplete="off">
                               </div>
                             </div>
                             <div class="col-sm-2">
                               <div class="form-group">
-                                <input type="text" name="" value="" id="dttextTo" class="form-control">
+                                <input type="text" name="" value="" id="dttextTo" class="form-control" autocomplete="off">
                               </div>
                             </div>
                             <div class="col-sm-2">
@@ -105,13 +105,13 @@
             {% if assetLifes.has_other_pages %}
             <ul class="pagination">
             {% if assetLifes.has_previous %}
-            <li><a href="?page={{ assetLifes.previous_page_number }}{% if stdate %}&dttextFrom={{stdate}}&dttextTo={{enddate}}{% endif %}">&laquo;</a></li>
+            <li><a href="?page={{ assetLifes.previous_page_number }}{% if stdate %}&dttextFrom={{stdate}}&dttextTo={{enddate}}&makan={{location}}{% endif %}">&laquo;</a></li>
             {% else %}
             <li class="disabled"><span>&laquo;</span></li>
             {% endif %}
           <li ><span>{{ assetLifes.number }} از {{ assetLifes.paginator.num_pages }} <span class="sr-only">(current)</span></span></li>
             {% if assetLifes.has_next %}
-            <li><a href="?page={{ assetLifes.next_page_number }}{% if stdate %}&dttextFrom={{stdate}}&dttextTo={{enddate}}{% endif %}">&raquo;</a></li>
+            <li><a href="?page={{ assetLifes.next_page_number }}{% if stdate %}&dttextFrom={{stdate}}&dttextTo={{enddate}}&makan={{location}}{% endif %}">&raquo;</a></li>
             {% else %}
             <li class="disabled"><span>&raquo;</span></li>
             {% endif %}

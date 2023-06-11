@@ -38,6 +38,7 @@ def list_assetLife(request,id=None):
     date1=DateJob.getDate2(request.GET.get("dttextFrom",False))
     date2=DateJob.getDate2(request.GET.get("dttextTo",False))
     startDate=request.GET.get("dttextFrom",False)
+    makan=request.GET.get("makan",False)
     endDate=request.GET.get("dttextTo",False)
     print("###########",request)
     print("###########",endDate)
@@ -47,6 +48,8 @@ def list_assetLife(request,id=None):
         books=AssetLife.objects.filter(assetOfflineFrom__range=(date1,date2)).order_by('-id')
     else:
         books = AssetLife.objects.all().order_by('-id')
+    if(makan!="0"):
+        books=books.filter(assetLifeAssetid__assetIsLocatedAt__id=makan)
     # time_total=books.aggregate(total_time=Sum(Extract('time_field', 'seconds')))['total_time']
     total=0
     for i in books:
@@ -54,7 +57,7 @@ def list_assetLife(request,id=None):
     final_total='{0:02.0f}:{1:02.0f}'.format(*divmod(total * 60, 60))
     wos=AssetUtility.doPaging(request,books)
     assetMakan=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
-    return render(request, 'cmms/asset_life_main/assetLifeMainList.html', {'assetLifes': wos,'section':'list_assetLife','makan':assetMakan,'stdate':startDate,'enddate':endDate,'total_time':final_total})
+    return render(request, 'cmms/asset_life_main/assetLifeMainList.html', {'assetLifes': wos,'section':'list_assetLife','makan':assetMakan,'stdate':startDate,'enddate':endDate,'total_time':final_total,'location':makan})
 # def filter_assetLife(request):
 #     data=dict()
 #     date1=DateJob.getDate2(request.POST.get("dttextFrom",False))

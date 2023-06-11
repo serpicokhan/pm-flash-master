@@ -1958,7 +1958,7 @@ class DowntimeByRepairTypeByAssetCategory(forms.Form):
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)    
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
     categoryText = GroupedModelChoiceField(label="دسته بندی",
         queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
         choices_groupby='isPartOf',
@@ -2872,7 +2872,7 @@ class AssetOnlineAndOfflineHistory(forms.Form):
         choices_groupby='isPartOf',
         widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
     )
-    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),
+    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     offlinecode = forms.ModelChoiceField(label="علت توقف",queryset=StopCode.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))

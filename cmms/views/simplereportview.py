@@ -1325,13 +1325,20 @@ class reporttest:
                 wos=[]
                 assets=[]
                 # wos=AssetUtility.getAssetOfflineHistory(category,asset,offlinecode,date1,date2)
+                # if(len(category)>0):
+                #     assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__assetCategory__in=category,assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
+                #     # print(Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__assetCategory__in=category).values_list('assetLifeAssetid',flat=True)).query)
+                # elif(len(asset)>0):
+                #     assets=Asset.objects.filter(assetIsLocatedAt__id__in=asset).values_list('id',flat=True)
+                #     # assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__id__in=asset,assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
+                # else:
+                #     assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
+                # print(asset)
+                assets=Asset.objects.filter(assetIsLocatedAt__id__in=asset)
                 if(len(category)>0):
-                    assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__assetCategory__in=category,assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
-                    # print(Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__assetCategory__in=category).values_list('assetLifeAssetid',flat=True)).query)
-                elif(len(asset)>0):
-                    assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__id__in=asset,assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
-                else:
-                    assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
+                    assets=Asset.objects.filter(assetCategory__in=category)
+
+                # print(assets)
                 assetList=[]
                 time_sum=0
                 for i in assets:

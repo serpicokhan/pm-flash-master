@@ -6,6 +6,7 @@ $("#id_makan").change(function(){
     mak_val=-1;
   else
     mak_val=$("#id_makan").val();
+    
   $.ajax({
     url: '/Asset/Info?makan='+mak_val+'&noe='+$("#id_assetType").val(),
     type: 'get',
