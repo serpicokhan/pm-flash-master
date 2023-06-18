@@ -1093,9 +1093,11 @@ class WOUtility:
     @staticmethod
     def getTavaghof(start,end,loc):
         if(loc is None):
-            return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+            # return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+            return AssetLife.objects.filter(assetOfflineFrom__range=(start,end)).exclude(Q(assetStopCode__isnull=True)|Q(assetStopCode__id=15))
         else:
-            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+            # return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+            return AssetLife.objects.filter(assetOfflineFrom__range=(start,end)).filter(Q(assetLifeAssetid__assetIsLocatedAt__id=loc)|Q(assetLifeAssetid__id=loc)).exclude(Q(assetStopCode__isnull=True)|Q(assetStopCode__id=15))
     @staticmethod
     def getNewWO(start,end):
         return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end),woStatus=1)

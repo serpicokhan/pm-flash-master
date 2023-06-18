@@ -882,7 +882,7 @@ def assetloadinfo(request):
     data=dict()
     makan=request.GET.get("makan","")
     noe=request.GET.get("noe","-1")
-    
+
 
     if(makan):
         assets=Asset.objects.none()
@@ -992,6 +992,18 @@ def asset_collection(request):
     if request.method == 'GET':
         posts = Asset.objects.all()
         serializer = AssetSerializer(posts, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
+def location_collection(request):
+    if request.method == 'GET':
+        posts = Asset.objects.filter(assetIsLocatedAt__isnull=True)
+        serializer = MiniAssetSerializer(posts, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
+def location_details(request,id):
+    if request.method == 'GET':
+        posts = Asset.objects.get(id=id)
+        serializer = AssetSerializer(posts)
         return Response(serializer.data)
 @api_view(['GET'])
 def assetwo_collection(request,id):
@@ -1131,3 +1143,31 @@ def upload_file_asset(request):
 
         return JsonResponse(data)
     return JsonResponse({'post':'fasle'})
+
+def get_location(request):
+    locations=Asset.objects.filter(assetIsLocatedAt__isnull=True).values_list('id','assetName')
+    location_data = []
+    for location_id, location_name in locations:
+        location_data.append({
+            'id': location_id,
+            'text': location_name,
+            'type': 'location',
+            'children': True  # You can modify this based on your application logic
+        })
+
+    return JsonResponse(location_data, safe=False)
+
+def get_asset_child(request):
+    id=request.GET.get("locationId",False)
+    if(id):
+        child_assets=Asset.objects.filter(assetIsLocatedAt__id=id).values_list('id','assetName')
+        location_data = []
+        for location_id, location_name in child_assets:
+            location_data.append({
+                'id': location_id,
+                'text': location_name,
+                'type': 'Machines',
+                'children': True  # You can modify this based on your application logic
+            })
+        return JsonResponse(location_data, safe=False)
+    return JsonResponse({})

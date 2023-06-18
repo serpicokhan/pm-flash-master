@@ -542,7 +542,7 @@ class AssetUtility:
         wos=AssetLife.objects.raw("select  COALESCE( sum(timestampdiff(minute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ', assetOnlineFromTime) as datetime))),0)  as id from assetlife where assetOfflineFrom between '{0}' and '{1}' ".format(date1,date2))
 
 
-        return wos[0].id/60
+        return wos[0].id
     @staticmethod
     def getAssetOfflineTime2(date1,date2,loc):
         # print("select  COALESCE( sum(timestampdiff(minute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ', assetOnlineFromTime) as datetime))),0)  as id from assetlife where assetOfflineFrom between '{0}' and '{1}' ".format(date1,date2))

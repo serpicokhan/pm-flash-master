@@ -148,6 +148,14 @@ class WOSerializer(serializers.ModelSerializer):
         model = WorkOrder
         fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser',
         'woStatus','workInstructions','timecreated')
+
+
+
+
+    class Meta:
+        model = WorkOrder
+        fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser',
+        'woStatus','workInstructions','timecreated')
 class MainSysUserSerializer(serializers.ModelSerializer):
 
 
@@ -160,6 +168,16 @@ class MiniAssetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Asset
         fields = ('id', 'assetName')
+class WOSerializer2(serializers.ModelSerializer):
+
+
+    datecreated = serializers.SerializerMethodField()
+
+    maintenanceType =MaintenanceTypeSerializer(read_only=True)
+    woAsset =MiniAssetSerializer(read_only=True)
+    # def get_datecreated(self, obj):
+    #      return  str(jdatetime.datetime.togregorian(date=obj.datecreated).date())
+
 
 class WOSerializer2(serializers.ModelSerializer):
 

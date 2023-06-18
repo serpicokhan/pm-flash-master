@@ -244,6 +244,8 @@ urlpatterns = [
         url(r'^Asset/DASH/$',list_asset_dash,name='list_asset_dash'),
         url(r'^Asset/(?P<locId>\d+)/jslist/$',js_list_asset_dash,name='js_list_asset_dash'),
         url(r'^Asset/Location/$',list_asset_location,name='list_asset_location'),
+        url(r'^Asset/Location2/$',get_location,name='get_location'),
+        url(r'^Asset/Location2/Child$',get_asset_child,name='get_asset_child'),
         url(r'^Asset/Machine/$',list_asset_machine,name='list_asset_machine'),
         url(r'^Asset/Tool/$',list_asset_tool,name='list_asset_tool'),
         url(r'^Asset/Types/(?P<ids>\d+(?:,\d+)*)$',show_asset_types,name='show_asset_types'),
@@ -300,6 +302,8 @@ urlpatterns = [
 
          url(r'^api/v1/Asset/(?P<id>\d+)/$',asset_detail_collection, name='asset_detail_collection'),
          url(r'^api/v1/Assets/$',asset_collection, name='asset_collection'),
+         url(r'^api/v1/locations/$',location_collection, name='location_collection'),
+         url(r'^api/v1/locations/(?P<id>\d+)/Details$',location_details, name='location_details'),
          url(r'^api/v1/Asset/Wo/(?P<id>\d+)/$',assetwo_collection, name='assetwo_collection'),
 
 
@@ -757,6 +761,7 @@ urlpatterns = [
            url(r'^Calendar/Update/(?P<mtId>-?\d+)/(?P<gId>-?\d+)/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)$',display_calendar,name='display_calendar'),
            #api_view
            url(r'^api/v1/wos/$',workorder_collection, name='workorder_collection'),
+           url(r'^api/v1/wos2/$',workorder_collection2, name='workorder_collection2'),
            url(r'^api/v1/wos_detail/(?P<id>\d+)$',workorder_api_detail, name='workorder_api_detail'),
            url(r'^api/v1/login/$',user_login, name='user_login'),
            url(r'^PurchaseBoard/$',list_purchaseboard,name='list_purchaseboard'),

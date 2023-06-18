@@ -816,6 +816,17 @@ def workorder_collection(request):
             k["datecreated"]= str(jdatetime.datetime.fromgregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
         return Response(serializer.data)
 @api_view(['GET'])
+def workorder_collection2(request):
+    if request.method == 'GET':
+        # print("!23")
+        posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False).order_by('-datecreated')[:100]
+        serializer = WOSerializer2(posts, many=True)
+        for k in serializer.data:
+            pass
+            # k.datecreated=DateJob.getDate2(k.datecreated)
+            # k["datecreated"]= str(jdatetime.datetime.togregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
+        return Response(serializer.data)
+@api_view(['GET'])
 def workorder_api_detail(request,id):
     if request.method == 'GET':
         print("!23")
@@ -915,8 +926,13 @@ def showtavaghof(request,startHijri,endHijri,loc=None):
         n1=WOUtility.getTavaghof(start,end,None)
     else:
         n1=WOUtility.getTavaghof(start,end,loc)
+    n1=n1.order_by('assetLifeAssetid__assetTavali','-assetOfflineFrom')
+    total=0
+    for i in n1:
+        total+=i.getAffectedHour_digits()
+    final_total='{0:02.0f}:{1:02.0f}'.format(*divmod(total * 60, 60))
     wos=WOUtility.doPaging(request,n1)
-    return render(request,"cmms/maintenance/dash_woList.html",{"wo" : wos})
+    return render(request,"cmms/asset_life_main/assetLifeMainList.html",{"assetLifes" : wos,'total_time':final_total})
 def showmonghazi(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
