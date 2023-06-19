@@ -1000,6 +1000,12 @@ def location_collection(request):
         serializer = MiniAssetSerializer(posts, many=True)
         return Response(serializer.data)
 @api_view(['GET'])
+def machine_collection(request,id):
+    if request.method == 'GET':
+        posts = Asset.objects.filter(assetIsLocatedAt__id=id)
+        serializer = MiniAssetSerializer(posts, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
 def location_details(request,id):
     if request.method == 'GET':
         posts = Asset.objects.get(id=id)

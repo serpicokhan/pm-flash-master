@@ -46,6 +46,10 @@ class AssetSerializer(serializers.ModelSerializer):
     assetIsPartOf=SubAssetSerializer(read_only=True)
     assetIsLocatedAt=SubAssetSerializer(read_only=True)
     assetCategory=AssetCategorySerializer(read_only=True)
+    sub_asset_count = serializers.SerializerMethodField()
+
+    def get_sub_asset_count(self, obj):
+        return obj.location.count()
 
 
     class Meta:
@@ -163,11 +167,11 @@ class MainSysUserSerializer(serializers.ModelSerializer):
         model = SysUser
         fields = ('id', 'fullName','title','email','userId')
 class MiniAssetSerializer(serializers.ModelSerializer):
-
+    assetCategory=AssetCategorySerializer(read_only=True)
 
     class Meta:
         model = Asset
-        fields = ('id', 'assetName')
+        fields = ('id', 'assetName','assetCategory')
 class WOSerializer2(serializers.ModelSerializer):
 
 

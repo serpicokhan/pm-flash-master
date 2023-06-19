@@ -303,6 +303,7 @@ urlpatterns = [
          url(r'^api/v1/Asset/(?P<id>\d+)/$',asset_detail_collection, name='asset_detail_collection'),
          url(r'^api/v1/Assets/$',asset_collection, name='asset_collection'),
          url(r'^api/v1/locations/$',location_collection, name='location_collection'),
+         url(r'^api/v1/(?P<id>\d+)/Machines/$',machine_collection, name='machine_collection'),
          url(r'^api/v1/locations/(?P<id>\d+)/Details$',location_details, name='location_details'),
          url(r'^api/v1/Asset/Wo/(?P<id>\d+)/$',assetwo_collection, name='assetwo_collection'),
 
