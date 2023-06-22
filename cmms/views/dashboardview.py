@@ -35,6 +35,9 @@ from django.http import JsonResponse
 from django.db.models import F
 from django.urls import reverse
 import collections
+from rest_framework.decorators import api_view
+from cmms.api.WOSerializer import *
+from rest_framework.response import Response
 # Create your views here.
 import datetime
 def index(request):
@@ -519,20 +522,43 @@ def dash_getDashTolidBar(request,startHijri,endHijri):
     # sum_b = sum(float(item['value']) for item in data['B'] if item['value'])
     # sum_c = sum(float(item['value']) for item in data['C'] if item['value'])
     data['html_dashMTTR_list'] ={
-                
+
                 's3':dt
 
             }
     return JsonResponse(data)
+@api_view(['GET'])
+def dash_getDashTolidBarAPI(request,loc):
+    data=dict()
+    # start,end=DateJob.convert2Date(startHijri,endHijri)
+    # loc=request.GET.get('loc',False)
+    amar1=AmarUtility.getTolidBarAPI(location=loc)
+    s1=[]
+    s2=[]
+    dt=dict()
+    # dt['total']=[]
+    for i in amar1:
+         # s1.append(float(i.id))
+         # s2.append(str(jdatetime.date.fromgregorian(date=i.assetAmarDate)))
+         dt[str(jdatetime.date.fromgregorian(date=i.assetAmarDate))]=i.id
+    # for i in amar2:
+    #     dt[str(i.shifttypes)]=[]#={str(i.assetAmarDate):i.id}
+    # # dt['total']=[]#={str(i.assetAmarDate):i.id}
+    # for i in amar2:
+    #     dt[str(i.shifttypes)].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
+
+    # serialized_data = TotalDataSerializer(dt, many=True)
+    # return Response(serialized_data.data)
+    return JsonResponse(dt)
 ############################################
 def dash_getDashTolidTime(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
     loc=request.GET.get('loc',False)
-    if(loc=='6961'):
-        amar1,amar2=AmarUtility.getTolid(start,end,location=loc)
-    else:
-        amar1,amar2=AmarUtility.getTolidTime(start,end,location=loc)
+    # if(loc=='6961'):
+    #     amar1,amar2=AmarUtility.getTolid(start,end,location=loc)
+    # else:
+    amar1,amar2=AmarUtility.getTolidTime(start,end,location=loc)
     s1=[]
     s2=[]
     dt={}

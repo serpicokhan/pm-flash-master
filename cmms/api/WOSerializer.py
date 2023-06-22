@@ -18,9 +18,14 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AssetCategorySerializer(serializers.ModelSerializer):
+
     class Meta:
         model = AssetCategory
         fields = '__all__'
+class AssetCategorySerializer2(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    asset_count = serializers.IntegerField()
 class AssetPartSerializer(serializers.ModelSerializer):
     assetPartPid = serializers.SlugRelatedField(
         queryset=Part.objects.all(), slug_field='partName'
@@ -257,3 +262,6 @@ class MainSysUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SysUser
         fields = ('id', 'fullName','title','email','userId')
+class TotalDataSerializer(serializers.Serializer):
+    date = serializers.CharField()
+    value = serializers.CharField()

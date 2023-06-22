@@ -39,6 +39,8 @@ from cmms.api.WOSerializer import *
 from rest_framework.response import Response
 from django.db.models import Q
 from django.db import  transaction
+from django.db.models import Count
+
 
 
 def filterUser(request):
@@ -994,15 +996,23 @@ def asset_collection(request):
         serializer = AssetSerializer(posts, many=True)
         return Response(serializer.data)
 @api_view(['GET'])
+def asset_category_api(request,id):
+    if request.method == 'GET':
+        # posts = Asset.objects.all()
+        asset_categories = AssetCategory.objects.filter(asset__assetIsLocatedAt__id=id).annotate(asset_count=Count('asset')).values('id','name', 'asset_count').filter(asset_count__gt=0)
+        # filtered_categories = asset_categories.filter(asset=id)
+        serializer = AssetCategorySerializer2(asset_categories, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
 def location_collection(request):
     if request.method == 'GET':
         posts = Asset.objects.filter(assetIsLocatedAt__isnull=True)
         serializer = MiniAssetSerializer(posts, many=True)
         return Response(serializer.data)
 @api_view(['GET'])
-def machine_collection(request,id):
+def machine_collection(request,id,catid):
     if request.method == 'GET':
-        posts = Asset.objects.filter(assetIsLocatedAt__id=id)
+        posts = Asset.objects.filter(assetIsLocatedAt__id=id,assetCategory__id=catid)
         serializer = MiniAssetSerializer(posts, many=True)
         return Response(serializer.data)
 @api_view(['GET'])

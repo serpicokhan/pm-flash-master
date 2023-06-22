@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetAllWorkOrders/$', dash_GetAllWorkOrders, name='dash_GetAllWorkOrders'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetResources/$', dash_getResource, name='dash_getResource'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolid/$', dash_getDashTolid, name='dash_getDashTolid'),
+    url(r'^api/v1/Dashboard/(?P<loc>\d+)/GetTolidBarAPI/$', dash_getDashTolidBarAPI, name='dash_getDashTolidBarAPI'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidBar/$', dash_getDashTolidBar, name='dash_getDashTolidBar'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidTime/$', dash_getDashTolidTime, name='dash_getDashTolidTime'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCompletedOpenStatus/$', dash_getWoByStatus, name='dash_getWoByStatus'),
@@ -287,6 +288,7 @@ urlpatterns = [
         url(r'^Asset/Sort/(?P<id>\d+)$', asset_sort, name='asset_sort'),
 
         url(r'^api/v1/Asset/Category/(?P<id>\d+)/$',assetcategory_detail_collection, name='assetcategory_detail_collection'),
+        url(r'^api/v1/Asset/(?P<id>\d+)/Categories/$',asset_category_api, name='asset_category_api'),
 
 
         url(r'^api/v1/Asset/Category/$',assetcategory_collection, name='assetcategory_collection'),
@@ -303,7 +305,7 @@ urlpatterns = [
          url(r'^api/v1/Asset/(?P<id>\d+)/$',asset_detail_collection, name='asset_detail_collection'),
          url(r'^api/v1/Assets/$',asset_collection, name='asset_collection'),
          url(r'^api/v1/locations/$',location_collection, name='location_collection'),
-         url(r'^api/v1/(?P<id>\d+)/Machines/$',machine_collection, name='machine_collection'),
+         url(r'^api/v1/(?P<id>\d+)/(?P<catid>\d+)/Machines/$',machine_collection, name='machine_collection'),
          url(r'^api/v1/locations/(?P<id>\d+)/Details$',location_details, name='location_details'),
          url(r'^api/v1/Asset/Wo/(?P<id>\d+)/$',assetwo_collection, name='assetwo_collection'),
 
