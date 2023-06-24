@@ -186,6 +186,13 @@ def assetpart_collection(request,id):
         serializer = AssetPartSerializer(posts, many=True)
         return Response(serializer.data)
 @api_view(['GET'])
+def list_assetPartAPI(request,woId):
+    data=dict()
+    books2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
+    BOMGroupAsset.objects.filter(BOMGroupAssetAsset=woId).values_list('BOMGroupAssetBOMGroup',flat=True))
+    serializer = AssetBOMSerializer(books2, many=True)
+    return Response(serializer.data)
+@api_view(['GET'])
 def assetpart_detail_collection(request,id):
     if request.method == 'GET':
         print(id,"id")

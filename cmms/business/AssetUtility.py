@@ -350,6 +350,38 @@ class AssetUtility:
             # print(AssetLife.objects.filter(assetOfflineFrom__range=(date1, date2),assetLifeAssetid__in=assetList).values('assetOfflineStatus').order_by().annotate(Count('id')).query,'##@#@!#!@#@!')
             # return AssetLife.objects.filter(assetOfflineFrom__range=(date1, date2),assetLifeAssetid__in=assetList).values('assetOfflineStatus').order_by().annotate(Count('id'))
     @staticmethod
+    def getOfflineCountByEventAPI(assetList):
+            # print("count")
+            # print(''' select count(assetlife.id) as id,b.id as event,b.causeDescription as eventname
+            #                             from assetlife
+            #                             left join workorder wo on assetlife.assetWOAssoc_id=wo.id
+            #                             left join causecode b on wo.woCauseCode_id=b.id
+            #
+            #                             where assetLifeAssetid_id in {0} and
+            #                             (assetOfflineFrom between "{1}" and "{2}")
+            #                             and assetlife.assetOnlineStatus is not null
+            #                             group by b.id
+            #
+            #
+            #
+            #                              '''.format(tuple(assetList),date1,date2))
+
+            return AssetLife.objects.raw(''' select count(assetlife.id) as id,b.id as event,b.causeDescription as eventname
+                                        from assetlife
+
+                                        left join causecode b on assetCauseCode_id=b.id
+
+                                        where assetLifeAssetid_id in {0}
+
+                                        and assetlife.assetOnlineStatus is not null
+                                        group by b.id
+
+
+
+                                         '''.format(tuple(assetList)))
+            # print(AssetLife.objects.filter(assetOfflineFrom__range=(date1, date2),assetLifeAssetid__in=assetList).values('assetOfflineStatus').order_by().annotate(Count('id')).query,'##@#@!#!@#@!')
+            # return AssetLife.objects.filter(assetOfflineFrom__range=(date1, date2),assetLifeAssetid__in=assetList).values('assetOfflineStatus').order_by().annotate(Count('id'))
+    @staticmethod
     def getOfflineSumTimeByEvent(assetList,date1,date2):
             # print("sum")
             # print(''' select sum(timestampdiff(HOUR,

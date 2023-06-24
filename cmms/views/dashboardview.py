@@ -511,21 +511,29 @@ def dash_getDashTolidBar(request,startHijri,endHijri):
     s2=[]
     dt={}
     # dt['total']=[]
-    for i in amar1:
-        # print(i.id)
-        dt[i.jalali_month]=[]
+    if(amar1):
+        for i in amar1:
+            if(i):
+            # print(i.id)
+                dt[i.jalali_month]=[]
 
-    for i in amar1:
-        dt[i.jalali_month].append({'val':i.sum_value,'loc':i.id,'mah':i.jalali_month,'sal':i.jalali_year})
-    # sum_a = sum(float(item['value']) for item in data['A'] if item['value'])
-    # # print(data['A'][0]['value'].isdigit())
-    # sum_b = sum(float(item['value']) for item in data['B'] if item['value'])
-    # sum_c = sum(float(item['value']) for item in data['C'] if item['value'])
-    data['html_dashMTTR_list'] ={
+        for i in amar1:
+            dt[i.jalali_month].append({'val':i.sum_value,'loc':i.id,'mah':i.jalali_month,'sal':i.jalali_year})
+        # sum_a = sum(float(item['value']) for item in data['A'] if item['value'])
+        # # print(data['A'][0]['value'].isdigit())
+        # sum_b = sum(float(item['value']) for item in data['B'] if item['value'])
+        # sum_c = sum(float(item['value']) for item in data['C'] if item['value'])
+        data['html_dashMTTR_list'] ={
 
-                's3':dt
+                    's3':dt
 
-            }
+                }
+    else:
+        data['html_dashMTTR_list'] ={
+
+                    's3':[]
+
+                }
     return JsonResponse(data)
 @api_view(['GET'])
 def dash_getDashTolidBarAPI(request,loc):
@@ -536,20 +544,21 @@ def dash_getDashTolidBarAPI(request,loc):
     s1=[]
     s2=[]
     dt=dict()
-    # dt['total']=[]
+    dt['total']=[]
     for i in amar1:
          # s1.append(float(i.id))
          # s2.append(str(jdatetime.date.fromgregorian(date=i.assetAmarDate)))
-         dt[str(jdatetime.date.fromgregorian(date=i.assetAmarDate))]=i.id
+         # dt['total'][str(jdatetime.date.fromgregorian(date=i.assetAmarDate))]=i.id
+         dt['total'].append({'date':str(jdatetime.date.fromgregorian(date=i.assetAmarDate)),'value':i.id})
     # for i in amar2:
-    #     dt[str(i.shifttypes)]=[]#={str(i.assetAmarDate):i.id}
-    # # dt['total']=[]#={str(i.assetAmarDate):i.id}
+        # dt[str(i.shifttypes)]=[]#={str(i.assetAmarDate):i.id}
+    # dt['total']=[]#={str(i.assetAmarDate):i.id}
     # for i in amar2:
     #     dt[str(i.shifttypes)].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
 
     # serialized_data = TotalDataSerializer(dt, many=True)
     # return Response(serialized_data.data)
-    return JsonResponse(dt)
+    return JsonResponse(dt['total'],safe=False)
 ############################################
 def dash_getDashTolidTime(request,startHijri,endHijri):
     data=dict()

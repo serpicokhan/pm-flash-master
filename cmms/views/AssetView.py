@@ -996,6 +996,17 @@ def asset_collection(request):
         serializer = AssetSerializer(posts, many=True)
         return Response(serializer.data)
 @api_view(['GET'])
+def asset_Stop_count(request,id):
+    if request.method == 'GET':
+
+        assetList=Asset.objects.filter(assetIsLocatedAt__id=id).values_list('id',flat=True)
+        s1,s2=[],[]
+        z1,z2=[],[]
+        offlineCountByEvent=AssetUtility.getOfflineCountByEventAPI(assetList)
+        for i in offlineCountByEvent:
+            s1.append({'date':i.id,'value':i.eventname})
+        return JsonResponse(s1,safe=False)
+@api_view(['GET'])
 def asset_category_api(request,id):
     if request.method == 'GET':
         # posts = Asset.objects.all()

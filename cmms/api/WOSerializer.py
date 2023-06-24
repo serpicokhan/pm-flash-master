@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock,WorkorderFile,Asset,AssetCategory,AssetPart,AssetFile,AssetMeterReading,MeterCode
+from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock,WorkorderFile,Asset,AssetCategory,AssetPart,AssetFile,AssetMeterReading,MeterCode,BOMGroupPart
 
 import jdatetime
 import datetime
@@ -36,6 +36,7 @@ class AssetPartSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssetPart
         fields = '__all__'
+
 class SubAssetSerializer(serializers.ModelSerializer):
     assetCategory=AssetCategorySerializer(read_only=True)
     class Meta:
@@ -99,6 +100,11 @@ class PartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Part
+        fields = '__all__'
+class AssetBOMSerializer(serializers.ModelSerializer):
+    BOMGroupPartPart =PartSerializer(read_only=True)
+    class Meta:
+        model = BOMGroupPart
         fields = '__all__'
 class StockSerializer(serializers.ModelSerializer):
     stockItem=PartSerializer(read_only=True)

@@ -289,6 +289,7 @@ urlpatterns = [
 
         url(r'^api/v1/Asset/Category/(?P<id>\d+)/$',assetcategory_detail_collection, name='assetcategory_detail_collection'),
         url(r'^api/v1/Asset/(?P<id>\d+)/Categories/$',asset_category_api, name='asset_category_api'),
+        url(r'^api/v1/Asset/(?P<id>\d+)/StopCount/$',asset_Stop_count, name='asset_Stop_count'),
 
 
         url(r'^api/v1/Asset/Category/$',assetcategory_collection, name='assetcategory_collection'),
@@ -346,6 +347,7 @@ urlpatterns = [
         url(r'^AssetPart/(?P<id>\d+)/delete/$', assetPart_delete, name='assetPart_delete'),
         url(r'^AssetPart/(?P<id>\d+)/update/$', assetPart_update, name='assetPart_update'),
         url(r'^AssetPart/(?P<woId>\d+)/listAssetPart/$', js_list_assetPart, name='js_list_assetPart'),
+        url(r'^api/v1/AssetPart/(?P<woId>\d+)/listAssetPart/$', list_assetPartAPI, name='list_assetPartAPI'),
         url(r'^api/v1/Asset/Parts/(?P<id>\d+)/$',assetpart_collection, name='assetpart_collection'),
         url(r'^api/v1/Asset/Part/(?P<id>\d+)/$',assetpart_detail_collection, name='assetpart_detail_collection'),
 

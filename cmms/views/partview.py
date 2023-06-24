@@ -32,16 +32,16 @@ from django.db.models import Sum
 from rest_framework.decorators import api_view
 from cmms.api.WOSerializer import *
 from rest_framework.response import Response
+from django.contrib.auth.decorators import permission_required
 
 @login_required
+@permission_required('cmms.view_part',login_url='/not_found')
 def list_part(request,id=None):
     #
-    books=[]
+    # books=[]
 
-    if(request.user.username!="admin"):
-        books = []
-    else:
-        books = Part.objects.all().order_by('partName')
+
+    books = Part.objects.all().order_by('partName')
     #paging
 
     wos=PartUtility.doPaging(request,books)

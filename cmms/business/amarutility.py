@@ -43,6 +43,7 @@ class AmarUtility:
                             left join  assets as b on a.assetName_id=b.id
                             where b.assetIsLocatedAt_id={0}
                             GROUP BY jalali_year, jalali_month,b.assetIsLocatedAt_id'''.format(location))
+        return values
     @staticmethod
     def getTolidBarAPI(location=None):
 
@@ -50,7 +51,7 @@ class AmarUtility:
                                     SUM(`ringamar`.`assetTotlaKilometer`) AS `id` FROM `ringamar`
                                     INNER JOIN `assets` ON (`ringamar`.`assetName_id` = `assets`.`id`)
                                      WHERE(
-                                     `assets`.`assetIsLocatedAt_id` = {0}) GROUP BY `ringamar`.`assetAmarDate`'''.format(location))[:10]
+                                     `assets`.`assetIsLocatedAt_id` = {0})  GROUP BY `ringamar`.`assetAmarDate` order by `ringamar`.`assetAmarDate`'''.format(location))[1:30]
         # values=RingAmar.objects.raw('''SELECT YEAR(pdate(assetamardate)) AS jalali_year,
         #                    MONTH(pdate(assetamardate)) AS jalali_month,
         #                    SUM(a.assetTotlaKilometer) AS sum_value,b.assetIsLocatedAt_id as id,a.shifttypes
