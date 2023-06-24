@@ -815,6 +815,21 @@ def workorder_collection(request):
             # k.datecreated=DateJob.getDate2(k.datecreated)
             k["datecreated"]= str(jdatetime.datetime.fromgregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
         return Response(serializer.data)
+@csrf_exempt
+def work_order_test_api(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        # asset = request.POST.get('asset')
+        wo=WorkOrder.objects.get(id=id)
+        wo.woStatus=7
+        wo.save()
+        # Perform any necessary processing or validations
+
+        # Save the work order or perform any other operations
+
+        return JsonResponse({'success': True})
+
+    return JsonResponse({'error': 'Invalid request method'})
 @api_view(['GET'])
 def workorder_collection2(request):
     if request.method == 'GET':

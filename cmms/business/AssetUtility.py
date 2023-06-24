@@ -795,3 +795,14 @@ class AssetUtility:
                 action_flag     = ADDITION,
                 change_message= request.META.get('REMOTE_ADDR')
             )
+    @staticmethod
+    def get_sub_assets(main_asset):
+        sub_assets = []
+
+        def traverse_asset(asset):
+            sub_assets.append(asset)
+            for sub_asset in asset.location.all():
+                traverse_asset(sub_asset)
+
+        traverse_asset(main_asset)
+        return sub_assets

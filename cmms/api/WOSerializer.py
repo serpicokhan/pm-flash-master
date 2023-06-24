@@ -103,9 +103,15 @@ class PartSerializer(serializers.ModelSerializer):
         fields = '__all__'
 class AssetBOMSerializer(serializers.ModelSerializer):
     BOMGroupPartPart =PartSerializer(read_only=True)
+    # result=serializers.CharField()
     class Meta:
         model = BOMGroupPart
         fields = '__all__'
+class BOMGroupPartSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    BOMGroupPartPart = PartSerializer(read_only=True)#serializers.IntegerField(source='BOMGroupPartPart_id')
+    BOMGroupPartBOMGroup = serializers.IntegerField()
+    result = serializers.IntegerField()
 class StockSerializer(serializers.ModelSerializer):
     stockItem=PartSerializer(read_only=True)
 

@@ -190,6 +190,7 @@ urlpatterns = [
       url(r'^WoPart/(?P<id>\d+)/GetPartStock/$', wP_getPartStock, name='wP_getPartStock'),
       url(r'^api/v1/WoParts/(?P<id>\d+)/$',wopart_collection, name='wopart_collection'),
       url(r'^api/v1/WoPart/(?P<id>\d+)/$',wopart_detail_collection, name='wopart_detail_collection'),
+      url(r'^api/v1/WO/Complete/$',work_order_test_api, name='work_order_test_api'),
 
       url(r'^WoMeter/$',list_woMeter,name='list_woMeter'),
       url(r'^WoMeter/(?P<id>\d+)/create/$', woMeter_create, name='woMeter_create'),
