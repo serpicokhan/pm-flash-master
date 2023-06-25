@@ -821,7 +821,20 @@ def work_order_test_api(request):
         id = request.POST.get('id')
         # asset = request.POST.get('asset')
         wo=WorkOrder.objects.get(id=id)
+        tasks=wo.CompleteUserTask.all()
+        for task in tasks:
+            if(not task.taskTimeEstimate):
+                task.taskTimeEstimate=0.1
+            dt_start=datetime.datetime.combine(task.taskStartDate,task.taskStartTime)
+            dt_end=dt_start+timedelta(hours=task.taskTimeEstimate)
+            task.taskDateCompleted=dt_end.date()
+            task.taskTimeCompleted=dt_end.time()
+            wo.dateCompleted=task.taskDateCompleted
+            wo.timeCompleted=task.taskTimeCompleted
+            # task.time
+            task.save()
         wo.woStatus=7
+
         wo.save()
         # Perform any necessary processing or validations
 
@@ -834,7 +847,13 @@ def work_order_test_api(request):
 def workorder_collection2(request):
     if request.method == 'GET':
         # print("!23")
-        posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False).order_by('-datecreated')[:100]
+        asset=request.GET.get('assetID',False)
+        if(asset==False or asset=='0'):
+            posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False).order_by('-datecreated')[:100]
+        else:
+            print(asset,'!!!!!!!')
+            assets=AssetUtility.get_sub_assets(Asset.objects.get(id=asset))
+            posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,woAsset__in=assets).order_by('-datecreated')[:100]
         serializer = WOSerializer2(posts, many=True)
         for k in serializer.data:
             pass

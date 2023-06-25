@@ -1017,7 +1017,7 @@ def asset_category_api(request,id):
 @api_view(['GET'])
 def location_collection(request):
     if request.method == 'GET':
-        posts = Asset.objects.filter(assetIsLocatedAt__isnull=True)
+        posts = Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
         serializer = MiniAssetSerializer(posts, many=True)
         return Response(serializer.data)
 @api_view(['GET'])

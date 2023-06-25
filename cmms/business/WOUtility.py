@@ -1242,7 +1242,7 @@ class WOUtility:
         wo=form.instance
         data=dict()
         if(wo.CompleteUserTask.all().count()==0):
-            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated)
+            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated,taskTimeEstimate=0.1)
             data = render_to_string('cmms/tasks/partialTaskList.html', {
                 'task': wo.CompleteUserTask.all(),
                 'perms': PermWrapper(request.user),
@@ -1256,7 +1256,7 @@ class WOUtility:
 
         data=dict()
         if(wo.CompleteUserTask.all().count()==0):
-            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated)
+            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated,taskTimeEstimate=0.1)
 
         return True
     @staticmethod
