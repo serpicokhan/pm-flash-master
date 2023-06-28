@@ -86,7 +86,7 @@ $(function () {
   }
   $("#btncreate").click(function(){
     $.ajax({
-      url: '/RingAmar/LoadTableInfo?makan='+mak_val+'&dt='+$("#dttext").val()+'&shift='+$("#shift").val(),
+      url: '/RingAmar/LoadTableInfo?cat=17&makan='+mak_val+'&dt='+$("#dttext").val()+'&shift='+$("#shift").val(),
       type: 'get',
       dataType: 'json',
       success: function (data) {
