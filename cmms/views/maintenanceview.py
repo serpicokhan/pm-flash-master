@@ -51,7 +51,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from cmms.utils import *
 from django.db.models import F
-
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 
 def filterUser(request,books):
     if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
@@ -844,6 +845,7 @@ def work_order_test_api(request):
 
     return JsonResponse({'error': 'Invalid request method'})
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def workorder_collection2(request):
     if request.method == 'GET':
         # print("!23")

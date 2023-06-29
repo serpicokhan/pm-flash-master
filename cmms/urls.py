@@ -767,7 +767,6 @@ urlpatterns = [
            url(r'^Calendar/Update/(?P<mtId>-?\d+)/(?P<gId>-?\d+)/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)$',display_calendar,name='display_calendar'),
            #api_view
            url(r'^api/v1/wos/$',workorder_collection, name='workorder_collection'),
-           url(r'^api/v1/wos2/$',workorder_collection2, name='workorder_collection2'),
            url(r'^api/v1/wos_detail/(?P<id>\d+)$',workorder_api_detail, name='workorder_api_detail'),
            url(r'^api/v1/login/$',user_login, name='user_login'),
            url(r'^PurchaseBoard/$',list_purchaseboard,name='list_purchaseboard'),
@@ -785,6 +784,8 @@ urlpatterns = [
             url(r'^api/v1/RegUser/$', views.SysUserView.as_view(), name='SysUserView'),
             url(r'^api/v1/sites/$', views.SiteView.as_view(), name='SiteView'),
             url(r'^api/v1/(?P<id>\d+)/subsites/$', views.SubSiteView.as_view(), name='SubSiteView'),
+            url(r'^api/v1/wos2/$',views.WO.as_view(), name='workorder_collection2'),
+
             path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
 
 

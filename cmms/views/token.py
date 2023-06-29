@@ -19,11 +19,30 @@ class HelloView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        # print(request.user)
+
 
 
         content = {'message': 'Hello, World!'}
         return Response(content)
+class WO(APIView):
+    # permission_classes = (IsAuthenticated,)
+
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        asset=request.GET.get('assetID',False)
+        if(asset==False or asset=='0'):
+            posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False).order_by('-datecreated')[:100]
+        else:
+            print(asset,'!!!!!!!')
+            assets=AssetUtility.get_sub_assets(Asset.objects.get(id=asset))
+            posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,woAsset__in=assets).order_by('-datecreated')[:100]
+        serializer = WOSerializer2(posts, many=True)
+        for k in serializer.data:
+            pass
+            # k.datecreated=DateJob.getDate2(k.datecreated)
+            # k["datecreated"]= str(jdatetime.datetime.togregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
+        return Response(serializer.data)
 
 class MiniView(APIView):
     def filterUser(self,request,books):
