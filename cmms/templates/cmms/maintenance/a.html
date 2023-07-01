@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  </head>
+  <body>
+    <input type="text" id="myInput" class="form-control" placeholder="Type to search">
+  <div id="selectedValuesContainer"></div>
+
+  <script>
+    $(function() {
+      var availableValues = ['Value 1', 'Value 2', 'Value 3', 'Value 4'];
+      var selectedValues = [];
+      $("#myInput").autocomplete({
+        source: availableValues,
+        minLength: 1,
+        select: function(event, ui) {
+          var selectedValue = ui.item.value;
+          selectedValues.push(selectedValue);
+          updateSelectedValuesContainer();
+          $(this).val(''); // Clear input after selection
+          return false; // Prevent default selection behavior
+        }
+      });
+
+      function updateSelectedValuesContainer() {
+        $("#selectedValuesContainer").empty();
+        for (var i = 0; i < selectedValues.length; i++) {
+          var value = selectedValues[i];
+          var chip = $('<span class="label label-primary">' + value + ' <span class="glyphicon glyphicon-remove"></span></span>');
+          chip.find('.glyphicon-remove').click(function() {
+            var valueToRemove = $(this).parent().text().trim();
+            selectedValues = selectedValues.filter(function(val) {
+              return val !== valueToRemove;
+            });
+            updateSelectedValuesContainer();
+          });
+          $("#selectedValuesContainer").append(chip);
+        }
+      }
+    });
+  </script>
+
+  </body>
+</html>
