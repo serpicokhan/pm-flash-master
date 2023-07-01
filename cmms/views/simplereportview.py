@@ -244,7 +244,7 @@ class reporttest:
         #
         #convert assetlist to tuple for sql query compatibility means: Rawquery([1,2,3])==>(1,2,3)
 
-        print(s1,s2)
+        # print(s1,s2)
 
         return render(request, 'cmms/reports/simplereports/DowntimeByRepairTypeByAssetCategory.html',{'s1': s1,'s2':s2,'z1': z1,'z2':z2,'start':startDate,'end':endDate})
 

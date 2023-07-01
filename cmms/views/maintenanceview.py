@@ -845,7 +845,6 @@ def work_order_test_api(request):
 
     return JsonResponse({'error': 'Invalid request method'})
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def workorder_collection2(request):
     if request.method == 'GET':
         # print("!23")
