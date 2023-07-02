@@ -27,7 +27,29 @@
       );
 
 
+      $("#modal-assetLife").on("focusin","#id_assetOnlineProducteHourAffected",function(){
+        // alert("123");
+        console.log(1);
+        var startDate = new Date($("#id_assetOfflineFrom").attr('value')); // Replace with your start date field value
+      var endDate = new Date($("#id_assetOnlineFrom").attr('value')); // Replace with your end date field value
+      var startTime = $("#id_assetOfflineFromTime").val(); // Replace with your start time field value
+      var endTime = $("#id_assetOnlineFromTime").val(); // Replace with your end time field value
 
+      // Combine the date and time strings and convert them to Date objects
+      var startDateTime = new Date(startDate.toDateString() + ' ' + startTime);
+      var endDateTime = new Date(endDate.toDateString() + ' ' + endTime);
+
+      // Calculate the time difference in milliseconds
+      var timeDiff = endDateTime - startDateTime;
+
+      // Convert the time difference to hours and minutes
+      var hours = Math.floor(timeDiff / (1000 * 60 * 60));
+      var minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+
+      // Format the result as "hour:minute"
+      var result = hours ;//+ ':' + (minutes < 10 ? '0' + minutes : minutes);
+      $("#id_assetOnlineProducteHourAffected").val(result);
+      });
      myformat = function() {
      var s = arguments[0];
      for (var i = 0; i < arguments.length - 1; i++) {
