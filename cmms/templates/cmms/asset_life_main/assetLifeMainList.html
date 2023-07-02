@@ -1,0 +1,156 @@
+<!--pip install django-widget-tweaks-->
+{% extends 'cmms/mainTheme.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>فیلتر</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">گزینه 1</a>
+                                    </li>
+                                    <li><a href="#">گزینه 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <div class="form-group">
+                              <select class="form-control" name="assetMakan" id="id_makan">
+                                <option value="">-----</option>
+                                  {% for i in makan %}
+
+                                    <option value="{{i.id}}">{{i.assetName}}</option>
+                                  {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <select class="form-control" name="assetName2" id="id_assetName2">
+
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <input type="text" name="" value="" id="dttextFrom" class="form-control" autocomplete="off">
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <input type="text" name="" value="" id="dttextTo" class="form-control" autocomplete="off">
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                              <div class="form-group">
+                                <button type="button" name="button" class="btn btn-primary btn-outline" id='btnfilter'>فیلتر</button>
+                              </div>
+                            </div>
+
+                        </div>
+
+
+                        </div>
+                    </div>
+
+  </div>
+
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+
+        <h5>مجموع خرابی: {{total_time}}</h5>
+
+      </div>
+      <div class="ibox-content">
+
+        <div class="table-responsive">
+          <table class="table table-striped" id="assetLife-table" >
+            <thead>
+              <tr>
+                <th></th>
+                <th>تجهیز</th>
+                <th>وضعیت</th>
+                <th>تاریخ از کار افتادگی</th>
+                <th>کاربر</th>
+                <th>ساعت توقف</th>
+
+                <th></th>
+
+              </tr>
+
+            </thead>
+            <tbody id='tbody_assetLife'>
+              {% include 'cmms/asset_life_main/partialAssetLifeMainList.html' %}
+            </tbody>
+          </table>
+          <div class="woPaging" >
+            {% if assetLifes.has_other_pages %}
+            <ul class="pagination">
+            {% if assetLifes.has_previous %}
+            <li><a href="?page={{ assetLifes.previous_page_number }}{% if stdate %}&dttextFrom={{stdate}}&dttextTo={{enddate}}&makan={{location}}{% endif %}">&laquo;</a></li>
+            {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+          <li ><span>{{ assetLifes.number }} از {{ assetLifes.paginator.num_pages }} <span class="sr-only">(current)</span></span></li>
+            {% if assetLifes.has_next %}
+            <li><a href="?page={{ assetLifes.next_page_number }}{% if stdate %}&dttextFrom={{stdate}}&dttextTo={{enddate}}&makan={{location}}{% endif %}">&raquo;</a></li>
+            {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+            </ul>
+            {% endif %}
+
+          </div>
+          <!-- BUTTON TO TRIGGER THE ACTION -->
+          <p>
+            <button type="button" class="btn btn-primary js-create-assetLife"
+            data-url=""                                  >
+            <span class="glyphicon glyphicon-plus"
+
+
+
+            ></span>
+            جدید
+          </button>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="modal fade" id="modal-assetLife">
+  <div class="modal-dialog ">
+
+    <div class="modal-content ">
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+{% load static %}
+
+{% block javascript %}
+<script src="{% static '/js/project/assetlife.js' %}"></script>
+<script src="{% static '/js/project/reports/form/PartUsageByLocationandPart2.js' %}"></script>
+{% endblock %}
+{% endblock %}

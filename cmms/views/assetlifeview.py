@@ -20,6 +20,7 @@ import django.core.serializers
 import logging
 from django.conf import settings
 from cmms.business.DateJob import *
+from cmms.business.AssetUtility import *
 from cmms.models.Asset import *
 
 from django.views.decorators.csrf import csrf_exempt
@@ -30,11 +31,43 @@ import json
 from django.forms.models import model_to_dict
 from cmms.forms import AssetLifeForm
 from cmms.business.updateAssetStatus import *
+from django.db.models import Sum, F
 ###################################################################
-@csrf_exempt
+
 def list_assetLife(request,id=None):
-    books = AssetLife.objects.all()
-    return render(request, 'cmms/asset_life/assetLifeList.html', {'assetLifes': books})
+    date1=DateJob.getDate2(request.GET.get("dttextFrom",False))
+    date2=DateJob.getDate2(request.GET.get("dttextTo",False))
+    startDate=request.GET.get("dttextFrom",False)
+    makan=request.GET.get("makan",False)
+    endDate=request.GET.get("dttextTo",False)
+    print("###########",request)
+    print("###########",endDate)
+    books=AssetLife.objects.none()
+    if(startDate):
+        # print("here")
+        books=AssetLife.objects.filter(assetOfflineFrom__range=(date1,date2)).order_by('-id')
+    else:
+        books = AssetLife.objects.all().order_by('-id')
+    if(makan!="0"):
+        books=books.filter(assetLifeAssetid__assetIsLocatedAt__id=makan)
+    # time_total=books.aggregate(total_time=Sum(Extract('time_field', 'seconds')))['total_time']
+    total=0
+    for i in books:
+        total+=i.getAffectedHour_digits()
+    final_total='{0:02.0f}:{1:02.0f}'.format(*divmod(total * 60, 60))
+    wos=AssetUtility.doPaging(request,books)
+    assetMakan=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
+    return render(request, 'cmms/asset_life_main/assetLifeMainList.html', {'assetLifes': wos,'section':'list_assetLife','makan':assetMakan,'stdate':startDate,'enddate':endDate,'total_time':final_total,'location':makan})
+# def filter_assetLife(request):
+#     data=dict()
+#     date1=DateJob.getDate2(request.POST.get("dttextFrom",False))
+#     date2=DateJob.getDate2(request.POST.get("dttextTo",False))
+#
+#
+#     books = AssetLife.objects.filter().order_by('-id')
+#     wos=AssetUtility.doPaging(request,books)
+#     assetMakan=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
+#     return render(request, 'cmms/asset_life_main/assetLifeMainList.html', {'assetLifes': wos,'section':'assetLife','makan':assetMakan})
 
 
 ###################################################################
@@ -115,7 +148,7 @@ def assetLife_create(request,assetId=None):
         data['assetEventDescription']=body['assetEventDescription']
         data['assetCheckEvent']=body['assetCheckEvent']
         data['assetStopCode']=body['assetStopCode']
-
+        print("date:",data['assetOfflineFrom'])
         data['assetOfflineFromTime']=body['assetOfflineFromTime']
         woId=body['assetLifeAssetid']
         data['assetOnlineFrom']=data['assetOfflineFrom']
@@ -123,7 +156,7 @@ def assetLife_create(request,assetId=None):
         data['assetCauseCode']=body['assetCauseCode']
 
         # print("dsadsadsa%%%%%%%"+str(body['assetOnlineStatus']))
-        # asset1=Asset.objects.get(pk=int(woId))
+        asset1=Asset.objects.get(pk=int(woId))
 
         if ("assetOnlineStatus" in body and body['assetOnlineStatus']!=-1):
 
@@ -134,13 +167,13 @@ def assetLife_create(request,assetId=None):
             data['assetOnlineAdditionalInfo']=body['assetOnlineAdditionalInfo']
             data['assetOnlineProducteHourAffected']=body['assetOnlineProducteHourAffected']
             data['assetOnlineFromTime']=body['assetOnlineFromTime']
-            # time1 = data['assetOfflineFromTime']
-            # time2 = data['assetOnlineFromTime']
-            # format = "%H:%M"
+            time1 = data['assetOfflineFromTime']
+            time2 = data['assetOnlineFromTime']
+            # format = "%H:%M:%S"
             # t1 = datetime.strptime(time1, format)
             # t2 = datetime.strptime(time2, format)
-            # asset1.assetStatus=True
-            # asset1.save()
+            asset1.assetStatus=True
+            asset1.save()
             # print(asset1,"if#####################")
         else:
             pass
@@ -166,7 +199,13 @@ def assetLife_create(request,assetId=None):
     else:
         # al=AssetLife.objects.filter(assetLifeAssetid=assetId)
         asset_name=Asset.objects.get(id=assetId).assetName
-        form = AssetLifeForm(initial={'asset_name':asset_name,'assetLifeAssetid':assetId,'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
+        stdate_=request.GET.get("stdate",False)
+        if(stdate_):
+            dt=DateJob.getDate2(stdate_)
+            form = AssetLifeForm(initial={'assetOfflineFrom':dt,'assetOnlineFrom':dt,'asset_name':asset_name,'assetLifeAssetid':assetId,'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
+
+        else:
+            form = AssetLifeForm(initial={'asset_name':asset_name,'assetLifeAssetid':assetId,'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
 
     return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeCreate.html',woId,False)
 ###################################################################

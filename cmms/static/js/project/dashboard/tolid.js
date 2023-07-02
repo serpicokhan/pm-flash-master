@@ -172,22 +172,22 @@ var LoadTolidTimeBar=function()
 
     },
     success: function (data) {
-      if(location=='6961'){
-        console.log("dsadsa");
-      s1=data.html_dashMTTR_list.s3;
-      console.log(s1);
-      var dividedArray = s1.map(function(item) {
-        var tmp=item*100;
-        tmp= Math.floor(tmp / 180);
-        var x1=Math.floor(tmp/3);
-        return parseFloat(tmp.toString()+'.'+x1.toString())
-      });
-      drawTolidTimeBar(dividedArray,data.html_dashMTTR_list.s2);
-    }
-    else{
+    //   if(location=='6961'){
+    //     console.log("dsadsa");
+    //   s1=data.html_dashMTTR_list.s3;
+    //   console.log(s1);
+    //   var dividedArray = s1.map(function(item) {
+    //     var tmp=item*100;
+    //     tmp= Math.floor(tmp / 180);
+    //     var x1=Math.floor(tmp/3);
+    //     return parseFloat(tmp.toString()+'.'+x1.toString())
+    //   });
+    //   drawTolidTimeBar(dividedArray,data.html_dashMTTR_list.s2);
+    // }
+    // else{
 
       drawTolidTimeBar(data.html_dashMTTR_list.s3,data.html_dashMTTR_list.s2);
-    }
+    // }
       //html_DashMTTRCount_list
 
 

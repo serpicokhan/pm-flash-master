@@ -1,9 +1,27 @@
 $(function () {
   ///////////////////////////////////////////////
 
+  const urlParams = new URLSearchParams(window.location.search);
 
-
-
+  // Read individual query parameters
+  const param1 = urlParams.get('dttextFrom'); // "value1"
+  const param2 = urlParams.get('dttextTo'); // "value2"
+  const param3 = urlParams.get('makan'); // "value2"
+  $("#id_makan").val(param3);
+  $('#dttextFrom').pDatepicker({
+    format: 'YYYY-MM-DD',
+    autoClose: true,
+    initialValueType: 'gregorian'
+  }).val(param1);
+  $('#dttextTo').pDatepicker({
+    format: 'YYYY-MM-DD',
+    autoClose: true,
+    initialValueType: 'gregorian'
+  }).val(param2);
+var filterAssetLife=function(){
+  makan=$("#id_makan").val()||0;
+  window.location='/AssetLife?dttextFrom='+$("#dttextFrom").val()+'&dttextTo='+$("#dttextTo").val()+'&makan='+makan;
+}
   var loadAssetLifeForm =function () {
     var btn=$(this);
     $.ajax({
@@ -137,7 +155,7 @@ var saveAssetLifeForm= function () {
  // Create book
 $(".js-create-assetLife").unbind();
 $(".js-create-assetLife").click(loadAssetLifeForm);
-
+$("#btnfilter").click(filterAssetLife);
 $("#assetLife-table").on("click", ".js-update-assetLife", loadAssetLifeForm);
 
 $("#modal-assetLife").on("submit", ".js-assetLife-update-form", loadAssetLifeForm);

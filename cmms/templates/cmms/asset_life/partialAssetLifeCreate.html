@@ -99,9 +99,9 @@ var result = hours ;//+ ':' + (minutes < 10 ? '0' + minutes : minutes);
 $("#id_assetOnlineProducteHourAffected").val(result);
 });
 getVal=function(element){
-  console.log(element);
+  // console.log(element);
   if(element){
-    console.log(element);
+    // console.log(element);
   if(element.val().length===0)
   {
      switch(element.attr("id"))
@@ -205,7 +205,7 @@ return false;
 
 
 
-
+                   // console.log(mydata);
                     var form = $(this).parent().parent();
 
                     $.ajax({
@@ -214,7 +214,7 @@ return false;
                       data:mydata,
                       dataType: 'json',
                       beforeSend: function(xhr,opt) {
-                        console.log(mydata);
+                        // console.log(mydata);
                         if($("#id_assetStopCode").val().length<1)
                         {
                           toastr.error("کد توقف را مشخص نمایید");
@@ -242,8 +242,18 @@ return false;
                           // $("#id_assetStatus").trigger('click');
 
                           initAssetEventLoad();
+                          if (typeof firstPressedButton !== 'undefined' && firstPressedButton !== null) {
+
+    // console.log(firstPressedButton);
+  // alert("!23");
+}
 
                           //console.log(data.html_assetLife_list);
+                          // var mybtn = localStorage.getItem('myData');
+                          // console.log(mybtn);
+                          firstPressedButton.removeClass('btn-outline');;
+                          firstPressedButton.removeClass('btn-info');;
+                          firstPressedButton.addClass('btn-warning');;
                         }
                         else {
                           toastr.error("خطا");

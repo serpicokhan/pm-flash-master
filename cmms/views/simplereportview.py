@@ -210,6 +210,7 @@ class reporttest:
 
     def DowntimeByRepairTypeByAssetCategory(self,request):
         categoryText=request.POST.getlist("categoryText", "")
+        makan=request.POST.get("makan", False)
         if(len(categoryText) >0 and not categoryText[0]):
             categoryText.pop(0)
 
@@ -219,7 +220,10 @@ class reporttest:
         date2=DateJob.getDate2(request.POST.get("endDate",""))
         startDate=request.POST.get("startDate","").replace('-','/')
         endDate=request.POST.get("endDate","").replace('-','/')
-        assetList=AssetUtility.getAssetListByCategory(categoryText)
+        if(makan):
+            assetList=Asset.objects.filter(assetIsLocatedAt__id=makan).values_list('id',flat=True)
+        else:
+            assetList=AssetUtility.getAssetListByCategory(categoryText)
         # print("#######",assetList)
         ########### GERnetare output####################
         ##############count by event type ###################
@@ -227,6 +231,7 @@ class reporttest:
         s1,s2=[],[]
         z1,z2=[],[]
         offlineCountByEvent=AssetUtility.getOfflineCountByEvent(assetList,date1,date2)
+        # print(offlineCountByEvent,'!!!!!!!')
         # print(offlineCountByEvent,'$$$$$$$$$$$$$$$$$$$$')
         offlineSumTimeByEvent=AssetUtility.getOfflineSumTimeByEvent(assetList,date1,date2)
         for i in offlineCountByEvent:
@@ -239,7 +244,7 @@ class reporttest:
         #
         #convert assetlist to tuple for sql query compatibility means: Rawquery([1,2,3])==>(1,2,3)
 
-
+        # print(s1,s2)
 
         return render(request, 'cmms/reports/simplereports/DowntimeByRepairTypeByAssetCategory.html',{'s1': s1,'s2':s2,'z1': z1,'z2':z2,'start':startDate,'end':endDate})
 
@@ -1320,13 +1325,20 @@ class reporttest:
                 wos=[]
                 assets=[]
                 # wos=AssetUtility.getAssetOfflineHistory(category,asset,offlinecode,date1,date2)
+                # if(len(category)>0):
+                #     assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__assetCategory__in=category,assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
+                #     # print(Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__assetCategory__in=category).values_list('assetLifeAssetid',flat=True)).query)
+                # elif(len(asset)>0):
+                #     assets=Asset.objects.filter(assetIsLocatedAt__id__in=asset).values_list('id',flat=True)
+                #     # assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__id__in=asset,assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
+                # else:
+                #     assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
+                # print(asset)
+                assets=Asset.objects.filter(assetIsLocatedAt__id__in=asset,id__in=AssetLife.objects.filter(assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
                 if(len(category)>0):
-                    assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__assetCategory__in=category,assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
-                    # print(Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__assetCategory__in=category).values_list('assetLifeAssetid',flat=True)).query)
-                elif(len(asset)>0):
-                    assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetLifeAssetid__id__in=asset,assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
-                else:
-                    assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
+                    assets=Asset.objects.filter(assetCategory__in=category)
+
+                # print(assets)
                 assetList=[]
                 time_sum=0
                 for i in assets:

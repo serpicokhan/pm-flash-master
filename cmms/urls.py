@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetAllWorkOrders/$', dash_GetAllWorkOrders, name='dash_GetAllWorkOrders'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetResources/$', dash_getResource, name='dash_getResource'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolid/$', dash_getDashTolid, name='dash_getDashTolid'),
+    url(r'^api/v1/Dashboard/(?P<loc>\d+)/GetTolidBarAPI/$', dash_getDashTolidBarAPI, name='dash_getDashTolidBarAPI'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidBar/$', dash_getDashTolidBar, name='dash_getDashTolidBar'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidTime/$', dash_getDashTolidTime, name='dash_getDashTolidTime'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCompletedOpenStatus/$', dash_getWoByStatus, name='dash_getWoByStatus'),
@@ -189,6 +190,7 @@ urlpatterns = [
       url(r'^WoPart/(?P<id>\d+)/GetPartStock/$', wP_getPartStock, name='wP_getPartStock'),
       url(r'^api/v1/WoParts/(?P<id>\d+)/$',wopart_collection, name='wopart_collection'),
       url(r'^api/v1/WoPart/(?P<id>\d+)/$',wopart_detail_collection, name='wopart_detail_collection'),
+      url(r'^api/v1/WO/Complete/$',work_order_test_api, name='work_order_test_api'),
 
       url(r'^WoMeter/$',list_woMeter,name='list_woMeter'),
       url(r'^WoMeter/(?P<id>\d+)/create/$', woMeter_create, name='woMeter_create'),
@@ -244,6 +246,8 @@ urlpatterns = [
         url(r'^Asset/DASH/$',list_asset_dash,name='list_asset_dash'),
         url(r'^Asset/(?P<locId>\d+)/jslist/$',js_list_asset_dash,name='js_list_asset_dash'),
         url(r'^Asset/Location/$',list_asset_location,name='list_asset_location'),
+        url(r'^Asset/Location2/$',get_location,name='get_location'),
+        url(r'^Asset/Location2/Child$',get_asset_child,name='get_asset_child'),
         url(r'^Asset/Machine/$',list_asset_machine,name='list_asset_machine'),
         url(r'^Asset/Tool/$',list_asset_tool,name='list_asset_tool'),
         url(r'^Asset/Types/(?P<ids>\d+(?:,\d+)*)$',show_asset_types,name='show_asset_types'),
@@ -285,6 +289,8 @@ urlpatterns = [
         url(r'^Asset/Sort/(?P<id>\d+)$', asset_sort, name='asset_sort'),
 
         url(r'^api/v1/Asset/Category/(?P<id>\d+)/$',assetcategory_detail_collection, name='assetcategory_detail_collection'),
+        url(r'^api/v1/Asset/(?P<id>\d+)/Categories/$',asset_category_api, name='asset_category_api'),
+        url(r'^api/v1/Asset/(?P<id>\d+)/StopCount/$',asset_Stop_count, name='asset_Stop_count'),
 
 
         url(r'^api/v1/Asset/Category/$',assetcategory_collection, name='assetcategory_collection'),
@@ -300,6 +306,9 @@ urlpatterns = [
 
          url(r'^api/v1/Asset/(?P<id>\d+)/$',asset_detail_collection, name='asset_detail_collection'),
          url(r'^api/v1/Assets/$',asset_collection, name='asset_collection'),
+         url(r'^api/v1/locations/$',location_collection, name='location_collection'),
+         url(r'^api/v1/(?P<id>\d+)/(?P<catid>\d+)/Machines/$',machine_collection, name='machine_collection'),
+         url(r'^api/v1/locations/(?P<id>\d+)/Details$',location_details, name='location_details'),
          url(r'^api/v1/Asset/Wo/(?P<id>\d+)/$',assetwo_collection, name='assetwo_collection'),
 
 
@@ -339,6 +348,7 @@ urlpatterns = [
         url(r'^AssetPart/(?P<id>\d+)/delete/$', assetPart_delete, name='assetPart_delete'),
         url(r'^AssetPart/(?P<id>\d+)/update/$', assetPart_update, name='assetPart_update'),
         url(r'^AssetPart/(?P<woId>\d+)/listAssetPart/$', js_list_assetPart, name='js_list_assetPart'),
+        url(r'^api/v1/AssetPart/(?P<woId>\d+)/listAssetPart/$', list_assetPartAPI, name='list_assetPartAPI'),
         url(r'^api/v1/Asset/Parts/(?P<id>\d+)/$',assetpart_collection, name='assetpart_collection'),
         url(r'^api/v1/Asset/Part/(?P<id>\d+)/$',assetpart_detail_collection, name='assetpart_detail_collection'),
 
@@ -379,6 +389,7 @@ urlpatterns = [
 
 
         url(r'^AssetLife/$',list_assetLife,name='list_assetLife'),
+        # url(r'^AssetLife/List$',list_assetLife,name='list_assetLife'),
         url(r'^AssetLife/(?P<assetId>\d+)/create/$', assetLife_create, name='assetLife_create'),
         url(r'^AssetLife/(?P<assetId>\d+)/eval/$', findLastOpenAssetLife, name='findLastOpenAssetLife'),
         url(r'^AssetLife/create/$', assetLife_create, name='assetLife_create'),
@@ -773,6 +784,8 @@ urlpatterns = [
             url(r'^api/v1/RegUser/$', views.SysUserView.as_view(), name='SysUserView'),
             url(r'^api/v1/sites/$', views.SiteView.as_view(), name='SiteView'),
             url(r'^api/v1/(?P<id>\d+)/subsites/$', views.SubSiteView.as_view(), name='SubSiteView'),
+            url(r'^api/v1/wos2/$',views.WO.as_view(), name='workorder_collection2'),
+
             path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
 
 

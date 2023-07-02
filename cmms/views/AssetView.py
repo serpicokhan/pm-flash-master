@@ -39,6 +39,8 @@ from cmms.api.WOSerializer import *
 from rest_framework.response import Response
 from django.db.models import Q
 from django.db import  transaction
+from django.db.models import Count
+
 
 
 def filterUser(request):
@@ -883,16 +885,17 @@ def assetloadinfo(request):
     makan=request.GET.get("makan","")
     noe=request.GET.get("noe","-1")
 
+
     if(makan):
         assets=Asset.objects.none()
         if(makan== '-1'):
             assets=Asset.objects.all()
         else:
             assets=Asset.objects.filter(assetIsLocatedAt=makan)
-        if(len(noe)==0  or( "null" in noe and len(noe)==1) or noe=="-1"):
+        if(len(noe)==0  or( "null" in noe and len(noe)==1) or noe=="-1" or noe=="undefined"):
             pass
         else:
-            print(len(noe),noe)
+            # print(len(noe),noe)
             assets=assets.filter(assetCategory__in=[int(i)  for i in noe.split(',')])
         data["html_assets_dynamics"]=render_to_string('cmms/maintenance/partialWOAssetDynamics.html',
             {'assets':assets})
@@ -991,6 +994,43 @@ def asset_collection(request):
     if request.method == 'GET':
         posts = Asset.objects.all()
         serializer = AssetSerializer(posts, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
+def asset_Stop_count(request,id):
+    if request.method == 'GET':
+
+        assetList=Asset.objects.filter(assetIsLocatedAt__id=id).values_list('id',flat=True)
+        s1,s2=[],[]
+        z1,z2=[],[]
+        offlineCountByEvent=AssetUtility.getOfflineCountByEventAPI(assetList)
+        for i in offlineCountByEvent:
+            s1.append({'date':i.id,'value':i.eventname})
+        return JsonResponse(s1,safe=False)
+@api_view(['GET'])
+def asset_category_api(request,id):
+    if request.method == 'GET':
+        # posts = Asset.objects.all()
+        asset_categories = AssetCategory.objects.filter(asset__assetIsLocatedAt__id=id).annotate(asset_count=Count('asset')).values('id','name', 'asset_count').filter(asset_count__gt=0)
+        # filtered_categories = asset_categories.filter(asset=id)
+        serializer = AssetCategorySerializer2(asset_categories, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
+def location_collection(request):
+    if request.method == 'GET':
+        posts = Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
+        serializer = MiniAssetSerializer(posts, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
+def machine_collection(request,id,catid):
+    if request.method == 'GET':
+        posts = Asset.objects.filter(assetIsLocatedAt__id=id,assetCategory__id=catid)
+        serializer = MiniAssetSerializer(posts, many=True)
+        return Response(serializer.data)
+@api_view(['GET'])
+def location_details(request,id):
+    if request.method == 'GET':
+        posts = Asset.objects.get(id=id)
+        serializer = AssetSerializer(posts)
         return Response(serializer.data)
 @api_view(['GET'])
 def assetwo_collection(request,id):
@@ -1130,3 +1170,31 @@ def upload_file_asset(request):
 
         return JsonResponse(data)
     return JsonResponse({'post':'fasle'})
+
+def get_location(request):
+    locations=Asset.objects.filter(assetIsLocatedAt__isnull=True).values_list('id','assetName')
+    location_data = []
+    for location_id, location_name in locations:
+        location_data.append({
+            'id': location_id,
+            'text': location_name,
+            'type': 'location',
+            'children': True  # You can modify this based on your application logic
+        })
+
+    return JsonResponse(location_data, safe=False)
+
+def get_asset_child(request):
+    id=request.GET.get("locationId",False)
+    if(id):
+        child_assets=Asset.objects.filter(assetIsLocatedAt__id=id).values_list('id','assetName')
+        location_data = []
+        for location_id, location_name in child_assets:
+            location_data.append({
+                'id': location_id,
+                'text': location_name,
+                'type': 'Machines',
+                'children': True  # You can modify this based on your application logic
+            })
+        return JsonResponse(location_data, safe=False)
+    return JsonResponse({})

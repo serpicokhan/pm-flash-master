@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock,WorkorderFile,Asset,AssetCategory,AssetPart,AssetFile,AssetMeterReading,MeterCode
+from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock,WorkorderFile,Asset,AssetCategory,AssetPart,AssetFile,AssetMeterReading,MeterCode,BOMGroupPart
 
 import jdatetime
 import datetime
@@ -18,9 +18,14 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AssetCategorySerializer(serializers.ModelSerializer):
+
     class Meta:
         model = AssetCategory
         fields = '__all__'
+class AssetCategorySerializer2(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    asset_count = serializers.IntegerField()
 class AssetPartSerializer(serializers.ModelSerializer):
     assetPartPid = serializers.SlugRelatedField(
         queryset=Part.objects.all(), slug_field='partName'
@@ -31,6 +36,7 @@ class AssetPartSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssetPart
         fields = '__all__'
+
 class SubAssetSerializer(serializers.ModelSerializer):
     assetCategory=AssetCategorySerializer(read_only=True)
     class Meta:
@@ -46,6 +52,10 @@ class AssetSerializer(serializers.ModelSerializer):
     assetIsPartOf=SubAssetSerializer(read_only=True)
     assetIsLocatedAt=SubAssetSerializer(read_only=True)
     assetCategory=AssetCategorySerializer(read_only=True)
+    sub_asset_count = serializers.SerializerMethodField()
+
+    def get_sub_asset_count(self, obj):
+        return obj.location.count()
 
 
     class Meta:
@@ -91,6 +101,17 @@ class PartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Part
         fields = '__all__'
+class AssetBOMSerializer(serializers.ModelSerializer):
+    BOMGroupPartPart =PartSerializer(read_only=True)
+    # result=serializers.CharField()
+    class Meta:
+        model = BOMGroupPart
+        fields = '__all__'
+class BOMGroupPartSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    BOMGroupPartPart = PartSerializer(read_only=True)#serializers.IntegerField(source='BOMGroupPartPart_id')
+    BOMGroupPartBOMGroup = serializers.IntegerField()
+    result = serializers.IntegerField()
 class StockSerializer(serializers.ModelSerializer):
     stockItem=PartSerializer(read_only=True)
 
@@ -148,6 +169,14 @@ class WOSerializer(serializers.ModelSerializer):
         model = WorkOrder
         fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser',
         'woStatus','workInstructions','timecreated')
+
+
+
+
+    class Meta:
+        model = WorkOrder
+        fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser',
+        'woStatus','workInstructions','timecreated')
 class MainSysUserSerializer(serializers.ModelSerializer):
 
 
@@ -155,11 +184,21 @@ class MainSysUserSerializer(serializers.ModelSerializer):
         model = SysUser
         fields = ('id', 'fullName','title','email','userId')
 class MiniAssetSerializer(serializers.ModelSerializer):
-
+    assetCategory=AssetCategorySerializer(read_only=True)
 
     class Meta:
         model = Asset
-        fields = ('id', 'assetName')
+        fields = ('id', 'assetName','assetCategory')
+class WOSerializer2(serializers.ModelSerializer):
+
+
+    datecreated = serializers.SerializerMethodField()
+
+    maintenanceType =MaintenanceTypeSerializer(read_only=True)
+    woAsset =MiniAssetSerializer(read_only=True)
+    # def get_datecreated(self, obj):
+    #      return  str(jdatetime.datetime.togregorian(date=obj.datecreated).date())
+
 
 class WOSerializer2(serializers.ModelSerializer):
 
@@ -235,3 +274,6 @@ class MainSysUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = SysUser
         fields = ('id', 'fullName','title','email','userId')
+class TotalDataSerializer(serializers.Serializer):
+    date = serializers.CharField()
+    value = serializers.CharField()

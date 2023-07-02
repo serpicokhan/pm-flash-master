@@ -35,8 +35,9 @@ $(function () {
     textBox.style.top = (e.clientY - textBoxOffsetY) + "px";
   }
   $("#assetIdName").change(function(){
+    alert(window.innerWidth);
     return $.ajax({
-      url: '/Asset/Cad/changeloc?q='+$(this).val(),
+      url: '/Asset/Cad/changeloc?q='+$(this).val()+'&ratiow='+window.innerWidth+'&ratioh='+window.innerHeight,
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
@@ -117,6 +118,7 @@ $(function () {
   // });
 
   canvas.addEventListener('click', e => {
+    // console.log("here");
     const x = e.offsetX;
     const y = e.offsetY;
     // if (textBox && x >= textBox.offsetLeft && x <= textBox.offsetLeft + textBox.offsetWidth &&
@@ -126,7 +128,14 @@ $(function () {
     var rect = canvas.getBoundingClientRect();
     var x1 = event.clientX - rect.left;
     var y1 = event.clientY - rect.top;
-    loadForm(x1,y1);
+    var coordinatesWidth=window.innerWidth;
+    // const adjustmentRatioX = window.innerWidth / coordinates.deviceWidth;
+    // const adjustmentRatioY = window.innerHeight / coordinates.deviceHeight;
+    //
+    // // Calculate the adjusted coordinates
+    // const adjustedX = coordinates.x * adjustmentRatioX;
+    // const adjustedY = coordinates.y * adjustmentRatioY;
+    loadForm(x1,y1,coordinatesWidth,window.innerHeight);
 
 
   // Update the modal content with the click position
@@ -137,7 +146,7 @@ $(function () {
 
   // JavaScript code to show an image on the canvas and draw a rectangle on click with a textbox and a flag button
   // JavaScript code to show an image on the canvas and draw a rectangle on click with a textbox and a flag button
-  var loadForm =function (x1,y1) {
+  var loadForm =function (x1,y1,z1,z2) {
 
     //console.log($(btn).attr("type"));
     //console.log($(btn).attr("data-url"));
@@ -158,6 +167,8 @@ $(function () {
           $("#modal-company .modal-content").html(data.html_asset_cad_form);
           $("#id_x").val(x1);
           $("#id_y").val(y1);
+          $("#id_z").val(z1);
+          $("#id_z2").val(z2);
 
             $(".selectpicker").selectpicker();
 

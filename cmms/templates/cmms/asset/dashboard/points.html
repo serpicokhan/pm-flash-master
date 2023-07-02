@@ -1,4 +1,8 @@
+{% load utils_tags %}
 {% for i in points %}
+{{width}}
+{{height}}
 
-<button class="btn btn-{{i.assetCoord.get_assetStatusColor}} dim" data-url="1687" data-content="<p class=&quot;text-muted&quot;>{{i.assetCoord}}</p>                                <p class=&quot;text-primary&quot;>لورم ایپسوم متن ساختگی</p>                                <p class=&quot;text-success&quot;>لورم ایپسوم متن ساختگی</p>                                <p class=&quot;text-info&quot;>لورم ایپسوم متن ساختگی</p>                                <p class=&quot;text-warning&quot;>لورم ایپسوم متن ساختگی</p>                                <p class=&quot;text-danger&quot;>لورم ایپسوم متن ساختگی</p>                        " data-toggle="popover" data-placement="left" style="position: absolute; left: {{i.x}}px; top: {{i.y}}px;" data-original-title="" title="">{% autoescape off %}{{i.assetCoord.get_assetStatusIcon}} {% endautoescape %}</button>
+<button class="btn btn-{{i.assetCoord.get_assetStatusColor}} dim" data-w="{{i.x}}" data-h="{{height}}" data-url="1687" data-content="<p class=&quot;text-muted&quot;>{{i.assetCoord}}</p>                                <p class=&quot;text-primary&quot;>لورم ایپسوم متن ساختگی</p>                                <p class=&quot;text-success&quot;>لورم ایپسوم متن ساختگی</p>                                <p class=&quot;text-info&quot;>لورم ایپسوم متن ساختگی</p>                                <p class=&quot;text-warning&quot;>لورم ایپسوم متن ساختگی</p>                                <p class=&quot;text-danger&quot;>لورم ایپسوم متن ساختگی</p>                        " data-toggle="popover" data-placement="left" style="position: absolute; left: {{i.x}}px; top: {{i.y}}px;" data-original-title="" title="">{% autoescape off %}{{i.assetCoord.get_assetStatusIcon}} {% endautoescape %}</button>
+
 {% endfor %}

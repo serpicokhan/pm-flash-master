@@ -159,7 +159,8 @@ def get_max_kilometer(request):
     shift=request.GET.get("shift",0)
     date=request.GET.get("date",0)
     date=DateJob.getTaskDate(date)
-    data["x"]=RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('assetEndKilometer'))['max_value']
+    # data["x"]=RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('assetEndKilometer'))['max_value']
+    data["x"]=RingAmar.objects.filter(assetName=asset, id=RingAmar.objects.filter(assetName=asset).aggregate(Max('id'))['id__max']).first().assetEndKilometer
     return JsonResponse(data)
 def get_max_time(request):
     data=dict()
@@ -183,7 +184,7 @@ def loadAmarTableInfo(request):
     x1=''
     y1=''
     if(makan):
-        asset=Asset.objects.filter(assetTypes=2,assetIsLocatedAt__id=makan).order_by('assetTavali')
+        asset=Asset.objects.filter(assetCategory=17,assetTypes=2,assetIsLocatedAt__id=makan).order_by('assetTavali')
         amar=RingAmar.objects.filter(assetName__assetIsLocatedAt__id=makan,assetAmarDate=date1,ShiftTypes=shift).order_by('assetName__assetTavali')
         if(amar.count()==0):
             amar=[]

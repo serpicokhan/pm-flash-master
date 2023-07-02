@@ -1,4 +1,4 @@
-// var assetLifeOfflineFrom;
+ var assetLifeOfflineFrom;
 // var assetLifeOnlineFrom;
 $(function () {
 
@@ -1295,13 +1295,13 @@ var main_asset_change=function(){
   window.location='/Asset/?main_asset='+$('#id_main_asset').val()+'&search='+$('#assetSearch').val()+'&kvm=0'
 }
 //for tr click
-$(".js-create-asset").unbind();
+// $(".js-create-asset").unbind();
 // $("tr").on("click", showAssetDetails);
 
 $("#modal-company").on("click", "#id_asseccategorytxt", showAssetSelector);
 //
-$(".js-select-asset-type").click(LoadAssetSelector);
-$(".js-create-asset").click(myWoLoader);
+$(".js-select-asset-type").on('click',LoadAssetSelector);
+$("#modal-company").on('click','.js-create-asset',myWoLoader);
 
 $("#modal-company").on("submit", ".js-asset-create-form", saveForm);
 
@@ -1310,7 +1310,7 @@ $("#id_main_asset").on("change", main_asset_change);
 $("#modal-assetcategory2").on("submit", ".js-bulkasset-duplicate-form", saveAssetCatForm);
 
 // Update book
-$("#company-table ").on("click", ".js-update-asset", myWoLoader);
+$("#company-table").on("click", ".js-update-asset", myWoLoader);
 $("#modal-company").on("submit", ".js-asset-update-form", saveForm);
 $("#modal-company").on("click", ".btn_code_gen", gen_code);
 // Delete book
@@ -1320,8 +1320,8 @@ $("#modal-company").on("submit", ".js-asset-delete-form", deleteForm);
 // $('#modal-company').on('hidden.bs.modal',cancelForm);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);
 $(".js-bulkasset-category-selector").click(LoadFormAssetSelector);
-$(".js-clone-asset").click(clone_asset);
-$(".js-duplicate-asset").click(duplicate_asset);
+$(".js-clone-asset").on('click',clone_asset);
+$(".js-duplicate-asset").on('click',duplicate_asset);
 $(".js-bulk_delete-asset").click(bulk_delete_pressed);
 $(".js-bulkasset-type-selector").click(showAssetTypeSelector);
 $("#modal-assettype").on("click", ".asset_type_change", change_type);

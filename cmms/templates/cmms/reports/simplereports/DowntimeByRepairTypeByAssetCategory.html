@@ -60,8 +60,8 @@
                                       			labels: {% autoescape off %} {{s2}} {% endautoescape %},
                                       			datasets: [{
                                       				label: 'تعداد توقفات',
-                                      				backgroundColor: "rgba(220,220,220,0.5)",
-                                      				borderColor: "rgba(220,220,220,0.5)",
+                                      				backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Random color for line
+                                      				borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Random color for line
 
                                       				borderWidth: 1,
 
@@ -90,7 +90,7 @@
                                                      beginAtZero: true,
                                                      steps: 1,
                                                      stepValue: 1,
-                                                     max: 100 //max value for the chart is 60
+
                                                    }
                                                  }
                                                  ]
@@ -138,7 +138,7 @@
                                                      beginAtZero: true,
                                                      steps: 1,
                                                      stepValue: 1,
-                                                     max: 100 //max value for the chart is 60
+                                                     // max: 100 //max value for the chart is 60
                                                    }
                                                  }
                                                  ]

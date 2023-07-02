@@ -51,7 +51,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from cmms.utils import *
 from django.db.models import F
-
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 
 def filterUser(request,books):
     if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
@@ -815,6 +816,51 @@ def workorder_collection(request):
             # k.datecreated=DateJob.getDate2(k.datecreated)
             k["datecreated"]= str(jdatetime.datetime.fromgregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
         return Response(serializer.data)
+@csrf_exempt
+def work_order_test_api(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        # asset = request.POST.get('asset')
+        wo=WorkOrder.objects.get(id=id)
+        tasks=wo.CompleteUserTask.all()
+        for task in tasks:
+            if(not task.taskTimeEstimate):
+                task.taskTimeEstimate=0.1
+            dt_start=datetime.datetime.combine(task.taskStartDate,task.taskStartTime)
+            dt_end=dt_start+timedelta(hours=task.taskTimeEstimate)
+            task.taskDateCompleted=dt_end.date()
+            task.taskTimeCompleted=dt_end.time()
+            wo.dateCompleted=task.taskDateCompleted
+            wo.timeCompleted=task.taskTimeCompleted
+            # task.time
+            task.save()
+        wo.woStatus=7
+
+        wo.save()
+        # Perform any necessary processing or validations
+
+        # Save the work order or perform any other operations
+
+        return JsonResponse({'success': True})
+
+    return JsonResponse({'error': 'Invalid request method'})
+@api_view(['GET'])
+def workorder_collection2(request):
+    if request.method == 'GET':
+        # print("!23")
+        asset=request.GET.get('assetID',False)
+        if(asset==False or asset=='0'):
+            posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False).order_by('-datecreated')[:100]
+        else:
+            print(asset,'!!!!!!!')
+            assets=AssetUtility.get_sub_assets(Asset.objects.get(id=asset))
+            posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,woAsset__in=assets).order_by('-datecreated')[:100]
+        serializer = WOSerializer2(posts, many=True)
+        for k in serializer.data:
+            pass
+            # k.datecreated=DateJob.getDate2(k.datecreated)
+            # k["datecreated"]= str(jdatetime.datetime.togregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
+        return Response(serializer.data)
 @api_view(['GET'])
 def workorder_api_detail(request,id):
     if request.method == 'GET':
@@ -915,8 +961,13 @@ def showtavaghof(request,startHijri,endHijri,loc=None):
         n1=WOUtility.getTavaghof(start,end,None)
     else:
         n1=WOUtility.getTavaghof(start,end,loc)
+    n1=n1.order_by('assetLifeAssetid__assetTavali','-assetOfflineFrom')
+    total=0
+    for i in n1:
+        total+=i.getAffectedHour_digits()
+    final_total='{0:02.0f}:{1:02.0f}'.format(*divmod(total * 60, 60))
     wos=WOUtility.doPaging(request,n1)
-    return render(request,"cmms/maintenance/dash_woList.html",{"wo" : wos})
+    return render(request,"cmms/asset_life_main/assetLifeMainList.html",{"assetLifes" : wos,'total_time':final_total})
 def showmonghazi(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)

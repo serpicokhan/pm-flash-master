@@ -27,3 +27,6 @@ def get_value_by_date(data_list, date):
         if data['date'] == date:
             return data['value']
     return ''
+@register.filter
+def multiply(value, arg):
+    return value * arg

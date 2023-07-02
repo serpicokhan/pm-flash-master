@@ -336,8 +336,8 @@ class AssetUtility:
 
             return AssetLife.objects.raw(''' select count(assetlife.id) as id,b.id as event,b.causeDescription as eventname
                                         from assetlife
-                                        left join workorder wo on assetlife.assetWOAssoc_id=wo.id
-                                        left join causecode b on wo.woCauseCode_id=b.id
+
+                                        left join causecode b on assetCauseCode_id=b.id
 
                                         where assetLifeAssetid_id in {0} and
                                         (assetOfflineFrom between "{1}" and "{2}")
@@ -347,6 +347,38 @@ class AssetUtility:
 
 
                                          '''.format(tuple(assetList),date1,date2))
+            # print(AssetLife.objects.filter(assetOfflineFrom__range=(date1, date2),assetLifeAssetid__in=assetList).values('assetOfflineStatus').order_by().annotate(Count('id')).query,'##@#@!#!@#@!')
+            # return AssetLife.objects.filter(assetOfflineFrom__range=(date1, date2),assetLifeAssetid__in=assetList).values('assetOfflineStatus').order_by().annotate(Count('id'))
+    @staticmethod
+    def getOfflineCountByEventAPI(assetList):
+            # print("count")
+            # print(''' select count(assetlife.id) as id,b.id as event,b.causeDescription as eventname
+            #                             from assetlife
+            #                             left join workorder wo on assetlife.assetWOAssoc_id=wo.id
+            #                             left join causecode b on wo.woCauseCode_id=b.id
+            #
+            #                             where assetLifeAssetid_id in {0} and
+            #                             (assetOfflineFrom between "{1}" and "{2}")
+            #                             and assetlife.assetOnlineStatus is not null
+            #                             group by b.id
+            #
+            #
+            #
+            #                              '''.format(tuple(assetList),date1,date2))
+
+            return AssetLife.objects.raw(''' select count(assetlife.id) as id,b.id as event,b.causeDescription as eventname
+                                        from assetlife
+
+                                        left join causecode b on assetCauseCode_id=b.id
+
+                                        where assetLifeAssetid_id in {0}
+
+                                        and assetlife.assetOnlineStatus is not null
+                                        group by b.id
+
+
+
+                                         '''.format(tuple(assetList)))
             # print(AssetLife.objects.filter(assetOfflineFrom__range=(date1, date2),assetLifeAssetid__in=assetList).values('assetOfflineStatus').order_by().annotate(Count('id')).query,'##@#@!#!@#@!')
             # return AssetLife.objects.filter(assetOfflineFrom__range=(date1, date2),assetLifeAssetid__in=assetList).values('assetOfflineStatus').order_by().annotate(Count('id'))
     @staticmethod
@@ -371,8 +403,8 @@ class AssetUtility:
 
                                   from assetlife  as t1
 
-                                    left join workorder wo on t1.assetWOAssoc_id=wo.id
-                                    left join causecode b on wo.woCauseCode_id=b.id
+
+                                    left join causecode b on assetCauseCode_id=b.id
 
                                   where assetLifeAssetid_id in {0} and (assetOfflineFrom between '{1}' and '{2}')
                                   and
@@ -513,8 +545,8 @@ class AssetUtility:
     @staticmethod
     def getAssetOfflineStatus(id):
         n1=AssetLife.objects.raw(""" select (count(assetlife.id)/total_getdownhits({0}))*100   as id ,b.causeDescription as reason,b.causeCode  from assetlife
-         left join workorder wo on assetlife.assetWOAssoc_id=wo.id
-         left join causecode b on wo.woCauseCode_id=b.id
+
+         left join causecode b on assetCauseCode_id=b.id
          inner join assets on assets.id=assetlife.assetLifeAssetid_id
          where (assetlifeassetid_id={0} or assets.assetIsLocatedAt_id={0} or assets.assetIsPartOf_id={0})
          group by b.causeCode  """.format(id))
@@ -542,7 +574,7 @@ class AssetUtility:
         wos=AssetLife.objects.raw("select  COALESCE( sum(timestampdiff(minute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ', assetOnlineFromTime) as datetime))),0)  as id from assetlife where assetOfflineFrom between '{0}' and '{1}' ".format(date1,date2))
 
 
-        return wos[0].id/60
+        return wos[0].id
     @staticmethod
     def getAssetOfflineTime2(date1,date2,loc):
         # print("select  COALESCE( sum(timestampdiff(minute,cast(concat(assetOfflineFrom, ' ', assetOfflineFromTime) as datetime),cast(concat(assetOnlineFrom, ' ', assetOnlineFromTime) as datetime))),0)  as id from assetlife where assetOfflineFrom between '{0}' and '{1}' ".format(date1,date2))
@@ -763,4 +795,14 @@ class AssetUtility:
                 action_flag     = ADDITION,
                 change_message= request.META.get('REMOTE_ADDR')
             )
-    
+    @staticmethod
+    def get_sub_assets(main_asset):
+        sub_assets = []
+
+        def traverse_asset(asset):
+            sub_assets.append(asset)
+            for sub_asset in asset.location.all():
+                traverse_asset(sub_asset)
+
+        traverse_asset(main_asset)
+        return sub_assets

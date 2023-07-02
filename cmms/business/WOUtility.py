@@ -1093,9 +1093,11 @@ class WOUtility:
     @staticmethod
     def getTavaghof(start,end,loc):
         if(loc is None):
-            return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+            # return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+            return AssetLife.objects.filter(assetOfflineFrom__range=(start,end)).exclude(Q(assetStopCode__isnull=True)|Q(assetStopCode__id=15))
         else:
-            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+            # return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+            return AssetLife.objects.filter(assetOfflineFrom__range=(start,end)).filter(Q(assetLifeAssetid__assetIsLocatedAt__id=loc)|Q(assetLifeAssetid__id=loc)).exclude(Q(assetStopCode__isnull=True)|Q(assetStopCode__id=15))
     @staticmethod
     def getNewWO(start,end):
         return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end),woStatus=1)
@@ -1233,26 +1235,14 @@ class WOUtility:
             writer.writerow([getattr(obj, field) for field in field_names])
         return response
         download_csv.short_description = "Download selected as csv"
-    @staticmethod
-    def find_supervisor(request,wo):
-        user1=AssetUser.objects.filter(AssetUserAssetId=wo.woAsset,AssetUserUserId__in=SysUser.objects.filter(userId__groups__name="supervisor")).values_list('AssetUserUserId',flat=True)
-        return user1
-    @staticmethod
-    def find_technisions(request,wo):
-        user1=AssetUser.objects.filter(AssetUserAssetId=wo.woAsset,AssetUserUserId__in=SysUser.objects.exclude(userId__groups__name="supervisor")).values_list('AssetUserUserId',flat=True)
-        return user1
+
     @staticmethod
     def create_task_when_wo_created(request,form):
 
         wo=form.instance
-        # wo=WorkOrder.objects.get(id=woid)
-        if(wo.assignedToUser):
-            user=wo.assignedToUser
-        else:
-            user=WOUtility.find_technisions(request,wo)[0]
         data=dict()
         if(wo.CompleteUserTask.all().count()==0):
-            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=user,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated)
+            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated,taskTimeEstimate=0.1)
             data = render_to_string('cmms/tasks/partialTaskList.html', {
                 'task': wo.CompleteUserTask.all(),
                 'perms': PermWrapper(request.user),
@@ -1262,19 +1252,17 @@ class WOUtility:
     @staticmethod
     def create_task_when_wo_created_fromAPI(request,woid):
 
-        wo=WorkOrder.objects.get(id=woid)
-        user=WOUtility.find_technisions(request,wo)
-        wo.assignedToUser=SysUser.objects.get(id=user[0])
-        wo.save()
+        wo=WorkOrder.object.get(id=woid)
+
         data=dict()
         if(wo.CompleteUserTask.all().count()==0):
-            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated)
+            to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated,taskTimeEstimate=0.1)
 
         return True
     @staticmethod
     def create_notification(request,woid):
 
-        wo=WorkOrder.objects.get(id=woid)
+        wo=WorkOrder.object.get(id=woid)
         asset_user=AssetUser.objects.filter(AssetUserAssetId=wo.woAsset)
         for i in asset_user:
             WorkorderUserNotification.objects.create(woNotifWorkorder=wo,woNotifUser=i.AssetUserUserId)

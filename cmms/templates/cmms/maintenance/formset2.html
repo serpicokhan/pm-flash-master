@@ -68,7 +68,15 @@
        <td contenteditable="true"></td>
        <td contenteditable="true" ></td>
        <td contenteditable="true" class="datecreated"> <input type="text" name="" value="" class="form-control date"></td>
-       <td contenteditable="true"></td>
+       <td contenteditable="true" class="timecreated">   <div class="input-group clockpicker" data-autoclose="true">
+            <input type="text" name="" value="" class="form-control ltr-inpuy" >
+
+                        <!-- <input type="text" class="form-control ltr-inpuy"  > -->
+                        <span class="input-group-addon">
+                            <span class="fa fa-clock-o">
+                            </span>
+                        </span>
+                    </div></td>
        <td contenteditable="true"></td>
        <td contenteditable="true"></td>
        <td contenteditable="true" class="select-cell">  {% render_field form.maintenanceType class="form-control " data-show-subtext="true" data-live-search="true"  %}</td>
@@ -94,7 +102,7 @@
                             </tbody>
 
                         </table>
-                        
+
                         </div>
                         {% load mathfilters %}
                         <div class="woPaging" >
@@ -174,8 +182,9 @@
       var newRow = $(this).closest('tr').clone();
       newRow.find('td[contenteditable="true"]').text('');
       var firstRowSelect = $('#tbFormset tbody tr:first-child td.select-cell select');
-      var firstRowInput = $('#editableTable tbody tr:first-child td.datecreated input');
-      var firstRowMachinName = $('#editableTable tbody tr:first-child td.machin_name input');
+      var firstRowInput = $('#tbFormset tbody tr:first-child td.datecreated input');
+      var firstRowMachinName = $('#tbFormset tbody tr:first-child td.machin_name input');
+      var firstRowTimeCreated = $('#tbFormset tbody tr:first-child td.timecreated div');
 
 
        var newInput = $('<input>').attr('type', 'text').addClass('form-control');
@@ -189,6 +198,8 @@
      });
        var newInput2 = $('<input>').attr('type', 'text').addClass('form-control');
        newRow.find('td.machin_name').empty().append(newInput2);
+       // var newInput3 = $('<input>').attr('type', 'text').addClass('form-control');
+       // newRow.find('td.machin_name').empty().append(newInput2);
 
      if (firstRowSelect.length) {
        var newSelect = firstRowSelect.clone();

@@ -28,6 +28,8 @@ from cmms.forms import AssetPartForm
 from rest_framework.decorators import api_view
 from cmms.api.WOSerializer import *
 from rest_framework.response import Response
+from cmms.business.AssetUtility import AssetUtility
+from django.db.models import F, Q
 
 ###################################################################
 def list_assetPart(request,id=None):
@@ -185,6 +187,25 @@ def assetpart_collection(request,id):
         posts = AssetPart.objects.filter(assetPartAssetid=id)
         serializer = AssetPartSerializer(posts, many=True)
         return Response(serializer.data)
+@api_view(['GET'])
+def list_assetPartAPI(request,woId):
+    data=dict()
+    main_asset = Asset.objects.get(id=woId)  # Replace 1 with the ID of the main asset
+    sub_assets = AssetUtility.get_sub_assets(main_asset)
+    books2=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
+    BOMGroupAsset.objects.filter(BOMGroupAssetAsset__in=sub_assets).values_list
+    ('BOMGroupAssetBOMGroup',flat=True))#.annotate(result=F('BOMGroupPartQnty') * 2).values('id', 'BOMGroupPartPart', 'BOMGroupPartBOMGroup', 'result')
+    # print(books2)
+    # print(BOMGroupPart.objects.filter(BOMGroupPartBOMGroup__in=
+    # BOMGroupAsset.objects.filter(BOMGroupAssetAsset__in=sub_assets).values_list('BOMGroupAssetBOMGroup',flat=True)).query)
+    # books2 = BOMGroupPart.objects.filter(
+    # BOMGroupAsset.objects.filter(BOMGroupAssetAsset_id__in=sub_assets).values('BOMGroupAssetBOMGroup_id')
+    # BOMGroupPartBOMGroup__in=(
+    # )
+# ).annotate(result=F('BOMGroupPartQnty') * 2).values('id', 'BOMGroupPartPart_id', 'BOMGroupPartBOMGroup_id', 'result')
+    serializer = AssetBOMSerializer(books2, many=True)
+    return Response(serializer.data)
+    # return JsonResponse(list(books2),safe=False)
 @api_view(['GET'])
 def assetpart_detail_collection(request,id):
     if request.method == 'GET':
