@@ -160,7 +160,17 @@ def get_max_kilometer(request):
     date=request.GET.get("date",0)
     date=DateJob.getTaskDate(date)
     # data["x"]=RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('assetEndKilometer'))['max_value']
-    data["x"]=RingAmar.objects.filter(assetName=asset, id=RingAmar.objects.filter(assetName=asset).aggregate(Max('id'))['id__max']).first().assetEndKilometer
+    id=[]
+    id.append(RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('id'))['max_value'])
+    flag=True
+    data["x"]=0
+    while(data["x"]==0):
+        id1=RingAmar.objects.exclude(assetName=asset,id__in=id).filter(assetName=asset).aggregate(second_max=Max('id'))['second_max']
+
+        data["x"]=RingAmar.objects.get(id=id1).assetEndKilometer
+        # RingAmar.objects.filter(assetName=asset, id=RingAmar.objects.filter(assetName=asset).aggregate(Max('id'))['id__max']).first().assetEndKilometer
+        # print(data,asset,id)
+        id.append(id1)
     return JsonResponse(data)
 def get_max_time(request):
     data=dict()
