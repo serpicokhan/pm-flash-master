@@ -11,7 +11,7 @@ from django.contrib.admin.models import LogEntry, ADDITION,CHANGE,DELETION
 from django.contrib.contenttypes.models import ContentType
 from cmms.models.workorder import *
 from cmms.api.WOSerializer import *
-from cmms.business.WOUtility import WOUtility
+from cmms.business.WOUtility import WOUtility,AssetUtility
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 import json
