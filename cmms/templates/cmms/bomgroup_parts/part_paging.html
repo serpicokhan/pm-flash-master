@@ -1,0 +1,15 @@
+{% if part.has_other_pages %}
+<ul class="pagination">
+{% if part.has_previous %}
+<li><a id='ppprev' href="#" data-url="?page={{ part.previous_page_number }}&srch={{srch}}&pcategory={{category}}">&laquo;</a></li>
+{% else %}
+<li class="disabled"><span>&laquo;</span></li>
+{% endif %}
+<li ><span>{{ part.number }} از {{ part.paginator.num_pages }} <span class="sr-only">(current)</span></span></li>
+{% if part.has_next %}
+<li><a id="ppnext" href="#" data-url="?page={{ part.next_page_number }}&srch={{srch}}&pcategory={{category}}">&raquo;</a></li>
+{% else %}
+<li class="disabled"><span>&raquo;</span></li>
+{% endif %}
+</ul>
+{% endif %}

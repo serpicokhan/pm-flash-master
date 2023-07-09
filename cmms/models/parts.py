@@ -26,6 +26,7 @@ class Part(models.Model):
     partInventoryCode=models.CharField("کد قفسه",max_length = 50,null=True,blank=True)
     class Meta:
       db_table = "parts"
+      ordering=("partName",)
 class PartUser(models.Model):
           PartUserPartId=models.ForeignKey(Part,on_delete=models.CASCADE,blank=True,null=True,verbose_name="قطعه")
           PartUserUserId=models.ForeignKey(SysUser,on_delete=models.CASCADE,blank=True,null=True,verbose_name="کاربر ")

@@ -354,6 +354,8 @@ urlpatterns = [
 
 
         url(r'^BOMGroupPart/create/$', bomGroupPart_create, name='bomGroupPart_create'),
+        url(r'^BOMGroupPart/SelectPart/$', loadPartBomGroupByType, name='loadPartBomGroupByType'),
+        url(r'^BOMGroupPart/SelectPartPage$', loadPartBomGroupByType, name='loadPartBomGroupByType'),
         url(r'^BOMGroupPart/(?P<id>\d+)/delete/$', bomGroupPart_delete, name='bomGroupPart_delete'),
         url(r'^BOMGroupPart/(?P<id>\d+)/update/$', bomGroupPart_update, name='bomGroupPart_update'),
         url(r'^BOMGroupPart/(?P<woId>\d+)/listBOMGroupPart/$', js_list_bomGroupPart, name='js_list_bomGroupPart'),

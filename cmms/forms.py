@@ -693,6 +693,10 @@ class BOMGroupPartForm(forms.ModelForm):
     class Meta:
         model = BOMGroupPart
         fields = '__all__'
+class BOMGroupPartForm2(forms.Form):
+    partCategory= forms.ModelChoiceField(label="نام مکان",queryset=PartCategory.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+
 class BMGTemplateForm(forms.ModelForm):
     mypart=forms.CharField(required=False)
     def clean(self):
@@ -724,7 +728,7 @@ class BOMGroupAssetForm2(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
     assetType= forms.ModelChoiceField(label="نوع",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
-    
+
 
 class BMGAssetForm(forms.ModelForm):
     my_asset=forms.CharField(required=False)

@@ -1,0 +1,47 @@
+{% load widget_tweaks %}
+
+<div class="row">
+  <input type="hidden" name="" id="partNamesHidden" value="">
+    <div class="col-sm-5 m-b-xs">
+    {% render_field form.partCategory class="form-control js-bomGroupPart-change" %}
+    </div>
+    <div class="col-sm-2 m-b-xs">
+
+    </div>
+    <div class="col-sm-5">
+        <div class="input-group"><input type="text" placeholder="جستجو" class="input-sm form-control" id="partSearch"> <span class="input-group-btn">
+            <button type="button" class="btn btn-sm btn-primary"> برو!</button> </span></div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-hover" id="bomgrouppart2-table">
+        <thead>
+        <tr>
+
+          <th class='col-md-1'></th>
+          <th class='col-md-1'>نام</th>
+          <th class='col-md-1'>کد</th>
+          <th class='col-md-1'>آخرین قیمت</th>
+          <th class='col-md-1'>مدل</th>
+
+
+
+
+
+
+
+
+
+        </tr>
+
+        </thead>
+        <tbody id='tbody_bomgrouppart2'>
+                {% include 'cmms/bomgroup_parts/partialPartList.html' %}
+        </tbody>
+    </table>
+    <div class="woPaging" >
+
+
+    </div>
+
+</div>

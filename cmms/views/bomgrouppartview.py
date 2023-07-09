@@ -24,7 +24,9 @@ from django.utils.decorators import method_decorator
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
-from cmms.forms import BOMGroupPartForm
+from cmms.forms import BOMGroupPartForm,BOMGroupPartForm2
+from django.db.models import Q
+from cmms.business.PartUtility import *
 
 ###################################################################
 
@@ -64,8 +66,13 @@ def save_bomGroupPart_form(request, form, template_name,woId=None):
               logging.basicConfig(format=fmt, level=lvl)
               logging.debug( form.errors)
               data['form_is_valid'] = False
+          form=BOMGroupPartForm()
+          context = {'form': form}
+    else:
+        parts=Part.objects.all()[:10]
+        context={'form':form,'part':parts}
 
-    context = {'form': form}
+
     data['html_bomGroupPart_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
 ###################################################################
@@ -112,7 +119,7 @@ def bomGroupPart_create(request):
         form = BOMGroupPartForm(data)
 
     else:
-        form = BOMGroupPartForm()
+        form = BOMGroupPartForm2()
     return save_bomGroupPart_form(request, form, 'cmms/bomgroup_parts/partialBOMGroupPartCreate.html',woId)
 ###################################################################
 
@@ -134,3 +141,23 @@ def bomGroupPart_update(request, id):
     else:
         form = BOMGroupPartForm(instance=company,initial={'mypart':company.BOMGroupPartPart.partName})
     return save_bomGroupPart_form(request, form, 'cmms/bomgroup_parts/partialBOMGroupPartUpdate.html',woId.id)
+def loadPartBomGroupByType(request):
+    pcategory=request.GET.get("pcategory",False)
+    srch=request.GET.get("srch",False)
+    data=dict()
+    parts=Part.objects.none()
+    if(pcategory!='-1'):
+        parts=Part.objects.filter(partCategory__id=pcategory)
+        if(srch!='-1'):
+            parts=parts.filter(Q(partName__icontains=srch)|Q(partCode__icontains=srch)|Q(partModel__icontains=srch))
+    else:
+        if(srch!='-1'):
+            parts=Part.objects.filter(Q(partName__icontains=srch)|Q(partCode__icontains=srch)|Q(partModel__icontains=srch))
+    wos=PartUtility.doPaging(request,parts)
+    data['html']= render_to_string('cmms/bomgroup_parts/partialPartList.html', {
+        'part': wos
+    })
+    data['page']= render_to_string('cmms/bomgroup_parts/part_paging.html', {
+        'part': wos,'category':pcategory,'srch':srch
+    })
+    return JsonResponse(data)
