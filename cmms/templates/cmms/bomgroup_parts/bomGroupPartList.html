@@ -8,8 +8,19 @@
 
                         </div>
                         <div class="ibox-content">
+                          <p>
+                            <button type="button" class="btn btn-primary js-create-bomGroupPart"
+                            data-url="{% url 'bomGroupPart_create' %}"                                  >
+                              <span class="glyphicon glyphicon-plus"
 
-                            <div class="table-responsive">
+
+
+                              ></span>
+                            جدید
+                            </button>
+                          </p>
+
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: scroll;">
                                 <table class="table table-striped" id="bomGroupPart-table">
                                     <thead>
                                     <tr>
@@ -29,17 +40,7 @@
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
-                                <p>
-                                  <button type="button" class="btn btn-primary js-create-bomGroupPart"
-                                  data-url="{% url 'bomGroupPart_create' %}"                                  >
-                                    <span class="glyphicon glyphicon-plus"
 
-
-
-                                    ></span>
-                                  جدید
-                                  </button>
-                                </p>
                             </div>
                           </div>
 

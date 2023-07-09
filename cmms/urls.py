@@ -367,6 +367,8 @@ urlpatterns = [
         url(r'^BOMGroupAsset/(?P<id>\d+)/delete/$', bomGroupAsset_delete, name='bomGroupAsset_delete'),
         url(r'^BOMGroupAsset/(?P<id>\d+)/update/$', bomGroupAsset_update, name='bomGroupAsset_update'),
         url(r'^BOMGroupAsset/(?P<woId>\d+)/listBOMGroupAsset/$', js_list_bomGroupAsset, name='js_list_bomGroupAsset'),
+        url(r'^BOMGroupAsset/SelectAsset$', bomGroupAsset_asset_select, name='bomGroupAsset_asset_select'),
+        url(r'^BOMGroupAsset/AssetPage$', LoadPageAssetBomGroupAsset, name='LoadPageAssetBomGroupAsset'),
 
         url(r'^BMGAsset/create/$', bmgAsset_create, name='bmgAsset_create'),
         url(r'^BMGAsset/(?P<id>\d+)/delete/$', bmgAsset_delete, name='bmgAsset_delete'),

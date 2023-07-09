@@ -1,0 +1,25 @@
+{% for c in asset %}
+
+<tr date-url={{c.id}} date-type={{c.assetTypes}}>
+ <td><input type="checkbox" name="action"  value={{c.id}} class="selection-box"></td>
+
+ <td>{{c.get_name|default_if_none:0}}</td>
+ <td>{{c.assetCode|default_if_none:"مشخص نشده"}}</td>
+ <td>{% autoescape off %}{{c.get_assetStatus}}{% endautoescape %}</td>
+ <td>{{c.assetCategory|default_if_none:'بدون دسته بندی'}}</td>
+ <td class="tttt">{{c.get_location|default_if_none:0}}</td>
+
+
+
+
+
+ <td>
+
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="7" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

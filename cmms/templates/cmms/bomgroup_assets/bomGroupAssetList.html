@@ -6,17 +6,29 @@
                         <div class="ibox-title">
                             <h5>دارایی ها </h5>
 
+
                         </div>
                         <div class="ibox-content">
+                          <p>
+                            <button type="button" class="btn btn-primary js-create-bomGroupAsset"
+                            data-url="{% url 'bomGroupAsset_create' %}"                                  >
+                              <span class="glyphicon glyphicon-plus"
 
-                            <div class="table-responsive">
+
+
+                              ></span>
+                            جدید
+                            </button>
+                          </p>
+
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: scroll;">
                                 <table class="table table-striped" id="bomGroupAsset-table">
                                     <thead>
                                     <tr>
                                       <th></th>
                                       <th>نام دارایی</th>
 
-                                      
+
 
                                         <th></th>
 
@@ -28,24 +40,14 @@
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
-                                <p>
-                                  <button type="button" class="btn btn-primary js-create-bomGroupAsset"
-                                  data-url="{% url 'bomGroupAsset_create' %}"                                  >
-                                    <span class="glyphicon glyphicon-plus"
 
-
-
-                                    ></span>
-                                  جدید
-                                  </button>
-                                </p>
                             </div>
                           </div>
 
                     </div>
                 </div>
                 <div class="modal fade" id="modal-bomGroupAsset" data-backdrop="static" data-keyboard="false">
-                 <div class="modal-dialog ">
+                 <div class="modal-dialog modal-lg">
 
                    <div class="modal-content ">
                    </div>

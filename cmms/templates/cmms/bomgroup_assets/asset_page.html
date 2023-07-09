@@ -1,0 +1,17 @@
+{% if asset.has_other_pages %}
+<ul class="pagination">
+  {% if asset.has_previous %}
+  <li><a id="pprevasset"  href="#" data-url="?page={{ asset.previous_page_number }}&&makan={{main_asset}}&srch={{search}}&assettype={{kvm}}">&laquo;</a></li>
+  {% else %}
+  <li class="disabled"><span>&laquo;</span></li>
+  {% endif %}
+  <li class="active"><span>{{ asset.number }} از {{ asset.paginator.num_pages }} <span class="sr-only">(current)</span></span></li>
+
+
+  {% if asset.has_next %}
+  <li><a id="pnextasset" href="#" data-url="?page={{ asset.next_page_number }}&makan={{main_asset}}&srch={{search}}&assettype={{kvm}}">&raquo;</a></li>
+  {% else %}
+  <li class="disabled"><span>&raquo;</span></li>
+  {% endif %}
+</ul>
+{% endif %}

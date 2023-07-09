@@ -7,7 +7,7 @@
     <h4 class="modal-title">جدید</h4>
   </div>
   <div class="modal-body">
-   {% include 'cmms/bomgroup_assets/partialBOMGroupAssetForm.html' %}
+   {% include 'cmms/bomgroup_assets/partialBOMGroupAssetForm2.html' %}
   </div>
   <div class="modal-footer">
     <button type="button" class="cl-part btn btn-default " >انصراف</button>
@@ -36,16 +36,12 @@
        );
 
         $("#bomGroupAsset-submit").click(function(){
+                    // var form = $(this).parent().parent();
 
-                   //alert("12321");
-                    var form = $(this).parent().parent();
-                    //console.log(form.attr("action"));
-                    //alert($("#id_metrics").val());
-                    // console.log(form.attr('class'));
                     $.ajax({
-                      url: form.attr("data-url"),
+                      url: '/BOMGroupAsset/create/',
                       type: "POST",
-                      data:myformat('{"BOMGroupAssetAsset":{0},"BOMGroupAssetBOMGroup":{1}}',$("#id_BOMGroupAssetAsset").val(), $("#lastBOMGroupid").val()),
+                      data:myformat('{"BOMGroupAssetAsset":[{0}],"BOMGroupAssetBOMGroup":{1}}',$("#assetNamesHidden").val(), $("#lastBOMGroupid").val()),
 
 
 
@@ -69,10 +65,14 @@
                           // console.log(data.html_bomGroupAsset_list);
                         }
                         else {
+                          if(data.err){
+                            toastr.errerror(data.err);
+                          }
+                          else{
                           toastr.error('ورودیها را کنترل نمایید!');
-
-                          $("#bomGroupAsset-table tbody").html(data.html_bomGroupAsset_list);
-                          $("#modal-bomGroupAsset .modal-content").html(data.html_bomGroupAsset_form);
+                        }
+                          // $("#bomGroupAsset-table tbody").html(data.html_bomGroupAsset_list);
+                          // $("#modal-bomGroupAsset .modal-content").html(data.html_bomGroupAsset_form);
                         }
                       }
 

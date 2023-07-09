@@ -13,12 +13,12 @@
 
 
  <td><button type="button"
-              class="btn btn-warning btn-sm js-update-bomGroupAsset"
+              class="btn btn-warning btn-outline btn-sm js-update-bomGroupAsset"
               data-url="{% url 'bomGroupAsset_update' c.id %}">
         <span class="glyphicon glyphicon-pencil"></span> ویرایش
       </button>
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-bomGroupAsset"
+                   class="btn btn-danger btn-outline btn-sm js-delete-bomGroupAsset"
                    data-url="{% url 'bomGroupAsset_delete' c.id %}">
              <span class="glyphicon glyphicon-trash"></span> حذف
            </button>
@@ -30,8 +30,3 @@
 </tr>
 
 {% endfor %}
-{% load static %}
-
-{% block javascript %}
-  <script src="{% static '/js/project/bomGroupAsset.js' %}"></script>
-{% endblock %}

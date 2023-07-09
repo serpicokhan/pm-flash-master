@@ -12,3 +12,4 @@ class AssetCategory(models.Model):
 
     class Meta:
        db_table = "assetcategory"
+       ordering = ('name',)

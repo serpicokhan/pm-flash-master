@@ -719,6 +719,13 @@ class BOMGroupAssetForm(forms.ModelForm):
     class Meta:
         model = BOMGroupAsset
         fields = '__all__'
+class BOMGroupAssetForm2(forms.Form):
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    assetType= forms.ModelChoiceField(label="نوع",queryset=AssetCategory.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    
+
 class BMGAssetForm(forms.ModelForm):
     my_asset=forms.CharField(required=False)
     def clean(self):
