@@ -133,25 +133,41 @@ var saveBOMGroupPartForm= function () {
     storePartSelected();
   }
   const selectedPartValues = [];
+  const selectedPartqty = [];
   const storePartSelected = () => {
     const checkboxes = document.querySelectorAll('.selection-box');
 
 
     checkboxes.forEach(checkbox => {
-      const value = checkbox.value;
-     const index = selectedValues.indexOf(value);
+    const value = checkbox.value;
+     const index = selectedPartValues.indexOf(value);
+
+
       if (checkbox.checked) {
+        var row = checkbox.parentNode.parentNode; // Get the parent row
+        console.log(row);
+         var editableCell = row.querySelector('.editable-cell'); // Find the editable cell within the row
+         var value2 = editableCell.innerText; // Read the value of the editable cell
+         // console.log(editableCell);
+         if(value2===''){
+           toastr.error('برای قطعه مشخص شده تعداد مشخص کنید!');
+           checkbox.checked=false;
+           return;
+         }
       if (index === -1) {
         selectedPartValues.push(value);
+        selectedPartqty.push(value2);
 
       }
     } else {
       if (index !== -1) {
         selectedPartValues.splice(index, 1);
+        selectedPartqty.splice(index, 1);
       }
     }
     });
     $("#partNamesHidden").val(selectedPartValues);
+    $("#partqtyHidden").val(selectedPartqty);
 
     // Store the selected values in your desired location (e.g., array, variable, etc.)
     // return selectedValues;
@@ -190,4 +206,5 @@ $("#modal-bomGroupPart").on("click", "#ppnext", loadPartPage);
 $("#modal-bomGroupPart").on("click", ".js-bomGroupPart-delete-form", deleteBOMGroupPartForm);
 $("#modal-bomGroupPart").on("change", ".js-bomGroupPart-change", change_part_type);
 $("#modal-bomGroupPart").on("input", "#partSearch", change_part_type);
+$("#modal-bomGroupPart").on("change", ".selection-box", save_part_check);
 });

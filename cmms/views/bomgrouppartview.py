@@ -75,6 +75,52 @@ def save_bomGroupPart_form(request, form, template_name,woId=None):
 
     data['html_bomGroupPart_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
+###################################################################    ###################################################################
+@csrf_exempt
+def save_bomGroupPart_form2(request, forms, template_name,woId=None):
+    data = dict()
+    context={}
+    err=[]
+    if (request.method == 'POST'):
+          for form in forms:
+            if form.is_valid():
+              try:
+
+                  form.save()
+                  data['form_is_valid'] = True
+              except IntegrityError as e:
+              # Handle the unique constraint violation error
+              # Display an error message or perform any necessary action
+                  err="unique"
+
+            else:
+
+                fmt = getattr(settings, 'LOG_FORMAT', None)
+                lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
+                logging.basicConfig(format=fmt, level=lvl)
+                logging.debug( form.errors)
+                data['form_is_valid'] = False
+
+            books=BOMGroupPart.objects.filter(BOMGroupPartBOMGroup=woId)
+
+            data['html_bomGroupPart_list'] = render_to_string('cmms/bomgroup_parts/partialBOMGroupPartList.html', {
+                'bomGroupParts': books
+            })
+          else:
+              fmt = getattr(settings, 'LOG_FORMAT', None)
+              lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
+              logging.basicConfig(format=fmt, level=lvl)
+              logging.debug( form.errors)
+              data['form_is_valid'] = False
+          form=BOMGroupPartForm()
+          context = {'form': form,'err':err}
+    else:
+        parts=Part.objects.all()[:10]
+        context={'form':form,'part':parts}
+
+
+    data['html_bomGroupPart_form'] = render_to_string(template_name, context, request=request)
+    return JsonResponse(data)
 ###################################################################
 
 @csrf_exempt
@@ -115,8 +161,18 @@ def bomGroupPart_create(request):
         data['BOMGroupPartPart']=body['BOMGroupPartPart']
         data['BOMGroupPartQnty']=body['BOMGroupPartQnty']
         woId=body['BOMGroupPartBOMGroup']
+        form=[]
+        for i in  range(len(data["BOMGroupPartPart"])):
+            # print('######',j)
+            data2 = request.POST.dict()
+            data2['BOMGroupPartBOMGroup']=data['BOMGroupPartBOMGroup']
+            data2['BOMGroupPartPart']=data['BOMGroupPartPart'][i]
+            data2['BOMGroupPartQnty']=data["BOMGroupPartQnty"][i]
+            frm = BOMGroupPartForm(data2)
+            form.append(frm)
+        return save_bomGroupPart_form2(request, form, 'cmms/bomgroup_parts/partialBOMGroupPartCreate.html',woId)
 
-        form = BOMGroupPartForm(data)
+        # form = BOMGroupPartForm(data)
 
     else:
         form = BOMGroupPartForm2()
