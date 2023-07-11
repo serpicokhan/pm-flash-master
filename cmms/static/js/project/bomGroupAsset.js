@@ -142,6 +142,7 @@ var save_check=function(){
 }
 const selectedValues = [];
 const storeSelected = () => {
+  console.log(selectedValues );
   const checkboxes = document.querySelectorAll('.selection-box');
 
 
@@ -185,19 +186,19 @@ var loadAssetPage=function(){
 //s$("#task-submit").on("click",function(){alert("32132");});
 //$("#task-table").on("load",initLoad);
 // Update book
-$("#bomGroupAsset-table").on("click", ".js-update-bomGroupAsset", loadBOMGroupAssetForm);
+$("#modal-company").on("click", ".js-update-bomGroupAsset", loadBOMGroupAssetForm);
 $("#modal-company").on("click", ".js-create-bomGroupAsset", loadBOMGroupAssetForm);
 $("#modal-bomGroupAsset").on("click", "#pnextasset", loadAssetPage);
 $("#modal-bomGroupAsset").on("click", "#pprevasset", loadAssetPage);
 
 $("#modal-bomGroupAsset").on("submit", ".js-bomGroupAsset-update-form", loadBOMGroupAssetForm);
 // Delete book
-$("#bomGroupAsset-table").on("click", ".js-delete-bomGroupAsset", loadBOMGroupAssetForm);
+$("#modal-company").on("click", ".js-delete-bomGroupAsset", loadBOMGroupAssetForm);
 $("#modal-bomGroupAsset").on("submit", ".js-bomGroupAsset-delete-form", saveBOMGroupAssetForm);
 $("#modal-bomGroupAsset").on("click", ".js-bomGroupAsset-delete-form", deleteBOMGroupAssetForm);
-$("#modal-bomGroupAsset").on("change", ".js-bomGroupAsset-list", change_makan);
-$("#modal-bomGroupAsset").on("input", "#assetSearch", change_makan);
-$("#modal-bomGroupAsset").on("change", ".selection-box", save_check);
+$("#modal-company").on("change", ".js-bomGroupAsset-list", change_makan);
+$("#modal-company").on("input", "#assetSearch", change_makan);
+$("#modal-company").on("change", ".selection-box", save_check);
 
 
 

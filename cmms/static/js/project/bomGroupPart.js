@@ -112,99 +112,18 @@ var saveBOMGroupPartForm= function () {
   }
     return false;
   };
-  var change_part_type=function(){
-    partcategory=$("#id_partCategory").val()||-1;
-    srch=$("#partSearch").val()||-1;
-    $.ajax({
-      url: '/BOMGroupPart/SelectPart?pcategory='+partcategory+'&srch='+srch,
-      type: 'get',
-      dataType: 'json',
-      beforeSend: function () {
-      },
-      success: function (data) {
-        $("#tbody_bomgrouppart2").html(data.html);
-        $(".woPaging").html(data.page);
-      }
-    });
-    // save_check();
-
-  }
-  var save_part_check=function(){
-    storePartSelected();
-  }
-  const selectedPartValues = [];
-  const selectedPartqty = [];
-  const storePartSelected = () => {
-    const checkboxes = document.querySelectorAll('.selection-box');
-
-
-    checkboxes.forEach(checkbox => {
-    const value = checkbox.value;
-     const index = selectedPartValues.indexOf(value);
-
-
-      if (checkbox.checked) {
-        var row = checkbox.parentNode.parentNode; // Get the parent row
-        console.log(row);
-         var editableCell = row.querySelector('.editable-cell'); // Find the editable cell within the row
-         var value2 = editableCell.innerText; // Read the value of the editable cell
-         // console.log(editableCell);
-         if(value2===''){
-           toastr.error('برای قطعه مشخص شده تعداد مشخص کنید!');
-           checkbox.checked=false;
-           return;
-         }
-      if (index === -1) {
-        selectedPartValues.push(value);
-        selectedPartqty.push(value2);
-
-      }
-    } else {
-      if (index !== -1) {
-        selectedPartValues.splice(index, 1);
-        selectedPartqty.splice(index, 1);
-      }
-    }
-    });
-    $("#partNamesHidden").val(selectedPartValues);
-    $("#partqtyHidden").val(selectedPartqty);
-
-    // Store the selected values in your desired location (e.g., array, variable, etc.)
-    // return selectedValues;
-  };
  // Create book
-// $(".js-create-bomGroupPart").click(loadBOMGroupPartForm);
+$(".js-create-bomGroupPart").unbind();
+$(".js-create-bomGroupPart").click(loadBOMGroupPartForm);
 //$d("#task-submit").on("", ".js-task-create-form", saveTaskForm);
 //s$("#task-submit").on("click",function(){alert("32132");});
 //$("#task-table").on("load",initLoad);
-var loadPartPage=function(){
-  var mydata=$(this).attr('data-url');
-
-  $.ajax({
-    url: '/BOMGroupPart/SelectPartPage'+mydata,
-    type: 'get',
-    dataType: 'json',
-    beforeSend: function () {
-    },
-    success: function (data) {
-      $("#tbody_bomgrouppart2").html(data.html);
-      $(".woPaging").html(data.page);
-    }
-  });
-
-}
 // Update book
 $("#bomGroupPart-table").on("click", ".js-update-bomGroupPart", loadBOMGroupPartForm);
 
 $("#modal-bomGroupPart").on("submit", ".js-bomGroupPart-update-form", loadBOMGroupPartForm);
-$("#modal-company").on("click", ".js-create-bomGroupPart", loadBOMGroupPartForm);
 // Delete book
 $("#bomGroupPart-table").on("click", ".js-delete-bomGroupPart", loadBOMGroupPartForm);
 $("#modal-bomGroupPart").on("submit", ".js-bomGroupPart-delete-form", saveBOMGroupPartForm);
-$("#modal-bomGroupPart").on("click", "#ppprev", loadPartPage);
-$("#modal-bomGroupPart").on("click", "#ppnext", loadPartPage);
 $("#modal-bomGroupPart").on("click", ".js-bomGroupPart-delete-form", deleteBOMGroupPartForm);
-$("#modal-bomGroupPart").on("change", ".js-bomGroupPart-change", change_part_type);
-$("#modal-bomGroupPart").on("input", "#partSearch", change_part_type);
-$("#modal-bomGroupPart").on("change", ".selection-box", save_part_check);
 });

@@ -7,7 +7,7 @@
     <h4 class="modal-title">جدید</h4>
   </div>
   <div class="modal-body">
-   {% include 'cmms/bomgroup_parts/partialBOMGroupPartForm2.html' %}
+   {% include 'cmms/bomgroup_parts/partialBOMGroupPartForm.html' %}
   </div>
   <div class="modal-footer">
     <button type="button" class="cl-part btn btn-default " >انصراف</button>
@@ -38,17 +38,16 @@
         $("#bomGroupPart-submit").click(function(){
 
 
-                    // var form = $(this).parent().parent();
+                    var form = $(this).parent().parent();
 
                     $.ajax({
-                      // url: form.attr("data-url"),
-                      url: '/BOMGroupPart/create/',
+                      url: form.attr("data-url"),
                       type: "POST",
-                      data:myformat('{"BOMGroupPartPart":[{0}],\
-                      "BOMGroupPartQnty":[{1}],\
+                      data:myformat('{"BOMGroupPartPart":{0},\
+                      "BOMGroupPartQnty":{1},\
                       "BOMGroupPartBOMGroup":{2}}',
-                      $("#partNamesHidden").val(),
-                      $("#partqtyHidden").val(),
+                      $("#id_BOMGroupPartPart").val(),
+                      $("#id_BOMGroupPartQnty").val(),
                       $("#lastBOMGroupid").val()),
 
 
@@ -56,24 +55,17 @@
 
                       dataType: 'json',
                       beforeSend: function (x,y) {
-                        // if($("#id_BOMGroupPartPart").val()=="")
-                        // {
-                        //   toastr.error("نام قطعه را مشخص کنید");
-                        //   x.abort();
-                        //   return;
-                        // }
-                        // console.log(myformat('{"BOMGroupPartPart":[{0}],\
-                        // "BOMGroupPartQnty":[{1}],\
-                        // "BOMGroupPartBOMGroup":{2}}',
-                        // $("#partNamesHidden").val(),
-                        // $("#partqtyHidden").val(),
-                        // $("#lastBOMGroupid").val()));
+                        if($("#id_BOMGroupPartPart").val()=="")
+                        {
+                          toastr.error("نام قطعه را مشخص کنید");
+                          x.abort();
+                          return;
+                        }
 
 
                        // console.log(myformat('{"BOMGroupPartPart":{0},"BOMGroupPartQnty":{1},"BOMGroupPartBOMGroup":{2}}',$("#id_BOMGroupPartPart").val(), $("#id_BOMGroupPartQnty").val(),$("#lastBOMGroupid").val()));
                       },
                       success: function (data) {
-                        console.log(data);
                         if (data.form_is_valid) {
                           //alert("Company created!");  // <-- This is just a placeholder for now for testing
                           $("#tbody_bomGroupPart").empty();
