@@ -4,7 +4,7 @@
 
 <td>{{c.partName| default_if_none:"-"}}</td>
  <td>{{c.partCode| default_if_none:"-"}}</td>
- <td>{{c.partLastPrice| default_if_none:"-"}}</td>
+ <td>{{c.get_last_price| default_if_none:"0"}}</td>
 <td>{{c.partModel| default_if_none:"-"}}</td>
 
 

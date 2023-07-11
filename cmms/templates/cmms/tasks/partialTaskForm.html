@@ -69,6 +69,7 @@
 
                          </div>
 
+
                        </div>
                        <div class="row" >
                          <div class="col-lg-6">
@@ -76,7 +77,15 @@
 
                          </div>
                          <div class="col-lg-6">
-                            {% render_field form.taskStartTime class="form-control ltr-input"  data-mask="99:99:99"  %}
+                            <div class="input-group clockpicker" data-autoclose="true">
+
+                              {% render_field form.taskStartTime class="form-control ltr-inpuy"   %}
+                                          <!-- <input type="text" class="form-control ltr-inpuy"  > -->
+                                          <span class="input-group-addon">
+                                              <span class="fa fa-clock-o">
+                                              </span>
+                                          </span>
+                                      </div>
 
                          </div>
 
@@ -214,6 +223,14 @@
 
 </div>
 </div>
+<style media="screen">
+  .clockpicker-popover {
+z-index: 999999;
+}
+</style>
+<script type="text/javascript">
+   $('.clockpicker').clockpicker();
+</script>
 <script>
 $('#id_taskStartDate').pDatepicker({
                 format: 'YYYY-MM-DD',

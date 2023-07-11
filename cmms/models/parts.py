@@ -7,8 +7,16 @@ from datetime import datetime
 import jdatetime
 from django.utils.timezone import now
 from cmms.models.users import *
+from cmms.models.purchase import PartPurchase
 import os
 class Part(models.Model):
+    def get_last_price(self):
+        latest_purchase = PartPurchase.objects.filter(purchasePartId=self.id).latest('purchaseDateRecieved')
+        last_date_received = latest_purchase.purchasePricePerUnit
+        print("#",latest_purchase)
+        return (last_date_received or 0)
+
+
     def __str__(self):
         return "[{}]: {}".format(self.partCode,self.partName)
     partName=models.CharField("مشخصات",max_length = 100)

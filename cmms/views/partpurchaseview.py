@@ -193,7 +193,7 @@ def partPurchase_update(request, id):
         data['purchaseQuantityReceived']=body['purchaseQuantityReceived']
         # data['prevQNTY']=body['prevQNTY']
 
-        form = PartPurchaseForm(data, instance=company.purchaseQuantityReceived)
+        form = PartPurchaseForm(data, instance=company)
     else:
         # form = PartPurchaseForm(instance=company,initial={'prevQNTY':company.})
         form = PartPurchaseForm(instance=company)

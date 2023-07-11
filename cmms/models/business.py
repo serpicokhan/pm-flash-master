@@ -112,7 +112,7 @@ class BusinessPart(models.Model):
 
 
 class BusinessUser(models.Model):
-    user= models.ForeignKey(Part,on_delete=models.CASCADE,verbose_name="نام قطعه",null=True,blank=True)
+    user= models.ForeignKey('Part',on_delete=models.CASCADE,verbose_name="نام قطعه",null=True,blank=True)
     business= models.ForeignKey(SysUser,on_delete=models.CASCADE,verbose_name="پرسنل",null=True,blank=True)
     class Meta:
         db_table="businessuser"

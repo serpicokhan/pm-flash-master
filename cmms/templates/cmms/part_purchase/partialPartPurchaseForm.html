@@ -86,3 +86,14 @@
       </div>
     </div>
   </div>
+<script type="text/javascript">
+$('#id_purchasePriceTotla').on('focus', function() {
+   // Event handler code here
+   var qty=$("#id_purchaseQuantityReceived").val()||0;
+   var amount=$("#id_purchasePricePerUnit").val()||0;
+   $(this).val(qty * amount);
+   // Perform other actions or validations
+ });
+
+
+</script>

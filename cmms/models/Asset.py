@@ -266,7 +266,7 @@ class AssetPart(models.Model):
     #asset id
     assetPartAssetid=models.ForeignKey(Asset,verbose_name="نام دارایی",on_delete=models.CASCADE,blank=True,null=True)
     #part id
-    assetPartPid=models.ForeignKey(Part,verbose_name="نام قطعه",on_delete=models.CASCADE,blank=True,null=True)
+    assetPartPid=models.ForeignKey('Part',verbose_name="نام قطعه",on_delete=models.CASCADE,blank=True,null=True)
     assetPartBOMGroupName=models.ForeignKey('BOMGroup',verbose_name="گروه",on_delete=models.CASCADE,blank=True,null=True)
     assetPartQnty=models.IntegerField("تعداد",blank=True,null=True)
     # assetPartStock=models.ForeignKey(Stock,on_delete=models.CASCADE,null=True,blank=True,verbose_name="انبار",related_name='cc2')

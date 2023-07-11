@@ -81,13 +81,14 @@
                       var form = $(this).parent().parent();
                        //console.log(form.attr("action"));
                        //alert($("#id_metrics").val());
-                       console.log($(this));
+                       // console.log($(this));
                        $.ajax({
                          url: form.attr("data-url"),
                          type: "POST",
                          data:mydata,
                          dataType: 'json',
                          beforeSend: function (x,y) {
+                           // console.log(mydata);
                            //alert(btn.attr("data-url"));
                            if($("#id_purchaseQuantityReceived").val()==0)
                            {

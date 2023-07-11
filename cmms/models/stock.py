@@ -27,7 +27,7 @@ class Stock(models.Model):
             return wo[0].businessPartBusiness.name
         except:
             return "بدون تامین کننده منتخب"
-    stockItem=models.ForeignKey(Part,on_delete=models.CASCADE,verbose_name="نام قطعه")
+    stockItem=models.ForeignKey('Part',on_delete=models.CASCADE,verbose_name="نام قطعه")
     location=models.ForeignKey('Asset',on_delete=models.CASCADE,verbose_name="مکان")
     qtyOnHand=models.IntegerField("موجودی",null=True,blank=True)
     minQty=models.IntegerField("حداقل موجودی",null=True,blank=True)
