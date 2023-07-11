@@ -29,7 +29,7 @@ from django.utils.decorators import method_decorator
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
-from cmms.forms import AssetLifeForm
+from cmms.forms import AssetLifeForm,AssetLifeForm2
 from cmms.business.updateAssetStatus import *
 from django.db.models import Sum, F
 ###################################################################
@@ -197,15 +197,20 @@ def assetLife_create(request,assetId=None):
 
 
     else:
-        # al=AssetLife.objects.filter(assetLifeAssetid=assetId)
-        asset_name=Asset.objects.get(id=assetId).assetName
-        stdate_=request.GET.get("stdate",False)
-        if(stdate_):
-            dt=DateJob.getDate2(stdate_)
-            form = AssetLifeForm(initial={'assetOfflineFrom':dt,'assetOnlineFrom':dt,'asset_name':asset_name,'assetLifeAssetid':assetId,'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
-
+        if(not assetId):
+            print("!!!!!!!!!!")
+            form = AssetLifeForm2(initial={'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
+            return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeCreate2.html',woId,False)
         else:
-            form = AssetLifeForm(initial={'asset_name':asset_name,'assetLifeAssetid':assetId,'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
+        # al=AssetLife.objects.filter(assetLifeAssetid=assetId)
+            asset_name=Asset.objects.get(id=assetId).assetName
+            stdate_=request.GET.get("stdate",False)
+            if(stdate_):
+                dt=DateJob.getDate2(stdate_)
+                form = AssetLifeForm(initial={'assetOfflineFrom':dt,'assetOnlineFrom':dt,'asset_name':asset_name,'assetLifeAssetid':assetId,'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
+
+            else:
+                form = AssetLifeForm(initial={'asset_name':asset_name,'assetLifeAssetid':assetId,'assetSetOfflineByUser':SysUser.objects.get(userId=request.user)})
 
     return save_assetLife_form(request, form, 'cmms/asset_life/partialAssetLifeCreate.html',woId,False)
 ###################################################################

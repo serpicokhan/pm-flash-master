@@ -961,6 +961,47 @@ class AssetLifeForm(forms.ModelForm):
           'assetEventDescription': forms.Textarea(attrs={'rows':2, 'cols':15}),
         }
 
+class AssetLifeForm2(forms.ModelForm):
+    woName=forms.CharField(label='دستور کار',required=False,widget=forms.TextInput(attrs={'class':'woselector','autocomplete':'off'}))
+    # asset_name=forms.CharField(label='دستور کار',required=False,widget=forms.TextInput(attrs={'class':'woselector','autocomplete':'off'}))
+    asset_name = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
+    # def __init__(self,*args,**kwargs):
+    #
+    #         self.asset_id = kwargs.pop('asset_id')
+    #         print("######",self.asset_id)
+    #         super(AssetLifeForm,self).__init__(*args,**kwargs)
+    #         self.fields['assetWOAssoc'] = forms.ModelChoiceField(label="دستور کاری",queryset=WorkOrder.objects.filter(woAsset=self.asset_id),widget=forms.Select(attrs={'class':'selectpicker','multiple':'', 'data-live-search':'true'}))
+    # assetWOAssoc = forms.CharField()
+
+    def clean(self):
+                self.is_valid()
+                cleaned_data=super(AssetLifeForm, self).clean()
+                assetLifeAssetid=cleaned_data.get('assetLifeAssetid','')
+                assetOfflineFrom=cleaned_data.get('assetOfflineFrom','')
+                assetSetOfflineByUser=cleaned_data.get('assetSetOfflineByUser','')
+                assetStopCode=cleaned_data.get('assetStopCode','')
+                # assetOfflineStatus=cleaned_data.get('assetOfflineStatus','')
+                assetWOAssoc=cleaned_data.get('assetWOAssoc','')
+                assetOfflineAdditionalInfo=cleaned_data.get('assetOfflineAdditionalInfo','')
+                assetEventType=cleaned_data.get('assetEventType','')
+                assetEventDescription=cleaned_data.get('assetEventDescription','')
+                assetCheckEvent=cleaned_data.get('assetCheckEvent','')
+                assetCauseCode=cleaned_data.get('assetCauseCode','')
+                if(cleaned_data.get('assetOnlineStatus','')!='-1'):
+                    assetOnlineFrom=cleaned_data.get('assetOnlineFrom','')
+                    assetSetOnlineByUser=cleaned_data.get('assetSetOnlineByUser','')
+                    assetOnlineStatus=cleaned_data.get('assetOnlineStatus','')
+                    assetOnlineAdditionalInfo=cleaned_data.get('assetOnlineAdditionalInfo','')
+                assetOnlineProducteHourAffected=cleaned_data.get('assetOnlineProducteHourAffected','0')
+                return cleaned_data
+    class Meta:
+         model = AssetLife
+         fields = '__all__'
+         widgets = {
+          'assetOfflineAdditionalInfo': forms.Textarea(attrs={'rows':2, 'cols':15}),
+          'assetEventDescription': forms.Textarea(attrs={'rows':2, 'cols':15}),
+        }
+
 
 ###########################################################################
 class PartForm(forms.ModelForm):

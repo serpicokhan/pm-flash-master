@@ -24,6 +24,8 @@ var filterAssetLife=function(){
 }
   var loadAssetLifeForm =function () {
     var btn=$(this);
+    // console.log(btn.attr("data-url"));
+// console.log(1);
     $.ajax({
       url: btn.attr("data-url"),
       type: 'get',
@@ -37,6 +39,41 @@ var filterAssetLife=function(){
 
         $("#modal-assetLife .modal-content").html(data.html_assetLife_form);
         $(".selectpicker").selectpicker();
+
+        // ############
+
+        $('.advanced2AutoComplete4').autoComplete({
+          resolver: 'custom',
+          noResultsText:'بدون نتیجه',
+          formatResult: function (item) {
+            return {
+              value: item.id,
+              text: "[" + item.assetCode + "] " + item.assetName,
+            };
+          },
+          events: {
+            search: function (qry, callback) {
+              // let's do a custom ajax call
+              $.ajax(
+                '/Asset/GetAssets',
+                {
+                  data: { 'qry': qry}
+                }
+              ).done(function (res) {
+                callback(res);
+              });
+            },
+          }
+        });
+        $('.advanced2AutoComplete4').on('autocomplete.select', function (evt, item) {
+          // alert("!23");
+        $("#id_assetLifeAssetid").val(item.id);
+        });
+        // ##############
+
+
+
+
         $('#id_assetOfflineFrom').pDatepicker({
           format: 'YYYY-MM-DD',
           autoClose: true,
