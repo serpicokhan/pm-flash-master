@@ -129,42 +129,42 @@ $(function () {
           $("#id_assetIsPartOf").val(item.id);
         });
 
-//           new QRCode(document.getElementById("qrcode"), {
-//     text: data.id,
-//     width: 128,
-//     height: 128,
-//     colorDark : "#000000",
-//     colorLight : "#ffffff",
-//     correctLevel : QRCode.CorrectLevel.H
-// });
-        // var qrcode = new QRCode(document.getElementById("qrcode"), {
-        //   width : 100,
-        //   height : 100
-        // });
+          new QRCode(document.getElementById("qrcode"), {
+    text: data.id,
+    width: 128,
+    height: 128,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+});
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+          width : 100,
+          height : 100
+        });
 
-        // function makeCode () {
-        //   var elText = document.getElementById("id_assetName");
-        //
-        //   if (!elText.value) {
-        //     alert("Input a text");
-        //     elText.focus();
-        //     return;
-        //   }
-        //
-        //   qrcode.makeCode(elText.value);
-        // }
-        //
+        function makeCode () {
+          var elText = document.getElementById("id_assetName");
+
+          if (!elText.value) {
+            alert("Input a text");
+            elText.focus();
+            return;
+          }
+
+          qrcode.makeCode(elText.value);
+        }
+
         // makeCode();
 
-        // $("#id_assetName").
-        //   on("blur", function () {
-        //     makeCode();
-        //   }).
-        //   on("keydown", function (e) {
-        //     if (e.keyCode == 13) {
-        //       makeCode();
-        //     }
-        //   });
+        $("#id_assetName").
+          on("blur", function () {
+            makeCode();
+          }).
+          on("keydown", function (e) {
+            if (e.keyCode == 13) {
+              makeCode();
+            }
+          });
         var elem = document.querySelector('.js-switch');
         var init = new Switchery(elem);
         $("#id_assetStatus").change(function(x){
