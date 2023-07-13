@@ -1,14 +1,14 @@
 {% extends 'cmms/reports/simplereports/main.html' %}
 
  {% block content %}
-
+{% load humanize %}
 
    <div class="alert alert-warning text-center">
      {% load static %}
 
      <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
      <h1>
-                                     گزارش لیست هزینه های هر دستور کارR                   z  <br>
+                                     گزارش لیست هزینه های هر دستور کار  <br>
 
 
                             </h1>
@@ -56,25 +56,25 @@
 
        <td >
 
-         {{c.partcost|floatformat:0}}
+         {{c.partcost|floatformat:0|intcomma}}
 
        </td>
 
 
        <td  >
 
-         {{c.laborcost|floatformat:0}}
+         {{c.laborcost|floatformat:0|intcomma}}
 
        </td>
 
        <td >
 
-         {{c.misccost|floatformat:0}}
+         {{c.misccost|floatformat:0|intcomma}}
 
        </td>
        <td>
 
-         {{c.total|floatformat:0}}
+         {{c.total|floatformat:0|intcomma}}
 
 
        </td>

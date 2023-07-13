@@ -2,7 +2,7 @@
 
  {% block content %}
 
-
+{% load humanize %}
    <div class="alert alert-warning text-center">
      {% load static %}
 
@@ -74,7 +74,7 @@
                {{k.misccost|floatformat:0}}
                </td>
               <td>
-               {{k.total|floatformat:0}}
+               {{k.total|floatformat:0|intcomma}}
                </td>
 
             </tr>
