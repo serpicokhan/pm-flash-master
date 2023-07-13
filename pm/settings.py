@@ -151,11 +151,11 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmm1000',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'NAME': 'cmms909_daniel',
+        'USER': 'cmms909_daniel',
+        'PASSWORD': 'aSZyFmxcYVTO',
+        'HOST': 'services.irn4.chabokan.net',
+        'PORT': '38930',
     }
 }
 

@@ -881,7 +881,7 @@ class WOUtility:
            get_workorder_labor_price(workorder.id) as laborcost,
            get_workorder_misccost(workorder.id) as misccost,
            (IFNULL(get_workorder_part_price(workorder.id),0)+IFNULL(get_workorder_labor_price(workorder.id),0)+IFNULL(get_workorder_misccost(workorder.id),0)) as total
-           from workOrder
+           from workorder
            left join assets b on workorder.woasset_id=b.id
            where (dateCompleted between '{0}' and '{1}') and ({2} or {3})
            order by total desc
@@ -895,7 +895,7 @@ class WOUtility:
            get_workorder_labor_price(workorder.id) as laborcost,
            get_workorder_misccost(workorder.id) as misccost,
            (IFNULL(get_workorder_part_price(workorder.id),0)+IFNULL(get_workorder_labor_price(workorder.id),0)+IFNULL(get_workorder_misccost(workorder.id),0)) as total
-           from workOrder
+           from workorder
            left join assets b on workorder.woasset_id=b.id
            where (dateCompleted between '{0}' and '{1}') and ({2}) order by total desc
 
