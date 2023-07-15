@@ -9,7 +9,7 @@ class Mail:
         if(priority==None):
             priority=5 #lowest val
         sysuser=SysUser.objects.get(id=1)
-        touser=SysUser.objects.get(userId__username=r)
+        touser=SysUser.objects.get(id=r.id)
         msg="""<p>یک سفارش کاری جدید برای {} ایجاد گردید</p>
 
 
@@ -30,7 +30,7 @@ class Mail:
            i.delete()
        # print(msgid,"############")
        sysuser=SysUser.objects.get(userId__username="admin")
-       touser=SysUser.objects.get(userId__username=r)
+       touser=SysUser.objects.get(id=r.id)
        sub="سفارش کاری بروز گردانی شد"
        msg="""<p>سفارش کاری برای کاربر {0} بروز گردید.</p>
        <a class='btn btn-warning btn-rounded' href='/WorkOrder/{1}/details'>

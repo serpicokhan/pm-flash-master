@@ -131,17 +131,19 @@ def save_wo_profile(sender, instance, **kwargs):
             if(instance.isScheduling==False):
                 userlist=WorkorderUserNotification.objects.filter(woNotifWorkorder=instance)
                 for c in userlist:
+
                     if(instance.isUpdating==False):
-                            Mail.SendNewSysMessage(c,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id,wo=instance)
-                            push_notification.sendpush(settings.API_KEY,'fjvmSqE-QyKp6mufSAp3QS:APA91bFqqR9bSOqY_iPU74qz4g0yM0MzI8M02ufRJu7iBmMgT6ewWD5MxfnPtefzqVgFux7yPAA76Or_ZiHbDVvU7OwPecY2twembPJMf7Jk7_0lfcHc6bRlUeEaqtXE5Mmbs3qg-70_'
-                                                       ,'New Workorder','salame mojadad')
+
+                            Mail.SendNewSysMessage(c.woNotifUser,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id,wo=instance)
+                            # push_notification.sendpush(settings.API_KEY,'fjvmSqE-QyKp6mufSAp3QS:APA91bFqqR9bSOqY_iPU74qz4g0yM0MzI8M02ufRJu7iBmMgT6ewWD5MxfnPtefzqVgFux7yPAA76Or_ZiHbDVvU7OwPecY2twembPJMf7Jk7_0lfcHc6bRlUeEaqtXE5Mmbs3qg-70_'
+                            #                            ,'New Workorder','salame mojadad')
                             print("thats done")
                             # print("yuha!!!!!!!")
                     else:
                         # print("message is created")
 
 
-                        Mail.SendUpdatedSysMessage(c,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id)
+                        Mail.SendUpdatedSysMessage(c.woNotifUser,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id)
 
                 if(instance.assignedToUser):
                     # print(instance.assignedToUser)

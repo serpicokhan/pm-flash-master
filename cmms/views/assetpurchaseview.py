@@ -19,6 +19,7 @@ import logging
 from django.conf import settings
 
 from cmms.models.Asset import *
+from cmms.models.purchase import *
 from cmms.models.waranty import *
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -27,6 +28,7 @@ from django.utils.decorators import method_decorator
 import json
 from django.forms.models import model_to_dict
 from cmms.forms import AssetPurchaseForm
+
 
 ###################################################################
 def list_assetPurchase(request,id=None):

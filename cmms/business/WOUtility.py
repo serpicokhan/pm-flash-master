@@ -1253,7 +1253,19 @@ class WOUtility:
     def create_task_when_wo_created_fromAPI(request,woid):
 
         wo=WorkOrder.objects.get(id=woid)
-        wo.assignedToUser=SysUser.objects.filter(id__in=AssetUser.objects.filter(AssetUserAssetId)) 
+        # wo.assignedToUser=SysUser.objects.filter(id__in=AssetUser.objects.filter(AssetUserAssetId=wo.woAsset).values('AssetUserUserId',flat=True),id__in=UserGroups.objects.filter(userUserGroups))
+        # print(AssetUser.objects.filter(AssetUserAssetId=wo.woAsset).values_list('AssetUserAssetId',flat=True))
+        users=UserGroups.objects.filter(userUserGroups__in=AssetUser.objects.filter(AssetUserAssetId=wo.woAsset).values_list('AssetUserUserId',flat=True))
+        print(users)
+        if(users):
+            wo.assignedToUser=users[0].userUserGroups
+            # print(users[0])
+            # print(wo.assignedToUser)
+            wo.save();
+            print('save')
+
+
+
         data=dict()
         if(wo.CompleteUserTask.all().count()==0):
             to=Tasks.objects.create(workOrder=wo,taskTypes=1,taskDescription=wo.summaryofIssue,taskAssignedToUser=wo.assignedToUser,taskStartDate=wo.datecreated,taskStartTime=wo.timecreated,taskTimeEstimate=0.1)
