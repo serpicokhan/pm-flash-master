@@ -62,6 +62,8 @@ def save_miniWorkorder_form(request, form, template_name,id=None):
             form.save()
             RequestedUser=SysUser.objects.get(userId=request.user)
             form.instance.RequestedUser=RequestedUser
+            WOUtility.create_task_when_wo_created_fromAPI(request,form.instance.id)
+            WOUtility.create_notification(request,form.instance.id)
             form.instance.save()
             # if(id):
             #     LogEntry.objects.log_action(

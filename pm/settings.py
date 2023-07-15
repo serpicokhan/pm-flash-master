@@ -151,7 +151,7 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmm100',
+        'NAME': 'cmm200',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
