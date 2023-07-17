@@ -816,6 +816,14 @@ def workorder_collection(request):
             # k.datecreated=DateJob.getDate2(k.datecreated)
             k["datecreated"]= str(jdatetime.datetime.fromgregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
         return Response(serializer.data)
+@api_view(['POST'])
+def get_fcm_token(request):
+    if request.method == 'POST':
+        # print("!23")
+        data=dict()
+        print("########")
+        print(request.body)
+        return Response(data)
 @csrf_exempt
 def work_order_test_api(request):
     if request.method == 'POST':

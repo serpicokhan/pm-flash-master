@@ -791,6 +791,7 @@ urlpatterns = [
             url(r'^api/v1/wos2/$',views.WO.as_view(), name='workorder_collection2'),
 
             path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
+            path('fcm/', get_fcm_token, name='get_fcm_token'),  # <-- And here
 
 
 
