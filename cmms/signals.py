@@ -8,6 +8,8 @@ from cmms.business.fcm import *
 from django.core.exceptions import ObjectDoesNotExist
 from pprint import pprint
 from datetime import datetime
+from cmms.tasks import some_function
+
 
 
 
@@ -117,8 +119,9 @@ def save_WorkorderPart_profile(sender, instance, **kwargs):
 
 @receiver(post_save, sender=WorkOrder )
 def save_wo_profile(sender, instance, **kwargs):
-
-
+    # asyncio.run(some_function(instance.summaryofIssue))
+    # some_function.delay('dsadsa')
+    # push_notification.send_push('AAAAClhesu0:','cZiRAQyARNKW5KPUmoMUmt:APA91bGKXvX8aZQwGrzu7w7OCj6W_a33WTfiMta4clGpTTyfjgWdEHVan8Zj-SUuPNFlJN8Etjehf-0odB2BgwEHFjh4cZN17iicPei0Jxa1xnahDxRlvPmaYj9w5Plxl3pPEVZ4Lts9','New Workorder', 'dsadsa')
     try:
 
         print("thats done")
@@ -135,9 +138,8 @@ def save_wo_profile(sender, instance, **kwargs):
                     if(instance.isUpdating==False):
 
                             Mail.SendNewSysMessage(c.woNotifUser,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id,wo=instance)
-                            # push_notification.sendpush(settings.API_KEY,'fjvmSqE-QyKp6mufSAp3QS:APA91bFqqR9bSOqY_iPU74qz4g0yM0MzI8M02ufRJu7iBmMgT6ewWD5MxfnPtefzqVgFux7yPAA76Or_ZiHbDVvU7OwPecY2twembPJMf7Jk7_0lfcHc6bRlUeEaqtXE5Mmbs3qg-70_'
-                            #                            ,'New Workorder','salame mojadad')
-                            print("thats done")
+                            push_notification.sendpush('AIzaSyCXtTSMxPAxR7WsI_m5AAhfJWFdwd9QIxg','cZiRAQyARNKW5KPUmoMUmt:APA91bGKXvX8aZQwGrzu7w7OCj6W_a33WTfiMta4clGpTTyfjgWdEHVan8Zj-SUuPNFlJN8Etjehf-0odB2BgwEHFjh4cZN17iicPei0Jxa1xnahDxRlvPmaYj9w5Plxl3pPEVZ4Lts9','New Workorder','salame mojadad')
+                            print("thats done!!!!!!!!!!!!!")
                             # print("yuha!!!!!!!")
                     else:
                         # print("message is created")
@@ -163,7 +165,7 @@ def save_wo_profile(sender, instance, **kwargs):
 
 
 
-
+    # asyncio.run(some_function(instance.summaryofIssue))
 
 @receiver(post_save, sender=AssetMeterReading )
 def save_assetmeter(sender, instance, **kwargs):

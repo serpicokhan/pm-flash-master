@@ -1,10 +1,10 @@
 from pyfcm import FCMNotification
 from cmms.models import SysUser
-API_KEY="AAAAKhEXPZ8:APA91bH-pd-izfaRaBXxs3szl-_z9vA0z8wsdLqhYps175aMIiHquLdxvQ6skfY5XVESFaxGZWL5UsvGS5lpESb05xzw-KhA3Sdos1wD_klNYpm4o3bRuc8_9pYkXRS8YaX1ARpbfz0A"
+API_KEY="AIzaSyCXtTSMxPAxR7WsI_m5AAhfJWFdwd9QIxg"
 class push_notification:
     @staticmethod
     def send_push(api_token,rec_id,title,body):
-        push_service = FCMNotification(api_key=api_token)
+        push_service = FCMNotification(api_key='AAAAClhesu0:APA91bGeNZ2q5BhmwbpyJ0vjQn87BKDMk62-f2b3zDfB12Xcar73auyyVvkgGvVvThdsUdI8GV_j-qQC7jEPnRrkWwTXknkJyhH_t4sPOm0KYk1RuzkyUALR7FMm2phxQZfuhbo57pco')
         # Your api-key can be gotten from:  https://console.firebase.google.com/project/<project-name>/settings/cloudmessaging
 
         registration_id = rec_id
