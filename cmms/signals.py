@@ -9,9 +9,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from pprint import pprint
 from datetime import datetime
 from cmms.tasks import some_function
-
-
-
+from asgiref.sync import sync_to_async
+from firebase_admin.messaging import Message
+from firebase_admin import messaging
 
 def create_wo(unit):
     try:
@@ -115,13 +115,23 @@ def save_WorkorderPart_profile(sender, instance, **kwargs):
 
 #######################################
 
-
+async def make_book(*args, **kwargs):
+    results = await sync_to_async(push_notification.send_push('AAAAClhesu0:','cZiRAQyARNKW5KPUmoMUmt:APA91bGKXvX8aZQwGrzu7w7OCj6W_a33WTfiMta4clGpTTyfjgWdEHVan8Zj-SUuPNFlJN8Etjehf-0odB2BgwEHFjh4cZN17iicPei0Jxa1xnahDxRlvPmaYj9w5Plxl3pPEVZ4Lts9','New Workorder', 'dsadsa'), thread_sensitive=True)(pk=123)
+    return result
 
 @receiver(post_save, sender=WorkOrder )
 def save_wo_profile(sender, instance, **kwargs):
+    # asyncio.run(make_book())
     # asyncio.run(some_function(instance.summaryofIssue))
     # some_function.delay('dsadsa')
     # push_notification.send_push('AAAAClhesu0:','cZiRAQyARNKW5KPUmoMUmt:APA91bGKXvX8aZQwGrzu7w7OCj6W_a33WTfiMta4clGpTTyfjgWdEHVan8Zj-SUuPNFlJN8Etjehf-0odB2BgwEHFjh4cZN17iicPei0Jxa1xnahDxRlvPmaYj9w5Plxl3pPEVZ4Lts9','New Workorder', 'dsadsa')
+    data1={
+        "Nick" : "Mario",
+        "body" : "great match!",
+        "Room" : "PortugalVSDenmark"
+   }
+    message=messaging.MulticastMessage(notification=messaging.Notification(title='dasdsa',body='dasdsadas'),data=data1,tokens=['cZiRAQyARNKW5KPUmoMUmt:APA91bGKXvX8aZQwGrzu7w7OCj6W_a33WTfiMta4clGpTTyfjgWdEHVan8Zj-SUuPNFlJN8Etjehf-0odB2BgwEHFjh4cZN17iicPei0Jxa1xnahDxRlvPmaYj9w5Plxl3pPEVZ4Lts9'])
+    messaging.send_multicast(message)
     try:
 
         print("thats done")

@@ -16,6 +16,9 @@ from django.urls import reverse_lazy
 # from celery.schedules import crontab
 import logging.config
 from celery.schedules import crontab
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import initialize_app
 
 # import cmms.tasks
 
@@ -53,7 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cmms.apps.CmmsConfig',
     'widget_tweaks',
-
+    'fcm_django',
      'mathfilters',
      'rest_framework',
      'django.contrib.humanize',
@@ -78,6 +81,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'corsheaders.middleware.CorsPostCsrfMiddleware',
 ]
+
 CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 # CORS_ALLOW_METHODS = [
 #     'DELETE',
@@ -285,3 +289,7 @@ logging.config.dictConfig(LOGGING)
 #     'auth_user':lambda u:reverse_lazy('user_update',args=[u.id])
 # }
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+PROJECT_APP = os.path.basename(BASE_DIR)
+cred = credentials.Certificate(os.path.join(PROJECT_APP, '..\cred.json'))
+# cred = credentials.Certificate("path/to/serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
