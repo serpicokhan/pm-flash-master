@@ -16,9 +16,9 @@ from django.urls import reverse_lazy
 # from celery.schedules import crontab
 import logging.config
 from celery.schedules import crontab
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import initialize_app
+# import firebase_admin
+# from firebase_admin import credentials
+# from firebase_admin import initialize_app
 
 # import cmms.tasks
 
@@ -289,7 +289,7 @@ logging.config.dictConfig(LOGGING)
 #     'auth_user':lambda u:reverse_lazy('user_update',args=[u.id])
 # }
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
-PROJECT_APP = os.path.basename(BASE_DIR)
-cred = credentials.Certificate(os.path.join(PROJECT_APP, '..\cred.json'))
-# cred = credentials.Certificate("path/to/serviceAccountKey.json")
-firebase_admin.initialize_app(cred)
+# PROJECT_APP = os.path.basename(BASE_DIR)
+# cred = credentials.Certificate(os.path.join(PROJECT_APP, '..\cred.json'))
+# # cred = credentials.Certificate("path/to/serviceAccountKey.json")
+# firebase_admin.initialize_app(cred)
