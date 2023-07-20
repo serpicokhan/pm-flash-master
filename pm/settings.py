@@ -157,7 +157,7 @@ DATABASES = {
         'NAME': 'cmm100',
         'USER': 'root',
         'PASSWORD': 'docker-root',
-        'HOST': '127.0.0.1',
+        'HOST': '192.168.2.111',
         'PORT': '3306',
     }
 }
