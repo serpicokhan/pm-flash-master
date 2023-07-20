@@ -8,7 +8,7 @@ from cmms.business.fcm import *
 from django.core.exceptions import ObjectDoesNotExist
 from pprint import pprint
 from datetime import datetime
-# from cmms.tasks import some_function
+from cmms.tasks import some_function
 # from asgiref.sync import sync_to_async
 # from firebase_admin.messaging import Message
 # from firebase_admin import messaging
