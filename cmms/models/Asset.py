@@ -355,6 +355,16 @@ class AssetMeterTemplate(models.Model):
         class Meta:
             db_table="Assetmetertemplate"
             ordering=['assetMeterTemplateDesc']
+class AssetMeterTemplate2(models.Model):
+        # assetMeterTemplateAsset=models.ForeignKey(Asset,verbose_name="نام دارایی",on_delete=models.CASCADE)
+        assetMeterTemplateMeter=models.ForeignKey("MeterCode",verbose_name="کمیت اندازه گیری",on_delete=models.CASCADE)
+        assetMeterTemplateDesc=models.CharField("شرح",max_length=50,blank=True,null=True)
+        # timestamp=models.DateTimeField(auto_now_add=True)
+        def __str__(self):
+            return "{}({})".format(self.assetMeterTemplateDesc,self.assetMeterTemplateMeter)
+        class Meta:
+            db_table="Assetmetertemplate2"
+            ordering=['assetMeterTemplateDesc']
 class AssetCsvFile(models.Model):
     def get_ext(self):
         v=os.path.splitext(self.woFile.name)
