@@ -53,7 +53,7 @@ class FCMToken(APIView):
             # print("!23")
             data=dict()
             usr=Sysuser.objects.get(userId=request.user)
-            usr.token
+            # usr.token=
             print("########")
             print(request.body)
             return Response(data)
