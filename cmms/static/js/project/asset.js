@@ -128,7 +128,6 @@ $(function () {
           // alert("!23");
           $("#id_assetIsPartOf").val(item.id);
         });
-        
 
 //           new QRCode(document.getElementById("qrcode"), {
 //     text: data.id,
