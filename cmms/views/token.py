@@ -55,7 +55,7 @@ class FCMToken(APIView):
             body_unicode = request.body.decode('utf-8')
             body = json.loads(body_unicode)
             data["token"]=body["fcm"]
-            usr=Sysuser.objects.get(userId=request.user)
+            usr=SysUser.objects.get(userId=request.user)
             usr.token=data["token"]
             usr.save()
             # usr.token=
