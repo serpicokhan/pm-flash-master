@@ -43,6 +43,20 @@ class WO(APIView):
             # k.datecreated=DateJob.getDate2(k.datecreated)
             # k["datecreated"]= str(jdatetime.datetime.togregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
         return Response(serializer.data)
+class FCMToken(APIView):
+    # permission_classes = (IsAuthenticated,)
+
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        if request.method == 'POST':
+            # print("!23")
+            data=dict()
+            usr=Sysuser.objects.get(userId=request.user)
+            usr.token
+            print("########")
+            print(request.body)
+            return Response(data)
 
 class MiniView(APIView):
     def filterUser(self,request,books):
