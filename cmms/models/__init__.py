@@ -25,6 +25,7 @@ from cmms.models.adminsetting import *
 from cmms.models.equipsetting import *
 from cmms.models.eqcostsetting import *
 from cmms.models.eqcostsetting import AssetTypeSetting
+from cmms.models.eqcostsetting import EquipmentCostSetting
 from cmms.models.report import *
 from cmms.models.purchaserequest import *
 from cmms.models.amar import *
