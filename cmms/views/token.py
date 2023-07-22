@@ -52,7 +52,12 @@ class FCMToken(APIView):
         if request.method == 'POST':
             # print("!23")
             data=dict()
+            body_unicode = request.body.decode('utf-8')
+            body = json.loads(body_unicode)
+            data["token"]=body["fcm"]
             usr=Sysuser.objects.get(userId=request.user)
+            usr.token=data["token"]
+            usr.save()
             # usr.token=
             print("########")
             print(request.body)
