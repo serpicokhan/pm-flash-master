@@ -168,10 +168,8 @@ def save_wo_profile(sender, instance, **kwargs):
             #         #     push_notification.send_push(API_KEY,user_token
             #         #                            ,'دستور کار جدید',instance.summaryofIssue)
             user_token=SysUser.objects.get(id=instance.assignedToUser.id).token
-            print("token",user_token)
             admin=SysUser.objects.get(id=1).token
             if(user_token):
-                print(user_token)
                 some_function.delay(user_token,instance.summaryofIssue)
             some_function.delay(admin,instance.summaryofIssue);
 
