@@ -172,7 +172,7 @@ def save_wo_profile(sender, instance, **kwargs):
             admin=SysUser.objects.get(id=1).token
             if(user_token):
                 print(user_token)
-                some_function.delay(user_token,instance.assignedToUser)
+                some_function.delay(user_token,instance.summaryOfIssue)
             some_function.delay(admin,instance.summaryOfIssue);
 
     except Exception as e1:
