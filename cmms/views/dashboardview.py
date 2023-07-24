@@ -52,7 +52,7 @@ def list_dashboard_ceo(request):
     request.session['username'] = str(user1.fullName)
     request.session['usertitle'] = str(user1.title)
     darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
-    return render(request,"cmms/dashboards/ceo.html",{"darayee" : darayee})
+    return render(request,"cmms/dashboards/ceo.html",{"darayee" : darayee,'section':'list_dashboard_ceo'})
 @login_required
 def list_dashboard(request):
     today=1

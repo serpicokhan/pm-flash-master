@@ -36,6 +36,13 @@
             <li><a href="#" class="js-bulkasset-type-selector">نوع دستگاه</a>
 
             </li>
+            <li><a href="#" class="assetexport" data-url="{% url 'assetExport' %}">برون ریزی</a>
+
+            </li>
+            <li><a href="{% url 'assetImport' %}" class="js-bulkasset-type-selector">درون ریزی</a>
+
+            </li>
+          
           </ul>
           {% endif %}
           <a class="close-link">
@@ -45,7 +52,7 @@
       </div>
       <div class="ibox-content">
         <div class="row">
-          <div class="col-sm-5 m-b-xs">
+          <div class="col-sm-4">
             {{ form.main_asset }}
             {% if main_asset %}
             <script>
@@ -56,14 +63,14 @@
 
 
           </div>
+          <div class="col-sm-4">
+            {{ form.assetcategory }}
 
 
-          <div class="col-sm-4 m-b-xs">
-            <button type="button" class="btn btn-outline btn-default assetexport" data-url="{% url 'assetExport' %}">
-              برون ریزی</button>
-              <a href="{% url 'assetImport' %}"  class="btn  btn-default btn-secondary">درون ریزی</a>
+          </div>
 
-            </div>
+
+
             <div class="col-sm-3">
 
               <div class="input-group"><input type="text" placeholder="جستجو" id="assetSearch" class="input-sm form-control" value="{{search}}"> <span class="input-group-btn">

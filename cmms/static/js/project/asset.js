@@ -86,8 +86,15 @@ $(function () {
       btn=btn1;
     }
     console.log(btn.attr("data-url")+'&'+window.location.search.slice(1));
+    const dataUrl = btn.attr("data-url");
+    var myurl='';
+     if (dataUrl && dataUrl.includes("update")) {
+       myurl=btn.attr("data-url")+'&'+window.location.search.slice(1);
+     } else {
+       myurl=btn.attr("data-url")+window.location.search;
+     }
     return $.ajax({
-      url: btn.attr("data-url")+'&'+window.location.search,
+      url: myurl,
       type: 'get',
       dataType: 'json',
       beforeSend: function () {

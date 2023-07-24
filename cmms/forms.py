@@ -3456,6 +3456,7 @@ class CauseByLocation(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
 class AssetListForm(forms.Form):
     main_asset= forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName'),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    assetcategory= forms.ModelChoiceField(label="مکان",queryset=AssetCategory.objects.all().order_by('name'),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 class PurchaseRequest(forms.Form):
     rcode=100
     test='گزارش درخواست های خرید'

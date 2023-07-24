@@ -51,14 +51,14 @@
                 <span class="fa arrow">
                 </span>
               </a>
-              <ul  {% if section in 'dashboard,dashasset,calendar' %} class="nav nav-second-level collapse in"
+              <ul  {% if section in 'dashboard,dashasset,calendar,list_dashboard_ceo' %} class="nav nav-second-level collapse in"
               {% else %}
               class="nav nav-second-level collapse"
               {% endif %} >
 
                 <li {% if section == 'dashboard' %} class='active'   {% endif %}>
 
-                  <a href="{% url 'list_dashboard' %}"   >داشبورد</a>
+                  <a href="{% url 'list_dashboard' %}"   > <i class="fa fa-tachometer"></i>داشبورد</a>
                 </li>
 
                 <li {% if section == 'dashasset' %} class='active'   {% endif %}>
@@ -70,6 +70,12 @@
                   <a href="{% url 'list_calendar' %}">
                     <i class="fa fa-calendar"></i>
                     تقویم
+                  </a>
+                </li>
+                <li {% if section == 'list_dashboard_ceo' %} class='active'   {% endif %}>
+                  <a href="{% url 'list_dashboard_ceo' %}">
+                    <i class="fa fa-bar-chart"></i>
+                    نمودارها
                   </a>
                 </li>
 
@@ -322,7 +328,7 @@
               </li>
               <li>
                 <a href="#">
-                  <i class="fa fa-file">
+                  <i class="fa fa-cog">
                   </i>
                   <span class="nav-label">
                     تنظیمات</span>
@@ -331,7 +337,7 @@
                   </a>
                   <ul class="nav nav-second-level collapse">
                     <li {% if section == 'asset_dash' %} class='active'   {% endif %}>
-                      <a href="{% url 'list_settings'%}" >تنظیمات 1</a>
+                      <a href="{% url 'list_settings'%}" >تنظیمات </a>
                     </li>
 
 

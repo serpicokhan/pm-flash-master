@@ -44,7 +44,9 @@ from django.db.models import Count
 
 
 def filterUser(request):
-    main_asset=request.GET.get('main_asset',False)
+    main_asset=request.POST.get('main_asset',False)
+    print(main_asset,'!!!!!!!')
+
     search_term=request.GET.get('search',False)
 
 
@@ -171,12 +173,6 @@ def save_asset_form(request, form, template_name,id=None,page=None):
     if (request.method == 'POST'):
         if form.is_valid():
             form.save()
-            body_unicode = request.body.decode('utf-8')
-            body = json.loads(body_unicode)
-            # print(body)
-            content = body['main_asset']
-            print(content)
-            # main_asset= request.POST['main_asset']
             data['form_is_valid'] = True
             books = filterUser(request)
             # if(main_asset):
@@ -193,6 +189,7 @@ def save_asset_form(request, form, template_name,id=None,page=None):
             })
             data['html_asset_paging'] = render_to_string('cmms/asset/asset_sort.html', {
                 'asset': wos,
+                'main_asset':request.POST.get('main_asset',False),
 
                 'perms': PermWrapper(request.user),
                 'page':page if page is not None else 1
@@ -202,6 +199,7 @@ def save_asset_form(request, form, template_name,id=None,page=None):
             data['form_is_valid'] = False
     # print(page,"!!!!!!!!!!!!!!")
     main_asset=request.GET.get('main_asset',False)
+
     context = {'form': form,'lId':id,'page':page if page is not None else 1,'main_asset':main_asset}
 
     data['html_asset_form'] = render_to_string(template_name, context, request=request)
@@ -214,15 +212,7 @@ def asset_delete(request, id):
     if (request.method == 'POST'):
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        # books =filterUser(request)
-        # wos=AssetUtility.doPaging(request,books)
-        #Tasks.objects.filter(assetId=id).update(asset=id)
 
-
-        # data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
-        #     'asset': wos,
-        #     'perms': PermWrapper(request.user)
-        # })
     else:
         context = {'asset': comp1}
         data['html_asset_form'] = render_to_string('cmms/asset/partialAssetDelete.html',
@@ -286,27 +276,15 @@ def asset_update(request, id):
         template="cmms/asset/partialAssetMachineUpdate.html"
     else:
         template="cmms/asset/partialAssetToolUpdate.html"
+    args=-1
+
 
     return save_asset_form(request, form,template,id,page=page)
 ##########################################################
 
 ##########################################################
 def asset_type_selector(request,ids=None):
-    # data=dict()
-    # clean_data=[int(i)  for i in ids.split(',')]
-    #
-    # if (request.method == 'POST'):
-    #
-    #
-    #
-    # else:
-    #     data=dict()
-    #     context={'cat':m,'perms': PermWrapper(request.user),'ids':ids}
-    #     data["form_asset_selector"]=render_to_string('cmms/asset/assetType.html',
-    #         context,
-    #         request=request)
-    #
-    #     return JsonResponse(data)
+
     data=dict()
     data['form_asset_selector']= render_to_string('cmms/asset/assetType.html')
     return JsonResponse(data)
