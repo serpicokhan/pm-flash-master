@@ -126,7 +126,6 @@ def save_wo_profile(sender, instance, **kwargs):
     # some_function.delay('dsadsa')
     # push_notification.send_push('AAAAClhesu0:','cZiRAQyARNKW5KPUmoMUmt:APA91bGKXvX8aZQwGrzu7w7OCj6W_a33WTfiMta4clGpTTyfjgWdEHVan8Zj-SUuPNFlJN8Etjehf-0odB2BgwEHFjh4cZN17iicPei0Jxa1xnahDxRlvPmaYj9w5Plxl3pPEVZ4Lts9','New Workorder', 'dsadsa')
 
-    some_function.delay('test');
 
    #  data1={
    #      "Nick" : "Mario",
@@ -144,30 +143,34 @@ def save_wo_profile(sender, instance, **kwargs):
             # print(instance.assignedToUser)
             # Mail.SendNewSysMessage(instance.assignedToUser,instance.summaryofIssue ,instance.woPriority)
         else:
-            if(instance.isScheduling==False):
-                userlist=WorkorderUserNotification.objects.filter(woNotifWorkorder=instance)
-                for c in userlist:
-
-                    if(instance.isUpdating==False):
-
-                            Mail.SendNewSysMessage(c.woNotifUser,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id,wo=instance)
-                            push_notification.sendpush('AIzaSyCXtTSMxPAxR7WsI_m5AAhfJWFdwd9QIxg','cZiRAQyARNKW5KPUmoMUmt:APA91bGKXvX8aZQwGrzu7w7OCj6W_a33WTfiMta4clGpTTyfjgWdEHVan8Zj-SUuPNFlJN8Etjehf-0odB2BgwEHFjh4cZN17iicPei0Jxa1xnahDxRlvPmaYj9w5Plxl3pPEVZ4Lts9','New Workorder','salame mojadad')
-                            print("thats done!!!!!!!!!!!!!")
-                            # print("yuha!!!!!!!")
-                    else:
-                        # print("message is created")
-
-
-                        Mail.SendUpdatedSysMessage(c.woNotifUser,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id)
-
-                if(instance.assignedToUser):
-                    # print(instance.assignedToUser)
-                    Mail.SendUpdatedSysMessage(instance.assignedToUser,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id,wo=instance)
-                    # user_token=push_notification.find_user_token(instance.assignedToUser.id)
-                    ########################################
-                    # if(user_token):
-                    #     push_notification.send_push(API_KEY,user_token
-                    #                            ,'دستور کار جدید',instance.summaryofIssue)
+            # if(instance.isScheduling==False):
+            #     userlist=WorkorderUserNotification.objects.filter(woNotifWorkorder=instance)
+            #     for c in userlist:
+            #
+            #         if(instance.isUpdating==False):
+            #
+            #                 Mail.SendNewSysMessage(c.woNotifUser,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id,wo=instance)
+            #                 push_notification.sendpush('AIzaSyCXtTSMxPAxR7WsI_m5AAhfJWFdwd9QIxg','cZiRAQyARNKW5KPUmoMUmt:APA91bGKXvX8aZQwGrzu7w7OCj6W_a33WTfiMta4clGpTTyfjgWdEHVan8Zj-SUuPNFlJN8Etjehf-0odB2BgwEHFjh4cZN17iicPei0Jxa1xnahDxRlvPmaYj9w5Plxl3pPEVZ4Lts9','New Workorder','salame mojadad')
+            #                 print("thats done!!!!!!!!!!!!!")
+            #                 # print("yuha!!!!!!!")
+            #         else:
+            #             # print("message is created")
+            #
+            #
+            #             Mail.SendUpdatedSysMessage(c.woNotifUser,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id)
+            #
+            #     if(instance.assignedToUser):
+            #         # print(instance.assignedToUser)
+            #         Mail.SendUpdatedSysMessage(instance.assignedToUser,instance.summaryofIssue ,priority=instance.woPriority,msgid=instance.id,wo=instance)
+            #         # user_token=push_notification.find_user_token(instance.assignedToUser.id)
+            #         ########################################
+            #         # if(user_token):
+            #         #     push_notification.send_push(API_KEY,user_token
+            #         #                            ,'دستور کار جدید',instance.summaryofIssue)
+            user_token=SysUser.objects.get(id=instance.assignToUser).token
+            admin=SysUser.objects.get(id=1).token
+            some_function.delay(user_token,instance.summaryOfIssue);
+            some_function.delay(admin,instance.summaryOfIssue);
 
     except Exception as e1:
          print(e1)

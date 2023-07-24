@@ -20,8 +20,8 @@ from cmms.business.fcm import *
 
 
 @shared_task
-def some_function(body):
-    result =  push_notification.send_push('AAAAClhesu0:','cZiRAQyARNKW5KPUmoMUmt:APA91bGKXvX8aZQwGrzu7w7OCj6W_a33WTfiMta4clGpTTyfjgWdEHVan8Zj-SUuPNFlJN8Etjehf-0odB2BgwEHFjh4cZN17iicPei0Jxa1xnahDxRlvPmaYj9w5Plxl3pPEVZ4Lts9','New Workorder', body)
+def some_function(token,body):
+    result =  push_notification.send_push(token,'دستور کار جدید', body)
     return result
 
 @shared_task
