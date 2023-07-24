@@ -171,7 +171,12 @@ def save_asset_form(request, form, template_name,id=None,page=None):
     if (request.method == 'POST'):
         if form.is_valid():
             form.save()
-            main_asset= request.POST.get('main_asset',False)
+            body_unicode = request.body.decode('utf-8')
+            body = json.loads(body_unicode)
+            # print(body)
+            content = body['main_asset']
+            print(content)
+            # main_asset= request.POST['main_asset']
             data['form_is_valid'] = True
             books = filterUser(request)
             # if(main_asset):
@@ -245,7 +250,6 @@ def asset_create_machine(request):
     else:
         # print("!!!!!!!!!!!!!!!!!!!!!!12")
         assetInstance=Asset.objects.create(assetTypes=2)
-        print(request.GET)
         form = AssetForm({'assetHasPartOf':'False','assetStatus':'True','assetTypes':'2'})
         return save_asset_form(request, form, 'cmms/asset/partialAssetMachineCreate.html',assetInstance.id)
 
@@ -278,6 +282,7 @@ def asset_update(request, id):
     if(company.assetTypes==1):
         template="cmms/asset/partialAssetLocationUpdate.html"
     elif(company.assetTypes==2):
+        print('!!!!!!!',request.GET)
         template="cmms/asset/partialAssetMachineUpdate.html"
     else:
         template="cmms/asset/partialAssetToolUpdate.html"

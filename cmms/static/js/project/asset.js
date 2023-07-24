@@ -85,9 +85,9 @@ $(function () {
     else {
       btn=btn1;
     }
-
+    console.log(btn.attr("data-url")+'&'+window.location.search.slice(1));
     return $.ajax({
-      url: btn.attr("data-url")+'/'+window.location.search,
+      url: btn.attr("data-url")+'&'+window.location.search,
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
