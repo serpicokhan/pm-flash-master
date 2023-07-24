@@ -167,10 +167,10 @@ def save_wo_profile(sender, instance, **kwargs):
             #         # if(user_token):
             #         #     push_notification.send_push(API_KEY,user_token
             #         #                            ,'دستور کار جدید',instance.summaryofIssue)
-            user_token=SysUser.objects.get(id=instance.assignToUser).token
+            user_token=SysUser.objects.get(id=instance.assignedToUser).token
             admin=SysUser.objects.get(id=1).token
             if(user_token):
-                some_function.delay(user_token,instance.summaryOfIssue);
+                some_function.delay(user_token,instance.assignedToUser);
             some_function.delay(admin,instance.summaryOfIssue);
 
     except Exception as e1:
