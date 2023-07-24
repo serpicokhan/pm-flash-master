@@ -87,7 +87,7 @@ $(function () {
     }
 
     return $.ajax({
-      url: btn.attr("data-url"),
+      url: btn.attr("data-url")+'/'+window.location.search,
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
