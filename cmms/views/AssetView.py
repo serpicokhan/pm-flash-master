@@ -59,8 +59,8 @@ def filterUser(request):
         books = Asset.objects.filter(Q(id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsLocatedAt__id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))|Q(assetIsPartOf__id__in=AssetUser.objects.filter(AssetUserUserId__userId=request.user).values_list('id',flat=True))).order_by('-id')
     else:
         books=Asset.objects.all().order_by('-id')
-    if(main_asset):
-            print('mainasset',main_asset)
+    if(main_asset != 'False' or main_asset):
+
             books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset)|Q(id=main_asset))
     return books
 def filterUserByResult(request,books):
