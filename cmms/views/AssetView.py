@@ -60,6 +60,7 @@ def filterUser(request):
     else:
         books=Asset.objects.all().order_by('-id')
     if(main_asset):
+        if(main_asset !='False'):
 
             books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset)|Q(id=main_asset))
     return books
