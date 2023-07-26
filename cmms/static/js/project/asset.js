@@ -1299,7 +1299,7 @@ var ExportAsset=function(){
 
 }
 var main_asset_change=function(){
-  window.location='/Asset/?main_asset='+$('#id_main_asset').val()+'&search='+$('#assetSearch').val()+'&kvm=0'
+  window.location='/Asset/?main_asset='+$('#id_main_asset').val()+'&search='+$('#assetSearch').val()+'&kvm=0&asset_cat='+$('#id_assetcategory').val();
 }
 //for tr click
 // $(".js-create-asset").unbind();
@@ -1314,6 +1314,7 @@ $("#modal-company").on("submit", ".js-asset-create-form", saveForm);
 
 $("#modal-assetcategory2").on("submit", ".js-bulkasset-selector-form2", saveAssetCatForm);
 $("#id_main_asset").on("change", main_asset_change);
+$("#id_assetcategory").on("change", main_asset_change);
 $("#modal-assetcategory2").on("submit", ".js-bulkasset-duplicate-form", saveAssetCatForm);
 
 // Update book

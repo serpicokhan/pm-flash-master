@@ -42,7 +42,7 @@
             <li><a href="{% url 'assetImport' %}" class="js-bulkasset-type-selector">درون ریزی</a>
 
             </li>
-          
+
           </ul>
           {% endif %}
           <a class="close-link">
@@ -65,6 +65,12 @@
           </div>
           <div class="col-sm-4">
             {{ form.assetcategory }}
+            {% if asset_cat %}
+            <script>
+            $('select[name=assetcategory]').val({{asset_cat}});
+            $('.selectpicker').selectpicker('refresh')
+            </script>
+            {% endif %}
 
 
           </div>
@@ -106,7 +112,7 @@
                 {% if asset.has_other_pages %}
                 <ul class="pagination">
                   {% if asset.has_previous %}
-                  <li><a id="prevasset"  href="?page={{ asset.previous_page_number }}&sort={{sort}}&asc={{asc}}&main_asset={{main_asset}}&search={{search}}&kvm={{kvm}}">&laquo;</a></li>
+                  <li><a id="prevasset"  href="?page={{ asset.previous_page_number }}&sort={{sort}}&asc={{asc}}&main_asset={{main_asset}}&search={{search}}&kvm={{kvm}}&asset_cat={{asset_cat}}">&laquo;</a></li>
                   {% else %}
                   <li class="disabled"><span>&laquo;</span></li>
                   {% endif %}
@@ -114,7 +120,7 @@
 
 
                   {% if asset.has_next %}
-                  <li><a id="nextasset" href="?page={{ asset.next_page_number }}&sort={{sort}}&asc={{asc}}&main_asset={{main_asset}}&search={{search}}&kvm={{kvm}}">&raquo;</a></li>
+                  <li><a id="nextasset" href="?page={{ asset.next_page_number }}&sort={{sort}}&asc={{asc}}&main_asset={{main_asset}}&search={{search}}&kvm={{kvm}}&asset_cat={{asset_cat}}">&raquo;</a></li>
                   {% else %}
                   <li class="disabled"><span>&raquo;</span></li>
                   {% endif %}

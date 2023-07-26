@@ -45,14 +45,7 @@ from django.db.models import Count
 
 def filterUser(request):
     main_asset=request.POST.get('main_asset',False)
-    print(main_asset,'!!!!!!!')
-
     search_term=request.GET.get('search',False)
-
-
-
-
-
     user1=SysUser.objects.get(userId=request.user)
     books=Asset.objects.none()
     if(( not user1.userId.groups.filter(name__in= ('manager','operator')).exists())):
@@ -83,6 +76,7 @@ def list_asset(request,id=None):
     sort_arrow=request.GET.get('asc',False)
     main_asset=request.GET.get('main_asset',False)
     search_term=request.GET.get('search',False)
+    asset_cat=request.GET.get('asset_cat',False)
 
     kvm=0
     if(main_asset):
@@ -90,10 +84,17 @@ def list_asset(request,id=None):
         books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset))
         dc['main_asset']=main_asset
 
+    if(asset_cat):
+        if(asset_cat!='False'):
+            asset_cat_obj=AssetCategory.objects.get(id=asset_cat)
+            asset_cat_sets=AssetUtility.get_sub_assetcat(asset_cat_obj)
+            books=books.filter(assetCategory__id__in=asset_cat_sets)
+
     if(search_term):
         books=AssetUtility.seachAsset(kvm,search_term)
         dc['search']=search_term
         dc['kvm']=kvm
+
     # dc={'asset': wos,'section':'list_asset','page':page}
     if(sort_type):
         if(sort_type=='1'):
@@ -134,6 +135,7 @@ def list_asset(request,id=None):
     dc['asset']=wos
     dc['section']='list_asset'
     dc['page']=page
+    dc['asset_cat']=asset_cat
     # main_asset=Asset.objects.filter(assetIsLocatedAt__isnull=True)
     dc['form']=form
     return render(request, 'cmms/asset/assetList.html', dc)
@@ -387,18 +389,24 @@ def asset_search(request,kvm):
     q=request.GET.get("q","")
     page=request.GET.get('page',1)
     main_asset=request.GET.get('main_asset',False)
+    asset_cat=request.GET.get('asset_cat',False)
     # print('asset  page',page,q)
     data=dict()
     # print(kvm,'///',q)
     books=AssetUtility.seachAsset(kvm,q)
     if(main_asset):
         books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset))
+    if(asset_cat):
+        if(asset_cat!='False'):
+            asset_cat_obj=AssetCategory.objects.get(id=asset_cat)
+            asset_cat_sets=AssetUtility.get_sub_assetcat(asset_cat_obj)
+            books=books.filter(assetCategory__id__in=asset_cat_sets)
     books=filterUserByResult(request,books)
     wos=AssetUtility.doPaging(request,list(books))
     data['html_asset_search_tag_list'] = render_to_string('cmms/asset/partialAssetList.html', {
                    'asset': wos,'page':page                      ,'perms': PermWrapper(request.user) })
     data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination.html', {
-                      'asset': wos,'pageType':'list_asset','ptr':kvm,'search':q,'main_asset':main_asset})
+                      'asset': wos,'pageType':'list_asset','ptr':kvm,'search':q,'main_asset':main_asset,'asset_cat':asset_cat})
     data['form_is_valid'] = True
     return JsonResponse(data)
 #######################Search#####################

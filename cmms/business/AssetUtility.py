@@ -807,8 +807,19 @@ class AssetUtility:
         traverse_asset(main_asset)
         return sub_assets
     @staticmethod
+    def get_sub_assetcat(main_asset):
+        sub_assets = []
+
+        def traverse_asset(asset):
+            sub_assets.append(asset.id)
+            for sub_asset in asset.assetcategory_set.all():
+                traverse_asset(sub_asset)
+
+        traverse_asset(main_asset)
+        return sub_assets
+    @staticmethod
     def seachBOM(searchStr):
         wos=BOMGroup.objects.filter(BOMGroupName__icontains=searchStr)
-        
+
 
         return wos
