@@ -205,7 +205,7 @@ class AssetFile(models.Model):
         db_table="assetfile"
 class BOMGroup(models.Model):
     def __str__(self):
-        return '{}:{}'.format(self.BOMGroupName)
+        return '{}'.format(self.BOMGroupName)
     def getPartNUM(self):
         return BOMGroupPart.objects.filter(BOMGroupPartBOMGroup=self).count()
     BOMGroupName=models.CharField("نام گروه BOM",max_length=50,unique=True)

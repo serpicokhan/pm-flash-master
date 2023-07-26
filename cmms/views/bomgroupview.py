@@ -33,8 +33,15 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def list_bomgroup(request,id=None):
+    q=request.GET.get('q',False)
+    books=[]
+    if(q):
+        books=AssetUtility.seachBOM(q)
+        books=AssetUtility.doPaging(request,books)
+        return render(request, 'cmms/bomgroup/bomgroupList.html', {'bomgroup': books,'name':q,'section':'list_bomgroup'})
+    else:
     #
-    books = BOMGroup.objects.all().order_by('BOMGroupName')
+        books = BOMGroup.objects.all().order_by('BOMGroupName')
     books=AssetUtility.doPaging(request,books)
     return render(request, 'cmms/bomgroup/bomgroupList.html', {'bomgroup': books,'section':'list_bomgroup'})
 
@@ -147,15 +154,28 @@ def bomgroupCancel(request,id):
     return JsonResponse(data)
 ##############
 #####################
-def BOM_search(request,searchStr):
+def BOM_search(request):
     data=dict()
-    searchStr=searchStr.replace('_',' ')
-    books=TaskUtility.seachBOM(searchStr).order_by('name')
-    wos=AssetUtility.doPaging(request,list(books))
-    data['html_html_bomgroup_list_search_tag_list'] = render_to_string('cmms/business/partialBusinessList.html', {               'business': wos  ,'perms': PermWrapper(request.user)                       })
-    # data['html_business_paginator'] = render_to_string('cmms/business/partialBusinessPagination.html', {
-    #       'business': wos,'pageType':'business_search','ptr':searchStr})
-    data['form_is_valid'] = True
+
+    searchStr=request.GET.get('q',False)
+    # print(searchStr,'!!!!!!!!!!!')
+    if(searchStr):
+        books=AssetUtility.seachBOM(searchStr)
+        wos1=AssetUtility.doPaging(request,books)
+        data['html_bomgroup_list_search_tag_list'] = render_to_string('cmms/bomgroup/partialBOMGroupList.html', {               'bomgroup': wos1  ,'perms': PermWrapper(request.user)                       })
+        data['html_bomgroup_paginator'] = render_to_string('cmms/bomgroup/bomGroupPaging.html', {'bomgroup':wos1,'name':searchStr})
+        # data['html_business_paginator'] = render_to_string('cmms/business/partialBusinessPagination.html', {
+        #       'business': wos,'pageType':'business_search','ptr':searchStr})
+        data['form_is_valid'] = True
+    else:
+        books=BOMGroup.objects.all()
+        wos1=AssetUtility.doPaging(request,books)
+        data['form_is_valid'] = True
+        # print(wos)
+        data['html_bomgroup_list_search_tag_list'] = render_to_string('cmms/bomgroup/partialBOMGroupList.html', {'bomgroup': wos1  ,'perms': PermWrapper(request.user)                       })
+        data['html_bomgroup_paginator'] = render_to_string('cmms/bomgroup/bomGroupPaging.html', {'bomgroup':wos1})
+        # data['html_business_paginator'] = render_to_string('cm
+        # print()
     return JsonResponse(data)
 @csrf_exempt
 def bomgroup_cancel(request,id):

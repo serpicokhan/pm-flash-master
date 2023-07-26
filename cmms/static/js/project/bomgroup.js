@@ -169,7 +169,7 @@ return false;
 
 
     $.ajax({
-      url: '/BOMGroup/'+searchStr+'/Search/',
+      url: '/BOMGroup/Search/?q='+searchStr,
 
       type: 'GET',
       dataType: 'json',
@@ -179,9 +179,9 @@ return false;
 
 
           $("#tbody_company").empty();
-
-          $("#tbody_company").html(data.html_bom_search_tag_list);
-          $(".woPaging").html(data.html_bom_paginator);
+          // console.log(data);
+          $("#tbody_company").html(data.html_bomgroup_list_search_tag_list);
+          $(".woPaging").html(data.html_bomgroup_paginator);
 
           $("#modal-company").modal("hide");
 
@@ -205,13 +205,11 @@ return false;
 
    searchStr=$("#bomSearch").val();
 
-   searchStr=searchStr.replace(' ','_');
-
    if(searchStr.trim().length>0){
    searchBOM(searchStr);
  }
  else {
-   searchBOM('empty');
+   searchBOM('');
 
 
  }

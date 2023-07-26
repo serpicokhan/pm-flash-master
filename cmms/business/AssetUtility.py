@@ -806,3 +806,9 @@ class AssetUtility:
 
         traverse_asset(main_asset)
         return sub_assets
+    @staticmethod
+    def seachBOM(searchStr):
+        wos=BOMGroup.objects.filter(BOMGroupName__icontains=searchStr)
+        
+
+        return wos

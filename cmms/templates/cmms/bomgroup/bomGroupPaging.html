@@ -1,0 +1,22 @@
+{% if bomgroup.has_other_pages %}
+<ul class="pagination">
+{% if bomgroup.has_previous %}
+<li><a href="?page={{ bomgroup.previous_page_number }}&q={{name}}">&laquo;</a></li>
+{% else %}
+<li class="disabled"><span>&laquo;</span></li>
+{% endif %}
+{% for i in bomgroup.paginator.page_range %}
+{% if bomgroup.number == i %}
+<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+{% else %}
+<li><a href="?page={{ i }}&q={{name}}">{{ i }}</a></li>
+
+{% endif %}
+{% endfor %}
+{% if bomgroup.has_next %}
+<li><a href="?page={{ bomgroup.next_page_number }}&q={{name}}">&raquo;</a></li>
+{% else %}
+<li class="disabled"><span>&raquo;</span></li>
+{% endif %}
+</ul>
+{% endif %}
