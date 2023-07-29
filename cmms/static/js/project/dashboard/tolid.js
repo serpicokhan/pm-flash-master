@@ -216,10 +216,8 @@ var LoadTolidBarChart=function()
     },
     success: function (data2) {
 
-      console.log(data2);
 
       data=data2.html_dashMTTR_list.s3;
-      console.log(data);
       // Formatting data for Chart.js
       const labels = Object.keys(data);
       const datasets = labels.map((label) => ({
@@ -229,6 +227,7 @@ var LoadTolidBarChart=function()
           borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Adjust as needed
           borderWidth: 1
       }));
+      console.log(datasets);
 
       // Creating the bar chart
       $('#bartolid').remove(); // this is my <canvas> element
