@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.views.decorators import csrf
 import django.core.serializers
+import datetime
+from datetime import datetime
 import logging
 from django.conf import settings
 from django.contrib.admin.models import LogEntry, ADDITION,CHANGE,DELETION
@@ -99,16 +101,17 @@ class RegMiniView(APIView):
         rq=SysUser.objects.get(userId=request.user.id)
         # request.data['RequestedUser']=rq.id
 
-        # print('123')
+
         serializer =MiniWorkorderSerializer(data=request.data)
         if serializer.is_valid():
             # serializer.RequestedUser=SysUser.objects.get(userId=request.user)
 
             io1=serializer.save()
             io1.RequestedUser=rq
-
-
+            io1.timecreated=datetime.datetime.now().time()
+            print('time:',datetime.datetime.now().time())
             io1.save()
+            print('tamam!!!!!!!!')
             WOUtility.create_task_when_wo_created_fromAPI(request,io1.id)
             # WOUtility.create_notification(request,io1.id)
 
