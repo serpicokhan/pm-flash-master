@@ -109,7 +109,7 @@ class RegMiniView(APIView):
             io1=serializer.save()
             io1.RequestedUser=rq
             io1.timecreated=datetime.datetime.now().time()
-            print('time:',datetime.datetime.now().time())
+            # print('time:',datetime.datetime.now().time())
             io1.save()
             print('tamam!!!!!!!!')
             WOUtility.create_task_when_wo_created_fromAPI(request,io1.id)
