@@ -42,3 +42,35 @@ class RingAmar(models.Model):
       db_table = "ringamar"
       ordering = ('-assetAmarDate','-ShiftTypes','-id' )
       unique_together = ['ShiftTypes', 'assetName','assetAmarDate']
+
+
+
+class TolidMoshakhase(models.Model):
+    mogheiat = models.CharField("موقعیت",max_length=255)
+    keyfiat = models.CharField("کیفیت",max_length=255)
+    vaziat = models.CharField("وضعیت",max_length=255)
+
+    def __str__(self):
+        return f"mogheiat: {self.mogheiat}, keyfiat: {self.keyfiat}, vaziat: {self.vaziat}"
+    class Meta:
+        db_table = "tolidmoshakhase"
+class TolidAmar(models.Model):
+    # Foreign key to the MyModel model
+    tolidmoshakhase = models.ForeignKey('TolidMoshakhase', on_delete=models.CASCADE,null=True)
+
+    # Location field as a ForeignKey (You can replace 'LocationModel' with the actual model name)
+    location = models.ForeignKey('Asset', on_delete=models.CASCADE)
+
+    registered_date = models.DateField(null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    tedad = models.IntegerField(null=True)
+    meghdar = models.FloatField(null=True)
+    def get_jalali(self):
+        if(self.registered_date):
+            return jdatetime.date.fromgregorian(date=self.registered_date)
+        return "بدون تاریخ"
+
+    def __str__(self):
+        return f"TolidMara ({self.id}) - Date: {self.registered_date}, Tedad: {self.tedad}, Meghdar: {self.meghdar}"
+    class Meta:
+        db_table="TolidAmar"

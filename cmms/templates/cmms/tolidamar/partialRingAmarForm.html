@@ -1,0 +1,77 @@
+{% load widget_tweaks %}
+<div class="row">
+<div class="col-sm-6 b-r">
+  <div class="form-group">
+    <label for="id_assetAmarDate">تاریخ</label>
+    {% render_field form.assetAmarDate class='form-control'  %}
+  </div>
+  <div class="form-group">
+      <label for="id_ShiftTypes">شیفت</label>
+      {% render_field form.ShiftTypes class='form-control'  %}
+    </div>
+
+
+    <div class="form-group">
+      <label for="id_assetName">تجهیز</label>
+
+    <select class="form-control" name="assetName" id="id_assetName">
+      {% for i in assetName2 %}
+      <option value="{{i.id}}">{{i.assetName}}</option>
+
+      {% endfor %}
+
+    </select>
+    </div>
+
+    <div class="form-group">
+      <label for="id_assetStartKilometer">کیلومتر پایان شیفت قبل</label>
+        {% render_field form.assetStartKilometer class='form-control'  %}
+    </div>
+
+    <div class="form-group">
+      <label for="id_assetEndKilometer">کیلومتر پایان شیفت جاری</label>
+        {% render_field form.assetEndKilometer class='form-control'  %}
+    </div>
+
+    <div class="form-group">
+      <label for="id_assetTotlaKilometer">کیلومتر تولید</label>
+        {% render_field form.assetTotlaKilometer class='form-control'  %}
+    </div>
+
+
+</div>
+
+<div class="col-sm-6">
+  <div class="form-group">
+    <label for="id_assetStartTime">ساعت پایان شیفت قبل</label>
+      {% render_field form.assetStartTime class='form-control'  %}
+  </div>
+
+  <div class="form-group">
+    <label for="id_assetEndTime">ساعت پایان شیفت جاری</label>
+      {% render_field form.assetEndTime class='form-control'  %}
+  </div>
+
+  <div class="form-group">
+    <label for="id_assetTotalTime">ساعت تولید</label>
+      {% render_field form.assetTotalTime class='form-control'  %}
+  </div>
+
+  <div class="form-group">
+    <label for="id_assetDarsad">درصد</label>
+      {% render_field form.assetDarsad class='form-control'  %}
+  </div>
+
+  <div class="form-group">
+    <label for="id_assetDaf">داف</label>
+      {% render_field form.assetDaf class='form-control'  %}
+  </div>
+
+  <div class="form-group">
+    <label for="id_operatorName">نام اپراتور</label>
+      {% render_field form.operatorName class='form-control advanced2AutoComplete'  %}
+</div>
+
+
+</div>
+</div>

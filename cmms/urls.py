@@ -553,6 +553,10 @@ urlpatterns = [
           url(r'^RingAmar/create/$', ringAmar_create, name='ringAmar_create'),
           url(r'^RingAmar/(?P<id>\d+)/delete/$', ringAmar_delete, name='ringAmar_delete'),
           url(r'^RingAmar/(?P<id>\d+)/update/$', ringAmar_update, name='ringAmar_update'),
+
+          url(r'^TolidAmar/$',list_tolidAmar,name='list_tolidAmar'),
+          url(r'^TolidAmar/LoadTableInfo$',loadAmarTolidTableInfo,name='loadAmarTolidTableInfo'),
+
           url(r'^AssetCadFile/$',list_assetCadFile,name='list_assetCadFile'),
           url(r'^AssetCadFile/create/$', assetCadFile_create, name='assetCadFile_create'),
           url(r'^AssetCadFile/(?P<id>\d+)/delete/$', assetCadFile_delete, name='assetCadFile_delete'),

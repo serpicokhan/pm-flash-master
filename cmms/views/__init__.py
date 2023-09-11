@@ -92,3 +92,4 @@ from cmms.views.purchaserequestview import *
 from cmms.views.token import *
 from cmms.views.ringamarview import *
 from cmms.views.login import *
+from cmms.views.tolidamarview import *
