@@ -142,13 +142,13 @@ def list_tolidAmar(request,id=None):
 #
 #     return save_ringAmar_form(request, form,"cmms/ringamar/partialRingAmarUpdate.html",id)
 # ##########################################################
-# def getAmarOpName(request):
-#     data=dict()
-#     qry=request.GET.get("qry",False)
-#     if(qry):
-#         results=RingAmar.objects.filter(operatorName__contains=qry).values("operatorName")
-#         return JsonResponse(list(results), safe=False)
-#     return data
+def getAmarTolidMoshakhase(request):
+    data=dict()
+    qry=request.GET.get("qry",False)
+    if(qry):
+        results=TolidMoshakhase.objects.filter(mogheiat__contains=qry)
+        return JsonResponse(list(results), safe=False)
+    return data
 # ##########################################################
 # def get_max_kilometer(request):
 #     data=dict()
@@ -213,38 +213,33 @@ def loadAmarTolidTableInfo(request):
             'perms': PermWrapper(request.user),
 
         })
+        data['amar']= render_to_string('cmms/tolidamar/partialRingAmarList2.html', {
+        'tolidAmar': amar,
+        'perms': PermWrapper(request.user)
+        })
 
         data['form_is_valid']=True
 
     return JsonResponse(data)
-# @csrf_exempt
-# def saveAmarTableInfo(request):
-#     # print(request.body)
-#     # print(request.POST)
-#     data = json.loads(request.body)
-#     print("********")
-#     for i in data:
-#         # print(i)
-#         # print("********")
-#         if('id' in i):
-#             amar=RingAmar.objects.get(id=i['id'])
-#             amar.ShiftTypes=i["ShiftTypes"]
-#             amar.assetName=Asset.objects.get(id=i["assetName"])
-#             amar.assetStartKilometer=i["assetStartKilometer"]
-#             amar.assetEndKilometer=i["assetEndKilometer"]
-#             amar.assetTotlaKilometer=i["assetTotlaKilometer"]
-#             amar.assetStartTime=i["assetStartTime"]
-#             amar.assetEndTime=i["assetEndTime"]
-#             amar.assetTotalTime=i["assetTotalTime"]
-#             # amar.assetDaf=i["shift"]
-#             amar.operatorName=i["operatorName"]
-#             # amar.assetAmarDate=i["assetAmarDate"]
-#             amar.assetDaf=i["assetDaf"]
-#             amar.userRegisterd=SysUser.objects.get(userId=request.user)
-#             amar.save()
-#             print("done",amar.id)
-#     data=dict()
-#     return JsonResponse(data)
+@csrf_exempt
+def saveAmarTolidTableInfo(request):
+    # print(request.body)
+    # print(request.POST)
+    data = json.loads(request.body)
+    print("********")
+    for i in data:
+        # print(i)
+        # print("********")
+        if('id' in i):
+            amar=TolidAmar.objects.get(id=i['id'])
+            # amar.ShiftTypes=i["ShiftTypes"]
+            amar.location=Asset.objects.get(id=i["location"])
+
+
+            amar.save()
+            print("done",amar.id)
+    data=dict()
+    return JsonResponse(data)
 # def export_to_excel(request):
 #     pass
 # #     amar=RingAmar.objects.all()

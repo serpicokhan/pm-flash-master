@@ -399,7 +399,7 @@ $('#company-table').on('keydown', '.editable-cell', function(e) {
          if (nextCell.length > 0) {
            nextCell.focus();
          } else {
-           
+
            // If there is no next cell in the same column, move to the first cell of the next row
            nextRow = currentRow.next('tr');
            nextCell = nextRow.find('td:eq(0)');
@@ -408,6 +408,42 @@ $('#company-table').on('keydown', '.editable-cell', function(e) {
            }
          }
        }
+     });
+$('#company-table').on('keydown', '.stk', function(e) {
+
+    $('advanced2AutoComplete').autoComplete({
+      resolver: 'custom',
+      minChars:1,
+      formatResult: function (item) {
+        return {
+          value: item.operatorName,
+          text:  item.operatorName,
+
+        };
+      },
+      events: {
+        search: function (qry, callback) {
+          // let's do a custom ajax call
+          $.ajax(
+            '/TolidAmar/GetName',
+            {
+              data: { 'qry': qry}
+            }
+          ).done(function (res) {
+            console.log(res);
+            callback(res)
+          });
+        },
+
+      }
+    });
+    $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
+      console.log("here",item);
+      // $(this).val(item.operatorName);
+      // $(this).val(item.operatorName).trigger('change');
+      // console.log($('#id_woPartStock').val());
+      // $('.basicAutoCompleteCustom').html('');
+    });
      });
 
 
