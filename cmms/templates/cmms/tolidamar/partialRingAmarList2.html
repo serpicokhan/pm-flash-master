@@ -5,14 +5,17 @@
 <td  class='dt' data-date={{ring_amar.registered_date|date:"Y/m/d"}}>{{ring_amar.get_jalali}}</td>
 <td data-assetname={{ring_amar.location.id}} class="assetname">{{ring_amar.location.assetName}}</td>
 
-<td contenteditable="true" class="editable-cell stk selectable1">{{ring_amar.mogheiat}}</td>
+<td contenteditable="true" class="editable-cell stk selectable1" data-url={{ring_amar.tolidmoshakhase.id}}>{{ring_amar.tolidmoshakhase.mogheiat}}</td>
 <td contenteditable="true" class="editable-cell endk selectable1">{{ring_amar.location}}</td>
-<td contenteditable="true" class="editable-cell totalk selectable1">{{ring_amar.keyfiat}}</td>
-<td contenteditable="true" class="editable-cell stt selectable1">{{ring_amar.vaziat}}</td>
+<td contenteditable="true" class="editable-cell totalk selectable1">{{ring_amar.tolidmoshakhase.keyfiat}}</td>
+<td contenteditable="true" class="editable-cell stt selectable1">{{ring_amar.tolidmoshakhase.vaziat}}</td>
 <td contenteditable="true" class="editable-cell endt selectable1">{{ring_amar.tedad}}</td>
 <td contenteditable="true" class="editable-cell totalt selectable1">{{ring_amar.meghdar}}</td>
 
-
+<td>  <button type="button"
+               class="btn btn-outline btn-danger btn-sm "
+              
+         <span class="glyphicon glyphicon-trash"></span> </td>
 
 
 

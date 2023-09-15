@@ -557,6 +557,7 @@ urlpatterns = [
           url(r'^TolidAmar/$',list_tolidAmar,name='list_tolidAmar'),
           url(r'^TolidAmar/LoadTableInfo$',loadAmarTolidTableInfo,name='loadAmarTolidTableInfo'),
           url(r'^TolidAmar/GetName$',getAmarTolidMoshakhase,name='getAmarTolidMoshakhase'),
+          url(r'^TolidAmar/SaveTableInfo$',saveAmarTolidTableInfo,name='saveAmarTolidTableInfo'),
 
           url(r'^AssetCadFile/$',list_assetCadFile,name='list_assetCadFile'),
           url(r'^AssetCadFile/create/$', assetCadFile_create, name='assetCadFile_create'),

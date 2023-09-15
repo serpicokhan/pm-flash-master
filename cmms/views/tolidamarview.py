@@ -18,7 +18,7 @@ import django.core.serializers
 import logging
 from django.conf import settings
 
-from cmms.models import TolidAmar
+from cmms.models import TolidAmar,TolidMoshakhase
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
@@ -146,8 +146,12 @@ def getAmarTolidMoshakhase(request):
     data=dict()
     qry=request.GET.get("qry",False)
     if(qry):
-        results=TolidMoshakhase.objects.filter(mogheiat__contains=qry)
-        return JsonResponse(list(results), safe=False)
+        results=TolidMoshakhase.objects.filter(mogheiat=qry)
+        if(results.count()>0):
+            data["result"]={'mogheiat':results[0].mogheiat,'keifiat':results[0].keyfiat,'id':results[0].id,'vaziat':results[0].vaziat}
+        else:
+            data["result"]={}
+        return JsonResponse(data, safe=False)
     return data
 # ##########################################################
 # def get_max_kilometer(request):
@@ -195,12 +199,13 @@ def loadAmarTolidTableInfo(request):
     if(makan):
         amar=TolidAmar.objects.filter(location=makan,registered_date=date1).order_by('registered_date')
         location=Asset.objects.get(id=makan)
+
         if(amar.count()==0):
             amar=[]
-            for i in range(0,11):
 
-                    j=TolidAmar.objects.create(location=location,registered_date=date1,tedad=0,meghdar=0)
-                    amar.append(j)
+
+            j=TolidAmar.objects.create(location=location,registered_date=date1,tedad=0,meghdar=0)
+            amar.append(j)
                 # data['amar']= render_to_string('cmms/tolidamar/partialRingAmarList2.html', {
                 # 'dt':dt,
                 # 'date':date1,
@@ -226,20 +231,31 @@ def saveAmarTolidTableInfo(request):
     # print(request.body)
     # print(request.POST)
     data = json.loads(request.body)
+    dt={}
     print("********")
     for i in data:
         # print(i)
         # print("********")
         if('id' in i):
-            amar=TolidAmar.objects.get(id=i['id'])
-            # amar.ShiftTypes=i["ShiftTypes"]
-            amar.location=Asset.objects.get(id=i["location"])
 
+            # -2 show new row and -1 represent header row which is not contain ant information
+            if(i['id']!='-2'):
+                if(int(i['id'])!=-1):
+                    print('before')
+                    print(i['id'])
+                    amar=TolidAmar.objects.get(id=i['id'])
+                    amar.tolidmoshakhase=TolidMoshakhase.objects.get(id=i['tolidmoshakhase'])
+                    amar.registered_date=i["registered_date"].replace('/','-')
+                    amar.tedad=int(i["tedad"])
+                    amar.meghdar=float(i["meghdar"])
+                    amar.location=Asset.objects.get(id=i["location"])
+                    amar.save()
 
-            amar.save()
-            print("done",amar.id)
-    data=dict()
-    return JsonResponse(data)
+            #-2 show new row
+            if(i['id']=='-2'):
+                newRow=TolidAmar.objects.create(tolidmoshakhase=TolidMoshakhase.objects.get(id=i['tolidmoshakhase']),registered_date=i["registered_date"].replace('/','-'),tedad=int(i["tedad"]),meghdar=float(i["meghdar"]),location=Asset.objects.get(id=i["location"]))
+                dt[i['radif']]=newRow.id
+    return JsonResponse(dt)
 # def export_to_excel(request):
 #     pass
 # #     amar=RingAmar.objects.all()

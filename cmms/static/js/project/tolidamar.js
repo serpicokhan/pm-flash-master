@@ -48,27 +48,22 @@ $(function () {
   var senddata=function(){
     var data = [];
         $('#company-table tr').each(function() {
-          var id=$(this).attr('data-id');
+          var id=$(this).attr('data-id')||-1;
           var radif = $(this).find('td:eq(0)').text()||0;
           var assetAmarDate = $(this).find('td:eq(1)').attr('data-date')||0;
           var assetName = $(this).find('td:eq(2)').attr('data-assetname')||0;
-          var shift = $(this).find('td:eq(3)').text()||0;
-          var assetStartKilometer = $(this).find('td:eq(4)').text()||0;
-          var assetEndKilometer = $(this).find('td:eq(5)').text()||0;
-          var assetTotlaKilometer = $(this).find('td:eq(6)').text()||0;
-          var assetStartTime = $(this).find('td:eq(7)').text()||0;
-          var assetEndTime = $(this).find('td:eq(8)').text()||0;
-          var assetTotalTime = $(this).find('td:eq(9)').text()||0;
-          var operatorName = $(this).find('td:eq(10)').text()||'';
-          var assetDaf = $(this).find('td:eq(11)').text()||0;
-          data.push({ id: id, radif: radif,assetAmarDate: assetAmarDate, assetName: assetName,ShiftTypes: shift
-            , assetStartKilometer: assetStartKilometer,assetEndKilometer: assetEndKilometer, assetTotlaKilometer: assetTotlaKilometer
-            ,assetStartTime: assetStartTime, assetEndTime: assetEndTime, assetTotalTime: assetTotalTime, operatorName: operatorName, assetDaf: assetDaf });
+          var vaziat = $(this).find('td:eq(3)').attr('data-url')||0;
+          var tedad = $(this).find('td:eq(7)').text()||0;
+          var meghdar = $(this).find('td:eq(8)').text()||0;
+
+          data.push({ id: id, radif: radif,registered_date: assetAmarDate, location: assetName
+            , tolidmoshakhase: vaziat,tedad: parseInt(tedad), meghdar: meghdar
+          });
         });
         console.log(JSON.stringify(data));
 
     $.ajax({
-      url: '/RingAmar/SaveTableInfo',
+      url: '/TolidAmar/SaveTableInfo',
          method: 'POST',
          data: JSON.stringify(data),
          contentType: 'application/json',
@@ -264,25 +259,7 @@ var applyForm= function () {
 
    //initLoad();
  }
-var loadkilometer=function(){
-  if(  $("#id_assetStartKilometer").val()===null ||   $("#id_assetStartKilometer").val()==0){
-  $.ajax({
-    url: '/RingAmar/GetMax/?asset_id='+$("#id_assetName").val()+'&shift='+$("#id_ShiftTypes").val()+'&date='+$("#id_assetAmarDate").val(),
 
-    type: 'get',
-    dataType: 'json',
-    errors:function(x,y,z){
-      console.log(x);
-      console.log(y);
-      console.log(z);
-    },
-    success: function (data) {
-      console.log(data);
-      $("#id_assetStartKilometer").val(data.x);
-    }
-  });
-}
-}
 
 
 
@@ -406,44 +383,55 @@ $('#company-table').on('keydown', '.editable-cell', function(e) {
            if (nextCell.length > 0) {
              nextCell.focus();
            }
+           else {
+
+             console.log("here! is what you want");
+             var clonedRow = currentRow.clone();
+  // Clear contenteditable cells in the cloned row
+            // var editableCells = clonedRow.querySelectorAll("[contenteditable=true]");
+            // for (var i = 0; i < editableCells.length; i++) {
+            //   editableCells[i].textContent = "";
+            // }
+            clonedRow.attr('data-id',-2);
+            clonedRow.find('td:first').text(parseInt(clonedRow.find('td:first').text())+1);
+            clonedRow.find("td.editable-cell").each(function() {
+            // var cellText = $(this).text(); // Get the text content of the current cell
+            // console.log(cellText); // Perform your desired operation on cellText
+            $(this).text('');
+          });
+            // Append the cloned row to the table
+            $('#company-table').append(clonedRow);
+           }
          }
        }
      });
-$('#company-table').on('keydown', '.stk', function(e) {
+$('#company-table').on('keyup', '.stk', function(e) {
+  var col1=$(this);
+  var row = $(this).closest('tr');
+ //         if($("#id_makan").val()!=6961){
+ var column1Value = row.find('.totalk');
+ var column2Value = row.find('.stt');
+  $.ajax({
+            url: '/TolidAmar/GetName?qry='+$(this).text(),
 
-    $('advanced2AutoComplete').autoComplete({
-      resolver: 'custom',
-      minChars:1,
-      formatResult: function (item) {
-        return {
-          value: item.operatorName,
-          text:  item.operatorName,
+            type: 'get',
+            dataType: 'json',
+            errors:function(x,y,z){
+              console.log(x);
+              console.log(y);
+              console.log(z);
+            },
+            success: function (data) {
 
-        };
-      },
-      events: {
-        search: function (qry, callback) {
-          // let's do a custom ajax call
-          $.ajax(
-            '/TolidAmar/GetName',
-            {
-              data: { 'qry': qry}
+              console.log(data);
+              col1.attr('data-url',data.result.id);
+              column1Value.text(data.result.keifiat);
+              column2Value.text(data.result.vaziat);
+
             }
-          ).done(function (res) {
-            console.log(res);
-            callback(res)
           });
-        },
 
-      }
-    });
-    $('.advanced2AutoComplete').on('autocomplete.select', function (evt, item) {
-      console.log("here",item);
-      // $(this).val(item.operatorName);
-      // $(this).val(item.operatorName).trigger('change');
-      // console.log($('#id_woPartStock').val());
-      // $('.basicAutoCompleteCustom').html('');
-    });
+
      });
 
 
@@ -466,7 +454,7 @@ $('#company-table').on('focus', 'td[contenteditable="true"]', function() {
    }
 $("#company-table").on("click", ".js-update-ringAmar", myWoLoader);
 $("#modal-company").on("submit", ".js-ringAmar-update-form", saveForm);
-$("#modal-company").on("focus", "#id_assetStartKilometer", loadkilometer);
+// $("#modal-company").on("focus", "#id_assetStartKilometer", loadkilometer);
 // $("#modal-company").on("focus", "#id_assetStartTime", loadTime);
 $("#modal-company").on("click", ".create-next", applyForm);
 // Delete book
