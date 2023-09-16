@@ -1,4 +1,5 @@
-
+amqp
+anyjson
 asgiref==3.4.1
 billiard==3.6.4.0
 celery[redis]
