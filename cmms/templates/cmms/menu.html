@@ -312,7 +312,7 @@
                   <span class="fa arrow">
                   </span>
                 </a>
-                <ul  {% if section in 'list_report,list_ringAmar' %} class="nav nav-second-level collapse in"
+                <ul  {% if section in 'list_report,list_ringAmar,list_tolidAmar' %} class="nav nav-second-level collapse in"
                 {% else %}
                 class="nav nav-second-level collapse"
                 {% endif %} >
@@ -321,6 +321,9 @@
                   </li>
                   <li {% if section == 'list_ringAmar' %} class='active'   {% endif %}>
                     <a href="{% url 'list_ringAmar'%}" >آمار</a>
+                  </li>
+                  <li {% if section == 'list_ringAmar' %} class='active'   {% endif %}>
+                    <a href="{% url 'list_tolidAmar'%}" >تولید</a>
                   </li>
 
 

@@ -46,7 +46,7 @@ def list_tolidAmar(request,id=None):
     # wo=AmarUtility.doPaging(request,books)
 
     assetMakan=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
-    return render(request, 'cmms/tolidamar/tolidAmarList.html', {'ringAmar': books,'section':'list_ringAmar','makan':assetMakan})
+    return render(request, 'cmms/tolidamar/tolidAmarList.html', {'ringAmar': books,'section':'list_tolidAmar','makan':assetMakan})
 
 
 # ##########################################################
