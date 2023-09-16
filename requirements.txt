@@ -42,3 +42,4 @@ six==1.16.0
 sqlparse==0.4.1
 tornado==6.1
 urllib3==1.26.6
+importlib-metadata==4.13.0
