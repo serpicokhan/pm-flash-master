@@ -34,6 +34,20 @@ class AmarUtility:
                                      `assets`.`assetIsLocatedAt_id` = {2}) GROUP BY `ringamar`.`assetAmarDate`,`ringamar`.`shifttypes`'''.format(start,end,location))
         return (values,values2)
     @staticmethod
+    def getTolidMain(start,end,location=None):
+
+        values=RingAmar.objects.raw('''SELECT `TolidAmar`.`registered_date`,
+                                    SUM(`TolidAmar`.`meghdar`) AS `id` FROM `TolidAmar`
+                                    INNER JOIN `assets` ON (`TolidAmar`.`location_id` = `assets`.`id`)
+                                     WHERE (`TolidAmar`.`registered_date` BETWEEN '{0}' AND '{1}' AND
+                                     `assets`.`id` = {2}) GROUP BY `TolidAmar`.`registered_date`'''.format(start,end,location))
+        # values2=RingAmar.objects.raw('''SELECT `TolidAmar`.`assetAmarDate` ,`TolidAmar`.`shifttypes`,SUM(`TolidAmar`.`assetTotlaKilometer`) AS `id`  FROM `TolidAmar`
+        #                             INNER JOIN `assets` ON (`TolidAmar`.`assetName_id` = `assets`.`id`)
+        #                              WHERE (`TolidAmar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND
+        #                              `assets`.`assetIsLocatedAt_id` = {2}) GROUP BY `TolidAmar`.`assetAmarDate`,`ringamar`.`shifttypes`'''.format(start,end,location))
+        # return (values,values2)
+        return values
+    @staticmethod
     def getTolidBar(start,end,location=None):
         print('''SELECT (pyear(assetamardate)) AS jalali_year,
                            (pmonth(assetamardate)) AS jalali_month,

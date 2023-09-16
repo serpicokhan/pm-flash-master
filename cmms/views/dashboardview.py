@@ -54,6 +54,15 @@ def list_dashboard_ceo(request):
     darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
     return render(request,"cmms/dashboards/ceo.html",{"darayee" : darayee,'section':'list_dashboard_ceo'})
 @login_required
+def list_dashboard_tolid(request):
+    user1=SysUser.objects.get(userId=request.user)
+    # print("here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    request.session['userpic'] = str(user1.profileImage)
+    request.session['username'] = str(user1.fullName)
+    request.session['usertitle'] = str(user1.title)
+    darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
+    return render(request,"cmms/dashboards/ceo_tolid.html",{"darayee" : darayee,'section':'list_dashboard_ceo'})
+@login_required
 def list_dashboard(request):
     today=1
 
@@ -493,6 +502,33 @@ def dash_getDashTolid(request,startHijri,endHijri):
     # dt['total']=[]#={str(i.assetAmarDate):i.id}
     for i in amar2:
         dt[str(i.shifttypes)].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
+
+    data['html_dashMTTR_list'] ={
+                's1': s1,
+                's2':s2,
+                's3':dt
+
+            }
+    return JsonResponse(data)
+#get main tolid input to stock
+def dash_getDashTolidMain(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    loc=request.GET.get('loc',False)
+    amar1=AmarUtility.getTolidMain(start,end,location=loc)
+    s1=[]
+    s2=[]
+    dt={}
+    dt['total']=[]
+    for i in amar1:
+         s1.append(float(i.id))
+         s2.append(str(jdatetime.date.fromgregorian(date=i.registered_date)))
+         dt['total'].append({str(jdatetime.date.fromgregorian(date=i.registered_date)):i.id})
+    # for i in amar2:
+    #     dt[str(i.shifttypes)]=[]#={str(i.assetAmarDate):i.id}
+    # # dt['total']=[]#={str(i.assetAmarDate):i.id}
+    # for i in amar2:
+    #     dt[str(i.shifttypes)].append({str(jdatetime.date.fromgregorian(date=i.assetAmarDate)):i.id})
 
     data['html_dashMTTR_list'] ={
                 's1': s1,
