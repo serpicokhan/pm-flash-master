@@ -26,7 +26,7 @@ hazm==0.7.0
 humanize==3.13.1
 idna==3.2
 jdatetime==3.6.2
-kombu==5.2.2
+kombu
 mysqlclient
 nltk==3.3
 Pillow==8.2.0
