@@ -42,7 +42,14 @@ def list_assetCadFile(request,id=None):
 
 
 ##########################################################
+@api_view(['GET'])
+def get_assetfileName_api(request,id):
+    if request.method == 'GET':
+        data=dict()
+        file1=AssetCadFile.objects.filter(assetCadFileAssetId=id)
+        serializer = AssetCadFileSerializer(file1,many=True)
 
+        return Response(serializer.data)
 def save_assetCadFile_form(request, form, template_name,id=None):
 
 

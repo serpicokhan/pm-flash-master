@@ -551,6 +551,7 @@ urlpatterns = [
           url(r'^RingAmar/(?P<id>\d+)/update/$', ringAmar_update, name='ringAmar_update'),
           url(r'^AssetCadFile/$',list_assetCadFile,name='list_assetCadFile'),
           url(r'^AssetCadFile/Search$',search_assetcadfile,name='search_assetcadfile'),
+          url(r'^api/v1/AssetCadFile/(?P<id>\d+)/File$',get_assetfileName_api,name='get_assetfileName_api'),
           url(r'^AssetCadFile/create/$', assetCadFile_create, name='assetCadFile_create'),
           url(r'^AssetCadFile/(?P<id>\d+)/delete/$', assetCadFile_delete, name='assetCadFile_delete'),
           url(r'^AssetCadFile/(?P<id>\d+)/update/$', assetCadFile_update, name='assetCadFile_update'),

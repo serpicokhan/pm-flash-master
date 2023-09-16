@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock,WorkorderFile,Asset,AssetCategory,AssetPart,AssetFile,AssetMeterReading,MeterCode,BOMGroupPart
+from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,Part,WorkorderPart,Stock,WorkorderFile,Asset,AssetCategory,AssetPart,AssetFile,AssetMeterReading,MeterCode,BOMGroupPart,AssetCadFile
 
 import jdatetime
 import datetime
@@ -84,6 +84,13 @@ class MiniWorkorderSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkOrder
         fields = ('summaryofIssue','woAsset','maintenanceType','woStatus','RequestedUser','timecreated')
+class AssetCadFileSerializer(serializers.ModelSerializer):
+
+
+
+    class Meta:
+        model = AssetCadFile
+        fields = '__all__'
 
 class TaskSerializer(serializers.ModelSerializer):
     taskAssignedToUser = serializers.SlugRelatedField(

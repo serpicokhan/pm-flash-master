@@ -57,6 +57,30 @@
                                             {% include 'cmms/assetcadfile/partialAssetCadFileList.html' %}
                                     </tbody>
                                 </table>
+                                <div class="woPaging" >
+                                  {% if assetCadFile.has_other_pages %}
+                                  <ul class="pagination">
+                                  {% if assetCadFile.has_previous %}
+                                  <li><a href="?page={{ assetCadFile.previous_page_number }}">&laquo;</a></li>
+                                  {% else %}
+                                  <li class="disabled"><span>&laquo;</span></li>
+                                  {% endif %}
+                                  {% for i in assetCadFile.paginator.page_range %}
+                                  {% if assetCadFile.number == i %}
+                                  <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                  {% else %}
+                                  <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                  {% endif %}
+                                  {% endfor %}
+                                  {% if assetCadFile.has_next %}
+                                  <li><a href="?page={{ assetCadFile.next_page_number }}">&raquo;</a></li>
+                                  {% else %}
+                                  <li class="disabled"><span>&raquo;</span></li>
+                                  {% endif %}
+                                  </ul>
+                                  {% endif %}
+
+                                </div>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                 {% if perms.cmms.add_assetcadfile %}
                                 <p>
