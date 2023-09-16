@@ -16,9 +16,6 @@ from django.urls import reverse_lazy
 # from celery.schedules import crontab
 import logging.config
 from celery.schedules import crontab
-# import firebase_admin
-# from firebase_admin import credentials
-# from firebase_admin import initialize_app
 
 # import cmms.tasks
 
@@ -40,7 +37,7 @@ SECRET_KEY = 'mihn3y3afcnbb4)%lq5xpss%2mdi^a#60b4i_=@j5c56j9n09-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.2.60','127.0.0.1','192.168.100.2','172.17.153.145','172.16.2.149','192.168.2.111','192.168.2.60']
+ALLOWED_HOSTS = ['192.168.2.60','127.0.0.1','192.168.100.2','172.17.153.145','172.16.2.149','192.168.1.5']
 
 
 # Application definition
@@ -56,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cmms.apps.CmmsConfig',
     'widget_tweaks',
+
      'mathfilters',
      'rest_framework',
      'django.contrib.humanize',
@@ -80,7 +78,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'corsheaders.middleware.CorsPostCsrfMiddleware',
 ]
-
 CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 # CORS_ALLOW_METHODS = [
 #     'DELETE',
@@ -154,13 +151,12 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmm100',
+        'NAME': 'cmmsuni2',
         'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
+        'PASSWORD': 'docker-root',
+        'HOST': '192.168.2.111',
+        PORT': '3306',
+
 
 
 
@@ -288,7 +284,3 @@ logging.config.dictConfig(LOGGING)
 #     'auth_user':lambda u:reverse_lazy('user_update',args=[u.id])
 # }
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
-# PROJECT_APP = os.path.basename(BASE_DIR)
-# cred = credentials.Certificate(os.path.join(PROJECT_APP, '..\cred.json'))
-# # cred = credentials.Certificate("path/to/serviceAccountKey.json")
-# firebase_admin.initialize_app(cred)
