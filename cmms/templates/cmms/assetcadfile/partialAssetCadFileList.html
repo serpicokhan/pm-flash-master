@@ -13,13 +13,7 @@
 
 
  <td>
-   {% if perms.cmms.view_assetcadfile %}
-   <button type="button"
-              class="btn btn-warning btn-sm js-update-assetCadFile"
-              data-url="{% url 'assetCadFile_update' c.id %}">
-        <span class="glyphicon glyphicon-pencil"></span> ویرایش
-      </button>
-      {% endif %}
+   
       {% if perms.cmms.delete_assetcadfile %}
       <button type="button"
                    class="btn btn-danger btn-sm js-delete-assetCadFile"

@@ -1,7 +1,17 @@
 
 $(function () {
 
-
+  var search=function(qstr){
+    window.location=`/AssetCadFile/Search?qstr=${qstr}`;
+  }
+  $('.btn-search').click(function(){
+    console.log("work!");
+    if($("#assetSearch").val()!=='')
+      search($("#assetSearch").val());
+    else {
+      window.location=`/AssetCadFile/`;
+    }
+  });
   var loadForm =function (btn1) {
     var btn=0;
     //console.log(btn1);
@@ -23,6 +33,7 @@ $(function () {
       success: function (data) {
         //alert("3123@!");
         $("#modal-company .modal-content").html(data.html_assetCadFile_form);
+        $(".selectpicker").selectpicker();
 
       }
     });
