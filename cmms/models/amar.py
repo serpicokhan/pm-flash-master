@@ -75,4 +75,4 @@ class TolidAmar(models.Model):
     def __str__(self):
         return f"TolidMara ({self.id}) - Date: {self.registered_date}, Tedad: {self.tedad}, Meghdar: {self.meghdar}"
     class Meta:
-        db_table="tolidamar"
+        db_table="tolidamar1"
