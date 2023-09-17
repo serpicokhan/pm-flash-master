@@ -234,17 +234,30 @@ def saveAmarTolidTableInfo(request):
     dt={}
     print("********")
     for i in data:
-        # print(i)
         # print("********")
+
+
         if('id' in i):
+
+            moshakhase=0
+            if(int(i['id'])!=-1):
+                print(i['radif'],i['tolidmoshakhase'])
+                if(int(i['tolidmoshakhase'])==0):
+                        print("here!",i['vaziat_text'])
+                        nakh_obj=TolidMoshakhase.objects.create(mogheiat=i['vaziat_text'],keyfiat=i['keyfiat'],vaziat=i['mogheiat'])
+                        moshakhase=nakh_obj.id
+                        print(nakh_obj)
+                else:
+                    moshakhase=i['tolidmoshakhase']
+
 
             # -2 show new row and -1 represent header row which is not contain ant information
             if(i['id']!='-2'):
+
                 if(int(i['id'])!=-1):
-                    print('before')
-                    print(i['id'])
+
                     amar=TolidAmar.objects.get(id=i['id'])
-                    amar.tolidmoshakhase=TolidMoshakhase.objects.get(id=i['tolidmoshakhase'])
+                    amar.tolidmoshakhase=TolidMoshakhase.objects.get(id=moshakhase)
                     amar.registered_date=i["registered_date"].replace('/','-')
                     amar.tedad=int(i["tedad"])
                     amar.meghdar=float(i["meghdar"])
@@ -253,7 +266,8 @@ def saveAmarTolidTableInfo(request):
 
             #-2 show new row
             if(i['id']=='-2'):
-                newRow=TolidAmar.objects.create(tolidmoshakhase=TolidMoshakhase.objects.get(id=i['tolidmoshakhase']),registered_date=i["registered_date"].replace('/','-'),tedad=int(i["tedad"]),meghdar=float(i["meghdar"]),location=Asset.objects.get(id=i["location"]))
+                print(moshakhase)
+                newRow=TolidAmar.objects.create(tolidmoshakhase=TolidMoshakhase.objects.get(id=moshakhase),registered_date=i["registered_date"].replace('/','-'),tedad=int(i["tedad"]),meghdar=float(i["meghdar"]),location=Asset.objects.get(id=i["location"]))
                 dt[i['radif']]=newRow.id
     return JsonResponse(dt)
 # def export_to_excel(request):

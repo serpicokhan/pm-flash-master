@@ -53,11 +53,14 @@ $(function () {
           var assetAmarDate = $(this).find('td:eq(1)').attr('data-date')||0;
           var assetName = $(this).find('td:eq(2)').attr('data-assetname')||0;
           var vaziat = $(this).find('td:eq(3)').attr('data-url')||0;
+          var vaziat_text = $(this).find('td:eq(3)').text()||'';
+          var keyfiat = $(this).find('td:eq(5)').text()||'';
+          var mogheiat = $(this).find('td:eq(6)').text()||'';
           var tedad = $(this).find('td:eq(7)').text()||0;
           var meghdar = $(this).find('td:eq(8)').text()||0;
 
-          data.push({ id: id, radif: radif,registered_date: assetAmarDate, location: assetName
-            , tolidmoshakhase: vaziat,tedad: parseInt(tedad), meghdar: meghdar
+          data.push({ vaziat_text:vaziat_text,id: id, radif: radif,registered_date: assetAmarDate, location: assetName,
+            keyfiat:keyfiat,mogheiat:mogheiat, tolidmoshakhase: vaziat,tedad: parseInt(tedad), meghdar: meghdar
           });
         });
         console.log(JSON.stringify(data));
@@ -394,10 +397,12 @@ $('#company-table').on('keydown', '.editable-cell', function(e) {
             // }
             clonedRow.attr('data-id',-2);
             clonedRow.find('td:first').text(parseInt(clonedRow.find('td:first').text())+1);
+            clonedRow.find('td:nth(3)').attr('data-url',0);
             clonedRow.find("td.editable-cell").each(function() {
             // var cellText = $(this).text(); // Get the text content of the current cell
             // console.log(cellText); // Perform your desired operation on cellText
             $(this).text('');
+
           });
             // Append the cloned row to the table
             $('#company-table').append(clonedRow);
