@@ -58,9 +58,14 @@ $(function () {
           var mogheiat = $(this).find('td:eq(6)').text()||'';
           var tedad = $(this).find('td:eq(7)').text()||0;
           var meghdar = $(this).find('td:eq(8)').text()||0;
+           var checkbox = $(this).find('input[type="checkbox"]');
+           var chval=false;
+           if (checkbox.is(":checked")) {
+              chval=true;
+           }
 
           data.push({ vaziat_text:vaziat_text,id: id, radif: radif,registered_date: assetAmarDate, location: assetName,
-            keyfiat:keyfiat,mogheiat:mogheiat, tolidmoshakhase: vaziat,tedad: parseInt(tedad), meghdar: meghdar
+          isheatset:chval,  keyfiat:keyfiat,mogheiat:mogheiat, tolidmoshakhase: vaziat,tedad: parseInt(tedad), meghdar: meghdar
           });
         });
         console.log(JSON.stringify(data));

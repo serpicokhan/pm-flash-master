@@ -255,19 +255,21 @@ def saveAmarTolidTableInfo(request):
             if(i['id']!='-2'):
 
                 if(int(i['id'])!=-1):
-
+                    print(i['isheatset'])
                     amar=TolidAmar.objects.get(id=i['id'])
                     amar.tolidmoshakhase=TolidMoshakhase.objects.get(id=moshakhase)
                     amar.registered_date=i["registered_date"].replace('/','-')
-                    amar.tedad=int(i["tedad"])
+                    amar.tedad=float(i["tedad"])
                     amar.meghdar=float(i["meghdar"])
                     amar.location=Asset.objects.get(id=i["location"])
+                    amar.isheatset=i['isheatset']
                     amar.save()
 
             #-2 show new row
             if(i['id']=='-2'):
                 print(moshakhase)
-                newRow=TolidAmar.objects.create(tolidmoshakhase=TolidMoshakhase.objects.get(id=moshakhase),registered_date=i["registered_date"].replace('/','-'),tedad=int(i["tedad"]),meghdar=float(i["meghdar"]),location=Asset.objects.get(id=i["location"]))
+                isheatset=i['isheatset']
+                newRow=TolidAmar.objects.create(tolidmoshakhase=TolidMoshakhase.objects.get(id=moshakhase),registered_date=i["registered_date"].replace('/','-'),tedad=int(i["tedad"]),meghdar=float(i["meghdar"]),location=Asset.objects.get(id=i["location"]),isheatset=isheatset)
                 dt[i['radif']]=newRow.id
     return JsonResponse(dt)
 # def export_to_excel(request):

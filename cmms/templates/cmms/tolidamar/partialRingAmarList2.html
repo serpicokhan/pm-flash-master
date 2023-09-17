@@ -11,10 +11,19 @@
 <td contenteditable="true" class="editable-cell stt selectable1">{{ring_amar.tolidmoshakhase.vaziat}}</td>
 <td contenteditable="true" class="editable-cell endt selectable1">{{ring_amar.tedad}}</td>
 <td contenteditable="true" class="editable-cell totalt selectable1">{{ring_amar.meghdar}}</td>
+<td><input type="checkbox" name=""
+
+
+  {% if ring_amar.isheatset %}
+  checked={{ring_amar.isheatset}}
+  {% endif %}
+
+
+  ></td>
 
 <td>  <button type="button"
                class="btn btn-outline btn-danger btn-sm "
-              
+
          <span class="glyphicon glyphicon-trash"></span> </td>
 
 

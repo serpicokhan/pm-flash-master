@@ -63,8 +63,9 @@ class TolidAmar(models.Model):
 
     registered_date = models.DateField(null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    tedad = models.IntegerField(null=True)
+    tedad = models.FloatField(null=True)
     meghdar = models.FloatField(null=True)
+    isheatset = models.BooleanField(null=True)
     def get_jalali(self):
         if(self.registered_date):
             return jdatetime.date.fromgregorian(date=self.registered_date)
