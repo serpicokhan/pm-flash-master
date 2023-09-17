@@ -65,8 +65,8 @@ class TolidAmar(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     tedad = models.FloatField(null=True)
     meghdar = models.FloatField(null=True)
-    isheatset1 = models.BooleanField(null=True)
-    isheatset2 = models.BooleanField(null=True)
+    isheatset = models.BooleanField(null=True)
+
     def get_jalali(self):
         if(self.registered_date):
             return jdatetime.date.fromgregorian(date=self.registered_date)
@@ -75,4 +75,4 @@ class TolidAmar(models.Model):
     def __str__(self):
         return f"TolidMara ({self.id}) - Date: {self.registered_date}, Tedad: {self.tedad}, Meghdar: {self.meghdar}"
     class Meta:
-        db_table="tolidamar1"
+        db_table="tolidamar"
