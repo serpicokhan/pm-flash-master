@@ -1,4 +1,12 @@
 // var glll;
+function generateRandomColors(count) {
+            var colors = [];
+            for (var i = 0; i < count; i++) {
+                var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16); // Generate a random hex color
+                colors.push(randomColor);
+            }
+            return colors;
+        }
 var drawTolidBar=function(data,label)
 {
 
@@ -69,7 +77,7 @@ const uniqueArray = Array.from(new Set(labels));
 var drawTolidTimeBar=function(data,label)
 {
 
-
+console.log(data,label);
 
   const labels = [];
 const datasets = [];
@@ -80,7 +88,8 @@ for (let datasetKey in data) {
   const dataset = {
     label: datasetKey,
     data: [],
-    borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Random color for line
+
+    // Random color for line
     fill: false
   };
 
@@ -103,33 +112,86 @@ const uniqueArray = Array.from(new Set(labels));
   $('#linetolidtime').remove(); // this is my <canvas> element
   $('#tolidtimelineholder').append('<canvas id="linetolidtime" height="100px"><canvas>');
   var ctx = document.getElementById("linetolidtime").getContext("2d");
-  var myBarChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-    labels: uniqueArray,
-    datasets: datasets
-  },
-    options:  {
+  const data2 = {
+  labels:labels,
+  datasets: [
+    {
+      label: 'Dataset 1',
+      data: datasets,
+    backgroundColor:generateRandomColors(labels.length),
+    }
+  ]
+};
+  const config = {
+  type: 'doughnut',
+  data: data2,
+  options: {
     responsive: true,
-    legend: {
-      display: true
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Labels'
-        }
+    plugins: {
+      legend: {
+        position: 'top',
       },
-      y: {
-        title: {
-          display: true,
-          text: 'Values'
-        }
+      title: {
+        display: true,
+        text: 'Chart.js Doughnut Chart'
       }
     }
-  }
-  });
+  },
+};
+console.log(uniqueArray);
+console.log(datasets[0].data);
+  // var myBarChart = new Chart(ctx, {
+  //   type: 'doughnut',
+  //   data: {
+  //   labels: uniqueArray,
+  //   datasets: datasets,
+  //   backgroundColor:generateRandomColors(datasets.length),
+  //
+  // }, options: {
+  //   responsive: true,
+  //   plugins: {
+  //     legend: {
+  //       position: 'right',
+  //     },
+  //     title: {
+  //       display: true,
+  //       text: 'Chart.js Doughnut Chart'
+  //     }
+  //   }}
+  //
+  //
+  // });
+  new Chart(ctx, {
+				type: 'doughnut',
+				data: {
+          labels:uniqueArray,
+
+					// defaultFontFamily: 'Poppins',
+					datasets: [{
+						data: datasets[0].data,
+            labels:uniqueArray,
+
+						borderColor: "rgba(255,255,255,1)",
+						backgroundColor: generateRandomColors(datasets[0].data.length),
+
+
+					}],
+					// labels: [
+					//     "green",
+					//     "green",
+					//     "green",
+					//     "green"
+					// ]
+				},
+				options: {
+					weight: 1,
+					cutoutPercentage: 70,
+          legend: {
+                   position: 'right', // Position the legend on the right
+               },
+
+				}
+			});
 }
 
 var LoadTolidBar=function()
@@ -161,11 +223,11 @@ var LoadTolidBar=function()
   });
 
 }
-var LoadTolidTimeBar=function()
+var LoadTolidDonut=function()
 {
   var location=$("#makans").val();
   $.ajax({
-    url: ''+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetTolidTime/?loc='+location,
+    url: '/Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetTolidDonut/?loc='+location,
     type: 'get',
     dataType: 'json',
     beforeSend: function () {

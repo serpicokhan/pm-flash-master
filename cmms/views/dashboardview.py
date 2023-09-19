@@ -626,6 +626,32 @@ def dash_getDashTolidTime(request,startHijri,endHijri):
 
             }
     return JsonResponse(data)
+def dash_getDashTolidDonut(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    loc=request.GET.get('loc',False)
+    # if(loc=='6961'):
+    #     amar1,amar2=AmarUtility.getTolid(start,end,location=loc)
+    # else:
+    amar1=AmarUtility.getTolidDonutMain(start,end,location=loc)
+    s1=[]
+    s2=[]
+    dt={}
+    dt['total']=[]
+    for i in amar1:
+         s1.append(float(i.id))
+         s2.append(str(i.mogheiat))
+         dt['total'].append({str(i.mogheiat):i.id})
+
+
+    # print(amar)
+    data['html_dashMTTR_list'] ={
+                's1': s1,
+                's2':s2,
+                's3':dt
+
+            }
+    return JsonResponse(data)
 
 
 #############################################

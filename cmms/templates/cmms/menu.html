@@ -78,6 +78,12 @@
                     نمودارها
                   </a>
                 </li>
+                <li {% if section == 'list_dashboard_tolid' %} class='active'   {% endif %}>
+                  <a href="{% url 'list_dashboard_tolid' %}">
+                    <i class="fa fa-bar-chart"></i>
+                    تولید
+                  </a>
+                </li>
 
 
                 <!-- <a href="{% url 'list_calendar' %}" >تقویم</a>

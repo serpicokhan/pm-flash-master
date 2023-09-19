@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^api/v1/Dashboard/(?P<loc>\d+)/GetTolidBarAPI/$', dash_getDashTolidBarAPI, name='dash_getDashTolidBarAPI'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidBar/$', dash_getDashTolidBar, name='dash_getDashTolidBar'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidTime/$', dash_getDashTolidTime, name='dash_getDashTolidTime'),
+    url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidDonut/$', dash_getDashTolidDonut, name='dash_getDashTolidDonut'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCompletedOpenStatus/$', dash_getWoByStatus, name='dash_getWoByStatus'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetCompletedWoDonat/$', dash_GetCompletedWoDonat, name='dash_GetCompletedWoDonat'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetDownTime/$', dash_getEquipDownTime, name='dash_getEquipDownTime'),

@@ -16,6 +16,10 @@
    {% include "cmms/summery/tolid_main.html" %}
 
   </div>
+  <div class="col-lg-12">
+   {% include "cmms/summery/tolid_donut.html" %}
+
+  </div>
 
 
 </div>
@@ -55,6 +59,7 @@ $(document).ready(function(){
   $("#dashboardt1").val(dt1);
   $(".btn.btn-white.btn-bitbucket").click(function(){
     LoadTolidBar();
+    LoadTolidDonut();
 
   });
 });
