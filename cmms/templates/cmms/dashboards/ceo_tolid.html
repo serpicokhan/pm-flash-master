@@ -16,10 +16,17 @@
    {% include "cmms/summery/tolid_main.html" %}
 
   </div>
-  <div class="col-lg-12">
-   {% include "cmms/summery/tolid_donut.html" %}
+  <div class="row">
+    <div class="col-lg-6">
+     {% include "cmms/summery/tolid_donut.html" %}
 
+    </div>
+    <div class="col-lg-6">
+     {% include "cmms/summery/tolid_nakh_donut.html" %}
+
+    </div>
   </div>
+
 
 
 </div>
@@ -60,6 +67,7 @@ $(document).ready(function(){
   $(".btn.btn-white.btn-bitbucket").click(function(){
     LoadTolidBar();
     LoadTolidDonut();
+    LoadTolidNomreDonut();
 
   });
 });

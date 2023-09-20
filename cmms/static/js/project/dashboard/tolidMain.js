@@ -146,29 +146,104 @@ const uniqueArray = Array.from(new Set(labels));
     }
   },
 };
-console.log(uniqueArray);
-console.log(datasets[0].data);
-  // var myBarChart = new Chart(ctx, {
-  //   type: 'doughnut',
-  //   data: {
-  //   labels: uniqueArray,
-  //   datasets: datasets,
-  //   backgroundColor:generateRandomColors(datasets.length),
-  //
-  // }, options: {
-  //   responsive: true,
-  //   plugins: {
-  //     legend: {
-  //       position: 'right',
-  //     },
-  //     title: {
-  //       display: true,
-  //       text: 'Chart.js Doughnut Chart'
-  //     }
-  //   }}
-  //
-  //
-  // });
+
+  new Chart(ctx, {
+				type: 'doughnut',
+				data: {
+          labels:uniqueArray,
+
+					// defaultFontFamily: 'Poppins',
+					datasets: [{
+						data: datasets[0].data,
+            labels:uniqueArray,
+
+						borderColor: "rgba(255,255,255,1)",
+						backgroundColor: generateUniqueRandomColors(datasets[0].data.length),
+
+
+					}],
+					// labels: [
+					//     "green",
+					//     "green",
+					//     "green",
+					//     "green"
+					// ]
+				},
+				options: {
+					weight: 1,
+					cutoutPercentage: 70,
+          legend: {
+                   position: 'right', // Position the legend on the right
+               },
+
+				}
+			});
+}
+var drawTolidNomreTimeBar=function(data,label)
+{
+
+console.log(data,label);
+
+  const labels = [];
+const datasets = [];
+
+for (let datasetKey in data) {
+  const datasetValues = data[datasetKey];
+
+  const dataset = {
+    label: datasetKey,
+    data: [],
+
+    // Random color for line
+    fill: false
+  };
+
+  for (let entry of datasetValues) {
+    const [date, value] = Object.entries(entry)[0];
+    // for(i in lables){
+    //   if(i)
+    // }
+    // console.log(data);
+    labels.push(date);
+    dataset.data.push(value);
+  }
+
+  datasets.push(dataset);
+
+
+}
+const uniqueArray = Array.from(new Set(labels));
+
+  $('#linetolidnomretime').remove(); // this is my <canvas> element
+  $('#tolidtimelinenomreholder').append('<canvas id="linetolidnomretime" height="100px"><canvas>');
+  var ctx = document.getElementById("linetolidnomretime").getContext("2d");
+  const data2 = {
+  labels:labels,
+  datasets: [
+    {
+      label: 'Dataset 1',
+      data: datasets,
+    backgroundColor:generateUniqueRandomColors(labels.length),
+    }
+  ]
+};
+  const config = {
+  type: 'doughnut',
+  data: data2,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Chart.js Doughnut Chart'
+      }
+    }
+  },
+};
+
   new Chart(ctx, {
 				type: 'doughnut',
 				data: {
@@ -257,6 +332,37 @@ var LoadTolidDonut=function()
     // else{
 
       drawTolidTimeBar(data.html_dashMTTR_list.s3,data.html_dashMTTR_list.s2);
+    // }
+      //html_DashMTTRCount_list
+
+
+
+
+
+
+      // $("#dash_eqdowntimebody").html(data.html_dashEqDownTime_list);
+
+    },
+    error:function(){
+      alert("error");
+    }
+  });
+
+}
+var LoadTolidNomreDonut=function()
+{
+  var location=$("#makans").val();
+  $.ajax({
+    url: '/Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetTolidNomreDonut/?loc='+location,
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+
+    },
+    success: function (data) {
+
+
+      drawTolidNomreTimeBar(data.html_dashMTTR_list.s3,data.html_dashMTTR_list.s2);
     // }
       //html_DashMTTRCount_list
 

@@ -65,7 +65,7 @@ $(function () {
            }
 
           data.push({ vaziat_text:vaziat_text,id: id, radif: radif,registered_date: assetAmarDate, location: assetName,
-          isheatset:chval,  keyfiat:keyfiat,mogheiat:mogheiat, tolidmoshakhase: vaziat,tedad: parseInt(tedad), meghdar: meghdar
+          isheatset:chval,  keyfiat:keyfiat,mogheiat:mogheiat, tolidmoshakhase: vaziat,tedad: parseFloat(tedad), meghdar: meghdar
           });
         });
         console.log(JSON.stringify(data));
