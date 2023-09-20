@@ -46,7 +46,7 @@ class RingAmar(models.Model):
 
 
 class TolidMoshakhase(models.Model):
-    mogheiat = models.CharField("موقعیت",max_length=255)
+    mogheiat = models.CharField("موقعیت",max_length=255,unique=True)
     keyfiat = models.CharField("کیفیت",max_length=255)
     vaziat = models.CharField("وضعیت",max_length=255)
 

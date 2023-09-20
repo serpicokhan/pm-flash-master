@@ -1,12 +1,20 @@
 // var glll;
-function generateRandomColors(count) {
-            var colors = [];
-            for (var i = 0; i < count; i++) {
-                var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16); // Generate a random hex color
-                colors.push(randomColor);
-            }
-            return colors;
+function generateUniqueRandomColors(count) {
+    var colors = [];
+    var colorSet = new Set(); // To keep track of generated colors
+
+    while (colors.length < count) {
+        var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16); // Generate a random hex color
+
+        // Check if the color is unique (not already in the set)
+        if (!colorSet.has(randomColor)) {
+            colors.push(randomColor);
+            colorSet.add(randomColor);
         }
+    }
+
+    return colors;
+}
 var drawTolidBar=function(data,label)
 {
 
@@ -118,7 +126,7 @@ const uniqueArray = Array.from(new Set(labels));
     {
       label: 'Dataset 1',
       data: datasets,
-    backgroundColor:generateRandomColors(labels.length),
+    backgroundColor:generateUniqueRandomColors(labels.length),
     }
   ]
 };
@@ -172,7 +180,7 @@ console.log(datasets[0].data);
             labels:uniqueArray,
 
 						borderColor: "rgba(255,255,255,1)",
-						backgroundColor: generateRandomColors(datasets[0].data.length),
+						backgroundColor: generateUniqueRandomColors(datasets[0].data.length),
 
 
 					}],
