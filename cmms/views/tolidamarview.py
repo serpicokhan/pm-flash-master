@@ -36,6 +36,7 @@ from cmms.business.DateJob import *
 from django.db.models import Max
 from django.db import IntegrityError
 from django.views.decorators.csrf import csrf_exempt
+import openpyxl
 # from openpyxl import Workbook
 # from openpyxl.utils.dataframe import dataframe_to_rows
 # import pandas as pd
@@ -272,36 +273,71 @@ def saveAmarTolidTableInfo(request):
                 newRow=TolidAmar.objects.create(tolidmoshakhase=TolidMoshakhase.objects.get(id=moshakhase),registered_date=i["registered_date"].replace('/','-'),tedad=int(i["tedad"]),meghdar=float(i["meghdar"]),location=Asset.objects.get(id=i["location"]),isheatset=isheatset)
                 dt[i['radif']]=newRow.id
     return JsonResponse(dt)
-# def export_to_excel(request):
-#     pass
-# #     amar=RingAmar.objects.all()
-# #     data = {
-# #     'Name': ['John', 'Jane', 'Mike'],
-# #     'Age': [25, 30, 28],
-# #     'Country': ['USA', 'Canada', 'UK']
-# #     }
-# #
-# # # Create a workbook and select the active sheet
-# #     wb = Workbook()
-# #     ws = wb.active
-# #
-# #     # Create a DataFrame
-# #     df = pd.DataFrame.from_records(amar.values())
-# #
-# #     # Insert the data into the worksheet
-# #     for row in dataframe_to_rows(df, index=False, header=True):
-# #         ws.append(row)
-# #
-# #     # Add a table to the worksheet
-# #     # table_range = f'A1:C{len(df) + 1}'  # Adjust the range based on the size of your data
-# #     # table = ws.tables.add(table_range)
-# #
-# #     # Save the workbook
-# #     # wb.save('table_example.xlsx')
-# #     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-# #     response['Content-Disposition'] = 'attachment; filename=table_example.xlsx'
-# #
-# #     # Save the workbook to the response object
-# #     wb.save(response)
-# #
-# #     return response
+
+def col_letter_to_index(letter):
+    index = 0
+    for char in letter:
+        index = index * 26 + (ord(char.upper()) - ord('A')) + 1
+    return index - 1  # Subtract 1 to make it 0-based index
+def tolidImport(request):
+    return render(request, 'cmms/tolidamar/amarUpload.html', {'location':request.GET.get('location',False)})
+def upload_file_tolidamar(request):
+    def iter_rows(ws):
+        for row in ws.iter_rows():
+            yield [cell.value for cell in row]
+    if request.method == 'POST':
+        my_file=request.FILES.get('file')
+        date_pattern = r'^\d{4}-\d{2}-\d{2}$'
+# Replace 'your_excel_file.xlsx' with the path to your Excel file
+        workbook = openpyxl.load_workbook(my_file)
+        # Specify the sheet name
+        sheet = workbook['Sheet1']  # Replace 'Sheet1' with your sheet name
+        i=1
+        print(request.GET.get("location",False))
+
+        # Or use the default sheet (usually the first one)
+        sheet = workbook.active
+        for row in sheet.iter_rows(values_only=True):
+            if(row[col_letter_to_index('x')] is not None and row[col_letter_to_index('v')] is not None):
+
+
+                nomre_nakh=TolidMoshakhase.objects.filter(mogheiat=row[col_letter_to_index('ac')])
+                tarikh=row[col_letter_to_index('x')].replace('/','-')
+                if(nomre_nakh.count()>0):
+                    print("exist")
+                    location=Asset.objects.get(id=int(request.GET.get("location",False)))
+                    registered_date=DateJob.getTaskDate(tarikh)
+                    tedad=row[col_letter_to_index('r')]
+                    meghdar=row[col_letter_to_index('p')]
+                    print(i,row[col_letter_to_index('p')])
+                    isheatset=False if 'HB' in nomre_nakh[0].vaziat else True
+                    TolidAmar.objects.create(location=location,registered_date=registered_date,tedad=tedad,meghdar=meghdar,tolidmoshakhase=nomre_nakh[0])
+                else:
+                    print("new")
+                    mogheiat=row[col_letter_to_index('ac')]
+                    keyfiat=row[col_letter_to_index('v')]
+                    vaziat=row[col_letter_to_index('z')]
+                    nomre_nakh=TolidMoshakhase.objects.create(vaziat=vaziat,mogheiat=mogheiat,keyfiat=keyfiat)
+                    location=Asset.objects.get(id=int(request.GET.get("location",False)))
+                    registered_date=DateJob.getTaskDate(tarikh)
+                    tedad=row[col_letter_to_index('r')]
+                    meghdar=row[col_letter_to_index('p')]
+                    isheatset=False if 'HB' in nomre_nakh.vaziat else True
+                    TolidAmar.objects.create(location=location,registered_date=registered_date,tedad=tedad,meghdar=meghdar,tolidmoshakhase=nomre_nakh)
+                i=i+1
+                print(i)
+
+
+
+
+
+
+                    # TolidAmar.objects.create
+
+
+            # Do something with the cell values
+
+        data=dict()
+
+        return JsonResponse(data)
+    return JsonResponse({'post':'fasle'})

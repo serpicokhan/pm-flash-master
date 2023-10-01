@@ -1,50 +1,14 @@
 var firstPressedButton = null;
-// var isCtrlPressed = false;
-// var selectedCells = [];
-//
-//     $(document).keydown(function(event) {
-//       if (event.which === 17) { // 17 is the key code for Control (Ctrl)
-//         isCtrlPressed = true;
-//       }
-//     });
-//
-//     $(document).keyup(function(event) {
-//       if (event.which === 17) { // 17 is the key code for Control (Ctrl)
-//         isCtrlPressed = false;
-//       }
-//     });
-//
-//         // Event delegation for cell click event
-//         $('#company-table').on('click', 'td[contenteditable="true"]', function(event) {
-//           if (isCtrlPressed) {
-//             $(this).toggleClass('selected');
-//
-//             var cellValue = $(this).html();
-//             var cellIndex = $(this).index();
-//             var rowIndex = $(this).closest('tr').index();
-//             var cellKey = rowIndex + '-' + cellIndex;
-//
-//             if ($(this).hasClass('selected')) {
-//               selectedCells[cellKey] = cellValue;
-//             } else {
-//               delete selectedCells[cellKey];
-//             }
-//           }
-//         });
-//
-//         // Event delegation for cell blur event
-//         $('#company-table').on('blur', 'td[contenteditable="true"]', function(event) {
-//           if (isCtrlPressed) {
-//             var newValue = $(this).html();
-//             for (var cellKey in selectedCells) {
-//               var cell = $('#' + cellKey);
-//               cell.html(newValue);
-//             }
-//           }
-//         });
-
 $(function () {
+var redirect_to_upload=function(){
+  if($("#id_makan").val()){
+  window.location="/TolidAmar/Upload?location="+$("#id_makan").val();
+}
+else{
+  toastr.error("یک مکان را انتخاب نمایید");
+}
 
+}
   var senddata=function(){
     var data = [];
         $('#company-table tr').each(function() {
@@ -58,9 +22,9 @@ $(function () {
           var mogheiat = $(this).find('td:eq(6)').text()||'';
           var tedad = $(this).find('td:eq(7)').text()||0;
           var meghdar = $(this).find('td:eq(8)').text()||0;
-           var checkbox = $(this).find('input[type="checkbox"]');
-           var chval=false;
-           if (checkbox.is(":checked")) {
+          var checkbox = $(this).find('input[type="checkbox"]');
+          var chval=false;
+          if (checkbox.is(":checked")) {
               chval=true;
            }
 
@@ -252,17 +216,8 @@ var applyForm= function () {
    });
    return false;
  };
-
-
-
-
  var myWoLoader= function(){
    btn=$(this);
-
-
-
-   //$.when(loadForm(btn)).done(initLoad,initWoRingAmarLoad,initWoMeterLoad,initWoMiscLoad,initWoNotifyLoad,initWoFileLoad);
-   //$.when(loadForm(btn)).done(initRingAmarFileLoad,initRingAmarAssetLoad,initRingAmarPartLoad );
    loadForm(btn);
 
    //initLoad();
@@ -274,98 +229,6 @@ var applyForm= function () {
 
 
 
-// $('#company-table').on('focusout', '.stk, .endk', function() {
-//         var row = $(this).closest('tr');
-//         var column1Value = parseFloat(row.find('.stk').text()) || 0;
-//         var column2Value = parseFloat(row.find('.endk').text()) || 0;
-//         var result = Math.abs(column1Value - column2Value);
-//
-//         row.find('.totalk').text(result.toFixed(2));
-//       });
-// $('#company-table').on('focus', '.stk', function() {
-//         var row = $(this).closest('tr');
-//         var id=row.attr('data-id')
-//         var col1 = row.find('.stk');
-//         var shift = row.find('.shift').text();
-//         var assetname = row.find('.assetname').attr('data-assetname');
-//         // var column2Value = parseFloat(row.find('.endk').text()) || 0;
-//         // var result = Math.abs(column1Value - column2Value);
-//         //
-//         // row.find('.totalk').text(result.toFixed(2));
-//         // var cell=row.find('.totalk').text(result.toFixed(2));
-//         if(  col1.text()===null ||   col1.text()==0){
-//         $.ajax({
-//           url: '/RingAmar/GetMax/?asset_id='+assetname+'&shift='+shift,//+'&date='+$("#id_assetAmarDate").val(),
-//
-//           type: 'get',
-//           dataType: 'json',
-//           errors:function(x,y,z){
-//             console.log(x);
-//             console.log(y);
-//             console.log(z);
-//           },
-//           success: function (data) {
-//             console.log(data);
-//             col1.text(data.x);
-//           }
-//         });
-//       }
-//       });
-// $('#company-table').on('focus', '.stt', function() {
-//         var row = $(this).closest('tr');
-//         var id=row.attr('data-id')
-//         var col1 = row.find('.stt');
-//         var shift = row.find('.shift').text();
-//         var assetname = row.find('.assetname').attr('data-assetname');
-//         // var column2Value = parseFloat(row.find('.endk').text()) || 0;
-//         // var result = Math.abs(column1Value - column2Value);
-//         //
-//         // row.find('.totalk').text(result.toFixed(2));
-//         // var cell=row.find('.totalk').text(result.toFixed(2));
-//         if(  col1.text()===null ||   col1.text()==0){
-//           $.ajax({
-//             url: '/RingAmar/GetMaxTime/?asset_id='+assetname+'&shift='+shift,//+'&date='+$("#id_assetAmarDate").val(),
-//
-//             type: 'get',
-//             dataType: 'json',
-//             errors:function(x,y,z){
-//               console.log(x);
-//               console.log(y);
-//               console.log(z);
-//             },
-//             success: function (data) {
-//               console.log(data);
-//               col1.text(data.x);
-//             }
-//           });
-//       }
-//       });
-// $('#company-table').on('focusout', '.stt, .endt', function() {
-//         var row = $(this).closest('tr');
-//         if($("#id_makan").val()!=6961){
-//           var column1Value = parseFloat(row.find('.stt').text()) || 0;
-//           var column2Value = parseFloat(row.find('.endt').text()) || 0;
-//
-//           var result = Math.abs(column1Value - column2Value);
-//           row.find('.totalt').text(result.toFixed(2));
-//
-//         }
-//         else{
-//           console.log("line 4");
-//           var col1 = parseFloat(row.find('.totalk').text()) || 0;
-//
-//           var x=Math.floor(col1/180);
-//           var x1=Math.floor(x/3);
-//           console.log(col1,x,x1);
-//           row.find('.totalt').text(parseFloat(x.toString()+'.'+x1.toString()));
-//
-//
-//         }
-//
-//
-//
-//
-//       });
 $('#company-table').on('keydown', '.editable-cell', function(e) {
 
        var keyCode = e.keyCode || e.which;
@@ -470,6 +333,7 @@ $("#modal-company").on("click", ".create-next", applyForm);
 // Delete book
 $("#company-table").on("click", ".js-delete-ringAmar", loadForm);
 $(".savetableinfo").on("click", senddata);
+$("#btn_import").on("click", redirect_to_upload);
 $("#modal-company").on("submit", ".js-ringAmar-delete-form", saveForm);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);
 });
