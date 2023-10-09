@@ -168,7 +168,8 @@ def partPurchase_create(request):
 
     return save_partPurchase_form(request, form, 'cmms/part_purchase/partialPartPurchaseCreate.html',woId)
 ###################################################################
-
+def list_my_purchase(request):
+    return render(request,"cmms/purchase/purchaseList.html",{})
 @csrf_exempt
 def partPurchase_update(request, id):
     company= get_object_or_404(PartPurchase, id=id)
