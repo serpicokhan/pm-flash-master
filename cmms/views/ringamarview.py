@@ -182,6 +182,7 @@ def get_max_time(request):
     # date=request.GET.get("date",0)
     # date=DateJob.getTaskDate(date)
     # data["x"]=RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('assetEndTime'))['max_value']
+    #test
     # return JsonResponse(data)
     data=dict()
     # max_value = MyModel.objects.aggregate(max_value=Max('my_field'))['max_value']
