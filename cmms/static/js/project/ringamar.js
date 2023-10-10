@@ -272,9 +272,7 @@ var loadkilometer=function(){
     type: 'get',
     dataType: 'json',
     errors:function(x,y,z){
-      console.log(x);
-      console.log(y);
-      console.log(z);
+
     },
     success: function (data) {
       console.log(data);
@@ -290,9 +288,7 @@ var loadTime=function(){
     type: 'get',
     dataType: 'json',
     errors:function(x,y,z){
-      console.log(x);
-      console.log(y);
-      console.log(z);
+    
     },
     success: function (data) {
       console.log(data);
