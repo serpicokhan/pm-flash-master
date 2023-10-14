@@ -1334,7 +1334,7 @@ class reporttest:
                 # else:
                 #     assets=Asset.objects.filter(id__in=AssetLife.objects.filter(assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
                 # print(asset)
-                assets=Asset.objects.filter(assetIsLocatedAt__id__in=asset,id__in=AssetLife.objects.filter(assetOfflineFrom__range=(date1,date2)).values_list('assetLifeAssetid',flat=True).distinct())
+                assets=Asset.objects.filter(assetIsLocatedAt__id__in=asset,id__in=AssetLife.objects.filter(assetOfflineFrom__range=(date1,date2)).order_by('assetName').values_list('assetLifeAssetid',flat=True).distinct())
                 if(len(category)>0):
                     assets=Asset.objects.filter(assetCategory__in=category)
 
