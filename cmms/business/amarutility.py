@@ -98,6 +98,24 @@ class AmarUtility:
                             GROUP BY jalali_year, jalali_month,b.assetIsLocatedAt_id'''.format(location))
         return values
     @staticmethod
+    def getTolidMainBar(start,end,location=None):
+
+        print('''SELECT (pyear(registered_date)) AS jalali_year,
+                           (pmonth(registered_date)) AS jalali_month,
+                           SUM(a.meghdar) AS sum_value,b.assetIsLocatedAt_id as id
+                            FROM tolidamar as a
+                            left join  assets as b on a.location_id=b.id
+                            where b.assetIsLocatedAt_id={0}
+                            GROUP BY jalali_year, jalali_month,b.assetIsLocatedAt_id'''.format(location))
+        values=RingAmar.objects.raw('''SELECT (pyear(registered_date)) AS jalali_year,
+                           (pmonth(registered_date)) AS jalali_month,
+                           SUM(a.meghdar) AS id
+                            FROM tolidamar as a
+
+                            where a.location_id={0}
+                            GROUP BY jalali_year, jalali_month'''.format(location))
+        return values
+    @staticmethod
     def getTolidBarAPI(location=None):
 
         values=RingAmar.objects.raw('''SELECT `ringamar`.`assetAmarDate`,

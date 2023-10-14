@@ -51,7 +51,7 @@
                 <span class="fa arrow">
                 </span>
               </a>
-              <ul  {% if section in 'dashboard,dashasset,calendar,list_dashboard_ceo' %} class="nav nav-second-level collapse in"
+              <ul  {% if section in 'dashboard,dashasset,calendar,list_dashboard_ceo,list_dashboard_tolid_ceo' %} class="nav nav-second-level collapse in"
               {% else %}
               class="nav nav-second-level collapse"
               {% endif %} >
@@ -78,7 +78,7 @@
                     نمودارها
                   </a>
                 </li>
-                <li {% if section == 'list_dashboard_tolid' %} class='active'   {% endif %}>
+                <li {% if section == 'list_dashboard_tolid_ceo' %} class='active'   {% endif %}>
                   <a href="{% url 'list_dashboard_tolid' %}">
                     <i class="fa fa-bar-chart"></i>
                     تولید

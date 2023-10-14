@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidMain/$', dash_getDashTolidMain, name='dash_getDashTolidMain'),
     url(r'^api/v1/Dashboard/(?P<loc>\d+)/GetTolidBarAPI/$', dash_getDashTolidBarAPI, name='dash_getDashTolidBarAPI'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidBar/$', dash_getDashTolidBar, name='dash_getDashTolidBar'),
+    url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidMainBar/$', dash_getDashTolidMainBar, name='dash_getDashTolidMainBar'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidTime/$', dash_getDashTolidTime, name='dash_getDashTolidTime'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidDonut/$', dash_getDashTolidDonut, name='dash_getDashTolidDonut'),
     url(r'^Dashboard/(?P<startHijri>[^/]+)/(?P<endHijri>[^/]+)/GetTolidNomreDonut/$', dash_getDashTolidNomreDonut, name='dash_getDashTolidNomreDonut'),

@@ -288,7 +288,7 @@ var LoadTolidBar=function()
 
     },
     success: function (data) {
-      console.log(data);
+      // console.log(data);
       drawTolidBar(data.html_dashMTTR_list.s3,data.html_dashMTTR_list.s2);
       $(".tolid-main-total").html(`مجموع تولید ${data.html_dashMTTR_list.total}`);
       //html_DashMTTRCount_list
@@ -385,37 +385,84 @@ var LoadTolidBarChart=function()
 {
   var location=$("#makans").val();
   $.ajax({
-    url: $("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetTolidBar/?loc='+location,
+    url: '/Dashboard/'+$("#dashboardt1").val()+'/'+$("#dashboardt2").val()+'/GetTolidMainBar/?loc='+location,
     type: 'get',
     dataType: 'json',
     beforeSend: function () {
 
     },
     success: function (data2) {
+      // console.log(data2);
 
-
+      console.log(data2);
       data=data2.html_dashMTTR_list.s3;
       // Formatting data for Chart.js
       const labels = Object.keys(data);
-      const datasets = labels.map((label) => ({
-          label: `برج ${label}`,
-          data: data[label].map((item) => parseFloat(item.val)),
+      const datasetsbg = labels.map((label) => ({
+
           backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Adjust as needed
-          borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Adjust as needed
-          borderWidth: 1
+          // borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // Adjust as needed
+          // borderWidth: 1
       }));
-      console.log(datasets);
+      dt=[];
+
+      const dataArray = [];
+
+      for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+              dataArray.push(data[key][0]['val']);
+          }
+      }
+
+
 
       // Creating the bar chart
       $('#bartolid').remove(); // this is my <canvas> element
       $('#tolidbarholder').append('<canvas id="bartolid" height="100px"><canvas>');
       // var ctx = document.getElementById("linetolidtime").getContext("2d");
       const ctx = document.getElementById('bartolid').getContext('2d');
+      // console.log(labels,datasets);
       new Chart(ctx, {
           type: 'bar',
-          data: {
-              labels: labels,
-              datasets: datasets
+          data:{
+            labels:labels,
+            datasets: [{
+    label: 'نمودار میله ای تولید',
+    data: dataArray,
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)',
+      'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)',
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+    borderWidth: 1
+  }],
           },
           options: {
               scales: {

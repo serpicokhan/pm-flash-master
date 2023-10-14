@@ -61,7 +61,7 @@ def list_dashboard_tolid(request):
     request.session['username'] = str(user1.fullName)
     request.session['usertitle'] = str(user1.title)
     darayee=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1).order_by('assetName')
-    return render(request,"cmms/dashboards/ceo_tolid.html",{"darayee" : darayee,'section':'list_dashboard_ceo'})
+    return render(request,"cmms/dashboards/ceo_tolid.html",{"darayee" : darayee,'section':'list_dashboard_tolid_ceo'})
 @login_required
 def list_dashboard(request):
     today=1
@@ -559,6 +559,41 @@ def dash_getDashTolidBar(request,startHijri,endHijri):
 
         for i in amar1:
             dt[i.jalali_month].append({'val':i.sum_value,'loc':i.id,'mah':i.jalali_month,'sal':i.jalali_year})
+        # sum_a = sum(float(item['value']) for item in data['A'] if item['value'])
+        # # print(data['A'][0]['value'].isdigit())
+        # sum_b = sum(float(item['value']) for item in data['B'] if item['value'])
+        # sum_c = sum(float(item['value']) for item in data['C'] if item['value'])
+        data['html_dashMTTR_list'] ={
+
+                    's3':dt
+
+                }
+    else:
+        data['html_dashMTTR_list'] ={
+
+                    's3':[]
+
+                }
+    return JsonResponse(data)
+def dash_getDashTolidMainBar(request,startHijri,endHijri):
+    data=dict()
+    start,end=DateJob.convert2Date(startHijri,endHijri)
+    loc=request.GET.get('loc',False)
+    print(loc,"l;oc")
+    amar1=AmarUtility.getTolidMainBar(start,end,location=loc)
+
+    s1=[]
+    s2=[]
+    dt={}
+    # dt['total']=[]
+    if(amar1):
+        for i in amar1:
+            if(i):
+            # print(i.id)
+                dt[i.jalali_month]=[]
+
+        for i in amar1:
+            dt[i.jalali_month].append({'val':i.id,'loc':i.id,'mah':i.jalali_month,'sal':i.jalali_year})
         # sum_a = sum(float(item['value']) for item in data['A'] if item['value'])
         # # print(data['A'][0]['value'].isdigit())
         # sum_b = sum(float(item['value']) for item in data['B'] if item['value'])
