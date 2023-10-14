@@ -520,10 +520,13 @@ def dash_getDashTolidMain(request,startHijri,endHijri):
     s2=[]
     dt={}
     dt['total']=[]
+    sum1=0;
     for i in amar1:
          s1.append(float(i.id))
          s2.append(str(jdatetime.date.fromgregorian(date=i.registered_date)))
          dt['total'].append({str(jdatetime.date.fromgregorian(date=i.registered_date)):i.id})
+    sum1=sum(s1)
+    sum1=f"{sum1:.2f}"
     # for i in amar2:
     #     dt[str(i.shifttypes)]=[]#={str(i.assetAmarDate):i.id}
     # # dt['total']=[]#={str(i.assetAmarDate):i.id}
@@ -533,7 +536,8 @@ def dash_getDashTolidMain(request,startHijri,endHijri):
     data['html_dashMTTR_list'] ={
                 's1': s1,
                 's2':s2,
-                's3':dt
+                's3':dt,
+                'total':sum1
 
             }
     return JsonResponse(data)

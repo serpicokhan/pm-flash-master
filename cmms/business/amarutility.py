@@ -40,7 +40,7 @@ class AmarUtility:
                                     SUM(`tolidamar`.`meghdar`) AS `id` FROM `tolidamar`
                                     INNER JOIN `assets` ON (`tolidamar`.`location_id` = `assets`.`id`)
                                      WHERE (`tolidamar`.`registered_date` BETWEEN '{0}' AND '{1}' AND
-                                     `assets`.`id` = {2}) GROUP BY `tolidamar`.`registered_date`'''.format(start,end,location))
+                                     `assets`.`id` = {2}) GROUP BY `tolidamar`.`registered_date` order by registered_date'''.format(start,end,location))
         # values2=RingAmar.objects.raw('''SELECT `TolidAmar`.`assetAmarDate` ,`TolidAmar`.`shifttypes`,SUM(`TolidAmar`.`assetTotlaKilometer`) AS `id`  FROM `TolidAmar`
         #                             INNER JOIN `assets` ON (`TolidAmar`.`assetName_id` = `assets`.`id`)
         #                              WHERE (`TolidAmar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND

@@ -50,99 +50,7 @@ def list_tolidAmar(request,id=None):
     return render(request, 'cmms/tolidamar/tolidAmarList.html', {'ringAmar': books,'section':'list_tolidAmar','makan':assetMakan})
 
 
-# ##########################################################
-#
-# def save_ringAmar_form(request, form, template_name,id=None,cnn=None):
-#
-#
-#     data = dict()
-#     if (request.method == 'POST'):
-#         if form.is_valid():
-#             form.save(commit=False)
-#             form.instance.userRegisterd=SysUser.objects.get(userId=request.user)
-#             form.save()
-#             data['form_is_valid'] = True
-#             books = RingAmar.objects.all()
-#             wo=AmarUtility.doPaging(request,books)
-#             data['html_ringAmar_list'] = render_to_string('cmms/ringamar/partialRingAmarList.html', {
-#                 'ringAmar': wo,
-#                 'perms': PermWrapper(request.user)
-#             })
-#         else:
-#             data['form_is_valid'] = False
-#             print(form.errors)
-#             # for err in form.errors:
-#             #     if(err.contains("already exists")):
-#             #         print("error")
-#
-#
-#     else:
-#         print(form.errors)
-#     if(cnn):
-#         context = {'form': form,'assetName2':cnn}
-#     else:
-#         context = {'form': form}
-#
-#
-#     data['html_ringAmar_form'] = render_to_string(template_name, context, request=request)
-#     return JsonResponse(data)
-# ##########################################################
-#
-#
-# def ringAmar_delete(request, id):
-#     comp1 = get_object_or_404(RingAmar, id=id)
-#     data = dict()
-#     if (request.method == 'POST'):
-#         comp1.delete()
-#         data['form_is_valid'] = True  # This is just to play along with the existing code
-#         companies =  RingAmar.objects.all()
-#         #Tasks.objects.filter(ringAmarId=id).update(ringAmar=id)
-#         data['html_ringAmar_list'] = render_to_string('cmms/ringamar/partialRingAmarList.html', {
-#             'ringAmar': companies,
-#             'perms': PermWrapper(request.user)
-#         })
-#     else:
-#         context = {'ringAmar': comp1}
-#         data['html_ringAmar_form'] = render_to_string('cmms/ringamar/partialRingAmarDelete.html',
-#             context,
-#             request=request,
-#         )
-#     return JsonResponse(data)
-#
-# ##########################################################
-#
-# ##########################################################
-# def ringAmar_create(request):
-#     if (request.method == 'POST'):
-#         form = RingAmarForm(DateJob.clean_ringamar(request))
-#         # form = RingAmarForm(request.POST)
-#         return save_ringAmar_form(request, form, 'cmms/ringamar/partialRingAmarCreate.html')
-#     else:
-#         asset=request.GET.get("q",False)
-#         assetName2=Asset.objects.filter(assetIsLocatedAt__id=asset)
-#         # print(assetName2.count())
-#         form = RingAmarForm(initial={'makan':'dsds'})
-#         return save_ringAmar_form(request, form, 'cmms/ringamar/partialRingAmarCreate.html',cnn=assetName2)
-#
-#
-#
-#
-# ##########################################################
-# def ringAmar_update(request, id):
-#     company= get_object_or_404(RingAmar, id=id)
-#     template=""
-#     if (request.method == 'POST'):
-#         form = RingAmarForm(DateJob.clean_ringamar(request),instance=company)
-#         # form = RingAmarForm(request.POST, instance=company)
-#     else:
-#         asset=request.GET.get("q",False)
-#         assetName2=Asset.objects.filter(assetIsLocatedAt__id=asset)
-#         form = RingAmarForm(instance=company)
-#         return save_ringAmar_form(request, form,"cmms/ringamar/partialRingAmarUpdate.html",id,cnn=assetName2)
-#
-#
-#     return save_ringAmar_form(request, form,"cmms/ringamar/partialRingAmarUpdate.html",id)
-# ##########################################################
+
 def getAmarTolidMoshakhase(request):
     data=dict()
     qry=request.GET.get("qry",False)
@@ -154,42 +62,7 @@ def getAmarTolidMoshakhase(request):
             data["result"]={}
         return JsonResponse(data, safe=False)
     return data
-# ##########################################################
-# def get_max_kilometer(request):
-#     data=dict()
-#     # max_value = MyModel.objects.aggregate(max_value=Max('my_field'))['max_value']
-#     # max=Ama
-#     asset=request.GET.get("asset_id",0)
-#     print(asset)
-#     shift=request.GET.get("shift",0)
-#     date=request.GET.get("date",0)
-#     date=DateJob.getTaskDate(date)
-#     # data["x"]=RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('assetEndKilometer'))['max_value']
-#     id=[]
-#     id.append(RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('id'))['max_value'])
-#     flag=True
-#     data["x"]=0
-#     while(data["x"]==0):
-#         id1=RingAmar.objects.exclude(assetName=asset,id__in=id).filter(assetName=asset).aggregate(second_max=Max('id'))['second_max']
-#
-#         data["x"]=RingAmar.objects.get(id=id1).assetEndKilometer
-#         # RingAmar.objects.filter(assetName=asset, id=RingAmar.objects.filter(assetName=asset).aggregate(Max('id'))['id__max']).first().assetEndKilometer
-#         # print(data,asset,id)
-#         id.append(id1)
-#     return JsonResponse(data)
-# def get_max_time(request):
-#     data=dict()
-#     # max_value = MyModel.objects.aggregate(max_value=Max('my_field'))['max_value']
-#     # max=Ama
-#     asset=request.GET.get("asset_id",0)
-#     print(asset)
-#     shift=request.GET.get("shift",0)
-#     date=request.GET.get("date",0)
-#     date=DateJob.getTaskDate(date)
-#     data["x"]=RingAmar.objects.filter(assetName=asset).aggregate(max_value=Max('assetEndTime'))['max_value']
-#     return JsonResponse(data)
-#
-#
+
 def loadAmarTolidTableInfo(request):
     makan=request.GET.get("makan",False)
     dt=request.GET.get("dt",False)

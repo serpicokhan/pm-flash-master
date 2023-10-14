@@ -288,8 +288,9 @@ var LoadTolidBar=function()
 
     },
     success: function (data) {
-      // console.log(data);
+      console.log(data);
       drawTolidBar(data.html_dashMTTR_list.s3,data.html_dashMTTR_list.s2);
+      $(".tolid-main-total").html(`مجموع تولید ${data.html_dashMTTR_list.total}`);
       //html_DashMTTRCount_list
 
 
