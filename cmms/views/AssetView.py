@@ -143,9 +143,9 @@ def list_asset_location(request):
     books=[]
     books =filterUser(request).filter(assetTypes=1).order_by('-assetName')
     wos,page=AssetUtility.doPagingWithPage(request,books)
-    return render(request, 'cmms/asset/assettreeList.html', {'asset': wos,'section':'list_asset_location','page':page})
-    # books=Asset.objects.filter(assetTypes=1)
-    # return render(request, 'cmms/asset/assetList.html', {'asset': books})
+    # return render(request, 'cmms/asset/assettreeList.html', {'asset': wos,'section':'list_asset_location','page':page})
+    books=Asset.objects.filter(assetTypes=1)
+    return render(request, 'cmms/asset/assetList.html', {'asset': wos,'section':'list_asset_location','page':page})
 
 @permission_required('cmms.view_asset')
 def list_asset_machine(request):
