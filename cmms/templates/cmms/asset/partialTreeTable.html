@@ -1,0 +1,64 @@
+{% for c in asset %}
+
+<tr date-url={{c.id}} date-type={{c.assetTypes}} class="asset-row" data-asset-id="{{c.id}}" data-toggle="collapse" data-target="#sub-assets-{{c.id}}">
+ <td> <input type="checkbox" name="action"  value={{c.id}} class="selection-box"><i class="fa fa-plus-square toggle-icon"></i></td>
+
+ <td>{{c.get_name|default_if_none:0}}</td>
+ <td>{{c.assetCode|default_if_none:"مشخص نشده"}}</td>
+ <td>{% autoescape off %}{{c.get_assetStatus}}{% endautoescape %}</td>
+ <td>{{c.assetCategory|default_if_none:'بدون دسته بندی'}}</td>
+ <td class="tttt">{{c.get_location|default_if_none:0}}</td>
+
+
+
+
+
+ <td>
+   {% if perms.cmms.view_asset %}
+   <button type="button"
+              class="btn btn-outline btn-warning  btn-sm js-update-asset"
+              data-url="{% url 'asset_update' c.id %}?page={{page}}">
+        <span class="glyphicon glyphicon-pencil"></span>مشاهده
+      </button>
+      {% endif %}
+      {% if perms.cmms.delete_asset %}
+      <button type="button"
+                   class="btn btn-outline btn-danger btn-sm js-delete-asset"
+                   data-url="{% url 'asset_delete' c.id %}?page={{page}}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+           {% endif %}
+    </td>
+</tr>
+<tr id="sub-assets-{{c.id}}" class="sub-assets-row collapse">
+                   <td colspan="12">
+                       <table class="table">
+                           <tbody>
+                               <!-- Sub-assets will be loaded via AJAX -->
+                           </tbody>
+
+                       </table>
+                       <div class="assetPaging">
+
+                                  <ul class="pagination">
+
+                                  <li class="disabled"><span>«</span></li>
+
+                                  <li class="active"><span>1 از 547 <span class="sr-only">(current)</span></span></li>
+
+
+
+                                  <li><a id="nextasset" href="?page=2&amp;sort=&amp;asc=&amp;main_asset=&amp;search=&amp;kvm=">»</a></li>
+
+                                  </ul>
+
+
+                                </div>
+                   </td>
+               </tr>
+{% empty %}
+<tr>
+ <td colspan="7" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}

@@ -237,6 +237,8 @@ urlpatterns = [
 
 
         url(r'^Asset/$',list_asset,name='list_asset'),
+        url(r'^Asset/location/tree$',get_tree_asset_view,name='get_tree_asset_view'),
+        url(r'^Asset/api/loadSubAssets$',load_child_tree_info,name='load_child_tree_info'),
         url(r'^Asset/Upload$',assetImport,name='assetImport'),
         url(r'^Asset/UploadFile$',upload_file_asset,name='upload_file_asset'),
         url(r'^Asset/Export/$', assetExport, name='assetExport'),

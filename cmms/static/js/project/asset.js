@@ -1297,7 +1297,53 @@ var main_asset_change=function(){
 //for tr click
 // $(".js-create-asset").unbind();
 // $("tr").on("click", showAssetDetails);
+var call_asset_table_view=function(){
+  console.log("test");
+  $.ajax({
+    url:'/Asset/location/tree',
+    success:function(data){
+      $("#tbody_company").html(data.html_table_view);
+    }
 
+  });
+}
+var load_tr_cell=function () {
+                const assetRow = $(this);
+                const assetId = assetRow.data('asset-id');
+                const subAssetsRow = $(`#sub-assets-${assetId}`);
+                const icon = assetRow.find('.toggle-icon');
+
+                // Toggle the icon
+                icon.toggleClass('fa-plus fa-minus');
+
+                // Load sub-assets via AJAX
+                if (subAssetsRow.hasClass('collapse')) {
+                    $.ajax({
+                        url: `/Asset/api/loadSubAssets?assetId=${assetId}`, // Replace with your actual API endpoint
+                        success: function (data) {
+                            if (data ) {
+
+                                subAssetsRow.find('tbody').empty();
+                                // data.forEach(subAsset => {
+                                //     subAssetsRow.find('tbody').append(`
+                                //         <tr>
+                                //             <td>${subAsset.assetName}</td>
+                                //             <td>${subAsset.id}</td>
+                                //         </tr>
+                                //     `);
+                                // });
+                                subAssetsRow.find('tbody').html(data.html_table_view2);
+                            }
+                        },
+                        error: function (error) {
+                            console.error(error);
+                        }
+                    });
+                }
+
+                subAssetsRow.toggleClass('show');
+            }
+$(".tree-view").click(call_asset_table_view);
 $("#modal-company").on("click", "#id_asseccategorytxt", showAssetSelector);
 //
 $(".js-select-asset-type").on('click',LoadAssetSelector);
@@ -1316,6 +1362,7 @@ $("#modal-company").on("click", ".btn_code_gen", gen_code);
 // Delete book
 $("#company-table").on("click", ".js-delete-asset", loadForm);
 $("#tbody_company").on("click", "tr", showAssetDetails);
+$("#tbody_company").on("click", ".asset-row", load_tr_cell);
 $("#modal-company").on("submit", ".js-asset-delete-form", deleteForm);
 // $('#modal-company').on('hidden.bs.modal',cancelForm);
 //$("#company-table").on("click", ".js-update-wo", initxLoad);

@@ -1198,3 +1198,25 @@ def get_asset_child(request):
             })
         return JsonResponse(location_data, safe=False)
     return JsonResponse({})
+def get_tree_asset_view(request):
+    data=dict()
+    wos=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True).order_by('assetName')
+    page=1
+    data['html_table_view']=render_to_string('cmms/asset/partialTreeTable.html', {
+        'asset': wos,
+        'perms': PermWrapper(request.user),
+        'page':page if page is not None else 1
+    })
+    return JsonResponse(data)
+def load_child_tree_info(request):
+    id=request.GET.get("assetId",False)
+    if(id):
+        asset=Asset.objects.filter(Q(assetIsLocatedAt__id=id)|Q(assetIsPartOf__id=id))
+        data=dict()
+        page=1
+        data['html_table_view2']=render_to_string('cmms/asset/partialTreeTable.html', {
+            'asset': asset,
+            'perms': PermWrapper(request.user),
+            'page':page if page is not None else 1
+        })
+        return JsonResponse(data)
