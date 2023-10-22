@@ -1275,7 +1275,8 @@ var saveCopy= function () {
     });
     // lo(matches);
     // console.log(matches);
-
+    var urlParams = new URLSearchParams(window.location.search);
+    var page = urlParams.get("page");
 
     return $.ajax({
       url: '/WorkOrder/BulkDelete/'+matches,
@@ -1289,7 +1290,7 @@ var saveCopy= function () {
       success: function (data) {
         if(data.form_is_valid)
         {
-          window.location.replace("/WorkOrder/");
+          window.location.replace("/WorkOrder/?page="+page);
         }
         else
         {
