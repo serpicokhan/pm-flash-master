@@ -620,8 +620,10 @@ class WOUtility:
                 wo=wo.filter(woAsset__id__in=asset)
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
-        if(starttime and endtime):
-            wo=wo.filter(Q(timecreated__gte=starttime) & Q(timecreated__lte=endtime))
+        if(starttime):
+            wo=wo.filter(timecreated__gte=starttime)
+        if(endtime):
+            wo=wo.filter(timecreated__lte=endtime)
         return wo.filter(isScheduling=False,visibile=True).order_by('-id');
     @staticmethod
     def getOpenWorkOrdersListReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority,makan=None):
