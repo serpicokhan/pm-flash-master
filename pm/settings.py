@@ -151,10 +151,10 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmmsuni2',
+        'NAME': 'cmm100',
         'USER': 'root',
         'PASSWORD': 'docker-root',
-        'HOST': '172.16.2.149',
+        'HOST': '192.168.2.111',
         'PORT': '3306',
     }
 }

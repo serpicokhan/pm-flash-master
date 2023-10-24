@@ -843,6 +843,8 @@ class reporttest:
         date2=DateJob.getDate2(request.POST.get("endDate",""))
         startDate=request.POST.get("startDate","")
         endDate=request.POST.get("endDate","")
+        starttime=request.POST.get("starttime",False)
+        endtime=request.POST.get("endtime",False)
 
         asset=request.POST.getlist("assetname", "")
         categoryText=request.POST.getlist("assetType", "")
@@ -883,9 +885,9 @@ class reporttest:
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
         if(makan):
-            woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),makan=tuple(makan)))
+            woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),makan=tuple(makan),starttime=starttime,endtime=endtime))
         else:
-            woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType)))
+            woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),starttime=starttime,endtime=endtime))
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 

@@ -2554,6 +2554,9 @@ class RequestedWorkOrdersListReport(forms.Form):
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=assetCatOPTIONS)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    starttime = forms.CharField(label='از ساعت',required=False,widget=forms.TextInput(attrs={'class':'ltr-input','data-mask':'99:99:99'}))
+    endtime = forms.CharField(label='تا ساعت',required=False,widget=forms.TextInput(attrs={'class':'ltr-input','data-mask':'99:99:99'}))
+    
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
