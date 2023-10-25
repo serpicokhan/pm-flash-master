@@ -28,7 +28,8 @@ class WorkOrderForm(forms.ModelForm):
     completionNotes = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     adminNote = forms.CharField( label="یادداشت مدیر",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     woasset_ = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
-
+    assignedToUser=forms.ModelChoiceField(label="نام کاربر",queryset=SysUser.objects.filter(id__in=UserGroups.objects.all().values('userUserGroups')),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    completedByUser=forms.ModelChoiceField(label="تکمیل درخواست توسط کاربر",queryset=SysUser.objects.filter(id__in=UserGroups.objects.all().values('userUserGroups')),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     # RequestedUser = forms.IntegerField( required=False )
     def clean_woTags(self):
         str1= self.cleaned_data['summaryofIssue']
@@ -2556,7 +2557,7 @@ class RequestedWorkOrdersListReport(forms.Form):
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     starttime = forms.CharField(label='از ساعت',required=False,widget=forms.TextInput(attrs={'class':'ltr-input','data-mask':'99:99:99'}))
     endtime = forms.CharField(label='تا ساعت',required=False,widget=forms.TextInput(attrs={'class':'ltr-input','data-mask':'99:99:99'}))
-    
+
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
