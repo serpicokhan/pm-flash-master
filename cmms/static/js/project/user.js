@@ -228,7 +228,6 @@ var saveForm= function (e) {
     return false;
   };
  var initUserGroupsLoad=function(){
-
    $.ajax({
      url: '/UserGroups/'+$("#lastUserId").val()+'/listUserGroups',
      success: function (data) {
@@ -247,7 +246,6 @@ var saveForm= function (e) {
  };
 
  var initUserFileLoad=function(){
-
    $.ajax({
 
      url: '/UserFile/'+$("#lastUserId").val()+'/ListUserFile',
@@ -277,7 +275,6 @@ var saveForm= function (e) {
 
 
  var initUserCertLoad=function(){
-
    $.ajax({
      url: '/UserCertification/'+$("#lastUserId").val()+'/ListUserCert',
      success: function (data) {
@@ -380,14 +377,14 @@ $('tr').on('click',function(){
   userDetails($(this).attr('data-url'));
 
 });
-$(".js-create-user").click(loadForm);
+$(".js-create-user").click(myWoLoader);
 $("#modal-company").on("submit", ".js-user-create-form", saveForm);
 
 // Update book
 $("#company-table").on("click", ".js-update-user", myWoLoader);
 $("#modal-company").on("submit", ".js-user-update-form", saveForm);
 // Delete book
-$("#company-table").on("click", ".js-delete-user", loadForm);
+$("#company-table").on("click", ".js-delete-user", myWoLoader);
 $("#modal-company").on("submit", ".js-user-delete-form", saveForm2);
 $('#modal-company').on('hidden.bs.modal',cancelForm);
 //$("#company-table").on("click", ".js-update-user", initxLoad);
