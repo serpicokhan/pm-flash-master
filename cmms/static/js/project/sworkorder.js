@@ -91,13 +91,10 @@ var searchAsset=function(){
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
-        //alert(btn.attr("data-url"));
-        //alert("321321");
         $("#modal-company .modal-content").html('');
        $("#modal-company").modal({backdrop: 'static', keyboard: false});
       },
       success: function (data) {
-        //alert("3123@!");
         $("#modal-company .modal-content").html(data.html_wo_form);
         var elem = document.querySelector('.js-switch');
         var init = new Switchery(elem);
@@ -168,7 +165,6 @@ var searchAsset=function(){
           }
         });
         $('.advanced2AutoComplete5').on('autocomplete.select', function (evt, item) {
-          // alert("!23");
           $("#id_woAsset").val(item.id);
           $.ajax({
             url: $("#lastWorkOrderid").val()+'/'+$("#id_woAsset").val()+'/setAsset/',
@@ -194,8 +190,6 @@ var cancelform=function(){
       type: 'post',
       dataType: 'json',
       beforeSend: function () {
-        //alert(btn.attr("data-url"));
-        // alert("321321");
 
 
       },
@@ -255,7 +249,6 @@ var saveForm= function () {
      },
      success: function (data) {
        if (data.form_is_valid) {
-         //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_company").empty();
          $("#tbody_company").html(data.html_wo_list);
          $("#modal-company").modal("hide");
@@ -279,12 +272,11 @@ var saveForm= function () {
  };
 var applyForm= function () {
   var form = $(this).parent().parent();
-  alert("this");
   if(!form.attr("action"))
   {
     form=$("#js-swo-create-form");
   }
-  console.log(form.attr("action"));
+  alert(form.attr("method"));
 
    $.ajax({
      url: form.attr("action"),
@@ -307,9 +299,8 @@ var applyForm= function () {
      }
      },
      success: function (data) {
-        console.log(data);
+      console.log(data);
        if (data.form_is_valid) {
-         //alert("Company created!");  // <-- This is just a placeholder for now for testing
          toastr.success("دستور کار زمانبندی شده با موفقیت  ایجاد شد");
          $("#issavechanged").val("1");
 
@@ -318,8 +309,7 @@ var applyForm= function () {
        }
        else {
 
-         $("#company-table tbody").html(data.html_wo_list);
-         $("#modal-company .modal-content").html(data.html_wo_form);
+        
          toastr.error("خطا در ایجاد دستور کار. لطفا ورودیهای خود را کنترل نمایید.");
        }
      }

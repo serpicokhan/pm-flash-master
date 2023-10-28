@@ -8,7 +8,28 @@
 
                         </div>
                         <div class="ibox-content">
+                          {% if perms.cmms.add_workorderpart %}
+                          <p>
+                            <button type="button" class="btn btn-primary js-create-woPart"
+                            data-url="{% url 'woPart_create' %}"                                  >
+                              <span class="glyphicon glyphicon-plus"
 
+
+
+                              ></span>
+                            جدید
+                            </button>
+                            <button type="button" class="btn btn-primary js-create-woAssetPart"
+                            data-url=""                                  >
+                              <span class="glyphicon glyphicon-plus"
+
+
+
+                              ></span>
+                              BOM
+                            </button>
+                          </p>
+                          {% endif %}
                             <div class="table-responsive" style="position: relative;height: 300px;overflow: auto;display:block">
                                 <table class="table table-striped" id="woPart-table" >
                                     <thead>
@@ -29,28 +50,7 @@
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
-                                {% if perms.cmms.add_workorderpart %}
-                                <p>
-                                  <button type="button" class="btn btn-primary js-create-woPart"
-                                  data-url="{% url 'woPart_create' %}"                                  >
-                                    <span class="glyphicon glyphicon-plus"
-
-
-
-                                    ></span>
-                                  جدید
-                                  </button>
-                                  <button type="button" class="btn btn-primary js-create-woAssetPart"
-                                  data-url=""                                  >
-                                    <span class="glyphicon glyphicon-plus"
-
-
-
-                                    ></span>
-                                    BOM
-                                  </button>
-                                </p>
-                                {% endif %}
+                               
                             </div>
                           </div>
 

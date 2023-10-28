@@ -28,8 +28,8 @@ class WorkOrderForm(forms.ModelForm):
     completionNotes = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     adminNote = forms.CharField( label="یادداشت مدیر",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     woasset_ = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
-    assignedToUser=forms.ModelChoiceField(label="نام کاربر",queryset=SysUser.objects.filter(id__in=UserGroups.objects.all().values('userUserGroups')),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
-    completedByUser=forms.ModelChoiceField(label="تکمیل درخواست توسط کاربر",queryset=SysUser.objects.filter(id__in=UserGroups.objects.all().values('userUserGroups')),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    # assignedToUser=forms.ModelChoiceField(label="نام کاربر",queryset=SysUser.objects.filter(id__in=UserGroups.objects.all().values('userUserGroups')),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    # completedByUser=forms.ModelChoiceField(label="تکمیل درخواست توسط کاربر",queryset=SysUser.objects.filter(id__in=UserGroups.objects.all().values('userUserGroups')),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     
     # RequestedUser = forms.IntegerField( required=False )
     def clean_woTags(self):
