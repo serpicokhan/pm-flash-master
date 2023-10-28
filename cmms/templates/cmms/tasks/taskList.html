@@ -8,7 +8,49 @@
 
                         </div>
                         <div class="ibox-content">
+                          {% if perms.cmms.add_tasks %}
+                          <p>
 
+                            {% if not ispm %}
+                            <button type="button" class="btn btn-primary js-create-task"
+                            data-url="{% url 'task_create'  %}?q={{lId}}"                                  >
+                              <span class="glyphicon glyphicon-plus"
+
+
+
+                              ></span>
+                            جدید
+                            </button>
+                            {% else %}
+                            <button type="button" class="btn btn-primary js-create-task"
+                            data-url="{% url 'task_create2'  %}?q={{lId}}"                                  >
+                              <span class="glyphicon glyphicon-plus"
+
+
+
+                              ></span>
+                            جدید
+                            </button>
+                            {% endif %}
+
+                            <button type="button" class="btn btn-primary js-create-taskGroup">
+                              <span class="glyphicon glyphicon-plus"
+
+
+
+                              ></span>
+                          دسته فعالیت
+                            </button>
+                            <button type="button" class="btn btn-primary js-set-task-completion" data-url={{lId}} style="display: None">
+                              <span class="glyphicon glyphicon-check"
+
+
+
+                              ></span>
+                          تکمیل
+                            </button>
+                          </p>
+                          {% endif %}
                             <div class="table-responsive" style="position: relative;height: 300px;overflow: auto;display:block">
                                 <table class="table table-striped" id="task-table" >
                                     <thead>
@@ -34,49 +76,7 @@
                                     </tbody>
                                 </table>
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
-                                {% if perms.cmms.add_tasks %}
-                                <p>
-
-                                  {% if not ispm %}
-                                  <button type="button" class="btn btn-primary js-create-task"
-                                  data-url="{% url 'task_create'  %}?q={{lId}}"                                  >
-                                    <span class="glyphicon glyphicon-plus"
-
-
-
-                                    ></span>
-                                  جدید
-                                  </button>
-                                  {% else %}
-                                  <button type="button" class="btn btn-primary js-create-task"
-                                  data-url="{% url 'task_create2'  %}?q={{lId}}"                                  >
-                                    <span class="glyphicon glyphicon-plus"
-
-
-
-                                    ></span>
-                                  جدید
-                                  </button>
-                                  {% endif %}
-
-                                  <button type="button" class="btn btn-primary js-create-taskGroup">
-                                    <span class="glyphicon glyphicon-plus"
-
-
-
-                                    ></span>
-                                دسته فعالیت
-                                  </button>
-                                  <button type="button" class="btn btn-primary js-set-task-completion" data-url={{lId}} style="display: None">
-                                    <span class="glyphicon glyphicon-check"
-
-
-
-                                    ></span>
-                                تکمیل
-                                  </button>
-                                </p>
-                                {% endif %}
+                               
                             </div>
                           </div>
 
