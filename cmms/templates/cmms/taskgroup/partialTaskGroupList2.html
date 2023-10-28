@@ -1,7 +1,7 @@
 <div  data-url="" class="js-task-create-form" >
 
   <div class="modal-header " style="background:#ccc">
-    <button type="button" class="close task"  aria-label="Close">
+    <button type="button" class="close cl-ml-task"  aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
     <h4 class="modal-title">جدید</h4>
@@ -71,7 +71,7 @@
 
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" >انصراف</button>
+  <button type="button" class="btn btn-default cl-ml-task" >انصراف</button>
   <button type="button" class="btn btn-primary" id="taskgroup-submit"  >انتخاب</button>
   <script type="text/javascript">
     $("#taskgroup-submit").click(function(){
@@ -107,6 +107,14 @@
       });
       // $("#modal-taskGroup").modal("hide");
     });
+    $(".cl-ml-task").on('click',function()
+        {
+          $("#modal-taskGroup").modal("hide");
+          //$("#{modal-company}").css("background-color", "yellow");
+
+
+        }
+       );
     $("#tgSearch").on('input',function(){
       var searchStr=$('#tgSearch').val().replace(' ','_');
       if($('#tgSearch').val().length<3 && $('#tgSearch').val().length>0)
