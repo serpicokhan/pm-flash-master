@@ -30,6 +30,16 @@ class WorkOrderForm(forms.ModelForm):
     woasset_ = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
     # assignedToUser=forms.ModelChoiceField(label="نام کاربر",queryset=SysUser.objects.filter(id__in=UserGroups.objects.all().values('userUserGroups')),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     # completedByUser=forms.ModelChoiceField(label="تکمیل درخواست توسط کاربر",queryset=SysUser.objects.filter(id__in=UserGroups.objects.all().values('userUserGroups')),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    assignedToUser=forms.ModelChoiceField(
+        queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
+        label='Select User',
+        empty_label=None
+    )
+    completedByUser=forms.ModelChoiceField(
+        queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
+        label='Select User',
+        empty_label=None
+    )
     
     # RequestedUser = forms.IntegerField( required=False )
     def clean_woTags(self):
