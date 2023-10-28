@@ -34,11 +34,11 @@ class WO(APIView):
     def post(self, request):
         asset=request.GET.get('assetID',False)
         if(asset==False or asset=='0'):
-            posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False).order_by('-datecreated')[:100]
+            posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,visibile=True).order_by('-datecreated')[:100]
         else:
             print(asset,'!!!!!!!')
             assets=AssetUtility.get_sub_assets(Asset.objects.get(id=asset))
-            posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,woAsset__in=assets).order_by('-datecreated')[:100]
+            posts = WorkOrder.objects.filter(isScheduling=False,summaryofIssue__isnull=False,woAsset__in=assets,visibile=True).order_by('-datecreated')[:100]
         serializer = WOSerializer2(posts, many=True)
         for k in serializer.data:
             pass
