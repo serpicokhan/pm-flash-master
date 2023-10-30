@@ -279,7 +279,6 @@ var saveForm= function () {
  };
 var applyForm= function () {
   var form = $(this).parent().parent();
-  alert("this");
   if(!form.attr("action"))
   {
     form=$("#js-swo-create-form");
