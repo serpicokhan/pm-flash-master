@@ -299,6 +299,7 @@ var applyForm= function () {
      }
      },
      success: function (data) {
+       console.log("data arrived!");
       console.log(data);
        if (data.form_is_valid) {
          toastr.success("دستور کار زمانبندی شده با موفقیت  ایجاد شد");
@@ -309,7 +310,7 @@ var applyForm= function () {
        }
        else {
 
-        
+
          toastr.error("خطا در ایجاد دستور کار. لطفا ورودیهای خود را کنترل نمایید.");
        }
      }
