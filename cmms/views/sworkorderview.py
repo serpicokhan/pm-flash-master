@@ -67,6 +67,7 @@ def save_swo_form(request, form, template_name,id=None,page=None):
     data = dict()
     if (request.method == 'POST'):
         if form.is_valid():
+
             form.save()
             #print("id:"+str(id))
             data['form_is_valid'] = True
@@ -81,11 +82,13 @@ def save_swo_form(request, form, template_name,id=None,page=None):
             })
         else:
             data['form_is_valid'] = False
+            print(form.errors)
 
     context = {'form': form,'lId':id if id != None else 0,'ispm':True,'page':page}
     if(form.instance):
         data['id']=form.instance.id
     data['html_wo_form'] = render_to_string(template_name, context, request=request)
+    print(JsonResponse(data))
     return JsonResponse(data)
 ##########################################################
 

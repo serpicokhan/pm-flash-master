@@ -136,13 +136,13 @@ def save_wo_profile(sender, instance, **kwargs):
    #  messaging.send_multicast(message)
     try:
 
-        print("thats done")
+        print("thats done in wo signal post")
         if(instance==None):
             pass
             # print(created)
             # print(instance.assignedToUser)
             # Mail.SendNewSysMessage(instance.assignedToUser,instance.summaryofIssue ,instance.woPriority)
-        else:
+        elif(not instance.isScheduling):
             # if(instance.isScheduling==False):
             #     userlist=WorkorderUserNotification.objects.filter(woNotifWorkorder=instance)
             #     for c in userlist:

@@ -276,7 +276,7 @@ var applyForm= function () {
   {
     form=$("#js-swo-create-form");
   }
-  alert(form.attr("method"));
+
 
    $.ajax({
      url: form.attr("action"),
@@ -297,7 +297,10 @@ var applyForm= function () {
        }
 
      }
-     },
+   },
+   error:function(x,y,z){
+     console.log(x,y,z);
+   },
      success: function (data) {
        console.log("data arrived!");
       console.log(data);
