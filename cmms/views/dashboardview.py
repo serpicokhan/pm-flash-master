@@ -295,7 +295,7 @@ def GetdueWoNum2(request,startHijri,endHijri,loc):
              #
              # })
      no=datetime.datetime.now().date()
-     n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,datecreated__range=(no,F('requiredCompletionDate')),woAsset__assetIsLocatedAt__id=loc).count()
+     n1=WorkOrder.objects.filter(woStatus__in=(1,2,4,5,6,9),woStatus__isnull=False,isPm=True,isScheduling=False,datecreated__range=[no,F('requiredCompletionDate')],woAsset__assetIsLocatedAt__id=loc).count()
      data['html_dueservice_list']=n1
      data['html_is_valid']=True
 
