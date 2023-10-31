@@ -461,9 +461,9 @@ class WOUtility:
         #  """.format(whereConition))
         wo=WorkOrder.objects.none()
         if(len(assignedUser)>0):
-            wo=WorkOrder.objects.filter(assignedToUser__id__in=assignedUser,visibile=True,datecreated__range=(start,end),isScheduling=False).exclude(woStatus__in=(1,7,8))
+            wo=WorkOrder.objects.filter(assignedToUser__id__in=assignedUser,visibile=True,datecreated__range=[start,end],isScheduling=False).exclude(woStatus__in=(1,7,8))
         else:
-            wo=WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(woStatus__in=(1,7,8))
+            wo=WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=[start,end]).exclude(woStatus__in=(1,7,8))
         if(len(maintenanceType)>0):
             wo=wo.filter(maintenanceType__id__in=maintenanceType)
         if(len(assetCategory)>0):
@@ -478,7 +478,7 @@ class WOUtility:
     def getWorkOrdersDetailReportByStatus(start,end,assignedUser,asset,assetCategory,maintenanceType,priority,status,makan):
 
 
-        wo=WorkOrder.objects.filter(visibile=True,datecreated__range=(start,end),isScheduling=False)
+        wo=WorkOrder.objects.filter(visibile=True,datecreated__range=[start,end],isScheduling=False)
         if(len(makan)>0):
             wo=wo.filter(Q(woAsset__id__in=makan)|Q(woAsset__assetIsLocatedAt__id__in=makan))
         if(len(assignedUser)>0):
@@ -506,9 +506,9 @@ class WOUtility:
         # print("maintenance:",assetCategory)
         wo=WorkOrder.objects.none()
         if(len(assignedUser)>0):
-            wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
+            wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(7,8),visibile=True,datecreated__range=[start,end])
         else:
-            wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
+            wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(7,8),visibile=True,datecreated__range=[start,end])
         if(len(maintenanceType)>0):
             wo=wo.filter(maintenanceType__id__in=maintenanceType)
         if(assetName):
@@ -527,9 +527,9 @@ class WOUtility:
         # print("maintenance:",assetCategory)
         # wo=WorkOrder.objects.none()
         # if(len(assignedUser)>0):
-        #     wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
+        #     wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(7,8),visibile=True,datecreated__range=[start,end])
         # else:
-        #     wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
+        #     wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(7,8),visibile=True,datecreated__range=[start,end])
         # if(len(maintenanceType)>0):
         #     wo=wo.filter(maintenanceType__id__in=maintenanceType)
         # if(len(assetCategory)>0):
@@ -544,9 +544,9 @@ class WOUtility:
         #################
         wo=WorkOrder.objects.none()
         if(len(assignedUser)>0):
-            wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
+            wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(7,8),visibile=True,datecreated__range=[start,end])
         else:
-            wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(7,8),visibile=True,datecreated__range=(start,end))
+            wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(7,8),visibile=True,datecreated__range=[start,end])
         if(len(maintenanceType)>0):
             wo=wo.filter(maintenanceType__id__in=maintenanceType)
         if(assetName):
@@ -586,9 +586,9 @@ class WOUtility:
         #  """.format(whereConition))
         wo=WorkOrder.objects.none()
         if(len(assignedUser)>0):
-            wo=WorkOrder.objects.filter(assignedToUser__id__in=assignedUser,isScheduling=False,visibile=True,datecreated__range=(start,end))
+            wo=WorkOrder.objects.filter(assignedToUser__id__in=assignedUser,isScheduling=False,visibile=True,datecreated__range=[start,end])
         else:
-            wo=WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end))
+            wo=WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=[start,end])
         if(len(maintenanceType)>0):
             wo=wo.filter(maintenanceType__id__in=maintenanceType)
         if(len(assetCategory)>0):
@@ -607,7 +607,7 @@ class WOUtility:
 
         wo=WorkOrder.objects.none()
         # if(len(assignedUser)>0):
-        #     wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1),visibile=True,datecreated__range=(start,end))
+        #     wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1),visibile=True,datecreated__range=[start,end])
         # else:
         wo=WorkOrder.objects.filter(isScheduling=False,woStatus=1,visibile=True,datecreated__range=[start,end])
         if(makan):
@@ -632,18 +632,18 @@ class WOUtility:
 
 
         wo=WorkOrder.objects.none()
-        wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(2,4,5,6,9),visibile=True,datecreated__range=(start,end))
+        wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(2,4,5,6,9),visibile=True,datecreated__range=[start,end])
         print(wo.query)
         if(makan):
             print(makan,'!!!')
             wo=wo.filter(Q(woAsset__assetIsLocatedAt__id__in=makan)|Q(woAsset__id__in=makan))
             # print(wo.query)
         if(len(assignedUser)>0):
-            # wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1,2,4,5,6,9),visibile=True,datecreated__range=(start,end))
-            # wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1,2,4,5,6,9),visibile=True,datecreated__range=(start,end))
+            # wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1,2,4,5,6,9),visibile=True,datecreated__range=[start,end])
+            # wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1,2,4,5,6,9),visibile=True,datecreated__range=[start,end])
             wo=wo.filter(assignedToUser__id__in=assignedUser)
         # else:
-        #     wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(1,2,4,5,6,9),visibile=True,datecreated__range=(start,end))
+        #     wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(1,2,4,5,6,9),visibile=True,datecreated__range=[start,end])
         if(len(maintenanceType)>0):
             wo=wo.filter(maintenanceType__id__in=maintenanceType)
         if(len(assetCategory)>0):
@@ -658,13 +658,13 @@ class WOUtility:
     def getWorkOrdersListReportByStatus(start,end,assignedUser,asset,assetCategory,maintenanceType,priority,status,makan):
 
 
-        wo=WorkOrder.objects.filter(datecreated__range=(start,end))
+        wo=WorkOrder.objects.filter(datecreated__range=[start,end])
         if(len(makan)>0):
             wo=wo.filter(Q(woAsset__id__in=makan)|Q(woAsset__assetIsLocatedAt__id__in=makan))
         if(len(assignedUser)>0):
             wo=wo.filter(assignedToUser__id__in=assignedUser)
         else:
-            wo=WorkOrder.objects.filter(datecreated__range=(start,end))
+            wo=WorkOrder.objects.filter(datecreated__range=[start,end])
         if(len(maintenanceType)>0):
             wo=wo.filter(maintenanceType__id__in=maintenanceType)
         if(len(assetCategory)>0):
@@ -705,9 +705,9 @@ class WOUtility:
         #  """.format(whereConition))
         wo=WorkOrder.objects.none()
         if(len(assignedUser)>0):
-            wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1,2,4,5,6,9),visibile=True,datecreated__range=(start,end),isPm=True)
+            wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1,2,4,5,6,9),visibile=True,datecreated__range=[start,end],isPm=True)
         else:
-            wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(1,2,4,5,6,9),visibile=True,datecreated__range=(start,end),isPm=True)
+            wo=WorkOrder.objects.filter(isScheduling=False,woStatus__in=(1,2,4,5,6,9),visibile=True,datecreated__range=[start,end],isPm=True)
         if(len(maintenanceType)>0):
             wo=wo.filter(maintenanceType__id__in=maintenanceType)
         if(len(assetCategory)>0):
@@ -721,7 +721,7 @@ class WOUtility:
     @staticmethod
     def getOpenWorkOrderGraphReport(start,end,assignedUser,asset,assetCategory,maintenanceType,makan):
 
-        wo=WorkOrder.objects.filter(datecreated__range=(start,end),isScheduling=False,visibile=True,woStatus__in=(2,4,5,6,9))
+        wo=WorkOrder.objects.filter(datecreated__range=[start,end],isScheduling=False,visibile=True,woStatus__in=(2,4,5,6,9))
         # whereConition="where datecreated between '{0}' and '{1}' and wostatus in (1,2,4,5,6,9) and isScheduling=0  and visibile=1".format(start ,end)
         if(len(makan)>0):
             wo=wo.filter(Q(woAsset__id__in=makan)|Q(woAsset__assetIsLocatedAt__id__in=makan))
@@ -1068,7 +1068,7 @@ class WOUtility:
         return WorkOrder.objects.raw(""" select count(workorder.id) as id from workorder inner join assets on assets.id=workorder.woasset_id where ( woasset_id={0} or assets.assetIsLocatedAt_id={0} or assets.assetIsPartOf_id={0}) and (woStatus IN (9 ) or woStatus is NULL )  and isScheduling=0 """.format(AID))
     @staticmethod
     def getRequestedWo(start,end):
-        n1=WorkOrder.objects.filter(woStatus=1,datecreated__range=(start,end),isScheduling=False,visibile=True).count();
+        n1=WorkOrder.objects.filter(woStatus=1,datecreated__range=[start,end],isScheduling=False,visibile=True).count();
         return n1
     @staticmethod
     def getDashCauseCount(start,end):
@@ -1101,32 +1101,32 @@ class WOUtility:
     @staticmethod
     def getEms(start,end,loc=None):
         if(not loc):
-            return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end),isEM=1)
+            return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=[start,end],isEM=1)
         else:
-            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,datecreated__range=(start,end),isEM=1)
+            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,datecreated__range=[start,end],isEM=1)
 
     #TAviz Change spare part
     @staticmethod
     def getTaviz(start,end,loc=None):
         if(not loc):
-            return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end),woPartActulaQnty__gt=0).values_list('woPartWorkorder',flat=True))).order_by('-datecreated','-timecreated')
+            return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=[start,end],woPartActulaQnty__gt=0).values_list('woPartWorkorder',flat=True))).order_by('-datecreated','-timecreated')
         else:
-            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end),woPartActulaQnty__gt=0).values_list('woPartWorkorder',flat=True))).order_by('-datecreated','-timecreated')
+            return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=[start,end],woPartActulaQnty__gt=0).values_list('woPartWorkorder',flat=True))).order_by('-datecreated','-timecreated')
 
     # @staticmethod
     # def getTaviz(start,end,loc):
-    #     return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=(start,end)).values_list('woPartWorkorder',flat=True)))
+    #     return WorkOrder.objects.filter(isScheduling=False,visibile=True,id__in=(WorkorderPart.objects.filter(woPartWorkorder__datecreated__range=[start,end]).values_list('woPartWorkorder',flat=True)))
     @staticmethod
     def getTavaghof(start,end,loc):
         if(loc is None):
-            # return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+            # return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=[start,end]).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
             return AssetLife.objects.filter(assetOfflineFrom__range=(start,end)).exclude(Q(assetStopCode__isnull=True)|Q(assetStopCode__id=15))
         else:
-            # return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,datecreated__range=(start,end)).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
+            # return WorkOrder.objects.filter(woAsset__assetIsLocatedAt__id=loc, isScheduling=False,visibile=True,datecreated__range=[start,end]).exclude(Q(woStopCode__isnull=True)|Q(woStopCode__id=15))
             return AssetLife.objects.filter(assetOfflineFrom__range=(start,end)).filter(Q(assetLifeAssetid__assetIsLocatedAt__id=loc)|Q(assetLifeAssetid__id=loc)).exclude(Q(assetStopCode__isnull=True)|Q(assetStopCode__id=15))
     @staticmethod
     def getNewWO(start,end):
-        return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=(start,end),woStatus=1)
+        return WorkOrder.objects.filter(isScheduling=False,visibile=True,datecreated__range=[start,end],woStatus=1)
     @staticmethod
     def copy(ids,assetlist,request):
         print("kire khar")
