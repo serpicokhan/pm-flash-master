@@ -609,7 +609,7 @@ class WOUtility:
         # if(len(assignedUser)>0):
         #     wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1),visibile=True,datecreated__range=(start,end))
         # else:
-        wo=WorkOrder.objects.filter(isScheduling=False,woStatus=1,visibile=True,datecreated__range=(start,end))
+        wo=WorkOrder.objects.filter(isScheduling=False,woStatus=1,visibile=True,datecreated__range=[start,end])
         if(makan):
             wo=wo.filter(Q(woAsset__assetIsLocatedAt__id__in=makan)|Q(woAsset__id__in=makan))
 
