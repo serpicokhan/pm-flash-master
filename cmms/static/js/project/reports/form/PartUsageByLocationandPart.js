@@ -2,13 +2,14 @@ $(function () {
 
 $("#id_makan").change(function(){
   mak_val=0;
+  const noe=$("#id_assetType").val()||'0';
   if(!$("#id_makan").val())
     mak_val=-1;
   else
     mak_val=$("#id_makan").val();
-    
+  alert(noe);
   $.ajax({
-    url: '/Asset/Info?makan='+mak_val+'&noe='+$("#id_assetType").val(),
+    url: '/Asset/Info?makan='+mak_val+'&noe='+noe,
     type: 'get',
     dataType: 'json',
     success: function (data) {

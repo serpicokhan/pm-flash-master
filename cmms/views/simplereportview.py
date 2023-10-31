@@ -926,21 +926,30 @@ class reporttest:
         startDate=request.POST.get("startDate","")
         endDate=request.POST.get("endDate","")
 
+
+
         ######asset category###########
-        categoryText=request.POST.getlist("categoryText", "")
-        if(len(categoryText) >0 and not categoryText[0]):
-                categoryText.pop(0)
-        categoryText=[int(i) for i in categoryText]
-        if(len(categoryText)==1):
-                categoryText.append(-1)
-        assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
-        woList=list(WOUtility.getCauseCount(date1,date2,tuple(categoryText)))
+        categoryText=request.POST.getlist("assetType", False)
+        makan=request.POST.get("makan", False)
+        assetname=request.POST.getlist("assetname", False)
+        categoryText=request.POST.getlist("assetType", False)
+        # if(categoryText):
+        #     # categoryText=[int(i) for i in categoryText]
+        #     assetcat=AssetCategory.objects.filter(id__in=categoryText)
+        # if(len(categoryText)==1):
+        #         categoryText.append(-1)
+        if(categoryText):
+            assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
+        else:
+            assetcat="تمامی دسته ها"
+
+        woList=list(WOUtility.getCauseCountv2(date1,date2,assetCategory=categoryText,makan=makan,assetname=assetname))
         s1,s2=[],[]
         for i in woList:
-            s1.append(i.tedad)
-            s2.append(i.causeDescription)
+            s1.append(i['tedad'])
+            s2.append(i['assetCauseCode__causeDescription'])
 
-        return render(request, 'cmms/reports/simplereports/FailureCodeCauseCount.html',{'wolist':woList,'s1':s1,'s2':s2,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'assetcat':list(assetcat),'stdate':startDate,'enddate':endDate})
+        return render(request, 'cmms/reports/simplereports/FailureCodeCauseCount.html',{'wolist':woList,'s1':s1,'s2':s2,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'assetcat':assetcat,'stdate':startDate,'enddate':endDate})
     def FailureCodeProblemCount(self,request):
         #this report include bar graph
         date1=DateJob.getDate2(request.POST.get("startDate",""))

@@ -2749,16 +2749,17 @@ class FailureCodeCauseCount(forms.Form):
 # This report details the counts for cause failure codes on closed work orders for a particular period of time.
 #
 # * This report reports on data provided by functionality only available in the Enterprise CMMS
-
+    rcode=100
     test=""
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
-    categoryText = GroupedModelChoiceField(label="دسته بندی",
-        queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
-        choices_groupby='isPartOf',
-        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
-    )
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),empty_label=None,
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
+    assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),required=False,
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
 ##########################Business metric Forms######################################
 class FailureCodeProblemCount(forms.Form):
     OPTIONS = (
