@@ -602,28 +602,10 @@ class WOUtility:
     @staticmethod
     def getRequestedWorkOrdersListReport(start,end,asset,assetCategory,maintenanceType,priority,makan=None):
 
-        # whereConition="where datecreated between '{0}' and '{1}'  and isScheduling=0 and wostatus=1".format(start ,end)
-        #
-        # if(len(asset)>0):
-        #     whereConition+=" and  assignedToUser_id in {0}".format(str(asset))
-        # if(len(assetCategory)>0):
-        #     whereConition+=" and  woAsset_id in {0}".format(str(assetCategory))
-        #
-        # if(len(maintenanceType)>0):
-        #     whereConition+=" and  maintenanceType_id in {0}".format(maintenanceType)
-        #
-        # if(len(priority)>0):
-        #     whereConition+=" and  woPriority in {0}".format(priority)
-        #
-        # return WorkOrder.objects.raw(""" select workorder.id as id, summaryofIssue,woStatus,b.name,pdate(datecreated) as date1, timecreated as time1,
-        # timestampdiff(day,cast(concat(datecreated, ' ', timecreated) as datetime),NOW()) as t3,pdate(requiredCompletionDate) as date2,requiredCompletionTime as time2,
-        # timestampdiff(day,cast(concat(requiredCompletionDate, ' ', requiredCompletiontime) as datetime),NOW()) as duedate,estimatedLabor
-        #
-        # from workorder
-        # inner join maintenancetype b on workorder.maintenancetype_id=b.id
-        # inner join assets a on workorder.woasset_id=a.id
-        # {0} order by workorder.id
-        #  """.format(whereConition))
+
+    def getRequestedWorkOrdersListReport(start,end,asset,assetCategory,maintenanceType,priority,makan=None,starttime=None,endtime=None):
+
+
         wo=WorkOrder.objects.none()
         # if(len(assignedUser)>0):
         #     wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1),visibile=True,datecreated__range=(start,end))
@@ -641,7 +623,11 @@ class WOUtility:
                 wo=wo.filter(woAsset__id__in=asset)
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
-        return wo.filter(isScheduling=False,visibile=True);
+        if(starttime):
+            wo=wo.filter(timecreated__gte=starttime)
+        if(endtime):
+            wo=wo.filter(timecreated__lte=endtime)
+        return wo.filter(isScheduling=False,visibile=True).order_by('-id');
     @staticmethod
     def getOpenWorkOrdersListReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority,makan=None):
 
