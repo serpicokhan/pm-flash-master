@@ -135,7 +135,6 @@ var searchStr=function(){
     type: 'get',
     dataType: 'json',
     success: function (data) {
-      console.log(data);
 
         //alert("Company created!");  // <-- This is just a placeholder for now for testing
         $("#tbody_report").empty();

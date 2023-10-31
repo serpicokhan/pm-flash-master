@@ -892,7 +892,9 @@ def assetloadinfo(request):
             assets=Asset.objects.all()
         else:
             assets=Asset.objects.filter(assetIsLocatedAt=makan)
-        if(len(noe)==0  or( "null" in noe and len(noe)==1) or noe=="-1" or noe=="undefined"):
+        print("دخث:",noe)
+        print(assets.count())
+        if(len(noe)==0  or( "null" in noe and len(noe)==1) or noe=="-1" or noe=="undefined" or noe=="0"):
             pass
         else:
             # print(len(noe),noe)

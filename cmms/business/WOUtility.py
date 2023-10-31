@@ -837,6 +837,47 @@ class WOUtility:
         group by(causecode)
         """.format(start,end,whereConition))
     @staticmethod
+    def getCauseCountv2(start,end,assetCategory=None,makan=None,assetname=None):
+        # whereConition=""
+        # if(len(assetCategory)>0):
+        #     whereConition=" and  assetLifeAssetid_id in {0}".format(str(assetCategory))
+        #
+        # # print(""" select count(id) as tedad,causecode as id,causeDescription
+        # # from workOrder a
+        # # inner join causecode b
+        # # on a.woCauseCode=b.id
+        # # where (a.datecreated between '{0}' and '{1}') and isScheduling=0 {2}
+        # # group by(causecode)
+        # # """.format(start,end,whereConition))
+        # return WorkOrder.objects.raw(""" select count(assetCauseCode_id) as tedad,assetCauseCode_id as id,causeDescription
+        # from assetlife a
+        # inner join causecode b
+        # inner
+        # on a.assetCauseCode_id=b.id
+        # where (a.assetOfflineFrom between '{0}' and '{1}')  {2}
+        # group by(causecode)
+        # """.format(start,end,whereConition))
+        result = AssetLife.objects.values('assetCauseCode', 'assetCauseCode__causeDescription') \
+        .annotate(tedad=Count('assetCauseCode')) \
+        .filter(
+            Q(assetOfflineFrom__range=[start, end])
+        ) \
+        .order_by('assetCauseCode')
+        # if(assetCategory):
+        #
+        #     result=result.filter(assetLifeAssetid__assetCategory__in=assetCategory)
+        if(makan):
+            result =result.filter(assetLifeAssetid__assetIsLocatedAt__id=makan)
+        if(assetname):
+            result =result.filter(assetLifeAssetid__in=assetname)
+
+        # result=result.order_by('assetCauseCode')
+        return result.order_by('-tedad')
+
+
+
+
+    @staticmethod
     def getProblemCount(start,end,assetCategory):
         whereConition=""
         if(len(assetCategory)>0):
