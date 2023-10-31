@@ -830,7 +830,7 @@ class WOUtility:
         group by(causecode)
         """.format(start,end,whereConition))
         return WorkOrder.objects.raw(""" select count(wocausecode_id) as tedad,causecode as id,causeDescription
-        from workOrder a
+        from workorder a
         inner join causecode b
         on a.wocausecode_id=b.id
         where (a.datecreated between '{0}' and '{1}') and isScheduling=0 {2}
