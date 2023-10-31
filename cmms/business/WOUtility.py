@@ -822,13 +822,13 @@ class WOUtility:
         whereConition=""
         if(len(assetCategory)>0):
             whereConition=" and  woAsset_id in {0}".format(str(assetCategory))
-        print(""" select count(id) as tedad,causecode as id,causeDescription
-        from workOrder a
-        inner join causecode b
-        on a.woCauseCode=b.id
-        where (a.datecreated between '{0}' and '{1}') and isScheduling=0 {2}
-        group by(causecode)
-        """.format(start,end,whereConition))
+        # print(""" select count(id) as tedad,causecode as id,causeDescription
+        # from workOrder a
+        # inner join causecode b
+        # on a.woCauseCode=b.id
+        # where (a.datecreated between '{0}' and '{1}') and isScheduling=0 {2}
+        # group by(causecode)
+        # """.format(start,end,whereConition))
         return WorkOrder.objects.raw(""" select count(wocausecode_id) as tedad,causecode as id,causeDescription
         from workorder a
         inner join causecode b
