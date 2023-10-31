@@ -846,7 +846,7 @@ class WOUtility:
         # where (a.datecreated between '{0}' and '{1}') and isScheduling=0 {2}
         # group by(causecode)
         # """.format(start,end,whereConition))
-        return WorkOrder.objects.raw(""" select count(assetCauseCode_id) as tedad,assetCauseCode as id,causeDescription
+        return WorkOrder.objects.raw(""" select count(assetCauseCode_id) as tedad,assetCauseCode_id as id,causeDescription
         from assetlife a
         inner join causecode b
         on a.assetCauseCode_id=b.id
