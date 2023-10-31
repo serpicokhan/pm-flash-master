@@ -838,7 +838,7 @@ class WOUtility:
     def getCauseCount(start,end,assetCategory):
         whereConition=""
         if(len(assetCategory)>0):
-            whereConition=" and  woAsset_id in {0}".format(str(assetCategory))
+            whereConition=" and  assetLifeAssetid_id in {0}".format(str(assetCategory))
         # print(""" select count(id) as tedad,causecode as id,causeDescription
         # from workOrder a
         # inner join causecode b
@@ -846,11 +846,11 @@ class WOUtility:
         # where (a.datecreated between '{0}' and '{1}') and isScheduling=0 {2}
         # group by(causecode)
         # """.format(start,end,whereConition))
-        return WorkOrder.objects.raw(""" select count(wocausecode_id) as tedad,causecode as id,causeDescription
-        from workorder a
+        return WorkOrder.objects.raw(""" select count(assetCauseCode_id) as tedad,assetCauseCode as id,causeDescription
+        from assetlife a
         inner join causecode b
-        on a.wocausecode_id=b.id
-        where (a.datecreated between '{0}' and '{1}') and isScheduling=0 {2}
+        on a.assetCauseCode_id=b.id
+        where (a.assetOfflineFrom between '{0}' and '{1}')  {2}
         group by(causecode)
         """.format(start,end,whereConition))
     @staticmethod
