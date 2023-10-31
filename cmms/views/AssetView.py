@@ -885,13 +885,17 @@ def assetloadinfo(request):
             assets=Asset.objects.all()
         else:
             assets=Asset.objects.filter(assetIsLocatedAt=makan)
-        print("دخث:",noe)
-        print(assets.count())
         if(len(noe)==0  or( "null" in noe and len(noe)==1) or noe=="-1" or noe=="undefined" or noe=="0"):
             pass
         else:
+            cats=[int(i)  for i in noe.split(',')]
+            asset_cats=AssetCategory.objects.filter(id__in=cats)
+            sub_cats=[]
+            for cat in asset_cats:
+                sub_cats.append(cat)
+                sub_cats=sub_cats+cat.get_all_child_categories()
             # print(len(noe),noe)
-            assets=assets.filter(assetCategory__in=[int(i)  for i in noe.split(',')])
+            assets=assets.filter(assetCategory__in=sub_cats)
         data["html_assets_dynamics"]=render_to_string('cmms/maintenance/partialWOAssetDynamics.html',
             {'assets':assets})
         data["form_is_valid"]=True
