@@ -600,7 +600,6 @@ class WOUtility:
             wo=wo.filter(woPriority__in=priority)
         return wo.filter(isScheduling=False,visibile=True);
     @staticmethod
-    def getRequestedWorkOrdersListReport(start,end,asset,assetCategory,maintenanceType,priority,makan=None):
 
 
     def getRequestedWorkOrdersListReport(start,end,asset,assetCategory,maintenanceType,priority,makan=None,starttime=None,endtime=None):
