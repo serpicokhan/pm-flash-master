@@ -84,7 +84,7 @@ def woProblem_delete(request, id):
     data['form_is_valid'] = True  # This is just to play along with the existing code
     companies = ProblemCode.objects.all()
     data['html_woProblem_list'] = render_to_string('cmms/settingpages/wo_problem_code/partialWoProblemlist.html', {
-        'woProblem': companies
+        'woProblems': companies
     })
     return JsonResponse(data)
 ###################################################################
