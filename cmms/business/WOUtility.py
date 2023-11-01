@@ -2,7 +2,7 @@ from cmms.models import *
 import jdatetime
 import datetime
 
-# from datetime import datetime
+from datetime import datetime
 from django.core.paginator import *
 from cmms.business.misccost import *
 from cmms.business.taskUtility import *
@@ -602,12 +602,13 @@ class WOUtility:
     @staticmethod
     def getRequestedWorkOrdersListReport(start,end,asset,assetCategory,maintenanceType,priority,makan=None,starttime=None,endtime=None):
 
-
+        start_datetime=None
+        end_datetime=None
         wo=WorkOrder.objects.none()
         # if(len(assignedUser)>0):
         #     wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1),visibile=True,datecreated__range=[start,end])
         # else:
-        wo=WorkOrder.objects.filter(isScheduling=False,woStatus=1,visibile=True,datecreated__range=[start,end])
+        wo=WorkOrder.objects.filter(isScheduling=False,woStatus=1,visibile=True)
         if(makan):
             wo=wo.filter(Q(woAsset__assetIsLocatedAt__id__in=makan)|Q(woAsset__id__in=makan))
 
@@ -621,10 +622,27 @@ class WOUtility:
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
         if(starttime):
-            wo=wo.filter(timecreated__gte=starttime)
+            time_object = datetime.datetime.strptime(starttime, "%H:%M:%S").time()
+            start_datetime = datetime.datetime.combine(start, time_object)
+        else:
+            start_datetime=datetime.datetime.combine(start, datetime.time(0,0,0))
         if(endtime):
-            wo=wo.filter(timecreated__lte=endtime)
-        return wo.filter(isScheduling=False,visibile=True).order_by('-id');
+            time_object = datetime.datetime.strptime(endtime, "%H:%M:%S").time()
+
+            end_datetime = datetime.datetime.combine(end, time_object)
+        else:
+            end_datetime=datetime.datetime.combine(end, datetime.time(11,59,59))
+        #     wo=wo.filter(timecreated__gte=starttime)
+        # if(endtime):
+        #     wo=wo.filter(timecreated__lte=endtime)
+        filter_condition = Q(
+                            Q(datecreated__gt=start_datetime.date()) |  # Row's datecreated is after start_date
+                            Q(datecreated=start_datetime.date(), timecreated__gte=start_datetime.time())
+                        ) & Q(
+                            Q(datecreated__lt=end_datetime.date()) |  # Row's datecreated is before end_date
+                            Q(datecreated=end_datetime.date(), timecreated__lte=end_datetime.time())
+                        )
+        return wo.filter(filter_condition).order_by('datecreated','timecreated');
     @staticmethod
     def getOpenWorkOrdersListReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority,makan=None):
 
