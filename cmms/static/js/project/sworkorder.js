@@ -862,12 +862,58 @@ var check_wo_is_new=function(){
 
   }
 }
+var wobulkdeletion_pressed=function(){
+  swal({
+    title:"حذف دستور کار",
+    text: "",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#DD6B55",
+    confirmButtonText: "بلی",
+    cancelButtonText: "خیر",
+    closeOnConfirm: true
+  }, function () {
+    wobulkdeletion();
 
+  });
+}
+var wobulkdeletion =function () {
+  matches=[];
+  $(".selection-box:checked").each(function() {
+    matches.push(this.value);
+  });
+  // lo(matches);
+  // console.log(matches);
+  var urlParams = new URLSearchParams(window.location.search);
+  var page = urlParams.get("page");
+
+  return $.ajax({
+    url: '/SWorkOrder/BulkDelete/'+matches,
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+
+
+
+    },
+    success: function (data) {
+      if(data.form_is_valid)
+      {
+        window.location.replace("/SWorkOrder/?page="+page);
+      }
+      else
+      {
+        toastr.error("خطا در حذف دسته ای دستورکار");
+      }
+    }
+  });
+};
  //////////////
 
 
 $(".js-create-swo").click(loadForm);
 $(".js-create-swo-copy").click(LoadFormCopySelector);
+$(".js-bulkwo-selector").on("click", wobulkdeletion_pressed);
 $("#modal-company").on("click",".js-create-task",check_wo_is_new);
 $("#modal-company").on("submit", ".js-swo-create-form", saveForm);
 // $("#modal-copy").on("submit", ".js-swo-create-swo-copy", saveForm);

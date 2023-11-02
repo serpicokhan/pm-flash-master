@@ -116,6 +116,8 @@ urlpatterns = [
     url(r'^SWorkOrder/create/$', swo_create, name='swo_create'),
     url(r'^SWorkOrder/(?P<id>\d+)/update/$', swo_update, name='swo_update'),
     url(r'^SWorkOrder/(?P<id>\d+)/delete/$', swo_delete, name='swo_delete'),
+    url(r'^SWorkOrder/BulkDelete/(?P<ids>\d+(?:,\d+)*)$', bulk_delete_wo, name='bulk_delete_wo'),
+    
 
     url(r'^SWorkOrder/(?P<id>\d+)/deleteChildren$', swo_deleteChildren, name='swo_deleteChildren'),
     url(r'^SWorkOrder/(?P<woid>\d+)/Task/(?P<uid>\d+)/Update_Task_User/$', swo_Update_Task_User, name='swo_Update_Task_User'),
