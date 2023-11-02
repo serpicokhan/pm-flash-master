@@ -142,6 +142,80 @@ class SWOUtility:
                         change_message= request.META.get('REMOTE_ADDR')
                     )
     @staticmethod
+    def copy2(ids,assetlist,request):
+        print(ids,"!!!!!!!!!!!!!!!!!")
+        with transaction.atomic():
+            kll=ids.split(',')
+            for kl in kll:
+
+            
+                 ##### Create Wo #########
+                for assets in assetlist:
+                        Ast=Asset.objects.get(id=assets)
+                        stableWo=WorkOrder.objects.get(id=kl)
+                        oldWo=WorkOrder.objects.get(id=kl)
+                        stableWo.pk=None
+                        stableWo.visibile=False
+                        stableWo.woAsset=Ast
+                        stableWo.isScheduling=True
+                        stableWo.isPm=False
+                        stableWo.save()
+
+                        #################
+                        wt=Tasks.objects.filter(workOrder=oldWo)
+                        if(wt!=None):
+                            for f in wt:
+                                f.pk=None
+                                f.workOrder=stableWo
+                                f.save()
+                        ##############
+                        sch=Schedule.objects.filter(workOrder=oldWo)
+                        print(sch,"sch")
+                        if(sch!=None):
+                            for f in sch:
+                                f.pk=None
+                                f.workOrder=stableWo
+                                f.workOrder.save()
+                                f.schNextWo=None
+                                f.save()
+                                ScheduleUtility.CreateNewWO(f.id)
+
+                        ##############
+                        wp=WorkorderPart.objects.filter(woPartWorkorder=oldWo)
+                        if(wp!=None):
+                            for f in wp:
+                                f.pk=None
+                                f.woPartWorkorder=stableWo
+                                # woPartMsg=StockUtility.remove(f)
+                                f.save()
+                        ###############
+                        wf=WorkorderFile.objects.filter(woFileworkorder=oldWo)
+                        if(wf!=None):
+
+                            for f in wf:
+                                f.pk=None
+                                f.woFileworkorder=stableWo
+                                f.save()
+
+                        ################
+                        try:
+                            wn=WorkorderUserNotification.objects.filter(woNotifWorkorder=oldWo)
+                            if(wn!=None):
+                                wn.pk=None
+                                wn.woNotifWorkorder=stableWo
+                                wn.save()
+
+                        except Exception as es:
+                            print(es)
+                        LogEntry.objects.log_action(
+                            user_id         = request.user.pk,
+                            content_type_id = ContentType.objects.get_for_model(oldWo).pk,
+                            object_id       = oldWo.id,
+                            object_repr     = 'دستور کار دوره ای',
+                            action_flag     = CHANGE,
+                            change_message= request.META.get('REMOTE_ADDR')
+                        )
+    @staticmethod
     def log(request,form,id):
         if(id):
             LogEntry.objects.log_action(

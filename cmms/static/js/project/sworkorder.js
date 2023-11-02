@@ -21,7 +21,7 @@ $(function () {
         matches.push(this.value);
     });
     // lo(matches);
-    // console.log(matches);
+    console.log(matches);
 
 
     return $.ajax({
@@ -807,8 +807,8 @@ return false;
        {
          $("#modal-copy").modal("hide");
        $("#tbody_company").html(data.html_swo_list);
-       $(".assetPaging").html(data.html_swo_paginator);
-       alert("it is done!");
+       $(".woPaging").html(data.html_swo_paginator);
+       // alert("it is done!");
        // $("tr").on("click", showAssetDetails);
        toastr.success("کپی با موفقیت انجام شد")
      }
