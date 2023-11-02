@@ -329,8 +329,8 @@ def swo_copy(request,ids=None):
         print("1")
         data=dict()
         id=request.GET.get('id','')
-        print(id,':id!!!!!!!!!')
-        wo_asset1=WorkOrder.objects.get(id=id).woAsset
+
+        # wo_asset1=WorkOrder.objects.get(id__in=id).woAsset
         assets=Asset.objects.all().order_by('-id')
         # assets=Asset.objects.all().order_by('-id')
         asset_loc=Asset.objects.filter(assetTypes=1)
@@ -351,9 +351,9 @@ def save_swo_copy(request):
         data['form_is_valid']=True
         assetlist=request.GET.get("q", "")
         assetlist=[int(i) for i in assetlist.split(',') ]
-        ids=request.GET.get('id','?')
+        ids=request.GET.get('id',False)
         print(assetlist,'assetlist')
-        SWOUtility.copy(int(ids),assetlist,request)
+        SWOUtility.copy2(ids,assetlist,request)
         books = WorkOrder.objects.filter(isScheduling=True)
         books=filterUser(request,books)
         wos=SWOUtility.doPaging(request,books)
