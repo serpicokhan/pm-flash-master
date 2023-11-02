@@ -131,6 +131,7 @@ urlpatterns = [
     url(r'^SWorkOrder/Copy/$', swo_copy, name='swo_copy'),
     url(r'^SWorkOrder/save_copy/$', save_swo_copy, name='save_swo_copy'),
     url(r'^SWorkOrder/Copy/(?P<ids>\d+(?:,\d+)*)$', swo_copy, name='swo_copy'),
+    
 
     url(r'^WorkOrder/Copy/$', wo_copy, name='wo_copy'),
     url(r'^WorkOrder/save_copy/$', save_wo_copy, name='save_wo_copy'),
