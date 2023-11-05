@@ -12,59 +12,65 @@
 
 
 
-<div class="row">
-  <div class="col-lg-12">
-    <div class="row">
-      <div class="col-lg-3">
-        {% include "cmms/summery/worequeted.html" %}
-      </div>
-      <div class="col-lg-3">
-        {% include "cmms/summery/hworequeted.html" %}
-      </div>
-      <div class="col-lg-3">
-        {% include "cmms/summery/dueservice.html" %}
-      </div>
-      <div class="col-lg-3">
-        {% include "cmms/summery/misc.html" %}
-      </div>
 
-    </div>
-    <div class="row">
-      <div class="col-lg-4">
-        <a href="#" class='dash_tekrar' > {% include "cmms/summery/tekrarha.html" %}</a>
-      </div>
-      <div class="col-lg-4">
-        <a href="#"  class="dash_tavizat"> {% include "cmms/summery/tavizat.html" %}</a>
-      </div>
-      <div class="col-lg-4">
-        <a href="#" class="dash_tavaghof" > {% include "cmms/summery/tavaghofat.html" %}</a>
-      </div>
-      <div class="col-lg-4">
-        <a href="#" class="dash_servicemonghazi"> {% include "cmms/summery/servicemonghazi.html" %}</a>
-      </div>
-      <div class="col-lg-4">
-        <a href="{% url 'list_lowItemStock' %}" > {% include "cmms/summery/hadetajdid.html" %}</a>
-      </div>
-      <div class="col-lg-4">
-        <a href="#" class="dash_newrequest" > {% include "cmms/summery/newrequest.html" %}</a>
-      </div>
-
-    </div>
-
-
-  </div>
-
-
-
-</div>
 
 
 <div class="row clear">
 
 </div>
+<div class="row border-bottom  dashboard-header">
+  <div class="col-lg-3">
+   {% include "cmms/summery/pmp.html" %}
+
+  </div>
+  <div class="col-lg-9">
+   {% include "cmms/summery/pmp_line.html" %}
+
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+
+    {% include "cmms/summery/istgahStatus.html" %}
+  </div>
+
+</div>
+
+
+<div class="row">
+  <div class="col-lg-12">
+
+    {% include "cmms/summery/mttr_new.html" %}
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+
+    {% include "cmms/summery/causeBar.html" %}
+  </div>
+
+</div>
+
+<div class="row border-bottom white-bg dashboard-header">
+  <script type="text/javascript">
+  var a111=[];
+
+  </script>
+  {% for m in dashugroups %}
+  <script type="text/javascript">
+  a111.push({{m.id}});
+
+  </script>
+  {% include "cmms/summery/resourceStatus.html" %}
+  {% endfor %}
 
 
 
+
+
+</div>
 
 
 
