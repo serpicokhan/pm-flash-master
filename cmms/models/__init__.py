@@ -29,3 +29,4 @@ from cmms.models.eqcostsetting import EquipmentCostSetting
 from cmms.models.report import *
 from cmms.models.purchaserequest import *
 from cmms.models.amar import *
+from cmms.models.purchasereq import *
