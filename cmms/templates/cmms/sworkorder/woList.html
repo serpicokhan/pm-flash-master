@@ -84,7 +84,7 @@
                                   {% if wo.has_other_pages %}
                                   <ul class="pagination">
                                   {% if wo.has_previous %}
-                                  <li><a href="?page={{ wo.previous_page_number }}">&laquo;</a></li>
+                                  <li><a href="?page={{ wo.previous_page_number }}{% if q %}&q={{q}}{% endif %}">&laquo;</a></li>
                                   {% else %}
                                   <li class="disabled"><span>&laquo;</span></li>
                                   {% endif %}
@@ -92,11 +92,11 @@
                                   {% if wo.number == i %}
                                   <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
                                   {% else %}
-                                  <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                  <li><a href="?page={{ i }}{% if q %}&q={{q}}{% endif %}">{{ i }}</a></li>
                                   {% endif %}
                                   {% endfor %}
                                   {% if wo.has_next %}
-                                  <li><a href="?page={{ wo.next_page_number }}">&raquo;</a></li>
+                                  <li><a href="?page={{ wo.next_page_number }}{% if q %}&q={{q}}{% endif %}">&raquo;</a></li>
                                   {% else %}
                                   <li class="disabled"><span>&raquo;</span></li>
                                   {% endif %}
