@@ -24,6 +24,14 @@ class HelloView(APIView):
 
         content = {'message': 'Hello, World!'}
         return Response(content)
+class UserView(APIView):
+    
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        users=SysUser.objects.filter(usergroups__isnull=False).distinct()
+        serializer = MainSysUserSerializer(users, many=True)
+        return Response(serializer.data)
 class WO(APIView):
     # permission_classes = (IsAuthenticated,)
 
