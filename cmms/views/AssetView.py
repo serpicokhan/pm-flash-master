@@ -44,7 +44,8 @@ from django.db.models import Count
 
 
 def filterUser(request):
-    main_asset=request.GET.get('main_asset',False)
+    main_asset=request.POST.get('main_asset',False)
+    asset_cat=request.GET.get('asset_cat',False)
     search_term=request.GET.get('search',False)
 
 
@@ -60,6 +61,7 @@ def filterUser(request):
     if(main_asset):
             print('mainasset',main_asset)
             books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset)|Q(id=main_asset))
+
     return books
 def filterUserByResult(request,books):
     # books=Asset.objects.none()
@@ -168,6 +170,8 @@ def save_asset_form(request, form, template_name,id=None,page=None):
 
     os=Asset.objects.get(id=id)
     # print("Asset From asset status {}".format(os.assetStatus))
+    search=request.GET.get('search',False)
+    print()
     if (request.method == 'POST'):
         if form.is_valid():
             form.save()
@@ -180,14 +184,18 @@ def save_asset_form(request, form, template_name,id=None,page=None):
             AssetUtility.log(request,form,id)
             # print(1)
             # page=request.GET.get('page',1)
+
             wos,page=AssetUtility.doPagingWithPage(request,books)
             data['html_asset_list'] = render_to_string('cmms/asset/partialAssetList.html', {
                 'asset': wos,
                 'perms': PermWrapper(request.user),
-                'page':page if page is not None else 1
+                'page':page if page is not None else 1,
+                'search':search
             })
             data['html_asset_paging'] = render_to_string('cmms/asset/asset_sort.html', {
                 'asset': wos,
+                'main_asset':request.POST.get('main_asset',False),
+                'search':search,
 
                 'perms': PermWrapper(request.user),
                 'page':page if page is not None else 1
