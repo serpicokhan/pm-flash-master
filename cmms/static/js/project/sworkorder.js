@@ -86,7 +86,7 @@ var searchAsset=function(){
     }
     //console.log($(btn).attr("type"));
     console.log($(btn).attr("data-url")+'&q='+$("#swoSearch").val());
-    const _url=$(btn).attr("data-url")+'&q='+$("#swoSearch").val();
+    const _url=$(btn).attr("data-url")+'&q='+$("#swoSearch").val()+'&page='+$("#pgnum").val();;
     return $.ajax({
       url: _url,
       type: 'get',
@@ -218,7 +218,7 @@ swal("حذف شد!", $("#id_summaryofIssue").val(), "success");
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveForm= function () {
    var form = $(this);
-   const _url=form.attr("action")+'&q='+$("#swoSearch").val(); 
+   const _url=form.attr("action")+'&q='+$("#swoSearch").val();
    $.ajax({
      url: _url,
      data: form.serialize(),
