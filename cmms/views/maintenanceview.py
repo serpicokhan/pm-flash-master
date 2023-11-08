@@ -209,6 +209,7 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
     # try:
         data = dict()
         if (request.method == 'POST'):
+            q=request.GET.get('q',False)
             if form.is_valid():
 
                 err_code=0
@@ -234,12 +235,18 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
                     WOUtility.log(request,form,id)
                     ######################
                     data['form_is_valid'] = True
-                    books=WOUtility.refreshView(request)
+                    books=None
+                    if(q):
+                        books=WOUtility.seachWoByTags(q)
+                    else:
+                        books=WOUtility.refreshView(request)
+
                     wos,page=WOUtility.doPagingWithPage(request,books)
                     data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
                         'wo': wos,
                         'perms': PermWrapper(request.user),
-                        'page':page if page != None and iscreated != 1 else 1
+                        'page':page if page != None and iscreated != 1 else 1,
+                        'q':q
                     })
                 else:
                     data['form_is_valid'] = False
