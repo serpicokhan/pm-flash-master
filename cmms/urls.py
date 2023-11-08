@@ -117,7 +117,7 @@ urlpatterns = [
     url(r'^SWorkOrder/(?P<id>\d+)/update/$', swo_update, name='swo_update'),
     url(r'^SWorkOrder/(?P<id>\d+)/delete/$', swo_delete, name='swo_delete'),
     url(r'^SWorkOrder/BulkDelete/(?P<ids>\d+(?:,\d+)*)$', bulk_delete_wo, name='bulk_delete_wo'),
-    
+
 
     url(r'^SWorkOrder/(?P<id>\d+)/deleteChildren$', swo_deleteChildren, name='swo_deleteChildren'),
     url(r'^SWorkOrder/(?P<woid>\d+)/Task/(?P<uid>\d+)/Update_Task_User/$', swo_Update_Task_User, name='swo_Update_Task_User'),
@@ -799,6 +799,7 @@ urlpatterns = [
             url(r'^hello/$', views.HelloView.as_view(), name='hello'),
             url(r'^api/v1/Mini/$', views.MiniView.as_view(), name='MiniView'),
             url(r'^api/v1/RegMini/$', views.RegMiniView.as_view(), name='RegMiniView'),
+            url(r'^api/v1/Users/$', views.UserView.as_view(), name='UserView'),
             url(r'^api/v1/DetailedMini/$', views.DetailedMiniView.as_view(), name='DetailedMiniView'),
             url(r'^api/v1/DeleteMini/$', views.DeleteMiniView.as_view(), name='DeleteMiniView'),
             url(r'^api/v1/RegUser/$', views.SysUserView.as_view(), name='SysUserView'),
