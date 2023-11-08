@@ -21,7 +21,7 @@ $(function () {
         matches.push(this.value);
     });
     // lo(matches);
-    console.log(matches);
+    // console.log(matches);
 
 
     return $.ajax({
@@ -85,9 +85,10 @@ var searchAsset=function(){
       btn=btn1;
     }
     //console.log($(btn).attr("type"));
-    //console.log($(btn).attr("data-url"));
+    console.log($(btn).attr("data-url")+'&q='+$("#swoSearch").val());
+    const _url=$(btn).attr("data-url")+'&q='+$("#swoSearch").val();
     return $.ajax({
-      url: btn.attr("data-url"),
+      url: _url,
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
@@ -217,9 +218,9 @@ swal("حذف شد!", $("#id_summaryofIssue").val(), "success");
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveForm= function () {
    var form = $(this);
-
+   const _url=form.attr("action")+'&q='+$("#swoSearch").val(); 
    $.ajax({
-     url: form.attr("action"),
+     url: _url,
      data: form.serialize(),
      type: form.attr("method"),
      dataType: 'json',
@@ -299,11 +300,11 @@ var applyForm= function () {
      }
    },
    error:function(x,y,z){
-     console.log(x,y,z);
+     // console.log(x,y,z);
    },
      success: function (data) {
-       console.log("data arrived!");
-      console.log(data);
+       // console.log("data arrived!");
+      // console.log(data);
        if (data.form_is_valid) {
          toastr.success("دستور کار زمانبندی شده با موفقیت  ایجاد شد");
          $("#issavechanged").val("1");
@@ -386,7 +387,7 @@ var saveCopy= function () {
         }
       },
       error: function (jqXHR, exception) {
-        alert(exception);
+        // alert(exception);
         console.log(exception)
       }
     });
@@ -459,7 +460,7 @@ var saveCopy= function () {
        },
        error: function (jqXHR, exception) {
          alert(exception);
-         console.log(exception)
+         // console.log(exception)
        }
      });
      return false;
@@ -541,7 +542,7 @@ $('#woScheduleGroup').change(function(){
        if (data.form_is_valid) {
          //alert("Company created!");  // <-- This is just a placeholder for now for testing
          $("#tbody_task").empty();
-         console.log(data);
+         // console.log(data);
          $("#tbody_task").html(data.html_task_list);
          // console.log(data);
 
@@ -724,7 +725,7 @@ return false;
 
 
      success: function (data) {
-       console.log(data);
+       // console.log(data);
 
        if (data.form_is_valid) {
          // alert("!23");
