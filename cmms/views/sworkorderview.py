@@ -65,21 +65,29 @@ def save_swo_form(request, form, template_name,id=None,page=None):
 
 
     data = dict()
+
     if (request.method == 'POST'):
         if form.is_valid():
-
+            q=request.GET.get('q',False)
             form.save()
             #print("id:"+str(id))
             data['form_is_valid'] = True
-            books = WorkOrder.objects.filter(isScheduling=True)
-            books=filterUser(request,books)
+            books=None
+            if(q):
+                books=(SWOUtility.seachSWoByTags(q))
+                books=filterUser(request,books)
+            else:
+                books = WorkOrder.objects.filter(isScheduling=True)
+                books=filterUser(request,books)
             wos,page=SWOUtility.doPagingWithPage(request,books)
             SWOUtility.log(request,form,id)
             data['html_wo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {
                 'wo': wos,
                 'perms': PermWrapper(request.user),
-                'page':page
+                'page':page,
+                'q':q
             })
+            # data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination.html', {'wo': wos,'pageType':'swo_searchworkOrderByTags','pageArgs':searchStr            })
         else:
             data['form_is_valid'] = False
             print(form.errors)
@@ -147,6 +155,8 @@ def swo_create(request):
 def swo_update(request, id):
     company= get_object_or_404(WorkOrder, id=id)
     page=request.GET.get('page',1)
+
+
     # print(company)
     if (request.method == 'POST'):
 
