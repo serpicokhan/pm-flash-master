@@ -230,6 +230,7 @@ def swo_searchworkOrderByTags(request):
     # searchStr=searchStr.replace('_',' ')
 
     searchStr=request.GET.get('q','')
+    page=request.GET.get('page',False)
     books=(SWOUtility.seachSWoByTags(searchStr))
     books=filterUser(request,books)
 
@@ -239,6 +240,7 @@ def swo_searchworkOrderByTags(request):
     data['html_swo_list'] = render_to_string('cmms/sworkorder/partialWoList.html', {'wo': wos, 'perms': PermWrapper(request.user)   })
     data['html_swo_paginator'] = render_to_string('cmms/sworkorder/partialWoPagination.html', {'wo': wos,'pageType':'swo_searchworkOrderByTags','pageArgs':searchStr            })
     data['form_is_valid'] = True
+    data['page']=page
     return JsonResponse(data)
 
 @csrf_exempt

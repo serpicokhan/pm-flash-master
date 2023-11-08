@@ -86,7 +86,7 @@ var searchAsset=function(){
     }
     //console.log($(btn).attr("type"));
     console.log($(btn).attr("data-url")+'&q='+$("#swoSearch").val());
-    const _url=$(btn).attr("data-url")+'&q='+$("#swoSearch").val();
+    const _url=$(btn).attr("data-url")+'&q='+$("#swoSearch").val()+'&page='+$("#pgnum").val();;
     return $.ajax({
       url: _url,
       type: 'get',

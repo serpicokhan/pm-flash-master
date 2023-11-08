@@ -484,7 +484,7 @@ var saveCopy= function () {
   var saveForm= function () {
 
     var form = $(this);
-    const _url=form.attr('action')+'&q='+$('#woSearch').val()
+    const _url=form.attr('action')+'&q='+$('#woSearch').val()+'&page='+$("#pgnum").val();
 
 
     $.ajax({
@@ -742,6 +742,7 @@ var saveCopy= function () {
         if (data.form_is_valid) {
           //alert("Company created!");  // <-- This is just a placeholder for now for testing
           $("#tbody_company").empty();
+
 
           $("#tbody_company").html(data.html_wo_list);
           $(".woPaging").html(data.html_wo_paginator);

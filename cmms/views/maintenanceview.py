@@ -210,6 +210,8 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
         data = dict()
         if (request.method == 'POST'):
             q=request.GET.get('q',False)
+            page=request.GET.get('page',False)
+            print('page',page)
             if form.is_valid():
 
                 err_code=0
@@ -237,7 +239,7 @@ def save_wo_form(request, form, template_name,id=None,iscreated=None,page=None):
                     data['form_is_valid'] = True
                     books=None
                     if(q):
-                        books=WOUtility.seachWoByTags(q)
+                        books=WOUtility.seachWoByTags(q).order_by('-datecreated','-timecreated','-id')
                     else:
                         books=WOUtility.refreshView(request)
 
@@ -532,6 +534,7 @@ def wo_getProblem(request):
 def wo_searchWorkOrderByTags(request):
     data=dict()
     searchStr=request.GET.get('q','')
+    page=request.GET.get('page',False)
     searchStr=searchStr.replace('empty_','')
     searchStr=searchStr.replace('_',' ')
     books=WOUtility.seachWoByTags(searchStr)
@@ -540,9 +543,10 @@ def wo_searchWorkOrderByTags(request):
         searchStr='empty_'
     # print(searchStr)
     wos=WOUtility.doPaging(request,list(books))
-    data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {               'wo': wos,       'perms': PermWrapper(request.user)                })
+    data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {               'wo': wos,       'perms': PermWrapper(request.user)               })
     data['html_wo_paginator'] = render_to_string('cmms/maintenance/partialWoPaginationsearch.html', {'wo': wos,'pageType':'wo_searchWorkOrderByTags','pageArgs':searchStr})
     data['form_is_valid'] = True
+    data['page']=page
     return JsonResponse(data)
 
 
