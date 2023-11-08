@@ -484,10 +484,11 @@ var saveCopy= function () {
   var saveForm= function () {
 
     var form = $(this);
+    const _url=form.attr('action')+'&q='+$('#woSearch').val()
 
 
     $.ajax({
-      url: form.attr("action"),
+      url: _url,
       data: form.serialize(),
       type: form.attr("method"),
       dataType: 'json',
