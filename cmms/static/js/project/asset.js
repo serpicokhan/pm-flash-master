@@ -524,13 +524,13 @@ var js_switch_change=function()
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveForm= function () {
    // e.preventDefault();
-   var form =  $(this);
+    var form =  $(this);
 // var form2 = $(this);
-
+    const _url=form.attr("action")+'&search='+$('#assetSearch').val()+'&main_asset='+$("#id_main_asset").val()+'&asset_cat='+$("#asset_cat").val();
  // var form = new FormData(document.getElementById("assetupdateform2"));
 
    $.ajax({
-     url: form.attr("action"),
+     url: _url,
      data: form.serialize(),
      type: form.attr("method"),
      dataType: 'json',
