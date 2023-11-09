@@ -1,0 +1,37 @@
+{% for c in mainPurchase %}
+
+<tr>
+<td></td>
+<td>{{c.name}}</td>
+<td>{{c.description}}</td>
+ <td><span class="label label-primary" style="background-color:{{c.color}}">
+                                                    {{c.color}}</span></td>
+
+
+
+
+
+
+ <td>
+   {% if perms.cmms.view_maintenancetype %}
+   <button type="button"
+              class="btn btn-warning btn-sm js-update-mainPurchase"
+              data-url="{% url 'mainPurchase_update' c.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+      </button>
+      {% endif %}
+      {% if perms.cmms.delete_maintenancetype %}
+      <button type="button"
+                   class="btn btn-danger btn-sm js-delete-mainPurchase"
+                   data-url="{% url 'mainPurchase_delete' c.id %}">
+             <span class="glyphicon glyphicon-trash"></span> حذف
+           </button>
+           {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr>
+ <td colspan="5" class="text-center bg-warning">هیچ موردی یافت نشد</td>
+</tr>
+
+{% endfor %}
