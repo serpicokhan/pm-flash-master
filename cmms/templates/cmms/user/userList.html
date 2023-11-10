@@ -1,5 +1,5 @@
 {% extends 'cmms/mainTheme.html' %}
-
+{% load widget_tweaks %}
  {% block content %}
 <div class="row">
   <div class="col-lg-8">
@@ -14,10 +14,7 @@
                                     <i class="fa fa-wrench"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">گزینه 1</a>
-                                    </li>
-                                    <li><a href="#">گزینه 2</a>
-                                    </li>
+                                    
                                 </ul>
                                 <a class="close-link">
                                     <i class="fa fa-times"></i>
@@ -26,19 +23,15 @@
                         </div>
                         <div class="ibox-content">
                             <div class="row">
-                                <div class="col-sm-5 m-b-xs"><select class="input-sm form-control input-s-sm inline" id="userStatus">
-                                    <option value="0">کاربران فعال</option>
-                                    <option value="1">تمامی کاربران</option>
-                                    <option value="2">کاربران عیرفعال</option>
-
-                                </select>
-                                </div>
+                                <div class="col-sm-5 m-b-xs">
+                               
+                                <label for="activeusers">پرسنل فعال</label>
+                                <input type="checkbox" class="js-switch" id="activeusers" checked name="activeusers"/>
+                                                            </div>
                                 <div class="col-sm-4 m-b-xs">
-                                    <!-- <div data-toggle="buttons" class="btn-group">
-                                        <label class="btn btn-sm btn-white " > <input type="radio" id="option1" name="options"> روز </label>
-                                        <label class="btn btn-sm btn-white"> <input type="radio" id="option2" name="options"> هفته </label>
-                                        <label class="btn btn-sm btn-white "> <input type="radio" id="option3" name="options"> ماه </label>
-                                    </div> -->
+                                   
+                                    <label for="techguys">پرسنل فنی</label>
+                                    <input type="checkbox" class="js-switch2" id="techguys" name="techguys" />
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="input-group"><input type="text" placeholder="جستجو" class="input-sm form-control" id="userSearch"> <span class="input-group-btn">
@@ -56,10 +49,8 @@
                                     <th class='col-md-1'></th>
                                     <th class='col-md-1'></th>
                                     <th class='col-md-1'>نام کاربر</th>
-                                    <th class='col-md-1'>ایمیل</th>
-                                    <th class='col-md-1'>تلفن</th>
                                     <th class='col-md-1'>نام کاربری</th>
-                                    <th class='col-md-1'>گروه مشخص شده</th>
+                                    <th class='col-md-1'>گروه </th>
                                     <th class='col-md-1'>وضعیت</th>
                                     <th class='col-md-2'></th>
 
@@ -201,7 +192,7 @@
 {% block javascript %}
 
   <script src="{% static '/js/project/user.js' %}"></script>
-
+   
 
 
 {% endblock %}
