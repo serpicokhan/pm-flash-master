@@ -1,16 +1,17 @@
 
 $(function () {
-  var elem = document.querySelector('.js-switch');
+  var elem = document.querySelector('.js-switch3');
   var init = new Switchery(elem);
   var elem2 = document.querySelector('.js-switch2');
   var init2 = new Switchery(elem2);
-    
+
   var jschange=function(){
     var isChecked = $("#activeusers").is(":checked") ? 1 : 0;
     var isTech = $("#techguys").is(":checked") ? 1 : 0;
     var searchStr=$('#userSearch').val()||'0';
+    var page=$("#pgnum").val();
     $.ajax({
-      url: `/User/Running?active=${isChecked}&onlytechs=${isTech}&q=${searchStr}`,
+      url: `/User/Running?active=${isChecked}&onlytechs=${isTech}&q=${searchStr}&page=${page}`,
       type:'get',
 
       dataType: 'json',
@@ -26,7 +27,7 @@ $(function () {
       }
     });
   }
-  $(".js-switch").change(jschange);
+  $(".js-switch3").change(jschange);
   $(".js-switch2").change(jschange);
   var loadForm =function (btn1) {
     var btn=0;
@@ -162,9 +163,10 @@ var userSearch=function(name)
   var isChecked = $("#activeusers").is(":checked") ? 1 : 0;
   var isTech = $("#techguys").is(":checked") ? 1 : 0;
   var searchStr=$('#userSearch').val()||'0';
+  var page=$("#pgnum").val();
   $.ajax({
 
-    url: `/User/Search/?active=${isChecked}&onlytechs=${isTech}&q=${searchStr}`,
+    url: `/User/Search/?active=${isChecked}&onlytechs=${isTech}&q=${searchStr}&page=${page}`,
     type: 'get',
     dataType: 'json',
     beforeSend:function()
