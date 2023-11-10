@@ -245,6 +245,43 @@ def list_active_user(request):
     except:
         pass
 @login_required
+def list_user_by_status(request):
+        data=dict()
+
+        data['form_is_valid'] = True
+        active_users=request.GET.get('active','0')
+        only_techs=request.GET.get('onlytechs',False)
+        q=request.GET.get('q',False)
+        print(active_users,only_techs,q)
+        books=None
+
+        if(active_users =='1'):
+            books = SysUser.objects.filter(userStatus=True)
+        else:
+            books=SysUser.objects.filter(userStatus=False)
+
+        if(only_techs=='1'):
+            books=books.filter(usergroups__isnull=False).distinct()
+            print("thi sis shot")
+        else:
+            print("here!")
+            books=books.filter(usergroups__isnull=True).distinct()
+        if not q:
+            user=books.all()
+        else:
+            user=books.filter(fullName__contains=q)
+        page=request.GET.get('page',1)
+        users=UserUtility.doPaging(request,books)
+        data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
+            'user': users
+        })
+        data['html_user_paginator'] = render_to_string('cmms/user/partialUserPagination.html',
+            {'user': users,'pageType':'list_user_by_status','active_users':active_users,
+             'onlytechs':only_techs,'q':q,'page':page})
+        # print(data)
+        return JsonResponse(data)
+
+@login_required
 def list_inactive_user(request):
     try:
         print("inactive")
@@ -317,18 +354,38 @@ def userCancel(request,id):
 
     return JsonResponse(data)
 ############
-def searchUser(request,name):
+def searchUser(request):
     data=dict()
-    name=name.replace('_','')
+    print("do it")
+    # name=name.replace('_','')
+    active_users=request.GET.get('active','0')
+    only_techs=request.GET.get('onlytechs',False)
+    page=request.GET.get('page',1)
+    q=request.GET.get('q',False)
     user=[]
-    if not name:
-        user=SysUser.objects.filter(userStatus=True)
+    if not q:
+        user=SysUser.objects.all()
     else:
-        user=SysUser.objects.filter(fullName__contains=name)
-    user=SysUser.objects.filter(fullName__contains=name)
+        user=SysUser.objects.filter(fullName__contains=q)
+    if(active_users=='1'):
+        user=user.filter(userStatus=True)
+    else:
+        user=user.filter(userStatus=False)
+    if(only_techs=='1'):
+        user=user.filter(usergroups__isnull=False).distinct()
+    else:
+
+        user=user.filter(usergroups__isnull=True).distinct()
+
+
+    # user=SysUser.objects.filter(fullName__contains=q)
+    wos=UserUtility.doPaging(request,user)
     data['html_user_list'] = render_to_string('cmms/user/partialUserList.html', {
-       'user': user
+       'user': wos
     })
+    data['html_user_paginator'] = render_to_string('cmms/user/partialUserPagination.html',
+            {'user': wos,'pageType':'searchUser','active_users':active_users,
+             'onlytechs':only_techs,'q':q,'page':page})
     return JsonResponse(data)
 @api_view(['POST'])
 def user_login(request):

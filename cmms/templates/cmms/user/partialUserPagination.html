@@ -1,9 +1,10 @@
 
 {% if user.has_other_pages %}
+<input type="hidden" name="page" id="pgnum" value="{{page}}">
 
 <ul class="pagination">
 {% if user.has_previous %}
-<li><a href="#" data-url="{% url pageType %}?page={{ user.previous_page_number }}" class="user_month_paginator">&laquo;</a></li>
+<li><a href="#" data-url="{% url pageType %}?page={{ user.previous_page_number }}&q={{q}}&active={{active_users}}&onlytechs={{onlytechs}}" class="user_month_paginator">&laquo;</a></li>
 {% else %}
 <li class="disabled"><span>&laquo;</span></li>
 {% endif %}
@@ -11,11 +12,11 @@
 {% if users.number == i %}
 <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
 {% else %}
-<li><a href="#" data-url="{% url pageType %}?page={{ i }}" class="user_month_paginator">{{ i }}</a></li>
+<li><a href="#" data-url="{% url pageType %}?page={{ i }}&q={{q}}&active={{active_users}}&onlytechs={{onlytechs}}" class="user_month_paginator">{{ i }}</a></li>
 {% endif %}
 {% endfor %}
 {% if user.has_next %}
-<li><a href="#" data-url="{% url pageType %}?page={{ user.next_page_number }}" class="user_month_paginator"">&raquo;</a></li>
+<li><a href="#" data-url="{% url pageType %}?page={{ user.next_page_number }}&q={{q}}&active={{active_users}}&onlytechs={{onlytechs}}" class="user_month_paginator"">&raquo;</a></li>
 {% else %}
 <li class="disabled"><span>&raquo;</span></li>
 {% endif %}

@@ -11,10 +11,8 @@
     {% endif %}
                                                                     </td>
 <td>{{c.fullName}}</td>
-<td > {{c.email}} </td>
- <td>{{c.tele1}}</td>
  <td >{{c.userId.username}}</td>
- <td style="text-align: center;">
+ <td >
    {% autoescape off %}{{c.getName}}{% endautoescape %}
 
  </td>
@@ -28,12 +26,12 @@
  <td><button type="button"
               class="btn btn-outline btn-warning btn-sm js-update-user"
               data-url="{% url 'user_update' c.id %}">
-        <span class="glyphicon glyphicon-pencil"></span> ویرایش
+        <span class="glyphicon glyphicon-pencil"></span> 
       </button>
       <button type="button"
                    class="btn btn-outline btn-danger btn-sm js-delete-user"
                    data-url="{% url 'user_delete' c.id %}">
-             <span class="glyphicon glyphicon-trash"></span> حذف
+             <span class="glyphicon glyphicon-trash"></span> 
            </button>
     </td>
 </tr>
