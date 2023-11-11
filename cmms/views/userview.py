@@ -262,9 +262,7 @@ def list_user_by_status(request):
 
         if(only_techs=='1'):
             books=books.filter(usergroups__isnull=False).distinct()
-            print("thi sis shot")
         else:
-            print("here!")
             books=books.filter(usergroups__isnull=True).distinct()
         if not q:
             user=books.all()
