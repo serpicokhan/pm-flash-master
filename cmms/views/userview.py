@@ -263,7 +263,6 @@ def list_user_by_status(request):
         if(only_techs=='1'):
             books=books.filter(usergroups__isnull=False).distinct()
         else:
-            print("here!")
             books=books.filter(usergroups__isnull=True).distinct()
         page=request.GET.get('page',1)
         users=UserUtility.doPaging(request,books)
