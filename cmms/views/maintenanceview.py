@@ -893,7 +893,7 @@ def wo_filter(request,startHijri,endHijri,wotype,ordercol,ordertype):
             # print(WorkOrder.objects.filter(woPriority__in=(1,2),isScheduling=False, datecreated__range=(start, end),woStatus__in=(1,4,5,6,9)).query)
             books=None
             ordercode=None
-            filter_wo=request.GET.getlist("q")
+            filter_wo=request.GET.getlist("q",False)
             if(ordertype == "0"):
                 ordercode={"0":"id","1":"datecreated","2":"woAsset","3":"woStatus"}
             else:
@@ -904,12 +904,14 @@ def wo_filter(request,startHijri,endHijri,wotype,ordercol,ordertype):
                 books = WorkOrder.objects.filter(isScheduling=False,visibile=True, datecreated__range=(start, end))
             else:
                 books = WorkOrder.objects.filter(isScheduling=True, datecreated__range=(start, end))
-            if(filter_wo!='null' and filter_wo):
-                print("qqqq",filter_wo)
+            if(filter_wo!=["False"]):
 
-                filter_wo=','.join([str(i) for i in filter_wo])
-                filter_wo=filter_wo.split(',')
-                books=books.filter(woStatus__in=filter_wo)
+                if(filter_wo!='null' and filter_wo ):
+
+
+                    filter_wo=','.join([str(i) for i in filter_wo])
+                    filter_wo=filter_wo.split(',')
+                    books=books.filter(woStatus__in=filter_wo)
 
 
             # if(request.user.username!="admin"):
@@ -926,7 +928,7 @@ def wo_filter(request,startHijri,endHijri,wotype,ordercol,ordertype):
 
             data['html_wo_paginator'] = render_to_string('cmms/maintenance/partialWoPagination3.html',
                                                          {'wo': wos,'pageType':'wo_filter','sdt1':startHijri,
-                                                          'sdt2':endHijri,'ptype':wotype,'ordercol':ordercol,'ordertype':ordertype,'q':request.GET.get('q','')})
+                                                          'sdt2':endHijri,'ptype':wotype,'ordercol':ordercol,'ordertype':ordertype,'q':request.GET.get('q',False)})
             data['form_is_valid'] = True
             return JsonResponse(data)
             return render(request, 'cmms/maintenance/woList.html', {'wo': wos})
@@ -1124,12 +1126,11 @@ def wo_copy(request,ids=None):
         return JsonResponse(data)
 @csrf_exempt
 def save_wo_copy(request):
-        # print("double kire kahr")
         data=dict()
         data['form_is_valid']=True
         assetlist=request.GET.get("q", "")
         assetlist=[int(i) for i in assetlist.split(',') ]
-        ids=request.GET.get('id','?')
+        ids=request.GET.get('id',False)
         # print(assetlist,'assetlist')
         WOUtility.copy(int(ids),assetlist,request)
         books = WorkOrder.objects.filter(isScheduling=False,visibile=True)

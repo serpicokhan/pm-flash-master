@@ -364,7 +364,6 @@ def save_swo_copy(request):
         assetlist=request.GET.get("q", "")
         assetlist=[int(i) for i in assetlist.split(',') ]
         ids=request.GET.get('id',False)
-        print(assetlist,'assetlist')
         SWOUtility.copy2(ids,assetlist,request)
         books = WorkOrder.objects.filter(isScheduling=True)
         books=filterUser(request,books)
