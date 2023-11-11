@@ -482,9 +482,9 @@ var saveCopy= function () {
 
   //$("#modal-company").on("submit", ".js-company-create-form",
   var saveForm= function () {
-
+    var pgnum=$("#pgnum").val()||1;
     var form = $(this);
-    const _url=form.attr('action')+'&q='+$('#woSearch').val()+'&page='+$("#pgnum").val();
+    const _url=form.attr('action')+'?q='+$('#woSearch').val()+'&page='+pgnum;
 
 
     $.ajax({
