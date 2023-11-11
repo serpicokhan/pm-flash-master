@@ -2,6 +2,7 @@ $(function () {
 
   var loadWoNotifyForm =function () {
     var btn=$(this);
+
     $.ajax({
       url: btn.attr("data-url"),
       type: 'get',
@@ -9,9 +10,11 @@ $(function () {
       beforeSend: function () {
         //alert(btn.attr("data-url"));
         $("#modal-woNotify").modal({backdrop: 'static', keyboard: false});
+
       },
       success: function (data) {
         $("#modal-woNotify .modal-content").html(data.html_woNotify_form);
+          $('.selectpicker').selectpicker();
       }
     });
 
@@ -81,8 +84,7 @@ var saveWoNotifyForm= function () {
 
 
  // Create book
-$(".js-create-woNotify").unbind();
-$(".js-create-woNotify").click(loadWoNotifyForm);
+$(".js-create-woNotify").on("click",loadWoNotifyForm);
 //$("#task-submit").on("", ".js-task-create-form", saveTaskForm);
 //s$("#task-submit").on("click",function(){alert("32132");});
 //$("#task-table").on("load",initLoad);
