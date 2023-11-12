@@ -237,9 +237,14 @@
                          type: "POST",
                          data:mydata,
                          dataType: 'json',
-                         beforeSend: function () {
+                         beforeSend: function (x,y,z) {
                            //alert(btn.attr("data-url"));
                            // console.log(mydata);
+                           if($("lastWorkOrderid").val()=='0')
+                           {
+                             toastr.error("ابتدا تغییرات را اعمال کنید");
+                             x.abort();
+                           }
                          },
                          success: function (data) {
                            if (data.form_is_valid) {
