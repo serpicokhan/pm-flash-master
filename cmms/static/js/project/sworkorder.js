@@ -86,7 +86,10 @@ var searchAsset=function(){
     }
     //console.log($(btn).attr("type"));
     console.log($(btn).attr("data-url")+'&q='+$("#swoSearch").val());
-    const _url=$(btn).attr("data-url")+'&q='+$("#swoSearch").val()+'&page='+$("#pgnum").val();;
+    var urlParams = new URLSearchParams(window.location.search);
+    var page = urlParams.get("page")||1;
+    var pgnum=$("#pgnum").val()||page;
+    const _url=$(btn).attr("data-url")+'?q='+$("#swoSearch").val()+'&page='+pgnum;
     return $.ajax({
       url: _url,
       type: 'get',
