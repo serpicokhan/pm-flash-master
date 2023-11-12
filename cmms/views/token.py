@@ -51,7 +51,25 @@ class WO(APIView):
             # k.datecreated=DateJob.getDate2(k.datecreated)
             # k["datecreated"]= str(jdatetime.datetime.togregorian(date=datetime.datetime.strptime(k["datecreated"], "%Y-%m-%d").date()).date()).replace('-','/')
         return Response(serializer.data)
+class FCMToken(APIView):
+    # permission_classes = (IsAuthenticated,)
 
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        if request.method == 'POST':
+            # print("!23")
+            data=dict()
+            body_unicode = request.body.decode('utf-8')
+            body = json.loads(body_unicode)
+            data["token"]=body["fcm"]
+            usr=SysUser.objects.get(userId=request.user)
+            usr.token=data["token"]
+            usr.save()
+            # usr.token=
+            print("########")
+            print(request.body)
+            return Response(data)
 class MiniView(APIView):
     def filterUser(self,request,books):
         if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
@@ -107,42 +125,6 @@ class RegMiniView(APIView):
             # wos=WOUtility.doPaging(request,companies)
             wos=companies[:50]
             serializer = WOSerializer2(wos, many=True)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            print(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-class RegMiniSingleView(APIView):
-    def filterUser(self,request,books):
-        if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
-            books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))|Q(RequestedUser__userId=request.user)).order_by('-datecreated','-timecreated')
-        else:
-            books=books.order_by('-datecreated','-timecreated')
-        return books
-    permission_classes = (IsAuthenticated,)
-    def post(self,request):
-        # print("!23")
-        # body_unicode = request.body.decode('utf-8')
-        # body = json.loads(body_unicode)
-        # print(request.user.id,"req")
-        rq=SysUser.objects.get(userId=request.user.id)
-        # request.data['RequestedUser']=rq.id
-
-        # print('123')
-        serializer =MiniWorkorderSerializer(data=request.data)
-        if serializer.is_valid():
-            # serializer.RequestedUser=SysUser.objects.get(userId=request.user)
-
-            io1=serializer.save()
-            io1.RequestedUser=rq
-
-            io1.save()
-            WOUtility.create_task_when_wo_created_fromAPI(request,io1.id)
-            WOUtility.create_notification(request,io1.id)
-
-            # print("her2!")
-
-            # wos=WOUtility.doPaging(request,companies)
-            serializer = WOSerializer2(io1)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             print(serializer.errors)
