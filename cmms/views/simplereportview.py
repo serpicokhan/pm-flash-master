@@ -2344,16 +2344,53 @@ class reporttest:
 
         if(assetType):
             print(assetType,"assettype")
-            n1=n1.filter(woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=[date1,date2]).annotate(part_total=Sum('woPartActulaQnty')).order_by('-part_total')
+            n1=n1.filter(woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__date__range=[date1,date2]).annotate(part_total=Sum('woPartActulaQnty')).order_by('-part_total')
         if(assetname):
             print(assetname,"assetName")
-            n1=n1.filter(woPartWorkorder__woAsset__id__in=assetname).filter(woPartWorkorder__woAsset__in=assetname,timeStamp__range=[date1,date2]).annotate(part_total=Sum('woPartActulaQnty')).order_by('-part_total')
+            n1=n1.filter(woPartWorkorder__woAsset__id__in=assetname).filter(woPartWorkorder__woAsset__in=assetname,timeStamp__date__range=[date1,date2]).annotate(part_total=Sum('woPartActulaQnty')).order_by('-part_total')
         s1=[]
         s2=[]
         for i in n1:
             s1.append('{0}/{1}'.format(i['woPartStock__stockItem__partName'],i['woPartWorkorder__woAsset__assetName']))
             s2.append(i['part_total'])
         return render(request, 'cmms/reports/simplereports/PartUsageByLocation.html',{'result1':n1,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate,'s1':s1,'s2':s2})
+    def PartPlannedByLocation(Self,request):
+        reportType=request.POST.getlist("reportType","")
+        makan=request.POST.get("makan",False)
+        assetType=request.POST.getlist("assetType",False)
+        assetname=request.POST.getlist("assetname",False)
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+
+        if(assetType):
+            assetType=[int(i) for i in assetType]
+
+        if(assetname):
+            assetname=[int(i) for i in assetname]
+
+        n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetIsLocatedAt__assetName','woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
+        'woPartWorkorder__woAsset__assetCategory__name').filter(timeStamp__date__range=[date1,date2],woPartPlannedQnty__gt=0)
+        print(n1.count(),'!!!!!!!!!!')
+        if(makan):
+            n1=n1.filter(Q(woPartWorkorder__woAsset__assetIsLocatedAt__id=makan)|Q(woPartWorkorder__woAsset__id=makan))
+        n1=n1.annotate(part_total=Sum('woPartPlannedQnty')).order_by('-part_total')
+
+        # print(n1)
+
+        if(assetType):
+            print(assetType,"assettype")
+            n1=n1.filter(woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__date__range=[date1,date2]).annotate(part_total=Sum('woPartPlannedQnty')).order_by('-part_total')
+        if(assetname):
+            print(assetname,"assetName")
+            n1=n1.filter(woPartWorkorder__woAsset__id__in=assetname).filter(woPartWorkorder__woAsset__in=assetname,timeStamp__date__range=[date1,date2]).annotate(part_total=Sum('woPartPlannedQnty')).order_by('-part_total')
+        s1=[]
+        s2=[]
+        for i in n1:
+            s1.append('{0}/{1}'.format(i['woPartStock__stockItem__partName'],i['woPartWorkorder__woAsset__assetName']))
+            s2.append(i['part_total'])
+        return render(request, 'cmms/reports/simplereports/PartPlannedByLocation.html',{'result1':n1,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate,'s1':s1,'s2':s2})
 
     def CauseByLocation(Self,request):
         reportType=request.POST.getlist("reportType","")
@@ -2395,7 +2432,7 @@ class reporttest:
             n1=n1.filter(woAsset__assetCategory__in=assetType).annotate(part_total=Sum('woCauseCode')).order_by('-part_total')
         if(assetname):
             print(assetname,"assetName")
-            n1=n1.filter(woAsset__id__in=assetname).filter(woPartWorkorder__woAsset__in=assetname,timeStamp__range=[date1,date2]).annotate(part_total=Sum('woCauseCode')).order_by('-part_total')
+            n1=n1.filter(woAsset__id__in=assetname).filter(woPartWorkorder__woAsset__in=assetname,timeStamp__date__range=[date1,date2]).annotate(part_total=Sum('woCauseCode')).order_by('-part_total')
         s1=[]
         s2=[]
         for i in n1:
@@ -2432,7 +2469,7 @@ class reporttest:
         #      assetname=Asset.objects.values_list('id', flat=True)
         n1=[]
         if(partName):
-            n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan, timeStamp__range=[date1,date2],woPartStock__stockItem_id=partName,woPartActulaQnty__gt=0).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+            n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan, timeStamp__date__range=[date1,date2],woPartStock__stockItem_id=partName,woPartActulaQnty__gt=0).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
         # n2=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
         # 'woPartWorkorder__woAsset__assetCategory__name','timeStamp').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,
         # woPartStock__stockItem_id=partName,timeStamp__range=[date1,date2]).annotate(part_total=Sum('woPartActulaQnty')).order_by('timeStamp')
@@ -2456,7 +2493,7 @@ class reporttest:
 
             if(assetType[0]!=-1):
                 n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
-                'woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=[date1,date2],woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+                'woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__date__range=[date1,date2],woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
                 assetType.append(-1)
 
                 n2=WorkorderPart.objects.raw(''' SELECT
@@ -2477,7 +2514,7 @@ class reporttest:
                       '''.format(makan,date1,date2,partName,tuple(assetType)))
             elif(assetname[0]!=-1):
                 assetname.append(-1)
-                n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__in=assetname,timeStamp__range=[date1,date2],woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+                n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__in=assetname,timeStamp__date__range=[date1,date2],woPartStock__stockItem_id=partName).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
                 n2=WorkorderPart.objects.raw(''' SELECT
                       sum(workorderpart.woPartActulaQnty) as id ,
                       pdate(date(workorderpart.timeStamp)) as t,
@@ -2497,7 +2534,7 @@ class reporttest:
         else:
             n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
             'woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,
-            timeStamp__range=[date1,date2],woPartActulaQnty__gt=0).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+            timeStamp__date__range=[date1,date2],woPartActulaQnty__gt=0).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
         # n2=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
         # 'woPartWorkorder__woAsset__assetCategory__name','timeStamp').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,
         # woPartStock__stockItem_id=partName,timeStamp__range=[date1,date2]).annotate(part_total=Sum('woPartActulaQnty')).order_by('timeStamp')
@@ -2521,7 +2558,7 @@ class reporttest:
 
             if(assetType[0]!=-1):
                 n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
-                'woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__range=[date1,date2]).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+                'woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__assetCategory__in=assetType,timeStamp__date__range=[date1,date2]).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
                 assetType.append(-1)
 
                 n2=WorkorderPart.objects.raw(''' SELECT
@@ -2543,7 +2580,7 @@ class reporttest:
             elif(assetname[0]!=-1):
                 assetname.append(-1)
                 n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
-                'woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__in=assetname,timeStamp__range=[date1,date2]).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
+                'woPartWorkorder__woAsset__assetCategory__name').filter(woPartWorkorder__woAsset__assetIsLocatedAt=makan,woPartWorkorder__woAsset__in=assetname,timeStamp__date__range=[date1,date2]).annotate(part_total=Sum('woPartActulaQnty')).order_by('woPartWorkorder__woAsset__assetName','-part_total')
                 n2=WorkorderPart.objects.raw(''' SELECT
                       sum(workorderpart.woPartActulaQnty) as id ,
                       pdate(date(workorderpart.timeStamp)) as t,
@@ -2660,7 +2697,7 @@ class reporttest:
         else:
             asset_names=Asset.objects.filter(id__in=[int(i)  for i in assets]).values_list('assetName',flat=False)
             # print(asset_names.count(),"length")
-            asset_meter=AssetMeterReading.objects.filter(assetMeterLocation__in=[int(i)  for i in assets],timestamp__range=[date1,date2]).order_by('timestamp')
+            asset_meter=AssetMeterReading.objects.filter(assetMeterLocation__in=[int(i)  for i in assets],timeStamp__date__range=[date1,date2]).order_by('timestamp')
         return render(request, 'cmms/reports/simplereports/AssetMeterLocation.html',{'result1':asset_meter,'names':list(asset_names),'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
     def UpCommingServiceByUserAndDate(Self,request):
         user=request.POST.get("user","")
