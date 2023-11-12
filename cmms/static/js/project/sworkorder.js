@@ -217,8 +217,11 @@ swal("حذف شد!", $("#id_summaryofIssue").val(), "success");
 
 //$("#modal-company").on("submit", ".js-company-create-form",
 var saveForm= function () {
-   var form = $(this);
-   const _url=form.attr("action")+'&q='+$("#swoSearch").val();
+  var urlParams = new URLSearchParams(window.location.search);
+  var page = urlParams.get("page");
+  var pgnum=$("#pgnum").val()||page;
+  var form = $(this);
+  const _url=form.attr('action')+'?q='+$('#woSearch').val()+'&page='+pgnum;
    $.ajax({
      url: _url,
      data: form.serialize(),
