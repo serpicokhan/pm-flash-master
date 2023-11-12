@@ -8,6 +8,10 @@ class MaintenanceTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = MaintenanceType
         fields = ('id', 'color','name')
+class WoFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkorderFile
+        fields = '__all__'
 class MeterCodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = MeterCode

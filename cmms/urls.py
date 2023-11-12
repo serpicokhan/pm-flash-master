@@ -801,6 +801,7 @@ urlpatterns = [
             url(r'^api/v1/Mini/$', views.MiniView.as_view(), name='MiniView'),
             url(r'^api/v1/RegMini/$', views.RegMiniView.as_view(), name='RegMiniView'),
             url(r'^api/v1/RegSingle/$', views.RegMiniSingleView.as_view(), name='RegMiniSingleView'),
+            url(r'^api/v1/UploadWoFile/$', views.MultipleFilesUploadView.as_view(), name='MultipleFilesUploadView'),
             url(r'^api/v1/Users/$', views.UserView.as_view(), name='UserView'),
             url(r'^api/v1/DetailedMini/$', views.DetailedMiniView.as_view(), name='DetailedMiniView'),
             url(r'^api/v1/DeleteMini/$', views.DeleteMiniView.as_view(), name='DeleteMiniView'),
