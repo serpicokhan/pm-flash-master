@@ -143,12 +143,9 @@ class RegMiniSingleView(APIView):
         # body = json.loads(body_unicode)
         # print(request.user.id,"req")
         rq=SysUser.objects.get(userId=request.user.id)
-        # request.data['RequestedUser']=rq.id
 
-        # print('123')
         serializer =MiniWorkorderSerializer(data=request.data)
         if serializer.is_valid():
-            # serializer.RequestedUser=SysUser.objects.get(userId=request.user)
 
             io1=serializer.save()
             io1.RequestedUser=rq
@@ -165,6 +162,41 @@ class RegMiniSingleView(APIView):
         else:
             print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class MultipleFilesUploadView(APIView):
+    def post(self, request, *args, **kwargs):
+        # Assuming the files are sent in the request.FILES with the key 'files'
+        uploaded_files = request.FILES.getlist('files')
+        print("!!!!!!!!!!!!!!!!!!!",uploaded_files)
+
+
+        if uploaded_files:
+            created_files = []
+
+            # Iterate through each uploaded file
+            for uploaded_file in uploaded_files:
+                # Create a new WorkOrderFile instance for each file and save it
+                work_order_file = WorkorderFile(woFile=uploaded_file)
+                work_order_file.save()
+
+                # Optionally, associate the file with a specific WorkOrder
+                work_order_id = request.data.get('woid')
+                if work_order_id:
+                    try:
+                        work_order = WorkOrder.objects.get(pk=work_order_id)
+                        work_order_file.woFileworkorder = work_order
+                        work_order_file.save()
+                    except WorkOrder.DoesNotExist:
+                        print("exception")
+                        return Response({'message': 'WorkOrder not found'}, status=status.HTTP_404_NOT_FOUND)
+
+                created_files.append(work_order_file)
+
+            # Serialize the saved WorkOrderFile instances for response
+            print("allfiles area created")
+            serializer = WorkorderFileSerializer(created_files, many=True)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'message': 'No files provided'}, status=status.HTTP_400_BAD_REQUEST)
 class DetailedMiniView(APIView):
 
     permission_classes = (IsAuthenticated,)
