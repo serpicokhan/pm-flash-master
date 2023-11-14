@@ -32,13 +32,13 @@ class WorkOrderForm(forms.ModelForm):
     # completedByUser=forms.ModelChoiceField(label="تکمیل درخواست توسط کاربر",queryset=SysUser.objects.filter(id__in=UserGroups.objects.all().values('userUserGroups')),widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     assignedToUser=forms.ModelChoiceField(
         queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
-        label='Select User',
-        empty_label=None
+        label='کاربر مشخص شده',
+        empty_label='نامشخص'
     )
     completedByUser=forms.ModelChoiceField(
         queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
-        label='Select User',
-        empty_label=None,required=False
+        label='کاربر تکمیل کننده',
+        empty_label='نامشخص',required=False
     )
 
     # RequestedUser = forms.IntegerField( required=False )
