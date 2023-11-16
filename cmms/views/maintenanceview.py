@@ -99,7 +99,7 @@ def list_wo_by_status(request,woStatus):
         groups=[]
 
         if(request.user.username!="admin" and not request.user.groups.filter(name='operator').exists()):
-            books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
+            books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(RequestedUser__userId=request.user)|Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
             usid=SysUser.objects.get(userId=request.user.id)
 
             groups=UserGroup.objects.filter(id__in=UserGroups.objects.filter(userUserGroups__id=usid.id).values_list('groupUserGroups',flat=True))
@@ -128,7 +128,7 @@ def wo_detail(request,id=None):
         groups=[]
 
         if(request.user.username!="admin" and not request.user.groups.filter(name='operator').exists()):
-            books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
+            books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(RequestedUser__userId=request.user)|Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
             usid=SysUser.objects.get(userId=request.user.id)
 
             groups=UserGroup.objects.filter(id__in=UserGroups.objects.filter(userUserGroups__id=usid.id).values_list('groupUserGroups',flat=True))
@@ -646,7 +646,7 @@ def formset_view(request):
     context['form']= form
     context['woList']=wos
     context['section']='formset_view'
-    return render(request, "cmms/maintenance/formset2.html", context)
+    return render(request, "cmms/maintenance/formset.html", context)
 @csrf_exempt
 def save_formset(request):
     #add try catch
