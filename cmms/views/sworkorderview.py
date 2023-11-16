@@ -38,7 +38,7 @@ from cmms.business.DateJob import *
 
 def filterUser(request,books):
     if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
-        books = books.filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-timestamp','-running')
+        books = books.filter(Q(RequestedUser__userId=request.user)|Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-timestamp','-running')
     else:
         books=books.order_by('-timeStamp','-running')
     return books
