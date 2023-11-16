@@ -1253,7 +1253,7 @@ class WOUtility:
     def refreshView(request):
             books=[]
             if(request.user.username!="admin" and not request.user.groups.filter(name='operator').exists()):
-                books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
+                books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(RequestedUser__userId=request.user)|Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
 
             else:
                 books = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True).order_by('-datecreated','-timecreated')
