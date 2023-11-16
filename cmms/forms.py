@@ -31,7 +31,7 @@ class WorkOrderForm(forms.ModelForm):
     assignedToUser=forms.ModelChoiceField(
         queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
         label='کاربر مشخص شده',
-        empty_label='نامشخص'
+        empty_label='',required=False
     )
     completedByUser=forms.ModelChoiceField(
         queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
