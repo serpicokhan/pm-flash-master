@@ -252,7 +252,7 @@ class TaskForm(forms.ModelForm):
 
     taskDescription = forms.CharField( label="توضیحات",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     taskCompletionNote = forms.CharField( label="یادداشت تکمیلی",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
-    
+
     def clean(self):
                 self.is_valid()
                 cleaned_data=super(TaskForm, self).clean()
@@ -338,7 +338,7 @@ class TaskForm2(forms.ModelForm):
         label='Select User',
         empty_label=None
     )
-  
+
     def clean(self):
                 self.is_valid()
                 cleaned_data=super(TaskForm2, self).clean()
@@ -1564,6 +1564,11 @@ class PertCodeForm(forms.ModelForm):
          fields = '__all__'
 ########################################################################
 class UserGroupForm(forms.ModelForm):
+    userUserLocation=forms.ModelChoiceField(
+        queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+        label='واحد',
+        empty_label='-------'
+    )
     def clean(self):
                 self.is_valid()
                 cleaned_data=super(UserGroupForm, self).clean()
