@@ -10,6 +10,14 @@ $("#id_makan").change(function(){
     url: '/Asset/Info?makan='+mak_val,
     type: 'get',
     dataType: 'json',
+    beforeSend:function(x,y,z){
+        if(mak_val=-1){
+          x.abort();
+          $('#id_assetname').empty();
+          $('#id_assetname').selectpicker('refresh');
+
+        }
+    },
     success: function (data) {
       if (data.form_is_valid) {
         //alert("Company created!");  // <-- This is just a placeholder for now for testing
