@@ -84,8 +84,8 @@ def list_dashboard(request):
     else:
         # request.session['operator'] = True
 
-        # return HttpResponseRedirect(reverse('list_wo'))
-        return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1,'section':'dashboard','menu':'opmenu.html'})
+        return HttpResponseRedirect(reverse('list_wo'))
+        # return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1,'section':'dashboard','menu':'opmenu.html'})
     # return render(request,"cmms/dashboards/main.html",{"today" : today,'user2':user1})
 
 
