@@ -45,6 +45,7 @@ def display_calendar(request,mtId,gId,startHijri,endHijri):
     if(mtId=='-1'):
 
         wo=WorkOrder.objects.filter(visibile=True,isScheduling=False,datecreated__range=(start,end))
+
     else:
         wo=WorkOrder.objects.filter(maintenanceType=mtId,visibile=True,isScheduling=False,datecreated__range=(start,end))
     if(gId=='-1'):
@@ -52,6 +53,11 @@ def display_calendar(request,mtId,gId,startHijri,endHijri):
     else:
         wo=wo.filter(assignedToUser__in=UserGroups.objects.filter(groupUserGroups=gId).values_list('userUserGroups', flat=True))
         #.values_list('id', 'summaryofIssue','assignedToUser','datecreated','timecreated','dateCompleted','timeCompleted')
+    if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
+        wo = wo.filter(Q(RequestedUser__userId=request.user)|Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
+
+
+
 
 
     events=[]
