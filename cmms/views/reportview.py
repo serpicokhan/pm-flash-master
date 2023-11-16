@@ -27,8 +27,9 @@ from django.urls import reverse_lazy
 from django.db import transaction
 from cmms.business.ReportUtility import *
 from django.db.models import Q
+from django.contrib.auth.decorators import permission_required
 
-
+@permission_required('cmms.view_report',login_url='/not_found')
 def list_report(request,id=None):
     #
     books = Report.objects.all()

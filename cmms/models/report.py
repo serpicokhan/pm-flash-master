@@ -46,3 +46,8 @@ class Report(models.Model):
         return self.reportName
     class Meta:
         db_table = "reports"
+        # permissions = (
+        #     ("can_", "Can drive"),
+        #     ("can_vote", "Can vote in elections"),
+        #     ("can_drink", "Can drink alcohol"),
+        # )
