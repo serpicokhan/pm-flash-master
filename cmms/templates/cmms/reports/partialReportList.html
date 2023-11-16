@@ -16,11 +16,14 @@
 
 
 
- <td><button type="button"
+ <td>
+    {% if perms.cmms.view_report %}
+   <button type="button"
               class="btn btn-warning btn-sm btn-outline js-update-report"
               data-url="{% url 'simpleReport_update' c.id %}">
         <span class="glyphicon glyphicon glyphicon-eye-open"></span> مشاهده
       </button>
+      {% endif %}
       <button type="button"
                    class="btn btn-info btn-sm btn-outline js-operate-report"
                    data-url="{% url 'simpleReport_create' c.id %}">
