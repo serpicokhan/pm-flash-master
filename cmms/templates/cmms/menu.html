@@ -42,6 +42,7 @@
               <img src="{% static 'img/logo_icon.png' %}" alt=""/>
             </div>
           </li>
+          {% if perms.cmms.view_dashboard %}
           <li>
             <a href="#">
               <i class="fa fa-th-large">
@@ -99,7 +100,10 @@
         </li> -->
 
       </ul>
+
     </li>
+      {% endif %}
+      {% if perms.cmms.view_workorder %}
     <li>
       <a href="#">
         <i class="fa fa-cogs">
@@ -145,6 +149,8 @@
           </li>
         </ul>
       </li>
+      {% endif %}
+      {% if perms.cmms.view_message %}
       <li>
         <a href="#">
           <i class="fa fa-comments">
@@ -173,6 +179,8 @@
 
           </ul>
         </li>
+      {% endif %}
+        {% if perms.cmms.view_asset %}
         <li>
           <a href="#">
             <i class="fa fa-list-alt">
@@ -231,6 +239,8 @@
             </li>
           </ul>
         </li>
+        {% endif %}
+        {% if perms.cmms.view_part %}
         <li>
           <a href="#">
             <i class="fa fa-wrench">
@@ -284,7 +294,8 @@
             </li>
             </ul>
           </li>
-          {% if request.user.username == "admin" %}
+          {% endif %}
+      {% if perms.cmms.view_sysuser %}
           <li>
             <a href="#">
               <i class="fa fa-users">
@@ -309,6 +320,7 @@
               </ul>
             </li>
             {% endif %}
+            {% if perms.cmms.view_report %}
             <li>
               <a href="#">
                 <i class="fa fa-file">
@@ -335,6 +347,8 @@
 
                 </ul>
               </li>
+                {% endif %}
+                {% if perms.cmms.view_problemcode %}
               <li>
                 <a href="#">
                   <i class="fa fa-cog">
@@ -352,6 +366,7 @@
 
                   </ul>
                 </li>
+                {% endif %}
 
               </ul>
             </div>
