@@ -83,7 +83,7 @@ class MiniWorkorderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkOrder
-        fields = ('summaryofIssue','woAsset','maintenanceType','woStatus','RequestedUser','timecreated','datecreated','assignedToUser')
+        fields = ('summaryofIssue','woAsset','maintenanceType','woStatus','RequestedUser','timecreated','datecreated','assignedToUser','user_rating')
 
 class TaskSerializer(serializers.ModelSerializer):
     taskAssignedToUser = serializers.SlugRelatedField(

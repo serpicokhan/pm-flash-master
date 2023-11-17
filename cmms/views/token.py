@@ -14,7 +14,24 @@ from cmms.api.WOSerializer import *
 from cmms.business.WOUtility import WOUtility,AssetUtility
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.generics import RetrieveUpdateAPIView
 import json
+
+class WorkOrderUserRatingUpdate(RetrieveUpdateAPIView):
+    queryset = WorkOrder.objects.all()
+    serializer_class = MiniWorkorderSerializer
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+
 class HelloView(APIView):
     permission_classes = (IsAuthenticated,)
 
