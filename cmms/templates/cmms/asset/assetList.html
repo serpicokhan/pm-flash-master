@@ -73,7 +73,13 @@
             {% endif %}
 
 
-          </div>
+                                  <div class="col-sm-4 m-b-xs">
+                                    <button type="button" class="btn btn-outline btn-default assetexport" data-url="{% url 'assetExport' %}">
+                                      <i class="fa fa-download"></i></button>
+                                    <a href="{% url 'assetImport' %}"  class="btn  btn-default btn-secondary"> <i class="fa fa-upload"></i></a>
+                                    <button type="button" class="btn btn-outline btn-info tree-view">
+                                      <i class="fa fa-th-large"></i>
+									</button>
 
 
 
