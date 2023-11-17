@@ -135,6 +135,7 @@ class WorkOrder(models.Model):
     Medium=3
     Low=4
     Lowest=5
+
     Status=(
          (Requested,'درخواست شده')  ,
          (onHold,'متوقف'),
@@ -347,6 +348,20 @@ class WorkOrder(models.Model):
     woActionCode = models.ForeignKey(ActionCode,on_delete=models.CASCADE,verbose_name="کد اقدام",null=True,blank=True,related_name="woActionCode")
     #تئقف داشته استفاده
     # hasStop=models.BooleanField(default=False)
+    # Add a field for user rating
+    user_rating = models.IntegerField(
+        null=True,
+        blank=True,
+        choices=[
+            (5, 'Great'),
+            (4, 'Good'),
+            (3, 'Average'),
+            (2, 'Fair'),
+            (1, 'Poor'),
+        ],
+        default=None,
+        help_text='Rate the work order from Poor to Great'
+    )
 
 
 
