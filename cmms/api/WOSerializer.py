@@ -4,6 +4,13 @@ from cmms.models import WorkOrder,SysUser,Asset,testuser,MaintenanceType,Tasks,P
 import jdatetime
 import datetime
 
+class AssetCadFileSerializer(serializers.ModelSerializer):
+
+
+
+    class Meta:
+        model = AssetCadFile
+        fields = '__all__'
 class MaintenanceTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = MaintenanceType
