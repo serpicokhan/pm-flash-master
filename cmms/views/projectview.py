@@ -49,7 +49,7 @@ def save_project_form(request, form, template_name,id=None):
             form.save()
             data['form_is_valid'] = True
             books = Project.objects.all().order_by('-ProjectActualStartDate')
-            data['html_project_list'] = render_to_string('cmms/project/partialProjectlist.html', {
+            data['html_project_list'] = render_to_string('cmms/project/partialProjectList.html', {
                 'projects': books,
                 'perms': PermWrapper(request.user)
             })
@@ -73,7 +73,7 @@ def project_delete(request, id):
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies =  Project.objects.all().order_by('-ProjectActualStartDate')
         #Tasks.objects.filter(projectId=id).update(project=id)
-        data['html_project_list'] = render_to_string('cmms/project/partialProjectlist.html', {
+        data['html_project_list'] = render_to_string('cmms/project/partialProjectList.html', {
             'projects': companies,
             'perms': PermWrapper(request.user)
         })
@@ -119,7 +119,7 @@ def projectSearch(request,searchStr):
     searchStr=searchStr.replace('empty_','')
     searchStr=searchStr.replace('_',' ')
     books=Project.objects.filter(Q(projectName__contains=searchStr)|Q(projectDescription__contains=searchStr))
-    data['html_projectLocation_list']=render_to_string('cmms/project/partialProjectlist.html', {
+    data['html_projectLocation_list']=render_to_string('cmms/project/partialProjectList.html', {
         'projects': books,
         'perms': PermWrapper(request.user)
     })
@@ -158,7 +158,7 @@ def projectCancel(request,id):
             companies =  Project.objects.all().order_by('-ProjectActualStartDate')
 
             #Tasks.objects.filter(taskGroupId=id).update(taskGroup=id)
-            data['html_project_list']=render_to_string('cmms/project/partialProjectlist.html', {
+            data['html_project_list']=render_to_string('cmms/project/partialProjectList.html', {
                  'projects': companies
              })
 
