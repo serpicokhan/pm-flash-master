@@ -349,19 +349,7 @@ class WorkOrder(models.Model):
     #تئقف داشته استفاده
     # hasStop=models.BooleanField(default=False)
     # Add a field for user rating
-    user_rating = models.IntegerField(
-        null=True,
-        blank=True,
-        choices=[
-            (5, 'Great'),
-            (4, 'Good'),
-            (3, 'Average'),
-            (2, 'Fair'),
-            (1, 'Poor'),
-        ],
-        default=None,
-        help_text='Rate the work order from Poor to Great'
-    )
+    
 
 
 
