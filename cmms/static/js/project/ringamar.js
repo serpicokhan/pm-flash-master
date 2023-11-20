@@ -85,6 +85,8 @@ $(function () {
     });
   }
   $("#btncreate").click(function(){
+    var mak_val=$("#id_makan").val()||-1;
+    // console.log('/RingAmar/LoadTableInfo?cat=17&makan='+mak_val+'&dt='+$("#dttext").val()+'&shift='+$("#shift").val());
     $.ajax({
       url: '/RingAmar/LoadTableInfo?cat=17&makan='+mak_val+'&dt='+$("#dttext").val()+'&shift='+$("#shift").val(),
       type: 'get',
@@ -99,6 +101,9 @@ $(function () {
 
         toastr.error("خطایی بوجود آمده لطفا مجددا سعی نمایید");
         }
+      },
+      error:function(x,y,z){
+        console.log(x,y,z);
       }
     });
   });
@@ -288,7 +293,7 @@ var loadTime=function(){
     type: 'get',
     dataType: 'json',
     errors:function(x,y,z){
-    
+
     },
     success: function (data) {
       console.log(data);
