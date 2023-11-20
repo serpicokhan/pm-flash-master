@@ -8,5 +8,8 @@ class AdminSetting(models.Model):
 
     class Meta:
        db_table = "adminsetting"
-       permissions=(("view_dashboard","vew dashboard"))
-       
+        permissions = (
+            ("view_dashboard", "view dashboard"),
+            ("can_vote", "Can vote in elections"),
+            ("can_drink", "Can drink alcohol"),
+        )
