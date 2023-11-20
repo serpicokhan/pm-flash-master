@@ -8,3 +8,5 @@ class AdminSetting(models.Model):
 
     class Meta:
        db_table = "adminsetting"
+       permissions=(("view_dashboard","vew dashboard"))
+       
