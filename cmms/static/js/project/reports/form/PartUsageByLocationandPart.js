@@ -12,7 +12,7 @@ $("#id_makan").change(function(){
     type: 'get',
     dataType: 'json',
     beforeSend:function(x,y,z){
-        if(mak_val=-1){
+        if(mak_val==-1){
           x.abort();
           $('#id_assetname').empty();
           $('#id_assetname').selectpicker('refresh');
