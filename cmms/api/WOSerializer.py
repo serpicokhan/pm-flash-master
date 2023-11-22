@@ -237,7 +237,7 @@ class WOSerializer2(serializers.ModelSerializer):
     class Meta:
         model = WorkOrder
         fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser',
-        'woStatus','workInstructions','timecreated')
+        'woStatus','workInstructions','timecreated','user_rating')
 class WOSerializerDetaile(serializers.ModelSerializer):
     datecreated = serializers.SerializerMethodField()
     RequestedUser = serializers.RelatedField(source='SysUser', read_only=True)
