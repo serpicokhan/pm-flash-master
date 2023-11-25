@@ -99,7 +99,7 @@ $(function () {
                        }
                    }
                    // Other autocomplete options
-               }).autocomplete('instance')._renderItem = function(ul, item) {
+               }).data('ui-autocomplete')._renderItem = function(ul, item) {
                    return $('<li>')
                        .append('<div>' + item.assetName + '</div>')
                        .appendTo(ul);
@@ -131,7 +131,7 @@ $(function () {
                        }
                    }
                    // Other autocomplete options
-               }).autocomplete('instance')._renderItem = function(ul, item) {
+               }).data('ui-autocomplete')._renderItem = function(ul, item) {
                    return $('<li>')
                        .append('<div>' + item.partName + '</div>')
                        .appendTo(ul);
@@ -163,7 +163,7 @@ $(function () {
                        }
                    }
                    // Other autocomplete options
-               }).autocomplete('instance')._renderItem = function(ul, item) {
+               }).data('ui-autocomplete')._renderItem = function(ul, item) {
                    return $('<li>')
                        .append('<div>' + item.name + '</div>')
                        .appendTo(ul);
@@ -236,8 +236,8 @@ $(function () {
                newRow.appendTo(currentRow.closest('tbody'));
 
                // Reinitialize autocomplete for the new row
-               setupAutocomplete(newRow.find('.item-name'), itemSuggestions);
-               setupSupplierAutocomplete(newRow.find('.supplier-name'), supplierSuggestions);
+               setupAutocomplete(newRow.find('.item-name'), window.itemSuggestions);
+               setupSupplierAutocomplete(newRow.find('.item-supplier'), window.supplierSuggestions);
                // setupAutocomplete(newRow.find('.item-supplier'), supplierSuggestions);
            }
        });
@@ -292,6 +292,7 @@ $(function () {
            });
            $('.item-location').on('input', function() {
                var input = $(this).val().trim();
+
                if (input.length >= 3) {
                    getLocationSuggestions(input);
                }
