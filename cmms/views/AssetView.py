@@ -1204,3 +1204,7 @@ def get_asset_child(request):
             })
         return JsonResponse(location_data, safe=False)
     return JsonResponse({})
+def getAssetNames(request):
+    searchStr= request.GET['qry'] if request.GET['qry'] else ''
+    x=list(AssetUtility.getAssetNames(searchStr))
+    return JsonResponse(x, safe=False)

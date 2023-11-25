@@ -823,3 +823,15 @@ class AssetUtility:
 
 
         return wos
+    @staticmethod
+
+    def getAssetNames(searchStr):
+                qstr=searchStr
+                result=Asset.objects.all()
+
+                for q in searchStr:
+                    result = result.filter(Q(assetName__contains=qstr)|Q(assetCode__contains=qstr)).order_by('-id').values('id', 'assetName')
+                # res= Part.objects.filter(partName__isnull=False).filter(partName__icontains=searchStr)
+                result=result.extra(select={'length':'Length(assetName)'}).order_by('length').values('id', 'assetName')[:10]
+
+                return result

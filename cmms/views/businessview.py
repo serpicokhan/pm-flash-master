@@ -142,3 +142,9 @@ def business_search(request):
     #       'business': wos,'pageType':'business_search','ptr':searchStr})
     data['form_is_valid'] = True
     return JsonResponse(data)
+def getBusiNames(request):
+
+    searchStr= request.GET['qry'] if request.GET['qry'] else ''
+    x=list(BusinessUtility.getBusiness(searchStr))
+
+    return JsonResponse(x, safe=False)

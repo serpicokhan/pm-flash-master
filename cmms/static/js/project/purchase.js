@@ -1,27 +1,28 @@
 $(function () {
   var itemSuggestions = [
-           "Item 1",
-           "Item 2",
-           "Item 3",
-           "Item 4",
-           "Item 5"
+
+       ];
+  var locationSuggestions = [
+
        ];
 
        var supplierSuggestions = [
-           "Supplier 1",
-           "Supplier 2",
-           "Supplier 3",
-           "Supplier 4",
-           "Supplier 5"
+
        ];
        function getItemSuggestions(input) {
                 $.ajax({
-                    url: '/get-item-suggestions', // Replace with your server endpoint URL
+                    url: '/WoPart/GetParts', // Replace with your server endpoint URL
                     method: 'GET',
                     dataType: 'json',
-                    data: { input: input }, // Send user input to the server
+                    data: { qry: input }, // Send user input to the server
+                    beforeSend:function(){
+
+                    },
                     success: function(response) {
+
                         window.itemSuggestions = response;
+                        console.log(  window.itemSuggestions);
+
                         setupAutocomplete($('.item-name'), window.itemSuggestions);
                     },
                     error: function(xhr, status, error) {
@@ -30,25 +31,163 @@ $(function () {
                     }
                 });
             }
+       function getLocationSuggestions(input) {
+                $.ajax({
+                    url: '/Asset/Names', // Replace with your server endpoint URL
+                    method: 'GET',
+                    dataType: 'json',
+                    data: { qry: input }, // Send user input to the server
+                    beforeSend:function(){
 
-            // Function to set up autocomplete with retrieved suggestions
-            function setupAutocomplete(element, suggestions) {
-                element.autocomplete({
-                    source: suggestions,
-                    minLength: 3, // Minimum characters to trigger autocomplete
-                    select: function (event, ui) {
-                        $(this).closest('td').find('.create-item-link').hide();
                     },
-                    response: function (event, ui) {
-                        if (ui.content.length === 0) {
-                            $(this).closest('td').find('.create-item-link').show();
-                        } else {
-                            $(this).closest('td').find('.create-item-link').hide();
-                        }
+                    success: function(response) {
+
+                        window.locationSuggestions = response;
+                        console.log(  window.locationSuggestions);
+
+                        setupLocationAutocomplete($('.item-location'), window.locationSuggestions);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error while fetching item suggestions:', error);
+                        // Handle errors as needed
                     }
-                    // Other autocomplete options
                 });
             }
+       function getSupplierSuggestions(input) {
+                $.ajax({
+                    url: '/Business/GetNames', // Replace with your server endpoint URL
+                    method: 'GET',
+                    dataType: 'json',
+                    data: { qry: input }, // Send user input to the server
+                    beforeSend:function(){
+
+                    },
+                    success: function(response) {
+
+                        window.supplierSuggestions = response;
+                        setupSupplierAutocomplete($('.item-supplier'), window.supplierSuggestions);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error while fetching item suggestions:', error);
+                        // Handle errors as needed
+                    }
+                });
+            }
+            function setupLocationAutocomplete(element, suggestions) {
+               element.autocomplete({
+                   source: function(request, response) {
+                       var filtered = $.grep(suggestions, function(item) {
+                           return item.assetName.toLowerCase().indexOf(request.term.toLowerCase()) >= 0;
+                       });
+                       response(filtered.slice(0, 10)); // Display only the first 10 matches
+                   },
+                   minLength: 3,
+                   select: function (event, ui) {
+                       $(this).val(ui.item.assetName);
+                       $(this).closest('td').find('.location-id').val(ui.item.id); // Set item ID to hidden input
+                       $(this).closest('td').find('.create-location-link').hide();
+                       return false;
+                   },
+                   response: function (event, ui) {
+                       if (ui.content.length === 0) {
+                           $(this).closest('td').find('.create-location-link').show();
+                           $(this).closest('td').find('.location-id').val(0);
+                       } else {
+                         $(this).closest('td').find('.location-id').val(0);
+
+                           $(this).closest('td').find('.create-location-link').hide();
+                       }
+                   }
+                   // Other autocomplete options
+               }).autocomplete('instance')._renderItem = function(ul, item) {
+                   return $('<li>')
+                       .append('<div>' + item.assetName + '</div>')
+                       .appendTo(ul);
+               };
+           }
+            function setupAutocomplete(element, suggestions) {
+               element.autocomplete({
+                   source: function(request, response) {
+                       var filtered = $.grep(suggestions, function(item) {
+                           return item.partName.toLowerCase().indexOf(request.term.toLowerCase()) >= 0;
+                       });
+                       response(filtered.slice(0, 10)); // Display only the first 10 matches
+                   },
+                   minLength: 3,
+                   select: function (event, ui) {
+                       $(this).val(ui.item.partName);
+                       $(this).closest('td').find('.item-id').val(ui.item.id); // Set item ID to hidden input
+                       $(this).closest('td').find('.create-item-link').hide();
+                       return false;
+                   },
+                   response: function (event, ui) {
+                       if (ui.content.length === 0) {
+                           $(this).closest('td').find('.create-item-link').show();
+                           $(this).closest('td').find('.item-id').val(0);
+                       } else {
+                         $(this).closest('td').find('.item-id').val(0);
+
+                           $(this).closest('td').find('.create-item-link').hide();
+                       }
+                   }
+                   // Other autocomplete options
+               }).autocomplete('instance')._renderItem = function(ul, item) {
+                   return $('<li>')
+                       .append('<div>' + item.partName + '</div>')
+                       .appendTo(ul);
+               };
+           }
+            function setupSupplierAutocomplete(element, suggestions) {
+               element.autocomplete({
+                   source: function(request, response) {
+                       var filtered = $.grep(suggestions, function(item) {
+                           return item.name.toLowerCase().indexOf(request.term.toLowerCase()) >= 0;
+                       });
+                       response(filtered.slice(0, 10)); // Display only the first 10 matches
+                   },
+                   minLength: 3,
+                   select: function (event, ui) {
+                       $(this).val(ui.item.name);
+                       $(this).closest('td').find('.supplier-id').val(ui.item.id); // Set item ID to hidden input
+                       $(this).closest('td').find('.create-supplier-link').hide();
+                       return false;
+                   },
+                   response: function (event, ui) {
+                       if (ui.content.length === 0) {
+                           $(this).closest('td').find('.create-supplier-link').show();
+                           $(this).closest('td').find('.supplier-id').val(0);
+                       } else {
+                         $(this).closest('td').find('.supplier-id').val(0);
+
+                           $(this).closest('td').find('.create-supplier-link').hide();
+                       }
+                   }
+                   // Other autocomplete options
+               }).autocomplete('instance')._renderItem = function(ul, item) {
+                   return $('<li>')
+                       .append('<div>' + item.name + '</div>')
+                       .appendTo(ul);
+               };
+           }
+
+            // Function to set up autocomplete with retrieved suggestions
+            // function setupAutocomplete(element, suggestions) {
+            //     element.autocomplete({
+            //         source: suggestions,
+            //         minLength: 3, // Minimum characters to trigger autocomplete
+            //         select: function (event, ui) {
+            //             $(this).closest('td').find('.create-item-link').hide();
+            //         },
+            //         response: function (event, ui) {
+            //             if (ui.content.length === 0) {
+            //                 $(this).closest('td').find('.create-item-link').show();
+            //             } else {
+            //                 $(this).closest('td').find('.create-item-link').hide();
+            //             }
+            //         }
+            //         // Other autocomplete options
+            //     });
+            // }
 
        // Add autocomplete functionality using jQuery UI Autocomplete
        // function setupAutocomplete(element, suggestions) {
@@ -98,7 +237,8 @@ $(function () {
 
                // Reinitialize autocomplete for the new row
                setupAutocomplete(newRow.find('.item-name'), itemSuggestions);
-               setupAutocomplete(newRow.find('.item-supplier'), supplierSuggestions);
+               setupSupplierAutocomplete(newRow.find('.supplier-name'), supplierSuggestions);
+               // setupAutocomplete(newRow.find('.item-supplier'), supplierSuggestions);
            }
        });
        function sendDataToServer() {
@@ -138,9 +278,27 @@ $(function () {
            $('.js-create-maintenanceType').on('click', function() {
                sendDataToServer(); // Call the function to send data when the button is clicked
            });
-       });
+           $('.item-name').on('input', function() {
+               var input = $(this).val().trim();
+               if (input.length >= 3) {
+                   getItemSuggestions(input);
+               }
+           });
+           $('.item-supplier').on('input', function() {
+               var input = $(this).val().trim();
+               if (input.length >= 3) {
+                   getSupplierSuggestions(input);
+               }
+           });
+           $('.item-location').on('input', function() {
+               var input = $(this).val().trim();
+               if (input.length >= 3) {
+                   getLocationSuggestions(input);
+               }
+           });
+
 
        // Initialize autocomplete for the initial row
-       setupAutocomplete($('.item-name'), itemSuggestions);
-       setupAutocomplete($('.item-supplier'), supplierSuggestions);
-})
+       // setupAutocomplete($('.item-name'), itemSuggestions);
+       // setupAutocomplete($('.item-supplier'), supplierSuggestions);
+});

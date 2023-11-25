@@ -255,6 +255,7 @@ urlpatterns = [
         url(r'^Asset/(?P<locId>\d+)/jslist/$',js_list_asset_dash,name='js_list_asset_dash'),
         url(r'^Asset/Location/$',list_asset_location,name='list_asset_location'),
         url(r'^Asset/Location2/$',get_location,name='get_location'),
+        url(r'^Asset/Names/$',getAssetNames,name='getAssetNames'),
         url(r'^Asset/Location2/Child$',get_asset_child,name='get_asset_child'),
         url(r'^Asset/Machine/$',list_asset_machine,name='list_asset_machine'),
         url(r'^Asset/Tool/$',list_asset_tool,name='list_asset_tool'),
@@ -525,6 +526,8 @@ urlpatterns = [
          url(r'^Business/(?P<id>\d+)/update/$', business_update, name='business_update'),
          url(r'^Business/(?P<id>\d+)/Cancel/$', businessCancel, name='businessCancel'),
          url(r'^Business/Search/$', business_search, name='business_search'),
+         url(r'^Business/GetNames$', getBusiNames, name='getBusiNames'),
+
 
          url(r'^BOMGroup/$',list_bomgroup,name='list_bomgroup'),
          url(r'^BOMGroup/create/$', bomgroup_create, name='bomgroup_create'),
