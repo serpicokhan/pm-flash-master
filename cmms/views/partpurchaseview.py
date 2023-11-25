@@ -170,6 +170,12 @@ def partPurchase_create(request):
 ###################################################################
 def list_my_purchase(request):
     return render(request,"cmms/purchase/purchaseList.html",{})
+def create_my_purchase(request):
+    if(request.method=='GET'):
+        return render(request,"cmms/purchase/purchaseList.html",{})
+    else:
+        pass
+
 @csrf_exempt
 def partPurchase_update(request, id):
     company= get_object_or_404(PartPurchase, id=id)

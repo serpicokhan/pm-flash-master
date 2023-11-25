@@ -7,7 +7,7 @@
   <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>نوع نگهداری </h5>
+                            <h5>درخواست خرید </h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -28,12 +28,13 @@
                                     <thead>
                                     <tr>
                                       <th></th>
-                                      <th>نام</th>
 
-                                      <th>توضیح</th>
+                                      <th>کد درخواست</th>
 
-                                      <th>رنگ</th>
-
+                                      <th>تعداد</th>
+                                      <th>وضعیت</th>
+                                      <th>درخواست کننده</th>
+                                      <th>تاریخ درخواست</th>
 
 
 
@@ -52,15 +53,15 @@
                                 <!-- BUTTON TO TRIGGER THE ACTION -->
                                 {% if perms.cmms.add_maintenancetype %}
                                 <p>
-                                  <button type="button" class="btn btn-primary js-create-mainPurchase"
-                                  data-url="{% url 'mainPurchase_create' %}"                                  >
+                                  <a type="button" class="btn btn-primary js-create-mainPurchase"
+                                  href="{% url 'create_my_purchase' %}"                                  >
                                     <span class="glyphicon glyphicon-plus"
 
 
 
                                     ></span>
                                   جدید
-                                  </button>
+                                  </a>
                                 </p>
                                 {% endif %}
                             </div>

@@ -46,6 +46,12 @@ def list_purchaseRequest(request,id=None):
     books=doPaging(request,books1)
 
     return render(request, 'cmms/purchase_request/purchaseRequestList.html', {'rfq': books,'status':Status})
+def list_purchaseRequest_v2(request,id=None):
+    #
+    books1 = filter_user(request)
+    books=doPaging(request,books1)
+
+    return render(request, 'cmms/purchase_main/purchaseList.html', {'rfq': books,'status':Status})
 
 def save_purchaseRequest_form(request, form, template_name,id=None):
 
