@@ -48,7 +48,7 @@
 
                  </div>
 
-                 <div class="col-sm-2">
+                 <div class="col-sm-1">
                    <select class="form-control" name="ordertype" id="ordertype">
                      <option value="0" selected>صعودی</option>
                      <option value="1">نزولی</option>
@@ -57,7 +57,7 @@
 
 
                  </div>
-                 <div class="col-sm-2">
+                 <div class="col-sm-1">
                    <div class="input-group m-b">
 
 
@@ -70,7 +70,18 @@
                                               <option value="3">وضعیت</option>
 
                                             </select>
+
+
                                            </div>
+
+                 </div>
+                 <div class="col-sm-2">
+                   <select class="form-control selectpicker" name="" id='status-selector' multiple>
+                     {% for i in status %}
+                     <option value="{{i.0}}">{{i.1}}</option>
+                     {% endfor %}
+
+                   </select>
 
                  </div>
                  <div class="col-sm-2">
@@ -78,34 +89,10 @@
                     <i class="fa fa-check-circle-o">
                     </i>
                   </a>
-                   <!-- <div class="btn-group">
-                   <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false">
-                   انتخاب <span class="caret">
-                   </span>
-                   </button>
-                   <ul class="dropdown-menu">
 
-                     <li>
-                       <a href="#">
-                     ماه گذشته</a>
-                     </li>
-                     <li>
-                       <a href="#">
-                       این ماه</a>
-                     </li>
-                     <li>
-                       <a href="#">
-                     30 روز گذشته</a>
-                     </li>
-                     <li>
-                       <a href="#">
-                     از ابتدای سال</a>
-                     </li>
-
-                   </ul>
-                 </div> -->
 
                  </div>
+
              </div>
 
             </div>
@@ -139,6 +126,9 @@
                                     <li><a href="#" class="js-bulkem-selector" date-url='{% url "set_wo_to_em" %}'>تبدیل به EM
                                     </a>
                                     </li>
+                                    <li><a href="#" class="js-bulkwo-selector">حذف گروهی
+                                    </a>
+                                    </li>
                                 </ul>
                                 {% endif %}
                                 <a class="close-link">
@@ -149,6 +139,23 @@
                         <div class="ibox-content">
 
                             <div class="row">
+                              <div class="col-sm-2">
+                                <select class="form-control" name="" id='status-selector2' >
+                                  <option value="1000">همه</option>
+                                  {% for i in status %}
+
+                                  {% if i.0 == selected_status %}
+
+                                  <option value="{{i.0}}" selected>{{i.1}}</option>
+                                  {% else %}
+                                  <option value="{{i.0}}">{{i.1}}</option>
+
+                                  {% endif %}
+                                  {% endfor %}
+
+                                </select>
+
+                              </div>
                                 <div class="col-sm-2 m-b-xs">
                                   <select class="input-sm form-control input-s-sm inline" id='woGroup'>
                                     <option value="-1">همه</option>
@@ -164,17 +171,36 @@
                                 <option value="3">موردی</option>
                                 </select>
                                 </div>
-                                <div class="col-sm-4 m-b-xs">
+                                <div class="col-sm-2 m-b-xs">
                                     <div data-toggle="buttons" class="btn-group">
                                         <label class="btn btn-sm btn-white " > <input type="radio" id="option1" name="options"> روز </label>
                                         <label class="btn btn-sm btn-white"> <input type="radio" id="option2" name="options"> هفته </label>
                                         <label class="btn btn-sm btn-white "> <input type="radio" id="option3" name="options"> ماه </label>
+
                                     </div>
+
                                 </div>
-                                <div class="col-sm-3">
+
+                                <div class="col-sm-2 ">
+                                  <button type="button" class="btn btn-outline btn-default woexport" data-url="{% url 'woExport' %}" >
+                  برون ریزی</button>
+                                 
+
+
+
+
+
+                                </div>
+                                <div class="col-sm-2">
+
+
+
+
                                     <div class="input-group"><input type="text" placeholder="جستجو" class="input-sm form-control" id='woSearch'> <span class="input-group-btn">
                                         <button type="button" class="btn btn-sm btn-primary" id='woSearchBtn'> برو!</button> </span></div>
+
                                 </div>
+
                             </div>
                             <div class="table-responsive">
                               <table class="table  breakpoint-lg" data-paging="true" data-page-size="8" id="company-table">
@@ -182,9 +208,9 @@
                                   <tr>
                                     <th></th>
 
+                                    <th>زمان</th>
+                                    <th >شرح</th>
                                     <th>کد</th>
-                                    <th class="col-md-3">شرح</th>
-                                    <th>اولویت</th>
                                     <th>دارایی</th>
                                     <th>کاربر مشخص شده</th>
                                     <th>واحد</th>
@@ -229,7 +255,7 @@
                                 {% if wo.has_other_pages %}
                                 <ul class="pagination">
                                 {% if wo.has_previous %}
-                                <li><a href="?page={{ wo.previous_page_number }}">&laquo;</a></li>
+                                <li><a href="?page={{ wo.previous_page_number }}{% if q %}&q={{q}}{% endif %}">&laquo;</a></li>
                                 {% else %}
                                 <li class="disabled"><span>&laquo;</span></li>
                                 {% endif %}
@@ -240,11 +266,11 @@
                                 </li>
                                 {% elif  i|sub:3 <=  wo.number and i|add:3 > wo.number %}
 
-                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                <li><a href="?page={{ i }}{% if q %}&q={{q}}{% endif %}">{{ i }}</a></li>
                                 {% endif %}
                                 {% endfor %}
                                 {% if wo.has_next %}
-                                <li><a href="?page={{ wo.next_page_number }}">&raquo;</a></li>
+                                <li><a href="?page={{ wo.next_page_number }}{% if q %}&q={{q}}{% endif %}">&raquo;</a></li>
                                 {% else %}
                                 <li class="disabled"><span>&raquo;</span></li>
                                 {% endif %}
@@ -267,8 +293,19 @@
                                     ></span>
                                   جدید
                                   </button>
+                                  <button type="button" class="btn btn-primary js-create-wo-copy" style="display:none"
+                                  data-url="{% url 'wo_copy' %}"
+                                                                    >
+                                    <span class="glyphicon glyphicon-plus"
+
+
+
+                                    ></span>
+                                  کپی
+                                  </button>
                                 </p>
                                 {% endif %}
+
                             </div>
                           </div>
 
@@ -287,7 +324,14 @@
                        </div>
                      </div>
                     </div>
-                  
+                    <div class="modal fade" id="modal-copy" style="overflow-y: scroll">
+                     <div class="modal-dialog  modal-lg ">
+
+                       <div class="modal-content ">
+                       </div>
+                     </div>
+                    </div>
+
                 </div>
 
 
@@ -299,6 +343,7 @@
 {% block javascript %}
 
   <script src="{% static '/js/project/workorder.js' %}"></script>
+
 
 
 

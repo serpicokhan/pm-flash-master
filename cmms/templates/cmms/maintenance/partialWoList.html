@@ -1,22 +1,24 @@
 
 {% for c in wo %}
 
-<tr title="{{c.summaryofIssue}}"  {% if c.isEM %} style="background-color:#e8e6e6" {% endif %}>
+<tr   {% if c.isEM %} style="background-color:#e8e6e6" {% endif %}>
   <td>
     <input type="checkbox" name="action" value={{c.id}} class="selection-box">
   </td>
 
-<td>{{c.get_dateCreated_jalali|default_if_none:"-"}}</td>
- <td>{{c.summaryofIssue|default_if_none:"-"}}</td>
+<td>{{c.get_dateCreated_jalali|default_if_none:"-"}}<br/>{{c.timecreated|time:"H:i"}}</td>
+ <td title="{{c.summaryofIssue}}">{{c.summaryofIssue|default_if_none:"-"|truncatechars:20}}</td>
 
- <td>{{c.get_woPriority_display|default_if_none:"-"}}</td>
- <td>{{c.woAsset|default_if_none:"-"}}</td>
+ <td>{{c}}</td>
+ <td title="{{c.woAsset}}">{{c.woAsset|default_if_none:"-"|truncatechars:20}}</td>
  <td>{{c.assignedToUser|default_if_none:"-"}}</td>
-  <td>{{c.assignedToUser.getName|default_if_none:"-"}}</td>
- <td>{{c.get_woStatus_display|default_if_none:"-"}}</td>
+  <td>{% autoescape off %}
+  {{c.assignedToUser.getName|default_if_none:"-"}}
+{% endautoescape %}</td>
+ <td>{{c.get_woStatus_display|default_if_none:"-"}} </br> <span class="text-light">نظر کاربر :{{c.get_user_rating_display|default_if_none:"--"}}</span></td>
  <td><span class="label label-primary" style="background-color:{{c.maintenanceType.color}}; min-width: 55px !important;  display: inline-block !important">
                                                   {{c.maintenanceType}}</span></td>
- <td>{{c.RequestedUser|default_if_none:"-"}}</td>
+ <td>{{c.RequestedUser.fullName|default_if_none:"-"}}</td>
 
  <td>{{c.get_actual_labour2}}</td>
 
@@ -24,17 +26,17 @@
 
 {% if perms.cmms.view_workorder %}
  <td><button type="button"
-              class="btn btn-warning btn-sm js-update-wo"
-              data-url="{% url 'wo_update' c.id %}">
-        <span class="glyphicon glyphicon-pencil"></span> مشاهده
+              class="btn btn-outline btn-warning  btn-sm js-update-wo"
+              data-url="{% url 'wo_update' c.id %}?page={{page}}" data-page="{{page}}">
+        <span class="glyphicon glyphicon-pencil"></span>
       </button>
       {% endif %}
 
       {% if perms.cmms.delete_workorder %}
       <button type="button"
-                   class="btn btn-danger btn-sm js-delete-wo2"
-                   data-url="{% url 'wo_delete' c.id %}">
-             <span class="glyphicon glyphicon-trash"></span> حذف
+                   class="btn btn-outline btn-danger btn-sm js-delete-wo2"
+                   data-url="{% url 'wo_delete' c.id %}?page={{page}}" data-page="{{page}}">
+             <span class="glyphicon glyphicon-trash"></span> 
            </button>
            {% endif %}
     </td>
