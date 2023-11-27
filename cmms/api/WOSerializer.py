@@ -125,6 +125,65 @@ class WOSerializer(serializers.ModelSerializer):
         model = WorkOrder
         fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser',
         'woStatus','workInstructions','timecreated')
+
+
+
+
+   
+class MainSysUserSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = SysUser
+        fields = ('id', 'fullName','title','email','userId')
+class MiniAssetSerializer(serializers.ModelSerializer):
+    assetCategory=AssetCategorySerializer(read_only=True)
+
+    class Meta:
+        model = Asset
+        fields = ('id', 'assetName','assetCategory')
+class WOSerializer2(serializers.ModelSerializer):
+
+
+    datecreated = serializers.SerializerMethodField()
+
+    maintenanceType =MaintenanceTypeSerializer(read_only=True)
+    woAsset =MiniAssetSerializer(read_only=True)
+    # def get_datecreated(self, obj):
+    #      return  str(jdatetime.datetime.togregorian(date=obj.datecreated).date())
+
+
+class WOSerializer2(serializers.ModelSerializer):
+
+
+    datecreated = serializers.SerializerMethodField()
+    # RequestedUser = serializers.SlugRelatedField(
+    #     queryset=SysUser.objects.all(), slug_field='fullName'
+    # )
+    # RequestedUser = serializers.SlugRelatedField(
+    #     queryset=SysUser.objects.all(), slug_field='fullName'
+    # )
+    RequestedUser = MainSysUserSerializer( read_only=True)
+    assignedToUser = MainSysUserSerializer( read_only=True)
+    # assignedToUser = serializers.RelatedField(source='SysUser', read_only=True)
+    # assignedToUser = serializers.SlugRelatedField(
+    #     queryset=SysUser.objects.all(), slug_field='fullName'
+    # )
+    woAsset = MiniAssetSerializer(read_only=True)
+    # woAsset = serializers.SlugRelatedField(
+    #     queryset=Asset.objects.all(), slug_field='assetName'
+    # )
+    maintenanceType =MaintenanceTypeSerializer(read_only=True)
+    def get_datecreated(self, obj):
+         return  str(jdatetime.datetime.fromgregorian(date=obj.datecreated).date())
+
+
+
+
+    class Meta:
+        model = WorkOrder
+        fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser',
+        'woStatus','workInstructions','timecreated')
 class WOSerializerDetaile(serializers.ModelSerializer):
     datecreated = serializers.SerializerMethodField()
     RequestedUser = serializers.SlugRelatedField(
