@@ -368,6 +368,11 @@ class WorkOrder(models.Model):
 
     class Meta:
       db_table = "workorder"
+class workorderSetting(models.Model):
+    dismis_task_completoin_restriction=models.BooleanField("لغو چک کردن انجام کار",default=True)
+    class Meta:
+        db_table="workordersetting"
+
 class WorkorderPart(models.Model):
     woPartWorkorder=models.ForeignKey(WorkOrder,on_delete=models.CASCADE,blank=True,null=True,verbose_name="سفارش کار")
     # woPartPart=models.ForeignKey(Part,on_delete=models.CASCADE,verbose_name="نام قطعه")
