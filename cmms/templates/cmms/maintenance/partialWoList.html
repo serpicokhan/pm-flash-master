@@ -9,7 +9,7 @@
 <td>{{c.get_dateCreated_jalali|default_if_none:"-"}}<br/>{{c.timecreated|time:"H:i"}}</td>
  <td title="{{c.summaryofIssue}}">{{c.summaryofIssue|default_if_none:"-"|truncatechars:20}}</td>
 
- <td>{{c.get_woPriority_display|default_if_none:"-"}}</td>
+ <td>{{c}}</td>
  <td title="{{c.woAsset}}">{{c.woAsset|default_if_none:"-"|truncatechars:20}}</td>
  <td>{{c.assignedToUser|default_if_none:"-"}}</td>
   <td>{% autoescape off %}
