@@ -20,9 +20,9 @@
  <table class="table table-bordered">
    <thead>
      <tr>
-     
-      <th>تعداد قطعه</th>
       <th>نام قطعه</th>
+      <th>تعداد قطعه</th>
+     
 
      </tr>
    </thead>
@@ -32,12 +32,13 @@
 
 
        
-       <td>
-         {{c.part_total|default_if_none:"ندارد"}}
-       </td>
+      
        <td>
          {{c.woPartStock__stockItem__partName|default_if_none:"ندارد"}}
        </td>
+       <td>
+        {{c.part_total|default_if_none:"ندارد"}}
+      </td>
 
      </tr>
      {% empty %}
