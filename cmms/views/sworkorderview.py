@@ -345,7 +345,7 @@ def swo_copy(request,ids=None):
         # wo_asset1=WorkOrder.objects.get(id__in=id).woAsset
         assets=Asset.objects.all().order_by('-id')
         # assets=Asset.objects.all().order_by('-id')
-        asset_loc=Asset.objects.filter(assetTypes=1)
+        asset_loc=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
         asset_cat=AssetCategory.objects.all()
         wos=AssetUtility.doPaging(request,assets)
         form=CopyAssetForm()
