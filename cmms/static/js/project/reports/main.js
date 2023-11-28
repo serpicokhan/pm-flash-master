@@ -59,6 +59,8 @@ var loadFormReports =function (btn1) {
 
       $("#modal-simplereport .modal-content").html(data.html_simpleReport_form);
       $('.selectpicker').selectpicker();
+      var elem2 = document.querySelector('.js-switch2');
+      var init2 = new Switchery(elem2);
       $('.datepicker').pDatepicker({
         format: 'YYYY-MM-DD',
 
@@ -261,5 +263,7 @@ $("#modal-report").on("submit", ".js-report-update-form", saveForm);
 // Delete book
 $("#report-table").on("click", ".js-delete-report", loadForm);
 $("#modal-report").on("submit", ".js-report-delete-form", saveForm);
+
+
 //$("#report-table").on("click", ".js-update-wo", initxLoad);
 });
