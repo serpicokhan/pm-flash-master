@@ -109,6 +109,7 @@ urlpatterns = [
     url(r'^WorkOrder/Export/$', woExport, name='woExport'),
     url(r'^WorkOrder/bulkEm/(?P<ids>\d+(?:,\d+)*)$', set_wo_to_em, name='set_wo_to_em'),
     url(r'^WorkOrder/BulkDelete/(?P<ids>\d+(?:,\d+)*)$', bulk_delete_wo, name='bulk_delete_wo'),
+    url(r'^WorkOrder/BulkComplete/(?P<ids>\d+(?:,\d+)*)$', bulk_complete_wo, name='bulk_complete_wo'),
 
 
 
