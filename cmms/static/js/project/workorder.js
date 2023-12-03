@@ -1416,7 +1416,7 @@ var check_completion_date=function()
 
   $(".wo-filter").on("click",filter);
   $(".js-bulkwo-selector").on("click", wobulkdeletion_pressed);
-  $(".js-completewo-selector").on("click", wobulkdeletion_pressed);
+  $(".js-completewo-selector").on("click", wobulkcompletion_pressed);
 
   $("#status-selector2").on("change",filter_by_woStatus);
   $("#company-table").on("click", ".selection-box", chkselection);
