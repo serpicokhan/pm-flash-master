@@ -1100,6 +1100,9 @@ def bulk_complete_wo(request,ids):
                 # task.time
                 task.save()
         wo.woStatus=7
+        
+        
+
 
         wo.save()
     # data['form_is_valid']=True
