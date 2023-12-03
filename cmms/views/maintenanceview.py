@@ -1101,7 +1101,23 @@ def wo_change_status(request,id,status):
             data['form_is_valid']=True
             data['wo_time']=result
         else:
-            data['form_is_valid']=False
+            # wo=WorkOrder.objects.get(id=id)
+            tasks=wo.CompleteUserTask.all()
+            for task in tasks:
+                if(not task.taskTimeEstimate):
+                    task.taskTimeEstimate=0.1
+                dt_start=datetime.datetime.combine(task.taskStartDate,task.taskStartTime)
+                dt_end=dt_start+timedelta(hours=task.taskTimeEstimate)
+                task.taskDateCompleted=dt_end.date()
+                task.taskTimeCompleted=dt_end.time()
+                wo.dateCompleted=task.taskDateCompleted
+                wo.timeCompleted=task.taskTimeCompleted
+                # task.time
+                task.save()
+            wo.woStatus=7
+
+            wo.save()
+            data['form_is_valid']=True
             data['wo_status']=wo.woStatus
     return JsonResponse(data)
 def wo_copy(request,ids=None):
