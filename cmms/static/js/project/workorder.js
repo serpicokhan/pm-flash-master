@@ -1303,6 +1303,55 @@ var saveCopy= function () {
       }
     });
   };
+
+  // 
+  var wobulkcompletion_pressed=function(){
+    swal({
+      title:"تکمیل دستور کار",
+      text: "",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "بلی",
+      cancelButtonText: "خیر",
+      closeOnConfirm: true
+    }, function () {
+      wobulkcompletion();
+
+    });
+  }
+  var wobulkcompletion =function () {
+    matches=[];
+    $(".selection-box:checked").each(function() {
+      matches.push(this.value);
+    });
+    // lo(matches);
+    // console.log(matches);
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var page = urlParams.get("page");
+    return $.ajax({
+      url: '/WorkOrder/BulkComplete/'+matches,
+      type: 'get',
+      dataType: 'json',
+      beforeSend: function () {
+
+
+
+      },
+      success: function (data) {
+        if(data.form_is_valid)
+        {
+          window.location.replace("/WorkOrder/?page="+page);
+        }
+        else
+        {
+          toastr.error("خطا در تکمیل دستور کار");
+        }
+      }
+    });
+  };
+  // 
   var check_wo_is_new=function(){
     if($("#lastWorkOrderid").val()!="0")
     {
@@ -1367,6 +1416,8 @@ var check_completion_date=function()
 
   $(".wo-filter").on("click",filter);
   $(".js-bulkwo-selector").on("click", wobulkdeletion_pressed);
+  $(".js-completewo-selector").on("click", wobulkdeletion_pressed);
+
   $("#status-selector2").on("change",filter_by_woStatus);
   $("#company-table").on("click", ".selection-box", chkselection);
   $(".js-create-wo-copy").click(LoadFormCopySelector);
@@ -1395,3 +1446,4 @@ var check_completion_date=function()
 
   //$("#company-table").on("click", ".js-update-wo", initxLoad);
 });
+// js-completewo-selector

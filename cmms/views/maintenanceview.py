@@ -1078,17 +1078,34 @@ def bulk_delete_wo(request,ids):
     foo=WorkOrder.objects.filter(id__in=clean_data)
     for i in foo:
         i.delete()
-    data=dict()
-    # books = WorkOrder.objects.filter(isScheduling=False,visibile=True).order_by('-datecreated','-timecreated')
-    # page=request.GET.get('page',1)
-    # wos=WOUtility.doPaging(request,books)
-    # data['html_wo_list'] = render_to_string('cmms/maintenance/partialWoList.html', {
-    #     'wo': wos,
-    #     'perms': PermWrapper(request.user)
-    # })
-    #
-    # data['html_wo_paginator'] = render_to_string('cmms/maintenance/partialWoPagination.html', {
-    #                   'wo': wos})
+    data=dict()    
+    data['form_is_valid'] = True
+    # print('done')
+    return JsonResponse(data)
+@csrf_exempt
+def bulk_complete_wo(request,ids):
+    clean_data=[int(i)  for i in ids.split(',')]
+    foo=WorkOrder.objects.filter(id__in=clean_data)
+    for wo in foo:
+        tasks=wo.CompleteUserTask.all()
+        for task in tasks:
+                if(not task.taskTimeEstimate):
+                    task.taskTimeEstimate=0.1
+                dt_start=datetime.datetime.combine(task.taskStartDate,task.taskStartTime)
+                dt_end=dt_start+timedelta(hours=task.taskTimeEstimate)
+                task.taskDateCompleted=dt_end.date()
+                task.taskTimeCompleted=dt_end.time()
+                wo.dateCompleted=task.taskDateCompleted
+                wo.timeCompleted=task.taskTimeCompleted
+                # task.time
+                task.save()
+        wo.woStatus=7
+
+        wo.save()
+    # data['form_is_valid']=True
+
+        
+    data=dict()    
     data['form_is_valid'] = True
     # print('done')
     return JsonResponse(data)
