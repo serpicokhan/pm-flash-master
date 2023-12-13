@@ -518,8 +518,11 @@ var js_switch_change=function()
 var saveForm= function () {
    // e.preventDefault();
     var form =  $(this);
+    var assetSearch=$('#assetSearch').val()||'';
+var main_asset=$('#id_main_asset').val()||'';
+var asset_cat=$('#asset_cat').val()||'';
 // var form2 = $(this);
-    const _url=form.attr("action")+'&search='+$('#assetSearch').val()+'&main_asset='+$("#id_main_asset").val()+'&asset_cat='+$("#asset_cat").val();
+  const _url=form.attr("action")+'?search='+assetSearch+'&main_asset='+main_asset+'&asset_cat='+asset_cat;
  // var form = new FormData(document.getElementById("assetupdateform2"));
 
    $.ajax({
