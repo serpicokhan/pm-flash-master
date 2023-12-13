@@ -54,9 +54,11 @@ def filterUser(request):
     else:
         books=Asset.objects.all().order_by('-id')
     if(main_asset):
-        if(main_asset !='False'):
-
+        try:
+            print('mainasset',main_asset)
             books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset)|Q(id=main_asset))
+        except:
+            pass
 
     return books
 def filterUserByResult(request,books):
@@ -81,8 +83,8 @@ def list_asset(request,id=None):
     asset_cat=request.GET.get('asset_cat',False)
 
     kvm=0
-    if(main_asset):
-        # print('mainasset',main_asset)
+    if(main_asset) and (main_asset !='False'):
+        print('mainasset',main_asset)
         books=books.filter(Q(assetIsLocatedAt__id=main_asset)|Q(assetIsPartOf__id=main_asset))
         dc['main_asset']=main_asset
 
