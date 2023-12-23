@@ -196,15 +196,15 @@ class MiniAssetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Asset
         fields = ('id', 'assetName','assetCategory')
-class WOSerializer2(serializers.ModelSerializer):
-
-
-    datecreated = serializers.SerializerMethodField()
-
-    maintenanceType =MaintenanceTypeSerializer(read_only=True)
-    woAsset =MiniAssetSerializer(read_only=True)
-    # def get_datecreated(self, obj):
-    #      return  str(jdatetime.datetime.togregorian(date=obj.datecreated).date())
+# class WOSerializer2(serializers.ModelSerializer):
+#
+#
+#     datecreated = serializers.SerializerMethodField()
+#
+#     maintenanceType =MaintenanceTypeSerializer(read_only=True)
+#     woAsset =MiniAssetSerializer(read_only=True)
+#     # def get_datecreated(self, obj):
+#     #      return  str(jdatetime.datetime.togregorian(date=obj.datecreated).date())
 
 
 class WOSerializer2(serializers.ModelSerializer):

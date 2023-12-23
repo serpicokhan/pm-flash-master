@@ -49,6 +49,19 @@ class UserView(APIView):
         users=SysUser.objects.filter(usergroups__isnull=False).distinct()
         serializer = MainSysUserSerializer(users, many=True)
         return Response(serializer.data)
+class RecentWorkOrderByAsset(APIView):
+    def get(self, request, asset_id):
+        # Retrieve work orders related to the asset_id
+        work_orders = WorkOrder.objects.filter(woAsset=asset_id).order_by('-datecreated','-timecreated')[:10]
+
+        # If the asset_id doesn't exist or has no associated work orders, return 404
+        if not work_orders.exists():
+            return Response({"error": "Work orders not found for this asset ID"}, status=404)
+
+        # Serialize the work orders data (You might have a serializer for WorkOrder model)
+        serialized_data =  WOSerializer2(posts, many=True)  # Serialize work orders here using your serializer
+
+        return Response(serialized_data, status=200)
 class WO(APIView):
     # permission_classes = (IsAuthenticated,)
 

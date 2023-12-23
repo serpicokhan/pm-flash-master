@@ -788,6 +788,7 @@ urlpatterns = [
             url(r'^hello/$', views.HelloView.as_view(), name='hello'),
             url(r'^api/v1/Mini/$', views.MiniView.as_view(), name='MiniView'),
             url(r'^api/v1/RegMini/$', views.RegMiniView.as_view(), name='RegMiniView'),
+            url(r'^api/v1/RelateWo/<int:asset_id>/$', views.RecentWorkOrderByAsset.as_view(), name='RecentWorkOrderByAsset'),
             url(r'^api/v1/(?P<pk>\d+)/update-rating/$', WorkOrderUserRatingUpdate.as_view(), name='update-workorder-rating'),
             url(r'^api/v1/RegSingle/$', views.RegMiniSingleView.as_view(), name='RegMiniSingleView'),
             url(r'^api/v1/Users/$', views.UserView.as_view(), name='UserView'),
