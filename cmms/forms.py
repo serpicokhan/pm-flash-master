@@ -3239,6 +3239,8 @@ class PartUsageByLocation(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+    advanceMode=forms.BooleanField(label="گزارش به صورت تجمیعی",widget=forms.CheckboxInput(attrs={'class':'js-switch2'}),required=False)
+    
 class PartPlannedByLocation(forms.Form):
     rcode=100
     test='قطعات درخواستی'
