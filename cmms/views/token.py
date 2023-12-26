@@ -298,6 +298,7 @@ class SubSiteView(APIView):
 
 
     def get(self,request,id):
-            sites=Asset.objects.filter(Q(assetIsLocatedAt__id=id)|Q(assetIsPartOf__id=id)).filter(assetTypes=1)
-            my_site=MiniAssetSerializer(sites, many=True)
+            all_asstest=AssetUtility.get_sub_assets(id)
+            # sites=Asset.objects.filter(Q(assetIsLocatedAt__id=id)|Q(assetIsPartOf__id=id)).filter(assetTypes=1)
+            my_site=MiniAssetSerializer(all_asstest, many=True)
             return Response(my_site.data)
