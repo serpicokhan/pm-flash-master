@@ -1304,7 +1304,7 @@ var saveCopy= function () {
     });
   };
 
-  // 
+  //
   var wobulkcompletion_pressed=function(){
     swal({
       title:"تکمیل دستور کار",
@@ -1351,7 +1351,7 @@ var saveCopy= function () {
       }
     });
   };
-  // 
+  //
   var check_wo_is_new=function(){
     if($("#lastWorkOrderid").val()!="0")
     {
@@ -1392,6 +1392,9 @@ var check_completion_date=function()
   }
 
 }
+$('#selectAll').on('click', function() {
+      $('.selection-box').prop('checked', $(this).prop('checked'));
+    });
   $(".js-create-wo").unbind();
   $("#modal-company").on("click",".js-create-task",check_wo_is_new);
   $("#modal-company").on("change","#id_woStatus",check_completion_date);
