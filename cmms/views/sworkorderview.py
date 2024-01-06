@@ -349,12 +349,13 @@ def swo_copy(request,ids=None):
         asset_cat=AssetCategory.objects.all()
         wos=AssetUtility.doPaging(request,assets)
         form=CopyAssetForm()
-        q=request.GET.get('q','')
+        q=request.GET.get('q',False)
+
 
         data["modalcopyasset"]=render_to_string('cmms/sworkorder/assetcopy.html',{'asset':wos,'asset_cat':asset_cat,
         'asset_loc':asset_loc,'perms': PermWrapper(request.user),'form':form,'id':id})
         data['html_asset_paginator'] = render_to_string('cmms/asset/partialAssetPagination_swo.html', {
-                          'asset': wos,'pageType':'swo_copy','ptr':0,'q':q})
+                          'asset': wos,'pageType':'swo_copy','ptr':0,'q':q,'id':id})
         data['form_is_valid']=True
         return JsonResponse(data)
 @csrf_exempt

@@ -85,7 +85,7 @@
           <table class="table table-striped" id="assetLife-table" >
             <thead>
               <tr>
-                <th></th>
+                <th><input type="checkbox" name="" value="" class="checkbox"/></th>
                 <th>تجهیز</th>
                 <th>وضعیت</th>
                 <th>تاریخ از کار افتادگی</th>
@@ -130,6 +130,15 @@
             ></span>
             جدید
           </button>
+            <button type="button" class="btn btn-primary js-clone-assetLife" style="display:none"
+            data-url="{% url 'swo_copy' %}"                                  >
+            <span class="glyphicon glyphicon-plus"
+
+
+
+            ></span>
+            کپی
+          </button>
         </p>
       </div>
     </div>
@@ -138,6 +147,13 @@
 </div>
 <div class="modal fade" id="modal-assetLife">
   <div class="modal-dialog ">
+
+    <div class="modal-content ">
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modal-copy" style="overflow-y: scroll">
+  <div class="modal-dialog modal-lg">
 
     <div class="modal-content ">
     </div>

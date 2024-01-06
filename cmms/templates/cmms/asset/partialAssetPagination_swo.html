@@ -2,14 +2,14 @@
 {% if asset.has_other_pages %}
 <ul class="pagination">
 {% if asset.has_previous %}
-<li><a href="#" data-url="{% url pageType  %}?page={{ asset.previous_page_number }}&q={{ q }}" class="asset_month_paginator3">
+<li><a href="#" data-url="{% url pageType  %}?page={{ asset.previous_page_number }}&q={{ q }}&id={{id}}" class="asset_month_paginator3">
   &laquo;</a></li>
 {% else %}
 <li class="disabled"><span>&laquo;</span></li>
 {% endif %}
   <li class="active"><span>{{ asset.number }} از {{ asset.paginator.num_pages }} <span class="sr-only">(current)</span></span></li>
 {% if asset.has_next %}
-<li><a href="#" data-url="{% url pageType  %}?page={{ asset.next_page_number }}&q={{ q }}" class="asset_month_paginator3">&raquo;</a></li>
+<li><a href="#" data-url="{% url pageType  %}?page={{ asset.next_page_number }}&q={{ q }}&id={{id}}" class="asset_month_paginator3">&raquo;</a></li>
 {% else %}
 <li class="disabled"><span>&raquo;</span></li>
 {% endif %}

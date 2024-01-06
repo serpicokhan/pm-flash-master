@@ -409,6 +409,7 @@ urlpatterns = [
         url(r'^AssetLife/(?P<id>\d+)/delete/$', assetLife_delete, name='assetLife_delete'),
         url(r'^AssetLife/(?P<id>\d+)/update/$', assetLife_update, name='assetLife_update'),
         url(r'^AssetLife/(?P<woId>\d+)/listAssetLife/$', js_list_assetLife, name='js_list_assetLife'),
+        url(r'^AssetLife/save_copy/$', save_assetlife_copy, name='save_assetlife_copy'),
 
 
 

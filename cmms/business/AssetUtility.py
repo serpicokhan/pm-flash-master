@@ -16,6 +16,8 @@ from django.http import HttpResponse
 import locale
 from django.contrib.admin.models import LogEntry, ADDITION,CHANGE,DELETION
 from django.contrib.contenttypes.models import ContentType
+from django.db import transaction
+
 class AssetUtility:
 
     @staticmethod
@@ -823,3 +825,17 @@ class AssetUtility:
 
 
         return wos
+    @staticmethod
+    def copyAssetLife(ids,assetlist,request):
+        print(ids,"!!!!!!!!!!!!!!!!!")
+        with transaction.atomic():
+            kll=ids.split(',')
+            for kl in kll:
+                for assets in assetlist:
+                        Ast=Asset.objects.get(id=assets)
+                        stableWo=AssetLife.objects.get(id=kl)
+                        oldWo=AssetLife.objects.get(id=kl)
+                        stableWo.pk=None
+
+                        stableWo.assetLifeAssetid=Ast
+                        stableWo.save()

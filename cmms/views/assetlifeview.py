@@ -69,7 +69,15 @@ def list_assetLife(request,id=None):
 #     assetMakan=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
 #     return render(request, 'cmms/asset_life_main/assetLifeMainList.html', {'assetLifes': wos,'section':'assetLife','makan':assetMakan})
 
-
+@csrf_exempt
+def save_assetlife_copy(request):
+        data=dict()
+        data['form_is_valid']=True
+        assetlist=request.GET.get("q", "")
+        assetlist=[int(i) for i in assetlist.split(',') ]
+        ids=request.GET.get('id',False)
+        AssetUtility.copyAssetLife(ids,assetlist,request)
+        return JsonResponse(data)
 ###################################################################
 @csrf_exempt
 def js_list_assetLife(request,woId):
