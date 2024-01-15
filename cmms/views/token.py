@@ -61,7 +61,7 @@ class RecentWorkOrderByAsset(APIView):
         # Serialize the work orders data (You might have a serializer for WorkOrder model)
         serialized_data =  WOSerializer2(work_orders, many=True)  # Serialize work orders here using your serializer
 
-        return Response(serialized_data, status=200)
+        return Response(serialized_data.data, status=200)
 class WO(APIView):
     # permission_classes = (IsAuthenticated,)
 
