@@ -59,7 +59,7 @@ class RecentWorkOrderByAsset(APIView):
             return Response({"error": "Work orders not found for this asset ID"}, status=404)
 
         # Serialize the work orders data (You might have a serializer for WorkOrder model)
-        serialized_data =  WOSerializer2(posts, many=True)  # Serialize work orders here using your serializer
+        serialized_data =  WOSerializer2(work_orders, many=True)  # Serialize work orders here using your serializer
 
         return Response(serialized_data, status=200)
 class WO(APIView):
