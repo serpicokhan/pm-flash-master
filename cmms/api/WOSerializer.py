@@ -95,6 +95,23 @@ class MiniWorkorderSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkOrder
         fields = ('summaryofIssue','woAsset','maintenanceType','woStatus','RequestedUser','timecreated','datecreated','assignedToUser')
+class MiniTaskSerializer(serializers.ModelSerializer):
+    taskTypes = serializers.SerializerMethodField()
+
+
+    def get_taskTypes(self, obj):
+        TaskType1=(
+
+            (1,'عمومی'),
+            (2 ,'متنی'),
+            (3,'متریک'),
+            (4,'بازرسی'),
+
+        )
+        return TaskType1[obj.taskTypes]
+    class Meta:
+        model = Tasks
+        fields = ('taskDescription','id','taskTypes')
 
 class TaskSerializer(serializers.ModelSerializer):
     taskAssignedToUser = serializers.SlugRelatedField(
@@ -241,6 +258,40 @@ class WOSerializer2(serializers.ModelSerializer):
     class Meta:
         model = WorkOrder
         fields = ('id', 'summaryofIssue', 'datecreated', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser',
+        'woStatus','workInstructions','timecreated','timeCompleted')
+class WOSerializer3(serializers.ModelSerializer):
+
+
+    datecreated = serializers.SerializerMethodField()
+    dateCompleted = serializers.SerializerMethodField()
+    # RequestedUser = serializers.SlugRelatedField(
+    #     queryset=SysUser.objects.all(), slug_field='fullName'
+    # )
+    # RequestedUser = serializers.SlugRelatedField(
+    #     queryset=SysUser.objects.all(), slug_field='fullName'
+    # )
+    RequestedUser = MainSysUserSerializer( read_only=True)
+    assignedToUser = MainSysUserSerializer( read_only=True)
+    # assignedToUser = serializers.RelatedField(source='SysUser', read_only=True)
+    # assignedToUser = serializers.SlugRelatedField(
+    #     queryset=SysUser.objects.all(), slug_field='fullName'
+    # )
+    woAsset = MiniAssetSerializer(read_only=True)
+    # woAsset = serializers.SlugRelatedField(
+    #     queryset=Asset.objects.all(), slug_field='assetName'
+    # )
+    maintenanceType =MaintenanceTypeSerializer(read_only=True)
+    def get_datecreated(self, obj):
+         return  str(jdatetime.datetime.fromgregorian(date=obj.datecreated).date())
+    def get_dateCompleted(self, obj):
+         return  str(jdatetime.datetime.fromgregorian(date=obj.dateCompleted).date())
+
+
+
+
+    class Meta:
+        model = WorkOrder
+        fields = ('id', 'summaryofIssue', 'datecreated','dateCompleted', 'RequestedUser', 'maintenanceType','woAsset','assignedToUser',
         'woStatus','workInstructions','timecreated')
 class WOSerializerDetaile(serializers.ModelSerializer):
     datecreated = serializers.SerializerMethodField()

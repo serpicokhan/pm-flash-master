@@ -1174,6 +1174,21 @@ def woExport(request):
 def get_work_order(request, id):
     try:
         work_order = WorkOrder.objects.get(pk=id)
-        return JsonResponse(model_to_dict(work_order))
+        serializer = WOSerializer3(work_order)
+        return JsonResponse(serializer.data, safe=False)
     except WorkOrder.DoesNotExist:
+        return JsonResponse({'error': 'WorkOrder not found'}, status=404)
+def get_work_order_tasks(request, id):
+    try:
+        tasks = Tasks.objects.filter(workOrder=id)
+        serializer = MiniTaskSerializer(tasks,many=True)
+        return JsonResponse(serializer.data, safe=False)
+    except Tasks.DoesNotExist:
+        return JsonResponse({'error': 'WorkOrder not found'}, status=404)
+def get_work_order_parts(request, id):
+    try:
+        tasks = WorkorderPart.objects.filter(woPartWorkorder=id)
+        serializer = woPartSerializer(tasks,many=True)
+        return JsonResponse(serializer.data, safe=False)
+    except Tasks.DoesNotExist:
         return JsonResponse({'error': 'WorkOrder not found'}, status=404)

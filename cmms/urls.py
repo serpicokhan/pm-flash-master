@@ -812,6 +812,8 @@ urlpatterns = [
             url(r'^api/v1/(?P<id>\d+)/subsites/$', views.SubSiteView.as_view(), name='SubSiteView'),
             url(r'^api/v1/wos2/$',views.WO.as_view(), name='workorder_collection2'),
             url(r'^api/v1/WorkOrder/(?P<id>\d+)/Details$',get_work_order, name='get_work_order'),
+            url(r'^api/v1/WorkOrder/(?P<id>\d+)/Tasks$',get_work_order_tasks, name='get_work_order_tasks'),
+            url(r'^api/v1/WorkOrder/(?P<id>\d+)/Parts$',get_work_order_parts, name='get_work_order_parts'),
             url(r'^purchase/$',list_my_purchase, name='list_my_purchase'),
 
             path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # <-- And here
