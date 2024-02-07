@@ -1086,7 +1086,7 @@ def bulk_delete_wo(request,ids):
     foo=WorkOrder.objects.filter(id__in=clean_data)
     for i in foo:
         i.delete()
-    data=dict()    
+    data=dict()
     data['form_is_valid'] = True
     # print('done')
     return JsonResponse(data)
@@ -1112,8 +1112,8 @@ def bulk_complete_wo(request,ids):
         wo.save()
     # data['form_is_valid']=True
 
-        
-    data=dict()    
+
+    data=dict()
     data['form_is_valid'] = True
     # print('done')
     return JsonResponse(data)
@@ -1171,3 +1171,9 @@ def woExport(request):
     data = WOUtility.download_csv(request, WorkOrder.objects.filter(isScheduling=0))
 
     return HttpResponse (data, content_type='text/csv')
+def get_work_order(request, id):
+    try:
+        work_order = WorkOrder.objects.get(pk=id)
+        return JsonResponse(model_to_dict(work_order))
+    except WorkOrder.DoesNotExist:
+        return JsonResponse({'error': 'WorkOrder not found'}, status=404)
