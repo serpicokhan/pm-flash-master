@@ -1022,7 +1022,8 @@ def backup_database(request):
             response = HttpResponse(fh.read(), content_type="application/sql")
             response['Content-Disposistion'] = 'attachment; filename=' + os.path.basename(output_file) +'.sql'
             return response
-    except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError as ff:
+        print(ff)
         return HttpResponse("Failed to backup database.")
     except Exception as e:
         return HttpResponse(f"Error: {str(e)}")
