@@ -1011,7 +1011,7 @@ def backup_database(request):
     mysqldump_path = 'mysqldump'
 
     # Command to backup MySQL database without a password
-     command = f'mysqldump -u {db_user} -p{db_password} {db_name} > {output_file}'
+    command = f'mysqldump -u {db_user} -p{db_password} {db_name} > {output_file}'
 
     try:
         # Execute the command
