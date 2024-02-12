@@ -38,6 +38,8 @@ import collections
 from rest_framework.decorators import api_view
 from cmms.api.WOSerializer import *
 from rest_framework.response import Response
+import subprocess
+from django.http import HttpResponse
 # Create your views here.
 import datetime
 def index(request):
@@ -997,3 +999,30 @@ def dash_GetReactivevsRepatable(request,startHijri,endHijri):
 
                 }
     return JsonResponse(data)
+def backup_database(request):
+    # Define your database credentials and output file's path
+   # Define your database credentials and output file's path
+    db_name = 'cmm100'
+    db_user = 'root'  # Default XAMPP MySQL user
+    db_password = 'docker-root'
+    output_file = 'file102.sql'  # Ensure you use double backslashes on Windows or raw string
+
+    # Full path to the mysqldump executable in the XAMPP installation
+    mysqldump_path = 'mysqldump'
+
+    # Command to backup MySQL database without a password
+     command = f'mysqldump -u {db_user} -p{db_password} {db_name} > {output_file}'
+
+    try:
+        # Execute the command
+        subprocess.run(command, shell=True, check=True)
+
+        # return HttpResponse("Database backup was successful.")
+        with open(output_file, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/sql")
+            response['Content-Disposistion'] = 'attachment; filename=' + os.path.basename(output_file) +'.sql'
+            return response
+    except subprocess.CalledProcessError:
+        return HttpResponse("Failed to backup database.")
+    except Exception as e:
+        return HttpResponse(f"Error: {str(e)}")
