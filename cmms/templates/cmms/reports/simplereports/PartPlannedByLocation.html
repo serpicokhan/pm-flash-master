@@ -20,6 +20,7 @@
  <table class="table table-bordered">
    <thead>
      <tr>
+      <th>کد درخواست</th>
       <th>نام دارایی</th>
       <th>دسته دارایی</th>
       <th>سایت</th>
@@ -33,6 +34,7 @@
    <tbody>
      {% for c in result1 %}
      <tr>
+      <td><a href="/WorkOrder/{{c.woPartWorkorder__id}}/details" target="_blank">{{c.woPartWorkorder__id}}</a></td>
        <td>{{c.woPartWorkorder__woAsset__assetName}}</td>
 
 
