@@ -357,12 +357,17 @@ class WorkOrder(models.Model):
     class Meta:
       db_table = "workorder"
 class WorkorderPart(models.Model):
+    # Requested=1
+    # Fullfilled=2
+    # status=((Requested,"درخواست شده"),(Fullfilled,"تامین شده"))
     woPartWorkorder=models.ForeignKey(WorkOrder,on_delete=models.CASCADE,blank=True,null=True,verbose_name="سفارش کار")
     # woPartPart=models.ForeignKey(Part,on_delete=models.CASCADE,verbose_name="نام قطعه")
     woPartPlannedQnty=models.FloatField("کمیت پیشنهادی",default=0.0,blank=True,null=True)
     woPartActulaQnty=models.FloatField("کمیت واقعی",default=0.0,blank=True,null=True)
     woPartStock=models.ForeignKey(Stock,on_delete=models.CASCADE,null=True,blank=True,verbose_name="انبار")
     timeStamp=models.DateTimeField(auto_now_add=True)
+    
+
     class Meta:
         db_table="workorderpart"
         unique_together = ('woPartWorkorder', 'woPartStock')
