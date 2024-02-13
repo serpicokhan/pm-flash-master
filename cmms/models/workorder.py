@@ -139,7 +139,7 @@ class WorkOrder(models.Model):
     Status=(
          (Requested,'درخواست شده')  ,
          (onHold,'متوقف'),
-         (Assigned,'تخصیص داده شده'),
+         (Assigned,'ارجاع به دفتر تاسیسات'),
          (Open,'باز'),
          (workInProgress,'در حال پیشرفت'),
          (closedComplete,'بسته شده کامل'),
