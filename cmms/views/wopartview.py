@@ -74,10 +74,8 @@ def save_woPart_form(request, form, template_name,woId=None):
 
             form.save()
             data['form_is_valid'] = True
-            fmt = getattr(settings, 'LOG_FORMAT', None)
-            lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-            logging.basicConfig(format=fmt, level=lvl)
-            logging.debug( woId)
+            data['html_woPart_list_success']='با موفقیت قطعه درخواست شد'
+           
             # query="select id as id,woPartWorkorder_id,sum(woPartActulaQnty) as woPartActulaQnty,sum(woPartPlannedQnty) as woPartPlannedQnty from workorderpart where  woPartWorkorder_id={} group by woPartWorkorder_id,woPartPart_id".format(woId)
             # print(query)
             books = WorkorderPart.objects.filter(woPartWorkorder=woId)
@@ -173,7 +171,7 @@ def woPart_Seach(request,name):
     data['woPartSearchResult'] = render_to_string('cmms/workorder_parts/partialWoSearchResult.html', {
         'woParts': result
     })
-    print(data['woPartSearchResult'])
+    
     return JsonResponse(data)
 #############################
 def wo_getParts(request):

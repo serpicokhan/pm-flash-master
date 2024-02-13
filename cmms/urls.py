@@ -52,6 +52,8 @@ urlpatterns = [
     url(r'^WorkOrder/(?P<id>\d+)/cancel/$', wo_cancel, name='wo_cancel'),
     url(r'^WorkOrder/(?P<id>\d+)/delete/$', wo_delete, name='wo_delete'),
     url(r'^WorkOrder/(?P<id>\d+)/ChangeStatus/(?P<status>\d+)$', wo_change_status, name='wo_change_status'),
+    url(r'^WorkOrder/(?P<woId>\d+)/SetStatus/(?P<status_code>\d+)$', set_wo_status, name='set_wo_status'),
+    
     url(r'^WorkOrder/AssetPart/(?P<id>\d+)/List/$', wo_AssetPartList, name='wo_AssetPartList'),
 
 

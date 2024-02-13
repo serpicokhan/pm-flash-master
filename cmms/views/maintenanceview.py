@@ -1140,6 +1140,21 @@ def wo_change_status(request,id,status):
             data['form_is_valid']=True
             data['wo_status']=wo.woStatus
     return JsonResponse(data)
+def set_wo_status(request,woId,status_code):
+    data=dict()
+    if(request.method=="GET"):
+        try:
+            wo=WorkOrder.objects.get(id=woId)
+            wo.woStatus=status_code
+            wo.save()
+            data["success"]=True
+        except WorkOrder.DoesNotExist:
+            data["error"]="couldnt find such wo"
+    return JsonResponse(data)
+
+
+
+
 def wo_copy(request,ids=None):
     if(request.method=='GET'):
         print("kire khar")

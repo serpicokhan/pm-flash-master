@@ -33,6 +33,36 @@
     $( document).ready(
       function()
       {
+        var changewoStatus=function(woid,status){
+          $.ajax({
+                url: `/WorkOrder/${woid}/SetStatus/${status}`,
+                type: 'GET',
+                
+                beforeSend:function(){
+                 
+                },
+                success: function(response) {
+                  // Handle the success response from the server
+                  if(response.error)
+                  {
+                    toastr.error(response.error);
+                  }
+                  else{
+                    $("#id_woStatus").val(9);
+                    console.log('Data sent successfully:', response);
+                   
+
+                  }
+                  
+                },
+                error: function(xhr, status, error) {
+                  // Handle any errors that occur during the AJAX request
+                  console.error('Error sending data:', error);
+                  toastr.error(error);
+                  
+                }
+              });
+        }
 
         $("#woPart-submit").click(function(){
 
@@ -59,6 +89,7 @@
                       },
                       success: function (data) {
                         if (data.form_is_valid) {
+
                           //alert("Company created!");  // <-- This is just a placeholder for now for testing
                           $("#tbody_woPart").empty();
                           // message handling
@@ -79,6 +110,19 @@
 
                           $("#tbody_woPart").html(data.html_woPart_list);
                           $("#modal-woPart").modal("hide");
+                          swal({
+                            title:"تغییر وضعیت",
+                            text: "آیا مایل به تغییر وضعیت دستور کار هستید؟",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "بلی",
+                            cancelButtonText: "خیر",
+                            closeOnConfirm: true
+                          }, function () {
+                            changewoStatus($("#lastWorkOrderid").val(),9);
+
+                          });
                           // console.log(data.html_woPart_list);
                         }
                         else {
