@@ -1,14 +1,14 @@
 
 {% for c in assetParts %}
 
-<tr>
-<td>{{c.assetPartPid}}</td>
- <td>{{c.assetPartQnty}}</td>
- <td>{{c.assetPartDescription|default_if_none:"مشخص نشده"}}</td>
+<tr data-type="{{c.type}}">
+<td>{{c.bom.assetPartPid}}</td>
+ <td>{{c.bom.assetPartQnty}}</td>
+ <td>{{c.bom.assetPartDescription|default_if_none:"مشخص نشده"}}</td>
 
 <td><button type="button"
              class="btn btn-warning btn-sm js-select-assetPart"
-             data-url="/WoPart/CreateByWo/{{wo}}/{{c.assetPartPid.id}}">
+             data-url="/WoPart/CreateByBOM/{{wo}}/{{c.bom.assetPartPid.id}}/kind/{{c.type}}">
         مصرف
      </button></td>
 

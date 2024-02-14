@@ -56,6 +56,28 @@ $(function () {
 };
 
 
+var SetWoPartForm =function (btn) {
+  
+  $.ajax({
+    url: btn.attr("data-url"),
+    type: 'get',
+    dataType: 'json',
+    beforeSend: function () {
+      //alert(btn.attr("data-url"));
+      // $("#modal-woPart").modal({backdrop: 'static', keyboard: false});
+    },
+    success: function (data) {
+      $("#tbody_woPart").html(data.html_woPart_list);
+      $("#modal-woAssetPart").modal("hide");
+
+
+
+
+      
+    }
+  });
+};
+
 
  var deleteWoPartForm= function (event) {
 
@@ -299,6 +321,28 @@ var selectStockItem=function(){
   $("#modal-woPartStock").modal("hide");
 
 }
+var select_assetPart=function(){
+  var btn=$(this);
+  console.log(btn.attr("data-url"));
+  $("#modal-woAssetPart").modal("hide");
+  $.ajax({
+    url: btn.attr("data-url"),
+    type:"GET",
+    success:function(response){
+      if(response.form_is_valid){
+        $("#tbody_woPart").html(response.html_woPart_list);
+        $("#modal-woAssetPart").modal("hide");
+        
+      }
+      if(response.error){
+        console.log(response.error);
+        TransformStream.erro(response.error);
+      }
+    }
+  });
+
+  // loadWoPartForm();
+}
  // Create book
 // $(".js-create-woPart").unbind();
 $(".js-create-woPart").click(loadWoPartForm);
@@ -318,6 +362,6 @@ $("#modal-woPart").on("click", ".js-woPartStock-create-form", LoadStockForm);
   $("#modal-woPartStock").on("keyup", ".stockSearch",stSearch);
   $("#modal-woPartStockNew").on("click", ".js-add-new-part",LoadPartNewForm);
   $("#modal-woPartStock").on("click", ".js-select-stock",selectStockItem);
-  $("#modal-woAssetPart").on("click",".js-select-assetPart",loadWoPartForm)
+  $("#modal-woAssetPart").on("click",".js-select-assetPart",select_assetPart)
 
 });

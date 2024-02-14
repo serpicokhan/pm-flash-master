@@ -13,7 +13,7 @@ from cmms.models.Asset import *
 from cmms.models.business import *
 class Stock(models.Model):
     def __str__(self):
-        return "{}#{}".format(self.location,self.stockItem)
+        return "{}#{}".format(self.stockItem,self.location)
     def getmin(self):
         return self.minQty-self.qtyOnHand
     def getlastprice(self):

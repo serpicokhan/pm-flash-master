@@ -233,11 +233,17 @@ def wo_AssetPartList(request,id):
         BOMGroupAsset.objects.filter(BOMGroupAssetAsset=woId).values_list('BOMGroupAssetBOMGroup',flat=True)).order_by('BOMGroupPartPart__partName')
 
         books=AssetPart.objects.filter(assetPartAssetid=woId).order_by('assetPartPid__partName')
+        all_books=[]
+        #type =0 bom and type =1 assetpart
+        for i in books2:
+            all_books.append({'type':0,'bom':i})
+        for i in books:
+            all_books.append({'type':1,'bom':i})
 
         data['html_part_form']= render_to_string('cmms/workorder_parts/assetPartList.html', {
-            'assetParts': books,
-            'bomlist':books2,
-            'wo':woId.id
+            'assetParts': all_books,
+            
+            'wo':id
         })
         data['form_is_valid']=True
         return JsonResponse(data)
@@ -258,6 +264,39 @@ def create_by_wo_part(request,wo,pid):
         form = WoPartForm(initial={'mypart':'100'})
     return save_woPart_form(request, form, 'cmms/workorder_parts/partialWoPartCreate.html',wo)
 
+def create_wo_part_from_bom(request,wo,pid,kid):
+    #find stockitem from pid
+    data=dict()
+    try:
+        stock_item=Stock.objects.filter(stockItem__id=pid,qtyOnHand__gt=0)[0]
+    except:
+        data['error']="در انبار یافت نشد"
+        
+    if(stock_item):
+        x=WorkorderPart.objects.create(
+            woPartWorkorder=WorkOrder.objects.get(id=wo),woPartPlannedQnty=1,woPartActulaQnty=1,woPartStock=stock_item
+        )
+        qty=stock_item.qtyOnHand - 1
+        stock_item.qtyOnHand=qty
+        stock_item.save()
+        data["id"]=x.id
+        data['form_is_valid'] = True
+        data['html_woPart_list_success']='با موفقیت قطعه درخواست شد'
+           
+        # query="select id as id,woPartWorkorder_id,sum(woPartActulaQnty) as woPartActulaQnty,sum(woPartPlannedQnty) as woPartPlannedQnty from workorderpart where  woPartWorkorder_id={} group by woPartWorkorder_id,woPartPart_id".format(woId)
+        # print(query)
+        books = WorkorderPart.objects.filter(woPartWorkorder__id=wo)
+        data['html_woPart_list'] = render_to_string('cmms/workorder_parts/partialWoPartList.html', {
+                'woParts': books,
+                'perms': PermWrapper(request.user)
+            })
+
+    else:
+        data["error"]="not enoght quantity in hand"
+
+
+    #create new wopart
+    return JsonResponse(data)
 
 @api_view(['GET'])
 def wopart_collection(request,id):
