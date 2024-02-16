@@ -2229,6 +2229,8 @@ class WorkOrdersDetailReportByStatus(forms.Form):
     closedComplete=7
     closedIncomplete=8
     waitingForPart=9
+    partiallyFulFilled=10
+    fulFilled=11
     invisible=-1
     Highest=1
     High=2
@@ -2244,6 +2246,8 @@ class WorkOrdersDetailReportByStatus(forms.Form):
          (closedComplete,'بسته شده کامل'),
          (closedIncomplete,'بسته شده، ناقص'),
          (waitingForPart,'در انتظار قطعه'),
+         (partiallyFulFilled,'تامین شده نسبی'),
+         (fulFilled,'تامین شده'),
 
      )
 
@@ -2425,6 +2429,8 @@ class WorkOrdersListReportByStatus(forms.Form):
     closedComplete=7
     closedIncomplete=8
     waitingForPart=9
+    partiallyFulFilled=10
+    fulFilled=11
     invisible=-1
     Highest=1
     High=2
@@ -2440,6 +2446,8 @@ class WorkOrdersListReportByStatus(forms.Form):
          (closedComplete,'بسته شده کامل'),
          (closedIncomplete,'بسته شده، ناقص'),
          (waitingForPart,'در انتظار قطعه'),
+         (partiallyFulFilled,'تامین شده نسبی'),
+         (fulFilled,'تامین شده'),
 
      )
 
@@ -2456,7 +2464,7 @@ class WorkOrdersListReportByStatus(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}),empty_label=None)
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
-    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
     # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
     # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
@@ -2466,7 +2474,7 @@ class WorkOrdersListReportByStatus(forms.Form):
 
     assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),empty_label=None)
-    priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
+    # priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
 class CloseWorkOrdersListReport(forms.Form):
     rcode=100
     assetCatOPTIONS = (

@@ -28,6 +28,8 @@ from django.db import transaction
 from cmms.business.ReportUtility import *
 from django.db.models import Q
 from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.context_processors import PermWrapper
+
 
 @permission_required('cmms.view_report',login_url='/not_found')
 def list_report(request,id=None):
@@ -121,7 +123,8 @@ def reportSearch(request,str):
         books = Report.objects.filter(Q(reportName__contains=str)|Q(reportDetails__contains=str))
     wos=ReportUtility.doPaging(request,books)
     data['html_report_list'] = render_to_string('cmms/reports/partialReportList.html', {
-         'reports': wos
+         'reports': wos,
+         'perms': PermWrapper(request.user),
      })
     data['html_report_paginator'] = render_to_string('cmms/reports/partialReportPagination.html', {'reports': wos,'pageType':'reportSearch' ,'pageArg':str })
     return JsonResponse(data)
