@@ -242,12 +242,15 @@
               <span class="fa arrow">
               </span>
             </a>
-            <ul  {% if section in 'list_part,list_Stock,list_business,list_bomgroup,list_event,list_partCategory' %} class="nav nav-second-level collapse in"
+            <ul  {% if section in 'list_part,list_woPart_waiting_for_fulfill,list_Stock,list_business,list_bomgroup,list_event,list_partCategory' %} class="nav nav-second-level collapse in"
             {% else %}
             class="nav nav-second-level collapse"
             {% endif %} >
               <li  {% if section == 'list_part' %} class='active'   {% endif %}>
                 <a href="{% url 'list_part'%}" >قطعه</a>
+              </li>
+              <li  {% if section == 'list_woPart_waiting_for_fulfill' %} class='active'   {% endif %}>
+                <a href="{% url 'list_woPart_waiting_for_fulfill'%}" >قطعات تامین شده</a>
               </li>
 
               <li  {% if section == 'list_Stock' %} class='active'   {% endif %}>

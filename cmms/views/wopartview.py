@@ -326,6 +326,9 @@ def list_woPart_waiting_for_fulfill(request):
     return search_woPart_waiting_for_fulfill(request)
 def find_woPart_waitning(request):
     q=request.GET.get("q",False)
+    if(q=="False"):
+        q=False
+
     if(q):
         if(q.isdigit()):
 
@@ -333,21 +336,21 @@ def find_woPart_waitning(request):
                                             'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
                                             'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
                                             'woPartWorkorder__woAsset__assetCategory__name')\
-            .filter(woPartActulaQnty=0,woPartWaitingforFulfill=True).filter(woPartWorkorder__id=q)\
+            .filter(woPartWorkorder__woStatus__in=(1,2,3,4,9),woPartWaitingforFulfill=True).filter(woPartWorkorder__id=q)\
             .order_by('-woPartStock__stockItem__partName','woPartWorkorder__id')
         else:
             n1=WorkorderPart.objects.values('id','woPartWorkorder__id','woPartPlannedQnty',
                                             'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
                                             'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
                                             'woPartWorkorder__woAsset__assetCategory__name')\
-            .filter(woPartActulaQnty=0,woPartWaitingforFulfill=True).filter(woPartStock__stockItem__partName__contains=q)\
+            .filter(woPartWorkorder__woStatus__in=(1,2,3,4,9),woPartWaitingforFulfill=True).filter(woPartStock__stockItem__partName__contains=q)\
             .order_by('-woPartStock__stockItem__partName','woPartWorkorder__id')
     else:
          n1=WorkorderPart.objects.values('id','woPartWorkorder__id','woPartPlannedQnty',
                                             'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
                                             'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
                                             'woPartWorkorder__woAsset__assetCategory__name')\
-        .filter(woPartActulaQnty=0,woPartWaitingforFulfill=True)\
+        .filter(woPartWorkorder__woStatus__in=(1,2,3,4,9),woPartWaitingforFulfill=True)\
         .order_by('-woPartStock__stockItem__partName','woPartWorkorder__id')
     return n1
 def search_woPart_waiting_for_fulfill(request):
@@ -357,7 +360,7 @@ def search_woPart_waiting_for_fulfill(request):
     
     result=WOUtility.doPaging(request,n1)
     # print(result[0])
-    return render(request,'cmms/workorder_parts/woPartWaitingToConfirmList.html',{'result1':result,'q':q})
+    return render(request,'cmms/workorder_parts/woPartWaitingToConfirmList.html',{'result1':result,'q':q,'section':'list_woPart_waiting_for_fulfill'})
 def confirm_woPart_fulFilled(request,id):
     q=request.GET.get("q",False)
     print(q,'$$$$$$$$$$$$$$')
