@@ -381,13 +381,16 @@ class WorkorderPart(models.Model):
     # woPartPart=models.ForeignKey(Part,on_delete=models.CASCADE,verbose_name="نام قطعه")
     woPartPlannedQnty=models.FloatField("کمیت پیشنهادی",default=0.0,blank=True,null=True)
     woPartActulaQnty=models.FloatField("کمیت واقعی",default=0.0,blank=True,null=True)
+    woPartWaitingforFulfill=models.BooleanField("در انتظار تامین",default=True,blank=True,null=True)
     woPartStock=models.ForeignKey(Stock,on_delete=models.CASCADE,null=True,blank=True,verbose_name="انبار")
     timeStamp=models.DateTimeField(auto_now_add=True)
+
     
 
     class Meta:
         db_table="workorderpart"
         unique_together = ('woPartWorkorder', 'woPartStock')
+        permissions=(("can_fulfill","Can Fulfill"),)
 class WorkorderMeterReading(models.Model):
     def getRow(self):
          return "{}  {}".format(self.get_woMeterReadingMeterReadingUnit_display(),self.woMeterReadingMeterReading)

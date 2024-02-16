@@ -2343,11 +2343,15 @@ class reporttest:
         # if((assetname[0]==-1)):
         #      assetname=Asset.objects.values_list('id', flat=True)
         if(advanceMode):
-            n1=WorkorderPart.objects.values('woPartWorkorder__id','woPartStock__stockItem__partName','woPartStock__id').filter(timeStamp__range=[date1,date2],woPartActulaQnty__gt=0)
+            n1=WorkorderPart.objects.values('woPartStock__stockItem__partName','woPartStock__id').filter(timeStamp__range=[date1,date2],woPartActulaQnty__gt=0)
             template_name='cmms/reports/simplereports/PartUsageByLocation_acc.html'
             
         else:
-            n1=WorkorderPart.objects.values('woPartWorkorder__woAsset__assetIsLocatedAt__assetName','woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName','woPartWorkorder__woAsset__assetCategory__name').filter(timeStamp__range=[date1,date2],woPartActulaQnty__gt=0)
+            n1=WorkorderPart.objects.values('woPartWorkorder__id',
+                                            'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
+                                            'woPartWorkorder__woAsset__assetName',
+                                            'woPartStock__stockItem__partName',
+                                            'woPartWorkorder__woAsset__assetCategory__name').filter(timeStamp__range=[date1,date2],woPartActulaQnty__gt=0)
             template_name='cmms/reports/simplereports/PartUsageByLocation.html'
         if(makan):
             n1=n1.filter(Q(woPartWorkorder__woAsset__assetIsLocatedAt__id=makan)|Q(woPartWorkorder__woAsset__id=makan))

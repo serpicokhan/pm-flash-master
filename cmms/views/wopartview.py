@@ -21,6 +21,7 @@ from cmms.models.workorder import *
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
+
 #from django.core import serializers
 import json
 from django.forms.models import model_to_dict
@@ -35,6 +36,10 @@ from cmms.api.WOSerializer import *
 from rest_framework.response import Response
 from django.db import IntegrityError
 from cmms.models.Asset import *
+from django.db.models import Sum
+from django.db.models import Q,F
+from cmms.business.WOUtility import *
+
 
 ###################################################################
 def list_woPart(request,id=None):
@@ -123,10 +128,10 @@ def woPart_delete(request, id):
 @csrf_exempt
 def woPart_create(request,id=None):
     woId=-1
-    fmt = getattr(settings, 'LOG_FORMAT', None)
-    lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-    logging.basicConfig(format=fmt, level=lvl)
-    logging.debug( "dasdsadasdsa")
+    # fmt = getattr(settings, 'LOG_FORMAT', None)
+    # lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
+    # logging.basicConfig(format=fmt, level=lvl)
+    # logging.debug( "dasdsadasdsa")
     if (request.method == 'POST'):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
@@ -276,9 +281,12 @@ def create_wo_part_from_bom(request,wo,pid,kid):
         x=WorkorderPart.objects.create(
             woPartWorkorder=WorkOrder.objects.get(id=wo),woPartPlannedQnty=1,woPartActulaQnty=1,woPartStock=stock_item
         )
-        qty=stock_item.qtyOnHand - 1
-        stock_item.qtyOnHand=qty
-        stock_item.save()
+        ######## مهم فعلا دست نگه داشتم ########
+        ######### می تونم یه جا داخل تنظیمات اضافه کنم########
+        # qty=stock_item.qtyOnHand - 1
+        # stock_item.qtyOnHand=qty
+        # stock_item.save()
+        #############################
         data["id"]=x.id
         data['form_is_valid'] = True
         data['html_woPart_list_success']='با موفقیت قطعه درخواست شد'
@@ -314,3 +322,11 @@ def wopart_detail_collection(request,id):
         serializer = woPartSerializer(posts)
 
         return Response(serializer.data)
+def list_woPart_waiting_for_fulfill(request):
+    n1=WorkorderPart.objects.values('woPartWorkorder__id','woPartPlannedQnty',
+                                    'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
+                                    'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
+                                    'woPartWorkorder__woAsset__assetCategory__name').filter(woPartActulaQnty=0,woPartWaitingforFulfill=True).order_by('-woPartStock__stockItem__partName','woPartWorkorder__id')
+    result=WOUtility.doPaging(request,n1)
+    # print(result[0])
+    return render(request,'cmms/workorder_parts/woPartWaitingToConfirmList.html',{'result1':result})
