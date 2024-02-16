@@ -1311,3 +1311,17 @@ class WOUtility:
 
 
         return True
+    @staticmethod
+    def fulfill_wo_part_request(woid):
+        wo=WorkOrder.objects.get(id=woid)
+        wo_parts=wo.workorderpart_set.filter(woPartWaitingforFulfill=True)
+        print(wo_parts.count(),'!!!!!!!!!!!!')
+        if(wo_parts.count()>0):
+            wo.woStatus=10
+        # else:
+        #     wo.woStatus=11
+        wo.save()
+        print("it work")
+        return True
+
+

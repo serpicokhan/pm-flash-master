@@ -343,6 +343,35 @@ var select_assetPart=function(){
 
   // loadWoPartForm();
 }
+var confirm_wopart=function(){
+  var btn=$(this);
+  $.ajax({
+    url: btn.attr("data-url"),
+    type:"GET",
+    success:function(response){
+      if(response.form_is_valid){
+        $("#tbody_company").html(response.html_woPart_list);
+        
+        
+      }
+      if(response.error){
+        console.log(response.error);
+        TransformStream.erro(response.error);
+      }
+    }
+  });
+
+}
+$("#waitingSearchBtn").click(function(){
+  var searchstr=$("#waitingSearch").val();
+  if(searchstr){
+  window.location=`/WoPart/Confirm/List/Search?q=${searchstr}`;
+  }
+  else
+  {
+    toastr.error("عبارت جستجو را وارد کنید");
+  }
+});
  // Create book
 // $(".js-create-woPart").unbind();
 $(".js-create-woPart").click(loadWoPartForm);
@@ -356,6 +385,7 @@ $("#woPart-table").on("click", ".js-update-woPart", loadWoPartForm);
 $("#modal-woPart").on("submit", ".js-woPart-update-form", loadWoPartForm);
 // Delete book
 $("#woPart-table").on("click", ".js-delete-woPart", loadWoPartForm);
+$("#company-table").on("click", ".js-confirm-wopart", confirm_wopart);
 $("#modal-woPart").on("click", ".js-woPart-delete-form", deleteWoPartForm);
 $("#modal-woPart").on("click", ".js-woPartStock-create-form", LoadStockForm);
   $("#modal-woPartStock").on("click", ".js-add-new-stock-modal",LoadStockNewForm);

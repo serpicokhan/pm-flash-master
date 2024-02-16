@@ -183,7 +183,10 @@ urlpatterns = [
 
 
       url(r'^WoPart/$',list_woPart,name='list_woPart'),
-      url(r'^WoPart/Confirm$',list_woPart_waiting_for_fulfill,name='list_woPart_waiting_for_fulfill'),
+      
+      url(r'^WoPart/Confirm/List$',list_woPart_waiting_for_fulfill,name='list_woPart_waiting_for_fulfill'),
+      url(r'^WoPart/Confirm/List/Search$',search_woPart_waiting_for_fulfill,name='search_woPart_waiting_for_fulfill'),
+      url(r'^WoPart/(?P<id>\d+)/Confirm$',confirm_woPart_fulFilled,name='confirm_woPart_fulFilled'),
       url(r'^WoPart/CreateByWo/(?P<wo>\d+)/(?P<pid>\d+)$',create_by_wo_part,name='create_by_wo_part'),
       url(r'^WoPart/CreateByBOM/(?P<wo>\d+)/(?P<pid>\d+)/kind/(?P<kid>\d+)$',create_wo_part_from_bom,name='create_wo_part_from_bom'),
 

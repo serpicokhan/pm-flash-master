@@ -129,6 +129,8 @@ class WorkOrder(models.Model):
     closedComplete=7
     closedIncomplete=8
     waitingForPart=9
+    partiallyFulFilled=10
+    fulFilled=11
     invisible=-1
     Highest=1
     High=2
@@ -145,6 +147,8 @@ class WorkOrder(models.Model):
          (closedComplete,'بسته شده کامل'),
          (closedIncomplete,'بسته شده، ناقص'),
          (waitingForPart,'در انتظار قطعه'),
+         (partiallyFulFilled,'تامین شده نسبی'),
+         (fulFilled,'تامین شده'),
 
      )
     Priority=(

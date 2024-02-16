@@ -323,10 +323,60 @@ def wopart_detail_collection(request,id):
 
         return Response(serializer.data)
 def list_woPart_waiting_for_fulfill(request):
-    n1=WorkorderPart.objects.values('woPartWorkorder__id','woPartPlannedQnty',
-                                    'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
-                                    'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
-                                    'woPartWorkorder__woAsset__assetCategory__name').filter(woPartActulaQnty=0,woPartWaitingforFulfill=True).order_by('-woPartStock__stockItem__partName','woPartWorkorder__id')
+    return search_woPart_waiting_for_fulfill(request)
+def find_woPart_waitning(request):
+    q=request.GET.get("q",False)
+    if(q):
+        if(q.isdigit()):
+
+            n1=WorkorderPart.objects.values('id','woPartWorkorder__id','woPartPlannedQnty',
+                                            'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
+                                            'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
+                                            'woPartWorkorder__woAsset__assetCategory__name')\
+            .filter(woPartActulaQnty=0,woPartWaitingforFulfill=True).filter(woPartWorkorder__id=q)\
+            .order_by('-woPartStock__stockItem__partName','woPartWorkorder__id')
+        else:
+            n1=WorkorderPart.objects.values('id','woPartWorkorder__id','woPartPlannedQnty',
+                                            'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
+                                            'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
+                                            'woPartWorkorder__woAsset__assetCategory__name')\
+            .filter(woPartActulaQnty=0,woPartWaitingforFulfill=True).filter(woPartStock__stockItem__partName__contains=q)\
+            .order_by('-woPartStock__stockItem__partName','woPartWorkorder__id')
+    else:
+         n1=WorkorderPart.objects.values('id','woPartWorkorder__id','woPartPlannedQnty',
+                                            'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
+                                            'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
+                                            'woPartWorkorder__woAsset__assetCategory__name')\
+        .filter(woPartActulaQnty=0,woPartWaitingforFulfill=True)\
+        .order_by('-woPartStock__stockItem__partName','woPartWorkorder__id')
+    return n1
+def search_woPart_waiting_for_fulfill(request):
+    q=request.GET.get("q",False)
+    n1=find_woPart_waitning(request)
+
+    
     result=WOUtility.doPaging(request,n1)
     # print(result[0])
-    return render(request,'cmms/workorder_parts/woPartWaitingToConfirmList.html',{'result1':result})
+    return render(request,'cmms/workorder_parts/woPartWaitingToConfirmList.html',{'result1':result,'q':q})
+def confirm_woPart_fulFilled(request,id):
+    q=request.GET.get("q",False)
+    print(q,'$$$$$$$$$$$$$$')
+    
+    data=dict()
+    try:
+        wopart=WorkorderPart.objects.get(id=id)
+        wopart.woPartWaitingforFulfill=False
+        wopart.save()
+        WOUtility.fulfill_wo_part_request(wopart.woPartWorkorder.id)
+        n1=find_woPart_waitning(request)
+        result=WOUtility.doPaging(request,n1)
+        data['form_is_valid']=True
+        data['html_woPart_list'] = render_to_string('cmms/workorder_parts/partialWoPartWaitingToConfirmList.html', {
+                'result1': result,
+                'perms': PermWrapper(request.user),
+                'q':q
+                
+            })
+    except WorkorderPart.DoesNotExist:
+        data["error"]="یافت نشد"
+    return JsonResponse(data)
