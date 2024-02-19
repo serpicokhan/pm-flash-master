@@ -2587,6 +2587,7 @@ class RequestedWorkOrdersListReport(forms.Form):
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     starttime = forms.CharField(label='از ساعت',required=False,widget=forms.TextInput(attrs={'class':'ltr-input','data-mask':'99:99:99'}))
     endtime = forms.CharField(label='تا ساعت',required=False,widget=forms.TextInput(attrs={'class':'ltr-input','data-mask':'99:99:99'}))
+    advanceMode=forms.BooleanField(label="تغییر وضعیت",widget=forms.CheckboxInput(attrs={'class':'js-switch2'}),required=False)
 
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))

@@ -845,6 +845,7 @@ class reporttest:
         endDate=request.POST.get("endDate","")
         starttime=request.POST.get("starttime",False)
         endtime=request.POST.get("endtime",False)
+        advancemode=request.POST.get("advanceMode",False)
 
         asset=request.POST.getlist("assetname", "")
         categoryText=request.POST.getlist("assetType", "")
@@ -889,10 +890,11 @@ class reporttest:
         else:
             woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),starttime=starttime,endtime=endtime))
         tasklist=[]
-        for i in woList:
-            if(i.woStatus < 4):
-                i.woStatus=4
-                i.save();
+        if(advancemode):
+            for i in woList:
+                if(i.woStatus < 4):
+                    i.woStatus=4
+                    i.save();
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
 
         return render(request, 'cmms/reports/simplereports/RequestedWorkOrdersListReport.html',{'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})

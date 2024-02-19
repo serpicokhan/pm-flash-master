@@ -36,6 +36,7 @@
 
 
                                 <th class="col-md-1 active">تاریخ ایجاد</th>
+                                <th class="col-md-1 active">زمان انجام شده/دستی</th>
 
 
 
@@ -45,25 +46,25 @@
      {% for c in woList %}
 
      <tr>
-       <td class="active"><a href="/WorkOrder/{{c.id}}/details" target="_blank">{{c.id}}</a></td>
-       <td class="active">
+       <td ><a href="/WorkOrder/{{c.id}}/details" target="_blank">{{c.id}}</a></td>
+       <td >
          {{c.summaryofIssue|default_if_none:"نامشخص"}}
        </td>
 
 
-       <td class="active">
+       <td >
          {{c.woAsset|default_if_none:"نامشخص"}}
        </td>
 
 
 
 
-      <td class="active">{{c.RequestedUser|default_if_none:"نامشخص"}}</td>
+      <td >{{c.RequestedUser|default_if_none:"نامشخص"}}</td>
 
-       <td class="active">{{c.get_dateCreated_jalali}},{{c.timecreated|time:"H:i" }}</td>
+       <td >{{c.get_dateCreated_jalali}},{{c.timecreated|time:"H:i" }}</td>
 
-
-
+      
+       <td></td>
      </tr>
 
 
