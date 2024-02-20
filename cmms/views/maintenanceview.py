@@ -1137,7 +1137,10 @@ def bulk_complete_wo(request,ids):
 def wo_change_status(request,id,status):
     data=dict()
     if(status=="7"):
+
         wo=WorkOrder.objects.get(id=id)
+
+
         result=TaskUtility.check_completion_date(wo)
         if(result):
             data['form_is_valid']=True
@@ -1152,15 +1155,21 @@ def wo_change_status(request,id,status):
                 dt_end=dt_start+timedelta(hours=task.taskTimeEstimate)
                 task.taskDateCompleted=dt_end.date()
                 task.taskTimeCompleted=dt_end.time()
+
                 wo.dateCompleted=task.taskDateCompleted
                 wo.timeCompleted=task.taskTimeCompleted
                 # task.time
                 task.save()
+                print("task saved")
             wo.woStatus=7
 
+            # wo.dateCompleted=datetime.datetime.now().date()
             wo.save()
+            print(wo.dateCompleted,'!!!!!!!!!!!!!!!!!!!')
             data['form_is_valid']=True
             data['wo_status']=wo.woStatus
+            data['date_compeletd']=wo.dateCompleted
+            data['time_compeletd']=wo.timeCompleted
     return JsonResponse(data)
 def set_wo_status(request,woId,status_code):
     data=dict()

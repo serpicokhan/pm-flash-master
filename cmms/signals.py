@@ -117,11 +117,15 @@ def save_WorkorderPart_profile(sender, instance, **kwargs):
 
 @receiver(post_save, sender=WorkOrder )
 def save_wo_profile(sender, instance, **kwargs):
-
+    tasks=instance.CompleteUserTask.all()
+    for task in tasks:
+        if(not task.taskAssignedToUser):
+            task.taskAssignedToUser=instance.assignedToUser
+            task.save()
 
     try:
 
-        print("thats done")
+
         if(instance==None):
             pass
             # print(created)
