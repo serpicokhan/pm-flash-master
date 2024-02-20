@@ -1379,8 +1379,10 @@ var check_completion_date=function()
       success: function (data) {
         if(data.form_is_valid)
         {
-          $("#id_dateCompleted").val(data.wo_time[0]);
-          $("#id_timeCompleted").val(data.wo_time[1]);
+          // console.log(data);
+          $("#id_dateCompleted").val(data.date_compeletd);
+          $("#id_timeCompleted").val(data.time_compeletd);
+          // alert("123");
         }
         else
         {

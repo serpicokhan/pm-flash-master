@@ -297,6 +297,12 @@ class WorkOrder(models.Model):
         for k in partname:
             str="{0},{1}".format(k.woPartActulaQnty,str)
         return str
+    def cal_comlotiondate_by_tasks(self):
+        if(not self.dateCompleted ):
+
+            self.dateCompleted=self.datecreated
+            print("!!!!!!!!!!!!!,#####",self.dateCompleted)
+            self.save()
 
 
         #return "ewqewQ"
@@ -389,7 +395,7 @@ class WorkorderPart(models.Model):
     woPartStock=models.ForeignKey(Stock,on_delete=models.CASCADE,null=True,blank=True,verbose_name="انبار")
     timeStamp=models.DateTimeField(auto_now_add=True)
 
-    
+
 
     class Meta:
         db_table="workorderpart"
