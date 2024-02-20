@@ -2858,7 +2858,7 @@ class  WorkOrderHoursLoggedbyTechnician(forms.Form):
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
-    userLink = forms.ModelChoiceField(label="نام کاربر",queryset=SysUser.objects.all(),widget=forms.Select(attrs={'class':'selectpicker', 'data-live-search':'true'}))
+    userLink = forms.ModelChoiceField(label="نام کاربر",queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),widget=forms.Select(attrs={'class':'selectpicker', 'data-live-search':'true'}))
 class SiteAssetSMSummaryReport(forms.Form):
     OPTIONS = (
         (0, "pdf"),
@@ -3249,7 +3249,7 @@ class PartUsageByLocation(forms.Form):
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
     advanceMode=forms.BooleanField(label="گزارش به صورت تجمیعی",widget=forms.CheckboxInput(attrs={'class':'js-switch2'}),required=False)
-    
+
 class PartPlannedByLocation(forms.Form):
     rcode=100
     test='قطعات درخواستی'
