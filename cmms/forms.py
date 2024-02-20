@@ -29,7 +29,7 @@ class WorkOrderForm(forms.ModelForm):
     adminNote = forms.CharField( label="یادداشت مدیر",widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}),required=False )
     woasset_ = forms.CharField(label='دسته بندی',required=False,widget=forms.TextInput(attrs={'autocomplete':'off'}))
     assignedToUser=forms.ModelChoiceField(
-        queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
+        queryset=SysUser.objects.filter(userStatus=True,usergroups__isnull=False).distinct(),
         label='کاربر مشخص شده',
         empty_label='',required=False
     )
@@ -3211,7 +3211,7 @@ class SummaryReportByUser(forms.Form):
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
     maintenanceType= forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
-    usernames= forms.ModelChoiceField(label="نام کاربر",queryset=SysUser.objects.filter(userStatus=True),
+    usernames= forms.ModelChoiceField(label="نام کاربر",queryset=SysUser.objects.filter(userStatus=True).filter(usergroups__isnull=False).distinct(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 class SummaryReportByAsset(forms.Form):
     test='خلاصه وضعیت تجهیز'

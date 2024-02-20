@@ -2231,6 +2231,7 @@ class reporttest:
          endDate=request.POST.get("endDate","").replace('-','/')
          n1=WOUtility.GetOnTimeCompletedWONumByUser(date1,date2,user,maintype)
          n2=WOUtility.GetTotalCompletedWONumByUser(date1,date2,user,maintype)
+         # print(n1[0].id,n2[0].id,'!!!!!!!!!')
          n3=0
          try:
              n3=(n1[0].id/n2[0].id)*100
@@ -2238,6 +2239,7 @@ class reporttest:
              n3=0
          m1=WOUtility.GetOnTimeCompletedWONumByUser2(date1,date2,user)
          m2=WOUtility.GetTotalCompletedWONumByUser2(date1,date2,user)
+
          m3=0
          try:
              m3=(m1[0].id/m2[0].id)*100
@@ -2268,7 +2270,7 @@ class reporttest:
              total=total+float(i.id)
          d4["بدون برنامه"]=float("{:.2f}".format((((float(user_hozur)))-total)/60))
 
-
+         print(n3)
          username=SysUser.objects.get(id=user)
          mtype_name=MaintenanceType.objects.get(id=maintype)
          return render(request, 'cmms/reports/simplereports/SummaryReportByUser.html',{'result1':n3,'result2':m3,'result3':d,'result4':d2,'result5':d3,'result6':d4,'username':username.title,'mtype':mtype_name.name,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'stdate':startDate,'enddate':endDate})
@@ -2347,7 +2349,7 @@ class reporttest:
         if(advanceMode):
             n1=WorkorderPart.objects.values('woPartStock__stockItem__partName','woPartStock__id').filter(timeStamp__range=[date1,date2],woPartActulaQnty__gt=0)
             template_name='cmms/reports/simplereports/PartUsageByLocation_acc.html'
-            
+
         else:
             n1=WorkorderPart.objects.values('woPartWorkorder__id',
                                             'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
@@ -2394,13 +2396,13 @@ class reporttest:
 
         if(assetname):
             assetname=[int(i) for i in assetname]
-        
+
         if(advanceMode):
             n1=WorkorderPart.objects.values('woPartStock__stockItem__partName',
             'woPartStock__id').filter(timeStamp__date__range=[date1,date2],woPartPlannedQnty__gt=0)
             template_name='cmms/reports/simplereports/PartPlannedByLocation_acc.html'
         else:
-       
+
 
             n1=WorkorderPart.objects.values('woPartWorkorder__id','woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
                                             'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',

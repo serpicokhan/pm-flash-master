@@ -46,6 +46,7 @@ class Report(models.Model):
         return self.reportName
     class Meta:
         db_table = "reports"
+        ordering=('reportName',)
         # permissions = (
         #     ("can_", "Can drive"),
         #     ("can_vote", "Can vote in elections"),

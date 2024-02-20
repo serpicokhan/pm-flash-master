@@ -92,10 +92,19 @@ def list_wo(request,id=None):
     except Exception as ex:
         print(ex)
         return render(request, 'cmms/404.html', {'to':123})
+
+def seachInsideWos(wos,searchStr):
+        result=None
+        # if(searchStr.isdigit()):
+        #     result= wos.objects.filter(summaryofIssue__isnull=False,isScheduling=False).filter(Q(summaryofIssue__contains=searchStr,visibile=True)|Q(id=int(searchStr))).order_by('-id')
+        # else:
+        #     result=wos.objects.filter(summaryofIssue__isnull=False,isScheduling=False,visibile=True).filter(Q(summaryofIssue__contains=searchStr)|Q(woAsset__assetName__contains=searchStr)|Q(woAsset__assetCode__icontains=searchStr)|Q(RequestedUser__fullName__icontains=searchStr)|Q(assignedToUser__fullName__icontains=searchStr)).order_by('-id')
+        return result
 @permission_required('cmms.view_workorder',login_url='/not_found')
 def list_wo_by_status(request,woStatus):
     try:
         books=[]
+        books2=[]
         groups=[]
 
         if(request.user.username!="admin" and not request.user.groups.filter(name='operator').exists()):
@@ -111,6 +120,15 @@ def list_wo_by_status(request,woStatus):
             books=books.filter(woStatus=int(woStatus))
 
         user1=SysUser.objects.get(userId=request.user)
+        q=request.GET.get('q',False)
+        print(q,'!!!!!!!!!!!!')
+        # if(q):
+        #
+        #     print(q,'!!!!!!!!!!!!')
+        #     books2=seachInsideWos(books,q)
+        #     # pass
+        # else:
+        #     books2=books
 
         wos=WOUtility.doPaging(request,books)
         return render(request, 'cmms/maintenance/woList.html', {'wo': wos,'groups':groups,'user2':user1,
@@ -534,10 +552,14 @@ def wo_getProblem(request):
 def wo_searchWorkOrderByTags(request):
     data=dict()
     searchStr=request.GET.get('q','')
+    wo_status=request.GET.get('status',False)
     page=request.GET.get('page',False)
     searchStr=searchStr.replace('empty_','')
     searchStr=searchStr.replace('_',' ')
-    books=WOUtility.seachWoByTags(searchStr)
+    if(wo_status and wo_status !='1000' ):
+        books=WOUtility.seachWoByTags(searchStr,wo_status)
+    else:
+        books=WOUtility.seachWoByTags(searchStr)
     books=filterUser(request,books)
     if(not searchStr):
         searchStr='empty_'
@@ -1078,7 +1100,7 @@ def bulk_delete_wo(request,ids):
     foo=WorkOrder.objects.filter(id__in=clean_data)
     for i in foo:
         i.delete()
-    data=dict()    
+    data=dict()
     data['form_is_valid'] = True
     # print('done')
     return JsonResponse(data)
@@ -1100,15 +1122,15 @@ def bulk_complete_wo(request,ids):
                 # task.time
                 task.save()
         wo.woStatus=7
-        
-        
+
+
 
 
         wo.save()
     # data['form_is_valid']=True
 
-        
-    data=dict()    
+
+    data=dict()
     data['form_is_valid'] = True
     # print('done')
     return JsonResponse(data)

@@ -733,9 +733,9 @@ var saveCopy= function () {
   ////////////////Search buttom click#############################
   var searchWorkorderByTags= function (searchStr) {
 
-
+    var woStatus=$("#status-selector2").val();
     $.ajax({
-      url: '/WorkOrder/Search/?q='+searchStr,
+      url: `/WorkOrder/Search/?q=${searchStr}&status=${woStatus}`,
 
       type: 'GET',
       dataType: 'json',
@@ -1253,7 +1253,8 @@ var saveCopy= function () {
 
   }
   var filter_by_woStatus=function(){
-    window.location.replace("/WorkOrder/list_wo_by_status/"+$("#status-selector2").val());
+    var search_str=$("#woSearch").val()||'#'
+    window.location.replace("/WorkOrder/list_wo_by_status/"+$("#status-selector2").val()+`?q=${search_str}`);
   }
 
 
@@ -1304,7 +1305,7 @@ var saveCopy= function () {
     });
   };
 
-  // 
+  //
   var wobulkcompletion_pressed=function(){
     swal({
       title:"تکمیل دستور کار",
@@ -1351,7 +1352,7 @@ var saveCopy= function () {
       }
     });
   };
-  // 
+  //
   var check_wo_is_new=function(){
     if($("#lastWorkOrderid").val()!="0")
     {

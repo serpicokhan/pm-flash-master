@@ -139,7 +139,7 @@ class WOUtility:
     ########################################completion rate#################################################
     @staticmethod
     def GetOnTimeCompletedWONumByUser(start,end,user,maintype):
-
+        print("select count(id) as id from workorder where datecompleted <= requiredCompletionDate and (datecompleted between '{0}' and '{1}') and  wostatus=7 and assignedToUser_id={2} and maintenanceType_id={3}".format(start,end,user,maintype))
         return WorkOrder.objects.raw("select count(id) as id from workorder where datecompleted <= requiredCompletionDate and (datecompleted between '{0}' and '{1}') and  wostatus=7 and assignedToUser_id={2} and maintenanceType_id={3}".format(start,end,user,maintype))
 
     #########################################################################################
@@ -382,13 +382,25 @@ class WOUtility:
         # return WorkOrder.objects.raw("select distict(summaryofIssue) as id from workorder where summaryofIssue like '%سرویس%' and summaryofIssue is not null ")
         return WorkOrder.objects.filter(summaryofIssue__isnull=False,summaryofIssue__contains=searchStr).values_list('summaryofIssue',flat=True).order_by('summaryofIssue').distinct()
     @staticmethod
-    def seachWoByTags(searchStr):
-
+    def seachWoByTags(searchStr,status=None):
+        result=None
         if(not searchStr):
-            return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,visibile=True).order_by('-id')
+            result= WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,visibile=True).order_by('-id')
         if(searchStr.isdigit()):
-            return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False).filter(Q(summaryofIssue__contains=searchStr,visibile=True)|Q(id=int(searchStr))).order_by('-id')
-        return WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,visibile=True).filter(Q(summaryofIssue__contains=searchStr)|Q(woAsset__assetName__contains=searchStr)|Q(woAsset__assetCode__icontains=searchStr)|Q(RequestedUser__fullName__icontains=searchStr)|Q(assignedToUser__fullName__icontains=searchStr)).order_by('-id')
+            result= WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False).filter(Q(summaryofIssue__contains=searchStr,visibile=True)|Q(id=int(searchStr))).order_by('-id')
+        else:
+            result=WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,visibile=True).filter(Q(summaryofIssue__contains=searchStr)|Q(woAsset__assetName__contains=searchStr)|Q(woAsset__assetCode__icontains=searchStr)|Q(RequestedUser__fullName__icontains=searchStr)|Q(assignedToUser__fullName__icontains=searchStr)).order_by('-id')
+        if(status):
+            result=result.filter(woStatus=int(status))
+        return result.distinct()
+    @staticmethod
+    def seachInsideWos(wos,searchStr):
+        result=None
+        if(searchStr.isdigit()):
+            result= wos.objects.filter(summaryofIssue__isnull=False,isScheduling=False).filter(Q(summaryofIssue__contains=searchStr,visibile=True)|Q(id=int(searchStr))).order_by('-id')
+        else:
+            result=wos.objects.filter(summaryofIssue__isnull=False,isScheduling=False,visibile=True).filter(Q(summaryofIssue__contains=searchStr)|Q(woAsset__assetName__contains=searchStr)|Q(woAsset__assetCode__icontains=searchStr)|Q(RequestedUser__fullName__icontains=searchStr)|Q(assignedToUser__fullName__icontains=searchStr)).order_by('-id')
+        return result
 
     @staticmethod
     def changeWoStatus2Waiting4Part(wo):
