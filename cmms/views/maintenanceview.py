@@ -1168,7 +1168,7 @@ def wo_change_status(request,id,status):
             print(wo.dateCompleted,'!!!!!!!!!!!!!!!!!!!')
             data['form_is_valid']=True
             data['wo_status']=wo.woStatus
-            data['date_compeletd']=str(jdatetime.date.fromgregorian(date=wo.dateCompleted))
+            data['date_compeletd']=str(jdatetime.date.fromgregorian(date=wo.dateCompleted)
             data['time_compeletd']=wo.timeCompleted
     return JsonResponse(data)
 def set_wo_status(request,woId,status_code):
