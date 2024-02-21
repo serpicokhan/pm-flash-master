@@ -389,7 +389,8 @@ class WOUtility:
         if(searchStr.isdigit()):
             result= WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False).filter(Q(summaryofIssue__contains=searchStr,visibile=True)|Q(id=int(searchStr))).order_by('-id')
         else:
-            result=WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,visibile=True).filter(Q(summaryofIssue__contains=searchStr)|Q(woAsset__assetName__contains=searchStr)|Q(woAsset__assetCode__icontains=searchStr)|Q(RequestedUser__fullName__icontains=searchStr)|Q(assignedToUser__fullName__icontains=searchStr)).order_by('-id')
+            wonotif_ids=WorkorderUserNotification.objects.filter(woNotifUser__fullName__icontains=searchStr).values('woNotifWorkorder')
+            result=WorkOrder.objects.filter(summaryofIssue__isnull=False,isScheduling=False,visibile=True).filter(Q(summaryofIssue__contains=searchStr)|Q(woAsset__assetName__contains=searchStr)|Q(woAsset__assetCode__icontains=searchStr)|Q(RequestedUser__fullName__icontains=searchStr)|Q(assignedToUser__fullName__icontains=searchStr)|Q(id__in=wonotif_ids)).order_by('-id')
         if(status):
             result=result.filter(woStatus=int(status))
         return result.distinct()
