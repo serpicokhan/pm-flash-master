@@ -1145,9 +1145,11 @@ def wo_change_status(request,id,status):
         if(result):
             data['form_is_valid']=True
             data['wo_time']=result
+            data['date_compeletd']=result[0]
+            data['time_compeletd']=result[1]
         else:
             # wo=WorkOrder.objects.get(id=id)
-            tasks=wo.CompleteUserTask.all()
+            tasks=wo.assignedToUserTask.all()
             for task in tasks:
                 if(not task.taskTimeEstimate):
                     task.taskTimeEstimate=0.1
@@ -1160,7 +1162,7 @@ def wo_change_status(request,id,status):
                 wo.timeCompleted=task.taskTimeCompleted
                 # task.time
                 task.save()
-                print("task saved")
+                print("task saved!!!!!!!!!!!!!!!!!!")
             wo.woStatus=7
 
             # wo.dateCompleted=datetime.datetime.now().date()
@@ -1170,6 +1172,7 @@ def wo_change_status(request,id,status):
             data['wo_status']=wo.woStatus
             data['date_compeletd']=str(jdatetime.date.fromgregorian(date=wo.dateCompleted))
             data['time_compeletd']=wo.timeCompleted
+      
     return JsonResponse(data)
 def set_wo_status(request,woId,status_code):
     data=dict()

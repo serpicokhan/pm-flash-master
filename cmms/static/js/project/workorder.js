@@ -1380,8 +1380,15 @@ var check_completion_date=function()
         if(data.form_is_valid)
         {
           // console.log(data);
+          if(data.date_compeletd){
           $("#id_dateCompleted").val(data.date_compeletd);
           $("#id_timeCompleted").val(data.time_compeletd);
+          }
+          // if(data.wo_time){
+          //   console.log(data.wo_time);
+          //   // $("#id_dateCompleted").val(data.wo_time);
+          //   // $("#id_timeCompleted").val(data.time_compeletd);
+          // }
           // alert("123");
         }
         else

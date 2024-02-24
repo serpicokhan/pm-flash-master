@@ -172,7 +172,7 @@ class TaskUtility:
     @staticmethod
     def check_completion_date(woid):
         task=Tasks.objects.filter(workOrder=woid,taskDateCompleted__isnull=True).order_by('-taskDateCompleted','-taskTimeCompleted')
-        print(task.count(),"(task.count()")
+        
         if(task.count()==0):
             dt=Tasks.objects.filter(workOrder=woid).order_by('-taskDateCompleted','-taskTimeCompleted')[0].taskDateCompleted
             tt=Tasks.objects.filter(workOrder=woid).order_by('-taskDateCompleted','-taskTimeCompleted')[0].taskTimeCompleted
