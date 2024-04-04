@@ -132,8 +132,8 @@ class RegMiniView(APIView):
         # print("!23")
         # body_unicode = request.body.decode('utf-8')
         # body = json.loads(body_unicode)
-        # print(request.user.id,"req")
-        rq=SysUser.objects.get(userId=request.user.id)
+        print(request.user.id,"req")
+        rq=SysUser.objects.get(userId=request.user)
         # request.data['RequestedUser']=rq.id
 
         # print('123')
