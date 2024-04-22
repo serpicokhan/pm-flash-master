@@ -1336,3 +1336,10 @@ class WOUtility:
         wo.save()
         print("it work")
         return True
+    @staticmethod
+    def find_and_assign_user(woid):
+        wo=WorkOrder.objects.get(id=woid)
+        asset_users=wo.woAsset.assetuser_set.all()
+        if(asset_users.count()>0):
+            return asset_users[0].AssetUserUserId
+        return None

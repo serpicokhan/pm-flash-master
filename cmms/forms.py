@@ -839,6 +839,8 @@ class AssetMeterTemplateForm(forms.ModelForm):
 
 ##############################################################################
 class AssetUserForm(forms.ModelForm):
+    AssetUserUserId= forms.ModelChoiceField(label="نام کاربر",queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),widget=forms.Select(attrs={'class':'selectpicker', 'data-live-search':'true'}))
+
 
     def clean(self):
                 self.is_valid()

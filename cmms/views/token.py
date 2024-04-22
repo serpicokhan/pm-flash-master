@@ -132,7 +132,7 @@ class RegMiniView(APIView):
         # print("!23")
         # body_unicode = request.body.decode('utf-8')
         # body = json.loads(body_unicode)
-        print(request.user.id,"req")
+
         rq=SysUser.objects.get(userId=request.user)
         # request.data['RequestedUser']=rq.id
 
@@ -143,7 +143,7 @@ class RegMiniView(APIView):
 
             io1=serializer.save()
             io1.RequestedUser=rq
-
+            io1.assignedToUser=WOUtility.find_and_assign_user(io1.id)
             io1.save()
             WOUtility.create_task_when_wo_created_fromAPI(request,io1.id)
             WOUtility.create_notification(request,io1.id)
