@@ -2196,7 +2196,7 @@ class OpenWorkOrdersDetailReport(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
     Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
-    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),
+    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
     categoryText = GroupedModelChoiceField(label="دسته بندی",
@@ -2272,7 +2272,7 @@ class WorkOrdersDetailReportByStatus(forms.Form):
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
 
-    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),
+    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),empty_label=None)
     priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
     # categoryText = GroupedModelChoiceField(label="دسته بندی",
@@ -2400,8 +2400,8 @@ class OpenWorkOrdersListReport(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
 
 
-    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
 
 class WorkOrdersListReportByStatus(forms.Form):
@@ -2474,8 +2474,8 @@ class WorkOrdersListReportByStatus(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
 
 
-    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),empty_label=None)
+    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
     # priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
 class CloseWorkOrdersListReport(forms.Form):
     rcode=100
@@ -2601,6 +2601,9 @@ class RequestedWorkOrdersListReport(forms.Form):
     # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+    assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.filter(usergroups__isnull=False).distinct(),
+    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
+
 
 
 class OpenWorkOrderGraphReport(forms.Form):

@@ -845,6 +845,7 @@ class reporttest:
         endDate=request.POST.get("endDate","")
         starttime=request.POST.get("starttime",False)
         endtime=request.POST.get("endtime",False)
+        assignUser=request.POST.get("assignUser",False)
         advancemode=request.POST.get("advanceMode",False)
 
         asset=request.POST.getlist("assetname", "")
