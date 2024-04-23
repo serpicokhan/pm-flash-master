@@ -29,7 +29,7 @@ var barOptions = {
     scaleGridLineColor: "#F3F3F4",
     scaleGridLineWidth: 1,
     barShowStroke: true,
-    barStrokeWidth: 2,
+    barStrokeWidth: 1,
     barValueSpacing: 5,
     barDatasetSpacing: 1,
     responsive: true,
