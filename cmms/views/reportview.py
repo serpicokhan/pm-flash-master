@@ -139,7 +139,7 @@ def FilterReportCategory(request,id):
          books = Report.objects.filter(reportCategory=id)
     wos=ReportUtility.doPaging(request,books)
     data['html_report_list'] = render_to_string('cmms/reports/partialReportList.html', {
-         'reports': wos
+         'reports': wos,'perms': PermWrapper(request.user)
      })
     # print(wos)
     data['html_report_paginator'] = render_to_string('cmms/reports/partialReportPagination.html', {'reports': wos,'pageType':'FilterReportCategory','pageArg':id})
@@ -163,6 +163,7 @@ def show_fav_reports(request,id):
     wos=ReportUtility.doPaging(request,books)
     data['html_report_list'] = render_to_string('cmms/reports/partialReportList.html', {
          'reports': wos
+         ,'perms': PermWrapper(request.user)
      })
     # print(wos)
     data['html_report_paginator'] = render_to_string('cmms/reports/rep_pagination2.html', {'reports': wos})
