@@ -360,6 +360,7 @@ class WorkorderPart(models.Model):
     woPartActulaQnty=models.FloatField("کمیت واقعی",default=0.0,blank=True,null=True)
     woPartStock=models.ForeignKey(Stock,on_delete=models.CASCADE,null=True,blank=True,verbose_name="انبار")
     timeStamp=models.DateTimeField(auto_now_add=True)
+    registerd_date=models.DateField("تاریخ مصرف",null=True, blank=True)
     class Meta:
         db_table="workorderpart"
         unique_together = ('woPartWorkorder', 'woPartStock')

@@ -35,6 +35,7 @@ from cmms.api.WOSerializer import *
 from rest_framework.response import Response
 from django.db import IntegrityError
 from cmms.models.Asset import *
+import openpyxl
 
 ###################################################################
 def list_woPart(request,id=None):
@@ -277,3 +278,94 @@ def wopart_detail_collection(request,id):
         serializer = woPartSerializer(posts)
 
         return Response(serializer.data)
+def col_letter_to_index(letter):
+    index = 0
+    for char in letter:
+        index = index * 26 + (ord(char.upper()) - ord('A')) + 1
+    return index - 1  # Subtract 1 to make it 0-based index
+def wopartImport(request):
+    locations=Asset.objects.filter(assetTypes=1,assetIsLocatedAt__isnull=True)
+    return render(request, 'cmms/workorder_parts/amarUpload.html', {'location':locations})
+def upload_file_wopart(request):
+    print("!!!!!!!!!!!!!!")
+    def iter_rows(ws):
+        for row in ws.iter_rows():
+            yield [cell.value for cell in row]
+    if request.method == 'POST':
+        my_file=request.FILES.get('file')
+        date_pattern = r'^\d{4}-\d{2}-\d{2}$'
+# Replace 'your_excel_file.xlsx' with the path to your Excel file
+        workbook = openpyxl.load_workbook(my_file)
+        # Specify the sheet name
+        sheet = workbook['Sheet1']  # Replace 'Sheet1' with your sheet name
+        i=1
+
+
+        # Or use the default sheet (usually the first one)
+        sheet = workbook.active
+        for row in sheet.iter_rows(values_only=True):
+            if(row[col_letter_to_index('ac')] is not None ):
+
+                tarikh=row[col_letter_to_index('x')].replace('/','-')
+                registered_date=DateJob.getTaskDate(tarikh)
+
+                part_used=WorkOrderPart.objects.filter(woPartStock__partName=row[col_letter_to_index('z')],registerd_date=registered_date)
+
+                if(nomre_nakh.count()>0):
+                    pass
+
+                    # location=Asset.objects.get(id=int(request.GET.get("location",False)))
+                    # registered_date=DateJob.getTaskDate(tarikh)
+                    # tedad=row[col_letter_to_index('j')]
+                    #
+                    # # isheatset=False if 'HB' in nomre_nakh[0].vaziat else True
+                    # TolidAmar.objects.create(location=location,registered_date=registered_date,tedad=tedad,meghdar=meghdar,tolidmoshakhase=nomre_nakh[0])
+                else:
+                    print("new")
+                    # mogheiat=row[col_letter_to_index('ac')]
+                    # keyfiat=row[col_letter_to_index('v')]
+                    # vaziat=row[col_letter_to_index('z')]
+                    # nomre_nakh=TolidMoshakhase.objects.create(vaziat=vaziat,mogheiat=mogheiat,keyfiat=keyfiat)
+
+                    # registered_date=DateJob.getTaskDate(tarikh)
+                    # tedad=row[col_letter_to_index('r')]
+                    # meghdar=row[col_letter_to_index('p')]
+                    # isheatset=False if 'HB' in nomre_nakh.vaziat else True
+                    tedad=row[col_letter_to_index('j')]
+                    location=Asset.objects.get(id=int(request.GET.get("location",False)))
+                    stock=create_part_stock(row[col_letter_to_index('ab')],row[col_letter_to_index('z')])
+                    WorkorderPart.objects.create(woPartPlannedQnty=0,woPartActulaQnty=tedad,registered_date=registered_date,woPartStock=stock)
+                i=i+1
+
+
+
+
+
+
+
+                    # TolidAmar.objects.create
+
+
+            # Do something with the cell values
+
+        data=dict()
+
+        return JsonResponse(data)
+    return JsonResponse({'post':'fasle'})
+
+def create_part_stock(part_name,part_code):
+    part=Part.objects.filter(partName=part_name)
+    if(part.count()>0):
+        part_in_stock=Stock.objects.filter(stockItem=part)
+        if(part_in_stock.count()>0):
+            result=part_in_stock.fist()
+        else:
+            result=Stock.objects.create(stockItem=part,location=Asset.object.filter(assetIsStock=True).first(),qtyOnHand=1,minQty=1)
+
+
+    else:
+        # Stock.objects.create(stockItem=part)
+        mypart=Part.objects.create(partName=part_name,partDescription=part_name,part_code=part_code)
+        result=Stock.objects.create(stockItem=mypart,location=Asset.object.filter(assetIsStock=True).first(),qtyOnHand=1,minQty=1)
+
+    return result

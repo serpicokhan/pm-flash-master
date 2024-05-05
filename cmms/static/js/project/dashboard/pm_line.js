@@ -11,7 +11,7 @@ function DrawPMLineAll(data1,label,data2,label2)
     fill: false,
     backgroundColor:  'rgba(255, 99, 132, 0.2)',
 borderColor: 'rgb(255, 99, 132)',
-    borderWidth: 10
+    borderWidth: 3
   },
   {
     axis: 'y',
@@ -20,7 +20,7 @@ borderColor: 'rgb(255, 99, 132)',
     fill: false,
     backgroundColor: 'rgba(54, 162, 235, 0.2)' ,
 borderColor:'rgb(54, 162, 235)',
-    borderWidth: 10
+    borderWidth: 3
   }]
 };
 var barOptions = {

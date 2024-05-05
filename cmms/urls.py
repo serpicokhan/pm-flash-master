@@ -188,6 +188,8 @@ urlpatterns = [
 
 
       url(r'^WoPart/$',list_woPart,name='list_woPart'),
+      url(r'^WoPart/Upload$',wopartImport,name='wopartImport'),
+      url(r'^WoPart/UploadFile$',upload_file_wopart,name='upload_file_wopart'),
       url(r'^WoPart/CreateByWo/(?P<wo>\d+)/(?P<pid>\d+)$',create_by_wo_part,name='create_by_wo_part'),
       url(r'^WoPart/create/$', woPart_create, name='woPart_create'),
       url(r'^WoPart/(?P<id>\d+)/create/$', woPart_create, name='woPart_create'),
