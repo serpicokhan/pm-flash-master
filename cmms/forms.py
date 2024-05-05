@@ -2265,7 +2265,7 @@ class WorkOrdersDetailReportByStatus(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}),empty_label=None)
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
-    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
     # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
     # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
@@ -2456,12 +2456,15 @@ class WorkOrdersListReportByStatus(forms.Form):
    # This report displays the list of all open work orders assigned to a maintenance type
    #, parent asset, asset category, priority, and assigned to user, created between two dates.
 
-
+    rcode=100
     test="پارامترهای مربوطه را انتخاب کنید و سپس اجرا را فشار دهید"
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=assetCatOPTIONS)
     statusType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=Status)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    starttime = forms.CharField(label='از ساعت',required=False,widget=forms.TextInput(attrs={'class':'ltr-input','data-mask':'99:99:99'}))
+    endtime = forms.CharField(label='تا ساعت',required=False,widget=forms.TextInput(attrs={'class':'ltr-input','data-mask':'99:99:99'}))
+
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}),empty_label=None)
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),

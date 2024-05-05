@@ -631,30 +631,90 @@ class reporttest:
         # weasyprint.HTML(string=html).write_pdf(response,stylesheets=[weasyprint.CSS('cmms/static/css/pdf.css')])
         # return response
     def WorkOrdersListReportByStatus(self,request):
+        # date1=DateJob.getDate2(request.POST.get("startDate",""))
+        # date2=DateJob.getDate2(request.POST.get("endDate",""))
+        # startDate=request.POST.get("startDate","")
+        # endDate=request.POST.get("endDate","")
+        # assignUser=request.POST.getlist("assignUser", "")
+        # status=request.POST.get("statusType", "")
+        # asset=request.POST.getlist("assetname", "")
+        # makan=request.POST.getlist("makan", "")
+        # categoryText=request.POST.getlist("assetType", "")
+        # maintenanceType=request.POST.getlist("maintenanceType", "")
+        # priorityType=request.POST.getlist("priorityType", "")
+        # ##### حذف .... در combobox
+        #
+        #
+        # user1=User.objects.filter(id__in=tuple(assignUser)).values_list('username', flat=True)
+        # asset1=Asset.objects.filter(id__in=tuple(asset)).values_list('assetName', flat=True)
+        # assetcat=AssetCategory.objects.filter(id__in=tuple(categoryText)).values_list('name', flat=True)
+        # maintype=MaintenanceType.objects.filter(id__in=tuple(maintenanceType)).values_list('name', flat=True)
+        # woListDic=[]
+        print("!!!!!!!!!!!!!!!!!!!!!!!")
         date1=DateJob.getDate2(request.POST.get("startDate",""))
         date2=DateJob.getDate2(request.POST.get("endDate",""))
         startDate=request.POST.get("startDate","")
         endDate=request.POST.get("endDate","")
-        assignUser=request.POST.getlist("assignUser", "")
+        starttime=request.POST.get("starttime",False)
+        endtime=request.POST.get("endtime",False)
+        assignUser=request.POST.getlist("assignUser",False)
+        advancemode=request.POST.get("advanceMode",False)
         status=request.POST.get("statusType", "")
+
+
         asset=request.POST.getlist("assetname", "")
-        makan=request.POST.getlist("makan", "")
         categoryText=request.POST.getlist("assetType", "")
-        maintenanceType=request.POST.getlist("maintenanceType", "")
+        maintenanceType=request.POST.getlist("maintenanceType","")
+        makan=request.POST.getlist("makan","")
         priorityType=request.POST.getlist("priorityType", "")
         ##### حذف .... در combobox
 
+        if(len(asset) >0 and not asset[0]):
+            asset.pop(0)
+        if(len(categoryText) >0 and not categoryText[0]):
+            categoryText.pop(0)
+        if(len(maintenanceType) >0 and not maintenanceType[0]):
+            maintenanceType.pop(0)
+        if(len(priorityType) >0 and not priorityType[0]):
+            priorityType.pop(0)
+        #ساخت لیست
 
-        user1=User.objects.filter(id__in=tuple(assignUser)).values_list('username', flat=True)
-        asset1=Asset.objects.filter(id__in=tuple(asset)).values_list('assetName', flat=True)
-        assetcat=AssetCategory.objects.filter(id__in=tuple(categoryText)).values_list('name', flat=True)
-        maintype=MaintenanceType.objects.filter(id__in=tuple(maintenanceType)).values_list('name', flat=True)
+        asset=[int(i) for i in asset]
+        if(makan):
+            print(makan,"makan")
+            makan.append(-1)
+        categoryText=[int(i) for i in categoryText]
+        maintenanceType=[int(i) for i in maintenanceType]
+        priorityType=[int(i) for i in priorityType]
+        #از بین بردن کامای اضافی ایجاد شده در تاپل
+
+        if(len(maintenanceType)==1):
+            maintenanceType.append(-1)
+        if(len(categoryText)==1):
+            categoryText.append(-1)
+        if(len(priorityType)==1):
+            priorityType.append(-1)
+
+        user1=[]
+        asset1=Asset.objects.filter(id__in=asset).values_list('assetName', flat=True)
+        if(assignUser):
+            assignUser=SysUser.objects.filter(id__in=assignUser).values_list('id', flat=True)
+            user1=SysUser.objects.filter(id__in=assignUser).values_list('fullName', flat=True)
+
+        # print(assignUser,'!!!!!!!!!!!!')
+        assetcat=AssetCategory.objects.filter(id__in=categoryText).values_list('name', flat=True)
+        maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
-        woList=list(WOUtility.getWorkOrdersListReportByStatus(date1,date2,assignUser,asset,categoryText,maintenanceType,priorityType,status,makan))
+        if(makan):
+            woList=list(WOUtility.getWorkOrdersListReportByStatus(date1,date2,assignUser,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),status,makan=tuple(makan),starttime=starttime,endtime=endtime))
+        else:
+            woList=list(WOUtility.getWorkOrdersListReportByStatus(date1,date2,assignUser,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),status,starttime=starttime,endtime=endtime))
+
         tasklist=[]
         # پیدا کردن لیستی از تسکهای مرتبز با دستورکارها
+        print("user1",user1)
 
-        return render(request, 'cmms/reports/simplereports/WorkOrdersListReportByStatus.html',{'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
+        return render(request, 'cmms/reports/simplereports/WorkOrdersListReportByStatus.html',{'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':tuple(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
         # html = render_to_string('cmms/reports/simplereports/OpenWorkOrdersListReport.html',
         # {'woList':woList,'tasks':tasklist,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'users':list(user1),'assetcat':list(assetcat),'assets':list(asset1),'priority':priorityType,'maintype':list(maintype),'stdate':startDate,'enddate':endDate})
         # response = HttpResponse(content_type='application/pdf')

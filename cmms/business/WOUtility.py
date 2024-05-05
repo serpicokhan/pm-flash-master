@@ -684,16 +684,19 @@ class WOUtility:
             wo=wo.filter(woPriority__in=priority)
         return wo.filter(isScheduling=False,visibile=True);
     @staticmethod
-    def getWorkOrdersListReportByStatus(start,end,assignedUser,asset,assetCategory,maintenanceType,priority,status,makan):
+    def getWorkOrdersListReportByStatus(start,end,assignedUser,asset,assetCategory,maintenanceType,priority,status,makan=None,starttime=None,endtime=None):
 
 
-        wo=WorkOrder.objects.filter(datecreated__range=[start,end])
-        if(len(makan)>0):
-            wo=wo.filter(Q(woAsset__id__in=makan)|Q(woAsset__assetIsLocatedAt__id__in=makan))
-        if(len(assignedUser)>0):
-            wo=wo.filter(assignedToUser__id__in=assignedUser)
-        else:
-            wo=WorkOrder.objects.filter(datecreated__range=[start,end])
+        start_datetime=None
+        end_datetime=None
+        wo=WorkOrder.objects.none()
+        # if(len(assignedUser)>0):
+        #     wo=WorkOrder.objects.filter(isScheduling=False,assignedToUser__id__in=assignedUser,woStatus__in=(1),visibile=True,datecreated__range=[start,end])
+        # else:
+        wo=WorkOrder.objects.filter(isScheduling=False,woStatus=status,visibile=True)
+        if(makan):
+            wo=wo.filter(Q(woAsset__assetIsLocatedAt__id__in=makan)|Q(woAsset__id__in=makan))
+
         if(len(maintenanceType)>0):
             wo=wo.filter(maintenanceType__id__in=maintenanceType)
         if(len(assetCategory)>0):
@@ -703,7 +706,31 @@ class WOUtility:
                 wo=wo.filter(woAsset__id__in=asset)
         if(len(priority)>0):
             wo=wo.filter(woPriority__in=priority)
-        return wo.filter(woStatus=status,isScheduling=False,visibile=True);
+        if(starttime):
+            time_object = datetime.datetime.strptime(starttime, "%H:%M:%S").time()
+            start_datetime = datetime.datetime.combine(start, time_object)
+        else:
+            start_datetime=datetime.datetime.combine(start, datetime.time(0,0,0))
+        if(endtime):
+            time_object = datetime.datetime.strptime(endtime, "%H:%M:%S").time()
+
+            end_datetime = datetime.datetime.combine(end, time_object)
+        else:
+            end_datetime=datetime.datetime.combine(end, datetime.time(11,59,59))
+        if(assignedUser):
+            wo=wo.filter(assignedToUser=assignedUser)
+
+        #     wo=wo.filter(timecreated__gte=starttime)
+        # if(endtime):
+        #     wo=wo.filter(timecreated__lte=endtime)
+        filter_condition = Q(
+                            Q(datecreated__gt=start_datetime.date()) |  # Row's datecreated is after start_date
+                            Q(datecreated=start_datetime.date(), timecreated__gte=start_datetime.time())
+                        ) & Q(
+                            Q(datecreated__lt=end_datetime.date()) |  # Row's datecreated is before end_date
+                            Q(datecreated=end_datetime.date(), timecreated__lte=end_datetime.time())
+                        )
+        return wo.filter(filter_condition).order_by('datecreated','timecreated');
 
     @staticmethod
     def getOpenPMWorkOrdersListReport(start,end,assignedUser,asset,assetCategory,maintenanceType,priority):
