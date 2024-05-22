@@ -94,7 +94,7 @@ class AmarUtility:
                            SUM(a.assetTotlaKilometer) AS sum_value,b.assetIsLocatedAt_id as id
                             FROM ringamar as a
                             left join  assets as b on a.assetName_id=b.id
-                            where b.assetIsLocatedAt_id={0}
+                            where b.assetIsLocatedAt_id={0} and jalali_year = pyear(CURRENT_DATE)
                             GROUP BY jalali_year, jalali_month,b.assetIsLocatedAt_id'''.format(location))
         return values
     @staticmethod
