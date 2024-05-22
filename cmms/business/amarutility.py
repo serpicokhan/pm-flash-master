@@ -113,7 +113,7 @@ class AmarUtility:
                             FROM tolidamar as a
 
                             where a.location_id={0}
-                            GROUP BY jalali_year, jalali_month'''.format(location))
+                            GROUP BY jalali_year, jalali_month having jalali_year = pyear(CURRENT_DATE) '''.format(location))
         return values
     @staticmethod
     def getTolidBarAPI(location=None):
