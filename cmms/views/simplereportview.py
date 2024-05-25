@@ -902,7 +902,7 @@ class reporttest:
         endDate=request.POST.get("endDate","")
         starttime=request.POST.get("starttime",False)
         endtime=request.POST.get("endtime",False)
-        assignUser=request.POST.get("assignUser",False)
+        assignUser=request.POST.getlist("assignUser",False)
         advancemode=request.POST.get("advanceMode",False)
 
         asset=request.POST.getlist("assetname", "")
@@ -944,9 +944,9 @@ class reporttest:
         maintype=MaintenanceType.objects.filter(id__in=maintenanceType).values_list('name', flat=True)
         woListDic=[]
         if(makan):
-            woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),makan=tuple(makan),starttime=starttime,endtime=endtime))
+            woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),makan=tuple(makan),starttime=starttime,endtime=endtime,userlist=assignUser))
         else:
-            woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),starttime=starttime,endtime=endtime))
+            woList=list(WOUtility.getRequestedWorkOrdersListReport(date1,date2,tuple(asset),tuple(categoryText),tuple(maintenanceType),tuple(priorityType),starttime=starttime,endtime=endtime,userlist=assignUser))
         tasklist=[]
         if(advancemode):
             for i in woList:

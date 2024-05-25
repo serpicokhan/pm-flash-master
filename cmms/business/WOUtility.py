@@ -613,7 +613,7 @@ class WOUtility:
             wo=wo.filter(woPriority__in=priority)
         return wo.filter(isScheduling=False,visibile=True);
     @staticmethod
-    def getRequestedWorkOrdersListReport(start,end,asset,assetCategory,maintenanceType,priority,makan=None,starttime=None,endtime=None):
+    def getRequestedWorkOrdersListReport(start,end,asset,assetCategory,maintenanceType,priority,makan=None,starttime=None,endtime=None,userlist=None):
 
         start_datetime=None
         end_datetime=None
@@ -648,6 +648,9 @@ class WOUtility:
         #     wo=wo.filter(timecreated__gte=starttime)
         # if(endtime):
         #     wo=wo.filter(timecreated__lte=endtime)
+        if(userlist):
+            wo=wo.filter(assignedToUser__in=userlist)
+
         filter_condition = Q(
                             Q(datecreated__gt=start_datetime.date()) |  # Row's datecreated is after start_date
                             Q(datecreated=start_datetime.date(), timecreated__gte=start_datetime.time())
