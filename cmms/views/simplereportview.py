@@ -650,7 +650,7 @@ class reporttest:
         # assetcat=AssetCategory.objects.filter(id__in=tuple(categoryText)).values_list('name', flat=True)
         # maintype=MaintenanceType.objects.filter(id__in=tuple(maintenanceType)).values_list('name', flat=True)
         # woListDic=[]
-        print("!!!!!!!!!!!!!!!!!!!!!!!")
+
         date1=DateJob.getDate2(request.POST.get("startDate",""))
         date2=DateJob.getDate2(request.POST.get("endDate",""))
         startDate=request.POST.get("startDate","")
@@ -680,9 +680,6 @@ class reporttest:
         #ساخت لیست
 
         asset=[int(i) for i in asset]
-        if(makan):
-            print(makan,"makan")
-            makan.append(-1)
         categoryText=[int(i) for i in categoryText]
         maintenanceType=[int(i) for i in maintenanceType]
         priorityType=[int(i) for i in priorityType]

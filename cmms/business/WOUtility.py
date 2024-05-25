@@ -718,7 +718,8 @@ class WOUtility:
         else:
             end_datetime=datetime.datetime.combine(end, datetime.time(11,59,59))
         if(assignedUser):
-            wo=wo.filter(assignedToUser=assignedUser)
+            # print(assignedUser)
+            wo=wo.filter(assignedToUser__in=(assignedUser))
 
         #     wo=wo.filter(timecreated__gte=starttime)
         # if(endtime):
