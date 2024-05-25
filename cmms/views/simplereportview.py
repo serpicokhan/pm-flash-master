@@ -304,7 +304,7 @@ class reporttest:
         startDate=request.POST.get("startDate","").replace('-','/')
         endDate=request.POST.get("endDate","").replace('-','/')
         assignUser=request.POST.getlist("assignUser", "")
-        asset=request.POST.getlist("Asset", "")
+        asset=request.POST.getlist("makan", "")
         categoryText=request.POST.getlist("categoryText", "")
         maintenanceType=request.POST.getlist("maintenanceType", "")
         priorityType=request.POST.getlist("priorityType", "")

@@ -1540,7 +1540,7 @@ class MiscCostCodeForm(forms.ModelForm):
          model = MiscCostCode
          fields = '__all__'
 class DashAssetForm(forms.ModelForm):
-    settingLocation= forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    settingLocation= forms.ModelChoiceField(label="مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     def clean(self):
                 self.is_valid()
@@ -1643,7 +1643,7 @@ class AssetCadForm(forms.ModelForm):
             self.fields['assetCoord'].queryset=queryset=Asset.objects.filter(assetIsLocatedAt__id=loc)
         else:
             print("here########!!!!!!!!!!!!!!!!!!!!")
-            self.fields['assetCoord'].queryset=queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True)
+            self.fields['assetCoord'].queryset=queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
 
     location=forms.CharField()
     # assetCoord= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
@@ -1982,7 +1982,7 @@ class DowntimeByRepairTypeByAssetCategory(forms.Form):
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
-    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
     categoryText = GroupedModelChoiceField(label="دسته بندی",
         queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
@@ -2151,21 +2151,24 @@ class OverdueWorkOrdersDetailReport(forms.Form):
 
 
     test="پارامترهای مربوطه را انتخاب کنید و سپس اجرا را فشار دهید"
+    rcode=100
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=assetCatOPTIONS)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),empty_label=None,
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.all(),empty_label=None,
-    widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    categoryText= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':'','disabled':''}),required=False,empty_label=None)
+
+    assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+
     assignUser = forms.ModelChoiceField(label="کاربر",queryset=SysUser.objects.all(),empty_label=None,
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     priorityType = forms.MultipleChoiceField(label="اولویت",choices=Priority,widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    categoryText = GroupedModelChoiceField(label="دسته بندی",empty_label=None,
-        queryset=AssetCategory.objects.all(),#exclude(assetCategory=None),
-        choices_groupby='isPartOf',
-        widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
-    )
+    
 class OpenWorkOrdersDetailReport(forms.Form):
 
     assetCatOPTIONS = (
@@ -2308,7 +2311,7 @@ class CloseWorkOrdersDetailReport(forms.Form):
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':'','disabled':''}),required=False,empty_label=None)
@@ -2510,7 +2513,7 @@ class CloseWorkOrdersListReport(forms.Form):
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     maintenanceType = forms.ModelChoiceField(label="نوع نگهداری",queryset=MaintenanceType.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}))
-    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':'','disabled':''}),required=False,empty_label=None)
@@ -2632,7 +2635,7 @@ class OpenWorkOrderGraphReport(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','multiple':''}),empty_label=None)
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':'','disabled':''}),required=False,empty_label=None)
-    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}),required=False,empty_label=None)
     # Asset = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.none(),
     # widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
@@ -2732,7 +2735,7 @@ class FailureCodeCauseCount(forms.Form):
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
     startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
     endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
-    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),empty_label=None,
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':'','disabled':''}))
@@ -2918,7 +2921,7 @@ class AssetOnlineAndOfflineHistory(forms.Form):
         choices_groupby='isPartOf',
         widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'})
     )
-    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     offlinecode = forms.ModelChoiceField(label="علت توقف",queryset=StopCode.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
@@ -2963,7 +2966,7 @@ class UserGroupPerformance(forms.Form):
 
         )
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
-    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     usergroup = forms.ModelChoiceField(label="گروه کاری",queryset=UserGroup.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
@@ -2981,7 +2984,7 @@ class IstgahReport(forms.Form):
 
         )
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
-    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     usergroup = forms.ModelChoiceField(label="گروه کاری",queryset=UserGroup.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
@@ -3008,7 +3011,7 @@ class Amalkard3MaheReport(forms.Form):
     SType = forms.MultipleChoiceField(label="فصل",required=False,widget=forms.Select,choices=SOPTIONS)
     usergroup = forms.ModelChoiceField(label="گروه کاری",queryset=UserGroup.objects.all().exclude(userGroupCode='other'),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
-    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 class TahlilOfflineStatus(forms.Form):
     test='تحلیل علتهای توقف'
@@ -3037,7 +3040,7 @@ class TahlilOfflineStatus(forms.Form):
     SType = forms.MultipleChoiceField(label="ماه",required=False,widget=forms.Select,choices=SOPTIONS)
     causeCode = forms.ModelChoiceField(label="علت خرابی",queryset=CauseCode.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
-    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 class ShakhesTamirat(forms.Form):
     test='شاخص تعمیرات'
@@ -3091,7 +3094,7 @@ class UserGroupPerformanceWithGraph(forms.Form):
         )
     SType = forms.MultipleChoiceField(label="ماه",required=False,widget=forms.Select,choices=SOPTIONS)
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
-    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
     usergroup = forms.ModelChoiceField(label="گروه کاری",queryset=UserGroup.objects.all().exclude(userGroupCode='other'),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
@@ -3112,7 +3115,7 @@ class TotalTamirPerIstgah(forms.Form):
         )
 
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
-    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 
     assetCategory = forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
@@ -3133,7 +3136,7 @@ class GroupTamirPerIstgah(forms.Form):
         )
 
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
-    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 
     assetCategory = forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
@@ -3142,6 +3145,8 @@ class GroupTamirPerIstgah(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
 class GroupTamirPerIstgahPerMonth(forms.Form):
     test='تعمیرات گروهی به تفکیک ماه'
+    rcode=100
+
 
 
     OPTIONS = (
@@ -3294,7 +3299,7 @@ class PartUsageByLocationandPart(forms.Form):
 
         )
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
-    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':'','disabled':''}))
@@ -3330,7 +3335,7 @@ class AssetMeterLocation(forms.Form):
 
         )
     reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
-    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
     assetType= forms.ModelChoiceField(empty_label=None,label="نوع دارایی",queryset=AssetCategory.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}))
@@ -3367,7 +3372,7 @@ class MTBFByAnalythis(forms.Form):
 
             )
         reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
-        makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+        makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
         widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 
         assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
@@ -3393,7 +3398,7 @@ class MTBFByAnalythisCauseCode(forms.Form):
 
             )
         reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)
-        makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+        makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
         widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 
         assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
@@ -3432,7 +3437,7 @@ class DueServiceReport(forms.Form):
         test='سرویس های سر رسیده'
         startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
         endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
-        assetname= forms.ModelChoiceField(label="نام مکان",empty_label=None,queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+        assetname= forms.ModelChoiceField(label="نام مکان",empty_label=None,queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
         widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':'true'}))
         # startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
         OPTIONS = (
@@ -3445,7 +3450,7 @@ class OverDueServiceReport(forms.Form):
         test='سرویس های منقضی '
         startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
         endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
-        assetname= forms.ModelChoiceField(label="نام مکان",empty_label=None,queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+        assetname= forms.ModelChoiceField(label="نام مکان",empty_label=None,queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1),
         widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':'true'}))
         # startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
         OPTIONS = (
