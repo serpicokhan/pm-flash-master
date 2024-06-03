@@ -176,13 +176,16 @@ def upload_file_tolidamar(request):
 
                 nomre_nakh=TolidMoshakhase.objects.filter(mogheiat=row[col_letter_to_index('ac')])
                 tarikh=row[col_letter_to_index('x')].replace('/','-')
+
                 if(nomre_nakh.count()>0):
-                    print("exist")
+                    TolidAmar.objects.filter(location=location,registered_date=registered_date,tolidmoshakhase=nomre_nakh[0]).delete()
+
                     location=Asset.objects.get(id=int(request.GET.get("location",False)))
                     registered_date=DateJob.getTaskDate(tarikh)
                     tedad=row[col_letter_to_index('r')]
                     meghdar=row[col_letter_to_index('p')]
-                    print(i,row[col_letter_to_index('p')])
+
+
                     isheatset=False if 'HB' in nomre_nakh[0].vaziat else True
                     TolidAmar.objects.create(location=location,registered_date=registered_date,tedad=tedad,meghdar=meghdar,tolidmoshakhase=nomre_nakh[0])
                 else:
