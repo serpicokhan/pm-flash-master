@@ -35,12 +35,27 @@ class AmarUtility:
         return (values,values2)
     @staticmethod
     def getTolidMain(start,end,location=None):
+        print(location,'%%%%%%%%%%%%%%')
+        if(location!='-1'):
+            list_str = ', '.join(str(item) for item in location)
+            print(f'''SELECT `tolidamar`.`registered_date`,
+                                        SUM(`tolidamar`.`meghdar`) AS `id` FROM `tolidamar`
+                                        INNER JOIN `assets` ON (`tolidamar`.`location_id` = `assets`.`id`)
+                                         WHERE (`tolidamar`.`registered_date` BETWEEN '{start}' AND '{end}' AND
+                                         `assets`.`id` in   ({list_str}) ) GROUP BY `tolidamar`.`registered_date` order by registered_date''')
 
-        values=RingAmar.objects.raw('''SELECT `tolidamar`.`registered_date`,
-                                    SUM(`tolidamar`.`meghdar`) AS `id` FROM `tolidamar`
-                                    INNER JOIN `assets` ON (`tolidamar`.`location_id` = `assets`.`id`)
-                                     WHERE (`tolidamar`.`registered_date` BETWEEN '{0}' AND '{1}' AND
-                                     `assets`.`id` = {2}) GROUP BY `tolidamar`.`registered_date` order by registered_date'''.format(start,end,location))
+            values=RingAmar.objects.raw(f'''SELECT `tolidamar`.`registered_date`,
+                                        SUM(`tolidamar`.`meghdar`) AS `id` FROM `tolidamar`
+                                        INNER JOIN `assets` ON (`tolidamar`.`location_id` = `assets`.`id`)
+                                         WHERE (`tolidamar`.`registered_date` BETWEEN '{start}' AND '{end}' AND
+                                         `assets`.`id` in   ({list_str}) ) GROUP BY `tolidamar`.`registered_date` order by registered_date''')
+        else:
+            print("here!!!!!!!!!!")
+            values=RingAmar.objects.raw('''SELECT `tolidamar`.`registered_date`,
+                                        SUM(`tolidamar`.`meghdar`) AS `id` FROM `tolidamar`
+                                        INNER JOIN `assets` ON (`tolidamar`.`location_id` = `assets`.`id`)
+                                         WHERE (`tolidamar`.`registered_date` BETWEEN '{0}' AND '{1}' AND
+                                         `assets`.`id` in (6936,6942,6961,7176,7177,7178)) GROUP BY `tolidamar`.`registered_date` order by registered_date'''.format(start,end,location))
         # values2=RingAmar.objects.raw('''SELECT `TolidAmar`.`assetAmarDate` ,`TolidAmar`.`shifttypes`,SUM(`TolidAmar`.`assetTotlaKilometer`) AS `id`  FROM `TolidAmar`
         #                             INNER JOIN `assets` ON (`TolidAmar`.`assetName_id` = `assets`.`id`)
         #                              WHERE (`TolidAmar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND
@@ -49,14 +64,16 @@ class AmarUtility:
         return values
     @staticmethod
     def getTolidDonutMain(start,end,location=None):
+        list_str = ', '.join(str(item) for item in location)
 
-        values=RingAmar.objects.raw('''SELECT tolidmoshakhase_id,mogheiat, SUM(`tolidamar`.`meghdar`)
+
+        values=RingAmar.objects.raw(f'''SELECT tolidmoshakhase_id,mogheiat, SUM(`tolidamar`.`meghdar`)
                                     AS `id` FROM `tolidamar` INNER JOIN `assets` ON
                                     (`tolidamar`.`location_id` = `assets`.`id`)
                                     left join `tolidmoshakhase` on(tolidamar.tolidmoshakhase_id=tolidmoshakhase.id)
-                                    WHERE (`tolidamar`.`registered_date` BETWEEN '{0}' AND '{1}' AND
-                                    `assets`.`id` = {2})
-                                     GROUP BY tolidmoshakhase_id ORDER BY `tolidamar`.`tolidmoshakhase_id` ASC;'''.format(start,end,location))
+                                    WHERE (`tolidamar`.`registered_date` BETWEEN '{start}' AND '{end}' AND
+                                    `assets`.`id` in ({list_str}))
+                                     GROUP BY tolidmoshakhase_id ORDER BY `tolidamar`.`tolidmoshakhase_id` ASC;''')
         # values2=RingAmar.objects.raw('''SELECT `TolidAmar`.`assetAmarDate` ,`TolidAmar`.`shifttypes`,SUM(`TolidAmar`.`assetTotlaKilometer`) AS `id`  FROM `TolidAmar`
         #                             INNER JOIN `assets` ON (`TolidAmar`.`assetName_id` = `assets`.`id`)
         #                              WHERE (`TolidAmar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND
@@ -65,14 +82,17 @@ class AmarUtility:
         return values
     @staticmethod
     def getTolidDonutNomreMain(start,end,location=None):
+        list_str = ', '.join(str(item) for item in location)
 
-        values=RingAmar.objects.raw('''SELECT vaziat, SUM(`tolidamar`.`meghdar`)
+
+
+        values=RingAmar.objects.raw(f'''SELECT vaziat, SUM(`tolidamar`.`meghdar`)
                                     AS `id` FROM `tolidamar` INNER JOIN `assets` ON
                                     (`tolidamar`.`location_id` = `assets`.`id`)
                                     left join `tolidmoshakhase` on(tolidamar.tolidmoshakhase_id=tolidmoshakhase.id)
-                                    WHERE (`tolidamar`.`registered_date` BETWEEN '{0}' AND '{1}' AND
-                                    `assets`.`id` = {2})
-                                     GROUP BY vaziat ORDER BY `tolidamar`.`tolidmoshakhase_id` ASC;'''.format(start,end,location))
+                                    WHERE (`tolidamar`.`registered_date` BETWEEN '{start}' AND '{end}' AND
+                                    `assets`.`id` in ({list_str}))
+                                     GROUP BY vaziat ORDER BY `tolidamar`.`tolidmoshakhase_id` ASC;''')
         # values2=RingAmar.objects.raw('''SELECT `TolidAmar`.`assetAmarDate` ,`TolidAmar`.`shifttypes`,SUM(`TolidAmar`.`assetTotlaKilometer`) AS `id`  FROM `TolidAmar`
         #                             INNER JOIN `assets` ON (`TolidAmar`.`assetName_id` = `assets`.`id`)
         #                              WHERE (`TolidAmar`.`assetAmarDate` BETWEEN '{0}' AND '{1}' AND
@@ -99,21 +119,24 @@ class AmarUtility:
         return values
     @staticmethod
     def getTolidMainBar(start,end,location=None):
-
-        print('''SELECT (pyear(registered_date)) AS jalali_year,
-                           (pmonth(registered_date)) AS jalali_month,
-                           SUM(a.meghdar) AS sum_value,b.assetIsLocatedAt_id as id
-                            FROM tolidamar as a
-                            left join  assets as b on a.location_id=b.id
-                            where b.assetIsLocatedAt_id={0}
-                            GROUP BY jalali_year, jalali_month,b.assetIsLocatedAt_id'''.format(location))
-        values=RingAmar.objects.raw('''SELECT (pyear(registered_date)) AS jalali_year,
+        list_str = ', '.join(str(item) for item in location)
+        print(f'''SELECT (pyear(registered_date)) AS jalali_year,
                            (pmonth(registered_date)) AS jalali_month,
                            SUM(a.meghdar) AS id
                             FROM tolidamar as a
 
-                            where a.location_id={0}
-                            GROUP BY jalali_year, jalali_month having jalali_year = pyear(CURRENT_DATE) '''.format(location))
+                            where a.location_id in ({list_str})
+                            GROUP BY jalali_year, jalali_month having jalali_year = pyear(CURRENT_DATE) ''')
+
+
+
+        values=RingAmar.objects.raw(f'''SELECT (pyear(registered_date)) AS jalali_year,
+                           (pmonth(registered_date)) AS jalali_month,
+                           SUM(a.meghdar) AS id
+                            FROM tolidamar as a
+
+                            where a.location_id in ({list_str})
+                            GROUP BY jalali_year, jalali_month having jalali_year = pyear(CURRENT_DATE) ''')
         return values
     @staticmethod
     def getTolidBarAPI(location=None):

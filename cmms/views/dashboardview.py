@@ -516,8 +516,10 @@ def dash_getDashTolid(request,startHijri,endHijri):
 def dash_getDashTolidMain(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    loc=request.GET.get('loc',False)
+    loc=request.GET.getlist('loc',False)
+
     amar1=AmarUtility.getTolidMain(start,end,location=loc)
+
     s1=[]
     s2=[]
     dt={}
@@ -580,7 +582,7 @@ def dash_getDashTolidBar(request,startHijri,endHijri):
 def dash_getDashTolidMainBar(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    loc=request.GET.get('loc',False)
+    loc=request.GET.getlist('loc',False)
     print(loc,"l;oc")
     amar1=AmarUtility.getTolidMainBar(start,end,location=loc)
 
@@ -670,7 +672,7 @@ def dash_getDashTolidTime(request,startHijri,endHijri):
 def dash_getDashTolidDonut(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    loc=request.GET.get('loc',False)
+    loc=request.GET.getlist('loc',False)
     # if(loc=='6961'):
     #     amar1,amar2=AmarUtility.getTolid(start,end,location=loc)
     # else:
@@ -696,7 +698,7 @@ def dash_getDashTolidDonut(request,startHijri,endHijri):
 def dash_getDashTolidNomreDonut(request,startHijri,endHijri):
     data=dict()
     start,end=DateJob.convert2Date(startHijri,endHijri)
-    loc=request.GET.get('loc',False)
+    loc=request.GET.getlist('loc',False)
     # if(loc=='6961'):
     #     amar1,amar2=AmarUtility.getTolid(start,end,location=loc)
     # else:
