@@ -173,8 +173,10 @@ def upload_file_tolidamar(request):
         for row in sheet.iter_rows(values_only=True):
             if(row[col_letter_to_index('x')] is not None and row[col_letter_to_index('v')] is not None):
                 tarikh=row[col_letter_to_index('x')].replace('/','-')
+                registered_date=DateJob.getTaskDate(tarikh)
 
-                data[tarikh]=[]
+
+                data[f'{registered_date}']=[]
 
         for row in sheet.iter_rows(values_only=True):
             if(row[col_letter_to_index('x')] is not None and row[col_letter_to_index('v')] is not None):
