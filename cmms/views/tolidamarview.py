@@ -223,7 +223,7 @@ def upload_file_tolidamar(request):
             # Do something with the cell values
 
         for i in data:
-            TolidAmar.objects.exclude(location=location,registered_date=i,tolidmoshakhase=data[i]).delete()
+            TolidAmar.objects.exclude(location=location,registered_date=i,tolidmoshakhase=data[i].id).delete()
 
 
 
