@@ -228,6 +228,6 @@ def upload_file_tolidamar(request):
             TolidAmar.objects.exclude(location=location,registered_date=i,tolidmoshakhase__in=data[i]).delete()
 
 
-
-        return JsonResponse(data)
+        data1=dict()
+        return JsonResponse(data1)
     return JsonResponse({'post':'fasle'})
