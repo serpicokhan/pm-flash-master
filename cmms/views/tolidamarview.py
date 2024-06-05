@@ -224,9 +224,9 @@ def upload_file_tolidamar(request):
 
             # Do something with the cell values
 
-        for i in data:
-            TolidAmar.objects.exclude(location=location,registered_date=i,tolidmoshakhase__in=data[i]).delete()
-
+        # for i in data:
+        #     TolidAmar.objects.exclude(location=location,registered_date=i,tolidmoshakhase__in=data[i]).delete()
+        #
 
         data1=dict()
         return JsonResponse(data1)
