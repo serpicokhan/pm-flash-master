@@ -180,9 +180,10 @@ def upload_file_tolidamar(request):
                 if(nomre_nakh.count()>0):
 
                     location=Asset.objects.get(id=int(request.GET.get("location",False)))
-                    TolidAmar.objects.filter(location=location,registered_date=registered_date,tolidmoshakhase=nomre_nakh[0]).delete()
-                    
                     registered_date=DateJob.getTaskDate(tarikh)
+                    
+                    TolidAmar.objects.filter(location=location,registered_date=registered_date,tolidmoshakhase=nomre_nakh[0]).delete()
+
                     tedad=row[col_letter_to_index('r')]
                     meghdar=row[col_letter_to_index('p')]
 
