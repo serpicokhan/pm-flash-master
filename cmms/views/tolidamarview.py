@@ -166,10 +166,16 @@ def upload_file_tolidamar(request):
         # Specify the sheet name
         sheet = workbook['Sheet1']  # Replace 'Sheet1' with your sheet name
         i=1
-        print(request.GET.get("location",False))
 
+        data=dict()
         # Or use the default sheet (usually the first one)
         sheet = workbook.active
+        for row in sheet.iter_rows(values_only=True):
+            if(row[col_letter_to_index('x')] is not None and row[col_letter_to_index('v')] is not None):
+                tarikh=row[col_letter_to_index('x')].replace('/','-')
+
+                data[tarikh]=[]
+
         for row in sheet.iter_rows(values_only=True):
             if(row[col_letter_to_index('x')] is not None and row[col_letter_to_index('v')] is not None):
 
@@ -181,8 +187,9 @@ def upload_file_tolidamar(request):
 
                     location=Asset.objects.get(id=int(request.GET.get("location",False)))
                     registered_date=DateJob.getTaskDate(tarikh)
-                    
+
                     TolidAmar.objects.filter(location=location,registered_date=registered_date,tolidmoshakhase=nomre_nakh[0]).delete()
+                    data[tarikh].append(nomre_nakh[0])
 
                     tedad=row[col_letter_to_index('r')]
                     meghdar=row[col_letter_to_index('p')]
@@ -215,7 +222,10 @@ def upload_file_tolidamar(request):
 
             # Do something with the cell values
 
-        data=dict()
+        for i in data:
+            TolidAmar.objects.exclude(location=location,registered_date=i,tolidmoshakhase=data[i]).delete()
+
+
 
         return JsonResponse(data)
     return JsonResponse({'post':'fasle'})
