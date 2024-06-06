@@ -168,6 +168,7 @@ def upload_file_tolidamar(request):
         i=1
 
         data=dict()
+        date_list=[]
         # Or use the default sheet (usually the first one)
         sheet = workbook.active
         for row in sheet.iter_rows(values_only=True):
@@ -177,6 +178,7 @@ def upload_file_tolidamar(request):
 
 
                 data[f'{registered_date}']=[]
+                date_list.append(registered_date)
 
         for row in sheet.iter_rows(values_only=True):
             if(row[col_letter_to_index('x')] is not None and row[col_letter_to_index('v')] is not None):
@@ -226,7 +228,10 @@ def upload_file_tolidamar(request):
 
         for i in data:
             TolidAmar.objects.filter(location=location,registered_date=i).exclude(tolidmoshakhase__in=data[i]).delete()
-
+        start_date = min(date_list)
+        end_date = max(date_list)
+        rows_to_delete = TolidAmar.objects.filter(location=location,registered_date__range=[start_date, end_date]).exclude(registered_date__in=date_list)
+        rows_to_delete.delete()
 
         data1=dict()
         return JsonResponse(data1)
