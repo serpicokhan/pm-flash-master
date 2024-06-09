@@ -8,7 +8,7 @@
 
      <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
      <h1>
-                              گزارش درخواست های خرید <br>
+                            گزاش کلی کارکرد <br>
 
 
                             </h1>
@@ -17,7 +17,6 @@
                           <h4>به همراه پارامترهای زیر</h4>
                           <h4> از تاریخ: {{dt1}}</h4>
                           <h4>تا تاریخ: {{dt2}}</h4>
-                          <h4>مکان: {% for i in assetname %} {{i}} {% endfor %}</h4>
 
 
                            </div>
@@ -25,15 +24,10 @@
                            <table class="table table-bordered table-striped">
                              <thead>
                                <tr>
+                                 <th class="col-md-1 active">ردیف</th>
                                 <th class="col-md-1 active">مکان</th>
                                 <th class="col-md-1 active">تعداد درخواست ها</th>
-                                <th class="col-md-2 active">وضعیت درخواست</th>
-                                <th class="col-md-2 active">اختصاص به </th>
 
-                                <th class="col-md-1 active">تاریخ</th>
-                                <th class="col-md-1 active">تعداد درخواستی</th>
-                                <th class="col-md-1 active">تجهیز</th>
-                                <th class="col-md-1 active">درخواست کننده</th>
 
 
 
@@ -43,19 +37,15 @@
      {% for c in result %}
 
      <tr>
+       <td>{{forloop.counter}}</td>
         <td>
+
     {{c.assetName}}
 </a></td>
        <td  >
          {{c.total_work_orders}}
        </td>
-       <td>{{c.get_PurchaseRequestStatus_display}}</td>
-       <td>{{c.PurchaseRequestPartName}}</td>
 
-       <td>{{c.get_dateCreated_jalali}}</td>
-       <td>{{c.get_pstatus}}</td>
-      <td>{{c.PurchaseRequestAsset}}</td>
-      <td>{{c.PurchaseRequestRequestedUser}}</td>
 
 
      </tr>
