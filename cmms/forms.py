@@ -3531,3 +3531,16 @@ class AmarRingReport(forms.Form):
 
     # partName=forms.CharField(label='نام قطعه',required=False,widget=forms.TextInput(attrs={'class':'partselector','autocomplete':'off'}))
     # part=forms.CharField(widget=forms.HiddenInput(),required=False)
+class OveralFinalReport(forms.Form):
+
+    # rcode=100
+    test='آمار'
+    startDate = forms.CharField(label='از تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+    endDate = forms.CharField(label='تا تاریخ',required=False,widget=forms.TextInput(attrs={'class':'datepicker'}))
+
+    OPTIONS = (
+        (0, "pdf"),
+        (1, "EXCEL"),
+
+        )
+    reportType = forms.MultipleChoiceField(label="خروجی",required=False,widget=forms.Select,choices=OPTIONS)

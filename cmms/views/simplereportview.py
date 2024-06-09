@@ -36,6 +36,7 @@ from cmms.business.schedule_utility import *
 from cmms.business.SWOUtility import *
 from django.contrib.admin.models import LogEntry
 from django.db.models import Sum
+from django.db.models import Count, F
 # import weasyprint
 # from django.conf import settings
 
@@ -2936,3 +2937,38 @@ class reporttest:
             sum_c = sum(float(item['value']) for item in data['C'] if item['value'])
 
         return render(request, 'cmms/reports/simplereports/AmarRingReport.html',{'result1':data,'dt1':startDate,'dt2':endDate,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S"),'sum_a': sum_a,     'sum_b': sum_b,        'sum_c': sum_c,'makan':makan_name})
+    def OveralFinalReport(Self,request):
+        reportType=request.POST.getlist("reportType","")
+        date1=DateJob.getDate2(request.POST.get("startDate",""))
+        date2=DateJob.getDate2(request.POST.get("endDate",""))
+        startDate=request.POST.get("startDate","").replace('-','/')
+        endDate=request.POST.get("endDate","").replace('-','/')
+        wo_assets=Asset.objects.filter(assetIsLocatedAt__isnull=False,assetTypes=1)
+        data=[]
+        print("!!!!!!!!!!!!!!!!!!")
+        for i in wo_assets:
+            sub_i=AssetUtility.get_sub_assets(i)
+            work_orders = WorkOrder.objects.filter(
+                 datecreated__range=[date1, date2],woAsset__in=sub_i
+            ).values(
+                'woAsset__assetName'
+            ).annotate(
+                total_work_orders=Count('id')
+            ).order_by(
+                'woAsset__assetName'
+            )
+            for work_order in work_orders:
+                data.append({
+                    'assetName': work_order['woAsset__assetName'],
+                    'total_work_orders': work_order['total_work_orders']
+                })
+        print(data)
+        # Divide the data array into parts of 4 objects each
+        num_parts = 4
+        divided_data = [data[i:i + num_parts] for i in range(0, len(data), num_parts)]
+
+
+       
+        return render(request,'cmms/reports/simplereports/OveralFinalReport.html',{'result':data,'dt1':startDate,'dt2':endDate})
+
+
