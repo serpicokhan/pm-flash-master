@@ -2957,11 +2957,12 @@ class reporttest:
             ).order_by(
                 'woAsset__assetName'
             )
-            for work_order in work_orders:
-                data.append({
-                    'assetName': work_order['woAsset__assetName'],
-                    'total_work_orders': work_order['total_work_orders']
-                })
+            total_work_orders = sum(wo['total_work_orders'] for wo in work_orders)
+        
+            data.append({
+                'assetName': i.assetName,
+                'total_work_orders': total_work_orders
+            })
         print(data)
         # Divide the data array into parts of 4 objects each
         num_parts = 4
