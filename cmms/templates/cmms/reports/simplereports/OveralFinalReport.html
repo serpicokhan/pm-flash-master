@@ -1,59 +1,102 @@
 {% extends 'cmms/reports/simplereports/main.html' %}
 
- {% block content %}
+{% block content %}
 
 
-   <div class="alert alert-warning text-center">
-     {% load static %}
+<div class="alert alert-warning text-center">
+  {% load static %}
 
-     <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
-     <h1>
-                            گزاش کلی کارکرد <br>
-
-
-                            </h1>
-
-                          <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
-                          <h4>به همراه پارامترهای زیر</h4>
-                          <h4> از تاریخ: {{dt1}}</h4>
-                          <h4>تا تاریخ: {{dt2}}</h4>
+  <img src="{% static 'img/logo_icon.png' %}" alt="" class="pull-left img-responsive"/>
+  <h1>
+    گزاش کلی کارکرد <br>
 
 
-                           </div>
+  </h1>
 
-                           <table class="table table-bordered table-striped">
-                             <thead>
-                               <tr>
-                                 <th class="col-md-1 active">ردیف</th>
-                                <th class="col-md-1 active">مکان</th>
-                                <th class="col-md-1 active">تعداد درخواست ها</th>
+  <h4>تاریخ تولید گزارش: {{currentdate}}</h4>
+  <h4>به همراه پارامترهای زیر</h4>
+  <h4> از تاریخ: {{dt1}}</h4>
+  <h4>تا تاریخ: {{dt2}}</h4>
 
 
+</div>
 
-
-                               </tr>
-                             </thead>
-                             <tbody>
-     {% for c in result %}
-
-     <tr>
-       <td>{{forloop.counter}}</td>
-        <td>
-
-    {{c.assetName}}
-</a></td>
-       <td  >
-         {{c.total_work_orders}}
-       </td>
+<div class="row">
+  <div class="col-md-6">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th class="col-md-1 active">ردیف</th>
+          <th class="col-md-1 active">مکان</th>
+          <th class="col-md-1 active">تعداد درخواست ها</th>
 
 
 
-     </tr>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in result %}
+
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>
+
+            {{c.assetName}}
+          </td>
+          <td  >
+            {{c.total_work_orders}}
+          </td>
 
 
 
-     {% endfor %}
-   </tbody>
-     </table>
+        </tr>
 
- {% endblock %}
+
+
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+  <div class="col-md-6">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th class="col-md-1 active">ردیف</th>
+          <th class="col-md-1 active">تاریخ</th>
+          <th class="col-md-1 active">تعداد</th>
+
+
+
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in result2 %}
+
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>
+
+            {{c.persian_month }}
+          </td>
+          <td  >
+            {{c.total_work_orders}}
+          </td>
+
+
+
+        </tr>
+
+
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+{% endblock %}

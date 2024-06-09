@@ -37,6 +37,7 @@ from cmms.business.SWOUtility import *
 from django.contrib.admin.models import LogEntry
 from django.db.models import Sum
 from django.db.models import Count, F
+from collections import defaultdict
 # import weasyprint
 # from django.conf import settings
 
@@ -2945,6 +2946,7 @@ class reporttest:
         endDate=request.POST.get("endDate","").replace('-','/')
         wo_assets=Asset.objects.filter(assetIsLocatedAt__isnull=True,assetTypes=1)
         data=[]
+        grouped_data = defaultdict(lambda: defaultdict(int))
 
         for i in wo_assets:
             sub_i=AssetUtility.get_sub_assets(i)
@@ -2963,6 +2965,27 @@ class reporttest:
                     'assetName': i.assetName,
                     'total_work_orders': total_work_orders
                 })
+        work_orders = WorkOrder.objects.filter(
+        datecreated__range=[date1, date2]
+        ).values(
+            'datecreated'
+        ).annotate(
+            total_work_orders=Count('id')
+        )
+        grouped_data = defaultdict(int)
+        for work_order in work_orders:
+            persian_date = jdatetime.date.fromgregorian(date=work_order['datecreated'])
+            persian_month = f"{persian_date.year}-{persian_date.month}"
+            grouped_data[persian_month] += work_order['total_work_orders']
+
+        # Convert grouped_data into a list of dictionaries for the template
+        flat_data = [{'persian_month': month, 'total_work_orders': total_work_orders} for month, total_work_orders in grouped_data.items()]
+
+
+
+
+
+
         new_list = sorted(data, key=lambda x: x["total_work_orders"], reverse=True)
 
         # Divide the data array into parts of 4 objects each
@@ -2971,4 +2994,4 @@ class reporttest:
 
 
 
-        return render(request,'cmms/reports/simplereports/OveralFinalReport.html',{'result':new_list,'dt1':startDate,'dt2':endDate})
+        return render(request,'cmms/reports/simplereports/OveralFinalReport.html',{'result':new_list,'dt1':startDate,'dt2':endDate,'result2':flat_data})
