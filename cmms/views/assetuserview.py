@@ -52,9 +52,25 @@ def create_sub_asset_user(luser):
         if(asset.assetTypes==1):
             sub_asset=Asset.objects.filter(assetIsLocatedAt=asset)
             for i in sub_asset:
-                res=AssetUser.objects.filter(AssetUserAssetId=i,AssetUserUserId=luser.AssetUserUserId)
-                if(res.count()==0):
-                    AssetUser.objects.create(AssetUserUserId=luser.AssetUserUserId,AssetUserAssetId=i)
+                res1=AssetUser.objects.filter(AssetUserAssetId=i)
+                if(res1.count()>0):
+                    for x in res1:
+                        x.AssetUserUserId=luser.AssetUserUserId
+                        x.save()
+                else:
+                    res=AssetUser.objects.filter(AssetUserAssetId=i,AssetUserUserId=luser.AssetUserUserId)
+                    if(res.count()==0):
+                        AssetUser.objects.create(AssetUserUserId=luser.AssetUserUserId,AssetUserAssetId=i)
+def delete_sub_asset_user(luser):
+    # if(books.count()>0):
+        asset=luser.AssetUserAssetId
+        if(asset.assetTypes==1):
+            sub_asset=Asset.objects.filter(assetIsLocatedAt=asset)
+            for i in sub_asset:
+                AssetUser.objects.filter(AssetUserAssetId=i,AssetUserUserId=luser.AssetUserUserId).delete()
+                # res=AssetUser.objects.filter(AssetUserAssetId=i,AssetUserUserId=luser.AssetUserUserId)
+                # if(res.count()==0):
+                #     AssetUser.objects.create(AssetUserUserId=luser.AssetUserUserId,AssetUserAssetId=i)
 @csrf_exempt
 def save_assetUser_form(request, form, template_name,woId=None):
     data = dict()
@@ -89,6 +105,7 @@ def assetUser_delete(request, id):
     data = dict()
     woId=comp1.AssetUserAssetId
     if (request.method == 'POST'):
+        delete_sub_asset_user(comp1)
         comp1.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         companies = AssetUser.objects.filter(AssetUserAssetId=woId)
