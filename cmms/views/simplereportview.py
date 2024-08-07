@@ -1689,7 +1689,7 @@ class reporttest:
             return render(request, 'cmms/reports/simplereports/Amalkard3MaheReport.html',{'test':x,'javab':javabMain,'dtset':[(str(i[0])+i[1]) for i in dtset],'hozur':hoz,'usr':td,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
     def TahlilOfflineStatus(self,request):
         makan=request.POST.get('makan',False)
-        assetname=request.POST.get('assetname',False)
+        assetname=request.POST.getlist('assetname',False)
         SType=request.POST.get('SType',False)
         assetType=request.POST.get('assetType',False)
         causeCode=request.POST.getlist("causeCode", "")
@@ -1710,8 +1710,8 @@ class reporttest:
         label=[]
         label2=[]
         if(assetname):
-            loc=[]
-            loc.append(Asset.objects.get(id=assetname))
+
+            loc=Asset.objects.filter(id__in=assetname)
         elif(makan):
             loc=AssetUtility.get_sub_assets(makan)
         for x in label1:
