@@ -3034,6 +3034,8 @@ class Amalkard3MaheReport(forms.Form):
     widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
 class TahlilOfflineStatus(forms.Form):
     test='تحلیل علتهای توقف'
+    rcode=100
+
 
     OPTIONS = (
         (0, "pdf"),
@@ -3059,8 +3061,14 @@ class TahlilOfflineStatus(forms.Form):
     SType = forms.MultipleChoiceField(label="ماه",required=False,widget=forms.Select,choices=SOPTIONS)
     causeCode = forms.ModelChoiceField(label="علت خرابی",queryset=CauseCode.objects.all(),
     widget=forms.Select(attrs={'class':'selectpicker','multiple':'','data-live-search':'true'}))
-    location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
-    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    # location = forms.ModelChoiceField(label="دارایی",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    # widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}))
+    makan= forms.ModelChoiceField(label="نام مکان",queryset=Asset.objects.filter(assetIsLocatedAt__isnull=True),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true'}),required=False)
+    assetType= forms.ModelChoiceField(label="نوع دارایی",queryset=AssetCategory.objects.all(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
+    assetname= forms.ModelChoiceField(label="نام دستگاه",queryset=Asset.objects.none(),
+    widget=forms.Select(attrs={'class':'selectpicker','data-live-search':'true','multiple':''}),required=False,empty_label=None)
 class ShakhesTamirat(forms.Form):
     test='شاخص تعمیرات'
 

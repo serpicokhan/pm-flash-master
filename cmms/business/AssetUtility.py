@@ -799,6 +799,8 @@ class AssetUtility:
             )
     @staticmethod
     def get_sub_assets(main_asset):
+        if(type(main_asset) is str):
+            main_asset=Asset.objects.get(id=main_asset)
         sub_assets = []
 
         def traverse_asset(asset):

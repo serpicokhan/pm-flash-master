@@ -1688,8 +1688,10 @@ class reporttest:
             x=[1,2,3,4]
             return render(request, 'cmms/reports/simplereports/Amalkard3MaheReport.html',{'test':x,'javab':javabMain,'dtset':[(str(i[0])+i[1]) for i in dtset],'hozur':hoz,'usr':td,'currentdate':jdatetime.datetime.now().strftime("%Y/%m/%d ساعت %H:%M:%S")})
     def TahlilOfflineStatus(self,request):
-        location=request.POST.get('location','')
-        SType=request.POST.get('SType','')
+        makan=request.POST.get('makan',False)
+        assetname=request.POST.get('assetname',False)
+        SType=request.POST.get('SType',False)
+        assetType=request.POST.get('assetType',False)
         causeCode=request.POST.getlist("causeCode", "")
         if(len(causeCode) >0 and not causeCode[0]):
             causeCode.pop(0)
@@ -1698,7 +1700,7 @@ class reporttest:
         if(len(causeCode)==0):
             causeCode.append(-1)
         if(causeCode[0]==-1):
-             causeCode=OfflineStatus.objects.values_list('id', flat=True)
+             causeCode=CauseCode.objects.values_list('id', flat=True)
 
 
         dtset=DateJob.getQDateM(int(SType))#return a range
@@ -1707,7 +1709,11 @@ class reporttest:
         label1=CauseCode.objects.filter(id__in=causeCode).values_list('causeDescription',flat=True)
         label=[]
         label2=[]
-        loc=Asset.objects.get(id=location)
+        if(assetname):
+            loc=[]
+            loc.append(Asset.objects.get(id=assetname))
+        elif(makan):
+            loc=AssetUtility.get_sub_assets(makan)
         for x in label1:
             label.append(x)
         for x in causeCode:
@@ -1718,13 +1724,20 @@ class reporttest:
 
             for x in causeCode:
 
-                javab[x]=AssetLife.objects.raw("""select count(assetlife.id) as id from assetlife
-                inner join assets on assets.id= assetlife.assetLifeAssetid_id
-                left join workorder on workorder.id=assetlife.assetWOAssoc_id
-                where 	(assets.id={0} or assets.assetIsLocatedAt_id={0})
-                and assetlife.assetOfflineFrom between '{1}' and '{2}' and
-                 workorder.woCauseCode_id={3} """.format(location,DateJob.getDate2(dt[0]),
-                 DateJob.getDate2(dt[1]),x))[0].id
+                javab[x]= AssetLife.objects.filter(
+                            assetLifeAssetid__in=loc,
+                            assetOfflineFrom__range=[DateJob.getDate2(dt[0]), DateJob.getDate2(dt[1])],
+                            assetCauseCode=x
+                        ).count()
+                 #        .format(loc,DateJob.getDate2(dt[0]),
+                 # DateJob.getDate2(dt[1]),x))[0].id
+                # javab[x]=AssetLife.objects.raw("""select count(assetlife.id) as id from assetlife
+                # inner join assets on assets.id= assetlife.assetLifeAssetid_id
+                # left join workorder on workorder.id=assetlife.assetWOAssoc_id
+                # where 	(assets.id in ({0}))
+                # and assetlife.assetOfflineFrom between '{1}' and '{2}' and
+                #  workorder.woCauseCode_id={3} """.format(loc,DateJob.getDate2(dt[0]),
+                #  DateJob.getDate2(dt[1]),x))[0].id
             mainJavab["{0}-{1}".format(d[0],d[1])]=javab
 
 
