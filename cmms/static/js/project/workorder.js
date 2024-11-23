@@ -359,7 +359,10 @@ var saveCopy= function () {
 
 
   };
-
+// $("#id_assignedToUser").change(function(){
+//   alert("123");
+//
+// });
   var LoadFormSetEm =function () {
     matches=[];
     $(".selection-box:checked").each(function() {
@@ -1206,20 +1209,24 @@ var saveCopy= function () {
     return false;
   };
   /////////////
+
   var updatetaskuser=function(){
     // alert(1000);
     // alert($("#id_assignedToUser").val());
     user_id=$("#id_assignedToUser").val();
+
     // alert(user_id.length);
     // console.log(user_id,user_id.length);
 
-
+    if($("#lastWorkOrderid").val()!="0"){
+      
     return $.ajax({
       url: '/WorkOrder/'+$("#lastWorkOrderid").val()+'/Task/'+user_id+'/Update_Task_User/',
 
       type: 'get',
       dataType: 'json',
       beforeSend: function () {
+
       },
       success: function (data) {
         if(data.form_is_valid)
@@ -1236,6 +1243,7 @@ var saveCopy= function () {
         }
       }
     });
+  }
     return false;
 
   }
@@ -1415,7 +1423,7 @@ $('#selectAll').on('click', function() {
   $("#modal-company").on("submit", ".js-wo2-delete-form", saveForm);
   $("#modal-company").on("submit", ".js-formset-delete-form", saveFormsetForm);
   $("#modal-woEm").on("submit", ".js-bulkem-selector-form2", saveWoEmForm);
-  $("#modal-company").on("change",'.user-assignment',updatetaskuser);
+  $("#modal-company").on("change",'#id_assignedToUser',updatetaskuser);
 
   $(".wo-filter").on("click",filter);
   $(".js-bulkwo-selector").on("click", wobulkdeletion_pressed);

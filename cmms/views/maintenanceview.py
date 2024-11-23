@@ -1073,6 +1073,9 @@ def wo_Update_Task_User(request,woid,uid):
     for t in tasks2:
             t.taskAssignedToUser=SysUser.objects.get(pk=uid)
             t.save()
+    workorder=WorkOrder.objects.get(id=woid)
+    workorder.assignedToUser=SysUser.objects.get(pk=uid)
+    workorder.save()
     data['html_data_tasks']=data['html_task_list']= render_to_string('cmms/tasks/partialTaskList.html', {
         'task': tasks,
         'perms': PermWrapper(request.user),
