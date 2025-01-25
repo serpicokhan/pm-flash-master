@@ -16,6 +16,7 @@ urlpatterns = [
     # url(r'^logout/$', LogoutView(template_name= 'cmms/registration/logout.html'), name='logout'),
    #url(r'^$',dashboard,name='dashboard'),
     url(r'^$',list_dashboard,name='list_dashboard'),
+    url(r'^MyWO/$',list_my_workorder,name='list_my_workorder'),
     url(r'^Dashboard/CEO$',list_dashboard_ceo,name='list_dashboard_ceo'),
     url(r'^Dashboard/CEO/Export$',export_to_excel,name='export_to_excel'),
     url(r'^not_found/$',not_found,name='not_found'),

@@ -102,7 +102,7 @@
           <span class="fa arrow">
           </span>
         </a>
-        <ul  {% if section in 'list_miniWorkorder,list_wo,formset_view,list_swo,list_maintenanceType,list_taskGroup,list_project' %} class="nav nav-second-level collapse in"
+        <ul  {% if section in 'list_miniWorkorder,list_wo,list_mywo,formset_view,list_swo,list_maintenanceType,list_taskGroup,list_project' %} class="nav nav-second-level collapse in"
         {% else %}
         class="nav nav-second-level collapse"
         {% endif %} >
@@ -110,6 +110,10 @@
           <li {% if section == 'list_miniWorkorder' %} class='active'   {% endif %}>
 
             <a href="{% url 'list_miniWorkorder' %}" >صدور درخواست</a>
+          </li>
+          <li {% if section == 'list_mywo' %} class='active'   {% endif %}>
+
+            <a href="{% url 'list_my_workorder' %}" >دستور کار من</a>
           </li>
           <li {% if section == 'list_wo' %} class='active'   {% endif %}>
 

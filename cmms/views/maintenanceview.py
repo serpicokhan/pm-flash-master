@@ -548,6 +548,35 @@ def wo_getProblem(request):
     # response_data = {}
     # response_data['result'] = '[dsadas,dasdasdas]'
     return JsonResponse(list(books), safe=False)
+def list_my_workorder(request):
+    try:
+        books=[]
+        groups=[]
+
+        # if(request.user.username!="admin" and  not request.user.groups.filter(name='operator').exists()):
+        books = WorkOrder.objects.filter(isScheduling=False,visibile=True).filter(Q(RequestedUser__userId=request.user)|Q(assignedToUser__userId=request.user)|Q(id__in=WorkorderUserNotification.objects.filter(woNotifUser__userId=request.user).values_list('woNotifWorkorder'))).order_by('-datecreated','-timecreated')
+        usid=SysUser.objects.get(userId=request.user.id)
+
+        groups=UserGroup.objects.filter(id__in=UserGroups.objects.filter(userUserGroups__id=usid.id).values_list('groupUserGroups',flat=True))
+
+        # else:
+        #     books = WorkOrder.objects.filter(isScheduling=False,visibile=True).order_by('-datecreated','-timecreated','-id')
+        #     groups=UserGroup.objects.all()
+        #paging
+        # books = WorkOrder.objects.filter(isScheduling=False).filter(visibile=True)#.order_by('-datecreated','-timecreated')
+        # groups=UserGroup.objects.all(id__in=UserGroups.objects.filter(userUserGroups__id=request.user.id).values_list('groupUserGroups',flat=True))
+        # groups=UserGroup.objects.all()
+        #
+        # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        user1=SysUser.objects.get(userId=request.user)
+        # print(user1)
+        # print(user1.profileImage,'$$$$$$$$$$')
+        wos,page=WOUtility.doPagingWithPage(request,books)
+        return render(request, 'cmms/maintenance/woList.html', {'wo': wos,'groups':groups,'user2':user1,'section':'list_mywo','status':Status,'page':page})
+    except Exception as ex:
+        print(ex)
+        return render(request, 'cmms/404.html', {'to':123})
+     
 #######################Search By tags#####################
 def wo_searchWorkOrderByTags(request):
     data=dict()
