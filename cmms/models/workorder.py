@@ -394,13 +394,26 @@ class WorkorderPart(models.Model):
     woPartWaitingforFulfill=models.BooleanField("در انتظار تامین",default=True,blank=True,null=True)
     woPartStock=models.ForeignKey(Stock,on_delete=models.CASCADE,null=True,blank=True,verbose_name="انبار")
     timeStamp=models.DateTimeField(auto_now_add=True)
+    # Confirmation fields
+    manager_confirmed = models.BooleanField(default=False, verbose_name="Manager Confirmation")
+    staff_confirmed = models.BooleanField(default=False, verbose_name="Staff Confirmation")
+    
+    # Optional: Add timestamps for confirmation
+    manager_confirmed_at = models.DateTimeField(null=True, blank=True, verbose_name="Manager Confirmation Time")
+    staff_confirmed_at = models.DateTimeField(null=True, blank=True, verbose_name="Staff Confirmation Time")
+    
 
 
 
     class Meta:
         db_table="workorderpart"
         unique_together = ('woPartWorkorder', 'woPartStock')
-        permissions=(("can_fulfill","Can Fulfill"),)
+        permissions=(("can_fulfill","Can Fulfill"),
+                    ("can_manager_fulfill","Manager Can Fulfill"),
+                    ("can_stuff_fulfill","Stuff Can Fulfill"),
+                     
+                     
+                     )
 class WorkorderMeterReading(models.Model):
     def getRow(self):
          return "{}  {}".format(self.get_woMeterReadingMeterReadingUnit_display(),self.woMeterReadingMeterReading)

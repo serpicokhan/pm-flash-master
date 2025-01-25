@@ -332,26 +332,33 @@ def find_woPart_waitning(request):
     if(q):
         if(q.isdigit()):
 
-            n1=WorkorderPart.objects.values('id','woPartWorkorder__id','woPartPlannedQnty',
+            n1=WorkorderPart.objects.values('id','manager_confirmed','staff_confirmed','woPartWorkorder__id','woPartPlannedQnty',
                                             'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
                                             'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
                                             'woPartWorkorder__woAsset__assetCategory__name')\
             .filter(woPartWorkorder__woStatus__in=(1,2,3,4,9),woPartWaitingforFulfill=True).filter(woPartWorkorder__id=q)\
             .order_by('-woPartStock__stockItem__partName','woPartWorkorder__id')
         else:
-            n1=WorkorderPart.objects.values('id','woPartWorkorder__id','woPartPlannedQnty',
+            n1=WorkorderPart.objects.values('id','manager_confirmed','staff_confirmed','woPartWorkorder__id','woPartPlannedQnty',
                                             'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
                                             'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
                                             'woPartWorkorder__woAsset__assetCategory__name')\
             .filter(woPartWorkorder__woStatus__in=(1,2,3,4,9),woPartWaitingforFulfill=True).filter(woPartStock__stockItem__partName__contains=q)\
             .order_by('-woPartStock__stockItem__partName','woPartWorkorder__id')
     else:
-         n1=WorkorderPart.objects.values('id','woPartWorkorder__id','woPartPlannedQnty',
+         n1=WorkorderPart.objects.values('id','manager_confirmed','staff_confirmed','woPartWorkorder__id','woPartPlannedQnty',
                                             'woPartWorkorder__woAsset__assetIsLocatedAt__assetName',
                                             'woPartWorkorder__woAsset__assetName','woPartStock__stockItem__partName',
                                             'woPartWorkorder__woAsset__assetCategory__name')\
         .filter(woPartWorkorder__woStatus__in=(1,2,3,4,9),woPartWaitingforFulfill=True)\
         .order_by('-woPartStock__stockItem__partName','woPartWorkorder__id')
+    user_groups = request.user.groups.values_list('name', flat=True)
+
+    # If user belongs to any of the specified groups, they can view the requests
+    if any(group in user_groups for group in ['manager1']):
+        n1 = n1.filter(manager_confirmed=False)  # All requests for these groups
+    elif any(group in user_groups for group in ['manager2']):
+        n1 = n1.filter(staff_confirmed=False)  # Only requests for the user
     return n1
 def search_woPart_waiting_for_fulfill(request):
     q=request.GET.get("q",False)
@@ -363,14 +370,28 @@ def search_woPart_waiting_for_fulfill(request):
     return render(request,'cmms/workorder_parts/woPartWaitingToConfirmList.html',{'result1':result,'q':q,'section':'list_woPart_waiting_for_fulfill'})
 def confirm_woPart_fulFilled(request,id):
     q=request.GET.get("q",False)
-    print(q,'$$$$$$$$$$$$$$')
     
     data=dict()
     try:
+        
         wopart=WorkorderPart.objects.get(id=id)
-        wopart.woPartWaitingforFulfill=False
-        wopart.save()
-        WOUtility.fulfill_wo_part_request(wopart.woPartWorkorder.id)
+        if(not wopart.manager_confirmed):
+            print("!!!!nesayee")
+            user_groups = request.user.groups.values_list('name', flat=True)
+            if any(group in user_groups for group in ['manager1']):
+                  wopart.manager_confirmed=True
+                  wopart.save()
+        elif(not wopart.staff_confirmed):
+                print("!!!!safari")
+                
+                user_groups = request.user.groups.values_list('name', flat=True)
+                if any(group in user_groups for group in ['manager2']):
+                  wopart.staff_confirmed=True
+                  wopart.save()
+        else:                
+            wopart.woPartWaitingforFulfill=False
+            wopart.save()
+            WOUtility.fulfill_wo_part_request(wopart.woPartWorkorder.id)
         n1=find_woPart_waitning(request)
         result=WOUtility.doPaging(request,n1)
         data['form_is_valid']=True

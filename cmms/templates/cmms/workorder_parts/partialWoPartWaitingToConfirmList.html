@@ -26,6 +26,18 @@
     {{c.woPartStock__stockItem__partName|default_if_none:"ندارد"}}
   </td>
   <td>
+    {% if not c.manager_confirmed and perms.cmms.can_manager_fulfill  %}
+    <button type="button"
+    class="btn btn-warning btn-sm js-confirm-wopart"
+    data-url="{% url 'confirm_woPart_fulFilled' c.id %}?q={{q}}">
+<span class="glyphicon glyphicon-pencil"></span> تایید
+</button>
+    {% elif  c.staff_confirmed == False and perms.cmms.can_stuff_fulfill and c.manager_confirmed %}
+    <button type="button"
+    class="btn btn-warning btn-sm js-confirm-wopart"
+    data-url="{% url 'confirm_woPart_fulFilled' c.id %}?q={{q}}">
+<span class="glyphicon glyphicon-pencil"></span> تایید
+    {% else %}
     {% if perms.cmms.can_fulfill %}
    <button type="button"
               class="btn btn-warning btn-sm js-confirm-wopart"
@@ -33,6 +45,8 @@
         <span class="glyphicon glyphicon-pencil"></span> تامین
       </button>
     {% endif %}
+    {% endif %}
+
 
   </td>
 
