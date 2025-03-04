@@ -1,6 +1,25 @@
 $(function () {
 
+  var send_wopart_wtf_msg=function(woid,group){
+    $.ajax({
+      url: `/WoPart/Whatsapp/send_group?id=${woid}&group=${group}`,
+      type: "get",
+      dataType: 'json',
+      beforeSend: function () {
 
+      },
+      success: function (data) {
+        if (data.status=="ok") {
+          console.log("پیام ارسال شد");
+        }
+        else{
+          console.log("خطا");
+
+        }
+      }
+    });
+
+  }
   var loadWoPartForm =function () {
     var btn=$(this);
     $.ajax({
@@ -351,6 +370,8 @@ var confirm_wopart=function(){
     success:function(response){
       if(response.form_is_valid){
         $("#tbody_company").html(response.html_woPart_list);
+        console.log(response.next_user);
+        send_wopart_wtf_msg(response.wo_id,response.next_user);
         
         
       }

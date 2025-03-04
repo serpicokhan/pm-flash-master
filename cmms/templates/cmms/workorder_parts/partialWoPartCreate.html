@@ -63,18 +63,34 @@
                 }
               });
         }
+        var send_wopart_wtf_msg=function(woid){
+          $.ajax({
+            url: `/WoPart/Whatsapp/send_mgm1?id=${woid}`,
+            type: "get",
+            dataType: 'json',
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+              if (data.status=="ok") {
+                console.log("پیام ارسال شد");
+              }
+              else{
+                console.log("خطا");
+
+              }
+            }
+          });
+
+        }
 
         $("#woPart-submit").click(function(){
 
-                   //alert("12321");
                     var form = $(this).parent().parent();
-                    //console.log(form.attr("action"));
-                    //alert($("#id_metrics").val());
-                    // console.log(form.attr('class'));
+                   
                     $.ajax({
                       url: form.attr("data-url"),
                       type: "POST",
-                      // data:myformat('{"woPartPart":{0},"woPartPlannedQnty":{1},"woPartActulaQnty":{2},"woPartWorkorder":{3},"woPartStock":{4}}',$("#id_woPartPart").val(),$("#id_woPartPlannedQnty").val(),$("#id_woPartActulaQnty").val(),$("#lastWorkOrderid").val(),$("#id_woPartStock").val()),
                       data:myformat('{"woPartPlannedQnty":{0},"woPartActulaQnty":{1},"woPartWorkorder":{2},"woPartStock":{3}}',$("#id_woPartPlannedQnty").val(),$("#id_woPartActulaQnty").val(),$("#lastWorkOrderid").val(),$("#id_woPartStock").val()),
 
 
@@ -83,23 +99,21 @@
                       dataType: 'json',
                       beforeSend: function () {
                         console.log(myformat('{"woPartPlannedQnty":{0},"woPartActulaQnty":{1},"woPartWorkorder":{2},"woPartStock":{3}}',$("#id_woPartPlannedQnty").val(),$("#id_woPartActulaQnty").val(),$("#lastWorkOrderid").val(),$("#id_woPartStock").val()));
-                        //alert(btn.attr("data-url"));
-                       // console.log(myformat('{"woPartPart":{0},"woPartPlannedQnty":{1},"woPartActulaQnty":{2},"woPartWorkorder":{3}}',$("#id_woPartPart").val(),$("#id_woPartPlannedQnty").val(),$("#id_woPartActulaQnty").val(),$("#lastWorkOrderid").val()));
 
                       },
                       success: function (data) {
                         if (data.form_is_valid) {
 
-                          //alert("Company created!");  // <-- This is just a placeholder for now for testing
                           $("#tbody_woPart").empty();
                           // message handling
                           if(data.html_woPart_list_success)
                           {
-                            toastr.success(data.html_woPart_list_success)
+                            toastr.success(data.html_woPart_list_success);
+                            send_wopart_wtf_msg(data.id);
+
                           }
                           else if(data.html_woPart_list_error){
                             toastr.error(data.html_woPart_list_error);
-                            // $("#id_woStatus").val(data.html_woPart_wo_status);
                           }
                           else {
 

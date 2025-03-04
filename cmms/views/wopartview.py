@@ -39,6 +39,7 @@ from cmms.models.Asset import *
 from django.db.models import Sum
 from django.db.models import Q,F
 from cmms.business.WOUtility import *
+from cmms.business.whatsappUtility import *
 
 
 ###################################################################
@@ -63,23 +64,13 @@ def js_list_woPart(request,woId):
 def save_woPart_form(request, form, template_name,woId=None):
     data = dict()
     if (request.method == 'POST'):
-          if form.is_valid():
-            # stockMsg=StockUtility.remove(form.instance)
-            ########################Message handling for part available in stock#################
-            # if(stockMsg==WOPartMsg.Success):
-            #   data['html_woPart_list_success']=str(stockMsg.value)
-            # elif(stockMsg==WOPartMsg.NotEnouphPart):
-            #     # form.instance.woPartActulaQnty=0
-            #     #form.save()
-            #     data['html_woPart_list_error']=str(stockMsg.value)
-            #     data['html_woPart_wo_status']=woStatus['waitingforparts']
-            # else:
-            #     pass
+          if form.is_valid():        
 
 
             form.save()
             data['form_is_valid'] = True
             data['html_woPart_list_success']='با موفقیت قطعه درخواست شد'
+            data["id"]=form.instance.id
            
             # query="select id as id,woPartWorkorder_id,sum(woPartActulaQnty) as woPartActulaQnty,sum(woPartPlannedQnty) as woPartPlannedQnty from workorderpart where  woPartWorkorder_id={} group by woPartWorkorder_id,woPartPart_id".format(woId)
             # print(query)
@@ -90,10 +81,7 @@ def save_woPart_form(request, form, template_name,woId=None):
             })
             ########################################################
           else:
-              fmt = getattr(settings, 'LOG_FORMAT', None)
-              lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-              logging.basicConfig(format=fmt, level=lvl)
-              logging.debug( form.errors)
+             
               if("not unique" in form.errors):
                       data["html_woPart_list_error"]="قطعه تکراری"
 
@@ -358,7 +346,7 @@ def find_woPart_waitning(request):
     if any(group in user_groups for group in ['manager1']):
         n1 = n1.filter(manager_confirmed=False)  # All requests for these groups
     elif any(group in user_groups for group in ['manager2']):
-        n1 = n1.filter(staff_confirmed=False)  # Only requests for the user
+        n1 = n1.filter(staff_confirmed=False,manager_confirmed=True)  # Only requests for the user
     return n1
 def search_woPart_waiting_for_fulfill(request):
     q=request.GET.get("q",False)
@@ -375,11 +363,13 @@ def confirm_woPart_fulFilled(request,id):
     try:
         
         wopart=WorkorderPart.objects.get(id=id)
+        data["wo_id"]=id
         if(not wopart.manager_confirmed):
             print("!!!!nesayee")
             user_groups = request.user.groups.values_list('name', flat=True)
             if any(group in user_groups for group in ['manager1']):
                   wopart.manager_confirmed=True
+                  data["next_user"]="manager2"
                   wopart.save()
         elif(not wopart.staff_confirmed):
                 print("!!!!safari")
@@ -387,6 +377,8 @@ def confirm_woPart_fulFilled(request,id):
                 user_groups = request.user.groups.values_list('name', flat=True)
                 if any(group in user_groups for group in ['manager2']):
                   wopart.staff_confirmed=True
+                  data["next_user"]="anbar"
+
                   wopart.save()
         else:                
             wopart.woPartWaitingforFulfill=False
@@ -404,3 +396,52 @@ def confirm_woPart_fulFilled(request,id):
     except WorkorderPart.DoesNotExist:
         data["error"]="یافت نشد"
     return JsonResponse(data)
+
+def woPart_wtf_msg_manager1(request):
+    woId=request.GET.get("id",False)
+    woPart=WorkorderPart.objects.get(id=woId)
+    manager1_users=wtf_find_users_by_group("manager1")
+    try:
+        for i in manager1_users:
+            send_confirm_wtf(i.sysuser,woPart)
+        return JsonResponse({"status":"ok"})
+    except Exception as ex:
+        print("!!!!!!",ex)
+        return JsonResponse({"status":"erro"})
+def woPart_wtf_msg_manager2(request):
+    woId=request.GET.get("id",False)
+    woPart=WorkorderPart.objects.get(id=woId)
+    manager1_users=wtf_find_users_by_group("manager2")
+    try:
+        for i in manager1_users:
+            send_confirm_wtf(i.sysuser,woPart)
+        return JsonResponse({"status":"ok"})
+    except Exception as ex:
+        print("!!!!!!",ex)
+        return JsonResponse({"status":"erro"})
+def woPart_wtf_msg_anbar(request):
+    woId=request.GET.get("id",False)
+    woPart=WorkorderPart.objects.get(id=woId)
+    manager1_users=wtf_find_users_by_group("anbar")
+    try:
+        for i in manager1_users:
+            send_confirm_wtf(i.sysuser,woPart)
+        return JsonResponse({"status":"ok"})
+    except Exception as ex:
+        print("!!!!!!",ex)
+        return JsonResponse({"status":"erro"})
+def woPart_wtf_msg_group(request):
+    woId=request.GET.get("id",False)
+    group=request.GET.get("group",False)
+    print('$$$$',woId,group)
+    woPart=WorkorderPart.objects.get(id=woId)
+    manager1_users=wtf_find_users_by_group(group)
+    try:
+        for i in manager1_users:
+            send_confirm_wtf(i.sysuser,woPart)
+        return JsonResponse({"status":"ok"})
+    except Exception as ex:
+        print("!!!!!!",ex)
+        return JsonResponse({"status":"erro"})
+    
+    

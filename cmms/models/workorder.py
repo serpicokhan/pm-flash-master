@@ -384,6 +384,11 @@ class workorderSetting(models.Model):
         db_table="workordersetting"
 
 class WorkorderPart(models.Model):
+    def getItems3(self):
+        number_emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
+        # items = self.items.select_related('item_name').all()
+        # item_details = [f"1️⃣ {item.item_name.partName} (تعداد: {item.quantity}) (موردمصرف :{item.consume_place})" for item in items]  # Assuming Part model has a 'name' field
+        return f"1️⃣ {self.woPartStock.stockItem.partName} (تعداد: {self.woPartPlannedQnty}) (موردمصرف :{self.woPartWorkorder.woAsset})"
     # Requested=1
     # Fullfilled=2
     # status=((Requested,"درخواست شده"),(Fullfilled,"تامین شده"))
@@ -401,6 +406,43 @@ class WorkorderPart(models.Model):
     # Optional: Add timestamps for confirmation
     manager_confirmed_at = models.DateTimeField(null=True, blank=True, verbose_name="Manager Confirmation Time")
     staff_confirmed_at = models.DateTimeField(null=True, blank=True, verbose_name="Staff Confirmation Time")
+    def save(self, *args, **kwargs):
+        # Check if staff_confirmed is being set to True
+        if self.pk is not None:  # If this is an update (not a new instance)
+            old_instance = WorkorderPart.objects.get(pk=self.pk)
+            staff_confirmed_changed_to_true = not old_instance.staff_confirmed and self.staff_confirmed
+        else:
+            staff_confirmed_changed_to_true = self.staff_confirmed  # For new instances
+
+        # Call the original save method first
+        super().save(*args, **kwargs)
+
+        # If staff_confirmed is True, check related WorkorderParts and update Workorder status
+        if staff_confirmed_changed_to_true and self.woPartWorkorder:
+            workorder = self.woPartWorkorder
+            all_parts = WorkorderPart.objects.filter(woPartWorkorder=workorder)
+
+            # Check if all parts are fulfilled
+            all_fulfilled = all(
+                part.staff_confirmed
+                for part in all_parts
+            )
+
+            # Check if any parts are fulfilled (for partial fulfillment)
+            any_fulfilled = any(
+                part.staff_confirmed 
+                for part in all_parts
+            )
+
+            # Update the workorder status
+            if all_fulfilled:
+                workorder.status = 11
+            elif any_fulfilled:
+                workorder.status = 10
+            else:
+                workorder.status = 10  # Default case, adjust as needed
+
+            workorder.save()
     
 
 

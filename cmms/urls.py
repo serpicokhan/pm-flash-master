@@ -186,6 +186,10 @@ urlpatterns = [
       url(r'^WoPart/$',list_woPart,name='list_woPart'),
       
       url(r'^WoPart/Confirm/List$',list_woPart_waiting_for_fulfill,name='list_woPart_waiting_for_fulfill'),
+      url(r'^WoPart/Whatsapp/send_mgm1$',woPart_wtf_msg_manager1,name='woPart_wtf_msg_manager1'),
+      url(r'^WoPart/Whatsapp/send_mgm2$',woPart_wtf_msg_manager2,name='woPart_wtf_msg_manager2'),
+      url(r'^WoPart/Whatsapp/send_anbar$',woPart_wtf_msg_anbar,name='woPart_wtf_msg_anbar'),
+      url(r'^WoPart/Whatsapp/send_group$',woPart_wtf_msg_group,name='woPart_wtf_msg_group'),
       url(r'^WoPart/Confirm/List/Search$',search_woPart_waiting_for_fulfill,name='search_woPart_waiting_for_fulfill'),
       url(r'^WoPart/(?P<id>\d+)/Confirm$',confirm_woPart_fulFilled,name='confirm_woPart_fulFilled'),
       url(r'^WoPart/CreateByWo/(?P<wo>\d+)/(?P<pid>\d+)$',create_by_wo_part,name='create_by_wo_part'),
