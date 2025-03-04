@@ -407,6 +407,7 @@ class WorkorderPart(models.Model):
     manager_confirmed_at = models.DateTimeField(null=True, blank=True, verbose_name="Manager Confirmation Time")
     staff_confirmed_at = models.DateTimeField(null=True, blank=True, verbose_name="Staff Confirmation Time")
     def save(self, *args, **kwargs):
+        print("!!!!!!!!!!!!!!!!!$$$$$$ewqsadasdsa")
         # Check if staff_confirmed is being set to True
         if self.pk is not None:  # If this is an update (not a new instance)
             old_instance = WorkorderPart.objects.get(pk=self.pk)
@@ -436,11 +437,11 @@ class WorkorderPart(models.Model):
 
             # Update the workorder status
             if all_fulfilled:
-                workorder.status = 11
+                workorder.woStatus = 11
             elif any_fulfilled:
-                workorder.status = 10
+                workorder.woStatus = 10
             else:
-                workorder.status = 10  # Default case, adjust as needed
+                workorder.woStatus = 10  # Default case, adjust as needed
 
             workorder.save()
     
