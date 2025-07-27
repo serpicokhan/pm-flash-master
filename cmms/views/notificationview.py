@@ -35,7 +35,8 @@ def get_notifications_cmms(request):
         'id': n.id,
         'link': n.link,
         'time_ago': humanize_time_diff(n.created_at),
-        'created_at': n.created_at.strftime("%Y-%m-%d %H:%M")
+        'created_at': n.created_at.strftime("%Y-%m-%d %H:%M"),
+        
     } for n in notifications]
     data2=dict()
     
