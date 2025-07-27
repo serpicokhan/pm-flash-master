@@ -28,3 +28,4 @@ from cmms.models.eqcostsetting import AssetTypeSetting
 from cmms.models.report import *
 from cmms.models.purchaserequest import *
 from cmms.models.amar import *
+from cmms.models.notifications import *

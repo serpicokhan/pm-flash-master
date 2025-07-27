@@ -40,6 +40,7 @@ from django.db.models import Sum
 from django.db.models import Q,F
 from cmms.business.WOUtility import *
 from cmms.business.whatsappUtility import *
+from cmms.views.notificationview import *
 
 
 ###################################################################
@@ -378,6 +379,7 @@ def confirm_woPart_fulFilled(request,id):
                 if any(group in user_groups for group in ['manager2']):
                   wopart.staff_confirmed=True
                   data["next_user"]="anbar"
+                  send_message_to_group_x(request,"anbar","درخواست شماره 10 تکمیل شد","#")
 
                   wopart.save()
         else:                

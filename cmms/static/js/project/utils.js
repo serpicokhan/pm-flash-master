@@ -1,13 +1,16 @@
 $(function () {
-  var loadMails=function(){
+  var loadMails=function(url){
+    
     $.ajax({
 
-      url: '/Mail/Status',
+      url: url,
 
 
 
       success: function (data) {
           //alert($("#lastWorkOrderid").val());
+          console.log(data);
+          
 
           //alert("response");
           //alert(data.html_assetPart_list);  // <-- This is just a placeholder for now for testing
@@ -23,6 +26,7 @@ $(function () {
 
 
 };
-loadMails();
+loadMails('/notification/list');
+
 
 })
