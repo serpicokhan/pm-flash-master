@@ -379,7 +379,7 @@ def confirm_woPart_fulFilled(request,id):
                 if any(group in user_groups for group in ['manager2']):
                   wopart.staff_confirmed=True
                   data["next_user"]="anbar"
-                  send_message_to_group_x(request,"anbar","درخواست شماره 10 تکمیل شد","#")
+                  send_message_to_group_x(request,"anbar",f"قطعه {wopart.woPartStock} مربوط به درخواست شماره {wopart.woPartWorkorder.id} تامین شد.","#")
 
                   wopart.save()
         else:                
