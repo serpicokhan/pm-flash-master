@@ -161,6 +161,11 @@ def wo_detail(request,id=None):
         #
         # print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         user1=SysUser.objects.get(userId=request.user)
+        notif=request.GET.get("notif",False)
+        if(notif):
+            notif=Notification.objects.get(id=notif)
+            notif.read=True
+            notif.save()
         # print(user1)
         # print(user1.profileImage,'$$$$$$$$$$')
         wos=WOUtility.doPaging(request,books)

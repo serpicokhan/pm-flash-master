@@ -22,26 +22,20 @@
                                                <small class="pull-left text-navy">
                                                  <strong>
                                                  {{c.user}}</strong></small>
-
+                                                <a href="{{c.link}}?notif={{c.id}}" target="_blank">
                                                <strong>{{c.message}}</strong>
+                                                 </a>
                                                . <br>
                                                <small class="text-muted">
                                                {{c.time_ago}}</small>
                                            </div>
                                        </div>
                                    </li>
-                                   <li class="divider">
-                                   </li>
                                    {% endfor %}
 
-                                   <li>
-                                       <div class="text-center link-block">
-                                           <a href="{% url 'list_mail' %}">
-                                               <i class="fa fa-envelope">
-                                               </i>
-                                               <strong>
-                                               مشاهده همه پیغام ها</strong>
-                                           </a>
-                                       </div>
+                                   <li class="divider">
                                    </li>
+                                   
+
+                                   
                                </ul>
